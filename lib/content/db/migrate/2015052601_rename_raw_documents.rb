@@ -1,0 +1,6 @@
+class RenameRawDocuments < ActiveRecord::Migration
+  def change
+    rename_table :raw_documents, :lr_documents
+    rename_table :raw_document_logs, :lr_document_logs
+  end
+end
