@@ -1,0 +1,435 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Learning Tapestry API"
+    },
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "content",
+            "description": "Learning Resources"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/api/v1/resources": {
+            "get": {
+                "tags": [
+                    "content"
+                ],
+                "summary": "Resources by search terms",
+                "operationId": "searchResources",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "full text search",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "title",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "subject",
+                        "in": "query",
+                        "description": "subject",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "language",
+                        "in": "query",
+                        "description": "language",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "resource_type",
+                        "in": "query",
+                        "description": "resource type",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "publisher",
+                        "in": "query",
+                        "description": "resource publisher",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "alignment",
+                        "in": "query",
+                        "description": "academic standards",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "result set limit (default: 100, highest: 1000)",
+                        "required": false,
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "page number of result set (default: 1)",
+                        "required": false,
+                        "type": "integer",
+                        "format": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Resource"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No items found."
+                    }
+                }
+            }
+        },
+        "/api/v1/alignments": {
+            "get": {
+                "tags": [
+                    "content"
+                ],
+                "summary": "Listing of known alignments",
+                "operationId": "searchAlignments",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Alignment"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No items found."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Alignment name",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "framework",
+                        "in": "query",
+                        "description": "Alignment framework name",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "framework_url",
+                        "in": "query",
+                        "description": "Alignment framework URL",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "result set limit (default: 100, highest: 1000)",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "page number of result set (default: 1)",
+                        "type": "integer",
+                        "format": "integer"
+                    }
+                ]
+            }
+        },
+        "/api/v1/subjects": {
+            "get": {
+                "tags": [
+                    "content"
+                ],
+                "summary": "Submitter provided subjects",
+                "operationId": "searchSubjects",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Subject"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No items found."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Search on subject name",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "result set limit (default: 100, highest: 1000)",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "page number of result set (default: 1)",
+                        "type": "integer",
+                        "format": "integer"
+                    }
+                ]
+            }
+        },
+        "/api/v1/identities": {
+            "get": {
+                "tags": [
+                    "content"
+                ],
+                "summary": "Listing of known identities",
+                "operationId": "searchIdentities",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Identity"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No items found."
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Search on identity name",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "result set limit (default: 100, highest: 1000)",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "page number of result set (default: 1)",
+                        "type": "integer",
+                        "format": "integer"
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "Resource": {
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "resource_locators": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceLocator"
+                    }
+                },
+                "alignments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Alignment"
+                    }
+                },
+                "identities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Identity"
+                    }
+                },
+                "age_ranges": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AgeRange"
+                    }
+                },
+                "documents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Document"
+                    }
+                },
+                "subjects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Subject"
+                    }
+                },
+                "resource_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceType"
+                    }
+                },
+                "languages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Language"
+                    }
+                }
+            }
+        },
+        "Alignment": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "framework": {
+                    "type": "string"
+                },
+                "framework_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "ResourceLocator": {
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "Identity": {
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "public_key": {
+                    "type": "string"
+                }
+            }
+        },
+        "AgeRange": {
+            "properties": {
+                "min_age": {
+                    "type": "integer"
+                },
+                "max_age": {
+                    "type": "integer"
+                },
+                "extended_age": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "Document": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Subject": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "ResourceType": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "Language": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

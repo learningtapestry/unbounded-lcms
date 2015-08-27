@@ -1,0 +1,16 @@
+.swagger-section #header {
+  background-color: #000;
+  padding: 14px;
+}
+
+.swagger-section #header form#api_selector .input input#input_baseUrl {
+  width: 200px;
+}
+
+.swagger-section #header form#api_selector {
+  display: block;
+  clear: none;
+  float: right;
+  position: relative;
+  top: 10px;
+}
