@@ -68,11 +68,14 @@ module Content
         end
 
         Elasticsearch::Model.client.bulk(body: bulk_data)
-        Lobject.__elasticsearch__.refresh_index!
+        
+        Models::Searchable.searchables.each do |searchable|
+          searchable.__elasticsearch__.refresh_index!
+        end
       end
 
       def refresh_indeces
-        Searchable.searchables.each do |searchable|
+        Models::Searchable.searchables.each do |searchable|
           unless searchable.index_name.start_with?('test_')
             searchable.index_name("test_#{searchable.index_name}")
           end

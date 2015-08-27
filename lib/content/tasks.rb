@@ -8,11 +8,11 @@ namespace :content do
   task conform_engageny: [:boot] do
     require 'content/conformers/engageny_conformer'
 
-    Content::SourceDocument
+    Content::Models::SourceDocument
     .unconformed
     .engageny
     .order(id: :asc).find_in_batches(batch_size: 10) do |batch|
-      Content::Document.transaction do
+      Content::Models::Document.transaction do
         batch.each do |source_doc|
            doc = Content::Conformers::EngagenyConformer.new(source_doc.document).conform!
            puts "Conformed #{doc.id}."
@@ -25,12 +25,12 @@ namespace :content do
   task conform_lrmi: [:boot] do
     require 'content/conformers/lr_lrmi_conformer'
 
-    Content::LrDocument
+    Content::Models::LrDocument
     .joins(:source_document)
     .where('source_documents.conformed_at' => nil)
     .where_schema(:lrmi)
     .order(id: :asc).find_in_batches(batch_size: 10) do |batch|
-      Content::Document.transaction do
+      Content::Models::Document.transaction do
         batch.each do |lr_document|
            doc = Content::Conformers::LrLrmiConformer.new(lr_document).conform!
            puts "Conformed #{doc.id}."
@@ -46,7 +46,7 @@ namespace :content do
   task merge: [:boot] do
     require 'content/merger'
 
-    Content::Document
+    Content::Models::Document
     .unmerged
     .order(id: :asc)
     .find_each(batch_size: 1) do |doc|
@@ -62,13 +62,13 @@ namespace :content do
   task parse: [:boot] do
     require 'content/envelope'
 
-    last_parsed = Content::LrDocument.where(parsed: true).order(id: :desc).limit(1).first
+    last_parsed = Content::Models::LrDocument.where(parsed: true).order(id: :desc).limit(1).first
     start_at = last_parsed.id + 1
 
     puts "Starting from id #{start_at}."
 
-    Content::LrDocument.find_in_batches(batch_size: 300, start: start_at) do |group|
-      Content::LrDocument.transaction do
+    Content::Models::LrDocument.find_in_batches(batch_size: 300, start: start_at) do |group|
+      Content::Models::LrDocument.transaction do
         group.each do |lr_doc|
           parsed_doc = Content::Format.parse(lr_doc.raw_data)
           if parsed_doc
@@ -97,8 +97,8 @@ namespace :content do
   task clean_deletes: [:boot] do
     require 'json'
 
-    Content::LrDocument.find_in_batches(batch_size: 500) do |group|
-      Content::LrDocument.transaction do
+    Content::Models::LrDocument.find_in_batches(batch_size: 500) do |group|
+      Content::Models::LrDocument.transaction do
         group.each do |lr_doc|
           in_json = JSON.parse(lr_doc.raw_data)
           if in_json['replaces'] and in_json['resource_data'].nil?
@@ -148,12 +148,12 @@ namespace :content do
 
     desc 'Create ElasticSearch index definitions for searchable models'
     task create_indeces: [:boot] do
-      Content::Searchable.searchables.each { |s| s.__elasticsearch__.create_index! }
+      Content::Models::Searchable.searchables.each { |s| s.__elasticsearch__.create_index! }
     end
 
     desc 'Recreate the ElasticSearch database for searchable models'
     task full_reindex: [:boot] do
-      Content::Searchable.searchables.each do |s|
+      Content::Models::Searchable.searchables.each do |s|
         s.__elasticsearch__.create_index!(force: true)
         s.__elasticsearch__.refresh_index!
         s.index! do |response|
@@ -165,7 +165,7 @@ namespace :content do
 
     desc 'Index fresh searchable models'
     task index: [:create_indeces] do
-      Content::Searchable.searchables.each do |s|
+      Content::Models::Searchable.searchables.each do |s|
         s.index!(scope: :not_indexed) do |response|
           ids = Array.wrap(response['items']).map { |item| item['index']['_id'] }
           LT.env.logger.info("Imported #{s.to_s} \##{ids.first}-#{ids.last}.")

@@ -21,7 +21,7 @@ module Content
     #      default: Date.today
     def retrieve_range(options = {})
       raise LT::ParameterMissing if options[:node].nil?
-      start_date = LrDocumentLog.last.try(:newest_import_date) || DEFAULT_START_DATE
+      start_date = Models::LrDocumentLog.last.try(:newest_import_date) || DEFAULT_START_DATE
 
       options[:from_date] = start_date unless options[:from_date]
       options[:until_date] = Date.today unless options[:until_date]
@@ -46,7 +46,7 @@ module Content
         break if token.nil? # exit when resumption token is empty
       end # while true
 
-      LrDocumentLog.create(
+      Models::LrDocumentLog.create(
         'action'              => 'lr_import',
         'newest_import_date'  => options[:until_date],
       )

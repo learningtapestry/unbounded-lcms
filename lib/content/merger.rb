@@ -4,12 +4,12 @@ module Content
   class Merger
     attr_reader :lobject
 
-    def initialize(lobject = Lobject.new)
+    def initialize(lobject = Models::Lobject.new)
       @lobject = lobject
     end
 
     def self.find_candidates(document)
-      Document
+      Models::Document
       .unmerged
       .where(url_id: document.url.chain.map(&:id))
       .where.not(id: document.id)
@@ -17,8 +17,8 @@ module Content
     end
 
     def self.find_candidates_and_merge(document)
-      Lobject.transaction do
-        lobject = document.url.lobjects.first || Lobject.new
+      Models::Lobject.transaction do
+        lobject = document.url.lobjects.first || Models::Lobject.new
         Merger.new(lobject).merge!(find_candidates(document))
       end
     end
@@ -32,7 +32,7 @@ module Content
         documents = Array.wrap(documents[0])
       end
 
-      Lobject.transaction do
+      Models::Lobject.transaction do
         documents.each do |document|
           merge_urls(document)
           merge_titles(document)
@@ -67,7 +67,7 @@ module Content
     def merge_titles(document)
       lobject.lobject_titles.where(document: document).destroy_all
 
-      lobject.lobject_titles << LobjectTitle.new(
+      lobject.lobject_titles << Models::LobjectTitle.new(
         title: document.title, 
         document: document,
         doc_created_at: document.doc_created_at
@@ -77,7 +77,7 @@ module Content
     def merge_descriptions(document)
       lobject.lobject_descriptions.where(document: document).destroy_all
 
-      lobject.lobject_descriptions << LobjectDescription.new(
+      lobject.lobject_descriptions << Models::LobjectDescription.new(
         description: document.description, 
         document: document,
         doc_created_at: document.doc_created_at
@@ -90,7 +90,7 @@ module Content
       normalized = document.normalized_age_range
       return if normalized.nil?
 
-      lobject.age_ranges << LobjectAgeRange.new(
+      lobject.age_ranges << Models::LobjectAgeRange.new(
         min_age: normalized[:min],
         max_age: normalized[:max],
         extended_age: normalized[:extended],
@@ -106,7 +106,7 @@ module Content
           idt.identity == doc_idt.identity &&
           idt.identity_type == doc_idt.identity_type
         }
-        lobject.lobject_identities << LobjectIdentity.new(
+        lobject.lobject_identities << Models::LobjectIdentity.new(
           identity: doc_idt.identity, 
           identity_type: doc_idt.identity_type,
           document: doc_idt.document
@@ -123,7 +123,7 @@ module Content
           lob_sbj.subject_id == doc_sbj.subject_id
         end
 
-        lobject.lobject_subjects << LobjectSubject.new(
+        lobject.lobject_subjects << Models::LobjectSubject.new(
           document_id: document.id,
           subject_id: doc_sbj.subject_id
         )
@@ -139,7 +139,7 @@ module Content
           lob_sbj.topic_id == doc_sbj.topic_id
         end
 
-        lobject.lobject_topics << LobjectTopic.new(
+        lobject.lobject_topics << Models::LobjectTopic.new(
           document_id: document.id,
           topic_id: doc_sbj.topic_id
         )
@@ -151,7 +151,7 @@ module Content
 
       document.alignments.each do |ag|
         next if lobject.alignments.include?(ag)
-        lobject.lobject_alignments << LobjectAlignment.new(
+        lobject.lobject_alignments << Models::LobjectAlignment.new(
           document: document,
           alignment: ag
         )
@@ -169,7 +169,7 @@ module Content
         
       document.languages.each do |lang|
         next if lobject.languages.include?(lang)
-        lobject.lobject_languages << LobjectLanguage.new(
+        lobject.lobject_languages << Models::LobjectLanguage.new(
           document: document,
           language: lang
         )
@@ -181,7 +181,7 @@ module Content
 
       document.resource_types.each do |res|
         next if lobject.resource_types.include?(res)
-        lobject.lobject_resource_types << LobjectResourceType.new(
+        lobject.lobject_resource_types << Models::LobjectResourceType.new(
           document: document,
           resource_type: res
         )
@@ -193,7 +193,7 @@ module Content
 
       document.downloads.each do |dl|
         next if lobject.downloads.include?(dl)
-        lobject.lobject_downloads << LobjectDownload.new(
+        lobject.lobject_downloads << Models::LobjectDownload.new(
           document: document,
           download: dl
         )
@@ -205,7 +205,7 @@ module Content
 
       document.grades.each do |grade|
         next if lobject.grades.include?(grade)
-        lobject.lobject_grades << LobjectGrade.new(
+        lobject.lobject_grades << Models::LobjectGrade.new(
           document: document,
           grade: grade
         )

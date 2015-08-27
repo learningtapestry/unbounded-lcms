@@ -26,7 +26,7 @@ module Content
 
       return nil unless description
 
-      if lr_document = LrDocument.find_by_doc_id(envelope['doc_ID'])
+      if lr_document = Models::LrDocument.find_by_doc_id(envelope['doc_ID'])
         return lr_document
       end
 
@@ -55,7 +55,7 @@ module Content
       lr_document_attrs[resource_data_column] = parsed_format.resource_data
       lr_document_attrs['format_parsed_at'] = Time.now
 
-      LrDocument.create(lr_document_attrs)
+      Models::LrDocument.create(lr_document_attrs)
     end
 
     def self.guess_format(resource_data)

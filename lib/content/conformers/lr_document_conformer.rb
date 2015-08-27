@@ -5,14 +5,14 @@ module Content
     class LrDocumentConformer
       attr_accessor :lr_document, :content, :document
 
-      def initialize(lr_document, document = Document.new)
+      def initialize(lr_document, document = Models::Document.new)
         @lr_document = lr_document
         @content = lr_document.resource_data_content
         @document = document
       end
 
       def conform!
-        Document.transaction do
+        Models::Document.transaction do
           conform_doc_created_at
           conform_description
           conform_title
@@ -33,13 +33,13 @@ module Content
       end
 
       def conform_url
-        document.url =  Url.find_or_create_canonical(url: lr_document.resource_locator)
+        document.url =  Models::Url.find_or_create_canonical(url: lr_document.resource_locator)
       end
 
       def conform_identities
         document.document_identities = raw_identities.map do |idt_type, idt|
-          identity = Identity.find_or_create_by(name: idt)
-          DocumentIdentity.new(identity: identity, identity_type: idt_type.to_sym)
+          identity = Models::Identity.find_or_create_by(name: idt)
+          Models::DocumentIdentity.new(identity: identity, identity_type: idt_type.to_sym)
         end
       end
 
@@ -49,7 +49,7 @@ module Content
         end
         
         document.keywords = wanted_keywords.map do |key|
-          Keyword.find_or_create_by(name: Keyword.normalize_name(key)) do |created|
+          Models::Keyword.find_or_create_by(name: Models::Keyword.normalize_name(key)) do |created|
             created.doc_id = lr_document.doc_id
           end
         end

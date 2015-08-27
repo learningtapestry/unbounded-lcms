@@ -6,6 +6,6 @@ class AddNameToIdentities < ActiveRecord::Migration
       t.string :name
     end
 
-    Content::Identity.update_all('name = description, description = NULL')
+    Content::Models::Identity.update_all('name = description, description = NULL')
   end
 end

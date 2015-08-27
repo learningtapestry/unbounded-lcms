@@ -84,7 +84,7 @@ module Content
       end
 
       def create_lr_document
-        LrDocument.create(
+        Models::LrDocument.create(
           doc_id: 1,
           active: true,
           doc_type: 'resource_data',
@@ -101,7 +101,7 @@ module Content
           payload_schema: (["LRMI", "JSON-LD"]),
           format_parsed_at: nil
         ).tap do |lr_doc|
-          lr_doc.source_document = Content::SourceDocument.new(source_type: 0)
+          lr_doc.source_document = Models::SourceDocument.new(source_type: 0)
           lr_doc.save
         end
       end

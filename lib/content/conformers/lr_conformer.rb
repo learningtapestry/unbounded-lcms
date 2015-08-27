@@ -6,19 +6,19 @@ module Content
     class LrConformer < Conformer
       attr_accessor :content
 
-      def initialize(source_document, document = Document.new)
+      def initialize(source_document, document = Models::Document.new)
         super(source_document, document)
         @content = source_document.resource_data_content
       end
 
       def conform_url
-        document.url =  Url.find_or_create_canonical(url: source_document.resource_locator)
+        document.url =  Models::Url.find_or_create_canonical(url: source_document.resource_locator)
       end
 
       def conform_identities
         document.document_identities = raw_identities.map do |idt_type, idt|
-          identity = Identity.find_or_create_by(name: idt)
-          DocumentIdentity.new(identity: identity, identity_type: idt_type.to_sym)
+          identity = Models::Identity.find_or_create_by(name: idt)
+          Models::DocumentIdentity.new(identity: identity, identity_type: idt_type.to_sym)
         end
       end
 
@@ -28,7 +28,7 @@ module Content
         end
         
         document.subjects = wanted_subjects.map do |key|
-          Subject.find_or_create_by(name: Subject.normalize_name(key)) do |created|
+          Models::Subject.find_or_create_by(name: Models::Subject.normalize_name(key)) do |created|
             created.doc_id = source_document.doc_id
           end
         end

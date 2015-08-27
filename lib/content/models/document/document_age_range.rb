@@ -1,5 +1,7 @@
 module Content
-  class DocumentAgeRange < ActiveRecord::Base
-    belongs_to :document
+  module Models
+    class DocumentAgeRange < ActiveRecord::Base
+      belongs_to :document
+    end
   end
 end

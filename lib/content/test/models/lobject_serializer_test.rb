@@ -28,7 +28,7 @@ module Content
       end
 
       def test_identities_full
-        actual_idt = Identity.find_by(name: "AMSER: Applied Math and Science Education Repository")
+        actual_idt = Models::Identity.find_by(name: "AMSER: Applied Math and Science Education Repository")
         assert_equal(
           "#{actual_idt.id} #{actual_idt.name} publisher",
           @as_json[:identities].map{ |idt| idt['full'] }.first
@@ -55,7 +55,7 @@ module Content
       end
 
       def test_alignments_full
-        actual_alg = Alignment.find_by(name: 'CCSS.Math.Practice.MP2')
+        actual_alg = Models::Alignment.find_by(name: 'CCSS.Math.Practice.MP2')
         assert_equal(
           "#{actual_alg.id} #{actual_alg.name} #{actual_alg.framework} #{actual_alg.framework_url}",
           @as_json[:alignments].map{ |alg| alg['full'] }.first
@@ -102,65 +102,65 @@ module Content
       end
       
       def create_redundant_lobject
-        lobject = Lobject.create
+        lobject = Models::Lobject.create
 
-        source_doc = SourceDocument.create(source_type: 0)
-        LrDocument.create(doc_id: 1, source_document: source_doc)
+        source_doc = Models::SourceDocument.create(source_type: 0)
+        Models::LrDocument.create(doc_id: 1, source_document: source_doc)
 
-        document = Document.create(title: 'Physics Textbook', description: 'Physics Textbook', source_document: source_doc)
-        other_document = Document.create(title: 'Physics Textbook', description: 'Physics Textbook', source_document: source_doc)
-        identity = Identity.find_or_create_by(name: 'AMSER: Applied Math and Science Education Repository')
-        subject = Subject.find_or_create_by(name: 'physics')
-        language = Language.find_or_create_by(name: 'es')
-        resource_type = ResourceType.find_or_create_by(name: 'textbook')
-        alignment = Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP2', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366907')
+        document = Models::Document.create(title: 'Physics Textbook', description: 'Physics Textbook', source_document: source_doc)
+        other_document = Models::Document.create(title: 'Physics Textbook', description: 'Physics Textbook', source_document: source_doc)
+        identity = Models::Identity.find_or_create_by(name: 'AMSER: Applied Math and Science Education Repository')
+        subject = Models::Subject.find_or_create_by(name: 'physics')
+        language = Models::Language.find_or_create_by(name: 'es')
+        resource_type = Models::ResourceType.find_or_create_by(name: 'textbook')
+        alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP2', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366907')
 
         lobject.age_ranges.concat(
-          LobjectAgeRange.create(min_age: 30, max_age: 40, extended_age: false, document: document),
-          LobjectAgeRange.create(min_age: 30, max_age: 40, extended_age: false, document: other_document)
+          Models::LobjectAgeRange.create(min_age: 30, max_age: 40, extended_age: false, document: document),
+          Models::LobjectAgeRange.create(min_age: 30, max_age: 40, extended_age: false, document: other_document)
         )
 
         lobject.lobject_alignments.concat(
-          LobjectAlignment.create(alignment: alignment, document: document),
-          LobjectAlignment.create(alignment: alignment, document: other_document)
+          Models::LobjectAlignment.create(alignment: alignment, document: document),
+          Models::LobjectAlignment.create(alignment: alignment, document: other_document)
         )
 
         lobject.lobject_descriptions.concat(
-          LobjectDescription.create(description: 'Physics', document: document),
-          LobjectDescription.create(description: 'Physics', document: other_document)
+          Models::LobjectDescription.create(description: 'Physics', document: document),
+          Models::LobjectDescription.create(description: 'Physics', document: other_document)
         )
 
         lobject.lobject_documents.concat(
-          LobjectDocument.create(document: document),
-          LobjectDocument.create(document: other_document)
+          Models::LobjectDocument.create(document: document),
+          Models::LobjectDocument.create(document: other_document)
         )
 
         lobject.lobject_identities.concat(
-          LobjectIdentity.create(identity: identity, identity_type: :publisher, document: document),
-          LobjectIdentity.create(identity: identity, identity_type: :publisher, document: other_document)
+          Models::LobjectIdentity.create(identity: identity, identity_type: :publisher, document: document),
+          Models::LobjectIdentity.create(identity: identity, identity_type: :publisher, document: other_document)
         )
 
         lobject.lobject_subjects.concat(
-          LobjectSubject.create(subject: subject, document: document),
-          LobjectSubject.create(subject: subject, document: other_document)
+          Models::LobjectSubject.create(subject: subject, document: document),
+          Models::LobjectSubject.create(subject: subject, document: other_document)
         )
 
         lobject.lobject_languages.concat(
-          LobjectLanguage.create(language: language, document: document),
-          LobjectLanguage.create(language: language, document: other_document)
+          Models::LobjectLanguage.create(language: language, document: document),
+          Models::LobjectLanguage.create(language: language, document: other_document)
         )
 
         lobject.lobject_resource_types.concat(
-          LobjectResourceType.create(resource_type: resource_type, document: document),
-          LobjectResourceType.create(resource_type: resource_type, document: other_document)
+          Models::LobjectResourceType.create(resource_type: resource_type, document: document),
+          Models::LobjectResourceType.create(resource_type: resource_type, document: other_document)
         )
 
         lobject.lobject_titles.concat(
-          LobjectTitle.create(title: 'Physics', document: document),
-          LobjectTitle.create(title: 'Physics', document: other_document)
+          Models::LobjectTitle.create(title: 'Physics', document: document),
+          Models::LobjectTitle.create(title: 'Physics', document: other_document)
         )
 
-        lobject.lobject_urls << LobjectUrl.create(url: Url.create(url: 'https://www.khanacademy.org'))
+        lobject.lobject_urls << Models::LobjectUrl.create(url: Models::Url.create(url: 'https://www.khanacademy.org'))
 
         lobject
       end
@@ -170,7 +170,7 @@ module Content
         
         # An object with duplicated fields. Serializer should make those unique.
         @lobject = create_redundant_lobject
-        @as_json = LobjectSerializer.new(@lobject).as_indexed_json
+        @as_json = Models::LobjectSerializer.new(@lobject).as_indexed_json
       end
     end
   end

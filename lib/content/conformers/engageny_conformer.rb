@@ -13,9 +13,9 @@ module Content
       end
 
       def conform_identities
-        document.document_identities = [DocumentIdentity.new(
+        document.document_identities = [Models::DocumentIdentity.new(
           identity_type: :publisher,
-          identity: Identity.find_or_create_by(name: 'EngageNY')
+          identity: Models::Identity.find_or_create_by(name: 'EngageNY')
         )]
       end
 
@@ -23,16 +23,16 @@ module Content
         document.document_topics.concat(source_document.topics
           .select { |field| !field.empty? }
           .map { |topic|
-            DocumentTopic.new(
-              topic: Topic.find_or_create_by(name: Topic.normalize_name(topic))
+            Models::DocumentTopic.new(
+              topic: Models::Topic.find_or_create_by(name: Models::Topic.normalize_name(topic))
             )
           })
 
         document.document_subjects.concat(source_document.subjects
           .select { |field| !field.empty? }
           .map { |sbj| 
-            DocumentSubject.new(
-              subject: Subject.find_or_create_by(name: Subject.normalize_name(sbj))
+            Models::DocumentSubject.new(
+              subject: Models::Subject.find_or_create_by(name: Models::Subject.normalize_name(sbj))
             )
           })
       end
@@ -45,7 +45,7 @@ module Content
         document.alignments.concat(source_document.standards
           .select { |field| !field.empty? }
           .map { |parent_std, stds|
-            stds.map { |std| Alignment.find_or_create_by(name: "#{parent_std}.#{std}") }
+            stds.map { |std| Models::Alignment.find_or_create_by(name: "#{parent_std}.#{std}") }
           }.flatten)
       end
 
@@ -62,14 +62,14 @@ module Content
       end
 
       def conform_languages
-        document.languages << Language.find_or_create_by(name: 'en')
+        document.languages << Models::Language.find_or_create_by(name: 'en')
       end
 
       def conform_resource_types
         document.resource_types.concat(source_document.resource_types
           .select { |field| !field.empty? }
           .map { |rt| 
-            ResourceType.find_or_create_by(name: ResourceType.normalize_name(rt))
+            Models::ResourceType.find_or_create_by(name: Models::ResourceType.normalize_name(rt))
           })
       end
 
@@ -77,7 +77,7 @@ module Content
         document.downloads.concat(source_document.downloadable_resources
           .select { |field| !field.keys.empty? }
           .map { |dl| 
-            Download.find_or_create_by(
+            Models::Download.find_or_create_by(
               filename: dl['filename'],
               filesize: dl['filesize'],
               url: dl['uri'],
@@ -91,7 +91,7 @@ module Content
         document.grades.concat(source_document.grades
           .select { |field| !field.empty? }
           .map { |grade| 
-            Grade.find_or_create_by(grade: Grade.normalize_grade(grade))
+            Models::Grade.find_or_create_by(grade: Models::Grade.normalize_grade(grade))
           })
       end
     end

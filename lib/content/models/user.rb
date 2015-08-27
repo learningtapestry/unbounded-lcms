@@ -1,4 +1,6 @@
 module Content
-  class User < ActiveRecord::Base
+  module Models
+    class User < ActiveRecord::Base
+    end
   end
 end

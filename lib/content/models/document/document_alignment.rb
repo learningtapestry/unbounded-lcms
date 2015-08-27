@@ -1,6 +1,8 @@
 module Content
-  class DocumentAlignment < ActiveRecord::Base
-    belongs_to :document
-    belongs_to :alignment
+  module Models
+    class DocumentAlignment < ActiveRecord::Base
+      belongs_to :document
+      belongs_to :alignment
+    end
   end
 end

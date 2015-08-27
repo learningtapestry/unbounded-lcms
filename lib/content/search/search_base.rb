@@ -37,7 +37,7 @@ module Content
         filters = options[:filters] || {}
         
         definition = es_filtered_facets(options)
-        response = Lobject.search(definition, search_type: :count).response
+        response = Models::Lobject.search(definition, search_type: :count).response
         facets_results = {}
 
         options[:facets].except(*filters.keys).keys.each do |facet_field|
@@ -56,7 +56,7 @@ module Content
 
       def query(options)
         definition = es_query(options)
-        search = Lobject.search(definition)
+        search = Models::Lobject.search(definition)
 
         QueryResults.new(
           query: options[:query], 
@@ -67,7 +67,7 @@ module Content
 
       def top_hits(options = {})
         path = options[:path]
-        response = Lobject.search(es_top_hits(options), search_type: :count).response
+        response = Models::Lobject.search(es_top_hits(options), search_type: :count).response
         hits = []
 
         response.aggregations[path][path].buckets.each do |b|

@@ -3,13 +3,13 @@ module Content
     class Conformer
       attr_accessor :source_document, :content, :document
 
-      def initialize(source_document, document = Document.new)
+      def initialize(source_document, document = Models::Document.new)
         @source_document = source_document
         @document = document
       end
 
       def conform!
-        Document.transaction do
+        Models::Document.transaction do
           conform_doc_created_at
           conform_description
           conform_title

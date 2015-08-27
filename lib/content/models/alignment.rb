@@ -1,7 +1,9 @@
 require 'content/models/concerns/canonicable'
 
-module Content  
-  class Alignment < ActiveRecord::Base
-    include Canonicable
+module Content
+  module Models  
+    class Alignment < ActiveRecord::Base
+      include Canonicable
+    end
   end
 end

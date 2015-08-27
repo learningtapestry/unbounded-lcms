@@ -41,7 +41,7 @@ module Content
 
       def conform_languages
         languages = to_a(content['inLanguage']).map do |v| 
-          Language.find_or_create_by(name: v.strip.downcase)
+          Models::Language.find_or_create_by(name: v.strip.downcase)
         end
 
         document.languages = languages
@@ -49,7 +49,7 @@ module Content
 
       def conform_resource_types
         resource_types = to_a(content['learningResourceType']).map do |v| 
-          ResourceType.find_or_create_by(name: v.strip.downcase)
+          Models::ResourceType.find_or_create_by(name: v.strip.downcase)
         end
 
         document.resource_types = resource_types
@@ -62,7 +62,7 @@ module Content
       end
 
       def extract_raw_subjects
-        lrmi_subjects = to_a(content['about']).map { |kw| Subject.normalize_name(kw) }
+        lrmi_subjects = to_a(content['about']).map { |kw| Models::Subject.normalize_name(kw) }
         (super + lrmi_subjects).uniq
       end
 
@@ -73,14 +73,14 @@ module Content
 
         if check_identity(:submitter, 'doe.k12.ga.us') and (names = name.split(',')).size > 1
           names.map do |sub_name|
-            Alignment.find_or_create_by(
+            Models::Alignment.find_or_create_by(
               name: sub_name,
               framework: framework,
               framework_url: framework_url
             )
           end
         else
-          Alignment.find_or_create_by(
+          Models::Alignment.find_or_create_by(
             name: name,
             framework: framework,
             framework_url: framework_url
@@ -89,7 +89,7 @@ module Content
       end
 
       def age_range_from_string(s)
-        age_range = DocumentAgeRange.new
+        age_range = Models::DocumentAgeRange.new
 
         minmax = s.to_s.split('-')
 

@@ -24,7 +24,7 @@ module Content
       def self.check_statuses(check_every = CHECK_EVERY)
         pool = Thread.pool(150)
 
-        Content::Url.stale(check_every).find_each do |loc|
+        Content::Models::Url.stale(check_every).find_each do |loc|
 
           next unless valid_url?(loc.url)
 
@@ -47,7 +47,7 @@ module Content
             end
 
             ActiveRecord::Base.connection_pool.with_connection {
-              Content::Url
+              Content::Models::Url
                 .find(loc.id)
                 .update_attributes(
                   checked_at: Time.now,

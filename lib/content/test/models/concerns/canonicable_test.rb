@@ -26,18 +26,18 @@ module Content
       end
 
       def test_canonicals
-        assert_equal [@en], Language.canonicals
+        assert_equal [@en], Models::Language.canonicals
       end
 
       def test_find_or_create_canonical
-        assert_equal @en, Language.find_or_create_canonical(name: Language.normalize_name('en_US'))
+        assert_equal @en, Models::Language.find_or_create_canonical(name: Models::Language.normalize_name('en_US'))
       end
 
       def setup
         super
-        assert Language.included_modules.include?(Canonicable) # Sanity check
-        @en = Language.create(name: 'en')
-        @en_US = Language.create(name: 'en_US', parent: @en)
+        assert Models::Language.included_modules.include?(Models::Canonicable) # Sanity check
+        @en = Models::Language.create(name: 'en')
+        @en_US = Models::Language.create(name: 'en_US', parent: @en)
       end
     end
   end

@@ -1,5 +1,6 @@
 module Content
-  class LrDocumentLog < ActiveRecord::Base
+  module Models
+    class LrDocumentLog < ActiveRecord::Base
+    end
   end
 end
-

@@ -148,7 +148,7 @@ module Content
       def setup
         super
         
-        @mapping = Lobject.mapping.to_hash[:lobject][:properties]
+        @mapping = Models::Lobject.mapping.to_hash[:lobject][:properties]
       end
     end
   end

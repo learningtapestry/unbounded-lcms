@@ -9,7 +9,7 @@ module Content
 
       def test_find_candidates_and_merge_creates
         lobject = Merger.find_candidates_and_merge(create_doc)
-        assert_kind_of Lobject, lobject
+        assert_kind_of Models::Lobject, lobject
       end
 
       def test_find_candidates_and_merge_finds_candidates
@@ -42,8 +42,8 @@ module Content
 
       def test_merge_age_ranges
         doc = create_doc
-        child_ar = DocumentAgeRange.new(min_age: 5, max_age: 10, extended_age: false)
-        adult_ar = DocumentAgeRange.new(min_age: 18, max_age: 60, extended_age: true)
+        child_ar = Models::DocumentAgeRange.new(min_age: 5, max_age: 10, extended_age: false)
+        adult_ar = Models::DocumentAgeRange.new(min_age: 18, max_age: 60, extended_age: true)
         doc.age_ranges.concat([child_ar, adult_ar])
 
         lobject = Merger.merge(doc)
@@ -56,10 +56,10 @@ module Content
 
       def test_merge_lobject_identities
         doc1 = create_doc
-        doc1.document_identities << DocumentIdentity.new(identity: @nsdl_identity, identity_type: :publisher)
+        doc1.document_identities << Models::DocumentIdentity.new(identity: @nsdl_identity, identity_type: :publisher)
 
         doc2 = create_doc
-        doc2.document_identities << DocumentIdentity.new(identity: @amser_identity, identity_type: :submitter)
+        doc2.document_identities << Models::DocumentIdentity.new(identity: @amser_identity, identity_type: :submitter)
 
         lo = Merger.merge(doc1, doc2)
 
@@ -74,7 +74,7 @@ module Content
 
       def test_merge_lobject_identities_doesnt_duplicate
         doc = create_doc
-        doc.document_identities << dup_identity = DocumentIdentity.new(
+        doc.document_identities << dup_identity = Models::DocumentIdentity.new(
           identity: @nsdl_identity,
           identity_type: :submitter
         )
@@ -244,25 +244,25 @@ module Content
       end
 
       def create_doc(attrs = {})
-        Document.create(attrs.merge(url: @google_url))
+        Models::Document.create(attrs.merge(url: @google_url))
       end
 
       def create_and_update_lobject
-        doc = Document.create(title: 'Math Textbook', description: 'Math Textbook', url: @google_url)
-        doc.age_ranges << DocumentAgeRange.new(min_age: 10, max_age: 20, extended_age: true)
-        doc.document_alignments << DocumentAlignment.new(alignment: @mp1_alignment)
-        doc.document_identities << DocumentIdentity.new(identity: @nsdl_identity, identity_type: :author)
-        doc.document_subjects << DocumentSubject.new(subject: @math_subject)
-        doc.document_languages << DocumentLanguage.new(language: @en_language)
-        doc.document_resource_types << DocumentResourceType.new(resource_type: @video_resource_type)
+        doc = Models::Document.create(title: 'Math Textbook', description: 'Math Textbook', url: @google_url)
+        doc.age_ranges << Models::DocumentAgeRange.new(min_age: 10, max_age: 20, extended_age: true)
+        doc.document_alignments << Models::DocumentAlignment.new(alignment: @mp1_alignment)
+        doc.document_identities << Models::DocumentIdentity.new(identity: @nsdl_identity, identity_type: :author)
+        doc.document_subjects << Models::DocumentSubject.new(subject: @math_subject)
+        doc.document_languages << Models::DocumentLanguage.new(language: @en_language)
+        doc.document_resource_types << Models::DocumentResourceType.new(resource_type: @video_resource_type)
 
         created = Merger.find_candidates_and_merge(doc)
 
         doc.title = 'Test 2'
         doc.description = 'Test 2'
-        doc.age_ranges = [DocumentAgeRange.new(min_age: 5, max_age: 10, extended_age: true)]
+        doc.age_ranges = [Models::DocumentAgeRange.new(min_age: 5, max_age: 10, extended_age: true)]
         doc.alignments = [@mp2_alignment]
-        doc.document_identities = [DocumentIdentity.new(identity_type: :publisher, identity: @compadre_identity)]
+        doc.document_identities = [Models::DocumentIdentity.new(identity_type: :publisher, identity: @compadre_identity)]
         doc.subjects = [@physics_subject]
         doc.languages = [@es_language]
         doc.resource_types = [@textbook_resource_type]
@@ -275,22 +275,22 @@ module Content
 
       def setup
         super
-        @google_url = Url.find_or_create_by(url: 'https://www.google.com')
-        @mp1_alignment = Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP1', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366906')
-        @mp2_alignment = Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP2', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366907')
-        @mp3_alignment = Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP3', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366908')
-        @mp4_alignment = Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP4', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366909')
-        @nsdl_identity = Identity.find_or_create_by(name: 'National Science Digital Library (NSDL)<nsdlsupport@nsdl.ucar.edu>')
-        @compadre_identity = Identity.find_or_create_by(name: 'AMSER: Applied Math and Science Education Repository')
-        @amser_identity = Identity.find_or_create_by(name: 'ComPADRE: Resources for Physics and Astronomy Education')
-        @math_subject = Subject.find_or_create_by(name: 'math')
-        @chemistry_subject = Subject.find_or_create_by(name: 'chemistry')
-        @physics_subject = Subject.find_or_create_by(name: 'physics')
-        @science_subject = Subject.find_or_create_by(name: 'science')
-        @en_language = Language.find_or_create_by(name: 'en')
-        @es_language = Language.find_or_create_by(name: 'es')
-        @video_resource_type = ResourceType.find_or_create_by(name: 'video')
-        @textbook_resource_type = ResourceType.find_or_create_by(name: 'textbook')
+        @google_url = Models::Url.find_or_create_by(url: 'https://www.google.com')
+        @mp1_alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP1', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366906')
+        @mp2_alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP2', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366907')
+        @mp3_alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP3', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366908')
+        @mp4_alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP4', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366909')
+        @nsdl_identity = Models::Identity.find_or_create_by(name: 'National Science Digital Library (NSDL)<nsdlsupport@nsdl.ucar.edu>')
+        @compadre_identity = Models::Identity.find_or_create_by(name: 'AMSER: Applied Math and Science Education Repository')
+        @amser_identity = Models::Identity.find_or_create_by(name: 'ComPADRE: Resources for Physics and Astronomy Education')
+        @math_subject = Models::Subject.find_or_create_by(name: 'math')
+        @chemistry_subject = Models::Subject.find_or_create_by(name: 'chemistry')
+        @physics_subject = Models::Subject.find_or_create_by(name: 'physics')
+        @science_subject = Models::Subject.find_or_create_by(name: 'science')
+        @en_language = Models::Language.find_or_create_by(name: 'en')
+        @es_language = Models::Language.find_or_create_by(name: 'es')
+        @video_resource_type = Models::ResourceType.find_or_create_by(name: 'video')
+        @textbook_resource_type = Models::ResourceType.find_or_create_by(name: 'textbook')
       end
 
     end
