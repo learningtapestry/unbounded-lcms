@@ -131,7 +131,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Alignment"
+                                "$ref": "#/definitions/AlignmentAndCount"
                             }
                         }
                     },
@@ -197,7 +197,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Subject"
+                                "$ref": "#/definitions/SubjectAndCount"
                             }
                         }
                     },
@@ -246,7 +246,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Identity"
+                                "$ref": "#/definitions/IdentityAndCount"
                             }
                         }
                     },
@@ -364,6 +364,16 @@
                 }
             }
         },
+        "AlignmentAndCount": {
+            "properties": {
+                "alignment": {
+                    "$ref": "#/definitions/Alignment"
+                },
+                "resource_count": {
+                    "type": "integer"
+                }
+            }
+        },
         "ResourceLocator": {
             "properties": {
                 "url": {
@@ -387,6 +397,16 @@
                 },
                 "public_key": {
                     "type": "string"
+                }
+            }
+        },
+        "IdentityAndCount": {
+            "properties": {
+                "identity": {
+                    "$ref": "#/definitions/Identity"
+                },
+                "resource_count": {
+                    "type": "integer"
                 }
             }
         },
@@ -414,6 +434,16 @@
             "properties": {
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "SubjectAndCount": {
+            "properties": {
+                "subject": {
+                    "$ref": "#/definitions/Subject"
+                },
+                "resource_count": {
+                    "type": "integer"
                 }
             }
         },
