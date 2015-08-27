@@ -3,7 +3,7 @@ require 'content/search'
 
 module Searches
   class Api
-    attr_reader :search_operation, :search_results
+    attr_reader :operation, :results
 
     def initialize(params)
       limit = params[:limit].try(:to_i) || 100
@@ -94,11 +94,8 @@ module Searches
 
       Rails.logger.debug("Constructed Elasticsearch search definition: #{search_definition.to_json}")
 
-      @search_operation = Content::Models::Lobject.search(search_definition)
-      @search_results = SearchResults.new(
-        results: search_operation.map(&:_source),
-        total_hits: search_operation.response.hits.total.to_i
-      )
+      @operation = Content::Models::Lobject.search(search_definition)
+      @results = operation.map(&:_source)
     end
   end
 end

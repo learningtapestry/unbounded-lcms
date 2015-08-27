@@ -7,7 +7,7 @@ class ApiController < ApplicationController
   end
 
   def show_resources
-    @search_results = Searches::Api.new(params).search_results
+    @search_results = Searches::Api.new(params).results
     api_response
   end
 
@@ -27,7 +27,7 @@ class ApiController < ApplicationController
     end
 
     alignments = alignments.offset(@limit * (@page - 1)).limit(@limit)
-    @search_results = Searches::SearchResults.new(results: resource_counts(alignments))
+    @search_results = resource_counts(alignments)
     api_response
   end
 
@@ -39,7 +39,7 @@ class ApiController < ApplicationController
     end
 
     subjects = subjects.offset(@limit * (@page - 1)).limit(@limit)
-    @search_results = Searches::SearchResults.new(results: resource_counts(subjects))
+    @search_results = resource_counts(subjects)
     api_response
   end
 
@@ -51,15 +51,15 @@ class ApiController < ApplicationController
     end
 
     identities = identities.offset(@limit * (@page - 1)).limit(@limit)
-    @search_results = Searches::SearchResults.new(results: resource_counts(identities))
+    @search_results = resource_counts(identities)
     api_response
   end
 
   protected
 
   def api_response
-    response.headers['x-total-count'] = @search_results.results.size.to_s
-    render json: @search_results.results
+    response.headers['x-total-count'] = @search_results.size.to_s
+    render json: @search_results
   end
 
   def resource_counts(resources)
