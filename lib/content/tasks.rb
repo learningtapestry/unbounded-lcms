@@ -158,7 +158,7 @@ namespace :content do
         s.__elasticsearch__.refresh_index!
         s.index! do |response|
           ids = Array.wrap(response['items']).map { |item| item['index']['_id'] }
-          LT.env.logger.info("Imported #{s.to_s} \##{ids.first}-#{ids.last}.")
+          puts "Imported #{s.to_s} \##{ids.first}-#{ids.last}."
         end
       end
     end
@@ -168,7 +168,7 @@ namespace :content do
       Content::Models::Searchable.searchables.each do |s|
         s.index!(scope: :not_indexed) do |response|
           ids = Array.wrap(response['items']).map { |item| item['index']['_id'] }
-          LT.env.logger.info("Imported #{s.to_s} \##{ids.first}-#{ids.last}.")
+          puts "Imported #{s.to_s} \##{ids.first}-#{ids.last}."
         end
       end
     end
