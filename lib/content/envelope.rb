@@ -1,9 +1,6 @@
 require 'json'
 require 'content/models'
-require 'content/format_parsers/json_format_parser'
-require 'content/format_parsers/xml_format_parser'
-require 'content/format_parsers/nsdl_dc_format_parser'
-require 'content/format_parsers/text_format_parser'
+require 'content/format_parsers'
 
 module Content
   module Envelope
