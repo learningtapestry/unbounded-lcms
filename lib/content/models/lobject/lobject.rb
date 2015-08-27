@@ -138,37 +138,6 @@ module Content
           indexes :range, type: :string, index: :not_analyzed
         end
 
-        indexes :identities, type: :nested do
-          indexes :full, type: 'multi_field' do
-            indexes :full, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-
-          indexes :identity_type, type: 'multi_field' do
-            indexes :identity_type, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :subjects, type: :nested do
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :topics, type: :nested do
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
         indexes :alignments, type: :nested do
           indexes :full, type: 'multi_field' do
             indexes :full, type: :string
@@ -191,27 +160,13 @@ module Content
           end
         end
 
-        indexes :resource_locators, type: :nested do
-          indexes :url, type: 'multi_field' do
-            indexes :url, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
+        indexes :downloads, type: :nested do
+          indexes :filename, index: :not_analyzed
+          indexes :filesize, index: :not_analyzed
+          indexes :url, index: :not_analyzed
 
-        indexes :sources, type: :nested do
-          indexes :engageny, type: :nested
-        end
-
-        indexes :languages, type: :nested do
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :resource_types, type: :nested do
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
+          indexes :content_type, type: 'multi_field' do
+            indexes :content_type, type: :string
             indexes :raw, type: :string, index: :not_analyzed
           end
         end
@@ -223,15 +178,65 @@ module Content
           end
         end
 
-        indexes :downloads, type: :nested do
-          indexes :filename, index: :not_analyzed
-          indexes :filesize, index: :not_analyzed
-          indexes :url, index: :not_analyzed
-
-          indexes :content_type, type: 'multi_field' do
-            indexes :content_type, type: :string
+        indexes :identities, type: :nested do
+          indexes :full, type: 'multi_field' do
+            indexes :full, type: :string
             indexes :raw, type: :string, index: :not_analyzed
           end
+
+          indexes :name, type: 'multi_field' do
+            indexes :name, type: :string
+            indexes :raw, type: :string, index: :not_analyzed
+          end
+
+          indexes :identity_type, type: 'multi_field' do
+            indexes :identity_type, type: :string
+            indexes :raw, type: :string, index: :not_analyzed
+          end
+        end
+
+        indexes :languages, type: :nested do
+          indexes :name, type: 'multi_field' do
+            indexes :name, type: :string
+            indexes :raw, type: :string, index: :not_analyzed
+          end
+        end
+
+        indexes :resource_locators, type: :nested do
+          indexes :url, type: 'multi_field' do
+            indexes :url, type: :string
+            indexes :raw, type: :string, index: :not_analyzed
+          end
+        end
+
+        indexes :resource_types, type: :nested do
+          indexes :name, type: 'multi_field' do
+            indexes :name, type: :string
+            indexes :raw, type: :string, index: :not_analyzed
+          end
+        end
+
+        indexes :sources, type: :nested do
+          indexes :engageny, type: :nested
+        end
+
+        indexes :subjects, type: :nested do
+          indexes :name, type: 'multi_field' do
+            indexes :name, type: :string
+            indexes :raw, type: :string, index: :not_analyzed
+          end
+        end
+
+        indexes :topics, type: :nested do
+          indexes :name, type: 'multi_field' do
+            indexes :name, type: :string
+            indexes :raw, type: :string, index: :not_analyzed
+          end
+        end
+
+        indexes :title, type: 'multi_field' do
+          indexes :title, type: :string
+          indexes :raw, type: :string, index: :not_analyzed
         end
       end
 
