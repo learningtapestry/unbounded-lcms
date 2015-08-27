@@ -2,7 +2,7 @@ require 'content/models'
 require 'content/search'
 
 module Searches
-  class ApiSearch
+  class Api
     attr_reader :search_operation, :search_results
 
     def initialize(params)
