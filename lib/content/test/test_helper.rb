@@ -11,6 +11,7 @@ require 'minitest/autorun'
 require 'webmock/minitest'; WebMock.allow_net_connect!
 
 require 'content/models'
+require 'content/test/elasticsearch_test_helpers'
 
 module Content
   module Test
@@ -54,46 +55,16 @@ module Content
 
     # Base Elasticsearch test class.
     class ElasticsearchTestBase < ContentTestBase
-      def self.check_elasticsearch
-        begin
-          Elasticsearch::Model.client.perform_request('GET', '_cluster/health')
-          true
-        rescue StandardError
-          false
-        end
-      end
+      include ElasticsearchTestHelpers
 
       def setup
         super
         
-        if ElasticsearchTestBase.check_elasticsearch
-          refresh_indeces
+        if check_elasticsearch
+          prefix_index_names
+          create_indeces
         else
           skip
-        end
-      end
-
-      def bulk_import_fixtures
-        bulk_data = []
-        Dir[File.join(TEST_PATH, 'fixtures', 'elasticsearch', '*.json')].each do |f|
-          File.readlines(f).each do |line|
-            bulk_data << JSON.load(line)
-          end
-        end
-
-        Elasticsearch::Model.client.bulk(body: bulk_data)
-        
-        Models::Searchable.searchables.each do |searchable|
-          searchable.__elasticsearch__.refresh_index!
-        end
-      end
-
-      def refresh_indeces
-        Models::Searchable.searchables.each do |searchable|
-          unless searchable.index_name.start_with?('test_')
-            searchable.index_name("test_#{searchable.index_name}")
-          end
-          searchable.__elasticsearch__.create_index!(force: true)
         end
       end
     end

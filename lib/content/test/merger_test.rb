@@ -126,7 +126,7 @@ module Content
 
         Merger.new(lo).merge!(doc2)
 
-        assert_equal lo.alignments, alignments+more_alignments
+        assert_equal lo.alignments.to_a, alignments+more_alignments
       end
 
       def test_merge_alignments_new_object
@@ -139,7 +139,7 @@ module Content
         doc2.alignments.concat(more_alignments)
 
         lo = Merger.merge(doc1, doc2)
-        assert_equal lo.alignments, alignments+more_alignments
+        assert_equal lo.alignments.to_a, alignments+more_alignments
       end
 
       def test_merge_documents
@@ -149,13 +149,13 @@ module Content
         more_candidates = [create_doc, create_doc]
         Merger.new(lobject).merge!(more_candidates)
 
-        assert_equal lobject.documents, candidates+more_candidates
+        assert_equal lobject.documents.to_a, candidates+more_candidates
       end
 
       def test_merge_documents_new_object
         candidates = [create_doc, create_doc]
         lobject = Merger.merge(candidates)
-        assert_equal lobject.documents, candidates
+        assert_equal lobject.documents.to_a, candidates
       end
 
       def test_merge_languages

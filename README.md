@@ -7,7 +7,8 @@ A learning object repository.
 ```bash
 cp db/content.dump.freeze db/content.dump
 rake db:restore
-rake db:test:prepare_integration
+rake content:elasticsearch:full_reindex
+rake integration:setup
 rake test
 ```
 
@@ -26,14 +27,14 @@ class ApiControllerTest < ActionController::TestCase
 end
 ```
 
-If the development database changes, one should run
-`rake db:test:prepare_integration` to update the integration database.
+If the development database changes, one should run `rake integration:setup`
+to update the integration database.
 
-## Recreating the EngageNY (UnboundEd) database from scratch
+## Recreating the ENY/UnboundEd db from scratch
 
 ```bash
 cp db/engageny.dump.freeze db/engageny.dump
 rake db:create db:migrate
 rake db:restore_engageny # This will take a long time
-rake db:test:prepare_integration
+rake integration:setup
 ```
