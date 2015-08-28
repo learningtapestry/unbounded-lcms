@@ -1,0 +1,30 @@
+// Place all the styles related to the Unbounded::Browse controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.lobject-node {
+    list-style-type: none;
+    padding: 5px 0 5px;
+}
+
+.lobject-node ul {
+    padding-top: 5px;
+}
+
+.lobject-tree {
+    padding-left: 0;
+}
+
+.you-are-here {
+    font-weight: bold;
+}
+
+.lobject-node-opener {
+    margin-right: 5px;
+    border: 0;
+}
+
+.lobject-node-opener-blank {
+    display: inline-block;
+    width: 27px;
+}

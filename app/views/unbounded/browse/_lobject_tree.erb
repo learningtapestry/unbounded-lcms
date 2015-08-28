@@ -1,0 +1,18 @@
+<li class="lobject-node">
+    <% if tree.children.size > 0 %>
+        <button type="button" class="lobject-node-opener"><span class="caret"></span></button> 
+    <% else %>
+        <span class="lobject-node-opener-blank"></span> 
+    <% end %>
+    <%= link_to(tree.content.title, unbounded_show_path(id: tree.content.id)) %>
+    <% if @lobject.id == tree.content.id %>
+        <span class="you-are-here">You are here</span>
+    <% end %>
+    <% if tree.children.size > 0 %>
+        <ul>
+            <% tree.children.each do |child_tree| %>
+                <%= render partial: 'lobject_tree', locals: { tree: child_tree } %>
+            <% end %>
+        </ul>
+    <% end %>
+</li>

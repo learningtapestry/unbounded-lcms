@@ -1,0 +1,9 @@
+<nav>
+  <ul class="pagination">
+    <% (1..(@total_pages)).each_with_index do |page| %>
+    <li <% if page == params[:page] %> class="active" <% end %> >
+        <%= link_to(page, current_search.merge(page: page)) %>
+    </li>
+    <% end %>
+  </ul>
+</nav>

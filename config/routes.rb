@@ -5,10 +5,16 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
-  get 'api/v1/resources' => 'api#show_resources'
-  get 'api/v1/alignments' => 'api#show_alignments'
-  get 'api/v1/subjects' => 'api#show_subjects'
-  get 'api/v1/identities' => 'api#show_identities'
+  get '/api/v1/resources' => 'api#show_resources'
+  get '/api/v1/alignments' => 'api#show_alignments'
+  get '/api/v1/subjects' => 'api#show_subjects'
+  get '/api/v1/identities' => 'api#show_identities'
+
+  namespace :unbounded do
+    get '/' => 'browse#index'
+    get '/search' => 'browse#search'
+    get '/show/:id' => 'browse#show', as: :show
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

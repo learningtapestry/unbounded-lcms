@@ -20,4 +20,27 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  unbounded:
+    browser: Unbounded Content Browser
+    title:
+      age_ranges: Age ranges
+      alignments: Alignments
+      grades: Grades
+      identities: Identities
+      languages: Languages
+      resource_types: Resource types
+      subjects: Subjects
+      standards: Standards
+      status: Document status
+      sources:
+        engageny: Document status
+      topics: Topics
+    content_type:
+      "application/zip": zip
+      "application/pdf": pdf
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": openoffice spreadsheet
+      "application/vnd.ms-excel": excel
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation": openoffice presentation
+      "application/msword": doc
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": openoffice document
+      "application/vnd.ms-powerpoint": powerpoint

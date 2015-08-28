@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="nc-panel">
+                    <h3><i class="fa fa-th"></i> ELA Curriculum</h3>
+
+                    <ul class="list-unstyled">
+                        <% Content::Models::LobjectTitle.find_by(title: 'ELA Curriculum Map').lobject.lobject_collections.first.lobject_children.includes(:child).order(position: :asc).each do |child| %>
+                          <li><%= link_to(child.child.title, unbounded_show_path(id: child.child.id)) %></li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="nc-panel">
+                    <h3><i class="fa fa-th"></i> Math Curriculum</h3>
+
+                    <ul class="list-unstyled">
+                        <% Content::Models::LobjectTitle.find_by(title: 'Math Curriculum Map').lobject.lobject_collections.first.lobject_children.includes(:child).order(position: :asc).each do |child| %>
+                          <li><%= link_to(child.child.title, unbounded_show_path(id: child.child.id)) %></li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="nc-panel">
+                    <h3><i class="fa fa-th"></i> <%= t('unbounded.title.resource_types') %></h3>
+
+                    <ul class="list-unstyled">
+                        <% @facets['resource_types'].each do |key, doc_count| %>
+                          <li><%= link_to(key, unbounded_search_path(resource_type: key)) %> (<%= doc_count %>)</li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="nc-panel">
+                    <h3><i class="fa fa-graduation-cap"></i>
+                    <%= t('unbounded.title.grades') %></h3>
+
+                    <ul class="list-unstyled">
+                        <% @facets['grades'].each do |key, doc_count| %>
+                          <li><%= link_to(key, unbounded_search_path(grade: key)) %> (<%= doc_count %>)</li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="nc-panel">
+                    <h3><i class="fa fa-th-list"></i> <%= t('unbounded.title.topics') %></h3>
+
+                    <ul class="list-unstyled">
+                        <% @facets['topics'].each do |key, doc_count| %>
+                          <li><%= link_to(key, unbounded_search_path(topic: key)) %> (<%= doc_count %>)</li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="nc-panel">
+                    <h3><i class="fa fa-leanpub"></i> <%= t('unbounded.title.subjects') %></h3>
+
+                    <ul class="list-unstyled">
+                        <% @facets['subjects'].each do |key, doc_count| %>
+                          <li><%= link_to(key, unbounded_search_path(subject: key)) %> (<%= doc_count %>)</li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="nc-panel">
+                    <h3><i class="fa fa-file-text-o"></i>
+                    <%= t('unbounded.title.standards') %></h3>
+
+                    <ul class="list-unstyled">
+                        <% @facets['alignments'].each do |key, doc_count| %>
+                          <li><%= link_to(key, unbounded_search_path(alignment: key)) %> (<%= doc_count %>)</li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="nc-panel">
+                    <h3><i class="fa fa-file-o"></i> <%= t('unbounded.title.status') %></h3>
+
+                    <ul class="list-unstyled">
+                        <% @facets['sources.engageny'].each do |key, doc_count| %>
+                          <li><%= link_to(key == 'T' ? 'active' : 'not active', unbounded_search_path(active: key)) %> (<%= doc_count %>)</li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

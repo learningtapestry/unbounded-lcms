@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+          <li><%= link_to('All documents', unbounded_path) %></li>
+          <% if params[:query] %>
+            <li><%= link_to("Search for #{params[:query]}", unbounded_search_path(query: params[:query])) %></li>
+          <% end %>
+          <% current_search.except(:query).each do |k,v| %>
+            <li>
+                <%= link_to(t("unbounded.title.#{k}") + raw(" <strong>#{v}</strong>"), unbounded_search_path(search_up_to(k))) %>
+            </li>
+          <% end %>
+        </ol>
+    </div>
+</div>
+
+<div class="nc-content">
+    <div class="row">
+        <div class="col-lg-3 sidebar">
+            <strong>Refine results</strong>
+            <br>
+            <br>
+            <ul class="list-unstyled">
+                <% unless params[:query] %>
+                <li><strong>Search in the results</strong>
+                    <div class="vertical-breath">
+                        <form action="<%= unbounded_search_path %>" method="GET">
+                            <div class="input-group">
+                              <% current_search.each do |k,v| %>
+                                <input type="hidden" name="<%= k %>" value="<%= v %>">
+                              <% end %>
+                              <input type="text" class="form-control" placeholder="Search for..." name="query" value="<%= params[:query] %>">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">Go</button>
+                              </span>
+                            </div><!-- /input-group -->
+                        </form>
+                    </div>
+                </li>
+                <% end %>
+                <% @facets.each do |facet, values| %>
+                    <% next if values.size == 0 %>
+                    <li><strong><%= t("unbounded.title.#{facet}") %></strong>
+                        <ul class="list-unstyled vertical-breath">
+                            <% values.each do |value, doc_count| %>
+                                <li>
+                                    <%= link_to(value, add_to_search(facet => value)) %> (<%= doc_count %>)
+                                </li>
+                            <% end %>
+                        </ul>
+                    </li>
+                <% end %>
+            </ul>
+        </div>
+
+        <div class="col-lg-9">
+            <strong class="title"><%= @total_hits %> Results - Page <%= params[:page] %></strong>
+            <br>
+            <br>
+            <% @results.each do |lobject| %>
+                <%= render partial: 'lobject_preview', locals: { lobject: lobject } %>
+            <% end %> 
+            <br>
+            <%= render partial: 'pagination' %>
+        </div>
+    </div>
+</div>
