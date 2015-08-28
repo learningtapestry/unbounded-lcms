@@ -1,15 +1,17 @@
 require 'content/models'
 
-class Unbounded::BrowseController < UnboundedController
-  def index
-    @search = Searches::Unbounded::IndexFacets.new(params)
-  end
+module Unbounded
+  class BrowseController < UnboundedController
+    def index
+      @search = LobjectFacets.new(params)
+    end
 
-  def search
-    @search = Searches::Unbounded::Search.new(params)
-  end
+    def search
+      @search = LobjectSearch.new(params)
+    end
 
-  def show
-    @lobject = Presenters::Unbounded::Lobject.new(Content::Models::Lobject.find(params[:id]))
+    def show
+      @lobject = LobjectPresenter.new(Content::Models::Lobject.find(params[:id]))
+    end
   end
 end

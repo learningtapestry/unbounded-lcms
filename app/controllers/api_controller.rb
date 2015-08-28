@@ -7,7 +7,7 @@ class ApiController < ApplicationController
   end
 
   def show_resources
-    @search_results = Searches::Api.new(params).results
+    @search_results = ApiSearch.new(params).results
     api_response
   end
 
