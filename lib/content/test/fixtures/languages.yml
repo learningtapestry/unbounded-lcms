@@ -1,0 +1,9 @@
+en:
+  name: en
+
+en_US:
+  name: en_us
+  parent: en
+  
+es:
+  name: es

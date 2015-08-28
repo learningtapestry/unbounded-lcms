@@ -1,0 +1,19 @@
+mp1:
+  name: CCSS.Math.Practice.MP1
+  framework: Common Core State Standards for Mathematics
+  framework_url: http://asn.jesandco.org/resources/S2366906
+
+mp2:
+  name: CCSS.Math.Practice.MP2
+  framework: Common Core State Standards for Mathematics
+  framework_url: http://asn.jesandco.org/resources/S2366907
+
+mp3:
+  name: CCSS.Math.Practice.MP3
+  framework: Common Core State Standards for Mathematics
+  framework_url: http://asn.jesandco.org/resources/S2366908
+
+mp4:
+  name: CCSS.Math.Practice.MP4
+  framework: Common Core State Standards for Mathematics
+  framework_url: http://asn.jesandco.org/resources/S2366909

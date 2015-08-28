@@ -56,17 +56,17 @@ module Content
 
       def test_merge_lobject_identities
         doc1 = create_doc
-        doc1.document_identities << Models::DocumentIdentity.new(identity: @nsdl_identity, identity_type: :publisher)
+        doc1.document_identities << Models::DocumentIdentity.new(identity: identities(:nsdl), identity_type: :publisher)
 
         doc2 = create_doc
-        doc2.document_identities << Models::DocumentIdentity.new(identity: @amser_identity, identity_type: :submitter)
+        doc2.document_identities << Models::DocumentIdentity.new(identity: identities(:amser), identity_type: :submitter)
 
         lo = Merger.merge(doc1, doc2)
 
         identities = lo.lobject_identities.map { |idt| [idt.identity, idt.identity_type.to_sym] }
         expected_identities = [
-          [@nsdl_identity, :publisher],
-          [@amser_identity, :submitter]
+          [identities(:nsdl), :publisher],
+          [identities(:amser), :submitter]
         ]
 
         assert_equal expected_identities, identities
@@ -75,7 +75,7 @@ module Content
       def test_merge_lobject_identities_doesnt_duplicate
         doc = create_doc
         doc.document_identities << dup_identity = Models::DocumentIdentity.new(
-          identity: @nsdl_identity,
+          identity: identities(:nsdl),
           identity_type: :submitter
         )
 
@@ -87,12 +87,12 @@ module Content
       end
 
       def test_merge_subjects
-        kws = [@math_subject, @chemistry_subject]
+        kws = [subjects(:math), subjects(:chemistry)]
         doc1 = create_doc
         doc1.subjects.concat(kws)
         lo = Merger.merge(doc1)
 
-        more_kws = [@physics_subject, @science_subject]
+        more_kws = [subjects(:physics), subjects(:science)]
         doc2 = create_doc
         doc2.subjects.concat(more_kws)
 
@@ -102,11 +102,11 @@ module Content
       end
 
       def test_merge_subjects_new_object
-        kws = [@math_subject, @chemistry_subject]
+        kws = [subjects(:math), subjects(:chemistry)]
         doc1 = create_doc
         doc1.subjects.concat(kws)
         
-        more_kws = [@physics_subject, @science_subject]
+        more_kws = [subjects(:physics), subjects(:science)]
         doc2 = create_doc
         doc2.subjects.concat(more_kws)
 
@@ -115,12 +115,12 @@ module Content
       end
 
       def test_merge_alignments
-        alignments = [@mp1_alignment, @mp2_alignment]
+        alignments = [alignments(:mp1), alignments(:mp2)]
         doc1 = create_doc
         doc1.alignments.concat(alignments)
         lo = Merger.merge(doc1)
 
-        more_alignments = [@mp3_alignment, @mp4_alignment]
+        more_alignments = [alignments(:mp3), alignments(:mp4)]
         doc2 = create_doc
         doc2.alignments.concat(more_alignments)
 
@@ -130,11 +130,11 @@ module Content
       end
 
       def test_merge_alignments_new_object
-        alignments = [@mp1_alignment, @mp2_alignment]
+        alignments = [alignments(:mp1), alignments(:mp2)]
         doc1 = create_doc
         doc1.alignments.concat(alignments)
         
-        more_alignments = [@mp3_alignment, @mp4_alignment]
+        more_alignments = [alignments(:mp3), alignments(:mp4)]
         doc2 = create_doc
         doc2.alignments.concat(more_alignments)
 
@@ -160,12 +160,12 @@ module Content
 
       def test_merge_languages
         doc = create_doc
-        doc.languages << @en_language
+        doc.languages << languages(:en)
 
         lobject = Merger.merge(doc)
 
         doc2 = create_doc
-        doc2.languages << @es_language
+        doc2.languages << languages(:es)
 
         Merger.new(lobject).merge!(doc2)
 
@@ -174,18 +174,18 @@ module Content
 
       def test_merge_languages_new_object
         doc = create_doc
-        doc.languages << @en_language
+        doc.languages << languages(:en)
         lobject = Merger.merge(doc)
         assert_equal 'en', lobject.languages.first.name
       end
 
       def test_merge_resource_types
         doc = create_doc
-        doc.resource_types << @video_resource_type
+        doc.resource_types << resource_types(:video)
         lobject = Merger.merge(doc)
 
         doc2 = create_doc
-        doc2.resource_types << @textbook_resource_type
+        doc2.resource_types << resource_types(:textbook)
         Merger.new(lobject).merge!(doc2)
 
         assert_equal ['video', 'textbook'], lobject.resource_types.map(&:name)
@@ -193,7 +193,7 @@ module Content
 
       def test_merge_resource_types_new_object
         doc = create_doc
-        doc.resource_types << @video_resource_type
+        doc.resource_types << resource_types(:video)
         lobject = Merger.merge(doc)
         assert_equal 'video', lobject.resource_types.first.name
       end
@@ -220,77 +220,57 @@ module Content
 
       def test_merge_same_doc_overwrites_alignments
         updated = create_and_update_lobject[1]
-        assert_equal [@mp2_alignment], updated.alignments.to_a
+        assert_equal [alignments(:mp2)], updated.alignments.to_a
       end
 
       def test_merge_same_doc_overwrites_identities
         updated = create_and_update_lobject[1]
-        assert_equal [@compadre_identity], updated.identities.to_a
+        assert_equal [identities(:compadre)], updated.identities.to_a
       end
 
       def test_merge_same_doc_overwrites_subjects
         updated = create_and_update_lobject[1]
-        assert_equal [@physics_subject], updated.subjects.to_a
+        assert_equal [subjects(:physics)], updated.subjects.to_a
       end
 
       def test_merge_same_doc_overwrites_languages
         updated = create_and_update_lobject[1]
-        assert_equal [@es_language], updated.languages.to_a
+        assert_equal [languages(:es)], updated.languages.to_a
       end
 
       def test_merge_same_doc_overwrites_resource_types
         updated = create_and_update_lobject[1]
-        assert_equal [@textbook_resource_type], updated.resource_types.to_a
+        assert_equal [resource_types(:textbook)], updated.resource_types.to_a
       end
 
       def create_doc(attrs = {})
-        Models::Document.create(attrs.merge(url: @google_url))
+        Models::Document.create(attrs.merge(url: urls(:google)))
       end
 
       def create_and_update_lobject
-        doc = Models::Document.create(title: 'Math Textbook', description: 'Math Textbook', url: @google_url)
+        doc = Models::Document.create(title: 'Math Textbook', description: 'Math Textbook', url: urls(:google))
         doc.age_ranges << Models::DocumentAgeRange.new(min_age: 10, max_age: 20, extended_age: true)
-        doc.document_alignments << Models::DocumentAlignment.new(alignment: @mp1_alignment)
-        doc.document_identities << Models::DocumentIdentity.new(identity: @nsdl_identity, identity_type: :author)
-        doc.document_subjects << Models::DocumentSubject.new(subject: @math_subject)
-        doc.document_languages << Models::DocumentLanguage.new(language: @en_language)
-        doc.document_resource_types << Models::DocumentResourceType.new(resource_type: @video_resource_type)
+        doc.document_alignments << Models::DocumentAlignment.new(alignment: alignments(:mp1))
+        doc.document_identities << Models::DocumentIdentity.new(identity: identities(:nsdl), identity_type: :author)
+        doc.document_subjects << Models::DocumentSubject.new(subject: subjects(:math))
+        doc.document_languages << Models::DocumentLanguage.new(language: languages(:en))
+        doc.document_resource_types << Models::DocumentResourceType.new(resource_type: resource_types(:video))
 
         created = Merger.find_candidates_and_merge(doc)
 
         doc.title = 'Test 2'
         doc.description = 'Test 2'
         doc.age_ranges = [Models::DocumentAgeRange.new(min_age: 5, max_age: 10, extended_age: true)]
-        doc.alignments = [@mp2_alignment]
-        doc.document_identities = [Models::DocumentIdentity.new(identity_type: :publisher, identity: @compadre_identity)]
-        doc.subjects = [@physics_subject]
-        doc.languages = [@es_language]
-        doc.resource_types = [@textbook_resource_type]
+        doc.alignments = [alignments(:mp2)]
+        doc.document_identities = [Models::DocumentIdentity.new(identity_type: :publisher, identity: identities(:compadre))]
+        doc.subjects = [subjects(:physics)]
+        doc.languages = [languages(:es)]
+        doc.resource_types = [resource_types(:textbook)]
         doc.save!
 
         updated = Merger.find_candidates_and_merge(doc)
 
         [created, updated]
-      end
-
-      def setup
-        super
-        @google_url = Models::Url.find_or_create_by(url: 'https://www.google.com')
-        @mp1_alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP1', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366906')
-        @mp2_alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP2', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366907')
-        @mp3_alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP3', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366908')
-        @mp4_alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP4', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366909')
-        @nsdl_identity = Models::Identity.find_or_create_by(name: 'National Science Digital Library (NSDL)<nsdlsupport@nsdl.ucar.edu>')
-        @compadre_identity = Models::Identity.find_or_create_by(name: 'AMSER: Applied Math and Science Education Repository')
-        @amser_identity = Models::Identity.find_or_create_by(name: 'ComPADRE: Resources for Physics and Astronomy Education')
-        @math_subject = Models::Subject.find_or_create_by(name: 'math')
-        @chemistry_subject = Models::Subject.find_or_create_by(name: 'chemistry')
-        @physics_subject = Models::Subject.find_or_create_by(name: 'physics')
-        @science_subject = Models::Subject.find_or_create_by(name: 'science')
-        @en_language = Models::Language.find_or_create_by(name: 'en')
-        @es_language = Models::Language.find_or_create_by(name: 'es')
-        @video_resource_type = Models::ResourceType.find_or_create_by(name: 'video')
-        @textbook_resource_type = Models::ResourceType.find_or_create_by(name: 'textbook')
       end
 
     end

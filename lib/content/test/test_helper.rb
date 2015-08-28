@@ -1,18 +1,32 @@
+TEST_PATH = File.dirname(__FILE__)
+
 if defined? Rails
   require "#{Rails.root}/test/test_helper"
 end
 
+require 'active_support/test_case'
+require 'database_cleaner'
 require 'json'
 require 'minitest/autorun'
-require 'webmock/minitest'
-require 'database_cleaner'
+require 'webmock/minitest'; WebMock.allow_net_connect!
 
-WebMock.allow_net_connect!
+require 'content/models'
 
 module Content
   module Test
     # Base test class.
-    class ContentTestBase < Minitest::Test
+    class ContentTestBase < ActiveSupport::TestCase
+      self.fixture_path = File.join(TEST_PATH, 'fixtures')
+
+      Content::Models.constants
+      .map { |c| Content::Models.const_get(c) }
+      .select { |c| c <= ActiveRecord::Base }
+      .each do |c|
+        set_fixture_class c.name.demodulize.tableize => c
+      end
+
+      fixtures :all
+
       def setup
         super
         DatabaseCleaner[:active_record].strategy = :transaction
@@ -61,7 +75,7 @@ module Content
 
       def bulk_import_fixtures
         bulk_data = []
-        Dir[File.join(LT.env.test_path, 'fixtures', 'elasticsearch', '*.json')].each do |f|
+        Dir[File.join(TEST_PATH, 'fixtures', 'elasticsearch', '*.json')].each do |f|
           File.readlines(f).each do |line|
             bulk_data << JSON.load(line)
           end
@@ -86,7 +100,7 @@ module Content
 
     module EnvelopeHelpers
       def read_envelope(name)
-        JSON.parse(File.read(File.join(File.dirname(__FILE__), 'envelopes', "#{name}.json")))
+        JSON.parse(File.read(File.join(TEST_PATH, 'envelopes', "#{name}.json")))
       end
     end
   end

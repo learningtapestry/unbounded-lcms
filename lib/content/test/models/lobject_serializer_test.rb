@@ -28,7 +28,7 @@ module Content
       end
 
       def test_identities_full
-        actual_idt = Models::Identity.find_by(name: "AMSER: Applied Math and Science Education Repository")
+        actual_idt = identities(:amser)
         assert_equal(
           "#{actual_idt.id} #{actual_idt.name} publisher",
           @as_json[:identities].map{ |idt| idt['full'] }.first
@@ -109,10 +109,10 @@ module Content
 
         document = Models::Document.create(title: 'Physics Textbook', description: 'Physics Textbook', source_document: source_doc)
         other_document = Models::Document.create(title: 'Physics Textbook', description: 'Physics Textbook', source_document: source_doc)
-        identity = Models::Identity.find_or_create_by(name: 'AMSER: Applied Math and Science Education Repository')
-        subject = Models::Subject.find_or_create_by(name: 'physics')
-        language = Models::Language.find_or_create_by(name: 'es')
-        resource_type = Models::ResourceType.find_or_create_by(name: 'textbook')
+        identity = identities(:amser)
+        subject = subjects(:physics)
+        language = languages(:es)
+        resource_type = resource_types(:textbook)
         alignment = Models::Alignment.find_or_create_by(name: 'CCSS.Math.Practice.MP2', framework: 'Common Core State Standards for Mathematics', framework_url: 'http://asn.jesandco.org/resources/S2366907')
 
         lobject.age_ranges.concat(
@@ -160,7 +160,7 @@ module Content
           Models::LobjectTitle.create(title: 'Physics', document: other_document)
         )
 
-        lobject.lobject_urls << Models::LobjectUrl.create(url: Models::Url.create(url: 'https://www.khanacademy.org'))
+        lobject.lobject_urls << Models::LobjectUrl.create(url: urls(:khan))
 
         lobject
       end

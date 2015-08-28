@@ -1,0 +1,11 @@
+math:
+  name: math
+
+chemistry:
+  name: chemistry
+
+physics:
+  name: physics
+  
+science:
+  name: science

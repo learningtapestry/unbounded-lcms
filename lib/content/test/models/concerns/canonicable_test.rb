@@ -26,7 +26,7 @@ module Content
       end
 
       def test_canonicals
-        assert_equal [@en], Models::Language.canonicals
+        assert_equal [languages(:en), languages(:es)], Models::Language.canonicals.to_a
       end
 
       def test_find_or_create_canonical
@@ -36,8 +36,8 @@ module Content
       def setup
         super
         assert Models::Language.included_modules.include?(Models::Canonicable) # Sanity check
-        @en = Models::Language.create(name: 'en')
-        @en_US = Models::Language.create(name: 'en_US', parent: @en)
+        @en = languages(:en)
+        @en_US = languages(:en_US)
       end
     end
   end
