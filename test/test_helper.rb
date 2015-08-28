@@ -1,10 +1,25 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'integration_database'
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
+  include IntegrationDatabase
+end
 
-  # Add more helper methods to be used by all tests here...
+class ActionController::TestCase
+  include IntegrationDatabase
+end
+
+class ActionMailer::TestCase
+  include IntegrationDatabase
+end
+
+class ActionView::TestCase
+  include IntegrationDatabase
+end
+
+class ActionDispatch::IntegrationTest
+  include IntegrationDatabase
 end
