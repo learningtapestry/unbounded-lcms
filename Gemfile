@@ -27,6 +27,7 @@ end
 group :development do
   gem 'spring'
   gem 'web-console', '~> 2.0'
+  gem 'safe_attributes', '~> 1.0.10'
 end
 
 group :test do

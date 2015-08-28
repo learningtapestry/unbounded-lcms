@@ -129,14 +129,14 @@ namespace :content do
 
   desc 'Import EngageNY resources'
   task import_engageny_documents: [:boot] do
-    $LOAD_PATH << LT.env.db_path
+    $LOAD_PATH << File.join(File.dirname(__FILE__), 'db')
     require 'importers/engageny_importer'
     EngagenyImporter.import_all_nodes
   end
 
   desc 'Import EngageNY collections and related resources'
   task import_engageny_collections: [:boot] do
-    $LOAD_PATH << LT.env.db_path
+    $LOAD_PATH << File.join(File.dirname(__FILE__), 'db')
     require 'importers/engageny_importer'
     EngagenyImporter.import_all_collections_and_related
   end

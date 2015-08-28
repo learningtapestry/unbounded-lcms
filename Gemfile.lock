@@ -143,6 +143,8 @@ GEM
     rubytree (0.9.6)
       json (~> 1.8)
       structured_warnings (~> 0.2)
+    safe_attributes (1.0.10)
+      activerecord (>= 3.0.0)
     safe_yaml (1.0.4)
     sass (3.4.18)
     sass-rails (5.0.3)
@@ -202,6 +204,7 @@ DEPENDENCIES
   pg (~> 0.18.2)
   rails (= 4.2.4)
   rubytree (~> 0.9.6)
+  safe_attributes (~> 1.0.10)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring

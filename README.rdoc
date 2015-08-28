@@ -1,28 +1,39 @@
-== README
+# LT Content
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A learning object repository.
 
-Things you may want to cover:
+## Project setup for new projects
 
-* Ruby version
+```bash
+cp db/content.dump.freeze db/content.dump
+rake db:restore
+rake db:test:prepare_integration
+rake test
+```
 
-* System dependencies
+## Integration tests
 
-* Configuration
+For integration tests based around the development database, mark the test
+class with `uses_integration_database`.
 
-* Database creation
+```ruby
+class ApiControllerTest < ActionController::TestCase
+  uses_integration_database
 
-* Database initialization
+  def test_something
+    # assert true
+  end
+end
+```
 
-* How to run the test suite
+If the development database changes, one should run
+`rake db:test:prepare_integration` to update the integration database.
 
-* Services (job queues, cache servers, search engines, etc.)
+## Recreating the EngageNY (UnboundEd) database from scratch
 
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+```bash
+cp db/engageny.dump.freeze db/engageny.dump
+rake db:create db:migrate
+rake db:restore_engageny # This will take a long time
+rake db:test:prepare_integration
+```

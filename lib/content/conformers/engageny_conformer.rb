@@ -9,7 +9,7 @@ module Content
       end
 
       def conform_url
-        document.url = Url.find_or_create_canonical(url: source_document.url)
+        document.url = Models::Url.find_or_create_canonical(url: source_document.url)
       end
 
       def conform_identities

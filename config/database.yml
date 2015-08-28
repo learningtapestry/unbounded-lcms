@@ -3,6 +3,17 @@ default: &default
   encoding: unicode
   pool: 5
 
+development: &development
+  <<: *default
+  database: content_development
+  host: 127.0.0.1
+  username: content_development_user
+  password: content
+
+engageny:
+  <<: *development
+  database: engageny
+
 test: &test
   <<: *default
   database: content_test
@@ -14,7 +25,7 @@ integration:
   <<: *test
   database: content_integration
 
-<% unless ['test', 'integration'].include?(Rails.env) %>
+<% unless ['development', 'test', 'integration', 'engageny'].include?(Rails.env) %>
 
 <%= ENV['RAILS_ENV'] %>:
   <<: *default

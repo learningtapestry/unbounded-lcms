@@ -10,15 +10,7 @@ class EngagenyNode < ActiveRecord::Base
   self.inheritance_column = :_type_disabled
   self.primary_key = 'nid'
 
-  establish_connection(
-    adapter: 'postgresql',
-    encoding: 'utf8',
-    host: '127.0.0.1',
-    port: 5432,
-    database: 'engageny_original',
-    username: 'content_development_user',
-    password: 'content',
-  )
+  establish_connection(:engageny)
 
   def extract_by_sql(callable, sql)
     EngagenyNode.find_by_sql([sql, nid]).map(&callable)
