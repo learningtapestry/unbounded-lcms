@@ -4,11 +4,12 @@ require 'content/search'
 module Searches
   module Unbounded
     class Search
-      attr_reader :operation, :facets, :results, :total_hits
+      attr_reader :operation, :facets, :results,
+        :total_hits, :total_pages, :page, :limit
       
       def initialize(params)
-        limit = 100
-        page = params[:page]
+        @limit = limit = 100
+        @page = page = (params[:page].try(:to_i) || 1)
 
         aggregation_paths = {
           'sources.engageny' => 'sources.engageny.active',
@@ -142,6 +143,7 @@ module Searches
         @facets = Hash.new { |h, k| h[k] = {} }
         @results = operation.map(&:_source)
         @total_hits = operation.response.hits.total.to_i
+        @total_pages = (@total_hits + (@limit-1))/@limit
 
         if operation.response[:aggregations]
           operation.response.aggregations.each do |path, agg|

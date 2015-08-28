@@ -38,7 +38,7 @@
                     </div>
                 </li>
                 <% end %>
-                <% @facets.each do |facet, values| %>
+                <% @search.facets.each do |facet, values| %>
                     <% next if values.size == 0 %>
                     <li><strong><%= t("unbounded.title.#{facet}") %></strong>
                         <ul class="list-unstyled vertical-breath">
@@ -54,10 +54,10 @@
         </div>
 
         <div class="col-lg-9">
-            <strong class="title"><%= @total_hits %> Results - Page <%= params[:page] %></strong>
+            <strong class="title"><%= @search.total_hits %> Results - Page <%= @search.page %></strong>
             <br>
             <br>
-            <% @results.each do |lobject| %>
+            <% @search.results.each do |lobject| %>
                 <%= render partial: 'lobject_preview', locals: { lobject: lobject } %>
             <% end %> 
             <br>
