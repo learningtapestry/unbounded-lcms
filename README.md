@@ -16,6 +16,7 @@ before running the rake tasks.
 bundle install
 cp db/dump/content.dump.freeze db/dump/content.dump
 rake db:restore
+rake db:migrate
 rake content:elasticsearch:full_reindex
 rake integration:setup
 rake test
