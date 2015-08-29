@@ -26,6 +26,7 @@ module IntegrationDatabase
   end
 
   def teardown
+    super
     if self.class.integration_database
       ActiveRecord::Base.establish_connection(Rails.env.to_sym)
 
@@ -33,6 +34,5 @@ module IntegrationDatabase
         restore_original_index_names
       end
     end
-    super
   end
 end

@@ -68,6 +68,8 @@ module Content
       end
 
       def teardown
+        super
+        
         if check_elasticsearch
           restore_original_index_names
         end
