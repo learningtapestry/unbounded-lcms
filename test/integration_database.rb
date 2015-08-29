@@ -30,7 +30,7 @@ module IntegrationDatabase
       ActiveRecord::Base.establish_connection(Rails.env.to_sym)
 
       if check_elasticsearch
-        prefix_index_names
+        restore_original_index_names
       end
     end
     super

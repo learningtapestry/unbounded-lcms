@@ -14,6 +14,10 @@ module Content
 
         base.include(Elasticsearch::Model)
 
+        base.instance_eval do
+          @original_index_name = index_name
+        end
+
         base.class_eval do 
           scope :indexed, -> { where.not(indexed_at: nil) }
           scope :not_indexed, -> { where(indexed_at: nil) }
@@ -37,6 +41,10 @@ module Content
         def dsl_search(options = {}, &blk)
           search_def = Content::Search::Esbuilder.build(&blk).to_hash
           search(search_def, options)
+        end
+
+        def restore_original_index_name
+          index_name @original_index_name
         end
       end
 

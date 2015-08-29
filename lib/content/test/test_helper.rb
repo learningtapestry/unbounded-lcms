@@ -66,6 +66,12 @@ module Content
           skip
         end
       end
+
+      def teardown
+        if check_elasticsearch
+          restore_original_index_names
+        end
+      end
     end
 
     module EnvelopeHelpers

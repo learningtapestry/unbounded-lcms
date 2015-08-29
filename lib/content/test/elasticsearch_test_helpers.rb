@@ -41,6 +41,12 @@ module Content
         end
       end
 
+      def restore_original_index_names
+        searchables.each do |searchable|
+          searchable.restore_original_index_name
+        end
+      end
+
       def searchables
         Models::Searchable.searchables
       end
