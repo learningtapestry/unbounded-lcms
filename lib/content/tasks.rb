@@ -1,7 +1,5 @@
 require 'content/models'
 
-DB_PATH = File.join(File.dirname(__FILE__), 'db')
-
 namespace :content do
 
   task boot: [:environment]
