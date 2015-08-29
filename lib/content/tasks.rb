@@ -1,5 +1,7 @@
 require 'content/models'
 
+DB_PATH = File.join(File.dirname(__FILE__), 'db')
+
 namespace :content do
 
   task boot: [:environment]
@@ -129,20 +131,24 @@ namespace :content do
 
   desc 'Import EngageNY resources'
   task import_engageny_documents: [:boot] do
-    $LOAD_PATH << File.join(File.dirname(__FILE__), 'db')
-    require 'importers/engageny_importer'
-    EngagenyImporter.import_all_nodes
+    require 'content/importers/engageny_importer'
+    Content::Importers::EngagenyImporter.import_all_nodes
   end
 
   desc 'Import EngageNY collections and related resources'
   task import_engageny_collections: [:boot] do
-    $LOAD_PATH << File.join(File.dirname(__FILE__), 'db')
-    require 'importers/engageny_importer'
-    EngagenyImporter.import_all_collections_and_related
+    require 'content/importers/engageny_importer'
+    Content::Importers::EngagenyImporter.import_all_collections_and_related
   end
 
   desc 'Import all EngageNY data'
   task import_engageny: [:import_engageny_documents, :process, :import_engageny_collections]
+
+  desc 'Import LR documents from a CSV file'
+  task import_csv: [:boot] do
+    require 'content/importers/csv_importer'
+    Content::Importers::CsvImporter.import_csv(ENV['file'], ENV['format'])
+  end
 
   namespace :elasticsearch do
 
