@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2015082001) do
+ActiveRecord::Schema.define(version: 2015082902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,12 +23,10 @@ ActiveRecord::Schema.define(version: 2015082001) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id"
-    t.datetime "indexed_at"
   end
 
   add_index "alignments", ["framework"], name: "index_alignments_on_framework", using: :btree
   add_index "alignments", ["framework_url"], name: "index_alignments_on_framework_url", using: :btree
-  add_index "alignments", ["indexed_at"], name: "index_alignments_on_indexed_at", using: :btree
   add_index "alignments", ["parent_id"], name: "index_alignments_on_parent_id", using: :btree
 
   create_table "document_age_ranges", force: :cascade do |t|
@@ -193,10 +191,8 @@ ActiveRecord::Schema.define(version: 2015082001) do
     t.datetime "updated_at"
     t.string   "name"
     t.integer  "parent_id"
-    t.datetime "indexed_at"
   end
 
-  add_index "identities", ["indexed_at"], name: "index_identities_on_indexed_at", using: :btree
   add_index "identities", ["parent_id"], name: "index_identities_on_parent_id", using: :btree
   add_index "identities", ["url"], name: "index_identities_on_url", using: :btree
 
@@ -462,14 +458,11 @@ ActiveRecord::Schema.define(version: 2015082001) do
 
   create_table "subjects", force: :cascade do |t|
     t.string   "name"
-    t.string   "doc_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id"
-    t.datetime "indexed_at"
   end
 
-  add_index "subjects", ["indexed_at"], name: "index_subjects_on_indexed_at", using: :btree
   add_index "subjects", ["name"], name: "index_subjects_on_name", using: :btree
   add_index "subjects", ["parent_id"], name: "index_subjects_on_parent_id", using: :btree
 

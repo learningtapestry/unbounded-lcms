@@ -28,9 +28,7 @@ module Content
         end
         
         document.subjects = wanted_subjects.map do |key|
-          Models::Subject.find_or_create_by(name: Models::Subject.normalize_name(key)) do |created|
-            created.doc_id = source_document.doc_id
-          end
+          Models::Subject.find_or_create_by(name: Models::Subject.normalize_name(key))
         end
       end
 
