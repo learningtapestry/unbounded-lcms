@@ -2,6 +2,14 @@
 
 A learning object repository.
 
+## Requirements
+
+* `PostgreSQL 9.4`
+* `Elasticsearch 1.5`
+
+Make sure you have the Postgres users created (with database creation permissions) 
+before running the rake tasks.
+
 ## Project setup for new projects
 
 ```bash
