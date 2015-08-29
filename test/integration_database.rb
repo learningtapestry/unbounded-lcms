@@ -13,13 +13,19 @@ module IntegrationDatabase
     end
   end
 
+  def uses_integration_database?
+    self.class.integration_database
+  end
+
   def setup
-    if self.class.integration_database
+    if uses_integration_database?
       ActiveRecord::Base.establish_connection(:integration)
 
       if check_elasticsearch
         prefix_index_names('integration')
         create_indeces
+      else
+        skip
       end
     end
     super
@@ -27,7 +33,7 @@ module IntegrationDatabase
 
   def teardown
     super
-    if self.class.integration_database
+    if uses_integration_database?
       ActiveRecord::Base.establish_connection(Rails.env.to_sym)
 
       if check_elasticsearch
