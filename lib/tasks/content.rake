@@ -38,7 +38,7 @@ namespace :db do
   desc 'Dumps the database.'
   task dump: :environment do
     cfg = ActiveRecord::Base.connection_config
-    dump_cmd = "pg_dump --host #{cfg[:host]} --username #{cfg[:username]} --clean --no-owner --no-acl --format=c -n public #{cfg[:database]} > #{Rails.root}/db/content.dump"
+    dump_cmd = "pg_dump --host #{cfg[:host]} --username #{cfg[:username]} --clean --no-owner --no-acl --format=c -n public #{cfg[:database]} > #{Rails.root}/db/dump/content.dump"
     puts "Dumping #{Rails.env} database."
     raise unless system("PGPASSWORD=#{cfg[:password]} #{dump_cmd}")
   end
@@ -46,7 +46,7 @@ namespace :db do
   desc 'Restores the database.'
   task restore: [:environment, :create, :migrate] do
     cfg = ActiveRecord::Base.connection_config
-    restore_cmd = "pg_restore --host #{cfg[:host]} --username #{cfg[:username]} --clean --if-exists --no-owner --no-acl -n public --dbname #{cfg[:database]} #{Rails.root}/db/content.dump"
+    restore_cmd = "pg_restore --host #{cfg[:host]} --username #{cfg[:username]} --clean --if-exists --no-owner --no-acl -n public --dbname #{cfg[:database]} #{Rails.root}/db/dump/content.dump"
     puts "Restoring #{Rails.env} database."
     raise unless system("PGPASSWORD=#{cfg[:password]} #{restore_cmd}")
   end
@@ -61,7 +61,7 @@ namespace :db do
     conn.execute("create database #{cfg[:database]}")
 
     puts 'Restoring EngageNY database.'
-    raise unless system("PGPASSWORD=#{cfg[:password]} pg_restore --host #{cfg[:host]} --username #{cfg[:username]} --clean --if-exists --no-owner --no-acl -n public --dbname #{cfg[:database]} #{Rails.root}/db/engageny.dump")
+    raise unless system("PGPASSWORD=#{cfg[:password]} pg_restore --host #{cfg[:host]} --username #{cfg[:username]} --clean --if-exists --no-owner --no-acl -n public --dbname #{cfg[:database]} #{Rails.root}/db/dump/engageny.dump")
   end
 end
 

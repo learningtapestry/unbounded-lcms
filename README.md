@@ -14,7 +14,7 @@ before running the rake tasks.
 
 ```bash
 bundle install
-cp db/content.dump.freeze db/content.dump
+cp db/dump/content.dump.freeze db/dump/content.dump
 rake db:restore
 rake content:elasticsearch:full_reindex
 rake integration:setup
@@ -42,7 +42,7 @@ to update the integration database.
 ## Recreating the ENY/UnboundEd db from scratch
 
 ```bash
-cp db/engageny.dump.freeze db/engageny.dump
+cp db/dump/engageny.dump.freeze db/dump/engageny.dump
 rake db:create db:migrate
 rake db:restore_engageny # This will take a long time
 rake integration:setup
