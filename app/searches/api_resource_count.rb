@@ -40,7 +40,7 @@ class ApiResourceCount
     i = 0
     @results = entities.map do |e|
       result = {
-        entity_name => e,
+        entity_name => e.as_json(except: [:parent_id, :created_at, :updated_at]),
         resource_count: counts[i]['count']
       }
       i += 1
