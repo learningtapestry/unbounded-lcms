@@ -13,6 +13,7 @@ before running the rake tasks.
 ## Project setup for new projects
 
 ```bash
+bundle install
 cp db/content.dump.freeze db/content.dump
 rake db:restore
 rake content:elasticsearch:full_reindex
