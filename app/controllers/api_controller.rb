@@ -1,4 +1,5 @@
 require 'content/models'
+include Content::Models
 
 class ApiController < ApplicationController
   before_action do
@@ -12,46 +13,147 @@ class ApiController < ApplicationController
   end
 
   def show_alignments
-    alignments = Content::Models::Alignment
+    alignments_query = LobjectAlignment
+    .select(:alignment_id, :lobject_id)
+    .joins(:alignment)
+    .joins(lobject: { lobject_documents: { document: :source_document } })
+    .where('source_documents.source_type' => SourceDocument.source_types[:lr])
+    .group(:alignment_id, :lobject_id)
 
     if params[:name]
-      alignments = alignments.where('name like ?', "%#{params[:name]}%")
+      alignments_query = alignments_query
+      .where('alignments.name like ?', "%#{params[:name]}%")
     end
 
     if params[:framework]
-      alignments = alignments.where('framework like ?', "%#{params[:framework]}%")
+      alignments_query = alignments_query
+      .where('alignments.framework like ?', "%#{params[:framework]}%")
     end
 
     if params[:framework_name]
-      alignments = alignments.where('framework_name like ?', "%#{params[:framework_name]}%")
+      alignments_query = alignments_query
+      .where('alignments.framework_name like ?', "%#{params[:framework_name]}%")
     end
 
-    alignments = alignments.offset(@limit * (@page - 1)).limit(@limit)
-    @search_results = resource_counts(alignments)
+    inner_sql = alignments_query.to_sql
+
+    counts_sql = %{
+      select
+        a.alignment_id, count(*) as count
+      from
+        (#{inner_sql}) a
+      group by
+        a.alignment_id
+      order by
+        count(*) desc
+      limit #{@limit}
+      offset #{@limit * (@page-1)}
+    }
+
+    counts = ActiveRecord::Base.connection.execute(counts_sql)    
+    alignments = Alignment.where(id: counts.map { |c| c['alignment_id'].to_i })
+
+    i = 0
+    @search_results = alignments.map do |alignment|
+      result = {
+        alignment: alignment,
+        resource_count: counts[i]['count']
+      }
+      i += 1
+
+      result
+    end
+
     api_response
   end
 
   def show_subjects
-    subjects = Content::Models::Subject
+    subjects_query = LobjectSubject
+    .select(:subject_id, :lobject_id)
+    .joins(:subject)
+    .joins(lobject: { lobject_documents: { document: :source_document } })
+    .where('source_documents.source_type' => SourceDocument.source_types[:lr])
+    .group(:subject_id, :lobject_id)
 
     if params[:name]
-      subjects = subjects.where('name like ?', "%#{params[:name]}%")
+      subjects_query = subjects_query
+      .where('subjects.name like ?', "%#{params[:name]}%")
     end
 
-    subjects = subjects.offset(@limit * (@page - 1)).limit(@limit)
-    @search_results = resource_counts(subjects)
+    inner_sql = subjects_query.to_sql
+
+    counts_sql = %{
+      select
+        a.subject_id, count(*) as count
+      from
+        (#{inner_sql}) a
+      group by
+        a.subject_id
+      order by
+        count(*) desc
+      limit #{@limit}
+      offset #{@limit * (@page-1)}
+    }
+
+    counts = ActiveRecord::Base.connection.execute(counts_sql)    
+    subjects = Subject.where(id: counts.map { |c| c['subject_id'].to_i })
+
+    i = 0
+    @search_results = subjects.map do |subject|
+      result = {
+        subject: subject,
+        resource_count: counts[i]['count']
+      }
+      i += 1
+
+      result
+    end
+
     api_response
   end
 
   def show_identities
-    identities = Content::Models::Identity
+    identities_query = LobjectIdentity
+    .select(:identity_id, :lobject_id)
+    .joins(:identity)
+    .joins(lobject: { lobject_documents: { document: :source_document } })
+    .where('source_documents.source_type' => SourceDocument.source_types[:lr])
+    .group(:identity_id, :lobject_id)
 
     if params[:name]
-      identities = identities.where('name like ?', "%#{params[:name]}%")
+      identities_query = identities_query
+      .where('identities.name like ?', "%#{params[:name]}%")
     end
 
-    identities = identities.offset(@limit * (@page - 1)).limit(@limit)
-    @search_results = resource_counts(identities)
+    inner_sql = identities_query.to_sql
+
+    counts_sql = %{
+      select
+        a.identity_id, count(*) as count
+      from
+        (#{inner_sql}) a
+      group by
+        a.identity_id
+      order by
+        count(*) desc
+      limit #{@limit}
+      offset #{@limit * (@page-1)}
+    }
+
+    counts = ActiveRecord::Base.connection.execute(counts_sql)    
+    identities = Identity.where(id: counts.map { |c| c['identity_id'].to_i })
+
+    i = 0
+    @search_results = identities.map do |identity|
+      result = {
+        identity: identity,
+        resource_count: counts[i]['count']
+      }
+      i += 1
+
+      result
+    end
+
     api_response
   end
 
@@ -60,40 +162,5 @@ class ApiController < ApplicationController
   def api_response
     response.headers['x-total-count'] = @search_results.size.to_s
     render json: @search_results
-  end
-
-  def resource_counts(resources)
-    table_name = resources.table.name
-    attribute_name = table_name.singularize
-    id_column = "#{attribute_name}_id"
-    entity_ids = resources.pluck(:id).join(',')
-
-    db_counts = ActiveRecord::Base.connection.execute(%{
-      select
-        e.#{id_column} as #{id_column}, count(*) as count
-      from
-        (select e.id as #{id_column}, le.lobject_id as lobject_id
-         from #{table_name} e inner join lobject_#{table_name} le on e.id = le.#{id_column}
-         where e.id in (#{entity_ids})
-         group by e.id, le.lobject_id) e
-      group by
-        e.#{id_column}
-      order by
-        count(*) desc
-    })
-
-    resources_index = {}
-    resources.each { |res| resources_index[res.id] = res }
-
-    counts = []
-
-    db_counts.each do |count|
-      counts << {
-        attribute_name => resources_index[count[id_column].to_i],
-        'resource_count' => count['count']
-      }
-    end
-
-    counts
   end
 end
