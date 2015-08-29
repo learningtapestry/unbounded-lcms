@@ -25,12 +25,14 @@ group :development, :test do
 end
 
 group :development do
+  gem 'safe_attributes', '~> 1.0.10'
   gem 'spring'
   gem 'web-console', '~> 2.0'
-  gem 'safe_attributes', '~> 1.0.10'
 end
 
 group :test do
   gem 'database_cleaner', '~> 1.4.1'
+  gem 'guard'
+  gem 'guard-minitest'
   gem 'webmock', '~> 1.21.0'
 end

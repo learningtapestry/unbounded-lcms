@@ -9,7 +9,6 @@ require 'database_cleaner'
 require 'json'
 require 'minitest/autorun'
 require 'webmock/minitest'; WebMock.allow_net_connect!
-
 require 'content/models'
 require 'content/test/elasticsearch_test_helpers'
 
