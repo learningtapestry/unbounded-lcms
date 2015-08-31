@@ -17,15 +17,15 @@ class ApiController < ApplicationController
 
     @results = ApiResourceCount.new(params, options) do |query|
       if params[:name]
-        query = query.where('alignments.name like ?', "%#{params[:name]}%")
+        query.where!('alignments.name like ?', "%#{params[:name]}%")
       end
 
       if params[:framework]
-        query = query.where('alignments.framework like ?', "%#{params[:framework]}%")
+        query.where!('alignments.framework like ?', "%#{params[:framework]}%")
       end
 
       if params[:framework_url]
-        query = query.where('alignments.framework_url like ?', "%#{params[:framework_url]}%")
+        query.where!('alignments.framework_url like ?', "%#{params[:framework_url]}%")
       end
 
       query
@@ -43,7 +43,7 @@ class ApiController < ApplicationController
 
     @results = ApiResourceCount.new(params, options) do |query|
       if params[:name]
-        query = query.where('subjects.name like ?', "%#{params[:name]}%")
+        query.where!('subjects.name like ?', "%#{params[:name]}%")
       end
 
       query
@@ -61,7 +61,7 @@ class ApiController < ApplicationController
 
     @results = ApiResourceCount.new(params, options) do |query|
       if params[:name]
-        query = query.where('identities.name like ?', "%#{params[:name]}%")
+        query.where!('identities.name like ?', "%#{params[:name]}%")
       end
 
       query
