@@ -1,4 +1,10 @@
 require 'edge'
+
+# Devise.
+require 'devise'
+require 'devise/orm/active_record'
+
+# Will paginate.
 require 'will_paginate'
 require 'will_paginate/active_record'
 

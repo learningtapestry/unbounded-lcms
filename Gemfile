@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'bootstrap-sass', '~> 3.3.5.1'
+gem 'devise', '~> 3.5.2'
 gem 'dotenv-rails', '~> 2.0.2', groups: [:development, :test]
 gem 'edge', '~> 0.4.2'
 gem 'elasticsearch-dsl', '~> 0.1.1'
