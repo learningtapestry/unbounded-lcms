@@ -1,7 +1,7 @@
 require 'json'
 require 'nokogiri'
 
-require 'content/test/test_helper'
+require 'test_helper'
 require 'content/format_parsers/nsdl_dc_format_parser'
 
 module Content

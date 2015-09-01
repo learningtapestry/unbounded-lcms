@@ -1,4 +1,4 @@
-require 'content/test/test_helper'
+require 'test_helper'
 require 'content/models'
 
 module Content

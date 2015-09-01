@@ -1,6 +1,6 @@
 require 'json'
 
-require 'content/test/test_helper'
+require 'test_helper'
 require 'content/format_parsers/json_format_parser'
 
 module Content
