@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150831144836) do
+ActiveRecord::Schema.define(version: 20150901021252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -396,10 +396,12 @@ ActiveRecord::Schema.define(version: 20150831144836) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "indexed_at"
-    t.boolean  "hidden",     default: false
+    t.boolean  "hidden",          default: false
+    t.integer  "organization_id"
   end
 
   add_index "lobjects", ["indexed_at"], name: "index_lobjects_on_indexed_at", using: :btree
+  add_index "lobjects", ["organization_id"], name: "index_lobjects_on_organization_id", using: :btree
 
   create_table "lr_document_logs", force: :cascade do |t|
     t.string   "action"
@@ -436,6 +438,10 @@ ActiveRecord::Schema.define(version: 20150831144836) do
   add_index "lr_documents", ["payload_schema"], name: "raw_doc_pay_sch_gin", using: :gin
   add_index "lr_documents", ["source_document_id"], name: "index_lr_documents_on_source_document_id", using: :btree
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+  end
+
   create_table "resource_types", force: :cascade do |t|
     t.string   "name"
     t.integer  "parent_id"
@@ -445,6 +451,11 @@ ActiveRecord::Schema.define(version: 20150831144836) do
 
   add_index "resource_types", ["name"], name: "index_resource_types_on_name", using: :btree
   add_index "resource_types", ["parent_id"], name: "index_resource_types_on_parent_id", using: :btree
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name",        null: false
+    t.string "description"
+  end
 
   create_table "source_documents", force: :cascade do |t|
     t.datetime "conformed_at"
@@ -488,6 +499,24 @@ ActiveRecord::Schema.define(version: 20150831144836) do
   add_index "urls", ["checked_at"], name: "index_urls_on_checked_at", using: :btree
   add_index "urls", ["parent_id"], name: "index_urls_on_parent_id", using: :btree
   add_index "urls", ["url"], name: "index_urls_on_url", using: :btree
+
+  create_table "user_organizations", force: :cascade do |t|
+    t.integer "user_id",         null: false
+    t.integer "organization_id", null: false
+  end
+
+  add_index "user_organizations", ["organization_id"], name: "index_user_organizations_on_organization_id", using: :btree
+  add_index "user_organizations", ["user_id"], name: "index_user_organizations_on_user_id", using: :btree
+
+  create_table "user_roles", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+    t.integer "organization_id"
+  end
+
+  add_index "user_roles", ["organization_id"], name: "index_user_roles_on_organization_id", using: :btree
+  add_index "user_roles", ["role_id"], name: "index_user_roles_on_role_id", using: :btree
+  add_index "user_roles", ["user_id"], name: "index_user_roles_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -569,8 +598,14 @@ ActiveRecord::Schema.define(version: 20150831144836) do
   add_foreign_key "lobject_urls", "documents"
   add_foreign_key "lobject_urls", "lobjects"
   add_foreign_key "lobject_urls", "urls"
+  add_foreign_key "lobjects", "organizations"
   add_foreign_key "lr_documents", "source_documents"
   add_foreign_key "resource_types", "resource_types", column: "parent_id"
   add_foreign_key "subjects", "subjects", column: "parent_id"
   add_foreign_key "urls", "urls", column: "parent_id"
+  add_foreign_key "user_organizations", "organizations"
+  add_foreign_key "user_organizations", "users"
+  add_foreign_key "user_roles", "organizations"
+  add_foreign_key "user_roles", "roles"
+  add_foreign_key "user_roles", "users"
 end

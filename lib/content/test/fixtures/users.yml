@@ -1,0 +1,4 @@
+mark:
+  name: Mark Twain
+  email: mark@twain.com
+  encrypted_password: <%= Content::Models::User.new.send(:password_digest, 'marktwain123') %>

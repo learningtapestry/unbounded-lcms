@@ -1,0 +1,8 @@
+admin:
+  name: admin
+
+editor:
+  name: editor
+
+janitor:
+  name: janitor

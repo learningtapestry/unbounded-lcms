@@ -59,6 +59,9 @@ module Content
       # Related lobjects.
       has_many :lobject_related_lobjects, dependent: :destroy
 
+      # Organizations.
+      belongs_to :organization
+
       def title
         lobject_titles.first.try(:title)
       end
