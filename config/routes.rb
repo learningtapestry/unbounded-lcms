@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     get '/show/:id' => 'browse#show', as: :show
   end
 
+  root to: 'unbounded/browse#index'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
