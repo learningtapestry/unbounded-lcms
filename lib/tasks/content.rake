@@ -44,7 +44,7 @@ namespace :db do
   end
 
   desc 'Restores the database.'
-  task restore: [:environment, :create, :migrate] do
+  task restore: [:environment, :create] do
     cfg = ActiveRecord::Base.connection_config
     restore_cmd = "pg_restore --host #{cfg[:host]} --username #{cfg[:username]} --clean --if-exists --no-owner --no-acl -n public --dbname #{cfg[:database]} #{Rails.root}/db/dump/content.dump"
     puts "Restoring #{Rails.env} database."
