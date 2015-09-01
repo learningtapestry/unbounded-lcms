@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150901021252) do
+ActiveRecord::Schema.define(version: 20150901185042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -442,6 +442,8 @@ ActiveRecord::Schema.define(version: 20150901021252) do
     t.string "name"
   end
 
+  add_index "organizations", ["name"], name: "index_organizations_on_name", unique: true, using: :btree
+
   create_table "resource_types", force: :cascade do |t|
     t.string   "name"
     t.integer  "parent_id"
@@ -456,6 +458,8 @@ ActiveRecord::Schema.define(version: 20150901021252) do
     t.string "name",        null: false
     t.string "description"
   end
+
+  add_index "roles", ["name"], name: "index_roles_on_name", unique: true, using: :btree
 
   create_table "source_documents", force: :cascade do |t|
     t.datetime "conformed_at"
@@ -506,6 +510,7 @@ ActiveRecord::Schema.define(version: 20150901021252) do
   end
 
   add_index "user_organizations", ["organization_id"], name: "index_user_organizations_on_organization_id", using: :btree
+  add_index "user_organizations", ["user_id", "organization_id"], name: "index_user_organizations_on_user_id_and_organization_id", unique: true, using: :btree
   add_index "user_organizations", ["user_id"], name: "index_user_organizations_on_user_id", using: :btree
 
   create_table "user_roles", force: :cascade do |t|
@@ -516,6 +521,7 @@ ActiveRecord::Schema.define(version: 20150901021252) do
 
   add_index "user_roles", ["organization_id"], name: "index_user_roles_on_organization_id", using: :btree
   add_index "user_roles", ["role_id"], name: "index_user_roles_on_role_id", using: :btree
+  add_index "user_roles", ["user_id", "organization_id", "role_id"], name: "index_user_roles_on_user_id_and_organization_id_and_role_id", unique: true, using: :btree
   add_index "user_roles", ["user_id"], name: "index_user_roles_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
