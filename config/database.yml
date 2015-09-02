@@ -3,6 +3,13 @@ default: &default
   encoding: unicode
   pool: 5
 
+production:
+  <<: *default
+  database: <%= ENV['DB_NAME'] %>
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
+
 development: &development
   <<: *default
   database: content_development
@@ -24,14 +31,3 @@ test: &test
 integration:
   <<: *test
   database: content_integration
-
-<% unless ['development', 'test', 'integration', 'engageny'].include?(Rails.env) %>
-
-<%= ENV['RAILS_ENV'] %>:
-  <<: *default
-  database: <%= ENV['DB_NAME'] %>
-  host: <%= ENV['DB_HOST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASS'] %>
-  
-<% end %>
