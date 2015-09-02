@@ -9,19 +9,3 @@ class ActiveSupport::TestCase
   fixtures :all
   include IntegrationDatabase
 end
-
-class ActionController::TestCase
-  include IntegrationDatabase
-end
-
-class ActionMailer::TestCase
-  include IntegrationDatabase
-end
-
-class ActionView::TestCase
-  include IntegrationDatabase
-end
-
-class ActionDispatch::IntegrationTest
-  include IntegrationDatabase
-end

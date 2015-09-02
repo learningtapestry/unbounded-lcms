@@ -1,9 +1,5 @@
 TEST_PATH = File.dirname(__FILE__)
 
-if defined? Rails
-  require "#{Rails.root}/test/test_helper"
-end
-
 require 'active_support/test_case'
 require 'database_cleaner'
 require 'json'
