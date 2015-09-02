@@ -6,7 +6,7 @@ module Content
     class UserTest < ContentTestBase
       def test_roles
         @mark.roles(@unbounded, [@janitor, @admin])
-        assert_equal @mark.roles(@unbounded).to_a, [@janitor, @admin]
+        assert_equal @mark.roles(@unbounded).order(name: :asc).to_a, [@admin, @janitor]
       end
 
       def test_add_role

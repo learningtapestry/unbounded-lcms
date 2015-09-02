@@ -14,18 +14,18 @@ module Content
       def roles(org, roles = nil)
         if roles
           user_roles.destroy_all
-          roles.each { |role| add_role(org, role) }
+          roles.each { |role| add_role(org, role) }; true
         else
-          user_roles.joins(:role).where(organization: org).map(&:role)
+          Role.joins(:user_roles).where(user_roles: { organization: org, user: self })
         end
       end
 
       def add_role(org, role)
-        UserRole.find_or_create_by!(user: self, organization: org, role: role)
+        UserRole.find_or_create_by!(user: self, organization: org, role: role); true
       end
 
       def remove_role(org, role)
-        user_roles.where(organization: org, role: role).destroy_all
+        !user_roles.where(organization: org, role: role).destroy_all.empty?
       end
 
       def has_role?(org, role)
@@ -33,13 +33,13 @@ module Content
       end
 
       def add_to_organization(org)
-        UserOrganization.find_or_create_by!(user: self, organization: org)
+        UserOrganization.find_or_create_by!(user: self, organization: org); true
       end
 
       def remove_from_organization(org)
         User.transaction do
           user_roles.where(organization: org).destroy_all
-          user_organizations.where(organization: org).destroy_all
+          !user_organizations.where(organization: org).destroy_all.empty?
         end
       end
     end
