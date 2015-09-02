@@ -9,3 +9,7 @@ class ActiveSupport::TestCase
   fixtures :all
   include IntegrationDatabase
 end
+
+class ActionController::TestCase
+  include Devise::TestHelpers
+end

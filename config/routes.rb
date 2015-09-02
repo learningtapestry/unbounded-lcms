@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     get '/' => 'browse#index'
     get '/search' => 'browse#search'
     get '/show/:id' => 'browse#show', as: :show
+
+    namespace :admin do
+      get '/' => 'welcome#index'
+    end
   end
 
   root to: 'unbounded/browse#index'

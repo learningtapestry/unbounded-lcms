@@ -46,7 +46,16 @@
                                 "submit">Go</button>
                             </div>
                         </form>
+
+                        <div class="nav navbar-form navbar-right">
+                            <% if user_signed_in? %>
+                            <%= link_to('Log out', destroy_user_session_path, class: 'btn btn-default') %>
+                            <% else %>
+                            <%= link_to('Log in', new_user_session_path, class: 'btn btn-default') %>
+                            <% end %>
+                        </div>
                     </div><!-- /.navbar-collapse -->
+
                 </div><!-- /.container -->
             </nav>
         </div>
