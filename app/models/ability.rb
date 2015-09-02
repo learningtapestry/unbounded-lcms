@@ -8,18 +8,6 @@ class Ability
       user.has_role?(lobject.organization, Role.named(:admin))
     end
 
-    [
-      LobjectAgeRange,     LobjectAlignment,  LobjectChild,    LobjectCollection,
-      LobjectDescription,  LobjectDocument,   LobjectDownload, LobjectGrade,
-      LobjectIdentity,     LobjectKeyword,    LobjectLanguage, LobjectRelatedLobject,
-      LobjectResourceType, LobjectSerializer, LobjectSubject,  LobjectTitle,
-      LobjectTopic,        LobjectUrl
-    ].each do |klass|
-      can :manage, klass do |instance|
-        user.has_role?(instance.lobject.organization, Role.named(:admin))
-      end
-    end
-
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
