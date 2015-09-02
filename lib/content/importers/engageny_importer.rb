@@ -253,6 +253,22 @@ module Content
 
           import_related_lobjects
         end
+
+        def update_engageny_lobjects
+          unbounded_org = Content::Models::Organization.find_or_create_by!(name: 'UnboundEd')
+          Content::Models::Lobject.connection.execute(%{
+            update lobjects
+            set organization_id = #{unbounded_org.id}
+            where id in (
+              select distinct l.id
+              from lobjects l
+              inner join lobject_documents ld on ld.lobject_id = l.id
+              inner join documents d on d.id = ld.document_id
+              inner join source_documents sd on sd.id = d.source_document_id
+              where sd.source_type = #{Content::Models::SourceDocument.source_types[:engageny]}
+            )
+          })
+        end
       end
     end
   end
