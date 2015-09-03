@@ -98,7 +98,7 @@ module Content
 
         Merger.new(lo).merge!(doc2)
 
-        assert_equal lo.subjects.to_a, kws+more_kws
+        assert_equal lo.subjects.to_a, (kws + more_kws).sort_by(&:name)
       end
 
       def test_merge_subjects_new_object
@@ -111,7 +111,7 @@ module Content
         doc2.subjects.concat(more_kws)
 
         lo = Merger.merge(doc1, doc2)
-        assert_equal lo.subjects.to_a, kws + more_kws
+        assert_equal lo.subjects.to_a, (kws + more_kws).sort_by(&:name)
       end
 
       def test_merge_alignments
@@ -188,7 +188,7 @@ module Content
         doc2.resource_types << resource_types(:textbook)
         Merger.new(lobject).merge!(doc2)
 
-        assert_equal ['video', 'textbook'], lobject.resource_types.map(&:name)
+        assert_equal ['textbook', 'video'], lobject.resource_types.map(&:name)
       end
 
       def test_merge_resource_types_new_object

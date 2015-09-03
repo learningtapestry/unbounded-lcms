@@ -7,6 +7,8 @@ module Content
       include Canonicable
       include Normalizable
       normalize_attr :grade, ->(val) { val.strip.downcase }
+
+      default_scope { order(:grade) }
     end
   end
 end

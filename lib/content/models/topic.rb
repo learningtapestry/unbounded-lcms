@@ -7,6 +7,8 @@ module Content
       include Canonicable
       include Normalizable
       normalize_attr :name, ->(val) { val.strip.downcase }
+
+      default_scope { order(:name) }
     end
   end
 end

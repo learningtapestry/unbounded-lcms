@@ -62,6 +62,11 @@ module Content
       # Organizations.
       belongs_to :organization
 
+      accepts_nested_attributes_for :lobject_descriptions
+      accepts_nested_attributes_for :lobject_languages
+      accepts_nested_attributes_for :lobject_titles
+      accepts_nested_attributes_for :lobject_urls
+
       def title
         lobject_titles.first.try(:title)
       end
@@ -71,7 +76,7 @@ module Content
       end
 
       def doc_created_at
-        documents.order(doc_created_at: :asc).limit(1).first.doc_created_at
+        documents.order(doc_created_at: :asc).limit(1).first.try(:doc_created_at)
       end
 
       def has_inactive_doc?
@@ -80,6 +85,10 @@ module Content
 
       def url
         self.urls.first
+      end
+
+      def language
+        lobject_languages.first.try(:language)
       end
 
       def find_collections

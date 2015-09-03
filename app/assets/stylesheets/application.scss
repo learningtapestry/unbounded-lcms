@@ -49,6 +49,7 @@ $brand-primary: $c-blue;
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "selectize.bootstrap3";
 @import "unbounded/browse";
 
 body {
