@@ -1,0 +1,7 @@
+unbounded_activity:
+  lobject: unbounded
+  resource_type: activity
+
+unbounded_video:
+  lobject: unbounded
+  resource_type: video

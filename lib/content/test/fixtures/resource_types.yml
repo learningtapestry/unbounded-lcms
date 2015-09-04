@@ -1,3 +1,9 @@
+activity:
+  name: activity
+
+illustration:
+  name: illustration
+
 video:
   name: video
   

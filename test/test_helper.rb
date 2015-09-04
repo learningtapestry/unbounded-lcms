@@ -9,15 +9,19 @@ require 'minitest/rails/capybara'
 require 'shoulda/context'
 require 'shoulda/matchers'
 
-class ActiveSupport::TestCase
-  fixtures :all
-  include FactoryGirl::Syntax::Methods
+class TestCase < Content::Test::ContentTestBase
+  include Content::Models
   include IntegrationDatabase
+end
+
+class ControllerTestCase
+  include Devise::TestHelpers
+  include IntegrationDatabase
+end
+
+class IntegrationTestCase < TestCase
+  include Capybara::DSL
   include Warden::Test::Helpers
 
   Warden.test_mode!
-end
-
-class ActionController::TestCase
-  include Devise::TestHelpers
 end
