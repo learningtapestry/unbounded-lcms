@@ -248,7 +248,7 @@ module Content
       end
 
       def create_and_update_lobject
-        doc = Models::Document.create(title: 'Math Textbook', description: 'Math Textbook', url: urls(:google))
+        doc = Models::Document.create(title: 'Math Textbook', description: 'Math Textbook', url: Models::Url.create(url: Faker::Internet.url))
         doc.age_ranges << Models::DocumentAgeRange.new(min_age: 10, max_age: 20, extended_age: true)
         doc.document_alignments << Models::DocumentAlignment.new(alignment: alignments(:mp1))
         doc.document_identities << Models::DocumentIdentity.new(identity: identities(:nsdl), identity_type: :author)

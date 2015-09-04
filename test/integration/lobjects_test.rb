@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class LobjectsTestCase < IntegrationTestCase
-  setup do
+  def setup
+    super
+
     @admin          = users(:admin)
     @alignment1     = alignments(:mp1)
     @alignment2     = alignments(:mp2)
