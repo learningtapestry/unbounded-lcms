@@ -26,7 +26,7 @@ module Content
       end
 
       def test_canonicals
-        assert_equal [languages(:en), languages(:es)], Models::Language.canonicals.to_a
+        refute_includes Models::Language.canonicals, languages(:en_US)
       end
 
       def test_find_or_create_canonical
