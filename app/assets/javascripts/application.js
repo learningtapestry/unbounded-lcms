@@ -15,10 +15,12 @@
 //= require bootstrap-sprockets
 //= require ckeditor/init
 //= require turbolinks
+//= require_tree ./plugins
 //= require_tree .
 
 var ready = function() {
   $('.selectize').selectize();
+  window.initializeTree();
 };
 
 $(document).ready(ready);

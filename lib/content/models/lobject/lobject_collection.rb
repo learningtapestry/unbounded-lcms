@@ -8,6 +8,8 @@ module Content
       has_many :lobject_children
       alias_attribute :children, :lobject_children
 
+      accepts_nested_attributes_for :lobject_children
+
       def tree(root_lobject = lobject)
         node_relations = {}
 

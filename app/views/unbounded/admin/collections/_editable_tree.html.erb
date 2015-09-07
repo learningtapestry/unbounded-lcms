@@ -1,0 +1,24 @@
+<% lobject = tree.content %>
+<% lobject_child = lobject.lobject_child_for_collection(@collection) %>
+
+<li class=lobject-node>
+  <% if lobject_child %>
+    <%= form.simple_fields_for :lobject_children, [lobject_child] do |f| %>
+      <%= f.input_field :child_id, as: :hidden, class: 'child-id', value: lobject.id %>
+      <%= f.input_field :parent_id, as: :hidden, class: 'parent-id', value: lobject_child.parent_id %>
+      <%= f.input_field :position, as: :hidden, class: 'position', value: lobject_child.position %>
+    <% end %>
+  <% else %>
+    <%= hidden_field_tag nil, lobject.id, class: 'child-id' %>
+  <% end %>  
+
+  <%= lobject.title %>
+
+  <% if tree.children.size > 0 %>
+    <ul>
+      <% tree.children.each do |child_tree| %>
+        <%= render partial: 'editable_tree', locals: { form: form, tree: child_tree } %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

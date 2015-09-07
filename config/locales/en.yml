@@ -27,8 +27,12 @@ en:
   unbounded:
     admin:
       collections:
+        edit:
+          page_title: "Edit Learning Objects Collection #%{collection_id}"
         show:
           page_title: "Learning Objects Collection #%{collection_id}"
+        update:
+          success: Learning Objects Collection was updated successfully.
       lobjects:
         edit:
           page_title: "Edit Learning Object #%{lobject_id}"

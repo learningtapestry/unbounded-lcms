@@ -132,6 +132,10 @@ module Content
         self
       end
 
+      def lobject_child_for_collection(collection)
+        LobjectChild.where(child: self, collection: collection).first
+      end
+
       # ElasticSearch.
       include Searchable
       include Searchable::Callbacks
