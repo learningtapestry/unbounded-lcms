@@ -1,7 +1,30 @@
 module Unbounded
   module Admin
     class CollectionsController < AdminController
-      before_action :find_resource
+      before_action :find_resource, except: [:index, :new, :create]
+
+      def index
+        @collections = LobjectCollection.
+                         select('lobject_collections.id, lobject_id, COUNT(lobject_children.id) children_count').
+                         joins(:lobject_children).
+                         group('lobject_collections.id, lobject_id').
+                         order(id: :desc).
+                         includes(lobject: :lobject_titles)
+      end
+
+      def new
+        @collection = LobjectCollection.new
+      end
+
+      def create
+        @collection = LobjectCollection.new(collection_params)
+
+        if @collection.save
+          redirect_to unbounded_admin_collection_url(@collection), notice: t('.success')
+        else
+          render :new
+        end
+      end
 
       def show
       end
@@ -19,7 +42,7 @@ module Unbounded
 
       private
         def collection_params
-          params.require(:content_models_lobject_collection).permit(lobject_children_attributes: [:child_id, :id, :parent_id, :position])
+          params.require(:content_models_lobject_collection).permit(:lobject_id, lobject_children_attributes: [:child_id, :id, :parent_id, :position])
         end
 
         def find_resource

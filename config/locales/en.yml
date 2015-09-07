@@ -22,13 +22,23 @@
 en:
   activerecord:
     attributes:
+      content/models/lobject_collection:
+        lobject: Root Learning Object
       content/models/url:
         url: URL
   unbounded:
     admin:
       collections:
+        create:
+          success: Learning Objects Collection created successfully.
         edit:
           page_title: "Edit Learning Objects Collection #%{collection_id}"
+        index:
+          items_count: Items count
+          new_collection: Add Learning Objects Collection
+          page_title: Learning Objects Collections
+        new:
+          page_title: New Learning Objects Collection
         show:
           page_title: "Learning Objects Collection #%{collection_id}"
         update:
@@ -67,6 +77,7 @@ en:
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document": openoffice document
       "application/vnd.ms-powerpoint": powerpoint
   ui:
+    actions: Actions
     delete: Delete
     edit: Edit
     save: Save

@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     namespace :admin do
       get '/' => 'welcome#index'
 
-      resources :collections, only: [:show, :edit, :update]
+      resources :collections, except: :destroy
 
       resources :lobjects, except: [:index, :show, :destroy] do
         get :delete, action: :destroy, on: :member

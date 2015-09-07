@@ -1,0 +1,9 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <%= simple_form_for @collection, url: :unbounded_admin_collections do |f| %>
+    <%= f.association :lobject, as: :select, collection: Content::Models::Lobject.includes(:lobject_titles), input_html: { class: 'selectize' } %>
+
+    <%= f.button :submit, t('ui.save'), name: nil %>
+  <% end %>
+</div>

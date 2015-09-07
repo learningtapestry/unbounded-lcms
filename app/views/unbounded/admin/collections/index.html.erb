@@ -1,0 +1,28 @@
+<div class=nc-content>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('.new_collection'), :new_unbounded_admin_collection, class: 'btn btn-success' %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <table class=table>
+    <tr>
+      <th>ID
+      <th><%= Content::Models::LobjectCollection.human_attribute_name :lobject %>
+      <th><%= t('.items_count') %>
+      <th><%= t('ui.actions') %>
+    </tr>
+
+    <% @collections.each do |collection| %>
+      <tr>
+        <td><%= collection.id %>
+        <td><%= link_to collection.lobject.title, unbounded_admin_collection_path(collection) %>
+        <td><%= collection.children_count %>
+        <td>
+          <%= link_to t('ui.edit'), unbounded_admin_collection_path(collection), class: 'btn btn-default' %>
+      </tr>
+    <% end %>
+  </table>
+</div>
