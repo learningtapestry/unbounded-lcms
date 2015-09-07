@@ -1,0 +1,32 @@
+.collection-tree {
+  label {
+    background: #ccc;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 3px;
+    text-align: center;
+    width: 1.5em;
+
+    &:before {
+      content: '▸';
+    }
+  }
+
+  ul {
+    display: none;
+  }
+}
+
+.collection-tree-opener {
+  display: none;
+
+  &:checked {
+    & ~ label:before {
+      content: '▾';
+    }
+
+    & ~ ul {
+      display: block;
+    }
+  }
+}

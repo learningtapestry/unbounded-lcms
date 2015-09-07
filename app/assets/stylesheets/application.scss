@@ -50,6 +50,7 @@ $brand-primary: $c-blue;
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "selectize.bootstrap3";
+@import "unbounded/admin/collections";
 @import "unbounded/browse";
 
 body {

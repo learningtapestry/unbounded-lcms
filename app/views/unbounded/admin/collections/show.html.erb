@@ -1,0 +1,7 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title', collection_id: @collection.id) %></h2>
+
+  <ul class=collection-tree>
+    <%= render partial: 'tree', locals: { tree: @collection.tree } %>
+  </ul>
+</div>

@@ -26,6 +26,9 @@ en:
         url: URL
   unbounded:
     admin:
+      collections:
+        show:
+          page_title: "Learning Objects Collection #%{collection_id}"
       lobjects:
         edit:
           page_title: "Edit Learning Object #%{lobject_id}"
