@@ -8,4 +8,29 @@
 
     <%= f.button :submit, t('ui.save'), name: nil %>
   <% end %>
+
+  <div class=modal id=add-child-modal>
+    <div class=modal-dialog>
+      <div class=modal-content>
+        <div class=modal-header>
+          <button aria-hidden class=close data-dismiss=modal type=button>×</button>
+          <h4 class=modal-title><%= t('.add_node') %></h4>
+        </div>
+
+        <%= simple_form_for Content::Models::LobjectChild.new, url: :unbounded_admin_lobject_children do |f| %>
+          <div class=modal-body>
+            <%= f.input_field :lobject_collection_id, as: :hidden, value: @collection.id %>
+            <%= f.input_field :parent_id, as: :hidden, id: 'new-child-parent-id' %>
+            <%= f.input_field :position, as: :hidden, id: 'new-child-position' %>
+            <%= f.input :child_id, as: :select, collection: Content::Models::Lobject.includes(:lobject_titles), input_html: { class: 'selectize' } %>
+          </div>
+
+          <div class=modal-footer>
+            <button class='btn btn-link' data-dismiss=modal type=button><%= t('ui.close') %></button>
+            <%= f.button :submit, t('ui.save'), name: nil %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

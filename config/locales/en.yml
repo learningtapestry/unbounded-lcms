@@ -22,6 +22,8 @@
 en:
   activerecord:
     attributes:
+      content/models/lobject_child:
+        child_id: Learning Object
       content/models/lobject_collection:
         lobject: Root Learning Object
       content/models/url:
@@ -34,7 +36,10 @@ en:
         destroy:
           success: "Learning Objects Collection #%{collection_id} was deleted successfully."
         edit:
+          add_node: Add node
           page_title: "Edit Learning Objects Collection #%{collection_id}"
+        editable_tree:
+          add_node: Add node
         index:
           items_count: Items count
           new_collection: Add Learning Objects Collection
@@ -45,6 +50,9 @@ en:
           page_title: "Learning Objects Collection #%{collection_id}"
         update:
           success: Learning Objects Collection was updated successfully.
+      lobject_children:
+        create:
+          success: New Node added into Collection successfully.
       lobjects:
         edit:
           page_title: "Edit Learning Object #%{lobject_id}"
@@ -80,6 +88,7 @@ en:
       "application/vnd.ms-powerpoint": powerpoint
   ui:
     actions: Actions
+    close: Close
     delete: Delete
     edit: Edit
     save: Save
