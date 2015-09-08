@@ -46,7 +46,7 @@ namespace :db do
   desc 'Restores the database.'
   task restore: [:environment, :create] do
     cfg = ActiveRecord::Base.connection_config
-    restore_cmd = "pg_restore --host #{cfg[:host]} --username #{cfg[:username]} --clean --if-exists --no-owner --no-acl -n public --dbname #{cfg[:database]} #{Rails.root}/db/dump/content.dump"
+    restore_cmd = "pg_restore --host #{cfg[:host]} --username #{cfg[:username]} --clean --no-owner --no-acl -n public --dbname #{cfg[:database]} #{Rails.root}/db/dump/content.dump"
     puts "Restoring #{Rails.env} database."
     raise unless system("PGPASSWORD=#{cfg[:password]} #{restore_cmd}")
   end
