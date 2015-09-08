@@ -10,7 +10,7 @@ module Content
 
       validates :lobject, presence: true
 
-      accepts_nested_attributes_for :lobject_children
+      accepts_nested_attributes_for :lobject_children, allow_destroy: true
 
       def tree(root_lobject = lobject)
         node_relations = {}

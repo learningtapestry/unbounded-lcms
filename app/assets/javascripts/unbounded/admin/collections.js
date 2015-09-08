@@ -38,4 +38,11 @@ window.initializeTree = function() {
     $('#add-child-modal').modal('show');
     return false;
   });
+
+  $('.delete-child').click(function() {
+    var $parent = $(this).parent();
+    $('> .destroy', $parent).val(1);
+    $parent.hide();
+    return false;
+  });
 };
