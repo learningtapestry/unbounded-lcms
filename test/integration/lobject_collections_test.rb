@@ -23,4 +23,26 @@ class LobjectCollectionsTestCase < IntegrationTestCase
     assert_equal current_path, "/unbounded/admin/collections/#{collection.id}"
     assert_equal find('.alert.alert-success').text, '× Learning Objects Collection created successfully.'
   end
+
+  def test_delete_collection_from_index_page
+    collection = lobject_collections(:easol)
+    visit '/unbounded/admin/collections'
+    within "#collection_#{collection.id}" do
+      click_link 'Delete'
+    end
+    assert_nil LobjectCollection.find_by_id(collection.id)
+    assert_equal current_path, '/unbounded/admin/collections'
+    assert_equal find('.alert.alert-success').text, "× Learning Objects Collection ##{collection.id} was deleted successfully."
+  end
+
+  def test_delete_collection_from_show_page
+    collection = lobject_collections(:unbounded)
+    visit '/unbounded/admin/collections'
+    click_link collection.lobject.title
+    assert_equal current_path, "/unbounded/admin/collections/#{collection.id}"
+    click_link 'Delete'
+    assert_nil LobjectCollection.find_by_id(collection.id)
+    assert_equal current_path, '/unbounded/admin/collections'
+    assert_equal find('.alert.alert-success').text, "× Learning Objects Collection ##{collection.id} was deleted successfully."
+  end
 end

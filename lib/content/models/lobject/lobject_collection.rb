@@ -5,7 +5,7 @@ module Content
   module Models
     class LobjectCollection < ActiveRecord::Base
       belongs_to :lobject
-      has_many :lobject_children
+      has_many :lobject_children, dependent: :destroy
       alias_attribute :children, :lobject_children
 
       validates :lobject, presence: true

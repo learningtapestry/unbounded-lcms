@@ -31,6 +31,8 @@ en:
       collections:
         create:
           success: Learning Objects Collection created successfully.
+        destroy:
+          success: "Learning Objects Collection #%{collection_id} was deleted successfully."
         edit:
           page_title: "Edit Learning Objects Collection #%{collection_id}"
         index:

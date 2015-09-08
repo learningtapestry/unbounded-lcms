@@ -6,7 +6,7 @@ module Unbounded
       def index
         @collections = LobjectCollection.
                          select('lobject_collections.id, lobject_id, COUNT(lobject_children.id) children_count').
-                         joins(:lobject_children).
+                         joins('LEFT OUTER JOIN lobject_children ON lobject_children.lobject_collection_id = lobject_collections.id').
                          group('lobject_collections.id, lobject_id').
                          order(id: :desc).
                          includes(lobject: :lobject_titles)
@@ -38,6 +38,11 @@ module Unbounded
         else
           render :edit
         end
+      end
+
+      def destroy
+        @collection.destroy
+        redirect_to :unbounded_admin_collections, notice: t('.success', collection_id: @collection.id)
       end
 
       private

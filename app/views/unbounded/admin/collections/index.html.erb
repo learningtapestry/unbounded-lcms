@@ -16,12 +16,13 @@
     </tr>
 
     <% @collections.each do |collection| %>
-      <tr>
+      <tr id=collection_<%= collection.id %>>
         <td><%= collection.id %>
         <td><%= link_to collection.lobject.title, unbounded_admin_collection_path(collection) %>
         <td><%= collection.children_count %>
         <td>
-          <%= link_to t('ui.edit'), unbounded_admin_collection_path(collection), class: 'btn btn-default' %>
+          <%= link_to t('ui.edit'), edit_unbounded_admin_collection_path(collection), class: 'btn btn-default' %>
+          <%= link_to t('ui.delete'), delete_unbounded_admin_collection_path(collection), class: 'btn btn-danger' %>
       </tr>
     <% end %>
   </table>
