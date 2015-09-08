@@ -6,7 +6,7 @@ module Content
     class SearchableTest < ElasticsearchTestBase
       def test_not_indexed
         lobject = Models::Lobject.create(indexed_at: nil)
-        assert_equal [lobject], Models::Lobject.not_indexed
+        assert_includes Models::Lobject.not_indexed, lobject
       end
 
       def test_indexed

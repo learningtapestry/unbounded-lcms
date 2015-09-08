@@ -8,6 +8,8 @@ module Content
       has_many :lobject_urls, dependent: :destroy
       has_many :lobjects, through: :lobject_urls
 
+      validates :url, presence: true
+
       scope :stale, -> (reference_date = nil) {
         if reference_date
           canonicals.where('checked_at is NULL or checked_at <= ?', DateTime.now - reference_date)

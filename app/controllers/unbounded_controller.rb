@@ -1,4 +1,6 @@
 class UnboundedController < ApplicationController
+  include Content::Models
+
   layout 'unbounded'
 
   before_action :setup_unbounded_org

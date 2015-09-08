@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'bootstrap-sass', '~> 3.3.5.1'
 gem 'cancancan', '~> 1.12.0'
+gem 'ckeditor'
 gem 'devise', '~> 3.5.2'
 gem 'dotenv-rails', '~> 2.0.2', groups: [:development, :test]
 gem 'edge', '~> 0.4.2'
@@ -18,6 +19,7 @@ gem 'rails', '4.2.4'
 gem 'rubytree', '~> 0.9.6'
 gem 'sass-rails', '~> 5.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'simple_form'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate', '~> 3.0.7'
@@ -33,8 +35,13 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
   gem 'database_cleaner', '~> 1.4.1'
+  gem 'faker'
   gem 'guard'
   gem 'guard-minitest'
+  gem 'minitest-focus'
+  gem 'minitest-rails-capybara'
+  gem 'shoulda', require: false
   gem 'webmock', '~> 1.21.0'
 end

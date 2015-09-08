@@ -98,7 +98,7 @@ module Content
 
         Merger.new(lo).merge!(doc2)
 
-        assert_equal lo.subjects.to_a, kws+more_kws
+        assert_equal lo.subjects.to_a, (kws + more_kws).sort_by(&:name)
       end
 
       def test_merge_subjects_new_object
@@ -111,7 +111,7 @@ module Content
         doc2.subjects.concat(more_kws)
 
         lo = Merger.merge(doc1, doc2)
-        assert_equal lo.subjects.to_a, kws + more_kws
+        assert_equal lo.subjects.to_a, (kws + more_kws).sort_by(&:name)
       end
 
       def test_merge_alignments
@@ -188,7 +188,7 @@ module Content
         doc2.resource_types << resource_types(:textbook)
         Merger.new(lobject).merge!(doc2)
 
-        assert_equal ['video', 'textbook'], lobject.resource_types.map(&:name)
+        assert_equal ['textbook', 'video'], lobject.resource_types.map(&:name)
       end
 
       def test_merge_resource_types_new_object
@@ -248,7 +248,7 @@ module Content
       end
 
       def create_and_update_lobject
-        doc = Models::Document.create(title: 'Math Textbook', description: 'Math Textbook', url: urls(:google))
+        doc = Models::Document.create(title: 'Math Textbook', description: 'Math Textbook', url: Models::Url.create(url: Faker::Internet.url))
         doc.age_ranges << Models::DocumentAgeRange.new(min_age: 10, max_age: 20, extended_age: true)
         doc.document_alignments << Models::DocumentAlignment.new(alignment: alignments(:mp1))
         doc.document_identities << Models::DocumentIdentity.new(identity: identities(:nsdl), identity_type: :author)

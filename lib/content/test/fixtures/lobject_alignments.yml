@@ -1,0 +1,7 @@
+unbounded_mp1:
+  alignment: mp1
+  lobject: unbounded
+
+unbounded_mp3:
+  alignment: mp3
+  lobject: unbounded

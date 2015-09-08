@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Unbounded::Admin::WelcomeControllerTest < ActionController::TestCase
+class Unbounded::Admin::WelcomeControllerTest < ControllerTestCase
   uses_integration_database
 
   def test_requires_admin_role

@@ -1,6 +1,12 @@
 <%= render partial: 'lobject_breadcrumbs' %>
 
 <div class="nc-content">
+    <div class=clearfix>
+      <div class=pull-right>
+        <%= link_to t('ui.edit'), edit_unbounded_admin_lobject_path(@lobject), class: 'btn btn-default' %>
+        <%= link_to t('ui.delete'), delete_unbounded_admin_lobject_path(@lobject), class: 'btn btn-danger' %>
+      </div>
+    </div>
 
     <h2 class="text-center">Resource <%= @lobject.title %></h2><br>
 

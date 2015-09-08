@@ -13,5 +13,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
+//= require ckeditor/init
 //= require turbolinks
 //= require_tree .
+
+var ready = function() {
+  $('.selectize').selectize();
+};
+
+$(document).ready(ready);
+$(document).on('page:load', ready);

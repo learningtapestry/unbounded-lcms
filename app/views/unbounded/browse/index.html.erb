@@ -6,7 +6,7 @@
                     <h3><i class="fa fa-th"></i> ELA Curriculum</h3>
 
                     <ul class="ela_curriculum_facet facet" class="list-unstyled">
-                        <% Content::Models::LobjectTitle.find_by(title: 'ELA Curriculum Map').lobject.lobject_collections.first.lobject_children.includes(:child).order(position: :asc).each do |child| %>
+                        <% (Content::Models::LobjectTitle.find_by(title: 'ELA Curriculum Map').lobject.lobject_collections.first.lobject_children.includes(:child).order(position: :asc) rescue []).each do |child| %>
                           <li><%= link_to(child.child.title, unbounded_show_path(id: child.child.id)) %></li>
                         <% end %>
                     </ul>
@@ -18,7 +18,7 @@
                     <h3><i class="fa fa-th"></i> Math Curriculum</h3>
 
                     <ul class="math_curriculum_facet facet" class="list-unstyled">
-                        <% Content::Models::LobjectTitle.find_by(title: 'Math Curriculum Map').lobject.lobject_collections.first.lobject_children.includes(:child).order(position: :asc).each do |child| %>
+                        <% (Content::Models::LobjectTitle.find_by(title: 'Math Curriculum Map').lobject.lobject_collections.first.lobject_children.includes(:child).order(position: :asc) rescue []).each do |child| %>
                           <li><%= link_to(child.child.title, unbounded_show_path(id: child.child.id)) %></li>
                         <% end %>
                     </ul>

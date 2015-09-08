@@ -1,0 +1,37 @@
+<% url = @lobject.new_record? ? :unbounded_admin_lobjects : unbounded_admin_lobject_path(@lobject) %>
+
+<%= simple_form_for @lobject, url: url do |f| %>
+
+  <%= f.simple_fields_for :lobject_titles do |lobject_titles_fields| %>
+    <%= lobject_titles_fields.input :title %>
+  <% end %>
+
+  <%= f.simple_fields_for :lobject_urls do |lobject_urls_fields| %>
+
+    <%= lobject_urls_fields.simple_fields_for :url do |url_fields| %>
+      <%= url_fields.input :url %>
+    <% end %>
+
+  <% end %>
+
+  <%= f.simple_fields_for :lobject_languages do |lobject_languages_fields| %>
+    <%= lobject_languages_fields.input :language_id, as: :select, collection: language_collection_options, include_blank: false %>
+  <% end %>
+
+  <%= f.simple_fields_for :lobject_descriptions do |lobject_descriptions_fields| %>
+    <%= lobject_descriptions_fields.input :description, as: :ckeditor, input_html: { rows: 10 } %>
+  <% end %>
+
+  <%= f.association :grades, as: :select, input_html: { class: 'selectize', multiple: true }, label_method: :grade %>
+
+  <%= f.association :topics, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+  <%= f.association :subjects, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+  <%= f.association :resource_types, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+  <%= f.association :alignments, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+  <%= f.button :submit, t('ui.save'), name: nil %>
+
+<% end %>

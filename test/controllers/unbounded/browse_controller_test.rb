@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'content/models'
 
-class Unbounded::BrowseControllerTest < ActionController::TestCase
+class Unbounded::BrowseControllerTest < ControllerTestCase
   uses_integration_database
 
   def test_index_ela_curriculum

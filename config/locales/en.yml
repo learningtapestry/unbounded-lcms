@@ -20,7 +20,22 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    attributes:
+      content/models/url:
+        url: URL
   unbounded:
+    admin:
+      lobjects:
+        edit:
+          page_title: "Edit Learning Object #%{lobject_id}"
+        new:
+          page_title: New Learning Object
+        destroy:
+          success: "Learning Object #%{lobject_id} was deleted successfully."
+      welcome:
+        index:
+          new_lobject: Add Learning Object
     browser: Unbounded Content Browser
     title:
       age_ranges: Age ranges
@@ -44,3 +59,7 @@ en:
       "application/msword": doc
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document": openoffice document
       "application/vnd.ms-powerpoint": powerpoint
+  ui:
+    delete: Delete
+    edit: Edit
+    save: Save
