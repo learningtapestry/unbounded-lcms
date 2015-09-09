@@ -3,6 +3,8 @@ include Content::Models
 
 class ApiController < ApplicationController
 
+  before_action :remove_blank_params
+
   def show_resources
     @results = ApiSearch.new(params).results
     api_response
@@ -71,6 +73,10 @@ class ApiController < ApplicationController
   end
 
   protected
+
+  def remove_blank_params
+    params.reject! { |k,v| v.blank? }
+  end
 
   def api_response
     response.headers['x-total-count'] = @results.size.to_s
