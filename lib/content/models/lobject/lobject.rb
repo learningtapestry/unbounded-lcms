@@ -133,7 +133,7 @@ module Content
       end
 
       def lobject_child_for_collection(collection)
-        LobjectChild.where(child: self, collection: collection).first
+        LobjectChild.find_by(child: self, collection: collection)
       end
 
       # ElasticSearch.
