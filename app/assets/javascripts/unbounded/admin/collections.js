@@ -41,7 +41,7 @@ window.initializeTree = function() {
 
   $('.delete-child').click(function() {
     var $parent = $(this).parent();
-    $('> .destroy', $parent).val(1);
+    $('.destroy', $parent).val(1);
     $parent.hide();
     return false;
   });

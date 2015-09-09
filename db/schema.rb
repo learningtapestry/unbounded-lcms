@@ -237,7 +237,7 @@ ActiveRecord::Schema.define(version: 20150909151609) do
     t.integer  "position",              null: false
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
-    t.integer  "lobject_collection_id"
+    t.integer  "lobject_collection_id", null: false
   end
 
   add_index "lobject_children", ["child_id"], name: "index_lobject_children_on_child_id", using: :btree

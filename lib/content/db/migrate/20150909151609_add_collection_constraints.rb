@@ -3,6 +3,7 @@ class AddCollectionConstraints < ActiveRecord::Migration
     change_column :lobject_collections, :lobject_id, :integer, null: false
 
     change_column :lobject_children, :child_id, :integer, null: false
+    change_column :lobject_children, :lobject_collection_id, :integer, null: false
     change_column :lobject_children, :parent_id, :integer, null: false
     change_column :lobject_children, :position, :integer, null: false
 
@@ -15,6 +16,7 @@ class AddCollectionConstraints < ActiveRecord::Migration
     change_column :lobject_collections, :lobject_id, :integer, null: true
 
     change_column :lobject_children, :child_id, :integer, null: true
+    change_column :lobject_children, :lobject_collection_id, :integer, null: true
     change_column :lobject_children, :parent_id, :integer, null: true
     change_column :lobject_children, :position, :integer, null: true
 
