@@ -17,7 +17,7 @@
           <h4 class=modal-title><%= t('.add_node') %></h4>
         </div>
 
-        <%= simple_form_for Content::Models::LobjectChild.new, url: :unbounded_admin_lobject_children do |f| %>
+        <%= simple_form_for Content::Models::LobjectChild.new, url: :unbounded_admin_lobject_children, remote: true do |f| %>
           <div class=modal-body>
             <%= f.input_field :lobject_collection_id, as: :hidden, value: @collection.id %>
             <%= f.input_field :parent_id, as: :hidden, id: 'new-child-parent-id' %>

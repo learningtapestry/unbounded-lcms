@@ -1,7 +1,7 @@
 <% lobject = tree.content %>
 <% lobject_child = lobject.lobject_child_for_collection(@collection) %>
 
-<li class=lobject-node data-id=<%= lobject.id %>>
+<li class=lobject-node data-id=<%= lobject.id %> id=lobject_<%= lobject.id %>>
   <% if lobject_child %>
     <%= form.simple_fields_for :lobject_children, [lobject_child] do |f| %>
       <%= f.input_field :_destroy, as: :hidden, class: 'destroy', value: 0 %>
@@ -21,7 +21,7 @@
   <% if tree.children.size > 0 %>
     <ul>
       <% tree.children.each do |child_tree| %>
-        <%= render partial: 'editable_tree', locals: { form: form, tree: child_tree } %>
+        <%= render partial: 'unbounded/admin/collections/editable_tree', locals: { form: form, tree: child_tree } %>
       <% end %>
     </ul>
   <% end %>
