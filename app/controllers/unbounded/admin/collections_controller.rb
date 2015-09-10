@@ -5,11 +5,11 @@ module Unbounded
 
       def index
         @collections = LobjectCollection.
-                         select('lobject_collections.id, lobject_id, COUNT(lobject_children.id) children_count').
+                         select('lobject_collections.id, lobject_collection_type_id, lobject_id, COUNT(lobject_children.id) children_count').
                          joins('LEFT OUTER JOIN lobject_children ON lobject_children.lobject_collection_id = lobject_collections.id').
-                         group('lobject_collections.id, lobject_id').
+                         group('lobject_collections.id, lobject_collection_type_id, lobject_id').
                          order(id: :desc).
-                         includes(lobject: :lobject_titles)
+                         includes({ lobject: :lobject_titles }, :lobject_collection_type)
       end
 
       def new
@@ -47,7 +47,7 @@ module Unbounded
 
       private
         def collection_params
-          params.require(:content_models_lobject_collection).permit(:lobject_id, lobject_children_attributes: [:child_id, :id, :parent_id, :position])
+          params.require(:content_models_lobject_collection).permit(:lobject_collection_type_id, :lobject_id, lobject_children_attributes: [:_destroy, :child_id, :id, :parent_id, :position])
         end
 
         def find_resource

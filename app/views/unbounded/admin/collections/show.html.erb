@@ -8,7 +8,15 @@
 
   <h2 class=text-center><%= t('.page_title', collection_id: @collection.id) %></h2>
 
-  <ul class=collection-tree>
-    <%= render partial: 'tree', locals: { tree: @collection.tree } %>
-  </ul>
+  <div>
+    <h3><%= Content::Models::LobjectCollection.human_attribute_name :lobject_collection_type %></h3>
+    <%= @collection.lobject_collection_type.try(:name) %>
+  </div>
+
+  <div>
+    <h3><%= Content::Models::Lobject.model_name.human.pluralize %></h3>
+    <ul class=collection-tree>
+      <%= render partial: 'tree', locals: { tree: @collection.tree } %>
+    </ul>
+  </div>
 </div>

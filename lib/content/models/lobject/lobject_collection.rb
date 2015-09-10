@@ -5,6 +5,7 @@ module Content
   module Models
     class LobjectCollection < ActiveRecord::Base
       belongs_to :lobject
+      belongs_to :lobject_collection_type
       has_many :lobject_children, dependent: :destroy
       alias_attribute :children, :lobject_children
 

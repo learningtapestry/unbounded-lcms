@@ -2,6 +2,9 @@
   <h2 class=text-center><%= t('.page_title', collection_id: @collection.id) %></h2>
 
   <%= simple_form_for @collection, url: unbounded_admin_collection_path(@collection) do |f| %>
+    <%= f.association :lobject_collection_type, as: :select %>
+
+    <div><%= label_tag nil, t('.manage_lobjects') %></div>
     <ul class='editable-tree'>
       <%= render partial: 'editable_tree', locals: { form: f, tree: @collection.tree } %>
     </ul>
@@ -27,7 +30,7 @@
 
           <div class=modal-footer>
             <button class='btn btn-link' data-dismiss=modal type=button><%= t('ui.close') %></button>
-            <%= f.button :submit, t('ui.save'), name: nil %>
+            <%= f.button :submit, t('ui.add'), name: nil %>
           </div>
         <% end %>
       </div>

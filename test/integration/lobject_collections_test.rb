@@ -4,8 +4,9 @@ class LobjectCollectionsTestCase < IntegrationTestCase
   def setup
     super
 
-    @admin   = users(:admin)
-    @lobject = lobjects(:unbounded)
+    @admin           = users(:admin)
+    @collection_type = lobject_collection_types(:curriculum_map)
+    @lobject         = lobjects(:unbounded)
 
     login_as @admin
   end
@@ -16,12 +17,30 @@ class LobjectCollectionsTestCase < IntegrationTestCase
     click_button 'Save'
     assert_equal find('.form-group.content_models_lobject_collection_lobject.has-error .help-block').text, "can't be blank"
 
-    select @lobject.title, from: 'Root Learning Object'
+    select @collection_type.name, from: 'Collection Type'
+    select @lobject.title,        from: 'Root Learning Object'
     click_button 'Save'
     collection = LobjectCollection.last
+    assert_equal collection.lobject_collection_type, @collection_type
     assert_equal collection.lobject, @lobject
     assert_equal current_path, "/unbounded/admin/collections/#{collection.id}"
     assert_equal find('.alert.alert-success').text, '× Learning Objects Collection created successfully.'
+  end
+
+  def test_edit_collection
+    collection = lobject_collections(:easol)
+
+    visit '/unbounded/admin'
+    click_link 'Collections'
+    within "#collection_#{collection.id}" do
+      click_link 'Edit'
+    end
+    assert_equal current_path, "/unbounded/admin/collections/#{collection.id}/edit"
+    select @collection_type.name, from: 'Collection Type'
+    click_button 'Save'
+    collection.reload
+    assert_equal collection.lobject_collection_type, @collection_type
+    assert_equal current_path, "/unbounded/admin/collections/#{collection.id}"
   end
 
   def test_delete_collection_from_index_page
