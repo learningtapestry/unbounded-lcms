@@ -16,3 +16,7 @@ if Rails.env.development?
   admin.add_to_organization(unbounded_org)
   admin.add_role(unbounded_org, admin_role)
 end
+
+# Collection Types
+LobjectCollectionType.find_or_create_by!(name: 'Curriculum Map')
+LobjectCollectionType.find_or_create_by!(name: 'NTI')

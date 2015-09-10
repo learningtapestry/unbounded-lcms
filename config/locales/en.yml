@@ -30,6 +30,18 @@ en:
         url: URL
   unbounded:
     admin:
+      collection_types:
+        create:
+          success: Collection Type created successfully.
+        edit:
+          page_title: "Edit Collection Type #%{collection_type_id}"
+        index:
+          new_collection_type: Add Collection Type
+          page_title: Collection Types
+        new:
+          page_title: New Collection Type
+        update:
+          success: Collection Type updated successfully.
       collections:
         create:
           success: Learning Objects Collection created successfully.
@@ -63,6 +75,7 @@ en:
           success: "Learning Object #%{lobject_id} was deleted successfully."
       welcome:
         index:
+          collection_types: Collection Types
           collections: Collections
           new_lobject: Add Learning Object
     browser: Unbounded Content Browser

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150909151609) do
+ActiveRecord::Schema.define(version: 20150910071519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -243,6 +243,14 @@ ActiveRecord::Schema.define(version: 20150909151609) do
   add_index "lobject_children", ["child_id"], name: "index_lobject_children_on_child_id", using: :btree
   add_index "lobject_children", ["lobject_collection_id", "child_id"], name: "index_lobject_children_on_lobject_collection_id_and_child_id", unique: true, using: :btree
   add_index "lobject_children", ["parent_id"], name: "index_lobject_children_on_parent_id", using: :btree
+
+  create_table "lobject_collection_types", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "lobject_collection_types", ["name"], name: "index_lobject_collection_types_on_name", unique: true, using: :btree
 
   create_table "lobject_collections", force: :cascade do |t|
     t.integer  "lobject_id", null: false
