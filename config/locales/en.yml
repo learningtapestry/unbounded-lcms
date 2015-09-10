@@ -63,6 +63,7 @@ en:
           success: "Learning Object #%{lobject_id} was deleted successfully."
       welcome:
         index:
+          collections: Collections
           new_lobject: Add Learning Object
     browser: Unbounded Content Browser
     title:
