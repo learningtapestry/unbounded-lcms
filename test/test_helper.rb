@@ -12,6 +12,11 @@ require 'shoulda/matchers'
 class TestCase < Content::Test::ContentTestBase
   include Content::Models
   include IntegrationDatabase
+
+  def teardown
+    super
+    logout
+  end
 end
 
 class ControllerTestCase
