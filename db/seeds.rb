@@ -8,15 +8,15 @@
 
 require 'content/models'; include Content::Models
 
-unbounded_org = Organization.create!(name: 'UnboundEd')
-admin_role = Role.create!(name: 'admin')
+unbounded_org = Organization.find_or_create_by!(name: 'UnboundEd')
+admin_role = Role.find_or_create_by!(name: 'admin')
 
 if Rails.env.development?
-  admin = User.create!(
-    name: 'Admin', 
-    email: 'content-admin@learningtapestry.com',
-    password: 'adminlt123'
-  )
+  admin = User.create_with(name: 'Admin', password: 'adminlt123').find_or_create_by!(email: 'content-admin@learningtapestry.com')
   admin.add_to_organization(unbounded_org)
   admin.add_role(unbounded_org, admin_role)
 end
+
+# Collection Types
+LobjectCollectionType.find_or_create_by!(name: 'Curriculum Map')
+LobjectCollectionType.find_or_create_by!(name: 'NTI')

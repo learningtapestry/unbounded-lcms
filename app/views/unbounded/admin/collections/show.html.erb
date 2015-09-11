@@ -1,0 +1,22 @@
+<div class=nc-content>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('ui.edit'), edit_unbounded_admin_collection_path(@collection), class: 'btn btn-default', 'data-no-turbolink' => '' %>
+      <%= button_to t('ui.delete'), unbounded_admin_collection_path(@collection), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title', collection_id: @collection.id) %></h2>
+
+  <div>
+    <h3><%= Content::Models::LobjectCollection.human_attribute_name :lobject_collection_type %></h3>
+    <%= @collection.lobject_collection_type.try(:name) %>
+  </div>
+
+  <div>
+    <h3><%= Content::Models::Lobject.model_name.human.pluralize %></h3>
+    <ul class=collection-tree>
+      <%= render partial: 'tree', locals: { tree: @collection.tree } %>
+    </ul>
+  </div>
+</div>

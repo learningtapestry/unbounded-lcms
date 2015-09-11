@@ -1,0 +1,5 @@
+easol:
+  child: no_organization
+  lobject_collection: easol
+  parent: easol
+  position: 1
