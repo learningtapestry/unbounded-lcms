@@ -30,3 +30,28 @@
     }
   }
 }
+
+.editable-tree {
+  .lobject-title {
+    cursor: move;
+  }
+ 
+  li.deleted {
+    & > .restore-link {
+      display: inline;
+    }
+
+    .links {
+      display: none;
+    }
+
+    .lobject-title {
+      cursor: default;
+      text-decoration: line-through;
+    }
+  }
+
+  .restore-link {
+    display: none;
+  }
+}

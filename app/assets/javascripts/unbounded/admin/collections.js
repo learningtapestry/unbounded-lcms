@@ -19,13 +19,24 @@ window.initializeTree = function() {
       'border':'1px dashed white'
     },
     ignoreClass: 'clickable',
+    isAllowed: function(current, hint, target) {
+      var currentDeleted = $(current).parents('.deleted').length > 0;
+      var targetDeleted  = $(target).parents('.deleted').length > 0;
+
+      if (currentDeleted || targetDeleted) {
+        hint.css('background-color', '#ff9999');
+        return false;
+      }
+
+      return true;
+    },    
     placeholderCss: {
       'background-color': 'yellow'
     }
   });
 
-  $('.add-child').click(function() {
-    var $parent = $(this).parent();
+  $('.add-link').click(function() {
+    var $parent = $(this).closest('li');
     // Set parent ID
     $('#new-child-parent-id').val($parent.data('id'));
     // Set position
@@ -39,10 +50,17 @@ window.initializeTree = function() {
     return false;
   });
 
-  $('.delete-child').click(function() {
-    var $parent = $(this).parent();
+  $('.delete-link').click(function() {
+    var $parent = $(this).closest('li');
+    $parent.addClass('deleted');
     $('.destroy', $parent).val(1);
-    $parent.hide();
+    return false;
+  });
+
+  $('.restore-link').click(function() {
+    var $parent = $(this).closest('li');
+    $parent.removeClass('deleted');
+    $('.destroy', $parent).val(0);
     return false;
   });
 };

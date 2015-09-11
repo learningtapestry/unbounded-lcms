@@ -56,7 +56,8 @@ en:
           page_title: "Edit Learning Objects Collection #%{collection_id}"
         editable_tree:
           add_node: Add node
-          delete_node: Delete node
+          delete_subtree: Delete subtree
+          restore_subtree: Restore subtree
         index:
           items_count: Items count
           new_collection: Add Learning Objects Collection

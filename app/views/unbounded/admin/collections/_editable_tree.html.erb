@@ -13,10 +13,13 @@
     <%= hidden_field_tag nil, lobject.id, class: 'child-id' %>
   <% end %>  
 
-  <%= lobject.title %>
-  <%= link_to t('.add_node'), '#', class: 'add-child clickable' %>
-  |
-  <%= link_to t('.delete_node'), '#', class: 'delete-child clickable' %>
+  <span class=lobject-title><%= lobject.title %></span>
+  <span class=links>
+    <%= link_to t('.add_node'), '#', class: 'add-link clickable' %>
+    |
+    <%= link_to t('.delete_subtree'), '#', class: 'delete-link clickable' %>
+  </span>
+  <%= link_to t('.restore_subtree'), '#', class: 'restore-link clickable' %>
 
   <% if tree.children.size > 0 %>
     <ul>
