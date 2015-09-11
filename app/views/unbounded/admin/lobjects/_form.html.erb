@@ -1,6 +1,6 @@
 <% url = @lobject.new_record? ? :unbounded_admin_lobjects : unbounded_admin_lobject_path(@lobject) %>
 
-<%= simple_form_for @lobject, url: url do |f| %>
+<%= simple_nested_form_for @lobject, url: url do |f| %>
 
   <%= f.simple_fields_for :lobject_titles do |lobject_titles_fields| %>
     <%= lobject_titles_fields.input :title %>
@@ -31,6 +31,21 @@
   <%= f.association :resource_types, as: :select, input_html: { class: 'selectize', multiple: true } %>
 
   <%= f.association :alignments, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+  <div class=form-group>
+    <%= f.label :lobject_downloads %>
+    <%= f.fields_for :lobject_downloads do |lobject_download_fields| %>
+      <div class=well>
+        <%= lobject_download_fields.simple_fields_for :download, lobject_download_fields.object.try(:download) || Content::Models::Download.new do |download_fields| %>
+          <%= download_fields.input :title %>
+          <%= download_fields.input :file, as: :file %>
+          <%= download_fields.input_field :filename_cache, as: :hidden %>
+        <% end %>
+        <%= lobject_download_fields.link_to_remove t('ui.remove'), class: 'btn btn-danger btn-sm' %>
+      </div>
+    <% end %>
+    <p><%= f.link_to_add t('.add_download'), :lobject_downloads, class: 'btn btn-success btn-sm' %></p>
+  </div>
 
   <%= f.button :submit, t('ui.save'), name: nil %>
 

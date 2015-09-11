@@ -22,6 +22,8 @@
 en:
   activerecord:
     attributes:
+      content/models/lobject:
+        lobject_downloads: Downloadable resources
       content/models/url:
         url: URL
   unbounded:
@@ -29,6 +31,8 @@ en:
       lobjects:
         edit:
           page_title: "Edit Learning Object #%{lobject_id}"
+        form:
+          add_download: Add Downloadable Resource
         new:
           page_title: New Learning Object
         destroy:
@@ -62,4 +66,5 @@ en:
   ui:
     delete: Delete
     edit: Edit
+    remove: Remove
     save: Save

@@ -130,7 +130,7 @@ module Content
         lobject
         .downloads
         .uniq
-        .as_json(except: [:created_at, :updated_at])
+        .map { |d| d.as_json(except: [:created_at, :updated_at]).merge('filename' => d.file.file.filename) }
       end
 
       def title

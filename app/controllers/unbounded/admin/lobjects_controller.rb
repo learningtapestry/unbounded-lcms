@@ -49,6 +49,7 @@ module Unbounded
                     alignment_ids: [],
                     grade_ids: [],
                     lobject_descriptions_attributes: [:description, :id],
+                    lobject_downloads_attributes: [:_destroy, :id, { download_attributes: [:description, :file, :filename_cache, :id, :title] }],
                     lobject_languages_attributes: [:id, :language_id],
                     lobject_titles_attributes: [:id, :title],
                     lobject_urls_attributes: [:id, { url_attributes: [:id, :url] }],

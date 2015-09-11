@@ -63,6 +63,7 @@ module Content
       belongs_to :organization
 
       accepts_nested_attributes_for :lobject_descriptions
+      accepts_nested_attributes_for :lobject_downloads, allow_destroy: true
       accepts_nested_attributes_for :lobject_languages
       accepts_nested_attributes_for :lobject_titles
       accepts_nested_attributes_for :lobject_urls

@@ -4,6 +4,10 @@ module Content
       belongs_to :lobject
       belongs_to :document
       belongs_to :download
+
+      validates :download, presence: true
+
+      accepts_nested_attributes_for :download
     end
   end
 end

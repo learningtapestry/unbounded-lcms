@@ -13,6 +13,9 @@
 /db/dump/*.dump
 /db/csv/*.csv
 
+# Ignore uploads
+/public/uploads
+
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep

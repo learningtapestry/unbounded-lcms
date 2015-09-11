@@ -93,8 +93,8 @@
                 <h3>Downloadable Resources</h3>
                 <% @lobject.downloads.uniq.each do |download| %>
                 <p>
-                    <a target="_blank" href="<%= download.url.sub('public://', 'http://k12-content.s3-website-us-east-1.amazonaws.com/') %>"><%= download.title %></a>
-                    (<%= t("unbounded.content_type.#{download.content_type}") %>, <%= (download.filesize/1024.0).round(2) %> KB)
+                    <a target="_blank" href="<%= attachment_url(download) %>"><%= download.title %></a>
+                    (<%= attachment_content_type(download) %>, <%= (download.filesize/1024.0).round(2) %> KB)
                 </p>
                 <% end %>
             </div>
