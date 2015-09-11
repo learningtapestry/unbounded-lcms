@@ -20,7 +20,7 @@ module Unbounded
         @collection = LobjectCollection.new(collection_params)
 
         if @collection.save
-          redirect_to unbounded_admin_collection_url(@collection), notice: t('.success')
+          redirect_to edit_unbounded_admin_collection_url(@collection), notice: t('.success')
         else
           render :new
         end

@@ -23,7 +23,7 @@ class LobjectCollectionsTestCase < IntegrationTestCase
     collection = LobjectCollection.last
     assert_equal collection.lobject_collection_type, @collection_type
     assert_equal collection.lobject, @lobject
-    assert_equal current_path, "/unbounded/admin/collections/#{collection.id}"
+    assert_equal current_path, "/unbounded/admin/collections/#{collection.id}/edit"
     assert_equal find('.alert.alert-success').text, '× Learning Objects Collection created successfully.'
   end
 
