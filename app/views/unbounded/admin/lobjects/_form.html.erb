@@ -32,6 +32,8 @@
 
   <%= f.association :alignments, as: :select, input_html: { class: 'selectize', multiple: true } %>
 
+<%= f.association :related_lobjects, as: :select, collection: Content::Models::Lobject.includes(:lobject_titles), input_html: { class: 'selectize', multiple: true } %>
+
   <div class=form-group>
     <%= f.label :lobject_downloads %>
     <%= f.fields_for :lobject_downloads do |lobject_download_fields| %>

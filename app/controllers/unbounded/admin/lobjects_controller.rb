@@ -53,6 +53,7 @@ module Unbounded
                     lobject_languages_attributes: [:id, :language_id],
                     lobject_titles_attributes: [:id, :title],
                     lobject_urls_attributes: [:id, { url_attributes: [:id, :url] }],
+                    related_lobject_ids: [],
                     resource_type_ids: [],
                     subject_ids: [],
                     topic_ids: []

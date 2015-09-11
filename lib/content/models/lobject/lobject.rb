@@ -58,6 +58,7 @@ module Content
 
       # Related lobjects.
       has_many :lobject_related_lobjects, dependent: :destroy
+      has_many :related_lobjects, through: :lobject_related_lobjects
 
       # Organizations.
       belongs_to :organization

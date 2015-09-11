@@ -24,6 +24,7 @@ en:
     attributes:
       content/models/lobject:
         lobject_downloads: Downloadable resources
+        related_lobjects: Related materials
       content/models/url:
         url: URL
   unbounded:

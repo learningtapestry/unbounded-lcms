@@ -1,3 +1,11 @@
+easol_cats:
+  lobject: easol
+  title: Cats
+
+no_organization_tea:
+  lobject: no_organization
+  title: Tea
+
 unbounded_kanji:
   lobject: unbounded
   title: Kanji
