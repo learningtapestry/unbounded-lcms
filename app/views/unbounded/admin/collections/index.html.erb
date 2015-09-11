@@ -24,7 +24,7 @@
         <td><%= collection.children_count %>
         <td>
           <%= link_to t('ui.edit'), edit_unbounded_admin_collection_path(collection), class: 'btn btn-default' %>
-          <%= link_to t('ui.delete'), delete_unbounded_admin_collection_path(collection), class: 'btn btn-danger' %>
+          <%= button_to t('ui.delete'), unbounded_admin_collection_path(collection), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
       </tr>
     <% end %>
   </table>

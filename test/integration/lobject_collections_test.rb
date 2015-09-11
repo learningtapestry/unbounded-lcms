@@ -47,7 +47,7 @@ class LobjectCollectionsTestCase < IntegrationTestCase
     collection = lobject_collections(:easol)
     visit '/unbounded/admin/collections'
     within "#collection_#{collection.id}" do
-      click_link 'Delete'
+      click_button 'Delete'
     end
     assert_nil LobjectCollection.find_by_id(collection.id)
     assert_equal current_path, '/unbounded/admin/collections'
@@ -59,7 +59,7 @@ class LobjectCollectionsTestCase < IntegrationTestCase
     visit '/unbounded/admin/collections'
     click_link collection.lobject.title
     assert_equal current_path, "/unbounded/admin/collections/#{collection.id}"
-    click_link 'Delete'
+    click_button 'Delete'
     assert_nil LobjectCollection.find_by_id(collection.id)
     assert_equal current_path, '/unbounded/admin/collections'
     assert_equal find('.alert.alert-success').text, "× Learning Objects Collection ##{collection.id} was deleted successfully."

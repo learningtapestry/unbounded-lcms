@@ -22,9 +22,7 @@ Rails.application.routes.draw do
 
       resources :collection_types, except: :destroy
 
-      resources :collections, except: :destroy do
-        get :delete, action: :destroy, on: :member
-      end
+      resources :collections
 
       resources :lobject_children, only: :create
 
