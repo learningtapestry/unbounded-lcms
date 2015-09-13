@@ -12,11 +12,6 @@ require 'shoulda/matchers'
 class TestCase < Content::Test::ContentTestBase
   include Content::Models
   include IntegrationDatabase
-
-  def teardown
-    super
-    logout
-  end
 end
 
 class ControllerTestCase
@@ -29,4 +24,9 @@ class IntegrationTestCase < TestCase
   include Warden::Test::Helpers
 
   Warden.test_mode!
+
+  def teardown
+    super
+    Capybara.reset_sessions!
+  end
 end

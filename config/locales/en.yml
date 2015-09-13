@@ -24,6 +24,9 @@ en:
     attributes:
       content/models/url:
         url: URL
+  layouts:
+    unbounded:
+      admin: Admin
   unbounded:
     admin:
       lobjects:
