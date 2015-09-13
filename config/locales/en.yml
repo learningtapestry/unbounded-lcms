@@ -21,14 +21,59 @@
 
 en:
   activerecord:
+    models:
+      content/models/lobject: Learning Object
     attributes:
       content/models/lobject:
         lobject_downloads: Downloadable resources
         related_lobjects: Related materials
+      content/models/lobject_child:
+        child_id: Learning Object
+      content/models/lobject_collection:
+        lobject: Root Learning Object
+        lobject_collection_type: Collection Type
       content/models/url:
         url: URL
   unbounded:
     admin:
+      collection_types:
+        create:
+          success: Collection Type created successfully.
+        edit:
+          page_title: "Edit Collection Type #%{collection_type_id}"
+        index:
+          new_collection_type: Add Collection Type
+          page_title: Collection Types
+        new:
+          page_title: New Collection Type
+        update:
+          success: Collection Type updated successfully.
+      collections:
+        create:
+          success: Learning Objects Collection created successfully.
+        destroy:
+          success: "Learning Objects Collection #%{collection_id} was deleted successfully."
+        edit:
+          add_node: Add node
+          manage_lobjects: Manage Learning Objects
+          page_title: "Edit Learning Objects Collection #%{collection_id}"
+        editable_tree:
+          add_node: Add node
+          delete_subtree: Delete subtree
+          restore_subtree: Restore subtree
+        index:
+          items_count: Items count
+          new_collection: Add Learning Objects Collection
+          page_title: Learning Objects Collections
+        new:
+          page_title: New Learning Objects Collection
+        show:
+          page_title: "Learning Objects Collection #%{collection_id}"
+        update:
+          success: Learning Objects Collection was updated successfully.
+      lobject_children:
+        create:
+          success: New Node added into Collection successfully.
       lobjects:
         edit:
           page_title: "Edit Learning Object #%{lobject_id}"
@@ -40,6 +85,8 @@ en:
           success: "Learning Object #%{lobject_id} was deleted successfully."
       welcome:
         index:
+          collection_types: Collection Types
+          collections: Collections
           new_lobject: Add Learning Object
     browser: Unbounded Content Browser
     title:
@@ -65,6 +112,10 @@ en:
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document": openoffice document
       "application/vnd.ms-powerpoint": powerpoint
   ui:
+    actions: Actions
+    add: Add
+    are_you_sure: Are you sure?
+    close: Close
     delete: Delete
     edit: Edit
     remove: Remove

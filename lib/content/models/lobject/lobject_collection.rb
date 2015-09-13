@@ -5,8 +5,13 @@ module Content
   module Models
     class LobjectCollection < ActiveRecord::Base
       belongs_to :lobject
-      has_many :lobject_children
+      belongs_to :lobject_collection_type
+      has_many :lobject_children, dependent: :destroy
       alias_attribute :children, :lobject_children
+
+      validates :lobject, presence: true
+
+      accepts_nested_attributes_for :lobject_children, allow_destroy: true
 
       def tree(root_lobject = lobject)
         node_relations = {}
