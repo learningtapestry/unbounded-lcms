@@ -93,17 +93,27 @@ en:
           new_lobject: Add Learning Object
     browser: Unbounded Content Browser
     title:
+      active: Document status
+      age_range: Age range
       age_ranges: Age ranges
+      alignment: Alignment
       alignments: Alignments
+      grade: Grade
       grades: Grades
+      identity: Identity
       identities: Identities
+      language: Language
       languages: Languages
+      resource_type: Resource type
       resource_types: Resource types
+      subject: Subject
       subjects: Subjects
+      standard: Standard
       standards: Standards
       status: Document status
       sources:
         engageny: Document status
+      topic: Topic
       topics: Topics
     content_type:
       "application/zip": zip
