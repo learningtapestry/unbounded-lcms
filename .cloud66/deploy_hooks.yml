@@ -1,0 +1,9 @@
+production: &production
+  after_symlink:
+    - command: cd $STACK_PATH && bundle exec rake lt:deploy
+      target: rails
+      execute: true
+      run_on: single_server
+      apply_during: build_only   
+staging:
+  <<: *production
