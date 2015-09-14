@@ -24,4 +24,9 @@ class IntegrationTestCase < TestCase
   include Warden::Test::Helpers
 
   Warden.test_mode!
+
+  def teardown
+    super
+    Capybara.reset_sessions!
+  end
 end

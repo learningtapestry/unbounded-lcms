@@ -31,6 +31,9 @@ en:
         lobject_collection_type: Collection Type
       content/models/url:
         url: URL
+  layouts:
+    unbounded:
+      admin: Admin
   unbounded:
     admin:
       collection_types:

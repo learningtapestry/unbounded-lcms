@@ -8,6 +8,10 @@ class Ability
       user.has_role?(lobject.organization, Role.named(:admin))
     end
 
+    if user.has_role?(Organization.unbounded, Role.named(:admin))
+      can :read, :admin_root
+    end
+
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
