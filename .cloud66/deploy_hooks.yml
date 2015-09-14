@@ -4,6 +4,6 @@ production: &production
       target: rails
       execute: true
       run_on: single_server
-      apply_during: build_only   
+      apply_during: all   
 staging:
   <<: *production
