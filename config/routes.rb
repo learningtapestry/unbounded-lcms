@@ -30,6 +30,8 @@ Rails.application.routes.draw do
         get :delete, action: :destroy, on: :member
       end
     end
+
+    resources :pages, only: :show
   end
 
   root to: 'unbounded/browse#index'
