@@ -8,10 +8,12 @@ class LobjectsTestCase < IntegrationTestCase
     @alignment1     = alignments(:mp1)
     @alignment2     = alignments(:mp2)
     @description    = Faker::Lorem.sentence(10)
+    @easol_lobject  = lobjects(:easol)
     @easol_org      = organizations(:easol)
     @grade1         = grades(:grade1)
     @grade2         = grades(:grade2)
     @language       = languages(:en)
+    @no_org_lobject = lobjects(:no_organization)
     @resource_type1 = resource_types(:video)
     @resource_type2 = resource_types(:textbook)
     @subject1       = subjects(:math)
@@ -49,6 +51,7 @@ class LobjectsTestCase < IntegrationTestCase
     select @resource_type2.name, from: 'Resource types'
     select @alignment1.name,     from: 'Alignments'
     select @alignment2.name,     from: 'Alignments'
+    select @easol_lobject.title, from: 'Related materials'
     click_button 'Save'
 
     lobject = Lobject.last
@@ -58,11 +61,12 @@ class LobjectsTestCase < IntegrationTestCase
     assert_equal lobject.organization, @unbounded_org
     assert_equal lobject.title,        @title
     assert_equal lobject.url.url,      @url
-    assert_same_elements lobject.alignments,     [@alignment1, @alignment2]
-    assert_same_elements lobject.grades,         [@grade1, @grade2]
-    assert_same_elements lobject.resource_types, [@resource_type1, @resource_type2]
-    assert_same_elements lobject.subjects,       [@subject1, @subject2]
-    assert_same_elements lobject.topics,         [@topic1, @topic2]
+    assert_same_elements lobject.alignments,       [@alignment1, @alignment2]
+    assert_same_elements lobject.grades,           [@grade1, @grade2]
+    assert_same_elements lobject.related_lobjects, [@easol_lobject]
+    assert_same_elements lobject.resource_types,   [@resource_type1, @resource_type2]
+    assert_same_elements lobject.subjects,         [@subject1, @subject2]
+    assert_same_elements lobject.topics,           [@topic1, @topic2]
   end
 
   def test_edit_lobject_without_organization
@@ -99,6 +103,8 @@ class LobjectsTestCase < IntegrationTestCase
     select @resource_type2.name, from: 'Resource types'
     lobject.alignments.each { |alignment| unselect alignment.name, from: 'Alignments' }
     select @alignment2.name, from: 'Alignments'
+    unselect @easol_lobject.title, from: 'Related materials'
+    select @no_org_lobject.title, from: 'Related materials'
     click_button 'Save'
 
     lobject.reload
@@ -107,11 +113,12 @@ class LobjectsTestCase < IntegrationTestCase
     assert_equal lobject.language,    @language
     assert_equal lobject.title,       @title
     assert_equal lobject.url.url,     @url
-    assert_same_elements lobject.alignments,     [@alignment2]
-    assert_same_elements lobject.grades,         [@grade2]
-    assert_same_elements lobject.resource_types, [@resource_type2]
-    assert_same_elements lobject.subjects,       [@subject2]
-    assert_same_elements lobject.topics,         [@topic2]
+    assert_same_elements lobject.alignments,       [@alignment2]
+    assert_same_elements lobject.grades,           [@grade2]
+    assert_same_elements lobject.related_lobjects, [@no_org_lobject]
+    assert_same_elements lobject.resource_types,   [@resource_type2]
+    assert_same_elements lobject.subjects,         [@subject2]
+    assert_same_elements lobject.topics,           [@topic2]
   end
 
   def test_delete_lobject_without_organization

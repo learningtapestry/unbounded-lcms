@@ -58,11 +58,13 @@ module Content
 
       # Related lobjects.
       has_many :lobject_related_lobjects, dependent: :destroy
+      has_many :related_lobjects, through: :lobject_related_lobjects
 
       # Organizations.
       belongs_to :organization
 
       accepts_nested_attributes_for :lobject_descriptions
+      accepts_nested_attributes_for :lobject_downloads, allow_destroy: true
       accepts_nested_attributes_for :lobject_languages
       accepts_nested_attributes_for :lobject_titles
       accepts_nested_attributes_for :lobject_urls

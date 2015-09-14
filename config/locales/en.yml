@@ -24,6 +24,9 @@ en:
     models:
       content/models/lobject: Learning Object
     attributes:
+      content/models/lobject:
+        lobject_downloads: Downloadable resources
+        related_lobjects: Related materials
       content/models/lobject_child:
         child_id: Learning Object
       content/models/lobject_collection:
@@ -77,6 +80,8 @@ en:
       lobjects:
         edit:
           page_title: "Edit Learning Object #%{lobject_id}"
+        form:
+          add_download: Add Downloadable Resource
         new:
           page_title: New Learning Object
         destroy:
@@ -116,4 +121,5 @@ en:
     close: Close
     delete: Delete
     edit: Edit
+    remove: Remove
     save: Save
