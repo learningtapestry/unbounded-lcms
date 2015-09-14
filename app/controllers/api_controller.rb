@@ -1,7 +1,7 @@
 require 'content/models'
-include Content::Models
 
 class ApiController < ApplicationController
+  include Content::Models
 
   before_action :remove_blank_params
 

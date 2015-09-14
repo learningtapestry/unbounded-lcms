@@ -178,6 +178,9 @@ module Content
           end
         end
 
+        indexes :collections, type: :nested do
+        end
+
         indexes :downloads, type: :nested do
           indexes :filename, index: :not_analyzed
           indexes :filesize, index: :not_analyzed

@@ -5,7 +5,7 @@ module Unbounded
   class LobjectSearch
     attr_reader :operation, :facets, :results,
       :total_hits, :total_pages, :page, :limit
-    
+
     def initialize(params)
       @limit = limit = 100
       @page = page = (params[:page].try(:to_i) || 1)
@@ -39,86 +39,103 @@ module Unbounded
         from (page - 1) * limit
 
         query do
-          filtered do
-            filter do
-              bool do
-                must { term 'hidden' => false }
-                must { term 'has_engageny_source' => true }
+          function_score do
+            functions << {
+              filter: {
+                nested: {
+                  path: 'collections',
+                  filter: {
+                    exists: {
+                      field: 'collections.id'
+                    }
+                  }
+                }
+              },
+              boost_factor: 2
+            }
 
-                if params[:active]
-                  must do
-                    nested do
-                      path 'sources.engageny'
-                      filter do
-                        term 'sources.engageny.active' => params[:active]
+            query do
+              filtered do
+                filter do
+                  bool do
+                    module_call LobjectRestrictions, :restrict_lobjects
+                    
+                    if params[:active]
+                      must do
+                        nested do
+                          path 'sources.engageny'
+                          filter do
+                            term 'sources.engageny.active' => params[:active]
+                          end
+                        end
                       end
                     end
+
+                    if params[:resource_type]
+                      must do
+                        nested do
+                          path 'resource_types'
+                          filter do
+                            term 'resource_types.name.raw' => params[:resource_type]
+                          end
+                        end
+                      end
+                    end
+
+                    if params[:grade]
+                      must do
+                        nested do
+                          path 'grades'
+                          filter do
+                            term 'grades.grade.raw' => params[:grade]
+                          end
+                        end
+                      end
+                    end
+
+                    if params[:topic]
+                      must do
+                        nested do
+                          path 'topics'
+                          filter do
+                            term 'topics.name.raw' => params[:topic]
+                          end
+                        end
+                      end
+                    end
+
+                    if params[:subject]
+                      must do
+                        nested do
+                          path 'subjects'
+                          filter do
+                            term 'subjects.name.raw' => params[:subject]
+                          end
+                        end
+                      end
+                    end
+
+                    if params[:alignment]
+                      must do
+                        nested do
+                          path 'alignments'
+                          filter do
+                            term 'alignments.name.raw' => params[:alignment]
+                          end
+                        end
+                      end
+                    end  
                   end
                 end
 
-                if params[:resource_type]
-                  must do
-                    nested do
-                      path 'resource_types'
-                      filter do
-                        term 'resource_types.name.raw' => params[:resource_type]
-                      end
+                if params[:query]
+                  query do
+                    bool do
+                      should { match 'title' => { query: params[:query], boost: 4 } }
+                      should { match 'description' => { query: params[:query], boost: 2 } }
+                      should { match '_all' => params[:query] }
                     end
                   end
-                end
-
-                if params[:grade]
-                  must do
-                    nested do
-                      path 'grades'
-                      filter do
-                        term 'grades.grade.raw' => params[:grade]
-                      end
-                    end
-                  end
-                end
-
-                if params[:topic]
-                  must do
-                    nested do
-                      path 'topics'
-                      filter do
-                        term 'topics.name.raw' => params[:topic]
-                      end
-                    end
-                  end
-                end
-
-                if params[:subject]
-                  must do
-                    nested do
-                      path 'subjects'
-                      filter do
-                        term 'subjects.name.raw' => params[:subject]
-                      end
-                    end
-                  end
-                end
-
-                if params[:alignment]
-                  must do
-                    nested do
-                      path 'alignments'
-                      filter do
-                        term 'alignments.name.raw' => params[:alignment]
-                      end
-                    end
-                  end
-                end       
-              end
-            end
-
-            if params[:query]
-              query do
-                bool do
-                  should { match 'title' => { query: params[:query], boost: 2 } }
-                  should { match 'description' => { query: params[:query], boost: 2 } }
-                  should { match '_all' => params[:query] }
                 end
               end
             end
@@ -140,7 +157,7 @@ module Unbounded
         end
       end
 
-      Rails.logger.debug("Constructed Elasticsearch search definition: #{search_definition.to_json}")
+      Rails.logger.debug("  Elasticsearch search definition: #{search_definition.to_json}")
 
       @operation = Content::Models::Lobject.search(search_definition)
       @facets = Hash.new { |h, k| h[k] = {} }

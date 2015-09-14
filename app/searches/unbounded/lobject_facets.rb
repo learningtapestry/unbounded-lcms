@@ -4,7 +4,7 @@ require 'content/search'
 module Unbounded
   class LobjectFacets
     attr_reader :operation, :facets
-    
+
     def initialize(params)
       aggregation_paths = {
         'sources.engageny' => 'sources.engageny.active',
@@ -34,8 +34,7 @@ module Unbounded
       filters_def = Content::Search::Esbuilder.build do
         filter do
           bool do
-            must { term 'hidden' => false }
-            must { term 'has_engageny_source' => true }
+            module_call LobjectRestrictions, :restrict_lobjects
           end
         end
       end.to_hash[:filter]

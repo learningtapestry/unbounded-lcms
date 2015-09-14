@@ -10,32 +10,27 @@ module Content
       def as_indexed_json(options = {})
         lobject.as_json(except: [:indexed_at]).merge({
           age_ranges:  age_ranges,
-          sources: sources,
+          alignments: alignments,
+          collections: collections,
+          description: description,
+          downloads: downloads,
+          grades: grades,
           has_engageny_source: has_engageny_source,
           has_lr_source: has_lr_source,
           identities: identities,
-          alignments: alignments,
-          resource_locators: resource_locators,
           languages: languages,
+          resource_locators: resource_locators,
           resource_types: resource_types,
+          sources: sources,
+          subjects: subjects,
           title: title,
-          description: description,
-          grades: grades,
-          downloads: downloads,
-          topics: topics,
-          subjects: subjects
+          topics: topics
         })
       end
 
       protected
 
       def age_ranges
-        # lobject
-        # .age_ranges
-        # .select(:min_age, :max_age, :extended_age)
-        # .group(:min_age, :max_age, :extended_age)
-        # .as_json(except: [:id])
-
         lobject
         .age_ranges
         .select(:min_age, :max_age, :extended_age)
@@ -53,18 +48,43 @@ module Content
         .as_json(except: [:id])
       end
 
-      def sources
-        sources = Hash.new { |h, k| h[k] = [] }
-
-        lobject.documents.map(&:source_document).each do |source_doc|
-          if source_doc.engageny?
-            sources[:engageny] << { nid: source_doc.document.nid, active: source_doc.document.active }
-          elsif source_doc.lr?
-            sources[:learning_registry] << { doc_id: source_doc.document.doc_id }
-          end
+      def alignments
+        lobject
+        .alignments
+        .uniq
+        .as_json(only: [:id, :name, :framework, :framework_url]).map do |alg|
+          alg['full'] = "#{alg['id']} #{alg['name']} #{alg['framework']} #{alg['framework_url']}".strip
+          alg
         end
+      end
 
-        sources
+      def collections
+        lobject
+        .find_collections
+        .map do |c|
+          {
+            id: c.id,
+            title: c.lobject.title
+          }
+        end
+      end
+
+      def description
+        lobject.description
+      end
+
+      def downloads
+        lobject
+        .downloads
+        .uniq
+        .map { |d| d.as_json(except: [:created_at, :updated_at]).merge('filename' => d.file.file.filename) }
+      end
+
+      def grades
+        lobject
+        .grades
+        .uniq
+        .as_json(only: [:id, :grade])
       end
 
       def has_engageny_source
@@ -73,6 +93,13 @@ module Content
 
       def has_lr_source
         lobject.documents.map(&:source_document).any? { |source_doc| source_doc.lr? }
+      end
+
+      def languages
+        lobject
+        .languages
+        .uniq
+        .as_json(only: [:id, :name])
       end
 
       def identities
@@ -88,28 +115,11 @@ module Content
         end
       end
 
-      def alignments
-        lobject
-        .alignments
-        .uniq
-        .as_json(only: [:id, :name, :framework, :framework_url]).map do |alg|
-          alg['full'] = "#{alg['id']} #{alg['name']} #{alg['framework']} #{alg['framework_url']}".strip
-          alg
-        end
-      end
-
       def resource_locators
         lobject
         .urls
         .uniq
         .as_json(only: [:id, :url])
-      end
-
-      def languages
-        lobject
-        .languages
-        .uniq
-        .as_json(only: [:id, :name])
       end
 
       def resource_types
@@ -119,26 +129,18 @@ module Content
         .as_json(only: [:id, :name])
       end
 
-      def grades
-        lobject
-        .grades
-        .uniq
-        .as_json(only: [:id, :grade])
-      end
+      def sources
+        sources = Hash.new { |h, k| h[k] = [] }
 
-      def downloads
-        lobject
-        .downloads
-        .uniq
-        .map { |d| d.as_json(except: [:created_at, :updated_at]).merge('filename' => d.file.file.filename) }
-      end
+        lobject.documents.map(&:source_document).each do |source_doc|
+          if source_doc.engageny?
+            sources[:engageny] << { nid: source_doc.document.nid, active: source_doc.document.active }
+          elsif source_doc.lr?
+            sources[:learning_registry] << { doc_id: source_doc.document.doc_id }
+          end
+        end
 
-      def title
-        lobject.title
-      end
-
-      def description
-        lobject.description
+        sources
       end
 
       def subjects
@@ -147,6 +149,10 @@ module Content
         .map(&:subject)
         .uniq
         .as_json(only: [:id, :name])
+      end
+
+      def title
+        lobject.title
       end
 
       def topics
