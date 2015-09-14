@@ -78,11 +78,26 @@ en:
           page_title: New Learning Object
         destroy:
           success: "Learning Object #%{lobject_id} was deleted successfully."
+      pages:
+        create:
+          success: Page created successfully.
+        destroy:
+          success: Page deleted successfully.
+        edit:
+          page_title: "Edit Page #%{page_id}"
+        index:
+          new_page: Add Page
+          page_title: Pages
+        new:
+          page_title: New Page
+        update:
+          success: Page updated successfully.
       welcome:
         index:
           collection_types: Collection Types
           collections: Collections
           new_lobject: Add Learning Object
+          pages: Pages
     browser: Unbounded Content Browser
     title:
       age_ranges: Age ranges

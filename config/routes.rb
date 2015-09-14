@@ -29,6 +29,8 @@ Rails.application.routes.draw do
       resources :lobjects, except: [:index, :show, :destroy] do
         get :delete, action: :destroy, on: :member
       end
+
+      resources :pages, except: :show
     end
 
     resources :pages, only: :show
