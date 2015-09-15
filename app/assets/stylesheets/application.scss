@@ -52,6 +52,7 @@ $brand-primary: $c-blue;
 @import "selectize.bootstrap3";
 @import "unbounded/admin/collections";
 @import "unbounded/browse";
+@import "unbounded/pages";
 
 body {
     padding-top: $navbar-height + 20px;
