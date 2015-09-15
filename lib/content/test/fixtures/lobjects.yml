@@ -6,3 +6,6 @@ no_organization:
 
 unbounded:
   organization: unbounded
+
+unbounded_textbook:
+  organization: unbounded

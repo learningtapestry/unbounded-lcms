@@ -1,3 +1,7 @@
 unbounded_easol:
   lobject: unbounded
   related_lobject: easol
+
+easol_unbounded_textbook:
+  lobject: easol
+  related_lobject: unbounded_textbook

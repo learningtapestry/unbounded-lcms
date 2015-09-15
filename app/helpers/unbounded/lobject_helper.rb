@@ -17,5 +17,15 @@ module Unbounded
         download.file.url
       end
     end
+
+    def related_resource_type(lobject)
+      resource_types = lobject.resource_types.pluck(:name)
+
+      if resource_types.include?('video')
+        t('resource_types.video')
+      else
+        t('resource_types.resource')
+      end
+    end
   end
 end

@@ -119,8 +119,8 @@
                 <div>
                     <ul>
                         <% @lobject.related_lobjects.each do |related_lobject| %>
-                            <li>
-                                <%= link_to(related_lobject.title, unbounded_show_path(id: related_lobject.id)) %>
+                            <li class="lobject-related-resource">
+                                <%= link_to(related_lobject.title, unbounded_show_path(id: related_lobject.id)) %> (<%= related_resource_type(related_lobject) %>)
                             </li>
                         <% end %>
                     </ul>

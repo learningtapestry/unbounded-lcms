@@ -37,6 +37,9 @@ en:
   layouts:
     unbounded:
       admin: Admin
+  resource_types:
+    video: Video
+    resource: Resource
   unbounded:
     admin:
       collection_types:

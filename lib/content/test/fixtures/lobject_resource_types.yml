@@ -5,3 +5,11 @@ unbounded_activity:
 unbounded_video:
   lobject: unbounded
   resource_type: video
+
+easol_video:
+  lobject: easol
+  resource_type: video
+
+unbounded_textbook:
+  lobject: unbounded_textbook
+  resource_type: textbook

@@ -1,3 +1,7 @@
 unbounded_google:
   lobject: unbounded
   url: google
+
+easol_easol:
+  lobject: easol
+  url: easol
