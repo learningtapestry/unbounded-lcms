@@ -11,10 +11,6 @@
             "description": "Learning Resources"
         }
     ],
-    "schemes": [
-        "http",
-        "https"
-    ],
     "paths": {
         "/api/v1/resources": {
             "get": {
