@@ -69,6 +69,11 @@ module Content
       accepts_nested_attributes_for :lobject_titles
       accepts_nested_attributes_for :lobject_urls
 
+      def self.with_lr_source
+        joins(lobject_documents: { document: :source_document })
+        .where('source_documents.source_type' => SourceDocument.source_types[:lr])
+      end
+
       def title
         lobject_titles.first.try(:title)
       end
