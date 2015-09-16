@@ -6,70 +6,21 @@ require 'json'
 require 'minitest/autorun'
 require 'webmock/minitest'; WebMock.allow_net_connect!
 require 'content/models'
-require 'content/test/elasticsearch_test_helpers'
+require 'content/test/elasticsearch_testable'
+require 'content/test/content_fixtures'
+require 'content/test/database_cleanable'
 
 module Content
   module Test
     # Base test class.
     class ContentTestBase < ActiveSupport::TestCase
-      self.fixture_path = File.join(TEST_PATH, 'fixtures')
-
-      Content::Models.constants
-      .map { |c| Content::Models.const_get(c) }
-      .select { |c| c <= ActiveRecord::Base }
-      .each do |c|
-        set_fixture_class c.name.demodulize.tableize => c
-      end
-
-      fixtures :all
-
-      def setup
-        super
-        DatabaseCleaner[:active_record].strategy = :transaction
-        DatabaseCleaner.start
-      end
-
-      def teardown
-        super
-        DatabaseCleaner.clean
-      end
-    end
-
-    # Base Webmock test class.
-    class WebmockTestBase < ContentTestBase
-      def setup
-        super
-        WebMock.disable_net_connect!
-      end
-
-      def teardown
-        super
-        WebMock.allow_net_connect!
-      end
+      include ContentFixtures
+      include DatabaseCleanable
     end
 
     # Base Elasticsearch test class.
     class ElasticsearchTestBase < ContentTestBase
-      include ElasticsearchTestHelpers
-
-      def setup
-        super
-        
-        if check_elasticsearch
-          prefix_index_names
-          create_indeces
-        else
-          skip
-        end
-      end
-
-      def teardown
-        super
-        
-        if check_elasticsearch
-          restore_original_index_names
-        end
-      end
+      include ElasticsearchTestable
     end
 
     module EnvelopeHelpers
