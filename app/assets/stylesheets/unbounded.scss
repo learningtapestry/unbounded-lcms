@@ -113,7 +113,7 @@ footer {
 	i.fa {color: $ub-light-gray; font-size: $font-icon-size;}
 	padding-top: $ub-element-padding; padding-bottom: $ub-element-padding;
 	.footer-logo { @include make-md-column(2); img{ width: $logo-footer-width;}}
-	.footer-txt { @include make-md-column(8); span+span {padding-left: $padding-base-horizontal;}}
+	.footer-txt { @include make-md-column(8); span+span {padding-left: $padding-base-horizontal;} font-size: small;}
 	.footer-list {
 		@include make-md-column(2);
 		ul {
