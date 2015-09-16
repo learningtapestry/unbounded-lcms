@@ -4,10 +4,11 @@ module Unbounded
       before_action :find_resource, except: [:index, :new, :create]
 
       def index
-        @lobjects = Lobject.
-                      order(id: :desc).
-                      includes(:alignments, :grades, :lobject_titles, :resource_types).
-                      paginate(page: params[:page], per_page: 15)
+        @q = Lobject.ransack(params[:q])
+        @lobjects = @q.result.
+                       order(id: :desc).
+                       includes(:alignments, :grades, :lobject_titles, :resource_types).
+                       paginate(page: params[:page], per_page: 15)
       end
 
       def new
