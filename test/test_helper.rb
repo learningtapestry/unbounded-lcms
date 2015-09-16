@@ -19,7 +19,8 @@ class ControllerTestCase
   include IntegrationDatabase
 end
 
-class IntegrationTestCase < TestCase
+class IntegrationTestCase < Content::Test::ElasticsearchTestBase
+  include Content::Models
   include Capybara::DSL
   include Warden::Test::Helpers
 
