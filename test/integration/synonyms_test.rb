@@ -8,6 +8,7 @@ class SynonymsTestCase < IntegrationTestCase
   end
 
   def teardown
+    super
     Lobject.__elasticsearch__.create_index!(force: true)
   end
 
