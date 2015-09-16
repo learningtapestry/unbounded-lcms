@@ -2,6 +2,8 @@ require 'content/models'
 
 module Unbounded
   class BrowseController < UnboundedController
+    layout "unbounded_new", only: [:home]
+
     def index
       @search = LobjectFacets.new(params)
     end
@@ -13,5 +15,9 @@ module Unbounded
     def show
       @lobject = LobjectPresenter.new(Content::Models::Lobject.find(params[:id]))
     end
+
+    def home
+    end
+
   end
 end

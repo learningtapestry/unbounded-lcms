@@ -1,0 +1,148 @@
+// Color scheme
+$ub-purple: #2f1a45;
+$ub-gray: #a6aaa9;
+$ub-light-gray: #edebf0;
+$ub-yellow: #f5d329;
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+@import url(https://fonts.googleapis.com/css?family=Lato:700);
+
+// Font sizes
+$font-icon-size: 21px;
+
+// Bootstrap variables
+$font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-heading: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$text-color: $ub-purple;
+$body-bg: white;
+
+$navbar-height: 55px;
+$navbar-default-bg: white;
+$navbar-default-link-color: $ub-gray;
+$navbar-default-color: $ub-gray;
+$navbar-default-link-hover-bg: white;
+$navbar-default-link-active-bg: white;
+$navbar-default-link-hover-color: $ub-purple;
+$navbar-default-border: none;
+$navbar-border-radius: 0px;
+
+$brand-primary: $ub-purple;
+
+// Paddings, element sizes
+$ub-module-padding: 30px;
+$ub-header-padding: 250px;
+$ub-element-padding: 15px;
+$logo-height: 30px;
+$logo-footer-width: 110px;
+$logo-title-height: 36px;
+
+@import "font-awesome";
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+h1, h2, h3, h4, .navbar-brand, hero-title, .hero-subtitle {
+	font-family: $font-family-heading;
+}
+
+header {
+	.navbar {
+		.nav li a {
+			text-transform: uppercase;
+		}
+		margin-bottom: 0px;
+	}
+}
+
+.home-page {
+	.header-module {
+		background-image: image-url('home_background.jpeg');
+		background-size: cover;
+		padding-top: $ub-module-padding;
+		padding-bottom: $ub-header-padding;
+		.hero-text {
+			float: right;
+			padding-right: $ub-module-padding;
+			color: white;
+			.hero-subtitle {color: $ub-yellow;}
+		}
+	}
+	.stripe-module {
+		margin-top: $ub-module-padding; margin-bottom: $ub-module-padding;
+		background-color: $ub-light-gray;
+		.hero-img {
+			@include make-md-column(6.5); padding-left: 0px; padding-right: 0px;
+			img {
+				filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
+    		filter: gray; /* IE6-9 */
+    		-webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+    		width: 100%;
+			}
+		}
+		.hero-text {
+			h2 img {height: $logo-title-height; padding-bottom: 9px;}
+			@include make-md-column(5.5);
+			padding-bottom: $ub-element-padding;
+		}
+	}
+	.subscribe-module {
+		margin-top: $ub-module-padding * 2; margin-bottom: $ub-module-padding;
+		> div {@include make-md-column(12);}
+		form {
+      div.form-group {
+        > label {@include make-md-column(5); font-size: $font-size-h3; font-style: italic; font-weight: normal;}
+        > div:nth-child(2) {
+          @include make-md-column(4); padding-right: 0px;
+          input {border-radius: 0px; background-color: $ub-light-gray;}
+        }
+        > div:last-child {
+          @include make-md-column(2); padding-left: 0px;
+          button {
+          	background-color: white;
+          	border: none; color: $ub-purple;
+          }
+        }
+      }
+    }
+	}
+}
+
+footer {
+	background-color: $ub-purple; color: white;
+	i.fa {color: $ub-light-gray; font-size: $font-icon-size;}
+	padding-top: $ub-element-padding; padding-bottom: $ub-element-padding;
+	.footer-logo { @include make-md-column(2); img{ width: $logo-footer-width;}}
+	.footer-txt { @include make-md-column(8); span+span {padding-left: $padding-base-horizontal;}}
+	.footer-list {
+		@include make-md-column(2);
+		ul {
+			margin-bottom: 0px;
+			li {padding-left: $padding-xs-horizontal/2; padding-right: $padding-xs-horizontal/2;}
+		}
+	}
+}
+
+@media (min-width: $screen-xs-max) {
+	header {
+		.navbar {
+			line-height: 1;
+			.nav li a {
+				padding-bottom: 0px;
+				padding-top: ($navbar-height - $logo-height)/2 + ($logo-height - $font-size-base);
+			}
+		}
+	}
+}
+
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+	footer {
+		.row > div + div { padding-top: $ub-element-padding;}
+	}
+}
+
+@media (max-width: $screen-xs-max) {
+		footer {
+		.row > div + div { padding-top: $ub-element-padding;}
+	}
+}

@@ -1,0 +1,68 @@
+<div class="home-page" data-role="page">
+	<div class="header-module">
+		<div class="hero-text">
+			<div class="hero-title"><h1>Strong schools, strong students</h1></div>
+			<div class="hero-subtitle">Educators getting smarter together about high standards</div>
+		</div>
+	</div>
+
+	<div class="container page-content">
+		<div class="row stripe-module">
+			<div class="hero-img">
+				<%= image_tag("curriculum.jpg", :alt => t('nav.curriculum')) %>
+			</div>
+			<div class="hero-text">
+				<h2>Curriculum</h2>
+				<div class="hero-dsc">We offer teachers a comprehensive Standards&ndash;aligned library of free education resources, built on years of experience creating widely adopted OER curriculum and professional development materials.</div>
+			</div>
+		</div>
+
+		<div class="row stripe-module">
+			<div class="hero-text">
+				<h2>Professional Development</h2>
+				<div class="hero-dsc">We help teachers make better instructional decisions by providing immersive training and free standards&ndash;aligned resources for their students.</div>
+			</div>
+			<div class="hero-img">
+				<%= image_tag("professional_development.jpg", :alt => t('nav.professional')) %>
+			</div>
+		</div>
+
+		<div class="row stripe-module">
+			<div class="hero-img">
+				<%= image_tag("about.jpg", :alt => t('nav.about')) %>
+			</div>
+			<div class="hero-text">
+				<h2>About <%= image_tag("logo.svg") %></h2>
+				<div class="hero-dsc">We are dedicated to a singular goal: helping fellow educators help their students to achieve learning goals set by higher standards.</div>
+			</div>
+		</div>
+
+	  <div class="row subscribe-module">
+			<!-- Begin MailChimp Signup Form -->
+			<div id="mc_embed_signup">
+				<form action="" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="form form-horizontal" target="_blank" novalidate>
+				  <div id="mc_embed_signup_scroll">
+				  	<div class="form-group">
+				  		<label class="control-label"><%= t('unbounded.title.subscribe') %></label>
+				  		<div>
+								<input type="email" value="" name="EMAIL" class="form-control input-lg" id="mce-EMAIL" placeholder="Email Address" required>
+							</div>
+					    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+					    <div style="position: absolute; left: -5000px;">
+					    	<input type="text" name="b_e338067cd334031bd867a3ba1_0c42d3c0c2" tabindex="-1" value="">
+					    </div>
+		          <div>
+		            <button type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-lg"><%= t('ui.subscribe') %>
+		            </button>
+		          </div>
+						</div>
+				    <!--div class="clearfix"></div-->
+	        </div>
+				</form>
+			</div>
+			<!--End mc_embed_signup-->
+	  </div>
+
+  </div>
+
+</div>
