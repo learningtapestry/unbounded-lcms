@@ -1,3 +1,9 @@
 unbounded_kanji:
   description: Remember the Kanji
   lobject: unbounded
+
+unbounded_rewrite_urls:
+  lobject: unbounded_rewrite_urls
+  description: |
+    <a href="/sites/default/files/downloadable-resources/2014/Jun/a-story-of-functions-curriculum-map-and-overview.pdf">URL Pattern #1</a>
+    <a href="/sites/default/files/resource/attachments/ccls_checklist_for_algebra_i.pdf">URL Pattern #2</a>

@@ -5,3 +5,7 @@ unbounded_google:
 easol_easol:
   lobject: easol
   url: easol
+
+unbounded_rewrite_urls:
+  lobject: unbounded_rewrite_urls
+  url: unbounded_rewrite_urls

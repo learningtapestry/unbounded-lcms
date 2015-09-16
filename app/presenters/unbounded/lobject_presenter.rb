@@ -22,8 +22,8 @@ module Unbounded
 
     def engageny_downloadable_href(href)
       href.sub(
-        '/sites/default/files/downloadable-resources',
-        'http://k12-content.s3-website-us-east-1.amazonaws.com/downloadable-resources'
+        '/sites/default/files',
+        'http://k12-content.s3-website-us-east-1.amazonaws.com'
       )
     end
 
@@ -31,7 +31,11 @@ module Unbounded
       html_desc = Nokogiri::HTML(description)
 
       html_desc.css('a').each do |a|
-        if a['href'] =~ /^\/sites\/default\/files\/downloadable\-resources/
+        if a['href'] =~ /^https:\/\/www\.engageny\.org\/(content|resource)/
+          a['href'] = a['href'].sub('https://www.engageny.org', '')
+        end
+
+        if a['href'] =~ /^\/sites\/default\/files/
           a['href'] = engageny_downloadable_href(a['href'])
           a['target'] = '_blank'
         elsif a['href'] =~ /^\/(content|resource)/

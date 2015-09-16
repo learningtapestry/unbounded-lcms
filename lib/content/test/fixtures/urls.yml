@@ -6,3 +6,6 @@ khan:
 
 easol:
   url: https://www.easol.org
+
+unbounded_rewrite_urls:
+  url: https://www.unbounded.org/unbounded_rewrite_urls

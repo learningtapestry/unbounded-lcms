@@ -9,3 +9,6 @@ unbounded:
 
 unbounded_textbook:
   organization: unbounded
+
+unbounded_rewrite_urls:
+  organization: unbounded
