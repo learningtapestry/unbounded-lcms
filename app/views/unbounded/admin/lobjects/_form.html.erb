@@ -18,6 +18,8 @@
     <%= lobject_languages_fields.input :language_id, as: :select, collection: language_collection_options, include_blank: false %>
   <% end %>
 
+  <%= f.input :hidden %>
+
   <%= f.simple_fields_for :lobject_descriptions do |lobject_descriptions_fields| %>
     <%= lobject_descriptions_fields.input :description, as: :ckeditor, input_html: { rows: 10 } %>
   <% end %>

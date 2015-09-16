@@ -40,6 +40,7 @@ class LobjectsTestCase < IntegrationTestCase
     fill_in 'Title',       with: @title
     fill_in 'URL',         with: @url
     fill_in 'Description', with: @description
+    check 'Hidden'
     select @language.name,       from: 'Language'
     select @grade1.grade,        from: 'Grades'
     select @grade2.grade,        from: 'Grades'
@@ -57,6 +58,7 @@ class LobjectsTestCase < IntegrationTestCase
     lobject = Lobject.last
     assert_equal current_path, "/unbounded/show/#{lobject.id}"
     assert_equal lobject.description,  @description
+    assert_equal lobject.hidden?,      true
     assert_equal lobject.language,     @language
     assert_equal lobject.organization, @unbounded_org
     assert_equal lobject.title,        @title
@@ -92,6 +94,7 @@ class LobjectsTestCase < IntegrationTestCase
     fill_in 'Title',       with: @title
     fill_in 'URL',         with: @url
     fill_in 'Description', with: @description
+    uncheck 'Hidden'
     select @language.name, from: 'Language'
     lobject.grades.each { |grade| unselect grade.grade, from: 'Grades' }
     select @grade2.grade, from: 'Grades'
@@ -110,6 +113,7 @@ class LobjectsTestCase < IntegrationTestCase
     lobject.reload
     assert_equal current_path, "/unbounded/show/#{lobject.id}"
     assert_equal lobject.description, @description
+    assert_equal lobject.hidden?,     false
     assert_equal lobject.language,    @language
     assert_equal lobject.title,       @title
     assert_equal lobject.url.url,     @url

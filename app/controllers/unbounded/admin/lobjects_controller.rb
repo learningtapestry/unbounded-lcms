@@ -46,6 +46,7 @@ module Unbounded
           params.
             require(:content_models_lobject).
             permit(
+                    :hidden,
                     alignment_ids: [],
                     grade_ids: [],
                     lobject_descriptions_attributes: [:description, :id],

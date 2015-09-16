@@ -37,6 +37,7 @@ en:
       content/models/lobject:
         lobject_downloads: Downloadable resources
         related_lobjects: Related materials
+        status: Status
       content/models/lobject_child:
         child_id: Learning Object
       content/models/lobject_collection:
@@ -47,6 +48,9 @@ en:
   layouts:
     unbounded:
       admin: Admin
+  lobject_statuses:
+    active: Active
+    hidden: Hidden
   resource_types:
     video: Video
     resource: Resource

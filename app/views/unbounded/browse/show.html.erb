@@ -33,6 +33,11 @@
             <p><%= @lobject.doc_created_at %></p>
         </div>
 
+        <div class="col-lg-12">
+            <h3><%= Content::Models::Lobject.human_attribute_name :status %></h3>
+            <p><%= lobject_status(@lobject) %>
+        </div>
+
         <% if @lobject.lobject_grades.size > 0 %>
             <div class="col-lg-12">
                 <h3>Grades</h3>
