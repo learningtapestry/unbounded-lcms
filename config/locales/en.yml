@@ -99,6 +99,14 @@ en:
           page_title: "Edit Learning Object #%{lobject_id}"
         form:
           add_download: Add Downloadable Resource
+        index:
+          grade_levels: Grade Levels
+          new_lobject: Add Resource
+          page_title: Content Administration
+          resource: Resource
+          resource_types: Resource Types
+          standards: Standards
+          status: Status
         new:
           page_title: New Learning Object
         destroy:
@@ -121,8 +129,8 @@ en:
         index:
           collection_types: Collection Types
           collections: Collections
-          new_lobject: Add Learning Object
           pages: Pages
+          resources: Resources
     browser: Unbounded Content Browser
     title:
       active: Document status

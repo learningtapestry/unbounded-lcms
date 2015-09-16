@@ -1,7 +1,14 @@
 module Unbounded
   module Admin
     class LobjectsController < Unbounded::AdminController
-      before_action :find_resource, except: [:new, :create]
+      before_action :find_resource, except: [:index, :new, :create]
+
+      def index
+        @lobjects = Lobject.
+                      order(id: :desc).
+                      includes(:alignments, :grades, :lobject_titles, :resource_types).
+                      paginate(page: params[:page], per_page: 15)
+      end
 
       def new
         @lobject = Lobject.new(organization: Organization.unbounded)

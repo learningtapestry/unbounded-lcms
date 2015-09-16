@@ -1,0 +1,35 @@
+<div class=nc-content>
+  <div class=pull-right>
+    <%= link_to t('.new_lobject'), :new_unbounded_admin_lobject, class: 'btn btn-success', 'data-no-turbolink' => '' %>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <table class=table>
+    <tr>
+      <th>ID
+      <th><%= t('.resource') %>
+      <th><%= t('.grade_levels') %>
+      <th><%= t('.standards') %>
+      <th><%= t('.resource_types') %>
+      <th><%= t('.status') %>
+    </tr>
+
+    <% @lobjects.each do |lobject| %>
+      <tr>
+        <td><%= lobject.id %>
+        <td><%= link_to lobject.title, unbounded_show_path(lobject) %>
+        <td><%= lobject.grades.map(&:grade).join(', ') %>
+        <td><%= lobject.alignments.map(&:name).join(', ') %>
+        <td><%= lobject.resource_types.map(&:name).join(', ') %>
+        <td><%= lobject_status(lobject) %>
+      </tr>
+    <% end %>
+  </table>
+
+  <div class=row>
+    <div class='col-sm-12 text-center'>
+      <%= will_paginate @lobjects, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+</div>

@@ -29,7 +29,9 @@ class LobjectsTestCase < IntegrationTestCase
 
   def test_new_lobject
     visit '/unbounded/admin'
-    click_link 'Add Learning Object'
+    click_link 'Resources'
+    assert_equal current_path, '/unbounded/admin/lobjects'
+    click_link 'Add Resource'
     assert_equal current_path, '/unbounded/admin/lobjects/new'
 
     click_button 'Save'
