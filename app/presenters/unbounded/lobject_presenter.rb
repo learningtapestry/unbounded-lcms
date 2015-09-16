@@ -2,21 +2,18 @@ require 'content/models'
 
 module Unbounded
   class LobjectPresenter < SimpleDelegator
-    
+
+    include Content::Models
     include Rails.application.routes.url_helpers
     
     def engageny_lobject_href(href)
-      id = Content::Models::Lobject
-      .select(:id)
-      .joins(:urls)
-      .where(urls: { url: "https://www.engageny.org#{href}" })
-      .first
-      .try(:id)
+      url = Url.find_by(url: "https://www.engageny.org#{href}").canonical
+      lobject_id = LobjectUrl.where(url: url).first.try(:lobject_id)
 
-      if id
-        unbounded_show_path(id: id)
+      if lobject_id
+        unbounded_show_path(id: lobject_id)
       else
-        href
+        "https://www.engageny.org#{href}"
       end
     end
 

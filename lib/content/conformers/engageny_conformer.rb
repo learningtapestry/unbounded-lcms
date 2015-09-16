@@ -77,13 +77,18 @@ module Content
         document.downloads.concat(source_document.downloadable_resources
           .select { |field| !field.keys.empty? }
           .map { |dl| 
-            Models::Download.find_or_create_by(
-              filename: dl['filename'],
-              filesize: dl['filesize'],
-              url: dl['uri'],
-              content_type: dl['filemime'],
-              title: dl['field_title_value']
-            )
+            unless mdl = Models::Download.find_by(url: dl['uri'])
+              mdl = Models::Download.new(
+                filesize: dl['filesize'],
+                url: dl['uri'],
+                content_type: dl['filemime'],
+                title: dl['field_title_value']
+              )
+              mdl.update_filename(dl['filename'])
+              mdl.save!
+            end
+
+            mdl
           })
       end
 

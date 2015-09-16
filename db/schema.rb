@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150914083819) do
+ActiveRecord::Schema.define(version: 20150916031322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,7 +160,7 @@ ActiveRecord::Schema.define(version: 20150914083819) do
     t.jsonb    "resource_types"
     t.jsonb    "standards"
     t.jsonb    "downloadable_resources"
-    t.string   "url"
+    t.text     "url"
     t.boolean  "active"
     t.integer  "source_document_id"
   end
@@ -509,7 +509,7 @@ ActiveRecord::Schema.define(version: 20150914083819) do
   add_index "topics", ["parent_id"], name: "index_topics_on_parent_id", using: :btree
 
   create_table "urls", force: :cascade do |t|
-    t.string   "url"
+    t.text     "url",         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id"

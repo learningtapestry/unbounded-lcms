@@ -12,3 +12,9 @@ unbounded_textbook:
 
 unbounded_rewrite_urls:
   organization: unbounded
+
+unbounded_engageny_source:
+  organization: unbounded
+
+unbounded_with_canonical_url:
+  organization: unbounded

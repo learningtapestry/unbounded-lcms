@@ -124,6 +124,23 @@ module Content
           eny_doc.save!
         end
 
+        def import_non_canonical_urls
+          redirects = EngagenyNode.find_by_sql(%{
+            select source, redirect from redirect where redirect like 'node/%'
+          })
+
+          redirects.each do |r|
+            nid = r['redirect'].sub('node/', '').to_i
+            if lobj = find_lobject_by_nid(nid)
+              canonical_url = lobj.url.canonical
+              Content::Models::Url.find_or_create_by(
+                url: "https://www.engageny.org/#{r['source']}",
+                parent_id: canonical_url.id
+              )
+            end
+          end
+        end
+
         def import_all_nodes
           EngagenyNode.order(nid: :asc).find_each do |eny_node|
             import_node(eny_node)

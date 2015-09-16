@@ -9,3 +9,13 @@ easol:
 
 unbounded_rewrite_urls:
   url: https://www.unbounded.org/unbounded_rewrite_urls
+
+unbounded_engageny:
+  url: https://www.engageny.org/content/unbounded
+
+unbounded_is_parent:
+  url: https://www.engageny.org/content/unbounded_is_parent
+
+unbounded_has_parent:
+  parent: unbounded_is_parent
+  url: https://www.engageny.org/content/unbounded_has_parent

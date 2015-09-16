@@ -5,5 +5,7 @@ unbounded_kanji:
 unbounded_rewrite_urls:
   lobject: unbounded_rewrite_urls
   description: |
-    <a href="/sites/default/files/downloadable-resources/2014/Jun/a-story-of-functions-curriculum-map-and-overview.pdf">URL Pattern #1</a>
-    <a href="/sites/default/files/resource/attachments/ccls_checklist_for_algebra_i.pdf">URL Pattern #2</a>
+    <a href="/sites/default/files/downloadable-resources/2014/Jun/a-story-of-functions-curriculum-map-and-overview.pdf">Download URL #1</a>
+    <a href="/sites/default/files/resource/attachments/ccls_checklist_for_algebra_i.pdf">Download URL #2</a>
+    <a href="/content/unbounded">Lobject URL Canonical</a>
+    <a href="/content/unbounded_has_parent">Lobject URL Non-canonical</a>

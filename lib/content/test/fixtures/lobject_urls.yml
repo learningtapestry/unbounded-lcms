@@ -9,3 +9,11 @@ easol_easol:
 unbounded_rewrite_urls:
   lobject: unbounded_rewrite_urls
   url: unbounded_rewrite_urls
+
+unbounded_engageny_source:
+  lobject: unbounded_engageny_source
+  url: unbounded_engageny
+
+unbounded_with_canonical_url:
+  lobject: unbounded_with_canonical_url
+  url: unbounded_is_parent
