@@ -2,3 +2,8 @@ admin_admin:
   organization: unbounded
   role: admin
   user: admin
+
+admin_lt:
+  organization: lt
+  role: admin
+  user: admin

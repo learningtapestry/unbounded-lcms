@@ -46,6 +46,43 @@ module Content
         def restore_original_index_name
           index_name @original_index_name
         end
+
+        def synonyms_filter_name
+          "#{table_name}_synonyms_filter"
+        end
+
+        def get_index_settings
+          __elasticsearch__.client.indices.get_settings(index: index_name)
+        end
+
+        def get_index_synonyms
+          get_index_settings[index_name]['settings']['index']['analysis']['filter'][synonyms_filter_name]['synonyms']
+        end
+
+        def update_index_settings(new_settings = settings)
+          __elasticsearch__.client.indices.close(index: index_name)
+          __elasticsearch__.client.indices.put_settings(index: index_name, body: new_settings)
+          __elasticsearch__.client.indices.open(index: index_name)
+        end
+
+        def update_index_synonyms(synonyms)
+          if synonyms.empty?
+            synonyms = ['']
+          end
+
+          new_settings = settings.to_hash.deep_merge(
+            analysis: {
+              filter: {
+                synonyms_filter_name.to_sym => {
+                  type: 'synonym',
+                  synonyms: synonyms
+                }
+              }
+            }
+          )
+
+          update_index_settings(new_settings)
+        end
       end
 
       module Callbacks

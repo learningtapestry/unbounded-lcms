@@ -20,6 +20,16 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  admin:
+    welcome:
+      index:
+        edit_synonyms: Edit synonyms
+    synonyms:
+      edit:
+        page_title: Edit synonyms
+        warning: 'Warning: this operation will shut down the Elasticsearch index for a few seconds.'
+      update:
+        success: Synonyms updated successfully
   activerecord:
     models:
       content/models/lobject: Learning Object

@@ -57,6 +57,33 @@ module Content
         assert_nil search.results.first['indexed_at']
       end
 
+      def test_update_index_settings
+        update_settings = {
+          :analysis => {
+            :analyzer => {
+              :test_analyzer => { 
+                :type => "custom",
+                :tokenizer => "standard",
+                :filter => ["standard"]
+              }
+            }
+          }
+        }
+        Models::Lobject.update_index_settings(update_settings)
+
+        settings = Models::Lobject.get_index_settings
+        assert settings[Models::Lobject.index_name]['settings']['index']['analysis']['analyzer'].has_key?('test_analyzer')
+
+        Models::Lobject.__elasticsearch__.create_index! force: true
+      end
+
+      def test_update_index_synonyms
+        Models::Lobject.update_index_synonyms(['test', 'synonym'])
+        assert_equal ['test', 'synonym'], Models::Lobject.get_index_synonyms
+
+        Models::Lobject.__elasticsearch__.create_index! force: true
+      end
+
       def setup
         super
         assert Models::Lobject.included_modules.include?(Models::Searchable) # Sanity check

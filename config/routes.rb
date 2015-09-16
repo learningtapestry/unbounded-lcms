@@ -36,6 +36,12 @@ Rails.application.routes.draw do
     resources :pages, only: :show
   end
 
+  namespace :admin do
+    get '/' => 'welcome#index'
+    get '/synonyms' => 'synonyms#edit', as: :edit_synonyms
+    post '/synonyms' => 'synonyms#update'
+  end
+
   root to: 'unbounded/browse#index'
 
   # Example of regular route:

@@ -8,6 +8,10 @@ module Content
       def self.unbounded
         find_or_create_by!(name: 'UnboundEd')
       end
+
+      def self.lt
+        find_or_create_by!(name: 'LearningTapestry')
+      end
     end
   end
 end

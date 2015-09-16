@@ -1,0 +1,13 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <div class="alert alert-danger"><%= t('.warning') %></div>
+  
+  <%= form_tag do %>
+    <p>
+      <textarea name="synonyms" id="synonyms" cols="100" rows="15"><%= @synonyms.join("\r\n") %></textarea>
+    </p>
+
+    <input type="submit" value="<%= t('ui.save') %>">
+  <% end %>
+</div>

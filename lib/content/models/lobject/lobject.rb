@@ -142,122 +142,141 @@ module Content
       include Searchable
       include Searchable::Callbacks
 
-      mapping do
+      settings analysis: {
+          filter: {
+            lobjects_synonyms_filter: {
+              type: 'synonym',
+              synonyms: ['']
+            }
+          },
+          analyzer: {
+            lobjects_analyzer: {
+              type: 'custom',
+              tokenizer: 'standard',
+              filter: [ 'standard', 'lowercase', 'stop', 'lobjects_synonyms_filter' ]
+            }
+          }
+        } do
 
-        # Relationships are stored as nested so we can search on multiple fields
-        # per child item (e.g. alignments.name AND alignments.framework_url).
-        #
-        # Multi-fields have duplicate not_analyzed storage for precision searching.
-        #
-        # 'full' fields collect values from multiple fields. 
-        # (Doing that manually allows for more flexibility than copy_to.)
+        mapping do
 
-        indexes :age_ranges, type: :nested do
-          indexes :range, type: :string, index: :not_analyzed
-        end
+          # Relationships are stored as nested so we can search on multiple fields
+          # per child item (e.g. alignments.name AND alignments.framework_url).
+          #
+          # Multi-fields have duplicate not_analyzed storage for precision searching.
+          #
+          # 'full' fields collect values from multiple fields. 
+          # (Doing that manually allows for more flexibility than copy_to.)
 
-        indexes :alignments, type: :nested do
-          indexes :full, type: 'multi_field' do
-            indexes :full, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
+          indexes :age_ranges, type: :nested do
+            indexes :range, type: :string, index: :not_analyzed
           end
 
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
+          indexes :alignments, type: :nested do
+            indexes :full, type: 'multi_field' do
+              indexes :full, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+
+            indexes :name, type: 'multi_field' do
+              indexes :name, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+
+            indexes :framework, type: 'multi_field' do
+              indexes :framework, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+
+            indexes :framework_url, type: 'multi_field' do
+              indexes :framework_url, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
           end
 
-          indexes :framework, type: 'multi_field' do
-            indexes :framework, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
+          indexes :collections, type: :nested do
           end
 
-          indexes :framework_url, type: 'multi_field' do
-            indexes :framework_url, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
+          indexes :description, type: :string, search_analyzer: :lobjects_analyzer
 
-        indexes :collections, type: :nested do
-        end
+          indexes :downloads, type: :nested do
+            indexes :filename, index: :not_analyzed
+            indexes :filesize, index: :not_analyzed
+            indexes :url, index: :not_analyzed
 
-        indexes :downloads, type: :nested do
-          indexes :filename, index: :not_analyzed
-          indexes :filesize, index: :not_analyzed
-          indexes :url, index: :not_analyzed
-
-          indexes :content_type, type: 'multi_field' do
-            indexes :content_type, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :grades, type: :nested do
-          indexes :grade, type: 'multi_field' do
-            indexes :grade, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :identities, type: :nested do
-          indexes :full, type: 'multi_field' do
-            indexes :full, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
+            indexes :content_type, type: 'multi_field' do
+              indexes :content_type, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
           end
 
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
+          indexes :grades, type: :nested do
+            indexes :grade, type: 'multi_field' do
+              indexes :grade, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
           end
 
-          indexes :identity_type, type: 'multi_field' do
-            indexes :identity_type, type: :string
+          indexes :identities, type: :nested do
+            indexes :full, type: 'multi_field' do
+              indexes :full, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+
+            indexes :name, type: 'multi_field' do
+              indexes :name, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+
+            indexes :identity_type, type: 'multi_field' do
+              indexes :identity_type, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+          end
+
+          indexes :languages, type: :nested do
+            indexes :name, type: 'multi_field' do
+              indexes :name, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+          end
+
+          indexes :resource_locators, type: :nested do
+            indexes :url, type: 'multi_field' do
+              indexes :url, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+          end
+
+          indexes :resource_types, type: :nested do
+            indexes :name, type: 'multi_field' do
+              indexes :name, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+          end
+
+          indexes :sources, type: :nested do
+            indexes :engageny, type: :nested
+          end
+
+          indexes :subjects, type: :nested do
+            indexes :name, type: 'multi_field' do
+              indexes :name, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+          end
+
+          indexes :topics, type: :nested do
+            indexes :name, type: 'multi_field' do
+              indexes :name, type: :string
+              indexes :raw, type: :string, index: :not_analyzed
+            end
+          end
+
+          indexes :title, type: 'multi_field' do
+            indexes :title, type: :string, search_analyzer: :lobjects_analyzer
             indexes :raw, type: :string, index: :not_analyzed
           end
-        end
-
-        indexes :languages, type: :nested do
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :resource_locators, type: :nested do
-          indexes :url, type: 'multi_field' do
-            indexes :url, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :resource_types, type: :nested do
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :sources, type: :nested do
-          indexes :engageny, type: :nested
-        end
-
-        indexes :subjects, type: :nested do
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :topics, type: :nested do
-          indexes :name, type: 'multi_field' do
-            indexes :name, type: :string
-            indexes :raw, type: :string, index: :not_analyzed
-          end
-        end
-
-        indexes :title, type: 'multi_field' do
-          indexes :title, type: :string
-          indexes :raw, type: :string, index: :not_analyzed
         end
       end
 

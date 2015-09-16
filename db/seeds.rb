@@ -9,12 +9,14 @@
 require 'content/models'; include Content::Models
 
 unbounded_org = Organization.find_or_create_by!(name: 'UnboundEd')
+lt_org = Organization.find_or_create_by!(name: 'LearningTapestry')
 admin_role = Role.find_or_create_by!(name: 'admin')
 
 if Rails.env.development?
   admin = User.create_with(name: 'Admin', password: 'adminlt123').find_or_create_by!(email: 'content-admin@learningtapestry.com')
   admin.add_to_organization(unbounded_org)
   admin.add_role(unbounded_org, admin_role)
+  admin.add_role(lt_org, admin_role)
 end
 
 # Collection Types
