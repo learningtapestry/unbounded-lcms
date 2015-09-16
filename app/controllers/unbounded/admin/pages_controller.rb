@@ -1,6 +1,6 @@
 module Unbounded
   module Admin
-    class PagesController < AdminController
+    class PagesController < Unbounded::AdminController
       before_action :find_resource, except: [:index, :new, :create]
 
       def index

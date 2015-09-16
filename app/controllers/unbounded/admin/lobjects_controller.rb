@@ -1,6 +1,6 @@
 module Unbounded
   module Admin
-    class LobjectsController < AdminController
+    class LobjectsController < Unbounded::AdminController
       before_action :find_resource, except: [:new, :create]
 
       def new

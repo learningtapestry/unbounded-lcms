@@ -1,6 +1,6 @@
 module Unbounded
   module Admin
-    class WelcomeController < AdminController
+    class WelcomeController < Unbounded::AdminController
       def index
       end
     end

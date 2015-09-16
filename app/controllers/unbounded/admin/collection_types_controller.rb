@@ -1,6 +1,6 @@
 module Unbounded
   module Admin
-    class CollectionTypesController < AdminController
+    class CollectionTypesController < Unbounded::AdminController
       before_action :find_resource, except: [:index, :new, :create]
 
       def index
