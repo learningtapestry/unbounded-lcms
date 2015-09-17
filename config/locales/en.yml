@@ -54,6 +54,9 @@ en:
   resource_types:
     video: Video
     resource: Resource
+  resources_count:
+    one: resource
+    other: resources
   unbounded:
     admin:
       collection_types:
@@ -91,6 +94,12 @@ en:
           page_title: "Learning Objects Collection #%{collection_id}"
         update:
           success: Learning Objects Collection was updated successfully.
+      lobject_bulk_edits:
+        create:
+          success: "%{count} %{resources_count} updated successfully."
+        new:
+          no_resources: No resources were selected.
+          page_title: Edit Tags
       lobject_children:
         create:
           success: New Node added into Collection successfully.

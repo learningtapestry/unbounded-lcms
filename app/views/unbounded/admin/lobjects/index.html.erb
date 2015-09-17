@@ -9,29 +9,35 @@
 
   <%= render 'search_form' %>
 
-  <p class=text-right><%= page_entries_info @lobjects %></p>
+  <p class=text-right><%= page_entries_info @lobjects %>
 
-  <table class=table>
-    <tr>
-      <th>ID
-      <th><%= t('.resource') %>
-      <th><%= t('.grade_levels') %>
-      <th><%= t('.standards') %>
-      <th><%= t('.resource_types') %>
-      <th><%= t('.status') %>
-    </tr>
-
-    <% @lobjects.each do |lobject| %>
+  <%= form_tag :new_unbounded_admin_lobject_bulk_edits, method: :get do %>
+    <table class=table>
       <tr>
-        <td><%= lobject.id %>
-        <td><%= link_to lobject.title, unbounded_show_path(lobject) %>
-        <td><%= lobject.grades.map(&:grade).select(&:present?).join(', ') %>
-        <td><%= lobject.alignments.map(&:name).select(&:present?).join(', ') %>
-        <td><%= lobject.resource_types.map(&:name).select(&:present?).join(', ') %>
-        <td><%= lobject_status(lobject) %>
+        <th>
+        <th>ID
+        <th><%= t('.resource') %>
+        <th><%= t('.grade_levels') %>
+        <th><%= t('.standards') %>
+        <th><%= t('.resource_types') %>
+        <th><%= t('.status') %>
       </tr>
-    <% end %>
-  </table>
+
+      <% @lobjects.each do |lobject| %>
+        <tr>
+          <td><%= check_box_tag 'ids[]', lobject.id, false, id: "ids_#{lobject.id}" %>
+          <td><%= lobject.id %>
+          <td><%= link_to lobject.title, unbounded_show_path(lobject) %>
+          <td><%= lobject.grades.map(&:grade).select(&:present?).join(', ') %>
+          <td><%= lobject.alignments.map(&:name).select(&:present?).join(', ') %>
+          <td><%= lobject.resource_types.map(&:name).select(&:present?).join(', ') %>
+          <td><%= lobject_status(lobject) %>
+        </tr>
+      <% end %>
+    </table>
+
+    <%= submit_tag 'Edit Selected', class: 'btn btn-default', name: nil %>
+  <% end %>
 
   <div class=row>
     <div class='col-sm-12 text-center'>

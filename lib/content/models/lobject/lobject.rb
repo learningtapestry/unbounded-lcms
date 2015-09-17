@@ -69,6 +69,47 @@ module Content
       accepts_nested_attributes_for :lobject_titles
       accepts_nested_attributes_for :lobject_urls
 
+      class << self
+        def bulk_edit(sample, lobjects)
+          before = init_for_bulk_edit(lobjects)
+          after  = sample
+
+          transaction do
+            lobjects.each do |lobject|
+              # Alignments
+              lobject.lobject_alignments.where(alignment_id: before.alignment_ids).where.not(alignment_id: after.alignment_ids).destroy_all
+              (after.alignment_ids - before.alignment_ids).each do |alignment_id|
+                lobject.lobject_alignments.find_or_create_by!(alignment_id: alignment_id)
+              end
+
+              # Grades
+              lobject.lobject_grades.where(grade_id: before.grade_ids).where.not(grade_id: after.grade_ids).destroy_all
+              (after.grade_ids - before.grade_ids).each do |grade_id|
+                lobject.lobject_grades.find_or_create_by!(grade_id: grade_id)
+              end
+
+              # Resource types
+              lobject.lobject_resource_types.where(resource_type_id: before.resource_type_ids).where.not(resource_type_id: after.resource_type_ids).destroy_all
+              (after.resource_type_ids - before.resource_type_ids).each do |resource_type_id|
+                lobject.lobject_resource_types.find_or_create_by!(resource_type_id: resource_type_id)
+              end
+            end
+          end
+        end
+
+        def init_for_bulk_edit(lobjects)
+          lobject = new
+          lobject.alignment_ids     = lobjects.map(&:alignment_ids).inject { |memo, ids| memo &= ids }
+          lobject.grade_ids         = lobjects.map(&:grade_ids).inject { |memo, ids| memo &= ids }
+          lobject.resource_type_ids = lobjects.map(&:resource_type_ids).inject { |memo, ids| memo &= ids }
+          lobject
+        end
+
+        def search(*args)
+          __elasticsearch__.search(*args)
+        end
+      end
+
       def title
         lobject_titles.first.try(:title)
       end

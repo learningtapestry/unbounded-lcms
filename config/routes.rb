@@ -24,6 +24,8 @@ Rails.application.routes.draw do
 
       resources :collections
 
+      resource :lobject_bulk_edits, only: [:new, :create]
+
       resources :lobject_children, only: :create
 
       resources :lobjects, except: [:show, :destroy] do
