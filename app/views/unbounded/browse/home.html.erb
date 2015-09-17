@@ -12,18 +12,18 @@
 				<%= image_tag("curriculum.jpg", :alt => t('nav.curriculum')) %>
 			</div>
 			<div class="hero-text">
-				<h2>Curriculum</h2>
-				<div class="hero-dsc">We offer teachers a comprehensive Standards&ndash;aligned library of free education resources, built on years of experience creating widely adopted OER curriculum and professional development materials.</div>
+				<h2><%= t('nav.curriculum') %></h2>
+				<div class="hero-dsc"><%= t('home_page.curriculum_html') %></div>
 			</div>
 		</div>
 
 		<div class="row stripe-module">
 			<div class="hero-text">
-				<h2>Professional Development</h2>
-				<div class="hero-dsc">We help teachers make better instructional decisions by providing immersive training and free standards&ndash;aligned resources for their students.</div>
+				<h2><%= t('nav.professional_development') %></h2>
+				<div class="hero-dsc"><%= t('home_page.professional_development_html') %></div>
 			</div>
 			<div class="hero-img">
-				<%= image_tag("professional_development.jpg", :alt => t('nav.professional')) %>
+				<%= image_tag("professional_development.jpg", :alt => t('nav.professional_development')) %>
 			</div>
 		</div>
 
@@ -32,8 +32,8 @@
 				<%= image_tag("about.jpg", :alt => t('nav.about')) %>
 			</div>
 			<div class="hero-text">
-				<h2>About <%= image_tag("logo.svg") %></h2>
-				<div class="hero-dsc">We are dedicated to a singular goal: helping fellow educators help their students to achieve learning goals set by higher standards.</div>
+				<h2><%= t('nav.about') %> <%= image_tag("logo.svg") %></h2>
+				<div class="hero-dsc"><%= t('home_page.about_html') %>.</div>
 			</div>
 		</div>
 
