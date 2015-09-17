@@ -127,24 +127,10 @@ class LobjectsTestCase < IntegrationTestCase
     assert_same_elements lobject.topics,           [@topic2]
   end
 
-  def test_delete_lobject_without_organization
-    lobject = lobjects(:no_organization)
-    assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/delete"
-    end
-  end
-
-  def test_delete_lobject_with_incorrect_organization
-    lobject = lobjects(:easol)
-    assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/delete"
-    end
-  end
-
   def test_delete_unbounded_lobject
     lobject = lobjects(:unbounded)
     visit "/unbounded/show/#{lobject.id}"
-    click_link 'Delete'
+    click_button 'Delete'
 
     assert_nil Lobject.find_by_id(lobject.id)
     assert_equal current_path, '/unbounded'

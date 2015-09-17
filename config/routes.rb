@@ -28,9 +28,7 @@ Rails.application.routes.draw do
 
       resources :lobject_children, only: :create
 
-      resources :lobjects, except: [:show, :destroy] do
-        get :delete, action: :destroy, on: :member
-      end
+      resources :lobjects, except: :show
 
       resources :pages, except: :show
     end

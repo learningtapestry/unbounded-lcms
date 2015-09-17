@@ -4,7 +4,7 @@
     <div class=clearfix>
       <div class=pull-right>
         <%= link_to t('ui.edit'), edit_unbounded_admin_lobject_path(@lobject), class: 'btn btn-default', 'data-no-turbolink' => '' %>
-        <%= link_to t('ui.delete'), delete_unbounded_admin_lobject_path(@lobject), class: 'btn btn-danger' %>
+        <%= button_to t('ui.delete'), unbounded_admin_lobject_path(@lobject), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
       </div>
     </div>
 
