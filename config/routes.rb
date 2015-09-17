@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     get '/search' => 'browse#search'
     get '/show/:id' => 'browse#show', as: :show
     get '/home' => 'browse#home'
+    get '/search_new' => 'browse#search_new'
 
     namespace :admin do
       get '/' => 'welcome#index'

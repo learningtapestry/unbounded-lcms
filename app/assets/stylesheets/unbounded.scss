@@ -1,5 +1,6 @@
 // Color scheme
 $ub-purple: #2f1a45;
+$ub-light-purple: #d4ced8;
 $ub-gray: #a6aaa9;
 $ub-light-gray: #edebf0;
 $ub-yellow: #f5d329;
@@ -9,7 +10,9 @@ $ub-yellow: #f5d329;
 @import url(https://fonts.googleapis.com/css?family=Lato:700);
 
 // Font sizes
-$font-icon-size: 21px;
+$font-size-icon: 21px;
+$font-size-form: 18px;
+$font-size-caret: 32px;
 
 // Bootstrap variables
 $font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -28,6 +31,10 @@ $navbar-default-border: none;
 $navbar-border-radius: 0px;
 
 $brand-primary: $ub-purple;
+$border-radius-base: 0px;
+$btn-border-radius-base: 0px;
+$btn-border-radius-large: 0px;
+$btn-border-radius-small: 0px;
 
 // Paddings, element sizes
 $ub-module-padding: 30px;
@@ -37,10 +44,12 @@ $logo-height: 30px;
 $logo-footer-width: 110px;
 $logo-title-height: 36px;
 
+@import "font-awesome-sprockets";
 @import "font-awesome";
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "selectize.bootstrap3";
 
 h1, h2, h3, h4, .navbar-brand, hero-title, .hero-subtitle {
 	font-family: $font-family-heading;
@@ -55,17 +64,59 @@ header {
 	}
 }
 
+@mixin appearance ($value: none) {
+	-webkit-appearance: $value;
+  -moz-appearance: $value;
+  appearance: $value;
+}
+
+.header-module {
+	background-image: image-url('home_background.jpeg');
+	background-size: cover;
+}
+
+.subscribe-module {
+	background-color: white;
+	> div.container {
+		margin-top: $ub-module-padding * 2; margin-bottom: $ub-module-padding;
+		> div.row > div {
+			@include make-md-column(12);
+			form {
+		    div.form-group {
+		      > label {@include make-md-column(5); font-size: $font-size-h3; font-style: italic; font-weight: normal;}
+		      > div:nth-child(2) {
+		        @include make-md-column(4); padding-right: 0px;
+		        input {border-radius: 0px; background-color: $ub-light-gray;}
+		      }
+		      > div:last-child {
+		        @include make-md-column(2); padding-left: 0px;
+		        button {
+		        	background-color: white;
+		        	border: none; color: $ub-purple;
+		        }
+		      }
+		    }
+		  }
+		}
+	}
+}
+
 .home-page {
 	.header-module {
-		background-image: image-url('home_background.jpeg');
-		background-size: cover;
 		padding-top: $ub-module-padding * 2;
 		padding-bottom: $ub-header-padding;
 		.hero-text {
 			float: right;
-			padding-right: $ub-module-padding;
+			//padding-right: $ub-module-padding;
 			color: white;
-			.hero-subtitle {color: $ub-yellow;}
+			> div { padding: $ub-element-padding $ub-element-padding; display: block;}
+			.hero-title {
+				background-color: rgba(26,25,48,0.5);
+			}
+			.hero-subtitle {
+				color: $ub-yellow;
+				background-color: rgba(26,25,48,0.8);
+			}
 		}
 	}
 	.stripe-module {
@@ -73,12 +124,7 @@ header {
 		background-color: $ub-light-gray;
 		.hero-img {
 			@include make-md-column(6.5); padding-left: 0px; padding-right: 0px;
-			img {
-				filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
-    		filter: gray; /* IE6-9 */
-    		-webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
-    		width: 100%;
-			}
+			img { width: 100%;}
 		}
 		.hero-text {
 			h2 img {height: $logo-title-height; padding-bottom: 9px;}
@@ -86,31 +132,79 @@ header {
 			padding-bottom: $ub-element-padding;
 		}
 	}
-	.subscribe-module {
-		margin-top: $ub-module-padding * 2; margin-bottom: $ub-module-padding;
-		> div {@include make-md-column(12);}
-		form {
-      div.form-group {
-        > label {@include make-md-column(5); font-size: $font-size-h3; font-style: italic; font-weight: normal;}
-        > div:nth-child(2) {
-          @include make-md-column(4); padding-right: 0px;
-          input {border-radius: 0px; background-color: $ub-light-gray;}
-        }
-        > div:last-child {
-          @include make-md-column(2); padding-left: 0px;
-          button {
-          	background-color: white;
-          	border: none; color: $ub-purple;
-          }
-        }
-      }
-    }
+}
+
+.ub-select, .ub-input {
+	.selectize-input, .selectize-input.input-active {
+		border: none; box-shadow: none;
+		color: white; font-size: $font-size-form; line-height: $font-size-form + 2px;
+		border-radius: 0px;
+		border-bottom: 2px solid $ub-yellow;
+		padding-top: 2px;
+		background-color: transparent!important;
+		outline: none; transition: none; outline: 0; box-sizing: none;
+		@include appearance;
+		input {color: white;}
+	}
+	.selectize-input.input-active { padding-top: 0px;}
+	.selectize-control.single .selectize-input:after {
+		color: $ub-yellow;
+		@extend .fa;
+    content: $fa-var-caret-down;
+    font-size: $font-size-caret;
+    margin-top: -$font-size-caret/3!important;
+    border: none;
+	}
+	.selectize-control.single .selectize-input.dropdown-active:after {
+		content: $fa-var-caret-up;
+		margin-top: -$font-size-caret/3; border: none;
+	}
+	.selectize-dropdown, .selectize-dropdown.form-control	{
+		background-color: rgba(0, 0, 0, 0.75);
+		color: white; font-size: $font-size-form;
+		margin-top: $font-size-caret/3!important;
+	}
+	.selectize-dropdown .active {
+	  background-color: rgba(255, 255, 255, 0.5);
+	  color: $ub-light-gray;
+	}
+	input, textarea {
+    font-size: $font-size-form;
+  }
+}
+
+.search-form-page {
+	.header-module {
+		padding-top: $ub-module-padding;
+		margin-bottom: $ub-module-padding;
+		.search-form {
+			@include make-md-column(12);
+			form {
+				color: white; font-size: $font-size-form;
+				> div.form-group {
+					> div { @include make-md-column(4);}
+					label {min-height: 50px;}
+					margin-bottom: $ub-module-padding;
+				}
+				> div.form-group:last-child {
+					> div {
+						@include make-md-column(12);
+						button { @include center-block;}
+					}
+					margin-bottom: 0px;
+				}
+				.btn-ub {background-color: $ub-yellow; color: $ub-purple; }
+			}
+		}
+	}
+	.page-content {
+		background-color: $ub-light-purple;
 	}
 }
 
 footer {
 	background-color: $ub-purple; color: white;
-	i.fa {color: $ub-light-gray; font-size: $font-icon-size;}
+	i.fa {color: $ub-light-gray; font-size: $font-size-icon;}
 	padding-top: $ub-element-padding; padding-bottom: $ub-element-padding;
 	.footer-logo { @include make-md-column(2); img{ width: $logo-footer-width;}}
 	.footer-txt { @include make-md-column(8); span+span {padding-left: $padding-base-horizontal;} font-size: small;}
