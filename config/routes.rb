@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     namespace :admin do
       get '/' => 'welcome#index'
 
-      resources :collection_types, except: :destroy
+      resources :collection_types
 
       resources :collections
 

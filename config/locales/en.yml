@@ -62,6 +62,8 @@ en:
       collection_types:
         create:
           success: Collection Type created successfully.
+        destroy:
+          success: Collection Type deleted successfully.
         edit:
           page_title: "Edit Collection Type #%{collection_type_id}"
         index:
