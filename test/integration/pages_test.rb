@@ -5,8 +5,9 @@ class PagesTestCase < IntegrationTestCase
     super
     admin  = users(:admin)
     @body  = Faker::Lorem.sentence(100)
-    @page  = Page.create!(body: Faker::Lorem.sentence(100), title: Faker::Lorem.sentence(10))
+    @page  = Page.create!(body: Faker::Lorem.sentence(100), title: Faker::Lorem.sentence(10), slug: Faker::Internet.slug)
     @title = Faker::Lorem.sentence(10)
+    @slug  = Faker::Internet.slug
     login_as admin
   end
 
@@ -22,6 +23,7 @@ class PagesTestCase < IntegrationTestCase
 
     fill_in 'Title', with: @title
     fill_in 'Body',  with: @body
+    fill_in 'Slug',  with: @slug
     click_button 'Save'
     page = Page.last
     assert_equal page.body,  @body

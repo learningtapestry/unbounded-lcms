@@ -43,7 +43,7 @@ module Unbounded
         end
 
         def page_params
-          params.require(:content_models_page).permit(:body, :title)
+          params.require(:content_models_page).permit(:body, :title, :slug)
         end
     end
   end
