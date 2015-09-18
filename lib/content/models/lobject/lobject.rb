@@ -93,6 +93,12 @@ module Content
               (after.resource_type_ids - before.resource_type_ids).each do |resource_type_id|
                 lobject.lobject_resource_types.find_or_create_by!(resource_type_id: resource_type_id)
               end
+
+              # Subjects
+              lobject.lobject_subjects.where(subject_id: before.subject_ids).where.not(subject_id: after.subject_ids).destroy_all
+              (after.subject_ids - before.subject_ids).each do |subject_id|
+                lobject.lobject_subjects.find_or_create_by!(subject_id: subject_id)
+              end
             end
           end
         end
@@ -102,6 +108,7 @@ module Content
           lobject.alignment_ids     = lobjects.map(&:alignment_ids).inject { |memo, ids| memo &= ids }
           lobject.grade_ids         = lobjects.map(&:grade_ids).inject { |memo, ids| memo &= ids }
           lobject.resource_type_ids = lobjects.map(&:resource_type_ids).inject { |memo, ids| memo &= ids }
+          lobject.subject_ids       = lobjects.map(&:subject_ids).inject { |memo, ids| memo &= ids }
           lobject
         end
 

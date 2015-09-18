@@ -7,7 +7,7 @@ module Unbounded
         @q = Lobject.ransack(params[:q])
         @lobjects = @q.result.
                        order(id: :desc).
-                       includes(:alignments, :grades, :lobject_titles, :resource_types).
+                       includes(:alignments, :grades, :lobject_titles, :resource_types, :subjects).
                        paginate(page: params[:page], per_page: 15)
       end
 

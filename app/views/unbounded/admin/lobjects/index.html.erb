@@ -20,6 +20,7 @@
         <th><%= t('.grade_levels') %>
         <th><%= t('.standards') %>
         <th><%= t('.resource_types') %>
+        <th><%= t('.subjects') %>
         <th><%= t('.status') %>
       </tr>
 
@@ -31,6 +32,7 @@
           <td><%= lobject.grades.map(&:grade).select(&:present?).join(', ') %>
           <td><%= lobject.alignments.map(&:name).select(&:present?).join(', ') %>
           <td><%= lobject.resource_types.map(&:name).select(&:present?).join(', ') %>
+          <td><%= lobject.subjects.map(&:name).select(&:present?).join(', ') %>
           <td><%= lobject_status(lobject) %>
         </tr>
       <% end %>

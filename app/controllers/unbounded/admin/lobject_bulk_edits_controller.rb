@@ -12,7 +12,7 @@ module Unbounded
       end
 
       def create
-        lobject_params = params.require(:content_models_lobject).permit(alignment_ids: [], grade_ids: [], resource_type_ids: [])
+        lobject_params = params.require(:content_models_lobject).permit(alignment_ids: [], grade_ids: [], resource_type_ids: [], subject_ids: [])
         sample = Lobject.new(lobject_params)
         Lobject.bulk_edit(sample, @lobjects)
         redirect_to :unbounded_admin_lobjects, notice: t('.success', count: @lobjects.count, resources_count: t(:resources_count, count: @lobjects.count))
@@ -20,7 +20,7 @@ module Unbounded
 
       private
         def load_resources
-          @lobjects = Lobject.where(id: params[:ids]).includes(:alignments, :grades, :resource_types)
+          @lobjects = Lobject.where(id: params[:ids]).includes(:alignments, :grades, :resource_types, :subjects)
         end
     end
   end

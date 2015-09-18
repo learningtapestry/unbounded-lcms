@@ -13,6 +13,8 @@
 
     <%= f.association :resource_types, as: :select, input_html: { class: 'selectize', multiple: true } %>
 
+    <%= f.association :subjects, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
     <%= f.button :submit, t('ui.save'), name: nil %>
 
   <% end %>
