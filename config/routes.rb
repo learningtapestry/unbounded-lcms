@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       end
 
       resources :pages, except: :show
+
+      resources :tags, only: :create
     end
 
     resources :pages, only: :show

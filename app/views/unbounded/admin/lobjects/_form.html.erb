@@ -22,17 +22,22 @@
     <%= lobject_descriptions_fields.input :description, as: :ckeditor, input_html: { rows: 10 } %>
   <% end %>
 
-  <%= f.association :grades, as: :select, input_html: { class: 'selectize', multiple: true }, label_method: :grade %>
+  <%= f.association :grades, as: :select, input_html: { class: 'selectize', id: 'grades_select', multiple: true } %>
+  <p><%= link_to t('.create_grade'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'grades' } %>
 
-  <%= f.association :topics, as: :select, input_html: { class: 'selectize', multiple: true } %>
+  <%= f.association :topics, as: :select, input_html: { class: 'selectize', id: 'topics_select', multiple: true } %>
+  <p><%= link_to t('.create_topic'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'topics' } %>
 
-  <%= f.association :subjects, as: :select, input_html: { class: 'selectize', multiple: true } %>
+  <%= f.association :subjects, as: :select, input_html: { class: 'selectize', id: 'subjects_select', multiple: true } %>
+  <p><%= link_to t('.create_subject'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'subjects' } %>
 
-  <%= f.association :resource_types, as: :select, input_html: { class: 'selectize', multiple: true } %>
+  <%= f.association :resource_types, as: :select, input_html: { class: 'selectize', id: 'resource_types_select', multiple: true } %>
+  <p><%= link_to t('.create_resource_type'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'resource_types' } %>
 
-  <%= f.association :alignments, as: :select, input_html: { class: 'selectize', multiple: true } %>
+  <%= f.association :alignments, as: :select, input_html: { class: 'selectize', id: 'alignments_select', multiple: true } %>
+  <p><%= link_to t('.create_alignment'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'alignments' } %>
 
-<%= f.association :related_lobjects, as: :select, collection: Content::Models::Lobject.includes(:lobject_titles), input_html: { class: 'selectize', multiple: true } %>
+  <%= f.association :related_lobjects, as: :select, collection: Content::Models::Lobject.includes(:lobject_titles), input_html: { class: 'selectize', multiple: true } %>
 
   <div class=form-group>
     <%= f.label :lobject_downloads %>
@@ -52,3 +57,13 @@
   <%= f.button :submit, t('ui.save'), name: nil %>
 
 <% end %>
+
+<%= render partial: 'modal', locals: { association: :alignments, title: t('.create_alignment') } %>
+
+<%= render partial: 'modal', locals: { association: :grades, title: t('.create_grade') } %>
+
+<%= render partial: 'modal', locals: { association: :resource_types, title: t('.create_resource_type') } %>
+
+<%= render partial: 'modal', locals: { association: :subjects, title: t('.create_subject') } %>
+
+<%= render partial: 'modal', locals: { association: :topics, title: t('.create_topic') } %>

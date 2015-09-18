@@ -21,6 +21,7 @@
 
 var ready = function() {
   $('.selectize').selectize();
+  window.initializeLobjectForm();
   window.initializeTree();
 };
 

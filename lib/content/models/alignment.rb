@@ -5,6 +5,8 @@ module Content
     class Alignment < ActiveRecord::Base
       include Canonicable
 
+      validates :name, presence: true
+
       default_scope { order(:name) }
     end
   end

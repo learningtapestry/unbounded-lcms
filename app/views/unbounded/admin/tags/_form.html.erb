@@ -1,0 +1,14 @@
+<%= simple_form_for @lobject.send(association).new, url: :unbounded_admin_tags, remote: true do |f| %>
+
+  <div class=modal-body>
+    <%= hidden_field_tag :association, association %>
+    <%= f.input :name, input_html: { name: 'tag[name]' } %>
+    <div class=error></div>
+  </div>
+
+  <div class=modal-footer>
+    <button class='btn btn-link' data-dismiss=modal type=button><%= t('ui.close') %></button>
+    <%= f.button :submit, t('ui.save'), name: nil %>
+  </div>
+
+<% end %>

@@ -8,7 +8,11 @@ module Content
       include Normalizable
       normalize_attr :grade, ->(val) { val.strip.downcase }
 
+      validates :name, presence: true
+
       default_scope { order(:grade) }
+
+      alias_attribute :name, :grade
     end
   end
 end
