@@ -115,6 +115,11 @@ module Content
         def search(*args)
           __elasticsearch__.search(*args)
         end
+
+        def with_lr_source
+          joins(lobject_documents: { document: :source_document })
+          .where('source_documents.source_type' => SourceDocument.source_types[:lr])
+        end
       end
 
       def title
