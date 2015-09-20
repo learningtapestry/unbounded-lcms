@@ -41,9 +41,29 @@
 		</div>
 	</div>
 
-	<div class="container page-content">
-		<div class="row">
-
+	<div class="curriculum-content">
+	  <div class="container">
+		  <% @lobjects.each do |lobject| %>
+			  <% lobject.collection_trees.each do |tree| %>
+			  	<h1><%= tree.content.title %></h1>
+			  	<div class="row">
+			  		<% tree.children.each do |resource| %>
+							<div class="module">
+								<div class="module-wrapper">
+									<div class="row">
+										<div class="module-title">
+											<div><%= resource.content.title %></div>
+										</div>
+										<% resource.children.each_with_index do |unit, idx| %>
+											<%= render partial: 'unit', locals: { unit: unit, idx: idx, current: -1 } %>
+										<% end %>
+									</div>
+								</div>
+							</div>
+			  		<% end %>
+			  	</div>
+			  <% end %>
+			<% end %>
 		</div>
 	</div>
 

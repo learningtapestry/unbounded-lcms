@@ -188,6 +188,9 @@ en:
       ell_level_label: >
         What level are your ELL students in:
       text_label: Is there a specific text you wnat to use?
+  lesson_page:
+    instructional_resources: Instructional resources
+    related_resources: Related professional development resources
   footer:
     copyright_html: Copyright &copy; UNBOUNDED ltd.
     address_html: >

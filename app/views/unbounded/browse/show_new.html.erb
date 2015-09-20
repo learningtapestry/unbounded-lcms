@@ -1,0 +1,63 @@
+<div class="lesson-page" data-role="page">
+	<div class="container">
+		<div class="row">
+			<div class="sidebar">
+				<div class="row">
+					<div class="module">
+						<div class="module-wrapper">
+							<div class="row">
+								<div class="module-title">
+									<div>ELA Grade 3</div>
+									<div>Module 1</div>
+								</div>
+								<%= render partial: 'unit', locals: { unit: @unit.first.first, idx: 0, current: @lobject.id } %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="lesson-content">
+				<div class="row">
+					<div class="lesson-img"></div>
+					<div class="lesson-dsc">
+						<h4><%= lesson_no(@lobject.title) %></h4>
+						<h2><%= lesson_title(@lobject.title) %></h2>
+						<div class="dsc">
+							<%= @lobject.engageny_description.html_safe %>
+						</div>
+					</div>
+					<div class="lesson-resources">
+						<div class="row">
+							<div class="lesson-inst-resources">
+								<h5><%= t('lesson_page.instructional_resources') %></h5>
+			          <ul class="list-unstyled">
+			          	<% @lobject.downloads.uniq.each do |download| %>
+			          		<li>
+			              	<a target="_blank" href="<%= attachment_url(download) %>">
+			              		<i class="fa fa-2x file-<%= file_icon(attachment_content_type(download)) %>"></i>
+			              		<span><%= download.title %></span>
+			              	</a>
+			              </li>
+			            <% end %>
+			          </ul>
+							</div>
+							<div class="lesson-dev-resources">
+								<h5><%= t('lesson_page.related_resources') %></h5>
+			          <ul>
+		              <% @lobject.related_lobjects.each do |related_lobject| %>
+	                  <li class="lobject-related-resource">
+                      <%= link_to(unbounded_show_new_path(id: related_lobject.id)) do %>
+                      	<i class="fa fa-2x file-<%= resource_icon(related_lobject) %>"></i>
+                      	<span><%= related_lobject.title %></span>
+                      <% end %>
+	                  </li>
+		              <% end %>
+			          </ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

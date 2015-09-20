@@ -27,5 +27,23 @@ module Unbounded
         t('resource_types.resource')
       end
     end
+
+    def lesson_title(title)
+      title.split(',').first
+    end
+
+    def lesson_no(title)
+      title.split(',').last
+    end
+
+    def file_icon(type)
+      type == 'pdf' ? type: 'doc'
+    end
+
+    def resource_icon(type)
+      resource_types = lobject.resource_types.pluck(:name)
+      resource_types.include?('video') ? 'video' : 'resource'
+    end
+
   end
 end
