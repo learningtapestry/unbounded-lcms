@@ -18,6 +18,23 @@
           <%= nav_link t('nav.professional_development'), unbounded_search_path %>
           <%= nav_link t('nav.about'), unbounded_search_path %>
           <%= nav_link t('nav.news'), unbounded_search_path %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-lg fa-search"></i></a>
+            <ul class="dropdown-menu">
+              <li>
+                <form action="<%= unbounded_search_path %>" class="navbar-form" role="search">
+                  <div class="form-group">
+                     <div class="input-group">
+                        <input name="query" type="search" class="form-control" placeholder="Search">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default btn-search" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
+                     </div>
+                  </div>
+                </form>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>

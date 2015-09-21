@@ -68,6 +68,7 @@ header {
 		.nav li a {
 			text-transform: uppercase;
 		}
+		.navbar-form {input[name='query'] {min-width: 200px;}}
 		margin-bottom: 0px;
 	}
 }
@@ -304,7 +305,6 @@ header {
 	content: $fa-var-file-text-o;
 }
 
-
 .lesson-page {
 	background-color: $ub-light-gray;
 	padding-top: $ub-module-padding; padding-bottom: $ub-module-padding;
@@ -390,13 +390,27 @@ footer {
 }
 
 @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+	.lesson-page {
+		.sidebar {
+			@include make-sm-column(12);
+			.module {
+				@include make-sm-column(6);
+				.unit {
+					@include make-sm-column(12, $padding-xs-horizontal * 2);
+				}
+			}
+		}
+		.lesson-content {
+			@include make-sm-column(12);
+		}
+	}
 	footer {
 		.row > div + div { padding-top: $ub-element-padding;}
 	}
 }
 
 @media (max-width: $screen-xs-max) {
-		footer {
+	footer {
 		.row > div + div { padding-top: $ub-element-padding;}
 	}
 }
