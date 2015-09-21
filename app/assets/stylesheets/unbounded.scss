@@ -8,8 +8,9 @@ $ub-light-gray: #edebf0;
 $ub-yellow: #f5d329;
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
-@import url(https://fonts.googleapis.com/css?family=Lato:700);
+@import "_fonts";
+//@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+//@import url(https://fonts.googleapis.com/css?family=Lato:700);
 
 // Font sizes
 $font-size-icon: 21px;
@@ -17,8 +18,9 @@ $font-size-form: 18px;
 $font-size-caret: 32px;
 
 // Bootstrap variables
-$font-family-sans-serif: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family-heading: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-sans-serif: "Caponi Slab Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-heading: "PFCentroSansPro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-heading-light: "PFCentroSansProLight", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $text-color: $ub-purple;
 $body-bg: white;
 
@@ -62,6 +64,7 @@ h1, h2, h3, h4, .navbar-brand, hero-title, .hero-subtitle {
 
 header {
 	.navbar {
+		font-family: $font-family-heading;
 		.nav li a {
 			text-transform: uppercase;
 		}
@@ -117,10 +120,12 @@ header {
 			> div { padding: $ub-element-padding $ub-element-padding; display: block;}
 			.hero-title {
 				background-color: rgba(26,25,48,0.5);
+				h1 {font-family: $font-family-sans-serif; font-size: 44px;}
 			}
 			.hero-subtitle {
 				color: $ub-yellow;
 				background-color: rgba(26,25,48,0.8);
+				font-family: $font-family-heading-light;
 			}
 		}
 	}
