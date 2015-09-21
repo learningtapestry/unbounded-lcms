@@ -7,10 +7,40 @@
 						<div class="module-wrapper">
 							<div class="row">
 								<div class="module-title">
-									<div>ELA Grade 3</div>
-									<div>Module 1</div>
+									<div class="module-title-grades">ELA Grade 3</div>
+									<div class="module-title-module">Module 1</div>
 								</div>
-								<%= render partial: 'unit', locals: { unit: @unit.first.first, idx: 0, current: @lobject.id } %>
+								<%= render partial: 'unit', locals: { unit: @unit.first, idx: 0, current: @lobject.id } %>
+							</div>
+						</div>
+					</div>
+					<div class="module">
+						<div class="module-wrapper lesson-nav">
+							<div class="row">
+								<div class="nav-module-up">
+									<div><a href="#"><i class="fa fa-3x fa-angle-up"></i></a></div>
+									<div>To current module</div>
+								</div>
+								<div class="nav-lesson-left">
+									<div class="media">
+  									<div class="media-left media-middle">
+  										<a href="#"><i class="fa fa-3x fa-angle-left"></i></a>
+  									</div>
+  									<div class="media-body">Previous LESSON</div>
+  								</div>
+								</div>
+								<div class="nav-lesson-right">
+									<div class="media">
+  									<div class="media-body text-right">Next LESSON</div>
+  									<div class="media-right media-middle">
+  										<a href="#"><i class="fa fa-3x fa-angle-right"></i></a>
+  									</div>
+  								</div>
+								</div>
+								<div class="nav-module-down">
+									<div>Next MODULE</div>
+									<div><a href="#"><i class="fa fa-3x fa-angle-down"></i></a></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -30,26 +60,30 @@
 						<div class="row">
 							<div class="lesson-inst-resources">
 								<h5><%= t('lesson_page.instructional_resources') %></h5>
-			          <ul class="list-unstyled">
+			          <ul class="media-list">
 			          	<% @lobject.downloads.uniq.each do |download| %>
-			          		<li>
-			              	<a target="_blank" href="<%= attachment_url(download) %>">
-			              		<i class="fa fa-2x file-<%= file_icon(attachment_content_type(download)) %>"></i>
-			              		<span><%= download.title %></span>
-			              	</a>
+			          		<li class="media">
+			          			<div class="media-left media-middle">
+			          				<i class="fa fa-2x file-<%= file_icon(attachment_content_type(download)) %>"></i>
+			          			</div>
+			          			<div class="media-body">
+			          				<%= link_to(download.title, attachment_url(download)) %>
+			          			</div>
 			              </li>
 			            <% end %>
 			          </ul>
 							</div>
 							<div class="lesson-dev-resources">
 								<h5><%= t('lesson_page.related_resources') %></h5>
-			          <ul>
+			          <ul class="media-list">
 		              <% @lobject.related_lobjects.each do |related_lobject| %>
-	                  <li class="lobject-related-resource">
-                      <%= link_to(unbounded_show_new_path(id: related_lobject.id)) do %>
-                      	<i class="fa fa-2x file-<%= resource_icon(related_lobject) %>"></i>
-                      	<span><%= related_lobject.title %></span>
-                      <% end %>
+	                  <li class="media">
+			          			<div class="media-left media-middle">
+			          				<i class="fa fa-2x file-<%= resource_icon(related_lobject) %>"></i>
+			          			</div>
+			          			<div class="media-body">
+			          				<%= link_to(related_lobject.title, unbounded_show_new_path(id: related_lobject.id)) %>
+			          			</div>
 	                  </li>
 		              <% end %>
 			          </ul>

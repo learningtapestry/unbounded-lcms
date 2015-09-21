@@ -225,7 +225,11 @@ header {
 		background-color: $ub-light-purple;
 		.module {
 			padding-top: $padding-base-vertical; padding-bottom: $padding-base-vertical;
-			@include make-md-column(6);
+			@include make-md-column(6, $padding-base-horizontal);
+			.module-title {
+				.module-title-title {@include make-md-column(4); text-transform: uppercase;}
+				.module-title-dsc {@include make-md-column(8);}
+			}
 			.unit {
 				@include make-md-column(4, $padding-xs-horizontal * 2);
 			}
@@ -243,10 +247,11 @@ header {
 			.module-title {
 				@include make-md-column(12, $padding-xs-horizontal * 2); color: white;
 				padding-bottom: $ub-element-padding;
+				font-family: $font-family-heading;
 			}
 			.unit {
 				//@include make-md-column(4, $padding-xs-horizontal * 2);
-				padding-top: $padding-base-vertical;
+				padding-top: $padding-base-vertical; padding-bottom: $padding-base-vertical;
 				.unit-wrapper {
 					background-color: $ub-purple-1;
 					padding-top: $ub-element-padding; padding-bottom: $ub-element-padding;
@@ -255,6 +260,8 @@ header {
 						.unit-title {
 							@include make-md-column(12, $padding-xs-horizontal * 2);
 							padding-bottom: $ub-element-padding;
+							font-family: $font-family-heading;
+							text-transform: uppercase;
 						}
 						.lessons {
 							color: $ub-light-gray;
@@ -299,9 +306,31 @@ header {
 	.sidebar {
 		@include make-md-column(2);
 		.module {
+			padding-bottom: $ub-element-padding;
 			@include make-md-column(12);
+			.module-title {
+				text-transform: uppercase;
+				.module-title-grades {color: $ub-light-purple;font-size: $font-size-small;}
+			}
 			.unit {
 				@include make-md-column(12, $padding-xs-horizontal * 2);
+			}
+			.lesson-nav {
+				> div.row > div {padding-bottom: $padding-base-vertical;}
+				color: white; font-size: $font-size-small;
+				a {color: white; font-size: $font-size-small;}
+				.nav-module-up, .nav-module-down {
+					text-align: center;
+					@include make-md-column(12, $padding-xs-horizontal * 2);
+					> div:first-child {margin-bottom: -$padding-base-vertical;}
+				}
+				.nav-lesson-left, .nav-lesson-right {
+					@include make-md-column(6, $padding-xs-horizontal);
+					.media {
+						.media-left {padding-right: $padding-xs-horizontal;}
+						.media-right {padding-left: $padding-xs-horizontal;}
+					}
+				}
 			}
 		}
 	}
@@ -320,9 +349,8 @@ header {
 		.lesson-resources {
 			@include make-md-column(5.5);
 			h5 {font-weight: bold; color: $ub-purple;}
+			ul.media-list {padding-top: $ub-element-padding;}
 			color: $ub-gray; a {color: $ub-gray;}
-			i {vertical-align: middle;}
-			ul { li {padding-top: $ub-element-padding;}}
 			.lesson-inst-resources {@include make-md-column(12);}
 			.lesson-dev-resources {@include make-md-column(12);}
 		}

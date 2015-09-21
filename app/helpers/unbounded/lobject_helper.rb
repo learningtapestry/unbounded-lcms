@@ -29,11 +29,15 @@ module Unbounded
     end
 
     def lesson_title(title)
-      title.split(',').first
+      title.split(',').first.gsub(/Module\s+\w+/, '')
     end
 
     def lesson_no(title)
       title.split(',').last
+    end
+
+    def module_title(title)
+      title[/Module\s+\w+/]
     end
 
     def file_icon(type)

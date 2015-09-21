@@ -52,7 +52,10 @@
 								<div class="module-wrapper">
 									<div class="row">
 										<div class="module-title">
-											<div><%= resource.content.title %></div>
+											<div class="row">
+												<div class="module-title-title"><%= module_title(resource.content.title) %></div>
+												<div class="module-title-dsc"><%= resource.content.title %></div>
+											</div>
 										</div>
 										<% resource.children.each_with_index do |unit, idx| %>
 											<%= render partial: 'unit', locals: { unit: unit, idx: idx, current: -1 } %>
