@@ -1,7 +1,15 @@
 module Unbounded
   module Admin
     class LobjectsController < Unbounded::AdminController
-      before_action :find_resource, except: [:new, :create]
+      before_action :find_resource, except: [:index, :new, :create]
+
+      def index
+        @q = Lobject.ransack(params[:q])
+        @lobjects = @q.result.
+                       order(id: :desc).
+                       includes(:alignments, :grades, :lobject_titles, :resource_types, :subjects).
+                       paginate(page: params[:page], per_page: 15)
+      end
 
       def new
         @lobject = Lobject.new(organization: Organization.unbounded)
@@ -46,6 +54,7 @@ module Unbounded
           params.
             require(:content_models_lobject).
             permit(
+                    :hidden,
                     alignment_ids: [],
                     grade_ids: [],
                     lobject_descriptions_attributes: [:description, :id],

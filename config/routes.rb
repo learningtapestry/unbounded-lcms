@@ -21,15 +21,15 @@ Rails.application.routes.draw do
     namespace :admin do
       get '/' => 'welcome#index'
 
-      resources :collection_types, except: :destroy
+      resources :collection_types
 
       resources :collections
 
+      resource :lobject_bulk_edits, only: [:new, :create]
+
       resources :lobject_children, only: :create
 
-      resources :lobjects, except: [:index, :show, :destroy] do
-        get :delete, action: :destroy, on: :member
-      end
+      resources :lobjects, except: :show
 
       resources :pages, except: :show
     end

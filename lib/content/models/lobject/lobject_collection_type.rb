@@ -3,7 +3,7 @@ module Content
     class LobjectCollectionType < ActiveRecord::Base
       include Normalizable
 
-      has_many :lobject_collections
+      has_many :lobject_collections, dependent: :nullify
 
       validates :name, presence: true, uniqueness: { case_sensitive: false }
 

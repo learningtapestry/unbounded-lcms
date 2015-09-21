@@ -35,6 +35,11 @@ module Unbounded
         end
       end
 
+      def destroy
+        @collection_type.destroy
+        redirect_to :unbounded_admin_collection_types, notice: t('.success')
+      end
+
       private
         def collection_type_params
           params.require('content_models_lobject_collection_type').permit(:name)

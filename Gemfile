@@ -18,6 +18,7 @@ gem 'oj', '~> 2.12.12'
 gem 'oj_mimic_json', '~> 1.0.1'
 gem 'pg', '~> 0.18.2'
 gem 'rails', '4.2.4'
+gem 'ransack', '~> 1.7.0'
 gem 'rubytree', '~> 0.9.6'
 gem 'sass-rails', '~> 5.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
@@ -25,6 +26,7 @@ gem 'simple_form'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate', '~> 3.0.7'
+gem 'will_paginate-bootstrap'
 
 group :development, :test do
   gem 'byebug'
