@@ -24,6 +24,6 @@ class LinkToAdminTestCase < IntegrationTestCase
     within 'nav.navbar' do
       click_link 'Admin'
     end
-    assert_equal current_path, '/unbounded/admin'
+    assert_equal current_path, unbounded_admin_path
   end
 end
