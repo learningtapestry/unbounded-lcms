@@ -34,6 +34,8 @@ $navbar-default-link-hover-color: $ub-purple;
 $navbar-default-border: none;
 $navbar-border-radius: 0px;
 
+$breadcrumb-bg: transparent;
+
 $brand-primary: $ub-purple;
 $border-radius-base: 0px;
 $btn-border-radius-base: 0px;
@@ -58,7 +60,7 @@ $lesson-img-height: 195px;
 @import "bootstrap";
 @import "selectize.bootstrap3";
 
-h1, h2, h3, h4, .navbar-brand, hero-title, .hero-subtitle {
+h1, h2, h3, h4, h5, .navbar-brand, hero-title, .hero-subtitle {
 	font-family: $font-family-heading;
 }
 
@@ -284,6 +286,56 @@ header {
 					}
 				}
 			}
+		}
+	}
+}
+
+.search-results-page {
+	background-color: $ub-light-gray;
+	.breadcrumbs-list {
+		@include make-md-column(12);
+		padding-top: $ub-element-padding; //padding-bottom: $ub-element-padding;
+	}
+	.sidebar {
+		@include make-md-column(3);
+		.sidebar-block {
+			@include make-md-column(12);
+			padding-bottom: $ub-element-padding;
+			.sidebar-block-wrapper {
+				padding-top: $ub-element-padding; padding-bottom: $ub-element-padding;
+				padding-left: $padding-base-horizontal; padding-right: $padding-base-horizontal;
+				background-color: $ub-purple; color: white;
+				.sidebar-block-content{
+					padding: $padding-base-horizontal $padding-base-vertical;
+					background-color: $ub-light-purple; color: $ub-purple;
+				}
+				h4 {text-transform: uppercase;}
+			}
+		}
+	}
+	.search-content{
+		@include make-md-column(9);
+		.search-content-wrapper{
+			padding: $ub-element-padding $padding-base-horizontal;
+			background-color: white;
+			@include clearfix;
+		}
+		.search-controls {
+			@include make-md-column(12);
+			form {
+				> div.form-group {
+					> label {@include make-md-column(4); }
+					> div.search-group {@include make-md-column(6);}
+					> div:last-child {@include make-md-column(2);}
+				}
+			}
+		}
+		.search-results-content {
+			@include make-md-column(12);
+			.search-total {text-align: right; @include make-md-column(12);}
+			.search-results {@include make-md-column(12);}
+			.search-pagination {@include make-md-column(12); nav {float:right}}
+			.list-description {background-color: white; color: gray;}
 		}
 	}
 }

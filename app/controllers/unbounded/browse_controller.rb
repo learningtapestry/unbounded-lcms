@@ -2,7 +2,7 @@ require 'content/models'
 
 module Unbounded
   class BrowseController < UnboundedController
-    layout "unbounded_new", only: [:home, :search_new, :show_new]
+    layout "unbounded_new", only: [:home, :search, :search_new, :show_new]
 
     def index
       @search = LobjectFacets.new(params)

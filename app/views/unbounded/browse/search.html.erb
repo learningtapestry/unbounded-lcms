@@ -1,5 +1,7 @@
-<div class="row">
-    <div class="col-lg-12">
+<div class="search-results-page" data-role="page">
+  <div class="container">
+    <div class="row">
+      <div class="breadcrumbs-list">
         <ol class="breadcrumb">
           <li><%= link_to('All documents', unbounded_path) %></li>
           <% if params[:query] %>
@@ -7,61 +9,80 @@
           <% end %>
           <% current_search.except(:query).each do |k,v| %>
             <li>
-                <%= link_to(t("unbounded.title.#{k}") + raw(" <strong>#{v}</strong>"), unbounded_search_path(search_up_to(k))) %>
+              <%= link_to(t("unbounded.title.#{k}") + raw(" <strong>#{v}</strong>"), unbounded_search_path(search_up_to(k))) %>
             </li>
           <% end %>
         </ol>
+      </div>
     </div>
-</div>
+  </div>
 
-<div class="nc-content">
+  <div class="container">
     <div class="row">
-        <div class="col-lg-3 sidebar">
-            <strong>Refine results</strong>
-            <br>
-            <br>
-            <ul class="list-unstyled">
-                <% unless params[:query] %>
-                <li><strong>Search in the results</strong>
-                    <div class="vertical-breath">
-                        <form action="<%= unbounded_search_path %>" method="GET">
-                            <div class="input-group">
-                              <% current_search.each do |k,v| %>
-                                <input type="hidden" name="<%= k %>" value="<%= v %>">
-                              <% end %>
-                              <input type="text" class="form-control" placeholder="Search for..." name="query" value="<%= params[:query] %>">
-                              <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">Go</button>
-                              </span>
-                            </div><!-- /input-group -->
-                        </form>
+      <div class="sidebar">
+        <div class="row">
+          <% @search.facets.each do |facet, values| %>
+            <% next if values.size == 0 %>
+            <div class="sidebar-block">
+              <div class="sidebar-block-wrapper">
+                  <h4><%= t("unbounded.title.#{facet}") %></h4>
+                  <div class="sidebar-block-content">
+                    <ul class="list-unstyled vertical-breath">
+                      <% values.each do |value, doc_count| %>
+                        <li>
+                          <%= link_to(value, add_to_search(facet => value)) %> (<%= doc_count %>)
+                        </li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="search-content">
+        <div class="row">
+          <div class="search-content-wrapper">
+            <div class="search-controls">
+              <% unless params[:query] %>
+                <form id="form-search" class="form-horizontal form-search" data-action="<%=unbounded_search_path %>" method="GET">
+                  <div class="form-group">
+                    <label class="control-label" for="query">Search in the results</label>
+                    <div class="search-group">
+                      <div class="input-group">
+                        <% current_search.each do |k,v| %>
+                          <input type="hidden" name="<%= k %>" value="<%= v %>">
+                        <% end %>
+                        <input type="search" class="form-control" name="query" placeholder="Search for..." value="<%= params[:query] %>">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
+                      </div>
                     </div>
-                </li>
-                <% end %>
-                <% @search.facets.each do |facet, values| %>
-                    <% next if values.size == 0 %>
-                    <li><strong><%= t("unbounded.title.#{facet}") %></strong>
-                        <ul class="list-unstyled vertical-breath">
-                            <% values.each do |value, doc_count| %>
-                                <li>
-                                    <%= link_to(value, add_to_search(facet => value)) %> (<%= doc_count %>)
-                                </li>
-                            <% end %>
-                        </ul>
-                    </li>
-                <% end %>
-            </ul>
+                    <div>
+                      <button class="btn btn-default btn-block">Refine results</button>
+                    </div>
+                  </div>
+                </form>
+                <hr>
+              <% end %>
+            </div>
+            <div class="search-results-content">
+              <div class="row">
+                <div class="search-total"><%= @search.total_hits %> Results - Page <%= @search.page %></div>
+                <div class="search-results">
+                  <% @search.results.each do |lobject| %>
+                      <%= render partial: 'lobject_preview_new', locals: { lobject: lobject } %>
+                  <% end %>
+                </div>
+                <div class="search-pagination">
+                  <%= render partial: 'pagination' %>
+                </div>
+            </div>
+          </div>
         </div>
-
-        <div class="col-lg-9">
-            <strong class="title"><%= @search.total_hits %> Results - Page <%= @search.page %></strong>
-            <br>
-            <br>
-            <% @search.results.each do |lobject| %>
-                <%= render partial: 'lobject_preview', locals: { lobject: lobject } %>
-            <% end %> 
-            <br>
-            <%= render partial: 'pagination' %>
-        </div>
+      </div>
     </div>
+  </div>
+
 </div>
