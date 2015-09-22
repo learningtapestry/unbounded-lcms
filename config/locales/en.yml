@@ -32,11 +32,12 @@ en:
         success: Synonyms updated successfully
   activerecord:
     models:
-      content/models/lobject: Learning Object
+      content/models/lobject: Resource
     attributes:
       content/models/lobject:
         lobject_downloads: Downloadable resources
         related_lobjects: Related materials
+        status: Status
       content/models/lobject_child:
         child_id: Learning Object
       content/models/lobject_collection:
@@ -47,6 +48,9 @@ en:
   layouts:
     unbounded:
       admin: Admin
+  lobject_statuses:
+    active: Active
+    hidden: Hidden
   resource_types:
     video: Video
     resource: Resource
@@ -55,11 +59,16 @@ en:
     professional_development: Professional Development
     news: News
     about: About
+  resources_count:
+    one: resource
+    other: resources
   unbounded:
     admin:
       collection_types:
         create:
           success: Collection Type created successfully.
+        destroy:
+          success: Collection Type deleted successfully.
         edit:
           page_title: "Edit Collection Type #%{collection_type_id}"
         index:
@@ -92,18 +101,38 @@ en:
           page_title: "Learning Objects Collection #%{collection_id}"
         update:
           success: Learning Objects Collection was updated successfully.
+      lobject_bulk_edits:
+        create:
+          success: "%{count} %{resources_count} updated successfully."
+        new:
+          no_resources: No resources were selected.
+          page_title: Edit Tags
       lobject_children:
         create:
           success: New Node added into Collection successfully.
       lobjects:
+        destroy:
+          success: "Learning Object #%{lobject_id} was deleted successfully."
         edit:
           page_title: "Edit Learning Object #%{lobject_id}"
         form:
           add_download: Add Downloadable Resource
+        index:
+          grade_levels: Grade Levels
+          new_lobject: Add Resource
+          page_title: Content Administration
+          resource: Resource
+          resource_types: Resource Types
+          standards: Standards
+          status: Status
+          subjects: Subjects
         new:
           page_title: New Learning Object
-        destroy:
-          success: "Learning Object #%{lobject_id} was deleted successfully."
+        search_form:
+          grades: Grades
+          resource_types: Resource Types
+          standards: Standards
+          subjects: Subjects
       pages:
         create:
           success: Page created successfully.
@@ -122,8 +151,8 @@ en:
         index:
           collection_types: Collection Types
           collections: Collections
-          new_lobject: Add Learning Object
           pages: Pages
+          resources: Resources
     browser: Unbounded Content Browser
     title:
       logo: Unbounded
@@ -199,3 +228,4 @@ en:
       123 Main Street, 12th fl, New York NY 10003
     phone_html: (888)123-4567
     rights_html: All rights reserved.
+    search: Search

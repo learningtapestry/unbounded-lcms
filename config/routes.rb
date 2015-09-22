@@ -19,19 +19,20 @@ Rails.application.routes.draw do
     get '/home' => 'browse#home'
     get '/search_new' => 'browse#search_new'
     get '/show_new/:id' => 'browse#show_new', as: :show_new
+    get '/about' => 'pages#show_slug', slug: 'about'
 
     namespace :admin do
       get '/' => 'welcome#index'
 
-      resources :collection_types, except: :destroy
+      resources :collection_types
 
       resources :collections
 
+      resource :lobject_bulk_edits, only: [:new, :create]
+
       resources :lobject_children, only: :create
 
-      resources :lobjects, except: [:index, :show, :destroy] do
-        get :delete, action: :destroy, on: :member
-      end
+      resources :lobjects, except: :show
 
       resources :pages, except: :show
     end

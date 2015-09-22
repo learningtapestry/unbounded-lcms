@@ -29,7 +29,9 @@ class LobjectsTestCase < IntegrationTestCase
 
   def test_new_lobject
     visit '/unbounded/admin'
-    click_link 'Add Learning Object'
+    click_link 'Resources'
+    assert_equal current_path, '/unbounded/admin/lobjects'
+    click_link 'Add Resource'
     assert_equal current_path, '/unbounded/admin/lobjects/new'
 
     click_button 'Save'
@@ -40,6 +42,7 @@ class LobjectsTestCase < IntegrationTestCase
     fill_in 'Title',       with: @title
     fill_in 'URL',         with: @url
     fill_in 'Description', with: @description
+    check 'Hidden'
     select @language.name,       from: 'Language'
     select @grade1.grade,        from: 'Grades'
     select @grade2.grade,        from: 'Grades'
@@ -57,6 +60,7 @@ class LobjectsTestCase < IntegrationTestCase
     lobject = Lobject.last
     assert_equal current_path, "/unbounded/show/#{lobject.id}"
     assert_equal lobject.description,  @description
+    assert_equal lobject.hidden?,      true
     assert_equal lobject.language,     @language
     assert_equal lobject.organization, @unbounded_org
     assert_equal lobject.title,        @title
@@ -92,6 +96,7 @@ class LobjectsTestCase < IntegrationTestCase
     fill_in 'Title',       with: @title
     fill_in 'URL',         with: @url
     fill_in 'Description', with: @description
+    uncheck 'Hidden'
     select @language.name, from: 'Language'
     lobject.grades.each { |grade| unselect grade.grade, from: 'Grades' }
     select @grade2.grade, from: 'Grades'
@@ -110,6 +115,7 @@ class LobjectsTestCase < IntegrationTestCase
     lobject.reload
     assert_equal current_path, "/unbounded/show/#{lobject.id}"
     assert_equal lobject.description, @description
+    assert_equal lobject.hidden?,     false
     assert_equal lobject.language,    @language
     assert_equal lobject.title,       @title
     assert_equal lobject.url.url,     @url
@@ -121,24 +127,10 @@ class LobjectsTestCase < IntegrationTestCase
     assert_same_elements lobject.topics,           [@topic2]
   end
 
-  def test_delete_lobject_without_organization
-    lobject = lobjects(:no_organization)
-    assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/delete"
-    end
-  end
-
-  def test_delete_lobject_with_incorrect_organization
-    lobject = lobjects(:easol)
-    assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/delete"
-    end
-  end
-
   def test_delete_unbounded_lobject
     lobject = lobjects(:unbounded)
     visit "/unbounded/show/#{lobject.id}"
-    click_link 'Delete'
+    click_button 'Delete'
 
     assert_nil Lobject.find_by_id(lobject.id)
     assert_equal current_path, '/unbounded'

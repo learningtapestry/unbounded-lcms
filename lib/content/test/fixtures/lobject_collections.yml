@@ -1,5 +1,7 @@
 easol:
   lobject: easol
+  lobject_collection_type: nti
 
 unbounded:
   lobject: unbounded
+  lobject_collection_type: curriculum_map

@@ -1,3 +1,9 @@
+lr:
+  organization_id:
+
+lr2:
+  organization_id:
+
 easol:
   organization: easol
 
@@ -5,6 +11,7 @@ no_organization:
   organization_id:
 
 unbounded:
+  hidden: true
   organization: unbounded
 
 unbounded_textbook:

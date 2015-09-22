@@ -5,3 +5,15 @@ unbounded_mp1:
 unbounded_mp3:
   alignment: mp3
   lobject: unbounded
+
+lr_mp1:
+  lobject: lr
+  alignment: mp1
+
+lr_mp2:
+  lobject: lr
+  alignment: mp2
+
+lr2_mp1:
+  lobject: lr2
+  alignment: mp1

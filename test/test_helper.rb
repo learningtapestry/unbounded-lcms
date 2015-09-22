@@ -9,22 +9,29 @@ require 'minitest/rails/capybara'
 require 'shoulda/context'
 require 'shoulda/matchers'
 
-class TestCase < Content::Test::ContentTestBase
+class TestCase < ActiveSupport::TestCase
   include Content::Models
-  include IntegrationDatabase
+  include Content::Test::ContentFixtures
+  include Content::Test::DatabaseCleanable
 end
 
-class ControllerTestCase
+class ControllerTestCase < ActionController::TestCase
+  include Content::Models
+  include Content::Test::ContentFixtures
+  include Content::Test::DatabaseCleanable
+  include Content::Test::ElasticsearchTestable
   include Devise::TestHelpers
   include IntegrationDatabase
 end
 
-class IntegrationTestCase < Content::Test::ElasticsearchTestBase
+class IntegrationTestCase < ActionDispatch::IntegrationTest
   include Content::Models
+  include Content::Test::ContentFixtures
+  include Content::Test::DatabaseCleanable
+  include Content::Test::ElasticsearchTestable
   include Capybara::DSL
-  include Warden::Test::Helpers
-
-  Warden.test_mode!
+  include Warden::Test::Helpers; Warden.test_mode!
+  include IntegrationDatabase
 
   def teardown
     super

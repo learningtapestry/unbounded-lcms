@@ -59,4 +59,26 @@ class LobjectCollectionTypesTestCase < IntegrationTestCase
     assert_equal current_path, "/unbounded/admin/collection_types/#{@collection_type.id}"
     assert_equal find('.alert.alert-success').text, '× Collection Type updated successfully.'
   end
+
+  def test_delete_collection_type_from_index_page
+    collection_type = lobject_collection_types(:nti)
+    visit '/unbounded/admin/collection_types'
+    within "#collection_type_#{collection_type.id}" do
+      click_button 'Delete'
+    end
+    assert_nil LobjectCollectionType.find_by_id(collection_type.id)
+    assert_equal current_path, '/unbounded/admin/collection_types'
+    assert_equal find('.alert.alert-success').text, "× Collection Type deleted successfully."
+  end
+
+  def test_delete_collection_type_from_show_page
+    collection_type = lobject_collection_types(:curriculum_map)
+    visit '/unbounded/admin/collection_types'
+    click_link collection_type.name
+    assert_equal current_path, "/unbounded/admin/collection_types/#{collection_type.id}"
+    click_button 'Delete'
+    assert_nil LobjectCollectionType.find_by_id(collection_type.id)
+    assert_equal current_path, '/unbounded/admin/collection_types'
+    assert_equal find('.alert.alert-success').text, "× Collection Type deleted successfully."
+  end
 end
