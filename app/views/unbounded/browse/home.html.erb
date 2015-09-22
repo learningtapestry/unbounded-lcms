@@ -1,0 +1,42 @@
+<div class="home-page" data-role="page">
+	<div class="header-module">
+		<div class="hero-text">
+			<div class="hero-title"><h1><%= t('home_page.slogan') %></h1></div>
+			<div class="hero-subtitle"><%= t('home_page.tagline') %></div>
+		</div>
+	</div>
+
+	<div class="container page-content">
+		<div class="row stripe-module">
+			<div class="hero-img">
+				<%= image_tag("curriculum.jpg", :alt => t('nav.curriculum')) %>
+			</div>
+			<div class="hero-text">
+				<h2><%= t('nav.curriculum') %></h2>
+				<div class="hero-dsc"><%= t('home_page.curriculum_html') %></div>
+			</div>
+		</div>
+
+		<div class="row stripe-module">
+			<div class="hero-text">
+				<h2><%= t('nav.professional_development') %></h2>
+				<div class="hero-dsc"><%= t('home_page.professional_development_html') %></div>
+			</div>
+			<div class="hero-img">
+				<%= image_tag("professional_development.jpg", :alt => t('nav.professional_development')) %>
+			</div>
+		</div>
+
+		<div class="row stripe-module">
+			<div class="hero-img">
+				<%= image_tag("about.jpg", :alt => t('nav.about')) %>
+			</div>
+			<div class="hero-text">
+				<h2><%= t('nav.about') %> <%= image_tag("logo.svg") %></h2>
+				<div class="hero-dsc"><%= t('home_page.about_html') %>.</div>
+			</div>
+		</div>
+
+  </div>
+
+</div>

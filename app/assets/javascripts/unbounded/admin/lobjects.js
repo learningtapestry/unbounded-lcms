@@ -18,6 +18,12 @@ window.initializeLobjectForm = function() {
   });
 };
 
+window.initializeLobjectList = function() {
+  $('.lobject-list-select-all').click(function() {
+    $('.lobject-checkbox').prop('checked', $(this).prop('checked'));
+  });
+};
+
 window.showTagError = function(name, message) {
   $error = $('#' + name + '_modal').find('.error');
   $error.html(message);

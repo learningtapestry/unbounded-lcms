@@ -14,7 +14,7 @@ module Unbounded
       end
 
       def language_collection_options
-        Content::Models::Language.order(:name).map { |lang| [lang.name, lang.id ] }
+        Language.order(:name).map { |lang| [lang.name, lang.id ] }
       end
 
       def lobject_status(lobject)

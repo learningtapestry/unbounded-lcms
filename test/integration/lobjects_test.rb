@@ -28,9 +28,11 @@ class LobjectsTestCase < IntegrationTestCase
   end
 
   def test_new_lobject
-    visit '/unbounded/admin'
-    click_link 'Add Learning Object'
-    assert_equal current_path, '/unbounded/admin/lobjects/new'
+    visit unbounded_admin_path
+    click_link 'Resources'
+    assert_equal current_path, unbounded_admin_lobjects_path
+    click_link 'Add Resource'
+    assert_equal current_path, new_unbounded_admin_lobject_path
 
     within '#lobject_form' do
       click_button 'Save'
@@ -42,6 +44,7 @@ class LobjectsTestCase < IntegrationTestCase
     fill_in 'Title',       with: @title
     fill_in 'URL',         with: @url
     fill_in 'Description', with: @description
+    check 'Hidden'
     select @language.name,       from: 'Language'
     select @grade1.grade,        from: 'Grades'
     select @grade2.grade,        from: 'Grades'
@@ -59,8 +62,9 @@ class LobjectsTestCase < IntegrationTestCase
     end
 
     lobject = Lobject.last
-    assert_equal current_path, "/unbounded/show/#{lobject.id}"
+    assert_equal current_path, unbounded_show_path(lobject.id)
     assert_equal lobject.description,  @description
+    assert_equal lobject.hidden?,      true
     assert_equal lobject.language,     @language
     assert_equal lobject.organization, @unbounded_org
     assert_equal lobject.title,        @title
@@ -76,26 +80,27 @@ class LobjectsTestCase < IntegrationTestCase
   def test_edit_lobject_without_organization
     lobject = lobjects(:no_organization)
     assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/edit"
+      visit edit_unbounded_admin_lobject_path(lobject.id)
     end
   end
 
   def edit_lobject_with_incorrect_organization
     lobject = lobjects(:easol)
     assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/edit"
+      visit edit_unbounded_admin_lobject_path(lobject.id)
     end
   end
 
   def test_edit_unbounded_lobject
     lobject = lobjects(:unbounded)
-    visit "/unbounded/show/#{lobject.id}"
+    visit unbounded_show_path(lobject.id)
     click_link 'Edit'
-    assert_equal current_path, "/unbounded/admin/lobjects/#{lobject.id}/edit"
+    assert_equal current_path, edit_unbounded_admin_lobject_path(lobject.id)
 
     fill_in 'Title',       with: @title
     fill_in 'URL',         with: @url
     fill_in 'Description', with: @description
+    uncheck 'Hidden'
     select @language.name, from: 'Language'
     lobject.grades.each { |grade| unselect grade.grade, from: 'Grades' }
     select @grade2.grade, from: 'Grades'
@@ -114,8 +119,9 @@ class LobjectsTestCase < IntegrationTestCase
     end
 
     lobject.reload
-    assert_equal current_path, "/unbounded/show/#{lobject.id}"
+    assert_equal current_path, unbounded_show_path(lobject.id)
     assert_equal lobject.description, @description
+    assert_equal lobject.hidden?,     false
     assert_equal lobject.language,    @language
     assert_equal lobject.title,       @title
     assert_equal lobject.url.url,     @url
@@ -127,27 +133,13 @@ class LobjectsTestCase < IntegrationTestCase
     assert_same_elements lobject.topics,           [@topic2]
   end
 
-  def test_delete_lobject_without_organization
-    lobject = lobjects(:no_organization)
-    assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/delete"
-    end
-  end
-
-  def test_delete_lobject_with_incorrect_organization
-    lobject = lobjects(:easol)
-    assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/delete"
-    end
-  end
-
   def test_delete_unbounded_lobject
     lobject = lobjects(:unbounded)
-    visit "/unbounded/show/#{lobject.id}"
-    click_link 'Delete'
+    visit unbounded_show_path(lobject.id)
+    click_button 'Delete'
 
     assert_nil Lobject.find_by_id(lobject.id)
-    assert_equal current_path, '/unbounded'
+    assert_equal current_path, unbounded_path
     assert_equal page.find('.alert.alert-success').text, "× Learning Object ##{lobject.id} was deleted successfully."
   end
 end
