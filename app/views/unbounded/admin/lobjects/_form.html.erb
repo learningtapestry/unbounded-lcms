@@ -1,6 +1,6 @@
 <% url = @lobject.new_record? ? :unbounded_admin_lobjects : unbounded_admin_lobject_path(@lobject) %>
 
-<%= simple_nested_form_for @lobject, url: url do |f| %>
+<%= simple_nested_form_for @lobject, url: url, html: { id: 'lobject_form' } do |f| %>
 
   <%= f.simple_fields_for :lobject_titles do |lobject_titles_fields| %>
     <%= lobject_titles_fields.input :title %>
