@@ -45,6 +45,7 @@ $navbar-border-radius: 0px;
 
 $brand-primary: $c-blue;
 
+@import "font-awesome-sprockets";
 @import "font-awesome";
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";

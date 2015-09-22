@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, class_name: 'Content::Models::User'
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -16,6 +16,9 @@ Rails.application.routes.draw do
     get '/' => 'browse#index'
     get '/search' => 'browse#search'
     get '/show/:id' => 'browse#show', as: :show
+    get '/home' => 'browse#home'
+    get '/search_new' => 'browse#search_new'
+    get '/show_new/:id' => 'browse#show_new', as: :show_new
     get '/about' => 'pages#show_slug', slug: 'about'
 
     namespace :admin do

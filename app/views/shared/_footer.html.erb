@@ -1,0 +1,25 @@
+<div class="container">
+	<div class="row">
+		<div class="footer-logo">
+	  	<%= link_to unbounded_path do %>
+	  		<%= image_tag 'logo_footer.svg', :alt => t('unbounded.title.logo') %>
+	  	<% end %>
+	  </div>
+	  <div class="footer-txt">
+	  	<ul class="list-unstyled list-inline">
+		  	<li><%= t('footer.copyright_html') %></li>
+		  	<li><%= t('footer.address_html') %></li>
+		  	<li><%= t('footer.phone_html') %></li>
+		  	<li><%= t('footer.rights_html') %></li>
+		  </ul>
+	  </div>
+		<div class="footer-list">
+			<ul class="list-unstyled list-inline pull-right">
+				<li><i class="fa fa-twitter"></i></li>
+		    <li><i class="fa fa-facebook"></i></li>
+		    <li><i class="fa fa-youtube"></i></li>
+		    <li><i class="fa fa-linkedin-square"></i></li>
+			</ul>
+		</div>
+	</div>
+</div>
