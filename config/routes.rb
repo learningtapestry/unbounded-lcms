@@ -35,6 +35,8 @@ Rails.application.routes.draw do
       resources :lobjects, except: :show
 
       resources :pages, except: :show
+
+      resources :tags, only: :create
     end
 
     resources :pages, only: :show

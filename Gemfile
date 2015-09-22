@@ -46,6 +46,7 @@ group :test do
   gem 'guard-minitest'
   gem 'minitest-focus'
   gem 'minitest-rails-capybara'
+  gem 'poltergeist'
   gem 'shoulda', require: false
   gem 'webmock', '~> 1.21.0'
 end

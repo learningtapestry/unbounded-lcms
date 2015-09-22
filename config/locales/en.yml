@@ -34,6 +34,8 @@ en:
     models:
       content/models/lobject: Resource
     attributes:
+      content/models/grade:
+        grade: Name
       content/models/lobject:
         lobject_downloads: Downloadable resources
         related_lobjects: Related materials
@@ -117,6 +119,11 @@ en:
           page_title: "Edit Learning Object #%{lobject_id}"
         form:
           add_download: Add Downloadable Resource
+          create_alignment: Create Alignment
+          create_grade: Create Grade
+          create_resource_type: Create Resource Type
+          create_subject: Create Subject
+          create_topic: Create Topic
         index:
           grade_levels: Grade Levels
           new_lobject: Add Resource

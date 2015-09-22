@@ -1,0 +1,12 @@
+<div class=modal id=<%= association %>_modal>
+  <div class=modal-dialog>
+    <div class=modal-content>
+      <div class=modal-header>
+        <button aria-hidden class=close data-dismiss=modal type=button>×</button>
+        <h4 class=modal-title><%= title %></h4>
+      </div>
+
+      <%= render partial: '/unbounded/admin/tags/form', locals: { association: association } %>
+    </div>
+  </div>
+</div>
