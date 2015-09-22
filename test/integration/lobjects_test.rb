@@ -28,11 +28,11 @@ class LobjectsTestCase < IntegrationTestCase
   end
 
   def test_new_lobject
-    visit '/unbounded/admin'
+    visit unbounded_admin_path
     click_link 'Resources'
-    assert_equal current_path, '/unbounded/admin/lobjects'
+    assert_equal current_path, unbounded_admin_lobjects_path
     click_link 'Add Resource'
-    assert_equal current_path, '/unbounded/admin/lobjects/new'
+    assert_equal current_path, new_unbounded_admin_lobject_path
 
     click_button 'Save'
     # [TODO] add validation on title for new Lobjects
@@ -58,7 +58,7 @@ class LobjectsTestCase < IntegrationTestCase
     click_button 'Save'
 
     lobject = Lobject.last
-    assert_equal current_path, "/unbounded/show/#{lobject.id}"
+    assert_equal current_path, unbounded_show_path(lobject.id)
     assert_equal lobject.description,  @description
     assert_equal lobject.hidden?,      true
     assert_equal lobject.language,     @language
@@ -76,22 +76,22 @@ class LobjectsTestCase < IntegrationTestCase
   def test_edit_lobject_without_organization
     lobject = lobjects(:no_organization)
     assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/edit"
+      visit edit_unbounded_admin_lobject_path(lobject.id)
     end
   end
 
   def edit_lobject_with_incorrect_organization
     lobject = lobjects(:easol)
     assert_raise ActiveRecord::RecordNotFound do
-      visit "/unbounded/admin/lobjects/#{lobject.id}/edit"
+      visit edit_unbounded_admin_lobject_path(lobject.id)
     end
   end
 
   def test_edit_unbounded_lobject
     lobject = lobjects(:unbounded)
-    visit "/unbounded/show/#{lobject.id}"
+    visit unbounded_show_path(lobject.id)
     click_link 'Edit'
-    assert_equal current_path, "/unbounded/admin/lobjects/#{lobject.id}/edit"
+    assert_equal current_path, edit_unbounded_admin_lobject_path(lobject.id)
 
     fill_in 'Title',       with: @title
     fill_in 'URL',         with: @url
@@ -113,7 +113,7 @@ class LobjectsTestCase < IntegrationTestCase
     click_button 'Save'
 
     lobject.reload
-    assert_equal current_path, "/unbounded/show/#{lobject.id}"
+    assert_equal current_path, unbounded_show_path(lobject.id)
     assert_equal lobject.description, @description
     assert_equal lobject.hidden?,     false
     assert_equal lobject.language,    @language
@@ -129,11 +129,11 @@ class LobjectsTestCase < IntegrationTestCase
 
   def test_delete_unbounded_lobject
     lobject = lobjects(:unbounded)
-    visit "/unbounded/show/#{lobject.id}"
+    visit unbounded_show_path(lobject.id)
     click_button 'Delete'
 
     assert_nil Lobject.find_by_id(lobject.id)
-    assert_equal current_path, '/unbounded'
+    assert_equal current_path, unbounded_path
     assert_equal page.find('.alert.alert-success').text, "× Learning Object ##{lobject.id} was deleted successfully."
   end
 end
