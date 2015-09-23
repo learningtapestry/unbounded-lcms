@@ -44,7 +44,7 @@ module Unbounded
       type == 'pdf' ? type: 'doc'
     end
 
-    def resource_icon(type)
+    def resource_icon(lobject)
       resource_types = lobject.resource_types.pluck(:name)
       resource_types.include?('video') ? 'video' : 'resource'
     end

@@ -120,6 +120,29 @@ module Content
           joins(lobject_documents: { document: :source_document })
           .where('source_documents.source_type' => SourceDocument.source_types[:lr])
         end
+
+        def find_root_lobject_for_curriculum(subject)
+          raise 'Subject must be ELA or Math' unless [:ela, :math].include?(subject)
+
+          if subject == :ela
+            title = LobjectTitle.find_by(title: 'ELA Curriculum Map')
+          elsif subject == :math
+            title = LobjectTitle.find_by(title: 'Math Curriculum Map')
+          end
+          title.lobject
+        end
+
+        def find_curriculum_lobjects(subject)
+          find_root_lobject_for_curriculum(subject)
+          .lobject_collections.first.lobject_children.map { |c| c.child }
+        end
+
+        def find_curriculums
+          {
+            ela: find_curriculum_lobjects(:ela),
+            math: find_curriculum_lobjects(:math)
+          }
+        end
       end
 
       def title
@@ -172,6 +195,10 @@ module Content
         end
       end
 
+      def unbounded_curriculum
+        @unbounded_curriculum ||= UnboundedCurriculum.new(curriculum_map_collection, self)
+      end
+
       def related_lobjects
         @related_lobjects ||= lobject_related_lobjects
           .includes(related_lobject: [:lobject_titles])
@@ -189,6 +216,10 @@ module Content
 
       def lobject_child_for_collection(collection)
         LobjectChild.find_by(child: self, collection: collection)
+      end
+
+      def curriculum_map_collection
+        find_collections.where(lobject_collection_type: LobjectCollectionType.curriculum_map).first
       end
 
       # ElasticSearch.
