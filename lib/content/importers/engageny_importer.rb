@@ -4,6 +4,16 @@ require 'set'
 module Content
   module Importers
     class EngagenyImporter
+      include Content::Models
+
+      ELA_CURRICULUM_NIDS = [
+        26661, 27791, 27786, 27781, 8421, 25011, 25021, 25096, 25131, 25141, 26211, 26266, 26491, 27801
+      ]
+
+      MATH_CURRICULUM_NIDS = [
+        28461, 24991, 26481, 26486, 25601, 26496, 26501, 25836, 26216, 26271, 26276, 26281, 27041, 27046
+      ]
+
       class EngagenyNode < ActiveRecord::Base
         # EngageNY columns clash with ActiveRecord defaults
         require 'safe_attributes/base'
@@ -21,8 +31,10 @@ module Content
       end
 
       class << self
+        include Content::Models
+
         def find_lobject_by_nid(nid)
-          Content::Models::Lobject.find_by_sql([%{
+          Lobject.find_by_sql([%{
             select l.*
             from lobjects l
             inner join lobject_documents ld on ld.lobject_id = l.id
@@ -34,17 +46,17 @@ module Content
         end
 
         def create_lob_by_title(title)
-          unless lob = Content::Models::Lobject.includes(:lobject_titles).where(lobject_titles: { title: title }).first
-            lob = Content::Models::Lobject.create(hidden: true)
-            lob.lobject_titles << Content::Models::LobjectTitle.new(title: title)
+          unless lob = Lobject.includes(:lobject_titles).where(lobject_titles: { title: title }).first
+            lob = Lobject.create(hidden: true)
+            lob.lobject_titles << LobjectTitle.new(title: title)
           end
           lob
         end
 
         def import_node(eny_node)
-          return if Content::Models::EngagenyDocument.where(nid: eny_node.nid).size > 0
+          return if EngagenyDocument.where(nid: eny_node.nid).size > 0
 
-          eny_doc = Content::Models::EngagenyDocument.new
+          eny_doc = EngagenyDocument.new
 
           eny_doc.nid = eny_node.nid
 
@@ -133,7 +145,7 @@ module Content
             nid = r['redirect'].sub('node/', '').to_i
             if lobj = find_lobject_by_nid(nid)
               canonical_url = lobj.url.canonical
-              Content::Models::Url.find_or_create_by(
+              Url.find_or_create_by(
                 url: "https://www.engageny.org/#{r['source']}",
                 parent_id: canonical_url.id
               )
@@ -186,12 +198,12 @@ module Content
         def create_collection_for_nids(title, nids)
           root_lob = create_lob_by_title(title)
 
-          return if Content::Models::LobjectCollection.where(lobject_id: root_lob.id).size > 0
+          return if LobjectCollection.where(lobject_id: root_lob.id).size > 0
 
-          col = Content::Models::LobjectCollection.create(lobject_id: root_lob.id)
+          col = LobjectCollection.create(lobject_id: root_lob.id)
 
           nids.each_with_index do |nid, i|
-            Content::Models::LobjectChild.create(
+            LobjectChild.create(
               parent: root_lob, 
               collection: col, 
               child: find_lobject_by_nid(nid),
@@ -201,20 +213,27 @@ module Content
         end
 
         def import_collection(collection_hash, collection = nil)
+          curriculum_map_type = Content::Models::LobjectCollectionType.find_or_create_by!(name: 'Curriculum Map')
+
           if collection_hash[:items].keys.size > 0
             lobject = find_lobject_by_nid(collection_hash[:nid])
 
             return if lobject.lobject_collections.size > 0
 
             unless collection
-              collection = Content::Models::LobjectCollection.new(lobject: lobject)
+              new_params = {lobject: lobject}
+              if (ELA_CURRICULUM_NIDS.include?(collection_hash[:nid]) \
+                  || MATH_CURRICULUM_NIDS.include?(collection_hash[:nid]))
+                new_params[:lobject_collection_type] = curriculum_map_type
+              end
+              collection = LobjectCollection.new(new_params)
             end
 
             i = 0
             collection_hash[:items].sort_by { |k,v| v[:weight] }.each do |mlid, child_hash|
               i += 1
               child_lob = find_lobject_by_nid(child_hash[:nid])
-              Content::Models::LobjectChild.create(
+              LobjectChild.create(
                 parent: lobject,
                 child: child_lob,
                 lobject_collection: collection,
@@ -246,7 +265,7 @@ module Content
             return if lob.lobject_related_lobjects.size > 0
 
             rels.each_with_index do |rel, i|
-              Content::Models::LobjectRelatedLobject.create(
+              LobjectRelatedLobject.create(
                 lobject: lob,
                 related_lobject: find_lobject_by_nid(rel[:nid]),
                 position: i
@@ -259,21 +278,19 @@ module Content
           build_collections[:items].each { |k, coll| import_collection(coll) }
 
           create_collection_for_nids(
-            'ELA Curriculum Map',
-            [26661, 27791, 27786, 27781, 8421, 25011, 25021, 25096, 25131, 25141, 26211, 26266, 26491, 27801]
+            'ELA Curriculum Map', ELA_CURRICULUM_NIDS
           )
 
           create_collection_for_nids(
-            'Math Curriculum Map',
-            [28461, 24991, 26481, 26486, 25601, 26496, 26501, 25836, 26216, 26271, 26276, 26281, 27041, 27046]
+            'Math Curriculum Map', MATH_CURRICULUM_NIDS
           )
 
           import_related_lobjects
         end
 
         def update_engageny_lobjects
-          unbounded_org = Content::Models::Organization.find_or_create_by!(name: 'UnboundEd')
-          Content::Models::Lobject.connection.execute(%{
+          unbounded_org = Organization.find_or_create_by!(name: 'UnboundEd')
+          Lobject.connection.execute(%{
             update lobjects
             set organization_id = #{unbounded_org.id}
             where id in (
@@ -282,7 +299,7 @@ module Content
               inner join lobject_documents ld on ld.lobject_id = l.id
               inner join documents d on d.id = ld.document_id
               inner join source_documents sd on sd.id = d.source_document_id
-              where sd.source_type = #{Content::Models::SourceDocument.source_types[:engageny]}
+              where sd.source_type = #{SourceDocument.source_types[:engageny]}
             )
           })
         end
