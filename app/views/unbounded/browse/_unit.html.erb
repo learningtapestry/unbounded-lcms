@@ -1,31 +1,42 @@
-<div class="unit">
-	<div class="unit-wrapper">
-		<div class="row">
-			<div class="unit-title">
-				<div><%= "Unit #{idx + 1}" %></div>
-			</div>
-			<div class="lessons">
-				<div class="row">
-					<% unit.children.each do |lesson| %>
-						<div class="lesson <%= 'lesson-active' if lesson.content.id == current %>">
-							<%= link_to( unbounded_show_new_path(id: lesson.content.id), title: lesson.content.title, data: {toggle: 'tooltip', placement: 'right'}) do %>
-								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" class="injected-svg svg-inject">
-								<g><rect class="ub-square-lesson" width="64" height="64" x="0" y="0"></rect></g>
-								</svg>
+<% chunk_size ||= [unit.children.size, 16].max
+	 is_sliced = (chunk_size < unit.children.size)
+	 show_popover = local_assigns.fetch :show_popover, false
+%>
+<% unit.children.each_slice(chunk_size).with_index do |lessons, idx_s| %>
+	<div class='unit <%= "unit-#{idx_s}" if is_sliced %>'>
+		<div class="unit-wrapper">
+			<div class="row">
+				<div class="unit-title">
+					<div><%= "Unit #{idx + 1}" %></div>
+				</div>
+				<div class="lessons">
+					<div class="row">
+						<% lessons.each do |lesson| %>
+							<% if show_popover %>
+								<div class="lesson <%= 'lesson-active' if lesson.content.id == current %>" data-toggle='popover'
+								data-content='<%= get_popover_content(lesson.content) %>'>
+							<% else %>
+								<div class="lesson <%= 'lesson-active' if lesson.content.id == current %>">
 							<% end %>
-						</div>
-					<% end %>
-					<% for i in unit.children.length..15 %>
-						<div class="lesson lesson-empty">
-							<a class="disabled">
-								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" class="injected-svg svg-inject">
-								<g><rect class="ub-square-lesson" width="64" height="64" x="0" y="0"></rect></g>
-								</svg>
-							</a>
-						</div>
-					<% end %>
+								<a>
+									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" class="injected-svg svg-inject">
+									<g><rect class="ub-square-lesson" width="64" height="64" x="0" y="0"></rect></g>
+									</svg>
+								</a>
+							</div>
+						<% end %>
+						<% for i in lessons.length..15 %>
+							<div class="lesson lesson-empty">
+								<a class="disabled">
+									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" class="injected-svg svg-inject">
+									<g><rect class="ub-square-lesson" width="64" height="64" x="0" y="0"></rect></g>
+									</svg>
+								</a>
+							</div>
+						<% end %>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+<% end %>
