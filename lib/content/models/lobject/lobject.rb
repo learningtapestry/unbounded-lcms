@@ -55,6 +55,8 @@ module Content
 
       # Collections.
       has_many :lobject_collections, dependent: :destroy
+      has_many :lobject_parents, class_name: 'LobjectChild', foreign_key: 'child_id'
+      has_many :lobject_children, class_name: 'LobjectChild', foreign_key: 'parent_id'
 
       # Related lobjects.
       has_many :lobject_related_lobjects, dependent: :destroy

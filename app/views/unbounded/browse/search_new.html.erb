@@ -1,33 +1,33 @@
-<div class="search-form-page" data-role="page">
+<div class="search-form-page curriculum-page" data-role="page">
 	<div class="header-module">
 		<div class="container">
 			<div class="row">
 				<div class="search-form">
-					<form class="form-horizontal" action="" method="POST">
+					<form class="curriculum-search-form form-horizontal" action="" method="POST">
 						<div class="form-group">
 							<div class="ub-group">
 			    			<label for=""><%= t('curriculum_page.search_form.subject_label') %></label>
 			    			<div class="ub-select">
-						    	<select class="selectize form-control">
-			    					<option value="1">1</option>
-			    					<option value="2">2</option>
+						    	<select class="curriculum-filter curriculum-filter-curriculum selectize form-control" name="curriculum">
+                    <option value=""></option>
 			    				</select>
 			    			</div>
 			  			</div>
 							<div class="ub-group">
 			    			<label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
 			    			<div class="ub-select">
-						    	<select class="selectize form-control">
-			    					<option value="1">1</option>
-			    					<option value="2">2</option>
+						    	<select class="curriculum-filter curriculum-filter-grade selectize form-control" name="grade">
+                    <option value=""></option>
 			    				</select>
 			    			</div>
 			  			</div>
 							<div class="ub-group">
 			    			<label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
-			    			<div class="ub-input">
-						    	<input class="selectize form-control" type="text">
-			    			</div>
+                <div class="ub-select">
+                  <select class="curriculum-filter curriculum-filter-alignment selectize form-control" multiple="multiple" name="alignments[]">
+                    <option value=""></option>
+                  </select>
+                </div>
 			  			</div>
 			  		</div>
 			  		<div class="form-group">
@@ -41,32 +41,98 @@
 		</div>
 	</div>
 
+  <script type="text/html" id="grade-template">
+    <div data-bind="foreach: items">
+      <div class="curriculum-grade">
+        <h1 data-toggle="collapse" class="curriculum-grade-title" data-bind="text: title, attr: { 'data-target': '#'+$root.computeId('curriculum-grade-modules', $data) }"></h1>
+        <div class="row collapse in" data-bind="template: { name: 'module-template', foreach: children }, attr: { id: $root.computeId('curriculum-grade-modules', $data) }"></div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="module-template">
+    <div class="module" data-bind="css: { 'module-6': $root.moduleUiLength($data, 16) <= 3, 'module-12': $root.moduleUiLength($data, 16) > 3 }">
+      <div class="module-wrapper">
+        <div class="row">
+          <div class="module-title">
+            <div class="row">
+              <div class="module-title-title" data-bind="text: $root.moduleTitle($parents[1].curriculumType, $data)"></div>
+              <div class="module-title-dsc"  data-bind="text: $root.moduleDescription($parents[1].curriculumType, $data)"></div>
+            </div>
+          </div>
+          <div class="curriculum-map curriculum-map-units" data-bind="foreach: children">
+            <div data-bind="template: { name: 'unit-template', foreach: $root.chunked($data, 16) }">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="unit-template">
+  <div class="unit" data-bind="css: { 'unit-0': chunks > 1 &amp;&amp; chunk == 0, 'unit-1': chunks > 1 &amp;&amp; chunk == 1 }">
+    <div class="unit-wrapper">
+      <div class="row">
+        <div class="unit-title">
+          <div data-bind="text: $root.unitTitle($parents[3].curriculumType, $data)"></div>
+        </div>
+        <div class="lessons">
+          <div class="row">
+            <div data-bind="template: { name: 'lesson-template', foreach: children }"></div>
+            <div data-bind="template: { name: 'empty-lesson-template', foreach: $root.interval(children.length-1, 15) }"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </script>
+
+  <script type="text/html" id="lesson-template">
+    <div class="lesson" data-bind="css: { 'lesson-active': $root.isHighlighted(id) }">
+      <a data-bind="attr: { href: Unbounded.linkToLesson(id) }">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" class="injected-svg svg-inject">
+        <g><rect class="ub-square-lesson" width="64" height="64" x="0" y="0" data-bind="event: { mouseenter: $root.openResourcePreview, mouseleave: $root.closeResourcePreview }"></rect></g>
+        </svg>
+      </a>
+    </div>
+  </script>
+
+  <script type="text/html" id="empty-lesson-template">
+    <div class="lesson lesson-empty">
+      <a class="disabled">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" class="injected-svg svg-inject">
+        <g><rect class="ub-square-lesson" width="64" height="64" x="0" y="0"></rect></g>
+        </svg>
+      </a>
+    </div>
+  </script>
+
+  <script type="text/html" id="resource-preview-template">
+    <div class="lesson-popover-breadcrumb">Module/Unit/Lesson</div>
+    <div class="lesson-popover-title" data-bind="html: title"></div>
+    <div class="lesson-popover-content" data-bind="html: description"></div>
+    <div class="lesson-popover-cta">
+      <a class="btn btn-default btn-block" data-bind="attr: { href: Unbounded.linkToLesson(id) }"><%= t('ui.open_lesson') %></a>
+    </div>
+  </script>
+
+  <script type="text/html" id ="popover-template">
+    <div class="popover popover-lesson" role="tooltip">
+      <div class="arrow"></div>
+      <h3 class="popover-title"></h3>
+      <div class="popover-content"></div>
+    </div>
+  </script>
+
 	<div class="curriculum-content">
 	  <div class="container">
-		  <% @lobjects.each do |lobject| %>
-			  <% lobject.collection_trees.each do |tree| %>
-			  	<h1><%= tree.content.title %></h1>
-			  	<div class="row">
-			  		<% tree.children.each do |resource| %>
-							<div class="module module-<%= (resource.children.size + resource.children.select{|unit| unit.children.size > 16 }.size > 3)? '12': '6' %>">
-								<div class="module-wrapper">
-									<div class="row">
-										<div class="module-title">
-											<div class="row">
-												<div class="module-title-title"><%= module_title(resource.content.title) %></div>
-												<div class="module-title-dsc"><%= resource.content.title %></div>
-											</div>
-										</div>
-										<% resource.children.each_with_index do |unit, idx| %>
-											<%= render partial: 'unit', locals: { unit: unit, idx: idx, chunk_size: 16, show_popover: true, current: -1 } %>
-										<% end %>
-									</div>
-								</div>
-							</div>
-			  		<% end %>
-			  	</div>
-			  <% end %>
-			<% end %>
+      <div id="curriculum-resources">
+        <div class="curriculum-map curriculum-map-ela" data-bind="template: { name: 'grade-template', data: ela }">
+        </div>
+
+        <div class="curriculum-map curriculum-map-math" data-bind="template: { name: 'grade-template', data: math }">
+        </div>
+      </div>
 		</div>
 	</div>
 

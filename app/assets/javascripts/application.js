@@ -10,37 +10,30 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require lodash
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require ckeditor/init
 //= require jquery_nested_form
 //= require turbolinks
+//= require js-routes
+//= require knockout
+//= require i18n
+//= require i18n/translations
 //= require_tree ./plugins
 //= require_tree .
 
+function t(args) {
+  return I18n.t(args);
+}
+
 var ready = function() {
-  $('.selectize').selectize();
+  $('.selectize').selectize({ allowEmptyOption: true });
   window.initializeLobjectForm();
   window.initializeLobjectList();
   window.initializeTree();
-
-  $('.lesson[data-toggle=popover]').popover ({
-  	html: true,
-  	trigger: 'manual',
-  	template: '<div class="popover popover-lesson" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>'
-  }).on("mouseenter", function () {
-    var _this = this;
-    $(this).popover("show");
-    $(this).siblings(".popover").on("mouseleave", function () {
-      $(_this).popover('hide');
-    });
-  }).on("mouseleave", function () {
-    var _this = this;
-    setTimeout(function () {
-      if (!$(".popover:hover").length) { $(_this).popover("hide")}
-    }, 50);
-  });
+  window.initializeCurriculum();
 };
 
 $(document).ready(ready);
