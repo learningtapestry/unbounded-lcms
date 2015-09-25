@@ -229,15 +229,34 @@ header {
 	.curriculum-content {
 		padding-top: $ub-module-padding;
 		background-color: $ub-light-purple;
+		.module-12 {
+			@include make-md-column(12, $padding-base-horizontal);
+			.unit {
+				@include make-md-column(2, $padding-xs-horizontal * 2);
+			}
+		}
+		.module-6 {
+			@include make-md-column(6, $padding-base-horizontal);
+			.unit {
+				@include make-md-column(4, $padding-xs-horizontal * 2);
+			}
+			.unit-0 {
+				padding-right: 0px; margin-right: 0px;
+				.unit-wrapper {padding-right: $padding-xs-horizontal;}
+			}
+			.unit-1 {
+				padding-left: 0px; margin-left: 0px;
+				.unit-wrapper {
+					padding-left: $padding-xs-horizontal;
+					.unit-title {visibility:hidden;}
+				}
+			}
+		}
 		.module {
 			padding-top: $padding-base-vertical; padding-bottom: $padding-base-vertical;
-			@include make-md-column(6, $padding-base-horizontal);
 			.module-title {
 				.module-title-title {@include make-md-column(4); text-transform: uppercase;}
 				.module-title-dsc {@include make-md-column(8);}
-			}
-			.unit {
-				@include make-md-column(4, $padding-xs-horizontal * 2);
 			}
 		}
 	}

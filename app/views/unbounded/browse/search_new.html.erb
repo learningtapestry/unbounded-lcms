@@ -48,7 +48,7 @@
 			  	<h1><%= tree.content.title %></h1>
 			  	<div class="row">
 			  		<% tree.children.each do |resource| %>
-							<div class="module">
+							<div class="module module-<%= resource.children.size > 3? '12': '6' %>">
 								<div class="module-wrapper">
 									<div class="row">
 										<div class="module-title">
@@ -58,7 +58,7 @@
 											</div>
 										</div>
 										<% resource.children.each_with_index do |unit, idx| %>
-											<%= render partial: 'unit', locals: { unit: unit, idx: idx, current: -1 } %>
+											<%= render partial: 'unit', locals: { unit: unit, idx: idx, chunk_size: 16, current: -1 } %>
 										<% end %>
 									</div>
 								</div>
