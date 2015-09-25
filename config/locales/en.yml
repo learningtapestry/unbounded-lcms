@@ -161,6 +161,14 @@ en:
           pages: Pages
           resources: Resources
     browser: Unbounded Content Browser
+    browse:
+      nav:
+        next_lesson: Next LESSON
+        next_module: Next MODULE
+        previous_lesson: Previous LESSON
+        previous_module: Previous MODULE
+    curriculum:
+      unit_title: "Unit %{idx}"
     title:
       logo: Unbounded
       subscribe: Stay connected

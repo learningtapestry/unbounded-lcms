@@ -14,13 +14,70 @@ unbounded:
   hidden: true
   organization: unbounded
 
-unbounded_textbook:
+unbounded_engageny_source:
+  organization: unbounded
+
+unbounded_grade1:
+  organization: unbounded
+
+unbounded_lesson_1_1_1_1:
+  organization: unbounded
+
+unbounded_lesson_1_1_1_2:
+  organization: unbounded
+
+unbounded_lesson_1_1_1_3:
+  organization: unbounded
+
+unbounded_lesson_1_1_2_1:
+  organization: unbounded
+
+unbounded_lesson_1_1_2_2:
+  organization: unbounded
+
+unbounded_lesson_1_2_1_1:
+  organization: unbounded
+
+unbounded_lesson_1_2_1_2:
+  organization: unbounded
+
+unbounded_lesson_1_2_2_1:
+  organization: unbounded
+
+unbounded_lesson_1_2_2_2:
+  organization: unbounded
+
+unbounded_lesson_1_3_1_1:
+  organization: unbounded
+
+unbounded_module_1_1:
+  organization: unbounded
+
+unbounded_module_1_2:
+  organization: unbounded
+
+unbounded_module_1_3:
   organization: unbounded
 
 unbounded_rewrite_urls:
   organization: unbounded
 
-unbounded_engageny_source:
+unbounded_textbook:
+  organization: unbounded
+
+unbounded_unit_1_1_1:
+  organization: unbounded
+
+unbounded_unit_1_1_2:
+  organization: unbounded
+  
+unbounded_unit_1_2_1:
+  organization: unbounded
+  
+unbounded_unit_1_2_2:
+  organization: unbounded
+
+unbounded_unit_1_3_1:
   organization: unbounded
 
 unbounded_with_canonical_url:
