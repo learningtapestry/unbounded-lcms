@@ -49,5 +49,12 @@ module Unbounded
       resource_types.include?('video') ? 'video' : 'resource'
     end
 
+    def get_popover_content(lobject)
+      content_tag(:div, 'Module/Unit/Lesson', class: 'lesson-popover-breadcrumb') +
+      content_tag(:div, lobject.title, class: 'lesson-popover-title') +
+      content_tag(:div, lobject.description.html_safe.gsub(/'/, '"'), class: 'lesson-popover-content') +
+      content_tag(:div, link_to(t('ui.open_lesson'), unbounded_show_new_path(id: lobject.id), :class => 'btn btn-default btn-block'), class: 'lesson-popover-cta')
+    end
+
   end
 end

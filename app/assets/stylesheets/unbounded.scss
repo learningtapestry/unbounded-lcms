@@ -9,8 +9,6 @@ $ub-yellow: #f5d329;
 
 // Fonts
 @import "_fonts";
-//@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
-//@import url(https://fonts.googleapis.com/css?family=Lato:700);
 
 // Font sizes
 $font-size-icon: 21px;
@@ -40,6 +38,10 @@ $btn-border-radius-base: 0px;
 $btn-border-radius-large: 0px;
 $btn-border-radius-small: 0px;
 
+$popover-bg: $ub-purple;
+$popover-max-width: 600px;
+$popover-min-width: 300px;
+
 // Paddings, element sizes
 $ub-module-padding: 30px;
 $ub-header-padding: 320px;
@@ -60,6 +62,27 @@ $lesson-img-height: 195px;
 
 h1, h2, h3, h4, .navbar-brand, hero-title, .hero-subtitle {
 	font-family: $font-family-heading;
+}
+
+.popover.popover-lesson {
+	min-width: $popover-min-width;
+  border-radius: 0px;
+  .popover-content {
+  	background-color: white;
+  	color: $ub-purple;
+  	margin: $ub-element-padding/2;
+  	padding-bottom: 0px;
+  	.lesson-popover-breadcrumb { font-size: small; font-family: $font-family-heading;}
+  	.lesson-popover-title {
+  		text-transform: uppercase; font-family: $font-family-heading;
+  	}
+  	.lesson-popover-content {padding-bottom: $ub-element-padding;padding-top: $ub-element-padding;}
+  	.lesson-popover-cta {
+  		margin-left: -14px;
+    	margin-right: -14px;
+    	.btn {background-color: $ub-light-purple; font-size: $font-size-form;}
+  	}
+  }
 }
 
 header {
@@ -240,6 +263,8 @@ header {
 			.unit {
 				@include make-md-column(4, $padding-xs-horizontal * 2);
 			}
+		}
+		.module-12, .module-6 {
 			.unit-0 {
 				padding-right: 0px; margin-right: 0px;
 				.unit-wrapper {padding-right: $padding-xs-horizontal;}
