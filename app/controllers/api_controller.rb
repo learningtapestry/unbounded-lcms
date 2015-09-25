@@ -88,6 +88,6 @@ class ApiController < ApplicationController
 
   def api_response
     response.headers['x-total-count'] = @total_count
-    render json: @results
+    render json: @results, root: nil
   end
 end

@@ -13,6 +13,10 @@ module Content
 
       accepts_nested_attributes_for :lobject_children, allow_destroy: true
 
+      def self.curriculum_maps
+        find_by(lobject_collection_type: LobjectCollectionType.curriculum_map)
+      end
+
       def tree(root_lobject = lobject)
         build_tree(root_lobject, find_relations)
       end
@@ -50,12 +54,12 @@ module Content
         tree
       end
 
-      def build_hash(lobject, node_relations)
-        hash = { id: lobject.id, title: lobject.title, children: [] }
+      def build_hash(lobject, node_relations, position = 0)
+        hash = { id: lobject.id, title: lobject.title, children: [], position: position }
 
         if node_relations.has_key?(lobject.id)
-          node_relations[lobject.id].each do |node_rel|
-            hash[:children] << build_hash(node_rel.child, node_relations)
+          node_relations[lobject.id].each_with_index do |node_rel, index|
+            hash[:children] << build_hash(node_rel.child, node_relations, index)
           end
         end
 
