@@ -34,7 +34,9 @@ class LobjectsTestCase < IntegrationTestCase
     click_link 'Add Resource'
     assert_equal current_path, new_unbounded_admin_lobject_path
 
-    click_button 'Save'
+    within '#lobject_form' do
+      click_button 'Save'
+    end
     # [TODO] add validation on title for new Lobjects
     # page.must_have_selector '.form-group.content_models_lobject_lobject_titles_title.has-error .help-block', text: "can't be blank"
     assert_equal page.find('.form-group.content_models_lobject_lobject_urls_url_url.has-error .help-block').text, "can't be blank"
@@ -55,7 +57,9 @@ class LobjectsTestCase < IntegrationTestCase
     select @alignment1.name,     from: 'Alignments'
     select @alignment2.name,     from: 'Alignments'
     select @easol_lobject.title, from: 'Related materials'
-    click_button 'Save'
+    within '#lobject_form' do
+      click_button 'Save'
+    end
 
     lobject = Lobject.last
     assert_equal current_path, unbounded_show_path(lobject.id)
@@ -110,7 +114,9 @@ class LobjectsTestCase < IntegrationTestCase
     select @alignment2.name, from: 'Alignments'
     unselect @easol_lobject.title, from: 'Related materials'
     select @no_org_lobject.title, from: 'Related materials'
-    click_button 'Save'
+    within '#lobject_form' do
+      click_button 'Save'
+    end
 
     lobject.reload
     assert_equal current_path, unbounded_show_path(lobject.id)

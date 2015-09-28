@@ -40,14 +40,20 @@ module Unbounded
       title[/Module\s+\w+/]
     end
 
+    def unit_title(curriculum)
+      units = curriculum.units
+      unit  = curriculum.current_unit
+      idx = units.index(unit)
+      t('unbounded.curriculum.unit_title', idx: idx + 1)
+    end
+
     def file_icon(type)
       type == 'pdf' ? type: 'doc'
     end
 
-    def resource_icon(type)
+    def resource_icon(lobject)
       resource_types = lobject.resource_types.pluck(:name)
       resource_types.include?('video') ? 'video' : 'resource'
     end
-
   end
 end

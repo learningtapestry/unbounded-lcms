@@ -10,6 +10,8 @@ module Content
       default_scope { order(:name) }
 
       normalize_attr :name, -> (value) { value.strip }
+
+      def self.curriculum_map; find_by(name: 'Curriculum Map'); end
     end
   end
 end

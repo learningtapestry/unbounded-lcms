@@ -1,0 +1,7 @@
+<div class=col-sm-6>
+  <ol class=list-unstyled>
+    <% units.each_with_index do |unit, idx| %>
+      <li class=no-wrap><%= link_to t('unbounded.curriculum.unit_title', idx: idx + start + 1), unbounded_show_new_path(unit), class: 'module-nav-unit' %>
+    <% end %>
+  </ol>
+</div>

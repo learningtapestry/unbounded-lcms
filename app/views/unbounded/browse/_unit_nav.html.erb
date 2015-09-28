@@ -1,0 +1,24 @@
+<div class=unit>
+  <div class=unit-wrapper>
+    <div class=row>
+        <%= link_to unit_title(curriculum), unbounded_show_new_path(curriculum.current_unit), class: ['unit-title', ('active' if curriculum.current_lobject == curriculum.current_unit)] %>
+      <div class=lessons>
+        <div class=row>
+          <% curriculum.lessons.each do |lesson| %>
+            <div class='lesson <%= 'lesson-active' if curriculum.current_lesson == lesson %>'>
+              <%= link_to( unbounded_show_new_path(lesson), title: lesson.title, data: { toggle: 'tooltip', placement: 'right' }) do %>
+                <%= render 'square_svg' %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <% for i in curriculum.lessons.size..15 %>
+            <div class='lesson lesson-empty'>
+              <a class=disabled><%= render 'square_svg' %></a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

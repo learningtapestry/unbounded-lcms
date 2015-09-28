@@ -41,4 +41,6 @@ Rails.application.configure do
   config.action_view.raise_on_missing_translations = true
 
   config.action_controller.action_on_unpermitted_parameters = :raise
+
+  config.assets.initialize_on_precompile = true
 end

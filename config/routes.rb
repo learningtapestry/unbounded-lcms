@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     get '/show/:id' => 'browse#show', as: :show
     get '/home' => 'browse#home'
     get '/search_new' => 'browse#search_new'
+    get '/search_new/curriculum' => 'browse#search_curriculum', as: 'search_curriculum'
+    get '/search_new/dropdown_options' => 'browse#dropdown_options', as: 'dropdown_options'
+    get '/search_new/resource_preview' => 'browse#resource_preview', as: 'resource_preview'
     get '/show_new/:id' => 'browse#show_new', as: :show_new
     get '/about' => 'pages#show_slug', slug: 'about'
 
@@ -35,6 +38,8 @@ Rails.application.routes.draw do
       resources :lobjects, except: :show
 
       resources :pages, except: :show
+
+      resources :tags, only: :create
     end
 
     resources :pages, only: :show

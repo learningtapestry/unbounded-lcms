@@ -8,6 +8,8 @@ module Content
       include Normalizable
       normalize_attr :name, ->(val) { val.strip.downcase }
 
+      validates :name, presence: true
+
       default_scope { order(:name) }
     end
   end
