@@ -13,9 +13,9 @@ class SynonymsTestCase < IntegrationTestCase
   end
 
   def test_edit_synonyms
-    visit '/admin'
+    visit '/lt/admin'
     click_link 'Edit synonyms'
-    assert_equal current_path, '/admin/synonyms'
+    assert_equal current_path, '/lt/admin/synonyms'
 
     fill_in 'synonyms', with: "test,doesitwork\r\nyep,itworks"
     click_button 'Save'
