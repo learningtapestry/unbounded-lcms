@@ -1,105 +1,59 @@
 <div class="lesson-page" data-role="page">
-	<div class="container">
-		<div class="row">
-      <% if @lobject.unbounded_curriculum %>
-  			<div class="sidebar">
-  				<div class="row">
-  					<div class="module">
-  						<div class="module-wrapper">
-  							<div class="row">
-  								<div class="module-title">
-  									<div class="module-title-grades"><%= lesson_title(@lobject.title) %></div>
-  									<div class="module-title-module"><%= module_title(@lobject.title) %></div>
-  								</div>
-  								<%= render partial: 'unit', locals: { unit: @lobject.unbounded_curriculum.current_module, idx: 0, current: @lobject.id } %>
-  							</div>
-  						</div>
-  					</div>
-  					<div class="module">
-  						<div class="module-wrapper lesson-nav">
-  							<div class="row">
-  								<div class="nav-module-up">
-  									<div><a href="<%= unbounded_show_new_path(@lobject.unbounded_curriculum.first_module_lesson) %>"><i class="fa fa-3x fa-angle-up"></i></a></div>
-  									<div>To current module</div>
-  								</div>
-  								<div class="nav-lesson-left">
-  									<div class="media">
-    									<div class="media-left media-middle">
-                        <% if @lobject.unbounded_curriculum.previous_lesson %>
-                          <a href="<%= unbounded_show_new_path(@lobject.unbounded_curriculum.previous_lesson) %>"><i class="fa fa-3x fa-angle-left"></i></a>
-        									<div class="media-body">Previous LESSON</div>
-                        <% end %>
-                      </div>
-    								</div>
-  								</div>
-  								<div class="nav-lesson-right">
-  									<div class="media">
-                      <% if @lobject.unbounded_curriculum.next_lesson %>
-      									<div class="media-body text-right">Next LESSON</div>
-      									<div class="media-right media-middle">
-      										<a href="<%= unbounded_show_new_path(@lobject.unbounded_curriculum.next_lesson) %>"><i class="fa fa-3x fa-angle-right"></i></a>
-      									</div>
-                      <% end %>
-    								</div>
-  								</div>
-  								<div class="nav-module-down">
-                    <% if @lobject.unbounded_curriculum.next_module_lesson %>
-    									<div>Next MODULE</div>
-    									<div><a href="<%= unbounded_show_new_path(@lobject.unbounded_curriculum.next_module_lesson) %>"><i class="fa fa-3x fa-angle-down"></i></a></div>
-                    <% end %>
-    							</div>
-  							</div>
-  						</div>
-  					</div>
-  				</div>
-  			</div>
+  <div class="container">
+    <div class="row">
+      <% if curriculum = @lobject.unbounded_curriculum %>
+        <div class="sidebar">
+          <div class="row">
+            <%= render partial: 'nav', locals: { curriculum: curriculum } %>
+          </div>
+        </div>
       <% end %>
-			<div class="lesson-content">
-				<div class="row">
-					<div class="lesson-img"></div>
-					<div class="lesson-dsc">
-						<h4><%= lesson_no(@lobject.title) %></h4>
-						<h2><%= lesson_title(@lobject.title) %></h2>
-						<div class="dsc">
-							<%= @lobject.engageny_description.html_safe %>
-						</div>
-					</div>
-					<div class="lesson-resources">
-						<div class="row">
-							<div class="lesson-inst-resources">
-								<h5><%= t('lesson_page.instructional_resources') %></h5>
-			          <ul class="media-list">
-			          	<% @lobject.downloads.uniq.each do |download| %>
-			          		<li class="media">
-			          			<div class="media-left media-middle">
-			          				<i class="fa fa-2x file-<%= file_icon(attachment_content_type(download)) %>"></i>
-			          			</div>
-			          			<div class="media-body">
-			          				<%= link_to(download.title, attachment_url(download)) %>
-			          			</div>
-			              </li>
-			            <% end %>
-			          </ul>
-							</div>
-							<div class="lesson-dev-resources">
-								<h5><%= t('lesson_page.related_resources') %></h5>
-			          <ul class="media-list">
-		              <% @lobject.related_lobjects.each do |related_lobject| %>
-	                  <li class="media">
-			          			<div class="media-left media-middle">
-			          				<i class="fa fa-2x file-<%= resource_icon(related_lobject) %>"></i>
-			          			</div>
-			          			<div class="media-body">
-			          				<%= link_to(related_lobject.title, unbounded_show_new_path(id: related_lobject.id)) %>
-			          			</div>
-	                  </li>
-		              <% end %>
-			          </ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+      <div class="lesson-content">
+        <div class="row">
+          <div class="lesson-img"></div>
+          <div class="lesson-dsc">
+            <h4><%= lesson_no(@lobject.title) %></h4>
+            <h2><%= lesson_title(@lobject.title) %></h2>
+            <div class="dsc">
+              <%= @lobject.engageny_description.html_safe %>
+            </div>
+          </div>
+          <div class="lesson-resources">
+            <div class="row">
+              <div class="lesson-inst-resources">
+                <h5><%= t('lesson_page.instructional_resources') %></h5>
+                <ul class="media-list">
+                  <% @lobject.downloads.uniq.each do |download| %>
+                    <li class="media">
+                      <div class="media-left media-middle">
+                        <i class="fa fa-2x file-<%= file_icon(attachment_content_type(download)) %>"></i>
+                      </div>
+                      <div class="media-body">
+                        <%= link_to(download.title, attachment_url(download)) %>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+              <div class="lesson-dev-resources">
+                <h5><%= t('lesson_page.related_resources') %></h5>
+                <ul class="media-list">
+                  <% @lobject.related_lobjects.each do |related_lobject| %>
+                    <li class="media">
+                      <div class="media-left media-middle">
+                        <i class="fa fa-2x file-<%= resource_icon(related_lobject) %>"></i>
+                      </div>
+                      <div class="media-body">
+                        <%= link_to(related_lobject.title, unbounded_show_new_path(id: related_lobject.id)) %>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

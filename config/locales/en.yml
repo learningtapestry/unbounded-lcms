@@ -160,6 +160,12 @@ en:
           collections: Collections
           pages: Pages
           resources: Resources
+    browse:
+      nav:
+        next_lesson: Next LESSON
+        next_module: Next MODULE
+        previous_lesson: Previous LESSON
+        previous_module: Previous MODULE
     browser: Unbounded Content Browser
     curriculum:
       ela: English Language Arts
@@ -170,6 +176,7 @@ en:
       math_unit_label: Topic
       ela_lesson_label: Lesson
       math_lesson_label: Lesson
+      unit_title: "Unit %{idx}"
     title:
       logo: Unbounded
       subscribe: Stay connected
