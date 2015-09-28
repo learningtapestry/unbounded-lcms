@@ -12,33 +12,24 @@ Rails.application.routes.draw do
   get '/api/v1/subjects' => 'api#show_subjects'
   get '/api/v1/identities' => 'api#show_identities'
 
-  namespace :unbounded do
-    get '/' => 'browse#index'
-    get '/search' => 'browse#search'
-    get '/show/:id' => 'browse#show', as: :show
-    get '/home' => 'browse#home'
-    get '/search_new' => 'browse#search_new'
-    get '/search_new/curriculum' => 'browse#search_curriculum', as: 'search_curriculum'
-    get '/search_new/dropdown_options' => 'browse#dropdown_options', as: 'dropdown_options'
-    get '/search_new/resource_preview' => 'browse#resource_preview', as: 'resource_preview'
-    get '/show_new/:id' => 'browse#show_new', as: :show_new
+  scope module: :unbounded, as: :unbounded do
+    get '/' => 'welcome#index'
     get '/about' => 'pages#show_slug', slug: 'about'
+    get '/curriculum' => 'curriculum#index'
+    get '/resources/preview' => 'lobjects#preview', as: 'resource_preview'
+    get '/resources/:id' => 'lobjects#show', as: :show
+    get '/search' => 'search#index'
+    get '/search/curriculum' => 'search#curriculum', as: 'search_curriculum'
+    get '/search/dropdown_options' => 'search#dropdown_options', as: 'dropdown_options'
 
     namespace :admin do
       get '/' => 'welcome#index'
-
       resources :collection_types
-
       resources :collections
-
       resource :lobject_bulk_edits, only: [:new, :create]
-
       resources :lobject_children, only: :create
-
       resources :lobjects, except: :show
-
       resources :pages, except: :show
-
       resources :tags, only: :create
     end
 
@@ -54,53 +45,4 @@ Rails.application.routes.draw do
   end
 
   root to: 'unbounded/browse#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

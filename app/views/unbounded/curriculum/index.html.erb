@@ -1,45 +1,45 @@
 <div class="search-form-page curriculum-page" data-role="page">
-	<div class="header-module">
-		<div class="container">
-			<div class="row">
-				<div class="search-form">
-					<form class="curriculum-search-form form-horizontal" action="" method="POST">
-						<div class="form-group">
-							<div class="ub-group">
-			    			<label for=""><%= t('curriculum_page.search_form.subject_label') %></label>
-			    			<div class="ub-select">
-						    	<select class="curriculum-filter curriculum-filter-curriculum selectize form-control" name="curriculum">
+  <div class="header-module">
+    <div class="container">
+      <div class="row">
+        <div class="search-form">
+          <form class="curriculum-search-form form-horizontal" action="" method="POST">
+            <div class="form-group">
+              <div class="ub-group">
+                <label for=""><%= t('curriculum_page.search_form.subject_label') %></label>
+                <div class="ub-select">
+                  <select class="curriculum-filter curriculum-filter-curriculum selectize form-control" name="curriculum">
                     <option value=""></option>
-			    				</select>
-			    			</div>
-			  			</div>
-							<div class="ub-group">
-			    			<label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
-			    			<div class="ub-select">
-						    	<select class="curriculum-filter curriculum-filter-grade selectize form-control" name="grade">
+                  </select>
+                </div>
+              </div>
+              <div class="ub-group">
+                <label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
+                <div class="ub-select">
+                  <select class="curriculum-filter curriculum-filter-grade selectize form-control" name="grade">
                     <option value=""></option>
-			    				</select>
-			    			</div>
-			  			</div>
-							<div class="ub-group">
-			    			<label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
+                  </select>
+                </div>
+              </div>
+              <div class="ub-group">
+                <label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
                 <div class="ub-select">
                   <select class="curriculum-filter curriculum-filter-alignment selectize form-control" multiple="multiple" name="alignments[]">
                     <option value=""></option>
                   </select>
                 </div>
-			  			</div>
-			  		</div>
-			  		<div class="form-group">
-			  			<div>
-			  				<button type="submit" class="btn btn-lg btn-ub "><%= t('ui.search') %></button>
-			  			</div>
-			  		</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div>
+                <button type="submit" class="btn btn-lg btn-ub "><%= t('ui.search') %></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script type="text/html" id="grade-template">
     <div data-bind="foreach: items">
@@ -124,8 +124,8 @@
     </div>
   </script>
 
-	<div class="curriculum-content">
-	  <div class="container">
+  <div class="curriculum-content">
+    <div class="container">
       <div id="curriculum-resources">
         <div class="curriculum-map curriculum-map-ela" data-bind="template: { name: 'grade-template', data: ela }">
         </div>
@@ -133,7 +133,7 @@
         <div class="curriculum-map curriculum-map-math" data-bind="template: { name: 'grade-template', data: math }">
         </div>
       </div>
-		</div>
-	</div>
+    </div>
+  </div>
 
 </div>

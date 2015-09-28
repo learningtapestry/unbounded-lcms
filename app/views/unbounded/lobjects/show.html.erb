@@ -1,5 +1,16 @@
 <div class="lesson-page" data-role="page">
   <div class="container">
+    <% if can? :read, :admin_root %>
+      <div class="row">
+        <div class=clearfix>
+          <div class=pull-right>
+            <%= link_to t('ui.edit'), edit_unbounded_admin_lobject_path(@lobject), class: 'btn btn-default', 'data-no-turbolink' => '' %>
+            <%= button_to t('ui.delete'), unbounded_admin_lobject_path(@lobject), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+          </div>
+        </div>
+      </div>
+      <br>
+    <% end %>
     <div class="row">
       <% if curriculum = @lobject.unbounded_curriculum %>
         <div class="sidebar">
@@ -43,8 +54,8 @@
                       <div class="media-left media-middle">
                         <i class="fa fa-2x file-<%= resource_icon(related_lobject) %>"></i>
                       </div>
-                      <div class="media-body">
-                        <%= link_to(related_lobject.title, unbounded_show_new_path(id: related_lobject.id)) %>
+                      <div class="media-body lobject-related-resource">
+                        <%= link_to(related_lobject.title, unbounded_show_path(id: related_lobject.id)) %> (<%= related_resource_type(related_lobject) %>)
                       </div>
                     </li>
                   <% end %>

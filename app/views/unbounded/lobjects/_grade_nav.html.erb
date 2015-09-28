@@ -1,0 +1,15 @@
+<% modules  = curriculum.modules %>
+<% middle = (modules.size / 2.0).ceil.to_i %>
+<% left   = modules[0, middle] %>
+<% right  = modules[middle, modules.size - middle] %>
+
+<% if modules.any? %>
+  <div class=unit>
+    <div class=unit-wrapper>
+      <div class='row no-gutter'>
+        <%= render partial: 'grade_nav_column', locals: { start: 0, modules: left } %>
+        <%= render partial: 'grade_nav_column', locals: { start: middle, modules: right }%>
+      </div>
+    </div>
+  </div>
+<% end %>

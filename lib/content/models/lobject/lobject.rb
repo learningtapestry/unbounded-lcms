@@ -198,7 +198,9 @@ module Content
       end
 
       def unbounded_curriculum
-        @unbounded_curriculum ||= UnboundedCurriculum.new(curriculum_map_collection, self)
+        if curriculum_map_collection
+          @unbounded_curriculum ||= UnboundedCurriculum.new(curriculum_map_collection, self)
+        end
       end
 
       def related_lobjects

@@ -4,6 +4,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    user ||= User.new
+    
     can :manage, Lobject do |lobject|
       user.has_role?(lobject.organization, Role.named(:admin))
     end

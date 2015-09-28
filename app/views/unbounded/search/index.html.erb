@@ -9,7 +9,7 @@
           <% end %>
           <% current_search.except(:query).each do |k,v| %>
             <li>
-              <%= link_to(t("unbounded.title.#{k}") + raw(" <strong>#{v}</strong>"), unbounded_search_path(search_up_to(k))) %>
+              <%= link_to(t("unbounded.title.#{k}") + " #{v}", unbounded_search_path(search_up_to(k))) %>
             </li>
           <% end %>
         </ol>
@@ -72,7 +72,7 @@
                 <div class="search-total"><%= @search.total_hits %> Results - Page <%= @search.page %></div>
                 <div class="search-results">
                   <% @search.results.each do |lobject| %>
-                      <%= render partial: 'lobject_preview_new', locals: { lobject: lobject } %>
+                      <%= render partial: 'lobject_preview', locals: { lobject: lobject } %>
                   <% end %>
                 </div>
                 <div class="search-pagination">

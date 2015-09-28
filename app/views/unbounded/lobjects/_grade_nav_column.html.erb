@@ -1,0 +1,7 @@
+<div class=col-sm-6>
+  <ol class=list-unstyled>
+    <% modules.each_with_index do |mod, idx| %>
+      <li class=no-wrap><%= link_to t('unbounded.curriculum.module_title', idx: idx + start + 1), unbounded_show_path(mod), class: 'module-nav-module' %>
+    <% end %>
+  </ol>
+</div>

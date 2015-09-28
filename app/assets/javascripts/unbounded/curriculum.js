@@ -1,6 +1,6 @@
 Unbounded = {
   linkToLesson: function(id) {
-    return Routes.unbounded_show_new_path(id);
+    return Routes.unbounded_show_path(id);
   }
 };
 

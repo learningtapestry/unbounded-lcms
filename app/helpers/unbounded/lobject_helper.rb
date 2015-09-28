@@ -29,11 +29,11 @@ module Unbounded
     end
 
     def lesson_title(title)
-      title.split(',').first.gsub(/Module\s+\w+/, '')
+      title.split(',').first.gsub(/Module\s+\w+/, '') if title
     end
 
     def lesson_no(title)
-      title.split(',').last
+      title.split(',').last if title
     end
 
     def module_title(title)

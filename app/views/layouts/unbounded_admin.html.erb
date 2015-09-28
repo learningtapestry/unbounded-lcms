@@ -17,18 +17,37 @@
   </head>
   <body>
   	<header>
-      <%= render partial: "shared/header" %>
+      <%= render partial: "unbounded/shared/header" %>
   	</header>
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <%= yield %>
+    <%= render partial: 'unbounded/shared/flash' %>
 
-    <%= render partial: "shared/subscribe" %>
+    <div class="unbounded-page">
+      <div class="container">
+        <div class="unbounded-content">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+
+    <%= render partial: "unbounded/shared/subscribe" %>
 
     <footer>
-        <%= render partial: "shared/footer" %>
+        <%= render partial: "unbounded/shared/footer" %>
+
+        <p class="text-center">
+          <% if user_signed_in? %>
+            <% if can? :read, :admin_root %>
+              <%= link_to(t('.admin'), :unbounded_admin) %>
+            <% end %>
+            <%= link_to('Log out', destroy_user_session_path) %>
+          <% else %>
+            <%= link_to('Administrator access', new_user_session_path) %>
+          <% end %>
+        </p>
     </footer>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

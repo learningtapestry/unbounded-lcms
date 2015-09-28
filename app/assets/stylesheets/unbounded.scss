@@ -487,6 +487,9 @@ footer {
       li {padding-left: $padding-xs-horizontal/2; padding-right: $padding-xs-horizontal/2;}
     }
   }
+  a, a:hover {
+    color: #fff;
+  }
 }
 
 @media (min-width: $screen-xs-max) {
@@ -538,4 +541,22 @@ footer {
 
 .curriculum-grade-title:hover {
     cursor: pointer;
+}
+
+form.inline {
+    display: inline;
+}
+
+.unbounded-page {
+    background-color: $ub-light-gray;
+    padding-top: $ub-module-padding;
+    padding-bottom: $ub-module-padding;
+
+    .unbounded-content {
+        background-color: white;
+        padding: $ub-element-padding;
+        h4, h5 {
+            text-transform: uppercase;
+        }
+    }
 }

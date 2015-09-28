@@ -2,11 +2,15 @@
   <div class="module-wrapper">
     <div class="row">
       <div class="module-title">
-        <%= link_to lesson_title(curriculum.current_lobject.title), unbounded_show_new_path(curriculum.current_grade), class: 'module-title-grades' %>
-        <%= link_to module_title(curriculum.current_lobject.title), unbounded_show_new_path(curriculum.current_module), class: ['module-title-module', ('active' if curriculum.module?)] %>
+        <%= link_to lesson_title(curriculum.current_grade.title), unbounded_show_path(curriculum.current_grade), class: 'module-title-grades' %>
+        <% if curriculum.current_module %>
+          <%= link_to module_title(curriculum.current_lobject.title), unbounded_show_path(curriculum.current_module), class: ['module-title-module', ('active' if curriculum.module?)] %>
+        <% end %>
       </div>
 
-      <% if curriculum.module? %>
+      <% if curriculum.grade? %>
+        <%= render partial: 'grade_nav', locals: { curriculum: curriculum } %>
+      <% elsif curriculum.module? %>
         <%= render partial: 'module_nav', locals: { curriculum: curriculum } %>
       <% elsif curriculum.lesson? || curriculum.unit? %>
         <%= render partial: 'unit_nav', locals: { curriculum: curriculum } %>
@@ -23,7 +27,7 @@
         <div class=nav-module-up>
           <% if prev_module = curriculum.previous_module %>
             <div>
-              <%= link_to unbounded_show_new_path(prev_module) do %>
+              <%= link_to unbounded_show_path(prev_module) do %>
                 <i class='fa fa-3x fa-angle-up'></i>
               <% end %>
             </div>
@@ -35,7 +39,7 @@
           <% if prev_lesson = curriculum.previous_lesson %>
             <div class=media>
               <div class='media-left media-middle'>
-                <%= link_to unbounded_show_new_path(prev_lesson.id) do %>
+                <%= link_to unbounded_show_path(prev_lesson.id) do %>
                   <i class='fa fa-3x fa-angle-left'></i>
                 <% end %>
               </div>
@@ -49,7 +53,7 @@
             <div class=media>
               <div class='media-body text-right'><%= t('.next_lesson') %></div>
               <div class='media-right media-middle'>
-                <%= link_to unbounded_show_new_path(next_lesson) do %>
+                <%= link_to unbounded_show_path(next_lesson) do %>
                   <i class='fa fa-3x fa-angle-right'></i>
                 <% end %>
               </div>
@@ -61,7 +65,7 @@
           <% if next_module = curriculum.next_module %>
             <div><%= t('.next_module') %></div>
             <div>
-              <%= link_to unbounded_show_new_path(next_module) do %>
+              <%= link_to unbounded_show_path(next_module) do %>
                 <i class='fa fa-3x fa-angle-down'></i>
               <% end %>
             </div>

@@ -15,6 +15,7 @@
 
 # Ignore uploads
 /public/uploads
+/public/javascripts/translations.js
 
 # Ignore all logfiles and tempfiles.
 /log/*

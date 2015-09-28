@@ -50,7 +50,9 @@ en:
         url: URL
   layouts:
     unbounded:
-      admin: Admin
+      admin: Administration
+    unbounded_admin:
+      admin: Administration
   lobject_statuses:
     active: Active
     hidden: Hidden
@@ -161,7 +163,7 @@ en:
           collections: Collections
           pages: Pages
           resources: Resources
-    browse:
+    lobjects:
       nav:
         next_lesson: Next LESSON
         next_module: Next MODULE
@@ -178,6 +180,7 @@ en:
       ela_lesson_label: Lesson
       math_lesson_label: Lesson
       unit_title: "Unit %{idx}"
+      module_title: "Module %{idx}"
     title:
       logo: Unbounded
       subscribe: Stay connected
