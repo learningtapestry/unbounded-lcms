@@ -1,8 +1,6 @@
 require 'content/models'
 
 class ApiController < ApplicationController
-  include Content::Models
-
   before_action :remove_blank_params
 
   def show_resources

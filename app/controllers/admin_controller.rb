@@ -1,8 +1,6 @@
 require 'content/models'
 
 class AdminController < ApplicationController
-  include Content::Models
-
   before_action :find_organization, :authenticate_admin!
 
   def find_organization
