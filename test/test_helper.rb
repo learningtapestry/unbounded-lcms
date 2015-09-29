@@ -37,6 +37,7 @@ class IntegrationTestCase < ActionDispatch::IntegrationTest
   def teardown
     super
     Capybara.reset_sessions!
+    Capybara.use_default_driver if Capybara.current_driver == :poltergeist
   end
 
   def wait_for_ajax
@@ -47,5 +48,14 @@ class IntegrationTestCase < ActionDispatch::IntegrationTest
     Timeout.timeout(Capybara.default_max_wait_time) do
       loop until yield
     end
+  end
+
+  def use_poltergeist
+    Capybara.current_driver = :poltergeist
+    # Force assets precompilation so Poltergeist doesn't time out when
+    # visiting pages.
+    # Ref. https://github.com/teampoltergeist/poltergeist/issues/294
+    visit '/assets/application.css'
+    visit '/assets/application.js'
   end
 end

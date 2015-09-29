@@ -4,17 +4,10 @@ module Unbounded
   class TagsTestCase < IntegrationTestCase
     def setup
       super
-      Capybara.current_driver = :poltergeist
+      use_poltergeist
 
       admin = users(:admin)
       login_as admin
-
-      # Force assets precompilation so Poltergeist doesn't time out when
-      # visiting pages.
-      # Ref. https://github.com/teampoltergeist/poltergeist/issues/294
-      visit '/assets/application.css'
-      visit '/assets/application.js'
-      
       visit '/admin/lobjects/new'
     end
 
@@ -48,11 +41,6 @@ module Unbounded
 
     def test_create_topic
       test_create_tag('Create Topic', :topics)
-    end
-
-    def teardown
-      super
-      Capybara.use_default_driver
     end
 
     private
