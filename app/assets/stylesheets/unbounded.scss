@@ -284,6 +284,14 @@ header {
       .module-title {
         .module-title-title {@include make-md-column(4); text-transform: uppercase;}
         .module-title-dsc {@include make-md-column(8);}
+
+        a, a:hover, a:focus {
+            color: #fff;
+        }
+
+        a:hover, a:focus {
+            text-decoration: underline;
+        }
       }
     }
   }

@@ -14,7 +14,11 @@ module Content
       accepts_nested_attributes_for :lobject_children, allow_destroy: true
 
       def self.curriculum_maps
-        find_by(lobject_collection_type: LobjectCollectionType.curriculum_map)
+        where(lobject_collection_type: LobjectCollectionType.curriculum_map)
+      end
+
+      def self.curriculum_maps_for(subject)
+        Lobject.find_curriculum_lobjects(subject).map(&:curriculum_map_collection)
       end
 
       def tree(root_lobject = lobject)

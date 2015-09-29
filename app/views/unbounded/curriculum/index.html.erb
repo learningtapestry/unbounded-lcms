@@ -56,8 +56,8 @@
         <div class="row">
           <div class="module-title">
             <div class="row">
-              <div class="module-title-title" data-bind="text: $root.moduleTitle($parents[1].curriculumType, $data)"></div>
-              <div class="module-title-dsc"  data-bind="text: $root.moduleDescription($parents[1].curriculumType, $data)"></div>
+              <div class="module-title-title"><a data-bind="text: $root.moduleTitle($parents[1].curriculumType, $data), attr: { href: Unbounded.linkToLesson(id) }"></a></div>
+              <div class="module-title-dsc"><a data-bind="text: $root.moduleDescription($parents[1].curriculumType, $data), attr: { href: Unbounded.linkToLesson(id) }"></a></div>
             </div>
           </div>
           <div class="curriculum-map curriculum-map-units" data-bind="foreach: children">
@@ -74,7 +74,7 @@
     <div class="unit-wrapper">
       <div class="row">
         <div class="unit-title">
-          <div data-bind="text: $root.unitTitle($parents[3].curriculumType, $data)"></div>
+          <div><a  data-bind="text: $root.unitTitle($parents[3].curriculumType, $data), attr: { href: Unbounded.linkToLesson(id) }"></a></div>
         </div>
         <div class="lessons">
           <div class="row">
@@ -111,6 +111,10 @@
     <div class="lesson-popover-breadcrumb">Module/Unit/Lesson</div>
     <div class="lesson-popover-title" data-bind="html: title"></div>
     <div class="lesson-popover-content" data-bind="html: description"></div>
+    <div class="lesson-popover-highlights" data-bind="if: $root.isHighlighted(id)">
+      <div class="lesson-popover-title" data-bind="text: I18n.t('unbounded.title.alignments')"></div>
+      <p data-bind="text: $root.findAlignmentDescriptions(id)"></p>
+    </div>
     <div class="lesson-popover-cta">
       <a class="btn btn-default btn-block" data-bind="attr: { href: Unbounded.linkToLesson(id) }"><%= t('ui.open_lesson') %></a>
     </div>

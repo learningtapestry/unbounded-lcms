@@ -5,8 +5,6 @@ Unbounded = {
 };
 
 (function() {
-  var cachedPreviews = {};
-
   var curriculumViewModel = {
     ela: {
       curriculumType: 'ela',
@@ -18,7 +16,14 @@ Unbounded = {
     },
     highlights: ko.observableArray(),
     isHighlighted: function(id) {
-      return _.includes(this.highlights(), id);
+      return this.findHighlights(id).length > 0;
+    },
+    findHighlights: function(id) {
+      return _.filter(this.highlights(), function(alignment) {
+        return _.some(alignment.highlights, function(lobjectId) {
+          return lobjectId == id;
+        });
+      });
     },
     interval: function(from, to) {
       var interval = [];
@@ -46,11 +51,12 @@ Unbounded = {
     },
     openResourcePreview: function($data, e) {
       e.stopPropagation();
+      var $context = ko.contextFor(e.target);
       var $elm = $(e.target).parents('a');
       initializePopover($elm);
 
-      if ($data.id in cachedPreviews) {
-        openPopover($elm, cachedPreviews[$data.id]);
+      if ('description' in $data) {
+        openPopover($elm, $context);
       }
       else {
         $.ajax({
@@ -58,8 +64,8 @@ Unbounded = {
           url: Routes.unbounded_resource_preview_path(),
           data: { id: $data.id },
           success: function(data) {
-            cachedPreviews[$data.id] = data.lobject_preview;
-            openPopover($elm, data.lobject_preview);
+            _.extend($data, data.lobject_preview);
+            openPopover($elm, $context);
           }
         });
       }
@@ -87,6 +93,17 @@ Unbounded = {
         newDatas.push(newData);
       }
       return newDatas;
+    },
+    alignmentDescription: function(alignmentId) {
+      return _.result(_.find(this.alignments, function(alignment) {
+        return alignment.value == alignmentId;
+      }), 'text');
+    },
+    findAlignmentDescriptions: function(id) {
+      var that = this;
+      return _.map(this.findHighlights(id), function(highlight) {
+        return that.alignmentDescription(parseInt(highlight.alignment));
+      }).join(', ');
     }
   };
 
@@ -105,18 +122,18 @@ Unbounded = {
     }
   }
 
-  function openPopover($elm, content) {
+  function openPopover($elm, $context) {
     var popover = $elm.data('bs.popover');
     var rendered = $('<div />');
     ko.renderTemplate(
       'resource-preview-template',
-      content,
+      $context,
       null,
       rendered[0],
       'replaceChildren'
     );
     popover.options.content = rendered.html();
-    popover.options.title = content.title;
+    popover.options.title = $context.$data.title;
     popover.show();
   }
 
@@ -136,6 +153,7 @@ Unbounded = {
     curriculumViewModel.ela.items(c.curriculums.ela);
     curriculumViewModel.math.items(c.curriculums.math);
     curriculumViewModel.highlights(c.highlights);
+    curriculumViewModel.alignments = data.dropdown_options.alignment;
   }
 
   function updateDropdown(promise, dropdownClass) {

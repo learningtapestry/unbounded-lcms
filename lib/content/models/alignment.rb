@@ -25,13 +25,13 @@ module Content
         )
       end
 
-      def self.by_curriculum(curriculum)
-        collection_ids = Lobject
-          .find_curriculum_lobjects(curriculum)
-          .map { |lob| lob.curriculum_map_collection.id }
+      def self.by_collection(collection)
+        self.by_collection([collection])
+      end
 
+      def self.by_collections(collections)
         joins(lobject_alignments: { lobject: [:lobject_children] }).where(
-          'lobject_children.lobject_collection_id' => collection_ids
+          'lobject_children.lobject_collection_id' => collections.map(&:id)
         )
       end
     end

@@ -16,7 +16,9 @@ module Unbounded
       end
 
       if params[:curriculum].present?
-        alignments = alignments.by_curriculum(params[:curriculum].to_sym)
+        alignments = alignments.by_collections(LobjectCollection.curriculum_maps_for(params[:curriculum]))
+      else
+        alignments = alignments.by_collections(LobjectCollection.curriculum_maps)
       end
 
       all_option = { text: 'All', value: :all }

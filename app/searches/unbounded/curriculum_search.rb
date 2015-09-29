@@ -21,27 +21,22 @@ module Unbounded
       else
         only_grades = (9..12).map { |i| Grade.find_by(grade: "grade #{i}") }
       end
+
       root_lobjects = root_lobjects
         .select { |l| l.grades.any? { |g| only_grades.include?(g) } }
 
-      collection_ids = root_lobjects.map { |l| l.curriculum_map_collection.id }
-
       have_alignment_ids = []
+      highlights = []
       if params[:alignments].present?
-        all_lobject_ids = LobjectChild
-          .where(lobject_collection_id: collection_ids)
-          .pluck(:child_id)
-          .uniq
-
         have_alignment_ids = LobjectAlignment
-          .joins(:alignment)
-          .where('alignments.id' => params[:alignments].map(&:to_i))
-          .where(lobject_id: all_lobject_ids)
+          .where(alignment_id: params[:alignments])
+          .select(:lobject_id)
           .pluck(:lobject_id)
           .uniq
 
         keep_collection_ids = LobjectChild
           .where(child_id: have_alignment_ids)
+          .select(:lobject_collection_id)
           .pluck(:lobject_collection_id)
           .uniq
 
@@ -49,10 +44,21 @@ module Unbounded
           .select { |l| 
             l.lobject_collections.any? { |lc| keep_collection_ids.include?(lc.id) }
           }
+
+        params[:alignments].each do |alig|
+          highlights << {
+            alignment: alig,
+            highlights: LobjectAlignment
+              .where(:alignment_id => alig)
+              .select(:lobject_id)
+              .pluck(:lobject_id)
+              .uniq
+          } 
+        end
       end
 
       @results = {
-        highlights: have_alignment_ids,
+        highlights: highlights,
         curriculums: {
           ela: build_curriculum_hash(curriculums[:ela], root_lobjects),
           math: build_curriculum_hash(curriculums[:math], root_lobjects)

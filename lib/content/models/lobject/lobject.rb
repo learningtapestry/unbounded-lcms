@@ -124,6 +124,8 @@ module Content
         end
 
         def find_root_lobject_for_curriculum(subject)
+          subject = subject.to_sym
+
           raise 'Subject must be ELA or Math' unless [:ela, :math].include?(subject)
 
           if subject == :ela
