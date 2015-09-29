@@ -17,6 +17,21 @@ module Unbounded
       @unit2      = lobjects(:unbounded_unit_1_1_2)
     end
 
+    def test_grade_page
+      visit "/resources/#{@grade.id}"
+
+      grade_link  = find('a.active.module-title-grades')
+      assert_equal grade_link[:href], "/resources/#{@grade.id}"
+      assert_equal grade_link.text,   'Grade 1'
+
+      module_links = all('a.module-nav-module')
+      assert_equal module_links.size, 3
+      assert_equal module_links.first[:href], "/resources/#{@module1.id}"
+      assert_equal module_links.first.text,   'Module 1'
+      assert_equal module_links.last[:href],  "/resources/#{@module3.id}"
+      assert_equal module_links.last.text,    'Module 3'
+    end
+
     def test_module_page
       visit "/resources/#{@module1.id}"
 
