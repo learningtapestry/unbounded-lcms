@@ -101,6 +101,10 @@ class UnboundedCurriculum
     end
   end
 
+  def next_unit
+    current_unit_node.next_sibling.try(:content)
+  end
+
   def previous_lesson
     if lesson?
       current_node.previous_sibling.try(:content)
@@ -109,6 +113,10 @@ class UnboundedCurriculum
 
   def previous_module
     current_module_node.previous_sibling.try(:content)
+  end
+
+  def previous_unit
+    current_unit_node.previous_sibling.try(:content)
   end
 
   def unit?
@@ -133,6 +141,16 @@ class UnboundedCurriculum
         elsif unit?
           parents[0]
         elsif module?
+          current_node
+        end
+      end
+    end
+
+    def current_unit_node
+      @current_unit_node ||= begin
+        if lesson?
+          parents[0]
+        elsif unit?
           current_node
         end
       end

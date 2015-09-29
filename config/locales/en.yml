@@ -167,8 +167,10 @@ en:
       nav:
         next_lesson: Next LESSON
         next_module: Next MODULE
+        next_unit: Next UNIT
         previous_lesson: Previous LESSON
         previous_module: Previous MODULE
+        previous_unit: Previous UNIT
     browser: Unbounded Content Browser
     curriculum:
       ela: English Language Arts

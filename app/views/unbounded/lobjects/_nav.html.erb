@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<% if curriculum.lesson? %>
+<% unless curriculum.grade? %>
   <div class="module">
     <div class="module-wrapper lesson-nav">
       <div class="row">
@@ -35,31 +35,61 @@
           <% end %>
         </div>
 
-        <div class=nav-lesson-left>
-          <% if prev_lesson = curriculum.previous_lesson %>
-            <div class=media>
-              <div class='media-left media-middle'>
-                <%= link_to unbounded_show_path(prev_lesson.id) do %>
-                  <i class='fa fa-3x fa-angle-left'></i>
-                <% end %>
+        <% if curriculum.unit? %>
+          <div class=nav-lesson-left>
+            <% if prev_unit = curriculum.previous_unit %>
+              <div class=media>
+                <div class='media-left media-middle'>
+                  <%= link_to unbounded_show_path(prev_unit) do %>
+                    <i class='fa fa-3x fa-angle-left'></i>
+                  <% end %>
+                </div>
+                <div class='media-body text-left'><%= t('.previous_unit') %></div>
               </div>
-              <div class='media-body text-left'><%= t('.previous_lesson') %></div>
-            </div>
-          <% end %>
-        </div>
+            <% end %>
+          </div>
 
-        <div class=nav-lesson-right>
-          <% if next_lesson = curriculum.next_lesson %>
-            <div class=media>
-              <div class='media-body text-right'><%= t('.next_lesson') %></div>
-              <div class='media-right media-middle'>
-                <%= link_to unbounded_show_path(next_lesson) do %>
-                  <i class='fa fa-3x fa-angle-right'></i>
-                <% end %>
+          <div class=nav-lesson-right>
+            <% if next_unit = curriculum.next_unit %>
+              <div class=media>
+                <div class='media-body text-right'><%= t('.next_unit') %></div>
+                <div class='media-right media-middle'>
+                  <%= link_to unbounded_show_path(next_unit) do %>
+                    <i class='fa fa-3x fa-angle-right'></i>
+                  <% end %>
+                </div>
               </div>
-            </div>
-          <% end %>
-        </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if curriculum.lesson? %>
+          <div class=nav-lesson-left>
+            <% if prev_lesson = curriculum.previous_lesson %>
+              <div class=media>
+                <div class='media-left media-middle'>
+                  <%= link_to unbounded_show_path(prev_lesson.id) do %>
+                    <i class='fa fa-3x fa-angle-left'></i>
+                  <% end %>
+                </div>
+                <div class='media-body text-left'><%= t('.previous_lesson') %></div>
+              </div>
+            <% end %>
+          </div>
+
+          <div class=nav-lesson-right>
+            <% if next_lesson = curriculum.next_lesson %>
+              <div class=media>
+                <div class='media-body text-right'><%= t('.next_lesson') %></div>
+                <div class='media-right media-middle'>
+                  <%= link_to unbounded_show_path(next_lesson) do %>
+                    <i class='fa fa-3x fa-angle-right'></i>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
 
         <div class=nav-module-down>
           <% if next_module = curriculum.next_module %>
