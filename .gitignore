@@ -21,3 +21,9 @@
 /log/*
 !/log/.keep
 /tmp
+
+.env.development
+.env.engageny
+.env.integration
+.env.staging
+.env.test

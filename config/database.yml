@@ -2,35 +2,25 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-
-production: &production
-  <<: *default
   host: <%= ENV['POSTGRESQL_ADDRESS'] %>
   database: <%= ENV['POSTGRESQL_DATABASE'] %>
   username: <%= ENV['POSTGRESQL_USERNAME'] %>
   password: <%= ENV['POSTGRESQL_PASSWORD'] %>
 
+production: &production
+  <<: *default
+
 staging:
   <<: *production
 
-development: &development
+development:
   <<: *default
-  database: content_development
-  host: 127.0.0.1
-  username: content_development_user
-  password: content
 
 engageny:
-  <<: *development
-  database: engageny
-
-test: &test
   <<: *default
-  database: content_test
-  host: 127.0.0.1
-  username: content_test_user
-  password: content
+
+test:
+  <<: *default
 
 integration:
-  <<: *test
-  database: content_integration
+  <<: *default

@@ -12,28 +12,31 @@ Rails.application.routes.draw do
   get '/api/v1/subjects' => 'api#show_subjects'
   get '/api/v1/identities' => 'api#show_identities'
 
-  scope module: :unbounded, as: :unbounded do
-    get '/' => 'welcome#index'
-    get '/about' => 'pages#show_slug', slug: 'about'
-    get '/curriculum' => 'curriculum#index'
-    get '/resources/preview' => 'lobjects#preview', as: 'resource_preview'
-    get '/resources/:id' => 'lobjects#show', as: :show
-    get '/search' => 'search#index'
-    get '/search/curriculum' => 'search#curriculum', as: 'search_curriculum'
-    get '/search/dropdown_options' => 'search#dropdown_options', as: 'dropdown_options'
 
-    namespace :admin do
+  if ENV['CONTENT_ROOT_WEBSITE'] == 'unbounded'
+    scope module: :unbounded, as: :unbounded do
       get '/' => 'welcome#index'
-      resources :collection_types
-      resources :collections
-      resource :lobject_bulk_edits, only: [:new, :create]
-      resources :lobject_children, only: :create
-      resources :lobjects, except: :show
-      resources :pages, except: :show
-      resources :tags, only: :create
-    end
+      get '/about' => 'pages#show_slug', slug: 'about'
+      get '/curriculum' => 'curriculum#index'
+      get '/resources/preview' => 'lobjects#preview', as: 'resource_preview'
+      get '/resources/:id' => 'lobjects#show', as: :show
+      get '/search' => 'search#index'
+      get '/search/curriculum' => 'search#curriculum', as: 'search_curriculum'
+      get '/search/dropdown_options' => 'search#dropdown_options', as: 'dropdown_options'
 
-    resources :pages, only: :show
+      namespace :admin do
+        get '/' => 'welcome#index'
+        resources :collection_types
+        resources :collections
+        resource :lobject_bulk_edits, only: [:new, :create]
+        resources :lobject_children, only: :create
+        resources :lobjects, except: :show
+        resources :pages, except: :show
+        resources :tags, only: :create
+      end
+
+      resources :pages, only: :show
+    end
   end
 
   namespace :lt do
