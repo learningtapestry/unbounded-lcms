@@ -9,6 +9,12 @@ module Unbounded
       admin = users(:admin)
       login_as admin
 
+      # Force assets precompilation so Poltergeist doesn't time out when
+      # visiting pages.
+      # Ref. https://github.com/teampoltergeist/poltergeist/issues/294
+      visit '/assets/application.css'
+      visit '/assets/application.js'
+      
       visit '/admin/lobjects/new'
     end
 
