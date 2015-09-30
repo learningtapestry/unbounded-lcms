@@ -6,6 +6,8 @@ $ub-gray: #a6aaa9;
 $ub-gray-1: #9e90a7;
 $ub-light-gray: #edebf0;
 $ub-yellow: #f5d329;
+$ub-bg-filter-light-purple: rgba(26,25,48,0.5);
+$ub-bg-filter-purple: rgba(26,25,48,0.8);
 
 // Fonts
 @import "_fonts";
@@ -145,12 +147,12 @@ header {
       color: white;
       > div { padding: $ub-element-padding $ub-element-padding; display: block;}
       .hero-title {
-        background-color: rgba(26,25,48,0.5);
+        background-color: $ub-bg-filter-light-purple;
         h1 {font-family: $font-family-sans-serif; font-size: 44px;}
       }
       .hero-subtitle {
         color: $ub-yellow;
-        background-color: rgba(26,25,48,0.8);
+        background-color: $ub-bg-filter-purple;
         font-family: $font-family-heading-light;
       }
     }
@@ -236,16 +238,15 @@ header {
       form {
         color: white; font-size: $font-size-form;
         > div.form-group {
-          > div { @include make-md-column(4);}
+          > div {
+            @include make-md-column(4, $grid-gutter-width/2);
+            .ub-group-wrapper {
+              padding: $grid-gutter-width/2 $grid-gutter-width/2;
+              background-color: $ub-bg-filter-purple;
+            }
+          }
           label {min-height: 50px;}
           margin-bottom: $ub-module-padding;
-        }
-        > div.form-group:last-child {
-          > div {
-            @include make-md-column(12);
-            button { @include center-block;}
-          }
-          margin-bottom: 0px;
         }
         .btn-ub {background-color: $ub-yellow; color: $ub-purple; }
       }
@@ -290,7 +291,7 @@ header {
         }
 
         a:hover, a:focus {
-            color: #f5d329;
+            color: $ub-yellow;
             text-decoration: none;
         }
       }
@@ -299,7 +300,7 @@ header {
     .unit {
         .unit-title {
           a:hover, a:focus {
-              color: #f5d329;
+              color: $ub-yellow;
               text-decoration: none;
           }
         }
@@ -475,7 +476,14 @@ header {
       .lesson-nav {
         > div.row > div {padding-bottom: $padding-base-vertical;}
         color: white; font-size: $font-size-small;
-        a {color: white; font-size: $font-size-small;}
+        a {color: white; font-size: $font-size-small; text-decoration: none;}
+        div.disabled {
+          color: darken($ub-gray, 10%);
+          a {
+            color: darken($ub-gray, 10%); pointer-events: none; cursor: default;
+            &:hover, &:focus {color: darken($ub-gray, 10%)!important;}
+          }
+        }
         .nav-module-up, .nav-module-down {
           text-align: center;
           @include make-md-column(12, $padding-xs-horizontal * 2);
