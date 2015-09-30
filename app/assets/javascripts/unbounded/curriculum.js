@@ -65,7 +65,10 @@ Unbounded = {
           data: { id: $data.id },
           success: function(data) {
             _.extend($data, data.lobject_preview);
-            openPopover($elm, $context);
+
+            if ($elm.is(':hover')) {
+              openPopover($elm, $context);
+            }
           }
         });
       }
