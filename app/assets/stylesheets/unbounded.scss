@@ -290,9 +290,19 @@ header {
         }
 
         a:hover, a:focus {
-            text-decoration: underline;
+            color: #f5d329;
+            text-decoration: none;
         }
       }
+    }
+
+    .unit {
+        .unit-title {
+          a:hover, a:focus {
+              color: #f5d329;
+              text-decoration: none;
+          }
+        }
     }
   }
 }

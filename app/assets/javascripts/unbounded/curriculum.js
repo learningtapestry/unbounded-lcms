@@ -108,6 +108,7 @@ Unbounded = {
   };
 
   function initializePopover($elm) {
+    $('.popover').popover('hide');
     var popover = $elm.data('bs.popover');
     if (!popover) {
       $elm.popover({
@@ -115,10 +116,6 @@ Unbounded = {
         content: 'Loading',
         template: $('#popover-template').html()
       }).popover('show');
-
-      $elm.siblings('.popover').on('mouseleave', function () {
-        $elm.popover('hide');
-      });
     }
   }
 
@@ -222,17 +219,16 @@ Unbounded = {
     });
   }
 
-  function initializeGradeAccordion() {
-
-  }
-
   function initializeCurriculum() {
     dropdowns().each(function(i, elm) {
       elm.selectize.on('change', onDropdownChange);
     });
 
     initializeDropdowns();
-    initializeGradeAccordion();
+
+    $(document).on('mouseleave', '.popover', function () {
+      $('.popover').popover('hide');
+    });
 
     ko.applyBindings(curriculumViewModel, $('#curriculum-resources')[0]);
   }
