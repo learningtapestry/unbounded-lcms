@@ -73,11 +73,15 @@ unbounded_unit_1_1_1:
 unbounded_unit_1_1_2:
   lobject: unbounded_unit_1_1_2
   title: Grade 1, Module 1, Unit 2
-  
+
+unbounded_unit_1_1_3:
+  lobject: unbounded_unit_1_1_3
+  title: Grade 1, Module 1, Unit 3
+
 unbounded_unit_1_2_1:
   lobject: unbounded_unit_1_2_1
   title: Grade 1, Module 2, Unit 1
-  
+
 unbounded_unit_1_2_2:
   lobject: unbounded_unit_1_2_2
   title: Grade 1, Module 2, Unit 2

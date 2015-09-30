@@ -100,6 +100,12 @@ unbounded_unit_1_1_2:
   parent: unbounded_module_1_1
   position: 2
 
+unbounded_unit_1_1_3:
+  child: unbounded_unit_1_1_3
+  lobject_collection: unbounded_curriculum
+  parent: unbounded_module_1_1
+  position: 3
+
 unbounded_unit_1_2_1:
   child: unbounded_unit_1_2_1
   lobject_collection: unbounded_curriculum
