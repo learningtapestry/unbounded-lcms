@@ -3,10 +3,6 @@
     <div class="row">
       <div class="breadcrumbs-list">
         <ol class="breadcrumb">
-          <li><%= link_to('All documents', unbounded_path) %></li>
-          <% if params[:query] %>
-            <li><%= link_to("Search for #{params[:query]}", unbounded_search_path(query: params[:query])) %></li>
-          <% end %>
           <% current_search.except(:query).each do |k,v| %>
             <li>
               <%= link_to(t("unbounded.title.#{k}") + " #{v}", unbounded_search_path(search_up_to(k))) %>
@@ -44,28 +40,27 @@
         <div class="row">
           <div class="search-content-wrapper">
             <div class="search-controls">
-              <% unless params[:query] %>
-                <form id="form-search" class="form-horizontal form-search" data-action="<%=unbounded_search_path %>" method="GET">
-                  <div class="form-group">
-                    <label class="control-label" for="query">Search in the results</label>
-                    <div class="search-group">
-                      <div class="input-group">
-                        <% current_search.each do |k,v| %>
+              <form id="form-search" class="form-horizontal form-search" data-action="<%=unbounded_search_path %>" method="GET">
+                <div class="form-group">
+                  <label class="control-label" for="query">Search for</label>
+                  <div class="search-group">
+                    <div class="input-group">
+                      <% current_search.each do |k,v| %>
+                        <% unless k == 'query' %>
                           <input type="hidden" name="<%= k %>" value="<%= v %>">
                         <% end %>
-                        <input type="search" class="form-control" name="query" placeholder="Search for..." value="<%= params[:query] %>">
-                        <span class="input-group-btn">
-                          <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <button class="btn btn-default btn-block">Refine results</button>
+                      <% end %>
+                      <input type="search" class="form-control" name="query" placeholder="Search for..." value="<%= params[:query] %>">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                      </span>
                     </div>
                   </div>
-                </form>
-                <hr>
-              <% end %>
+                  <div>
+                  </div>
+                </div>
+              </form>
+              <hr>
             </div>
             <div class="search-results-content">
               <div class="row">
