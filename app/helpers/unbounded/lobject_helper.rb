@@ -55,5 +55,10 @@ module Unbounded
       resource_types = lobject.resource_types.pluck(:name)
       resource_types.include?('video') ? 'video' : 'resource'
     end
+
+    def sidebar_nav_link(link_obj)
+      link_obj.present? ? unbounded_show_path(link_obj) : ''
+    end
+
   end
 end

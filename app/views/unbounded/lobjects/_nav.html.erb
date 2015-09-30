@@ -24,81 +24,25 @@
     <div class="module-wrapper lesson-nav">
       <div class="row">
 
-        <div class=nav-module-up>
-          <% if prev_module = curriculum.previous_module %>
-            <div>
-              <%= link_to unbounded_show_path(prev_module) do %>
-                <i class='fa fa-3x fa-angle-up'></i>
-              <% end %>
-            </div>
+        <div class='nav-module-up <%= 'disabled' unless curriculum.previous_module %>'>
+          <%= link_to sidebar_nav_link(curriculum.previous_module) do %>
+            <div><i class='fa fa-3x fa-angle-up'></i></div>
             <div><%= t('.previous_module') %></div>
           <% end %>
         </div>
 
         <% if curriculum.unit? %>
-          <div class=nav-lesson-left>
-            <% if prev_unit = curriculum.previous_unit %>
-              <div class=media>
-                <div class='media-left media-middle'>
-                  <%= link_to unbounded_show_path(prev_unit) do %>
-                    <i class='fa fa-3x fa-angle-left'></i>
-                  <% end %>
-                </div>
-                <div class='media-body text-left'><%= t('.previous_unit') %></div>
-              </div>
-            <% end %>
-          </div>
-
-          <div class=nav-lesson-right>
-            <% if next_unit = curriculum.next_unit %>
-              <div class=media>
-                <div class='media-body text-right'><%= t('.next_unit') %></div>
-                <div class='media-right media-middle'>
-                  <%= link_to unbounded_show_path(next_unit) do %>
-                    <i class='fa fa-3x fa-angle-right'></i>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-          </div>
+          <%= render partial: 'sidebar_lr_nav', locals: {prev_obj: curriculum.previous_unit, next_obj: curriculum.next_unit, title: 'unit' } %>
         <% end %>
 
         <% if curriculum.lesson? %>
-          <div class=nav-lesson-left>
-            <% if prev_lesson = curriculum.previous_lesson %>
-              <div class=media>
-                <div class='media-left media-middle'>
-                  <%= link_to unbounded_show_path(prev_lesson.id) do %>
-                    <i class='fa fa-3x fa-angle-left'></i>
-                  <% end %>
-                </div>
-                <div class='media-body text-left'><%= t('.previous_lesson') %></div>
-              </div>
-            <% end %>
-          </div>
-
-          <div class=nav-lesson-right>
-            <% if next_lesson = curriculum.next_lesson %>
-              <div class=media>
-                <div class='media-body text-right'><%= t('.next_lesson') %></div>
-                <div class='media-right media-middle'>
-                  <%= link_to unbounded_show_path(next_lesson) do %>
-                    <i class='fa fa-3x fa-angle-right'></i>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-          </div>
+          <%= render partial: 'sidebar_lr_nav', locals: {prev_obj: curriculum.previous_lesson, next_obj: curriculum.next_lesson, title: 'lesson' } %>
         <% end %>
 
-        <div class=nav-module-down>
-          <% if next_module = curriculum.next_module %>
+        <div class='nav-module-down <%= 'disabled' unless curriculum.next_module %>'>
+          <%= link_to sidebar_nav_link(curriculum.next_module) do %>
             <div><%= t('.next_module') %></div>
-            <div>
-              <%= link_to unbounded_show_path(next_module) do %>
-                <i class='fa fa-3x fa-angle-down'></i>
-              <% end %>
-            </div>
+            <div><i class='fa fa-3x fa-angle-down'></i></div>
           <% end %>
         </div>
 

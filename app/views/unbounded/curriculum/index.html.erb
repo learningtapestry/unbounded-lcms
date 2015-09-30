@@ -6,33 +6,34 @@
           <form class="curriculum-search-form form-horizontal" action="" method="POST">
             <div class="form-group">
               <div class="ub-group">
-                <label for=""><%= t('curriculum_page.search_form.subject_label') %></label>
-                <div class="ub-select">
-                  <select class="curriculum-filter curriculum-filter-curriculum selectize form-control" name="curriculum">
-                    <option value=""></option>
-                  </select>
+                <div class="ub-group-wrapper">
+                  <label for=""><%= t('curriculum_page.search_form.subject_label') %></label>
+                  <div class="ub-select">
+                    <select class="curriculum-filter curriculum-filter-curriculum selectize form-control" name="curriculum">
+                      <option value=""></option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="ub-group">
-                <label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
-                <div class="ub-select">
-                  <select class="curriculum-filter curriculum-filter-grade selectize form-control" name="grade">
-                    <option value=""></option>
-                  </select>
+                <div class="ub-group-wrapper">
+                  <label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
+                  <div class="ub-select">
+                    <select class="curriculum-filter curriculum-filter-grade selectize form-control" name="grade">
+                      <option value=""></option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="ub-group">
-                <label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
-                <div class="ub-select">
-                  <select class="curriculum-filter curriculum-filter-alignment selectize form-control" multiple="multiple" name="alignments[]">
-                    <option value=""></option>
-                  </select>
+                <div class="ub-group-wrapper">
+                  <label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
+                  <div class="ub-select">
+                    <select class="curriculum-filter curriculum-filter-alignment selectize form-control" multiple="multiple" name="alignments[]">
+                      <option value=""></option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div>
-                <button type="submit" class="btn btn-lg btn-ub "><%= t('ui.search') %></button>
               </div>
             </div>
           </form>

@@ -171,6 +171,9 @@ en:
         previous_lesson: Previous LESSON
         previous_module: Previous MODULE
         previous_unit: Previous UNIT
+      sidebar_lr_nav:
+        previous_link: "Previous %{title}"
+        next_link: "Next %{title}"
     browser: Unbounded Content Browser
     curriculum:
       ela: English Language Arts
