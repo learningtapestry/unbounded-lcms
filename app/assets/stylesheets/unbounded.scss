@@ -218,12 +218,12 @@ header {
   .ub-square-lesson {fill: $ub-yellow;}
 }
 
-.lesson {
+.lesson, .unit-nav, .module-nav {
   a {
     svg {width: 100%; height: 100%;}
-    .ub-square-lesson {fill: $ub-light-purple;}
+    .ub-square-lesson, .ub-square-unit, .ub-square-module  {fill: $ub-light-purple;}
     &:hover, .active, &:focus {
-      .ub-square-lesson {fill: $ub-yellow;}
+      .ub-square-lesson, .ub-square-unit, .ub-square-module {fill: $ub-yellow;}
     }
   }
 }
@@ -323,13 +323,35 @@ header {
               font-family: $font-family-heading;
               text-transform: uppercase;
             }
-            .lessons {
+            .lessons, .modules, .units {
               color: $ub-light-gray;
               @include make-md-column(12, $padding-xs-horizontal * 2);
               > div {
                 @include make-row($padding-xs-horizontal);
+              }
+            }
+            .lessons {
+              > div {
                 .lesson {
                   @include make-md-column(3, $padding-xs-horizontal);
+                  padding-top: $padding-xs-horizontal/2; padding-bottom: $padding-xs-horizontal/2;
+                  a {display: block; img {width: 100%;}}
+                }
+              }
+            }
+            .units {
+              > div {
+                .unit-nav {
+                  @include make-md-column(4, $padding-xs-horizontal);
+                  padding-top: $padding-xs-horizontal/2; padding-bottom: $padding-xs-horizontal/2;
+                  a {display: block; img {width: 100%;}}
+                }
+              }
+            }
+            .modules {
+              > div {
+                .module-nav {
+                  @include make-md-column(4, $padding-xs-horizontal);
                   padding-top: $padding-xs-horizontal/2; padding-bottom: $padding-xs-horizontal/2;
                   a {display: block; img {width: 100%;}}
                 }
@@ -426,7 +448,7 @@ header {
             }
       .module-title {
         text-transform: uppercase;
-        .module-title-grades, .module-title-module {                    
+        .module-title-grades, .module-title-module {
                     display: block;
                 }
                 .module-title-grades {
