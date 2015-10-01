@@ -535,8 +535,12 @@ footer {
       li {padding-left: $padding-xs-horizontal/2; padding-right: $padding-xs-horizontal/2;}
     }
   }
-  a, a:hover {
+  a {
     color: #fff;
+    text-decoration: underline;
+    &:hover{
+      color: $ub-yellow;
+    }
   }
 }
 

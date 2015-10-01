@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get '/search' => 'search#index'
       get '/search/curriculum' => 'search#curriculum', as: 'search_curriculum'
       get '/search/dropdown_options' => 'search#dropdown_options', as: 'dropdown_options'
+      get '/tos' => 'pages#show_slug', as: :tos_page, slug: 'tos'
 
       namespace :admin do
         get '/' => 'welcome#index'
