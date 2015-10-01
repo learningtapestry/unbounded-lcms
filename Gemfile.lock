@@ -261,6 +261,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    seedbank (0.3.0)
     shellany (0.0.1)
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
@@ -351,6 +352,7 @@ DEPENDENCIES
   safe_attributes (~> 1.0.10)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  seedbank (~> 0.3)
   shoulda
   simple_form
   spring
@@ -361,3 +363,6 @@ DEPENDENCIES
   webmock (~> 1.21.0)
   will_paginate (~> 3.0.7)
   will_paginate-bootstrap
+
+BUNDLED WITH
+   1.10.6
