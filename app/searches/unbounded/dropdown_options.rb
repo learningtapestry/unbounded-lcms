@@ -1,42 +1,54 @@
 module Unbounded
   class DropdownOptions
+    include ActiveModel::Model
     include Content::Models
 
-    attr_reader :dropdown_options
+    attr_accessor :subject, :grade_id, :standard_ids
 
-    def initialize(params)
-      alignments = Alignment.select(:id, :name).by_organization(Organization.unbounded)
+    def standards
+      unless defined? @standards
+        alignments = Alignment.select(:id, :name).by_organization(Organization.unbounded)
 
-      grades_9_12 = (9..12).map { |i| Grade.find_by(grade: "grade #{i}") }
+        if grade_id
+          alignments = alignments.by_grade(Grade.find(grade_id))
+        else
+          alignments = alignments.by_grades(grades)
+        end
 
-      if params[:grade].present?
-        alignments = alignments.by_grade(Grade.find(params[:grade].to_i))
-      else
-        alignments = alignments.by_grades(grades_9_12)
+        if subject
+          alignments = alignments.by_collections(LobjectCollection.curriculum_maps_for(subject))
+        else
+          alignments = alignments.by_collections(LobjectCollection.curriculum_maps)
+        end
+
+        @standards = alignments.uniq
       end
 
-      if params[:curriculum].present?
-        alignments = alignments.by_collections(LobjectCollection.curriculum_maps_for(params[:curriculum]))
-      else
-        alignments = alignments.by_collections(LobjectCollection.curriculum_maps)
-      end
+      @standards
+    end
 
-      all_option = { text: 'All', value: :all }
+    def standard_options
+      [all_option] + standards.map { |s| [s.name, s.id] }
+    end
 
-      curriculums = [
+    def subject_options
+      [
         all_option,
-        { text: I18n.t('unbounded.curriculum.ela'), value: :ela },
-        { text: I18n.t('unbounded.curriculum.math'), value: :math },
+        [I18n.t('unbounded.curriculum.ela'), 'ela'],
+        [I18n.t('unbounded.curriculum.math'), 'math']
       ]
+    end
 
-      alignments = [all_option] + alignments.uniq.map { |a| { text: a.name, value: a.id } }
-      grades = [all_option] + grades_9_12.map { |g| { text: g.grade, value: g.id } }
+    def grades
+      (9..12).map { |i| Grade.find_by(grade: "grade #{i}") }
+    end
 
-      @dropdown_options = { 
-        alignment: alignments, 
-        curriculum: curriculums, 
-        grade: grades 
-      }
+    def grade_options
+      [all_option] + (grades.map { |g| [g.grade, g.id] })
+    end
+
+    def all_option
+      [I18n.t('ui.all'), 'all']
     end
   end
 end

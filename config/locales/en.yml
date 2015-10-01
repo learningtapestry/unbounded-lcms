@@ -224,10 +224,12 @@ en:
   ui:
     actions: Actions
     add: Add
+    all: All
     are_you_sure: Are you sure?
     close: Close
     delete: Delete
     edit: Edit
+    loading: Loading
     remove: Remove
     save: Save
     subscribe: Subscribe
