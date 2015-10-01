@@ -51,6 +51,7 @@ en:
   layouts:
     unbounded:
       admin: Administration
+      tos: Terms of Service
     unbounded_admin:
       admin: Administration
   lobject_statuses:

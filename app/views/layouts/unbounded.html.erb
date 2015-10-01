@@ -33,14 +33,15 @@
     <footer>
         <%= render partial: "unbounded/shared/footer" %>
 
-        <p class="text-center">
+        <ul class='list-inline text-center'>
+          <li><%= link_to t('.tos'), :unbounded_tos_page %>
           <% if user_signed_in? %>
             <% if can? :read, :admin_root %>
-              <%= link_to(t('.admin'), :unbounded_admin) %>
+              <li><%= link_to(t('.admin'), :unbounded_admin) %>
             <% end %>
-            <%= link_to('Log out', destroy_user_session_path) %>
+            <li><%= link_to('Log out', destroy_user_session_path) %>
           <% else %>
-            <%= link_to('Administrator access', new_user_session_path) %>
+            <li><%= link_to('Administrator access', new_user_session_path) %>
           <% end %>
         </p>
     </footer>
