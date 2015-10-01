@@ -45,8 +45,9 @@
   <script type="text/html" id="grade-template">
     <div data-bind="foreach: items">
       <div class="curriculum-grade">
-        <h1 data-toggle="collapse" class="curriculum-grade-title" data-bind="text: title, attr: { 'data-target': '#'+$root.computeId('curriculum-grade-modules', $data) }"></h1>
-        <div class="row collapse in" data-bind="template: { name: 'module-template', foreach: children }, attr: { id: $root.computeId('curriculum-grade-modules', $data) }"></div>
+        <h1 data-toggle="collapse" class="curriculum-grade-title" data-bind="text: title, attr: { 'data-target': '#'+$root.computeId('curriculum-grade-desc', $data) }"></h1>
+        <div class="row collapse in" data-bind="html: description, attr: { id: $root.computeId('curriculum-grade-desc', $data) }"></div>
+        <div class="row" data-bind="template: { name: 'module-template', foreach: children }"></div>
       </div>
     </div>
   </script>

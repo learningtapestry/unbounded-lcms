@@ -5,7 +5,7 @@ module Unbounded
     attr_reader :dropdown_options
 
     def initialize(params)
-      alignments = Alignment.by_organization(Organization.unbounded)
+      alignments = Alignment.select(:id, :name).by_organization(Organization.unbounded)
 
       grades_9_12 = (9..12).map { |i| Grade.find_by(grade: "grade #{i}") }
 

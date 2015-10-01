@@ -67,9 +67,15 @@ module Unbounded
     end
 
     def build_curriculum_hash(grouped_curriculum, assorted_curriculum)
-      grouped_curriculum
-      .select { |c| assorted_curriculum.include?(c) }
-      .map { |l| l.curriculum_map_collection.as_hash }
+      curriculum_hash = grouped_curriculum
+        .select { |c| assorted_curriculum.include?(c) }
+        .map { |l| l.curriculum_map_collection.as_hash }
+
+      curriculum_hash.each do |curriculum|
+        curriculum[:description] = Lobject.find(curriculum[:id]).description
+      end
+
+      curriculum_hash
     end
   end
 end
