@@ -28,6 +28,24 @@
     return $('select.curriculum-filter-standard');
   }
 
+  function fetchHighlights(val) {
+    $('.lesson-active').removeClass('lesson-active');
+
+    $.ajax({
+      dataType: 'json',
+      url: Routes.unbounded_curriculum_highlights_path(),
+      data: {
+        subject: subjectDropdown().val(),
+        grade: gradeDropdown().val(),
+        standards: val
+      },
+      success: function(data) {
+        Highlights = data;
+        highlightLessons();
+      }
+    });
+  }
+
   function findHighlights(lobjectId) {
     return _.filter(Highlights, function(alignment) {
       return _.some(alignment.highlights, function(highlightedId) {
@@ -96,21 +114,13 @@
         return;
       }
 
-      $('.lesson-active').removeClass('lesson-active');
-      $.ajax({
-        dataType: 'json',
-        url: Routes.unbounded_curriculum_highlights_path(),
-        data: {
-          subject: subjectDropdown().val(),
-          grade: gradeDropdown().val(),
-          standards: newVal
-        },
-        success: function(data) {
-          Highlights = data;
-          highlightLessons();
-        }
-      });
+      fetchHighlights(newVal);
     });
+
+    var currentValue = selectize.getValue();
+    if (currentValue.length) {
+      fetchHighlights(currentValue);
+    }
   }
 
   function initializePopover($elm) {
