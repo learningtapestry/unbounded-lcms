@@ -249,7 +249,7 @@ en:
       grade_label: What is the grade?
       disabilities_label: What % of kids have disabilities?
       time_label: What is the length of time you are hoping to fill?
-      standard_label: Is there a perticular standard you want to teach?
+      standard_label: Is there a particular standard you want to teach?
       subject_label: What is the subject?
       ell_label: What % of your students are ELL?
       ell_level_label: >
