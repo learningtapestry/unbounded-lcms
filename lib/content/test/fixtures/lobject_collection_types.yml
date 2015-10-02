@@ -1,8 +1,5 @@
-ela_curriculum_map:
-  name: ELA Curriculum Map
-
-math_curriculum_map:
-  name: Math Curriculum Map
+curriculum_map:
+  name: Curriculum Map
 
 nti:
   name: NTI

@@ -225,7 +225,7 @@ module Content
       end
 
       def curriculum_map_collection
-        find_collections.where(lobject_collection_type: LobjectCollectionType.curriculum_maps).first
+        find_collections.where(lobject_collection_type: LobjectCollectionType.curriculum_map).first
       end
 
       # ElasticSearch.

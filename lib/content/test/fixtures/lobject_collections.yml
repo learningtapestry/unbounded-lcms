@@ -4,8 +4,8 @@ easol:
 
 unbounded:
   lobject: unbounded
-  lobject_collection_type: ela_curriculum_map
+  lobject_collection_type: curriculum_map
 
 unbounded_curriculum:
   lobject: unbounded_grade1
-  lobject_collection_type: math_curriculum_map
+  lobject_collection_type: curriculum_map

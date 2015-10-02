@@ -3,9 +3,6 @@ module Content
     class LobjectCollectionType < ActiveRecord::Base
       include Normalizable
 
-      ELA_CURRICULUM_MAP_NAME  = 'ELA Curriculum Map'
-      MATH_CURRICULUM_MAP_NAME = 'Math Curriculum Map'
-
       has_many :lobject_collections, dependent: :nullify
 
       validates :name, presence: true, uniqueness: { case_sensitive: false }
@@ -14,9 +11,7 @@ module Content
 
       normalize_attr :name, -> (value) { value.strip }
 
-      def self.curriculum_maps
-        where(name: [ELA_CURRICULUM_MAP_NAME, MATH_CURRICULUM_MAP_NAME])
-      end
+      def self.curriculum_map; find_by(name: 'Curriculum Map'); end
     end
   end
 end
