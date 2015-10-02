@@ -30,9 +30,7 @@ module Unbounded
       module_links = all('a.module-nav-module')
       assert_equal module_links.size, 3
       assert_equal module_links.first[:href], "/resources/#{@module1.id}"
-      assert_equal module_links.first.text,   'Module 1'
       assert_equal module_links.last[:href],  "/resources/#{@module3.id}"
-      assert_equal module_links.last.text,    'Module 3'
     end
 
     def test_module_page
@@ -49,11 +47,8 @@ module Unbounded
       unit_links = all('a.module-nav-unit')
       assert_equal unit_links.size, 3
       assert_equal unit_links[0][:href], "/resources/#{@unit_1_1.id}"
-      assert_equal unit_links[0].text,   'Unit 1'
       assert_equal unit_links[1][:href], "/resources/#{@unit_1_2.id}"
-      assert_equal unit_links[1].text,   'Unit 2'
       assert_equal unit_links[2][:href], "/resources/#{@unit_1_3.id}"
-      assert_equal unit_links[2].text,   'Unit 3'
     end
 
     def test_unit_page
@@ -154,8 +149,8 @@ module Unbounded
       visit "/resources/#{@module1.id}"
       within '.lesson-nav' do
         within '.nav-module-up' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Previous MODULE')
+          assert find('a')['href'].empty?
+          assert has_text?('Previous MODULE')
         end
 
         within '.nav-module-down' do
@@ -187,8 +182,8 @@ module Unbounded
         end
 
         within '.nav-module-down' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Next MODULE')
+          assert find('a')['href'].empty?
+          assert has_text?('Next MODULE')
         end
       end
     end
@@ -198,8 +193,8 @@ module Unbounded
       visit "/resources/#{@unit_1_1.id}"
       within '.lesson-nav' do
         within '.nav-module-up' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Previous MODULE')
+          assert find('a')['href'].empty?
+          assert has_text?('Previous MODULE')
         end
 
         within '.nav-module-down' do
@@ -231,8 +226,8 @@ module Unbounded
         end
 
         within '.nav-module-down' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Next MODULE')
+          assert find('a')['href'].empty?
+          assert has_text?('Next MODULE')
         end
       end
     end
@@ -242,8 +237,8 @@ module Unbounded
       visit "/resources/#{@lesson_1_1.id}"
       within '.lesson-nav' do
         within '.nav-module-up' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Previous MODULE')
+          assert find('a')['href'].empty?
+          assert has_text?('Previous MODULE')
         end
 
         within '.nav-module-down' do
@@ -275,8 +270,8 @@ module Unbounded
         end
 
         within '.nav-module-down' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Next MODULE')
+          assert find('a')['href'].empty?
+          assert has_text?('Next MODULE')
         end
       end
     end
@@ -286,8 +281,8 @@ module Unbounded
       visit "/resources/#{@unit_1_1.id}"
       within '.lesson-nav' do
         within '.nav-lesson-left' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Previous UNIT')
+          assert find('a')['href'].empty?
+          assert has_text?('Previous UNIT')
         end
 
         within '.nav-lesson-right' do
@@ -319,8 +314,8 @@ module Unbounded
         end
 
         within '.nav-lesson-right' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Next UNIT')
+          assert find('a')['href'].empty?
+          assert has_text?('Next UNIT')
         end
       end
     end
@@ -330,8 +325,8 @@ module Unbounded
       visit "/resources/#{@lesson_1_1.id}"
       within '.lesson-nav' do
         within '.nav-lesson-left' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Previous LESSON')
+          assert find('a')['href'].empty?
+          assert has_text?('Previous LESSON')
         end
 
         within '.nav-lesson-right' do
@@ -363,8 +358,8 @@ module Unbounded
         end
 
         within '.nav-lesson-right' do
-          assert has_no_selector?('a')
-          assert has_no_text?('Next LESSON')
+          assert find('a')['href'].empty?
+          assert has_text?('Next LESSON')
         end
       end
     end
