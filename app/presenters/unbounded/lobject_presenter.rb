@@ -28,23 +28,54 @@ module Unbounded
       )
     end
 
-    def engageny_description
-      html_desc = Nokogiri::HTML(description)
+    def unbounded_description
+      unless defined? @unbounded_description
+        html_description_body.css('a').each do |a|
+          if a['href'] =~ /^https:\/\/www\.engageny\.org\/(content|resource)/
+            a['href'] = a['href'].sub('https://www.engageny.org', '')
+          end
 
-      html_desc.css('a').each do |a|
-        if a['href'] =~ /^https:\/\/www\.engageny\.org\/(content|resource)/
-          a['href'] = a['href'].sub('https://www.engageny.org', '')
+          if a['href'] =~ /^\/?sites\/default\/files/
+            a['href'] = engageny_downloadable_href(a['href'])
+            a['target'] = '_blank'
+          elsif a['href'] =~ /^\/?(content|resource)/
+            a['href'] = engageny_lobject_href(a['href'])
+          end
         end
 
-        if a['href'] =~ /^\/?sites\/default\/files/
-          a['href'] = engageny_downloadable_href(a['href'])
-          a['target'] = '_blank'
-        elsif a['href'] =~ /^\/?(content|resource)/
-          a['href'] = engageny_lobject_href(a['href'])
-        end
+        @unbounded_description = html_description_body.to_html
       end
 
-      html_desc.to_html
+      @unbounded_description
     end
+
+    def grade_description
+      html_description_body.css('p')[0].to_html
+    end
+
+    def grade_additional_materials
+      additional_materials = html_description_body.dup
+      additional_materials.css('p')[0].remove
+      additional_materials.to_html
+    end
+
+    protected
+
+      def html_description
+        @html_description ||= Nokogiri::HTML(description)
+      end
+
+      def html_description_body
+        unless defined? @html_description_body
+          parent_div = Nokogiri::HTML('<div />')
+          body = html_description.css('body')[0]
+          if body && body.children
+            parent_div.children = body.children
+          end
+          @html_description_body = parent_div
+        end
+
+        @html_description_body
+      end
   end
 end

@@ -83,9 +83,8 @@ module Unbounded
       link_obj.present? ? unbounded_show_path(link_obj) : ''
     end
 
-    def engageny_description(lobject)
-      LobjectPresenter.new(lobject).engageny_description.html_safe
+    def lobject_presenter(lobject)
+      yield LobjectPresenter.new(lobject)
     end
-
   end
 end
