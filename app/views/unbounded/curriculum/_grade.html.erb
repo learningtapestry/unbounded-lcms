@@ -1,7 +1,7 @@
 <div>
   <div class="curriculum-grade">
     <h1 data-toggle="collapse" class="curriculum-grade-title" data-target="#curriculum-grade-desc-<%= grade.content.id %>"><%= grade.content.title %></h1>
-    <div class="row collapse in" id="curriculum-grade-desc-<%= grade.content.id %>"><%= grade.content.description.html_safe %></div>
+    <div class="row collapse in" id="curriculum-grade-desc-<%= grade.content.id %>"><%= engageny_description(grade.content) %></div>
     <div class="row">
       <% grade.children.each do |mod| %>
         <%= render partial: 'module', locals: { mod: mod } %>

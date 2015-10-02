@@ -83,7 +83,8 @@ module Unbounded
       link_obj.present? ? unbounded_show_path(link_obj) : ''
     end
 
-    def chunked
+    def engageny_description(lobject)
+      LobjectPresenter.new(lobject).engageny_description.html_safe
     end
 
   end
