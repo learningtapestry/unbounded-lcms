@@ -5,7 +5,7 @@ module Unbounded
     def setup
       super
       @admin = users(:admin)
-      @collection_type = lobject_collection_types(:curriculum_map)
+      @collection_type = lobject_collection_types(:ela_curriculum_map)
       login_as @admin
     end
 
@@ -18,7 +18,7 @@ module Unbounded
       click_button 'Save'
       assert_equal find('.form-group.content_models_lobject_collection_type_name.has-error .help-block').text, "can't be blank"
 
-      fill_in 'Name', with: '  curriculum MAP   '
+      fill_in 'Name', with: '  eLa curriculum MAP   '
       click_button 'Save'
       assert_equal find('.form-group.content_models_lobject_collection_type_name.has-error .help-block').text, 'has already been taken'
 
@@ -73,7 +73,7 @@ module Unbounded
     end
 
     def test_delete_collection_type_from_show_page
-      collection_type = lobject_collection_types(:curriculum_map)
+      collection_type = lobject_collection_types(:ela_curriculum_map)
       visit '/admin/collection_types'
       click_link collection_type.name
       assert_equal current_path, "/admin/collection_types/#{collection_type.id}"

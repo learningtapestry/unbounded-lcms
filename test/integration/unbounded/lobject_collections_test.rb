@@ -6,7 +6,7 @@ module Unbounded
       super
 
       @admin           = users(:admin)
-      @collection_type = lobject_collection_types(:curriculum_map)
+      @collection_type = lobject_collection_types(:ela_curriculum_map)
       @lobject         = lobjects(:unbounded)
 
       login_as @admin
