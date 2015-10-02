@@ -80,6 +80,14 @@
   function initializeStandardDropdown() {
     var selectize = getSelectize(standardDropdown());
     selectize.on('change', function(newVal) {
+      if (_.includes(newVal, 'all')) {
+        $('.lesson-active').removeClass('lesson-active');
+        selectize.setValue([], true);
+        selectize.close();
+        selectize.open();
+        return;
+      }
+
       $('.lesson-active').removeClass('lesson-active');
       $.ajax({
         dataType: 'json',
