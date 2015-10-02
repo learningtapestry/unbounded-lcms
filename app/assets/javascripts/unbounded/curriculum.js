@@ -4,6 +4,14 @@
   var Lessons = {};
   var Highlights = [];
 
+  function visit(url) {
+    if (window.Turbolinks) {
+      window.Turbolinks.visit(url);
+    } else {
+      window.location.href = url;
+    }
+  }
+
   function getSelectize(jqElm) {
     return jqElm[0].selectize;
   }
@@ -53,7 +61,7 @@
       } else {
         newLocation = Routes.unbounded_curriculum_path({ subject: newVal });
       }
-      window.location = newLocation;
+      visit(newLocation);
     });
   }
 
@@ -73,7 +81,7 @@
           grade: gradeName
         });
       }
-      window.location = newLocation;
+      visit(newLocation);
     });
   }
 
