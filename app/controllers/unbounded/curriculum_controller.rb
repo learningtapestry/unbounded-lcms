@@ -16,7 +16,9 @@ module Unbounded
     def fix_params
       params[:subject].present? && params[:subject].gsub!('_', ' ')
       params[:grade].present? && params[:grade].gsub!('_', ' ')
-      params[:standards].present? && params[:standards].each { |s| s.gsub!('_', ' ') }
+      if params[:standards].present? && !params[:standards].kind_of?(Array)
+        params[:standards] = params[:standards].split(',').each { |s| s.gsub!('_', ' ') }
+      end
     end
 
     def dropdown_params
@@ -33,7 +35,7 @@ module Unbounded
 
       if params[:standards].present?
         new_params[:standard_ids] = []
-        params[:standards].split(',').each do |standard_name|
+        params[:standards].each do |standard_name|
           new_params[:standard_ids] << Alignment.find_by!(name: standard_name).id
         end
       end
