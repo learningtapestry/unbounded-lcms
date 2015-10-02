@@ -8,7 +8,15 @@ require 'minitest/focus'
 require 'minitest/rails/capybara'
 require 'shoulda/context'
 require 'shoulda/matchers'
-require 'capybara/poltergeist'; Capybara.javascript_driver = :poltergeist
+require 'capybara/poltergeist';
+
+Capybara.javascript_driver = :poltergeist
+
+# Increase Poltergeist timeout so we don't run into timeout errors.
+# Ref. https://github.com/teampoltergeist/poltergeist/issues/571
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, timeout: 10000)
+end
 
 class TestCase < ActiveSupport::TestCase
   include Content::Models
@@ -40,22 +48,8 @@ class IntegrationTestCase < ActionDispatch::IntegrationTest
     Capybara.use_default_driver if Capybara.current_driver == :poltergeist
   end
 
-  def wait_for_ajax
-    wait_until { evaluate_script('jQuery.active').zero? }
-  end
-
-  def wait_until
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      loop until yield
-    end
-  end
-
   def use_poltergeist
     Capybara.current_driver = :poltergeist
-    # Force assets precompilation so Poltergeist doesn't time out when
-    # visiting pages.
-    # Ref. https://github.com/teampoltergeist/poltergeist/issues/294
-    visit '/assets/application.css'
-    visit '/assets/application.js'
   end
 end
+

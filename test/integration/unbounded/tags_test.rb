@@ -52,7 +52,6 @@ module Unbounded
 
         within modal_selector do
           click_button 'Save'
-          wait_for_ajax
           assert_equal find('.alert.alert-danger.error').text, "Name can't be blank"
         end
 
@@ -68,11 +67,11 @@ module Unbounded
       end
 
       def wait_until_modal_hidden(selector)
-        wait_until { evaluate_script("!$('#{selector}').is(':visible')") }
+        has_css?(selector, visible: false)
       end
 
       def wait_until_modal_shown(selector)
-        wait_until { evaluate_script("$('#{selector}').is(':visible')") }
+        has_css?(selector, visible: true)
       end
   end
 end
