@@ -68,6 +68,18 @@ h1, h2, h3, h4, h5, .navbar-brand, hero-title, .hero-subtitle {
 	font-family: $font-family-heading;
 }
 
+@mixin inline-styles-overwrite($txt-color: $ub-purple, $bg-color: $ub-light-purple) {
+  color: $txt-color!important; font-family: $font-family-sans-serif!important;
+  font-size: $font-size-base!important;
+  background-color: $bg-color!important;
+}
+
+.inline-link-styles-overwrite {
+  color: $ub-purple!important; text-decoration: none!important;
+  font-family: $font-family-sans-serif!important; font-size: $font-size-base!important;
+  &:hover, &:focus {color: darken($ub-purple, 15%)!important; text-decoration: underline!important;}
+}
+
 .popover.popover-lesson {
   min-width: $popover-min-width;
   border-radius: 0px;
@@ -230,6 +242,7 @@ header {
   }
 }
 
+
 .search-form-page {
   .header-module {
     padding-top: $ub-module-padding;
@@ -255,6 +268,19 @@ header {
   .curriculum-content {
     padding-top: $ub-module-padding;
     background-color: $ub-light-purple;
+    .curriculum-grade {
+      > .row {margin-bottom: $ub-element-padding;}
+      .curriculum-grade-control {
+        @include make-md-column(0.5);
+        .curriculum-grade-icon {@extend .fa-angle-up;}
+      }
+      .curriculum-grade-control.collapsed {.curriculum-grade-icon {@extend .fa-angle-down;}}
+      .curriculum-grade-dsc {
+        @include make-md-column(11.5); border-left: 2px solid $ub-purple;
+        p, p span { @include inline-styles-overwrite; }
+        a {@extend .inline-link-styles-overwrite;}
+      }
+    }
     .module-12 {
       @include make-md-column(12, $padding-base-horizontal);
       .unit {
@@ -420,7 +446,14 @@ header {
 			.search-total {text-align: right; @include make-md-column(12);}
 			.search-results {@include make-md-column(12);}
 			.search-pagination {@include make-md-column(12); nav {float:right}}
-			.list-description {background-color: white; color: gray;}
+			.list-description {
+        background-color: white; color: gray!important;
+        p, span {
+          @include inline-styles-overwrite(gray, white);
+          margin: 0 0 10px!important;
+          span {@include inline-styles-overwrite(gray, white);}
+        }
+      }
 		}
 	}
 }

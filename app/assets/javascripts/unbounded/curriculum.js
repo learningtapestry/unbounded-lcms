@@ -77,7 +77,7 @@ Unbounded = {
       e.stopPropagation();
       var $elm = $(e.target).parents('a');
       setTimeout(function () {
-        if (!$('.popover:hover').length) { 
+        if (!$('.popover:hover').length) {
           $elm.popover('hide');
         }
       }, 50);
@@ -107,6 +107,12 @@ Unbounded = {
       return _.map(this.findHighlights(id), function(highlight) {
         return that.alignmentDescription(parseInt(highlight.alignment));
       }).join(', ');
+    },
+    getDescription: function(str) {
+      return _.str.strLeft(str, '</p>');
+    },
+    getMaterials: function(str) {
+      return _.str.strRight(str, '</p>');
     }
   };
 
