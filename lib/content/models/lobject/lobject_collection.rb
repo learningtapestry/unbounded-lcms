@@ -14,7 +14,7 @@ module Content
       accepts_nested_attributes_for :lobject_children, allow_destroy: true
 
       def self.curriculum_maps
-        where(lobject_collection_type: LobjectCollectionType.curriculum_map)
+        where(lobject_collection_type: LobjectCollectionType.curriculum_maps)
       end
 
       def self.curriculum_maps_for(subject)
