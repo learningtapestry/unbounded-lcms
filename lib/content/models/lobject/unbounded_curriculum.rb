@@ -133,19 +133,19 @@ class UnboundedCurriculum
     end
   end
 
-  private
-    def current_module_node
-      @current_module_node ||= begin
-        if lesson?
-          parents[1]
-        elsif unit?
-          parents[0]
-        elsif module?
-          current_node
-        end
+  def current_module_node
+    @current_module_node ||= begin
+      if lesson?
+        parents[1]
+      elsif unit?
+        parents[0]
+      elsif module?
+        current_node
       end
     end
+  end
 
+  private
     def current_unit_node
       @current_unit_node ||= begin
         if lesson?

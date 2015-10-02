@@ -3,8 +3,8 @@
     <div class="row">
       <div class="module-title">
         <%= link_to lesson_title(curriculum.current_grade.title), unbounded_show_path(curriculum.current_grade), class: ['module-title-grades', ('active' if curriculum.grade?)] %>
-        <% if curriculum.current_module %>
-          <%= link_to module_title(curriculum.current_lobject.title), unbounded_show_path(curriculum.current_module), class: ['module-title-module', ('active' if curriculum.module?)] %>
+        <% if curriculum.current_module_node %>
+          <%= link_to module_node_title(curriculum.current_module_node), unbounded_show_path(curriculum.current_module), class: ['module-title-module', ('active' if curriculum.module?)] %>
         <% end %>
       </div>
 
