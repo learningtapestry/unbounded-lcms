@@ -1,0 +1,36 @@
+<div class="header-module">
+  <div class="container">
+    <div class="row">
+      <div class="search-form">
+        <form class="curriculum-search-form form-horizontal" action="" method="POST">
+          <div class="form-group">
+            <div class="ub-group">
+              <div class="ub-group-wrapper">
+                <label for=""><%= t('curriculum_page.search_form.subject_label') %></label>
+                <div class="ub-select">
+                  <%= select('dropdown_options', 'subject', dropdown_options.subject_options, { include_blank: true, selected: dropdown_options.subject }, { class: 'curriculum-filter curriculum-filter-subject selectize form-control' }) %>
+                </div>
+              </div>
+            </div>
+            <div class="ub-group">
+              <div class="ub-group-wrapper">
+                <label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
+                <div class="ub-select">
+                  <%= select('dropdown_options', 'grade_id', dropdown_options.grade_options, { include_blank: true, selected: dropdown_options.grade_id }, { class: 'curriculum-filter curriculum-filter-grade selectize form-control', disabled: dropdown_options.subject.nil? }) %>
+                </div>
+              </div>
+            </div>
+            <div class="ub-group">
+              <div class="ub-group-wrapper">
+                <label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
+                <div class="ub-select">
+                  <%= select('dropdown_options', 'standards', dropdown_options.standard_options, { include_blank: true, selected: dropdown_options.standard_ids }, { class: 'curriculum-filter curriculum-filter-standard selectize form-control', multiple: true, disabled: dropdown_options.grade_id.nil? }) %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

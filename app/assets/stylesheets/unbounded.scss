@@ -276,7 +276,7 @@ header {
       }
       .curriculum-grade-control.collapsed {.curriculum-grade-icon {@extend .fa-angle-down;}}
       .curriculum-grade-dsc {
-        @include make-md-column(11.5); border-left: 2px solid $ub-purple;
+        @include make-md-column(11.5);
         p, p span { @include inline-styles-overwrite; }
         a {@extend .inline-link-styles-overwrite;}
       }
@@ -624,7 +624,7 @@ footer {
     white-space: nowrap;
 }
 
-.curriculum-grade-title:hover {
+.curriculum-grade-icon:hover {
     cursor: pointer;
 }
 

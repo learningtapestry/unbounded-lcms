@@ -47,6 +47,29 @@ module Unbounded
       t('unbounded.curriculum.unit_title', idx: idx + 1)
     end
 
+    def module_node_title(module_node)
+      t('unbounded.curriculum.module_title', idx: module_node.position + 1)
+    end
+
+    def unit_node_title(unit_node)
+      t('unbounded.curriculum.unit_title', idx: unit_node.position + 1)
+    end
+
+    def module_node_ui_units(module_node)
+      module_node.children.inject(0) { |total, unit_node|
+        total + (unit_node.children.size/16.0).ceil
+      }
+    end
+
+    def module_class(module_node)
+      ui_units = module_node_ui_units(module_node)
+      if ui_units <= 3
+        'module-6'
+      else
+        'module-12'
+      end
+    end
+
     def file_icon(type)
       type == 'pdf' ? type: 'doc'
     end
@@ -60,5 +83,8 @@ module Unbounded
       link_obj.present? ? unbounded_show_path(link_obj) : ''
     end
 
+    def lobject_presenter(lobject)
+      yield LobjectPresenter.new(lobject)
+    end
   end
 end

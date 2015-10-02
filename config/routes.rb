@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  anything_goes = /[^\/]+/
+
   devise_for :users, class_name: 'Content::Models::User'
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -17,12 +19,17 @@ Rails.application.routes.draw do
     scope module: :unbounded, as: :unbounded do
       get '/' => 'welcome#index'
       get '/about' => 'pages#show_slug', slug: 'about'
-      get '/curriculum' => 'curriculum#index'
-      get '/resources/preview' => 'lobjects#preview', as: 'resource_preview'
+      get '/curriculum/highlights' => 'curriculum#highlights', as: 'curriculum_highlights'
+      get '/curriculum(/:subject(/:grade(/:standards)))' => 'curriculum#index',
+        as: 'curriculum',
+        constraints: { 
+          subject: anything_goes,
+          grade: anything_goes,
+          standards: anything_goes
+        }
+      get '/resources/:id/preview' => 'lobjects#preview', as: 'resource_preview'
       get '/resources/:id' => 'lobjects#show', as: :show
       get '/search' => 'search#index'
-      get '/search/curriculum' => 'search#curriculum', as: 'search_curriculum'
-      get '/search/dropdown_options' => 'search#dropdown_options', as: 'dropdown_options'
       get '/tos' => 'pages#show_slug', as: :tos_page, slug: 'tos'
 
       namespace :admin do

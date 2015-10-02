@@ -1,0 +1,21 @@
+<div class="module <%= module_class(mod) %>">
+  <div class="module-wrapper">
+    <div class="row">
+      <div class="module-title">
+        <div class="row">
+          <div class="module-title-title">
+            <%= link_to(module_node_title(mod), unbounded_show_path(mod.content.id)) %>
+          </div>
+          <div class="module-title-dsc">
+            <%= link_to(mod.content.title, unbounded_show_path(mod.content.id)) %>
+          </div>
+        </div>
+      </div>
+      <div class="curriculum-map curriculum-map-units">
+        <% mod.children.each do |unit| %>
+          <%= render partial: 'unit', object: unit %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

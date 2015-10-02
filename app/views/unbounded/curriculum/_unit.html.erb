@@ -1,0 +1,26 @@
+<% unit.children.each_slice(16).with_index do |lessons, i| %>
+  <div class="unit unit-<%= i %>">
+    <div class="unit-wrapper">
+      <div class="row">
+        <div class="unit-title">
+          <div>
+            <%= link_to(unit_node_title(unit), unbounded_show_path(unit.content.id)) %>
+          </div>
+        </div>
+        <div class="lessons">
+          <div class="row">
+            <% lessons.each do |lesson| %>
+              <%= render partial: 'lesson', object: lesson %>
+            <% end %>
+
+            <% if unit.children.size < 16 || lessons.size < 16 %>
+              <% (16 - lessons.size).times do %>
+                <%= render partial: 'empty_lesson' %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

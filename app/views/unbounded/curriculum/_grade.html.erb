@@ -1,0 +1,21 @@
+<% lobject_presenter(grade.content) do |g| %>
+  <div>
+    <div class="curriculum-grade">
+      <h1 class="curriculum-grade-title"><%= g.title %></h1>
+      <div class="row">
+        <div class="curriculum-grade-control collapsed" data-toggle="collapse" data-target="#curriculum-grade-desc-<%= g.id %>" aria-expanded="false">
+          <i class="fa fa-3x curriculum-grade-icon" title="Show/hide Additional materials"></i>
+        </div>
+        <div class="curriculum-grade-dsc">
+          <div class="curriculum-grade-short-dsc"><%= g.grade_description.html_safe %></div>
+          <div class="curriculum-grade-materials collapse" aria-expanded="false" id="curriculum-grade-desc-<%= g.id %>"><%= g.grade_additional_materials.html_safe %></div>
+        </div>
+      </div>
+      <div class="row">
+        <% grade.children.each do |mod| %>
+          <%= render partial: 'module', locals: { mod: mod } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

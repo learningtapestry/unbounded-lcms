@@ -4,6 +4,12 @@ require 'set'
 module Content
   module Models
     class LobjectCollection < ActiveRecord::Base
+      class TreeNodeWithPosition < Tree::TreeNode
+        def position
+          parent.children.index(self)
+        end
+      end
+
       belongs_to :lobject
       belongs_to :lobject_collection_type
       has_many :lobject_children, dependent: :destroy
@@ -71,7 +77,7 @@ module Content
       end
 
       def build_tree_node(lobject)
-        Tree::TreeNode.new("#{id}.#{lobject.id}", lobject)
+        TreeNodeWithPosition.new("#{id}.#{lobject.id}", lobject)
       end
     end
   end
