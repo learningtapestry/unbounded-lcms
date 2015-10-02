@@ -5,48 +5,9 @@ module Unbounded
 
     include Content::Models
     include Rails.application.routes.url_helpers
-    
-    def engageny_lobject_href(href)
-      href = "/#{href}" unless href.start_with?('/')
 
-      url = Url.find_by(url: "https://www.engageny.org#{href}").canonical
-      lobject_id = LobjectUrl.where(url: url).first.try(:lobject_id)
-
-      if lobject_id
-        unbounded_show_path(id: lobject_id)
-      else
-        "https://www.engageny.org#{href}"
-      end
-    end
-
-    def engageny_downloadable_href(href)
-      href = "/#{href}" unless href.start_with?('/')
-      
-      href.sub(
-        '/sites/default/files',
-        'http://k12-content.s3-website-us-east-1.amazonaws.com'
-      )
-    end
-
-    def unbounded_description
-      unless defined? @unbounded_description
-        html_description_body.css('a').each do |a|
-          if a['href'] =~ /^https:\/\/www\.engageny\.org\/(content|resource)/
-            a['href'] = a['href'].sub('https://www.engageny.org', '')
-          end
-
-          if a['href'] =~ /^\/?sites\/default\/files/
-            a['href'] = engageny_downloadable_href(a['href'])
-            a['target'] = '_blank'
-          elsif a['href'] =~ /^\/?(content|resource)/
-            a['href'] = engageny_lobject_href(a['href'])
-          end
-        end
-
-        @unbounded_description = html_description_body.to_html
-      end
-
-      @unbounded_description
+    def description
+      html_description_body.to_html
     end
 
     def grade_description
@@ -62,7 +23,23 @@ module Unbounded
     protected
 
       def html_description
-        @html_description ||= Nokogiri::HTML(description)
+        unless defined? @html_description
+          @html_description = Nokogiri::HTML(__getobj__().description)
+          @html_description.css('a').each do |a|
+            if a['href'] =~ /^https:\/\/www\.engageny\.org\/(content|resource)/
+              a['href'] = a['href'].sub('https://www.engageny.org', '')
+            end
+
+            if a['href'] =~ /^\/?sites\/default\/files/
+              a['href'] = unbounded_downloadable_href(a['href'])
+              a['target'] = '_blank'
+            elsif a['href'] =~ /^\/?(content|resource)/
+              a['href'] = unbounded_lobject_href(a['href'])
+            end
+          end
+        end
+
+        @html_description
       end
 
       def html_description_body
@@ -76,6 +53,28 @@ module Unbounded
         end
 
         @html_description_body
+      end
+
+      def unbounded_lobject_href(href)
+        href = "/#{href}" unless href.start_with?('/')
+
+        url = Url.find_by(url: "https://www.engageny.org#{href}").canonical
+        lobject_id = LobjectUrl.where(url: url).first.try(:lobject_id)
+
+        if lobject_id
+          unbounded_show_path(id: lobject_id)
+        else
+          "https://www.engageny.org#{href}"
+        end
+      end
+
+      def unbounded_downloadable_href(href)
+        href = "/#{href}" unless href.start_with?('/')
+        
+        href.sub(
+          '/sites/default/files',
+          'http://k12-content.s3-website-us-east-1.amazonaws.com'
+        )
       end
   end
 end

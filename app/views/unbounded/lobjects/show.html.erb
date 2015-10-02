@@ -26,7 +26,7 @@
             <h4><%= lesson_no(@lobject.title) %></h4>
             <h2><%= lesson_title(@lobject.title) %></h2>
             <div class="dsc">
-              <%= @lobject.unbounded_description.html_safe %>
+              <%= @lobject.description.html_safe %>
             </div>
           </div>
           <div class="lesson-resources">
