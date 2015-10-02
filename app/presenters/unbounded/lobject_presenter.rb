@@ -7,6 +7,8 @@ module Unbounded
     include Rails.application.routes.url_helpers
     
     def engageny_lobject_href(href)
+      href = "/#{href}" unless href.start_with?('/')
+
       url = Url.find_by(url: "https://www.engageny.org#{href}").canonical
       lobject_id = LobjectUrl.where(url: url).first.try(:lobject_id)
 
@@ -18,6 +20,8 @@ module Unbounded
     end
 
     def engageny_downloadable_href(href)
+      href = "/#{href}" unless href.start_with?('/')
+      
       href.sub(
         '/sites/default/files',
         'http://k12-content.s3-website-us-east-1.amazonaws.com'
@@ -32,10 +36,10 @@ module Unbounded
           a['href'] = a['href'].sub('https://www.engageny.org', '')
         end
 
-        if a['href'] =~ /^\/sites\/default\/files/
+        if a['href'] =~ /^\/?sites\/default\/files/
           a['href'] = engageny_downloadable_href(a['href'])
           a['target'] = '_blank'
-        elsif a['href'] =~ /^\/(content|resource)/
+        elsif a['href'] =~ /^\/?(content|resource)/
           a['href'] = engageny_lobject_href(a['href'])
         end
       end
