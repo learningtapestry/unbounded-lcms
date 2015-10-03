@@ -17,10 +17,8 @@
 //= require ckeditor/init
 //= require jquery_nested_form
 //= require turbolinks
-//= require js-routes
 //= require knockout
-//= require i18n
-//= require i18n/translations
+//= require ./routes
 //= require_tree ./plugins
 //= require_tree .
 
