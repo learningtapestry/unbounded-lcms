@@ -28,7 +28,7 @@ module IntegrationDatabase
 
   def setup
     if uses_integration_database?
-      ActiveRecord::Base.establish_connection(:integration)
+      establish_connection(:integration)
     end
     super
   end
@@ -36,8 +36,15 @@ module IntegrationDatabase
   def teardown
     super
     if uses_integration_database?
-      ActiveRecord::Base.establish_connection(Rails.env.to_sym)
+      establish_connection(Rails.env.to_s)
       self.elasticsearch_prefix = 'test'
     end
   end
+
+  private
+    def establish_connection(env)
+      Dotenv.overload(".env.#{env}")
+      config = Rails.application.config.database_configuration[env.to_s]
+      ActiveRecord::Base.establish_connection(config)
+    end
 end

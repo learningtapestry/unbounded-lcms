@@ -22,6 +22,7 @@ class TestCase < ActiveSupport::TestCase
   include Content::Models
   include Content::Test::ContentFixtures
   include Content::Test::DatabaseCleanable
+  include IntegrationDatabase
 end
 
 class ControllerTestCase < ActionController::TestCase
