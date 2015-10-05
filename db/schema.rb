@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917004056) do
+ActiveRecord::Schema.define(version: 20151001092942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -358,6 +358,18 @@ ActiveRecord::Schema.define(version: 20150917004056) do
   add_index "lobject_resource_types", ["lobject_id"], name: "index_lobject_resource_types_on_lobject_id", using: :btree
   add_index "lobject_resource_types", ["resource_type_id"], name: "index_lobject_resource_types_on_resource_type_id", using: :btree
 
+  create_table "lobject_slugs", force: :cascade do |t|
+    t.integer  "lobject_id",            null: false
+    t.integer  "lobject_collection_id"
+    t.string   "value",                 null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "lobject_slugs", ["lobject_collection_id"], name: "index_lobject_slugs_on_lobject_collection_id", using: :btree
+  add_index "lobject_slugs", ["lobject_id", "lobject_collection_id"], name: "index_lobject_slugs_on_lobject_id_and_lobject_collection_id", unique: true, using: :btree
+  add_index "lobject_slugs", ["value"], name: "index_lobject_slugs_on_value", unique: true, using: :btree
+
   create_table "lobject_subjects", force: :cascade do |t|
     t.integer  "lobject_id"
     t.integer  "subject_id"
@@ -615,6 +627,8 @@ ActiveRecord::Schema.define(version: 20150917004056) do
   add_foreign_key "lobject_resource_types", "documents"
   add_foreign_key "lobject_resource_types", "lobjects"
   add_foreign_key "lobject_resource_types", "resource_types"
+  add_foreign_key "lobject_slugs", "lobject_collections"
+  add_foreign_key "lobject_slugs", "lobjects"
   add_foreign_key "lobject_subjects", "documents"
   add_foreign_key "lobject_subjects", "lobjects"
   add_foreign_key "lobject_subjects", "subjects"

@@ -4,6 +4,8 @@ require 'set'
 module Content
   module Models
     class LobjectCollection < ActiveRecord::Base
+      include Sluggable
+
       class TreeNodeWithPosition < Tree::TreeNode
         def position
           parent.children.index(self)
@@ -25,6 +27,10 @@ module Content
 
       def self.curriculum_maps_for(subject)
         Lobject.find_curriculum_lobjects(subject).map(&:curriculum_map_collection)
+      end
+
+      def curriculum_map?
+        lobject_collection_type.curriculum_map? rescue false
       end
 
       def tree(root_lobject = lobject)
