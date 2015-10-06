@@ -24,27 +24,21 @@
     <div class="module-wrapper lesson-nav">
       <div class="row">
 
-        <div class='nav-module-up <%= 'disabled' unless curriculum.previous_module %>'>
-          <%= link_to sidebar_nav_link(curriculum.previous_module) do %>
-            <div><i class='fa fa-3x fa-angle-up'></i></div>
-            <div><%= t('.previous_module') %></div>
-          <% end %>
-        </div>
+        <% if curriculum.module? %>
+          <%= render partial: 'sidebar_lr_nav', locals: {prev_obj: curriculum.previous_module, next_obj: curriculum.next_module, title: 'module' } %>
+        <% end %>
 
         <% if curriculum.unit? %>
+          <%= render partial: 'sidebar_up_nav', locals: {prev_obj: curriculum.previous_module, title: 'module' } %>
           <%= render partial: 'sidebar_lr_nav', locals: {prev_obj: curriculum.previous_unit, next_obj: curriculum.next_unit, title: 'unit' } %>
+          <%= render partial: 'sidebar_down_nav', locals: {next_obj: curriculum.next_module, title: 'module' } %>
         <% end %>
 
         <% if curriculum.lesson? %>
+          <%= render partial: 'sidebar_up_nav', locals: {prev_obj: curriculum.previous_unit, title: 'unit' } %>
           <%= render partial: 'sidebar_lr_nav', locals: {prev_obj: curriculum.previous_lesson, next_obj: curriculum.next_lesson, title: 'lesson' } %>
+          <%= render partial: 'sidebar_down_nav', locals: {next_obj: curriculum.next_unit, title: 'unit' } %>
         <% end %>
-
-        <div class='nav-module-down <%= 'disabled' unless curriculum.next_module %>'>
-          <%= link_to sidebar_nav_link(curriculum.next_module) do %>
-            <div><%= t('.next_module') %></div>
-            <div><i class='fa fa-3x fa-angle-down'></i></div>
-          <% end %>
-        </div>
 
       </div>
     </div>
