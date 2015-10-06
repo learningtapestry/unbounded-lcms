@@ -1,6 +1,6 @@
 production: &production
   after_symlink:
-    - command: cd $STACK_PATH && bundle exec rake lt:deploy
+    - command: cd $STACK_PATH && sudo -u ubuntu bundle exec rake lt:c66_ubuntu_deploy && bundle exec rake lt:c66_deploy
       target: rails
       execute: true
       run_on: single_server

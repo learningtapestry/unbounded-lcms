@@ -34,7 +34,7 @@ module Unbounded
       filters_def = Content::Search::Esbuilder.build do
         filter do
           bool do
-            module_call LobjectRestrictions, :restrict_lobjects
+            apply LobjectRestrictions, :restrict_lobjects
           end
         end
       end.to_hash[:filter]

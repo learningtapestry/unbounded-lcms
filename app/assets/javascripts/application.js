@@ -17,10 +17,13 @@
 //= require ckeditor/init
 //= require jquery_nested_form
 //= require turbolinks
-//= require js-routes
 //= require knockout
-//= require i18n
-//= require i18n/translations
+//= require ./routes
+//= require ./unbounded/unbounded
+//= require ./unbounded/highlights
+//= require ./unbounded/previews
+//= require ./unbounded/curriculum
+//= require ./unbounded/resource
 //= require_tree ./plugins
 //= require_tree .
 
@@ -34,6 +37,7 @@ var ready = function() {
   window.initializeLobjectList();
   window.initializeTree();
   window.initializeCurriculum();
+  window.initializeResource();
 };
 
 $(document).ready(ready);

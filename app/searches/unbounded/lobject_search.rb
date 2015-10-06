@@ -58,7 +58,7 @@ module Unbounded
               filtered do
                 filter do
                   bool do
-                    module_call LobjectRestrictions, :restrict_lobjects
+                    apply LobjectRestrictions, :restrict_lobjects
                     
                     if params[:active]
                       must do

@@ -21,8 +21,15 @@
 !/log/.keep
 /tmp
 
+# Ignore environment-specific configuration
 .env.development
 .env.engageny
 .env.integration
 .env.staging
 .env.test
+
+# Ignore assets pipeline compiled files
+/public/assets
+
+# Ignore generated JS files
+/public/javascripts/translations.js

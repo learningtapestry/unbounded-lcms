@@ -1,0 +1,17 @@
+<script type="text/html" id="resource-preview-template">
+  <div class="lesson-popover-breadcrumb">Module/Unit/Lesson</div>
+  <div class="lesson-popover-title"><%%= lobject_preview.title %></div>
+  <div class="lesson-popover-content"><%%= lobject_preview.description %></div>
+
+  <%% if (highlights.length) { %>
+    <div class="lesson-popover-highlights">
+      <div class="lesson-popover-title"><%%= I18n.t('unbounded.title.alignments') %></div>
+      <%% _.each(highlights, function(highlight) { %>
+        <p><%%= highlight.alignment.name %></p>
+      <%% }); %>
+    </div>
+  <%% } %>
+  <div class="lesson-popover-cta">
+    <a class="btn btn-default btn-block" href="<%%= Routes.unbounded_show_path(lobject_preview.id) %>"><%= t('ui.open_lesson') %></a>
+  </div>
+</script>

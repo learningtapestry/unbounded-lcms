@@ -6,7 +6,7 @@
         <div class=row>
           <% curriculum.lessons.each do |lesson| %>
             <div class='lesson <%= 'lesson-active' if curriculum.current_lesson == lesson %>'>
-              <%= link_to( unbounded_resource_path(curriculum, lesson), title: lesson.title, data: { toggle: 'tooltip', placement: 'right' }) do %>
+              <%= link_to(unbounded_resource_path(curriculum, lesson), title: lesson.title, data: { toggle: 'tooltip', placement: 'right', 'lobject-id' => lesson.id }) do %>
                 <%= render 'square_svg' %>
               <% end %>
             </div>
