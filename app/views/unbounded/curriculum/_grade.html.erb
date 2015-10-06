@@ -12,8 +12,8 @@
         </div>
       </div>
       <div class="row">
-        <% grade.children.each do |mod| %>
-          <%= render partial: 'module', locals: { mod: mod } %>
+        <% each_with_module_class(grade.children) do |mod, klass| %>
+          <%= render partial: 'module', locals: { mod: mod, klass: klass } %>
         <% end %>
       </div>
     </div>

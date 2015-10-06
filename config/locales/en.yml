@@ -175,6 +175,10 @@ en:
       sidebar_lr_nav:
         previous_link: "Previous %{title}"
         next_link: "Next %{title}"
+      sidebar_up_nav:
+        up_link: "Previous %{title}"
+      sidebar_down_nav:
+        down_link: "Next %{title}"
     browser: Unbounded Content Browser
     curriculum:
       ela: English Language Arts

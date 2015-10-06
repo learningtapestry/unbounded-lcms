@@ -97,6 +97,9 @@ h1, h2, h3, h4, h5, .navbar-brand, hero-title, .hero-subtitle {
       margin-left: -14px;
       margin-right: -14px;
       .btn {background-color: $ub-light-purple; font-size: $font-size-form;}
+      a {
+        &:hover, &:focus {color: $ub-purple!important;}
+      }
     }
   }
 }
