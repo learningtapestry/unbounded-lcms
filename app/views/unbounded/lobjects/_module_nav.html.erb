@@ -8,7 +8,7 @@
 	        <div class=row>
 						<% units.each_with_index do |unit, idx| %>
 							<div class='unit-nav'>
-					      <%= link_to( unbounded_show_path(unit), title: t('unbounded.curriculum.unit_title', idx: idx + 1),class: 'module-nav-unit' , data: { toggle: 'tooltip', placement: 'right' }) do %>
+					      <%= link_to( unbounded_resource_path(curriculum, unit), title: t('unbounded.curriculum.unit_title', idx: idx + 1),class: 'module-nav-unit' , data: { toggle: 'tooltip', placement: 'right' }) do %>
 					      	<%= render 'unit_svg' %>
 					     	<% end %>
 					     </div>

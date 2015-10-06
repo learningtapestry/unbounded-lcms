@@ -79,12 +79,22 @@ module Unbounded
       resource_types.include?('video') ? 'video' : 'resource'
     end
 
-    def sidebar_nav_link(link_obj)
-      link_obj.present? ? unbounded_show_path(link_obj) : ''
+    def sidebar_nav_link(curriculum, link_obj)
+      link_obj.present? ? unbounded_resource_path(curriculum, link_obj) : '#'
     end
 
     def lobject_presenter(lobject)
       yield LobjectPresenter.new(lobject)
+    end
+
+    def unbounded_resource_path(curriculum, resource)
+      slug = resource.slug_for_collection(curriculum.collection)
+
+      if slug
+        "/resources/#{slug}"
+      else
+        unbounded_show_path(resource)
+      end
     end
   end
 end
