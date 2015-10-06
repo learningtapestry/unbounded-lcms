@@ -7,6 +7,7 @@ module Unbounded
       @grade      = lobjects(:unbounded_grade1)
       @lesson_1_1 = lobjects(:unbounded_lesson_1_1_1_1)
       @lesson_1_2 = lobjects(:unbounded_lesson_1_1_1_2)
+      @lesson_1_1_2_1 = lobjects(:unbounded_lesson_1_1_2_1)
       @lesson_1_3 = lobjects(:unbounded_lesson_1_1_1_3)
       @lesson_2_1 = lobjects(:unbounded_lesson_1_2_1_1)
       @lesson_3_1 = lobjects(:unbounded_lesson_1_3_1_1)
@@ -149,12 +150,12 @@ module Unbounded
       # Module 1
       visit "/resources/#{@module1.id}"
       within '.lesson-nav' do
-        within '.nav-module-up' do
+        within '.nav-lesson-left' do
           assert has_selector?('a[href="#"]')
           assert has_text?('Previous MODULE')
         end
 
-        within '.nav-module-down' do
+        within '.nav-lesson-right' do
           assert has_selector?("a[href='/resources/#{@module2.id}']")
           assert has_text?('Next MODULE')
         end
@@ -163,12 +164,12 @@ module Unbounded
       # Module 2
       visit "/resources/#{@module2.id}"
       within '.lesson-nav' do
-        within '.nav-module-up' do
+        within '.nav-lesson-left' do
           assert has_selector?("a[href='/resources/#{@module1.id}']")
           assert has_text?('Previous MODULE')
         end
 
-        within '.nav-module-down' do
+        within '.nav-lesson-right' do
           assert has_selector?("a[href='/resources/#{@module3.id}']")
           assert has_text?('Next MODULE')
         end
@@ -177,12 +178,12 @@ module Unbounded
       # Module 3
       visit "/resources/#{@module3.id}"
       within '.lesson-nav' do
-        within '.nav-module-up' do
+        within '.nav-lesson-left' do
           assert has_selector?("a[href='/resources/#{@module2.id}']")
           assert has_text?('Previous MODULE')
         end
 
-        within '.nav-module-down' do
+        within '.nav-lesson-right' do
           assert has_selector?('a[href="#"]')
           assert has_text?('Next MODULE')
         end
@@ -233,46 +234,32 @@ module Unbounded
       end
     end
 
-    def test_module_navigation_on_lesson_page
-      # Module 1
+    def test_unit_navigation_on_lesson_page
+      # Unit 1
       visit "/resources/#{@lesson_1_1.id}"
       within '.lesson-nav' do
         within '.nav-module-up' do
           assert has_selector?('a[href="#"]')
-          assert has_text?('Previous MODULE')
+          assert has_text?('Previous UNIT')
         end
 
         within '.nav-module-down' do
-          assert has_selector?("a[href='/resources/#{@module2.id}']")
-          assert has_text?('Next MODULE')
+          assert has_selector?("a[href='/resources/#{@unit_1_2.id}']")
+          assert has_text?('Next UNIT')
         end
       end
 
-      # Module 2
-      visit "/resources/#{@lesson_2_1.id}"
+      # Unit 2
+      visit "/resources/#{@lesson_1_1_2_1.id}"
       within '.lesson-nav' do
         within '.nav-module-up' do
-          assert has_selector?("a[href='/resources/#{@module1.id}']")
-          assert has_text?('Previous MODULE')
+          assert has_selector?("a[href='/resources/#{@unit_1_1.id}']")
+          assert has_text?('Previous UNIT')
         end
 
         within '.nav-module-down' do
-          assert has_selector?("a[href='/resources/#{@module3.id}']")
-          assert has_text?('Next MODULE')
-        end
-      end
-
-      # Module 3
-      visit "/resources/#{@lesson_3_1.id}"
-      within '.lesson-nav' do
-        within '.nav-module-up' do
-          assert has_selector?("a[href='/resources/#{@module2.id}']")
-          assert has_text?('Previous MODULE')
-        end
-
-        within '.nav-module-down' do
-          assert has_selector?('a[href="#"]')
-          assert has_text?('Next MODULE')
+          assert has_selector?("a[href='/resources/#{@unit_1_3.id}']")
+          assert has_text?('Next UNIT')
         end
       end
     end
