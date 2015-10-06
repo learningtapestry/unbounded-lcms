@@ -62,6 +62,9 @@ module Content
       has_many :lobject_related_lobjects, dependent: :destroy
       has_many :related_lobjects, through: :lobject_related_lobjects
 
+      # Slugs
+      has_many :lobject_slugs, dependent: :destroy
+
       # Organizations.
       belongs_to :organization
 
@@ -226,6 +229,10 @@ module Content
 
       def curriculum_map_collection
         find_collections.where(lobject_collection_type: LobjectCollectionType.curriculum_map).first
+      end
+
+      def slug_for_collection(collection)
+        lobject_slugs.find_by(lobject_collection_id: collection.id).try(:value)
       end
 
       # ElasticSearch.

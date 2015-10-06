@@ -2,9 +2,9 @@
   <div class="module-wrapper">
     <div class="row">
       <div class="module-title">
-        <%= link_to lesson_title(curriculum.current_grade.title), unbounded_show_path(curriculum.current_grade), class: ['module-title-grades', ('active' if curriculum.grade?)] %>
+        <%= link_to lesson_title(curriculum.current_grade.title), unbounded_resource_path(curriculum, curriculum.current_grade), class: ['module-title-grades', ('active' if curriculum.grade?)] %>
         <% if curriculum.current_module_node %>
-          <%= link_to module_node_title(curriculum.current_module_node), unbounded_show_path(curriculum.current_module), class: ['module-title-module', ('active' if curriculum.module?)] %>
+          <%= link_to module_node_title(curriculum.current_module_node), unbounded_resource_path(curriculum, curriculum.current_module), class: ['module-title-module', ('active' if curriculum.module?)] %>
         <% end %>
       </div>
 
@@ -23,23 +23,21 @@
   <div class="module">
     <div class="module-wrapper lesson-nav">
       <div class="row">
-
         <% if curriculum.module? %>
-          <%= render partial: 'sidebar_lr_nav', locals: {prev_obj: curriculum.previous_module, next_obj: curriculum.next_module, title: 'module' } %>
+          <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_module, next_obj: curriculum.next_module, title: 'module' } %>
         <% end %>
 
         <% if curriculum.unit? %>
-          <%= render partial: 'sidebar_up_nav', locals: {prev_obj: curriculum.previous_module, title: 'module' } %>
-          <%= render partial: 'sidebar_lr_nav', locals: {prev_obj: curriculum.previous_unit, next_obj: curriculum.next_unit, title: 'unit' } %>
-          <%= render partial: 'sidebar_down_nav', locals: {next_obj: curriculum.next_module, title: 'module' } %>
+          <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_module, title: 'module' } %>
+          <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, next_obj: curriculum.next_unit, title: 'unit' } %>
+          <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_module, title: 'module' } %>
         <% end %>
 
         <% if curriculum.lesson? %>
-          <%= render partial: 'sidebar_up_nav', locals: {prev_obj: curriculum.previous_unit, title: 'unit' } %>
-          <%= render partial: 'sidebar_lr_nav', locals: {prev_obj: curriculum.previous_lesson, next_obj: curriculum.next_lesson, title: 'lesson' } %>
-          <%= render partial: 'sidebar_down_nav', locals: {next_obj: curriculum.next_unit, title: 'unit' } %>
+          <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, title: 'unit' } %>
+          <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_lesson, next_obj: curriculum.next_lesson, title: 'lesson' } %>
+          <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_unit, title: 'unit' } %>
         <% end %>
-
       </div>
     </div>
   </div>

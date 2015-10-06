@@ -6,7 +6,7 @@ gem 'cancancan', '~> 1.12.0'
 gem 'carrierwave', '~> 0.10.0'
 gem 'ckeditor'
 gem 'devise', '~> 3.5.2'
-gem 'dotenv-rails', '~> 2.0.2', groups: [:development, :test]
+gem 'dotenv-rails', '~> 2.0.2', groups: [:development, :integration, :test]
 gem 'edge', '~> 0.4.2'
 gem 'elasticsearch-dsl', '~> 0.1.1'
 gem 'elasticsearch-model', '~> 0.1.7'

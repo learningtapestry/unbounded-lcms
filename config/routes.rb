@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         }
       get '/resources/:id/preview' => 'lobjects#preview', as: 'resource_preview'
       get '/resources/:id' => 'lobjects#show', as: :show
+      get '/resources/*slug' => 'lobjects#show'
       get '/search' => 'search#index'
       get '/tos' => 'pages#show_slug', as: :tos_page, slug: 'tos'
 
