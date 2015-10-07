@@ -49,21 +49,19 @@
   function initializeSubjectDropdown() {
     var selectize = getSelectize(subjectDropdown());
     selectize.on('change', function(newVal) {
-      var newLocation;
-      if (newVal === 'all') {
-        newLocation = Routes.unbounded_curriculum_path();
-      } else {
-        var locationParams = { subject: newVal };
+      var locationParams = {};
 
-        var gradeSelectize = getSelectize(gradeDropdown());
-        var gradeVal = gradeSelectize.getValue();
-        if (gradeVal.length) {
-          locationParams.grade = getGradeName(gradeSelectize, gradeVal);
-        }
-
-        newLocation = Routes.unbounded_curriculum_path(locationParams);
+      var gradeSelectize = getSelectize(gradeDropdown());
+      var gradeVal = gradeSelectize.getValue();
+      if (gradeVal.length) {
+        locationParams.grade = getGradeName(gradeSelectize, gradeVal);
+      } else if (newVal === 'all') {
+        newVal = '';
       }
-      visit(newLocation);
+
+      locationParams.subject = newVal;
+
+      visit(Routes.unbounded_curriculum_path(locationParams));
     });
   }
 
@@ -76,8 +74,12 @@
           subject: subjectDropdown().val()
         });
       } else {
+        var subjectVal = subjectDropdown().val();
+        if (subjectVal === '') {
+          subjectVal = 'all';
+        }
         newLocation = Routes.unbounded_curriculum_path({
-          subject: subjectDropdown().val(),
+          subject: subjectVal,
           grade: getGradeName(selectize, newVal)
         });
       }

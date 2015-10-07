@@ -25,8 +25,10 @@ module Unbounded
       new_params = {}
 
       if params[:subject].present?
-        raise 'Unknown subject' unless ['ela', 'math'].include?(params[:subject])
-        new_params[:subject] = params[:subject] 
+        raise 'Unknown subject' unless ['ela', 'math', 'all'].include?(params[:subject])
+        unless params[:subject] == 'all'
+          new_params[:subject] = params[:subject] 
+        end
       end
 
       if params[:grade].present?

@@ -17,7 +17,7 @@ module Unbounded
 
     def root_lobjects
       unless defined? @root_lobjects
-        if params[:subject].present?
+        if params[:subject].present? && params[:subject] != 'all'
           @root_lobjects = curriculums[params[:subject].to_sym]
         else
           @root_lobjects = curriculums[:math] + curriculums[:ela]

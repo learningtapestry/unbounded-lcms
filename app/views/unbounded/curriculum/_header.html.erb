@@ -16,7 +16,7 @@
               <div class="ub-group-wrapper">
                 <label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
                 <div class="ub-select">
-                  <%= select('dropdown_options', 'grade_id', dropdown_options.grade_options, { include_blank: true, selected: dropdown_options.grade_id }, { class: 'curriculum-filter curriculum-filter-grade selectize form-control', disabled: dropdown_options.subject.nil? }) %>
+                  <%= select('dropdown_options', 'grade_id', dropdown_options.grade_options, { include_blank: true, selected: dropdown_options.grade_id }, { class: 'curriculum-filter curriculum-filter-grade selectize form-control'}) %>
                 </div>
               </div>
             </div>
@@ -24,7 +24,7 @@
               <div class="ub-group-wrapper">
                 <label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
                 <div class="ub-select">
-                  <%= select('dropdown_options', 'standards', dropdown_options.standard_options, { include_blank: true, selected: dropdown_options.standard_ids }, { class: 'curriculum-filter curriculum-filter-standard selectize form-control', multiple: true, disabled: dropdown_options.grade_id.nil? }) %>
+                  <%= select('dropdown_options', 'standards', dropdown_options.standard_options, { include_blank: true, selected: dropdown_options.standard_ids }, { class: 'curriculum-filter curriculum-filter-standard selectize form-control', multiple: true}) %>
                 </div>
               </div>
             </div>
