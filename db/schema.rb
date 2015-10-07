@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001092942) do
+ActiveRecord::Schema.define(version: 20151007075812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,6 +205,17 @@ ActiveRecord::Schema.define(version: 20151001092942) do
 
   add_index "languages", ["name"], name: "index_languages_on_name", using: :btree
   add_index "languages", ["parent_id"], name: "index_languages_on_parent_id", using: :btree
+
+  create_table "lobject_additional_lobjects", force: :cascade do |t|
+    t.integer  "lobject_id",            null: false
+    t.integer  "additional_lobject_id", null: false
+    t.integer  "position"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "lobject_additional_lobjects", ["additional_lobject_id"], name: "index_lobject_additional_lobjects_on_additional_lobject_id", using: :btree
+  add_index "lobject_additional_lobjects", ["lobject_id", "additional_lobject_id"], name: "index_lobject_additional_lobjects", unique: true, using: :btree
 
   create_table "lobject_age_ranges", force: :cascade do |t|
     t.integer  "lobject_id"
@@ -596,6 +607,8 @@ ActiveRecord::Schema.define(version: 20151001092942) do
   add_foreign_key "grades", "grades", column: "parent_id"
   add_foreign_key "identities", "identities", column: "parent_id"
   add_foreign_key "languages", "languages", column: "parent_id"
+  add_foreign_key "lobject_additional_lobjects", "lobjects"
+  add_foreign_key "lobject_additional_lobjects", "lobjects", column: "additional_lobject_id"
   add_foreign_key "lobject_age_ranges", "documents"
   add_foreign_key "lobject_age_ranges", "lobjects"
   add_foreign_key "lobject_alignments", "alignments"
