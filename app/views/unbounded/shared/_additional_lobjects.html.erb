@@ -1,0 +1,8 @@
+<% if additional_lobjects.any? %>
+  <p><strong><%= t('.title') %></strong>
+  <ul>
+    <% additional_lobjects.includes(:lobject_titles).each do |lobject| %>
+      <li><%= link_to lobject.title, unbounded_show_path(lobject), class: 'additional-material-link', data: { 'lobject-id' => lobject.id, placement: 'right', toggle: 'tooltip' }, title: lobject.title %>
+    <% end %>
+  </ul>
+<% end %>

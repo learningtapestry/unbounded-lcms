@@ -216,6 +216,9 @@ en:
         engageny: Document status
       topic: Topic
       topics: Topics
+    shared:
+      additional_lobjects:
+        title: 'Additional Materials:'
     content_type:
       "application/zip": zip
       "application/pdf": pdf

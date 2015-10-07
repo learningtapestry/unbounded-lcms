@@ -8,7 +8,9 @@
         </div>
         <div class="curriculum-grade-dsc">
           <div class="curriculum-grade-short-dsc"><%= g.grade_description.html_safe %></div>
-          <div class="curriculum-grade-materials collapse" aria-expanded="false" id="curriculum-grade-desc-<%= g.id %>"><%= g.grade_additional_materials.html_safe %></div>
+          <div class="curriculum-grade-materials collapse" aria-expanded="false" id="curriculum-grade-desc-<%= g.id %>">
+            <%= render partial: 'unbounded/shared/additional_lobjects', object: g.additional_lobjects %>
+          </div>
         </div>
       </div>
       <div class="row">
