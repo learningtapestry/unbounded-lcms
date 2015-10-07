@@ -2,7 +2,7 @@
   <div class="module-wrapper">
     <div class="row">
       <div class="module-title">
-        <%= link_to lesson_title(curriculum.current_grade.title), unbounded_resource_path(curriculum, curriculum.current_grade), class: ['module-title-grades', ('active' if curriculum.grade?)] %>
+        <%= link_to lesson_title(curriculum.current_grade.title), :unbounded_curriculum, class: ['module-title-grades', ('active' if curriculum.grade?)] %>
         <% if curriculum.current_module_node %>
           <%= link_to module_node_title(curriculum.current_module_node), unbounded_resource_path(curriculum, curriculum.current_module), class: ['module-title-module', ('active' if curriculum.module?)] %>
         <% end %>
