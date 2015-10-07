@@ -38,6 +38,7 @@ en:
       content/models/grade:
         grade: Name
       content/models/lobject:
+        additional_lobjects: Additional materials
         lobject_downloads: Downloadable resources
         related_lobjects: Related materials
         status: Status
