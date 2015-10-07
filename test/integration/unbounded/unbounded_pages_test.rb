@@ -25,7 +25,7 @@ module Unbounded
       visit "/resources/#{@grade.id}"
 
       grade_link  = find('a.active.module-title-grades')
-      assert_equal grade_link[:href], "/resources/#{@grade.id}"
+      assert_equal grade_link[:href], '/curriculum'
       assert_equal grade_link.text,   'Grade 1'
 
       module_links = all('a.module-nav-module')
@@ -39,7 +39,7 @@ module Unbounded
       visit "/resources/#{@module1.id}"
 
       grade_link  = find('a.module-title-grades:not(.active)')
-      assert_equal grade_link[:href], "/resources/#{@grade.id}"
+      assert_equal grade_link[:href], '/curriculum'
       assert_equal grade_link.text,   'Grade 1'
 
       module_link = find('a.active.module-title-module')
@@ -57,7 +57,7 @@ module Unbounded
       visit "/resources/#{@unit_1_1.id}"
 
       grade_link  = find('a.module-title-grades:not(.active)')
-      assert_equal grade_link[:href], "/resources/#{@grade.id}"
+      assert_equal grade_link[:href], '/curriculum'
       assert_equal grade_link.text,   'Grade 1'
 
       module_link = find('a.module-title-module:not(.active)')
@@ -80,7 +80,7 @@ module Unbounded
       visit "/resources/#{@lesson_1_1.id}"
 
       grade_link  = find('a.module-title-grades:not(.active)')
-      assert_equal grade_link[:href], "/resources/#{@grade.id}"
+      assert_equal grade_link[:href], '/curriculum'
       assert_equal grade_link.text,   'Grade 1'
 
       module_link = find('a.module-title-module:not(.active)')
@@ -103,7 +103,7 @@ module Unbounded
       visit "/resources/#{@lesson_1_2.id}"
 
       grade_link  = find('a.module-title-grades:not(.active)')
-      assert_equal grade_link[:href], "/resources/#{@grade.id}"
+      assert_equal grade_link[:href], '/curriculum'
       assert_equal grade_link.text,   'Grade 1'
 
       module_link = find('a.module-title-module:not(.active)')
@@ -126,7 +126,7 @@ module Unbounded
       visit "/resources/#{@lesson_1_3.id}"
 
       grade_link  = find('a.module-title-grades:not(.active)')
-      assert_equal grade_link[:href], "/resources/#{@grade.id}"
+      assert_equal grade_link[:href], '/curriculum'
       assert_equal grade_link.text,   'Grade 1'
 
       module_link = find('a.module-title-module:not(.active)')
