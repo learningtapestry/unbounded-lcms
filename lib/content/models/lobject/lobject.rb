@@ -235,6 +235,19 @@ module Content
         find_collections.where(lobject_collection_type: LobjectCollectionType.curriculum_map).first
       end
 
+      def curriculum_root
+        curriculum_map_collection.lobject.lobject_parents.first.parent
+      end
+
+      def curriculum_subject
+        t = curriculum_root.title
+        if t.include?('Math')
+          :math
+        elsif t.include?('ELA')
+          :ela
+        end
+      end
+
       def slug_for_collection(collection)
         lobject_slugs.find_by(lobject_collection_id: collection.id).try(:value)
       end

@@ -6,6 +6,7 @@ $ub-gray: #a6aaa9;
 $ub-gray-1: #9e90a7;
 $ub-light-gray: #edebf0;
 $ub-yellow: #f5d329;
+$ub-dark-bgray: #34495E;
 $ub-bg-filter-light-purple: rgba(26,25,48,0.5);
 $ub-bg-filter-purple: rgba(26,25,48,0.8);
 
@@ -112,6 +113,7 @@ header {
     }
     .navbar-form {input[name='query'] {min-width: 200px;}}
     margin-bottom: 0px;
+    //background: rgba(255, 255, 255, 0.8);
   }
 }
 
@@ -119,11 +121,6 @@ header {
   -webkit-appearance: $value;
   -moz-appearance: $value;
   appearance: $value;
-}
-
-.header-module {
-  background-image: image-url('home_background.jpeg');
-  background-size: cover;
 }
 
 .subscribe-module {
@@ -153,8 +150,14 @@ header {
 }
 
 .home-page {
+  margin-top: -$navbar-height;
   .header-module {
-    padding-top: $ub-module-padding * 2;
+    background-image: image-url('home_background.jpeg');
+    background-size: cover;
+    height: 565px;
+  }
+  .header-module {
+    padding-top: $ub-module-padding * 6;
     padding-bottom: $ub-header-padding;
     .hero-text {
       float: right;
@@ -169,6 +172,8 @@ header {
         color: $ub-yellow;
         background-color: $ub-bg-filter-purple;
         font-family: $font-family-heading-light;
+        font-style: italic;
+        font-size: 26px;
       }
     }
   }
@@ -247,6 +252,10 @@ header {
 
 
 .search-form-page {
+  .header-module {
+    background-image: image-url('curriculum.jpg');
+    background-size: cover;
+  }
   .header-module {
     padding-top: $ub-module-padding;
     .search-form {
@@ -486,25 +495,25 @@ header {
     .module {
       padding-bottom: $ub-element-padding;
       @include make-md-column(12);
-            a:hover {
-                color: $ub-yellow !important;
-                text-decoration: none;
-            }
-            .active {
-                color: $ub-yellow;
-            }
+      a:hover {
+        color: $ub-yellow !important;
+        text-decoration: none;
+      }
+      .active {
+        color: $ub-yellow;
+      }
       .module-title {
         text-transform: uppercase;
         .module-title-grades, .module-title-module {
-                    display: block;
-                }
-                .module-title-grades {
-                    color: $ub-light-purple;
-                    font-size: $font-size-small;
-                }
-                .module-title-module {
-                    color: white;
-                }
+          display: block;
+        }
+        .module-title-grades {
+          color: $ub-light-purple;
+          font-size: $font-size-small;
+        }
+        .module-title-module {
+          color: white;
+        }
       }
       .unit {
         @include make-md-column(12, $padding-xs-horizontal * 2);
@@ -551,7 +560,7 @@ header {
       @include make-md-column(5.5);
       h5 {font-weight: bold; color: $ub-purple;}
       ul.media-list {padding-top: $ub-element-padding;}
-      color: $ub-gray; a {color: $ub-gray;}
+      color: $ub-dark-bgray; a {color: $ub-dark-bgray;}
       .lesson-inst-resources {@include make-md-column(12);}
       .lesson-dev-resources {@include make-md-column(12);}
     }
@@ -649,6 +658,7 @@ form.inline {
     }
 }
 
-//.additional-material-link:hover {
-//  background: $ub-yellow;
-//}
+.homepage-link:hover {
+  border-bottom: 2px solid;
+  text-decoration: none;
+}

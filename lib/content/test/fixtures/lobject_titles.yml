@@ -14,6 +14,10 @@ unbounded_kanji:
   lobject: unbounded
   title: Kanji
 
+unbounded_ela_root:
+  lobject: unbounded_ela_root
+  title: ELA Curriculum Map
+
 unbounded_lesson_1_1_1_1:
   lobject: unbounded_lesson_1_1_1_1
   title: Grade 1, Module 1, Unit 1, Lesson 1

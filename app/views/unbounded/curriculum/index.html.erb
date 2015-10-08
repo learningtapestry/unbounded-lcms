@@ -1,32 +1,34 @@
-<div class="search-form-page curriculum-page" data-role="page">
-  <%= render partial: 'header', locals: { dropdown_options: @dropdown_options } %>
+<% cache(cache_key_for_curriculum) do %>
+  <div class="search-form-page curriculum-page" data-role="page">
+    <%= render partial: 'header', locals: { dropdown_options: @dropdown_options } %>
 
-  <div class="curriculum-content">
-    <div class="container">
-      <div id="curriculum-resources">
-        <div class="curriculum-map curriculum-map-ela">
-          <% @curriculum_roots[:ela].each do |grade| %>
-            <%= render partial: 'grade', object: grade %>    
-          <% end %>
-        </div>
+    <div class="curriculum-content">
+      <div class="container">
+        <div id="curriculum-resources">
+          <div class="curriculum-map curriculum-map-ela">
+            <% @curriculum_roots[:ela].each do |grade| %>
+              <%= render partial: 'grade', object: grade %>    
+            <% end %>
+          </div>
 
-        <div class="curriculum-map curriculum-map-math">
-          <% @curriculum_roots[:math].each do |grade| %>
-            <%= render partial: 'grade', object: grade %>    
-          <% end %>
+          <div class="curriculum-map curriculum-map-math">
+            <% @curriculum_roots[:math].each do |grade| %>
+              <%= render partial: 'grade', object: grade %>    
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
+
+    <script type="text/html" id="popover-template">
+      <div class="popover popover-lesson" role="tooltip">
+        <div class="arrow"></div>
+        <h3 class="popover-title"></h3>
+        <div class="popover-content"></div>
+      </div>
+    </script>
+
+    <%= render partial: 'unbounded/shared/resource_preview' %>
+
   </div>
-
-  <script type="text/html" id="popover-template">
-    <div class="popover popover-lesson" role="tooltip">
-      <div class="arrow"></div>
-      <h3 class="popover-title"></h3>
-      <div class="popover-content"></div>
-    </div>
-  </script>
-
-  <%= render partial: 'unbounded/shared/resource_preview' %>
-
-</div>
+<% end %>

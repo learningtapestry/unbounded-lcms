@@ -65,7 +65,7 @@ en:
     curriculum: Curriculum
     professional_development: Professional Development
     news: News
-    about: About
+    about: About unboundED
   resources_count:
     one: resource
     other: resources
@@ -184,12 +184,12 @@ en:
     curriculum:
       ela: English Language Arts
       math: Mathematics
-      ela_module_label: Module
-      math_module_label: Module
-      ela_unit_label: Unit
-      math_unit_label: Topic
-      ela_lesson_label: Lesson
-      math_lesson_label: Lesson
+      ela_module_label: "Module %{idx}"
+      math_module_label: "Module %{idx}"
+      ela_unit_label: "Unit %{idx}"
+      math_unit_label: "Topic %{idx}"
+      ela_lesson_label: "Lesson %{idx}"
+      math_lesson_label: "Lesson %{idx}"
       unit_title: "Unit %{idx}"
       module_title: "Module %{idx}"
     title:

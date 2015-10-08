@@ -5,7 +5,7 @@ tos_body = <<-HTML
 
 <p>&nbsp;</p>
 
-<p>Please read these Terms of Service (&quot;Terms&quot;, &quot;Terms of Service&quot;) carefully before using the standardsinstitutes.org website (the &quot;Service&quot;) operated by Standards Institute (&quot;us&quot;, &quot;we&quot;, or &quot;our&quot;).</p>
+<p>Please read these Terms of Service (&quot;Terms&quot;, &quot;Terms of Service&quot;) carefully before using the unbounded.org website (the &quot;Service&quot;) operated by Standards Institute (&quot;us&quot;, &quot;we&quot;, or &quot;our&quot;).</p>
 
 <p>Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.</p>
 
@@ -68,7 +68,7 @@ tos_body = <<-HTML
 
 <p>Boston, MA&nbsp; 02114</p>
 
-<p>For clarity, only DMCA notices should go to the Copyright Agent; any other feedback, comments, requests for technical support, and other communications should be directed to Standards Institute support at&nbsp;<a data-jsb_prepared="ytca9d43yw" href="mailto:help@standardsinstitutes.org" rel="noreferrer">help@standardsinstitutes.org</a>. You acknowledge that if you fail to comply with all of the requirements of this Section, your DMCA notice may not be valid.</p>
+<p>For clarity, only DMCA notices should go to the Copyright Agent; any other feedback, comments, requests for technical support, and other communications should be directed to Standards Institute support at&nbsp;<a data-jsb_prepared="ytca9d43yw" href="mailto:help@unbounded.org" rel="noreferrer">help@unbounded.org</a>. You acknowledge that if you fail to comply with all of the requirements of this Section, your DMCA notice may not be valid.</p>
 
 <p>Counter-Notice. If you believe that your Content that was removed (or to which access was disabled) is not infringing, or that you have the authorization from the copyright owner, the copyright owner&#39;s agent, or pursuant to the law, to post and use the material in your Content, you may send a counter-notice containing the following information to the Copyright Agent:</p>
 
@@ -137,7 +137,7 @@ tos_body = <<-HTML
 
 <h3>Contact Us</h3>
 
-<p>If you have any questions about these Terms, please contact us at standardsinstituteinfo AT&nbsp;gmail.com.</p>
+<p>If you have any questions about these Terms, please contact us at admin AT&nbsp;unbounded.org.</p>
 HTML
 
 Page.create_with(body: tos_body, title: 'Terms of Service').find_or_create_by(slug: 'tos')
