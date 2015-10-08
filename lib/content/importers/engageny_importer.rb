@@ -303,6 +303,40 @@ module Content
             )
           })
         end
+
+        def import_additional_lobjects
+          LobjectDescription.where("description LIKE '%Additional Materials%'").includes(:lobject).each do |lobject_description|
+            lobject   = lobject_description.lobject
+            presenter = Unbounded::LobjectPresenter.new(lobject)
+
+            doc = presenter.send(:html_description)
+            par = doc.xpath('//p[strong/text()="Additional Materials:"]').first
+            ul  = par.try(:next_element)
+
+            if ul && ul.name == 'ul'
+              ul.css('li a').each_with_index do |link, index|
+                create_additional_lobject(lobject, link[:href], index + 1)
+              end
+              ul.remove
+            else
+              doc.xpath('//p[preceding-sibling::p[strong/text()="Additional Materials:"]]').each_with_index do |par, index|
+                create_additional_lobject(lobject, par.css('a').first[:href], index + 1)
+                par.remove
+              end
+            end
+
+            par.remove
+            doc.xpath("//text()").each { |text| text.content = text.content.gsub(/(\s*\n)+/, '') }
+            lobject_description.update_column(:description, doc.to_html)
+          end
+        end
+
+        def create_additional_lobject(lobject, href, position)
+          raise "Not rewritten URL found: #{href}" unless href =~ /resources\/\d+/
+
+          additional_lobject_id = href[/\d+/]
+          lobject.lobject_additional_lobjects.create_with(position: position).find_or_create_by!(additional_lobject_id: additional_lobject_id)
+        end
       end
     end
   end
