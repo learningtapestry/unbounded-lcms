@@ -17,7 +17,10 @@ module Unbounded
       params[:subject].present? && params[:subject].gsub!('_', ' ')
       params[:grade].present? && params[:grade].gsub!('_', ' ')
       if params[:standards].present? && !params[:standards].kind_of?(Array)
-        params[:standards] = params[:standards].split(',').each { |s| s.gsub!('_', ' ') }
+        params[:standards] = params[:standards]
+          .split(',')
+          .each { |s| s.gsub!('_', ' ') }
+          .sort!
       end
     end
 
