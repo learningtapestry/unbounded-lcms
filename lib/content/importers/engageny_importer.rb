@@ -337,6 +337,45 @@ module Content
           additional_lobject_id = href[/\d+/]
           lobject.lobject_additional_lobjects.create_with(position: position).find_or_create_by!(additional_lobject_id: additional_lobject_id)
         end
+
+        def fix_curriculum_maps
+          Lobject.transaction do
+            LobjectCollection.curriculum_maps.each do |curriculum_map|
+              mods = curriculum_map.lobject.lobject_children
+              empty_mods = mods.select { |mod| mod.child.lobject_children.empty?  }
+              empty_unit_mods = mods.select do |mod|
+                !mod.child.lobject_children.empty? && mod.child.lobject_children.all? do |unit| 
+                  unit.child.lobject_children.empty?
+                end
+              end
+
+              has_empty_mods = empty_mods.size > 0
+              doesnt_have_empty_units = empty_unit_mods.empty?
+
+              if has_empty_mods && doesnt_have_empty_units
+                parent_mod = Lobject.create!(organization: Organization.unbounded)
+                grade = curriculum_map.lobject.grades.first.grade.capitalize
+                subject = curriculum_map.lobject.curriculum_subject.to_s.capitalize
+                parent_mod.lobject_titles << LobjectTitle.new(title: "#{grade} #{subject} Developing Core Proficiencies Curriculum")
+                mod_node = LobjectChild.create!(
+                  parent: empty_mods.first.parent,
+                  child: parent_mod,
+                  lobject_collection_id: curriculum_map.id,
+                  position: 0
+                )
+
+                empty_mods.each_with_index do |empty_mod, i|
+                  empty_mod.parent = parent_mod
+                  empty_mod.position = i + 1
+                  empty_mod.save!
+                end
+
+                mod_node.position = mod_node.parent.lobject_children.size
+                mod_node.save!
+              end
+            end
+          end
+        end
       end
     end
   end
