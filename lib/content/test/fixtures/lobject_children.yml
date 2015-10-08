@@ -4,6 +4,12 @@ easol:
   parent: easol
   position: 1
 
+unbounded_ela_root:
+  parent: unbounded_ela_root
+  child: unbounded_grade1
+  lobject_collection: unbounded_ela_root
+  position: 1
+
 unbounded_lesson_1_1_1_1:
   child: unbounded_lesson_1_1_1_1
   lobject_collection: unbounded_curriculum

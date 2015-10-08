@@ -145,6 +145,10 @@ class UnboundedCurriculum
     end
   end
 
+  def subject
+    @subject ||= parents.last.content.curriculum_subject
+  end
+
   private
     def current_unit_node
       @current_unit_node ||= begin

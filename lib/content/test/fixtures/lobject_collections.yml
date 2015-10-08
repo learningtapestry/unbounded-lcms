@@ -6,6 +6,10 @@ unbounded:
   lobject: unbounded
   lobject_collection_type: curriculum_map
 
+unbounded_ela_root:
+  lobject: unbounded_ela_root
+  lobject_collection_type:
+
 unbounded_curriculum:
   lobject: unbounded_grade1
   lobject_collection_type: curriculum_map
