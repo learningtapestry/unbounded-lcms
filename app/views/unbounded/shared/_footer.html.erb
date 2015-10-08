@@ -14,7 +14,7 @@
         <li><%= link_to t('layouts.unbounded.tos'), :unbounded_tos_page %></li>
         <% if user_signed_in? %>
           <% if can? :read, :admin_root %>
-            <li><%= link_to(t('ayouts.unbounded.admin'), :unbounded_admin) %></li>
+            <li><%= link_to(t('layouts.unbounded.admin'), :unbounded_admin) %></li>
           <% end %>
           <li><%= link_to('Log out', destroy_user_session_path) %></li>
         <% else %>

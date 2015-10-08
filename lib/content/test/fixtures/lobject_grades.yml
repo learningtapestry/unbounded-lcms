@@ -5,3 +5,7 @@ unbounded_elementary:
 unbounded_grade2:
   grade: grade2
   lobject: unbounded
+
+unbounded_grade1_grade1:
+  grade: grade1
+  lobject: unbounded_grade1

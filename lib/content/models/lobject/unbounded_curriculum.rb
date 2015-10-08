@@ -146,7 +146,7 @@ class UnboundedCurriculum
   end
 
   def subject
-    @subject ||= parents.last.content.curriculum_subject
+    @subject ||= (parents.last || current_node).content.curriculum_subject
   end
 
   private
@@ -161,6 +161,6 @@ class UnboundedCurriculum
     end
 
     def parents
-      @parents ||= current_node.parentage
+      @parents ||= (current_node.parentage || [])
     end
 end
