@@ -1,0 +1,220 @@
+// Font sizes
+$font-size-icon: 21px;
+$font-size-form: 16px;
+$font-size-caret: 32px;
+
+$popover-max-width: 600px;
+$popover-min-width: 300px;
+
+// Paddings, element sizes
+$ub-module-padding: 30px;
+$ub-header-padding: 320px;
+$ub-element-padding: 15px;
+$logo-height: 30px;
+$logo-footer-width: 110px;
+$logo-title-height: 36px;
+
+// Lesson page
+$lesson-img-height: 195px;
+// Home page
+$header-img-height: 565px;
+
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+	.home-page {
+	  .stripe-module {
+	    .hero-img {
+	      @include make-sm-column(6.5); padding-left: 0px; padding-right: 0px;
+	      img { height: 171px; }
+	    }
+	    .hero-text {
+	      @include make-sm-column(5.5);
+	    }
+	  }
+	}
+
+	.search-form-page {
+	  .header-module {
+	    padding-top: $ub-module-padding;
+	    .search-form {
+	      @include make-sm-column(12);
+	      form {
+	        > div.form-group {
+	          > div {
+	            @include make-sm-column(4, $grid-gutter-width/2);
+	            .ub-group-wrapper {
+	              padding: $grid-gutter-width/2 $grid-gutter-width/2;
+	            }
+	          }
+	          label {min-height: 50px; font-size: $font-size-form;}
+	          margin-bottom: $ub-module-padding;
+	        }
+	      }
+	    }
+	  }
+	  .curriculum-content {
+	    .curriculum-grade {
+	      .curriculum-grade-control {
+	        @include make-sm-column(0.7);
+	      }
+	      .curriculum-grade-dsc {
+	        @include make-sm-column(11.3);
+	      }
+	    }
+	    .module-12 {
+	      @include make-sm-column(12, $padding-base-horizontal);
+	      .unit {
+	        @include make-sm-column(4, $padding-xs-horizontal * 2);
+	      }
+	    }
+	    .module-6 {
+	      @include make-sm-column(12, $padding-base-horizontal);
+	      .unit {
+	        @include make-sm-column(4, $padding-xs-horizontal * 2);
+	      }
+	    }
+	    .module-12, .module-6 {
+	      .unit-0 {
+	        padding-right: 0px; margin-right: 0px;
+	        .unit-wrapper {padding-right: $padding-xs-horizontal;}
+	      }
+	      .unit-1 {
+	        padding-left: 0px; margin-left: 0px;
+	        .unit-wrapper {
+	          padding-left: $padding-xs-horizontal;
+	        }
+	      }
+	    }
+	    .module {
+	      padding-top: $padding-base-vertical; padding-bottom: $padding-base-vertical;
+	      .module-title {
+	        .module-title-title {@include make-sm-column(4);}
+	        .module-title-dsc {@include make-sm-column(8);}
+	      }
+	    }
+	  }
+	}
+
+
+	.search-form-page .curriculum-content,
+	.lesson-page .sidebar {
+	  .module-wrapper {
+	    > div {
+	      @include make-row(-$padding-xs-horizontal * 4);
+	      .module-title {
+	        @include make-sm-column(12, $padding-xs-horizontal * 2);
+	      }
+	      .unit {
+	        .unit-wrapper {
+	          > div {
+	            @include make-row(-$ub-element-padding * 2);
+	            .unit-title {
+	              @include make-md-column(12, $padding-xs-horizontal * 2);
+	            }
+	            .lessons, .modules, .units {
+	              @include make-sm-column(12, $padding-xs-horizontal * 2);
+	              > div {
+	                @include make-row($padding-xs-horizontal);
+	              }
+	            }
+	            .lessons {
+	              > div {
+	                .lesson {
+	                  @include make-sm-column(3, $padding-xs-horizontal * 2);
+	                  padding-top: $padding-xs-horizontal; padding-bottom: $padding-xs-horizontal;
+	                }
+	              }
+	            }
+	            .units {
+	              > div {
+	                .unit-nav {
+	                  @include make-sm-column(4, $padding-xs-horizontal * 2);
+	                  padding-top: $padding-xs-horizontal; padding-bottom: $padding-xs-horizontal;
+	                }
+	              }
+	            }
+	            .modules {
+	              > div {
+	                .module-nav {
+	                  @include make-sm-column(4, $padding-xs-horizontal * 2);
+	                  padding-top: $padding-xs-horizontal; padding-bottom: $padding-xs-horizontal;
+	                }
+	              }
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }
+	}
+
+	.lesson-page {
+	  padding-top: $ub-module-padding; padding-bottom: $ub-module-padding;
+	  .sidebar {
+	    @include make-sm-column(3); padding-left: 0px;
+		  .module-wrapper {
+		    > div {
+		      @include make-row(-$padding-xs-horizontal * 4);
+		      .unit {
+		        .unit-wrapper {
+		          > div {
+		            @include make-row(-$padding-xs-horizontal * 2);
+		          }
+		        }
+		      }
+		    }
+		  }
+
+	    .module {
+	      @include make-sm-column(12);
+	      .unit {
+	        @include make-sm-column(12, $padding-xs-horizontal);
+	      }
+	      .lesson-nav {
+	        .nav-module-up, .nav-module-down {
+	          @include make-sm-column(12, $padding-xs-horizontal);
+	        }
+	        .nav-lesson-left, .nav-lesson-right {
+	          @include make-sm-column(6, $padding-xs-horizontal);
+	        }
+	      }
+	    }
+	  }
+	  .lesson-content {
+	    @include make-sm-column(9);
+	    .lesson-img {
+	      @include make-sm-column(12);
+	    }
+	    .lesson-dsc {
+	      @include make-sm-column(12);
+	    }
+	    .lesson-resources {
+	      @include make-sm-column(12);
+	      .lesson-inst-resources {@include make-md-column(12); padding-bottom: $ub-element-padding;}
+	      .lesson-dev-resources {@include make-md-column(12);}
+	    }
+	  }
+	}
+
+	.subscribe-module {
+	  > div.container {
+	    > div.row > div {
+	      @include make-sm-column(12);
+	      form {
+	        div.form-group {
+	          > label {@include make-sm-column(3);}
+	          > div:nth-child(2) { @include make-sm-column(6);}
+	          > div:last-child { @include make-sm-column(2);}
+	        }
+	      }
+	    }
+	  }
+	}
+
+	footer {
+	  .footer-logo { @include make-sm-column(2); }
+	  .footer-txt { @include make-sm-column(8); }
+	  .footer-list {
+	    @include make-sm-column(2);
+	  }
+	}
+}

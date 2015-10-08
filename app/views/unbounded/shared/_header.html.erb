@@ -16,7 +16,19 @@
         <ul class="nav navbar-nav navbar-right">
           <%= nav_link t('nav.curriculum'), unbounded_curriculum_path %>
           <%= nav_link t('nav.about'), unbounded_about_path %>
-          <li class="dropdown">
+          <li class="visible-xs-block">
+            <form action="<%= unbounded_search_path %>" class="navbar-form" role="search">
+              <div class="form-group">
+                 <div class="input-group">
+                    <input name="query" type="search" class="form-control" placeholder="Search">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default btn-search" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                 </div>
+              </div>
+            </form>
+          </li>
+          <li class="dropdown hidden-xs">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-lg fa-search"></i></a>
             <ul class="dropdown-menu">
               <li>
