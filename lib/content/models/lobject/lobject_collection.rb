@@ -1,5 +1,6 @@
-require 'tree'
+require 'content/models/concerns/sluggable'
 require 'set'
+require 'tree'
 
 module Content
   module Models

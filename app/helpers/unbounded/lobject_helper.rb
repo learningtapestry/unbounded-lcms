@@ -36,23 +36,22 @@ module Unbounded
       title.split(',').last if title
     end
 
-    def module_title(title)
-      title[/Module\s+\w+/]
-    end
-
     def unit_title(curriculum)
+      subject = curriculum.subject
       units = curriculum.units
       unit  = curriculum.current_unit
       idx = units.index(unit)
-      t('unbounded.curriculum.unit_title', idx: idx + 1)
+      t("unbounded.curriculum.#{subject}_unit_label", idx: idx + 1)
     end
 
     def module_node_title(module_node)
-      t('unbounded.curriculum.module_title', idx: module_node.position + 1)
+      subject = module_node.content.curriculum_subject
+      t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
     end
 
     def unit_node_title(unit_node)
-      t('unbounded.curriculum.unit_title', idx: unit_node.position + 1)
+      subject = unit_node.content.curriculum_subject
+      t("unbounded.curriculum.#{subject}_unit_label", idx: unit_node.position + 1)
     end
 
     def module_node_ui_units(module_node)
