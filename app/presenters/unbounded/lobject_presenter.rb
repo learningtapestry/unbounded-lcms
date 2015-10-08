@@ -26,6 +26,8 @@ module Unbounded
         unless defined? @html_description
           @html_description = Nokogiri::HTML(__getobj__().description)
           @html_description.css('a').each do |a|
+            a['href'] = a['href'].gsub('https://content.', 'https://www.')
+
             if a['href'] =~ /^https:\/\/www\.engageny\.org\/(content|resource)/
               a['href'] = a['href'].sub('https://www.engageny.org', '')
             end

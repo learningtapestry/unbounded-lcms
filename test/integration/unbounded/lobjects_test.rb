@@ -46,18 +46,19 @@ module Unbounded
       fill_in 'URL',         with: @url
       fill_in 'Description', with: @description
       check 'Hidden'
-      select @language.name,       from: 'Language'
-      select @grade1.grade,        from: 'Grades'
-      select @grade2.grade,        from: 'Grades'
-      select @subject1.name,       from: 'Subjects'
-      select @subject2.name,       from: 'Subjects'
-      select @topic1.name,         from: 'Topics'
-      select @topic2.name,         from: 'Topics'
-      select @resource_type1.name, from: 'Resource types'
-      select @resource_type2.name, from: 'Resource types'
-      select @alignment1.name,     from: 'Alignments'
-      select @alignment2.name,     from: 'Alignments'
-      select @easol_lobject.title, from: 'Related materials'
+      select @language.name,        from: 'Language'
+      select @grade1.grade,         from: 'Grades'
+      select @grade2.grade,         from: 'Grades'
+      select @subject1.name,        from: 'Subjects'
+      select @subject2.name,        from: 'Subjects'
+      select @topic1.name,          from: 'Topics'
+      select @topic2.name,          from: 'Topics'
+      select @resource_type1.name,  from: 'Resource types'
+      select @resource_type2.name,  from: 'Resource types'
+      select @alignment1.name,      from: 'Alignments'
+      select @alignment2.name,      from: 'Alignments'
+      select @easol_lobject.title,  from: 'Related materials'
+      select @no_org_lobject.title, from: 'Additional materials'
       within '#lobject_form' do
         click_button 'Save'
       end
@@ -70,12 +71,13 @@ module Unbounded
       assert_equal lobject.organization, @unbounded_org
       assert_equal lobject.title,        @title
       assert_equal lobject.url.url,      @url
-      assert_same_elements lobject.alignments,       [@alignment1, @alignment2]
-      assert_same_elements lobject.grades,           [@grade1, @grade2]
-      assert_same_elements lobject.related_lobjects, [@easol_lobject]
-      assert_same_elements lobject.resource_types,   [@resource_type1, @resource_type2]
-      assert_same_elements lobject.subjects,         [@subject1, @subject2]
-      assert_same_elements lobject.topics,           [@topic1, @topic2]
+      assert_same_elements lobject.additional_lobjects, [@no_org_lobject]
+      assert_same_elements lobject.alignments,          [@alignment1, @alignment2]
+      assert_same_elements lobject.grades,              [@grade1, @grade2]
+      assert_same_elements lobject.related_lobjects,    [@easol_lobject]
+      assert_same_elements lobject.resource_types,      [@resource_type1, @resource_type2]
+      assert_same_elements lobject.subjects,            [@subject1, @subject2]
+      assert_same_elements lobject.topics,              [@topic1, @topic2]
     end
 
     def test_edit_lobject_without_organization
@@ -115,6 +117,8 @@ module Unbounded
       select @alignment2.name, from: 'Alignments'
       unselect @easol_lobject.title, from: 'Related materials'
       select @no_org_lobject.title, from: 'Related materials'
+      unselect @no_org_lobject.title, from: 'Additional materials'
+      select @easol_lobject.title, from: 'Additional materials'
       within '#lobject_form' do
         click_button 'Save'
       end
@@ -126,12 +130,13 @@ module Unbounded
       assert_equal lobject.language,    @language
       assert_equal lobject.title,       @title
       assert_equal lobject.url.url,     @url
-      assert_same_elements lobject.alignments,       [@alignment2]
-      assert_same_elements lobject.grades,           [@grade2]
-      assert_same_elements lobject.related_lobjects, [@no_org_lobject]
-      assert_same_elements lobject.resource_types,   [@resource_type2]
-      assert_same_elements lobject.subjects,         [@subject2]
-      assert_same_elements lobject.topics,           [@topic2]
+      assert_same_elements lobject.additional_lobjects, [@easol_lobject]
+      assert_same_elements lobject.alignments,          [@alignment2]
+      assert_same_elements lobject.grades,              [@grade2]
+      assert_same_elements lobject.related_lobjects,    [@no_org_lobject]
+      assert_same_elements lobject.resource_types,      [@resource_type2]
+      assert_same_elements lobject.subjects,            [@subject2]
+      assert_same_elements lobject.topics,              [@topic2]
     end
 
     def test_delete_unbounded_lobject

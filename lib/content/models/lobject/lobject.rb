@@ -5,6 +5,10 @@ module Content
   module Models
     class Lobject < ActiveRecord::Base
 
+      # Additonal lobjects
+      has_many :lobject_additional_lobjects, dependent: :destroy
+      has_many :additional_lobjects, through: :lobject_additional_lobjects
+
       # Age ranges.
       has_many :lobject_age_ranges, dependent: :destroy
       alias_attribute :age_ranges, :lobject_age_ranges

@@ -38,6 +38,7 @@ en:
       content/models/grade:
         grade: Name
       content/models/lobject:
+        additional_lobjects: Additional materials
         lobject_downloads: Downloadable resources
         related_lobjects: Related materials
         status: Status
@@ -216,6 +217,9 @@ en:
         engageny: Document status
       topic: Topic
       topics: Topics
+    shared:
+      additional_lobjects:
+        title: 'Additional Materials:'
     content_type:
       "application/zip": zip
       "application/pdf": pdf
