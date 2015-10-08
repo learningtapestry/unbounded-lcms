@@ -1,0 +1,52 @@
+// Font sizes
+$font-size-icon: 21px;
+$font-size-form: 18px;
+$font-size-caret: 32px;
+
+$popover-max-width: 600px;
+$popover-min-width: 300px;
+
+// Paddings, element sizes
+$ub-module-padding: 30px;
+$ub-header-padding: 320px;
+$ub-element-padding: 15px;
+$logo-height: 30px;
+$logo-footer-width: 110px;
+$logo-title-height: 36px;
+
+// Lesson page
+$lesson-img-height: 195px;
+// Home page
+$header-img-height: 565px;
+
+@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+  .lesson-page {
+    .sidebar {
+      @include make-md-column(2.4);
+      .module {
+        padding-bottom: $ub-element-padding;
+        @include make-md-column(12);
+        .unit {
+          @include make-md-column(12, $padding-xs-horizontal);
+        }
+        .lesson-nav {
+          > div.row > div {padding-bottom: $padding-base-vertical;}
+          .nav-module-up, .nav-module-down {
+            @include make-md-column(12, $padding-xs-horizontal);
+            > div:first-child {margin-bottom: -$padding-base-vertical;}
+          }
+          .nav-lesson-left, .nav-lesson-right {
+            @include make-md-column(6, $padding-xs-horizontal);
+            .media {
+              .media-left {padding-right: $padding-xs-horizontal;}
+              .media-right {padding-left: $padding-xs-horizontal;}
+            }
+          }
+        }
+      }
+    }
+    .lesson-content {
+      @include make-md-column(9.6);
+    }
+  }
+}

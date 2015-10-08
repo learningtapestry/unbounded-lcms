@@ -57,6 +57,8 @@ $logo-title-height: 36px;
 
 // Lesson page
 $lesson-img-height: 195px;
+// Home page
+$header-img-height: 565px;
 
 @import "font-awesome-sprockets";
 @import "font-awesome";
@@ -154,7 +156,7 @@ header {
   .header-module {
     background-image: image-url('home_background.jpeg');
     background-size: cover;
-    height: 565px;
+    height: $header-img-height;
   }
   .header-module {
     padding-top: $ub-module-padding * 6;
@@ -415,6 +417,7 @@ header {
 
 .search-results-page {
 	background-color: $ub-light-gray;
+  padding-bottom: $ub-module-padding;
 	.breadcrumbs-list {
 		@include make-md-column(12);
 		padding-top: $ub-element-padding; //padding-bottom: $ub-element-padding;
@@ -601,32 +604,6 @@ footer {
   }
 }
 
-@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-  .lesson-page {
-    .sidebar {
-      @include make-sm-column(12);
-      .module {
-        @include make-sm-column(6);
-        .unit {
-          @include make-sm-column(12, $padding-xs-horizontal * 2);
-        }
-      }
-    }
-    .lesson-content {
-      @include make-sm-column(12);
-    }
-  }
-  footer {
-    .row > div + div { padding-top: $ub-element-padding;}
-  }
-}
-
-@media (max-width: $screen-xs-max) {
-  footer {
-    .row > div + div { padding-top: $ub-element-padding;}
-  }
-}
-
 .no-gutter {
     margin-left: 0 !important;
     margin-right: 0 !important;
@@ -662,3 +639,7 @@ form.inline {
   border-bottom: 2px solid;
   text-decoration: none;
 }
+
+@import "unbounded_md";
+@import "unbounded_sm";
+@import "unbounded_xs";

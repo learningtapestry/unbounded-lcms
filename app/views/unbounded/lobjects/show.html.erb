@@ -13,7 +13,7 @@
     <% end %>
     <div class="row">
       <% if curriculum = @lobject.unbounded_curriculum %>
-        <div class="sidebar">
+        <div class="sidebar hidden-xs">
           <div class="row">
             <%= render partial: 'nav', locals: { curriculum: curriculum } %>
           </div>
@@ -66,6 +66,13 @@
           </div>
         </div>
       </div>
+      <% if curriculum = @lobject.unbounded_curriculum %>
+        <div class="sidebar visible-xs-block">
+          <div class="row">
+            <%= render partial: 'nav', locals: { curriculum: curriculum } %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 

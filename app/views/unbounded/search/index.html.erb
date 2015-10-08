@@ -15,7 +15,7 @@
 
   <div class="container">
     <div class="row">
-      <div class="sidebar">
+      <div class="sidebar hidden-sm hidden-xs">
         <div class="row">
           <% @search.facets.each do |facet, values| %>
             <% next if values.size == 0 %>
@@ -73,6 +73,7 @@
                 <div class="search-pagination">
                   <%= render partial: 'pagination' %>
                 </div>
+              </div>
             </div>
           </div>
         </div>

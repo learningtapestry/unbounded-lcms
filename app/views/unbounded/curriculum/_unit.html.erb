@@ -1,5 +1,5 @@
 <% unit.children.each_slice(16).with_index do |lessons, i| %>
-  <div class="unit unit-<%= i %>">
+  <div class="unit unit-<%= i if unit.children.size > 16 %>">
     <div class="unit-wrapper">
       <div class="row">
         <div class="unit-title">
