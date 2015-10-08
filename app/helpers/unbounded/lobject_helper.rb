@@ -28,6 +28,17 @@ module Unbounded
       end
     end
 
+    def grade_name_for_url(grade_lobject)
+      grade_lobject.grades.first.grade.gsub(' ', '_')
+    end
+
+    def grade_url(curriculum)
+      unbounded_curriculum_path(
+        subject: curriculum.subject,
+        grade: grade_name_for_url(curriculum.current_grade)
+      )
+    end
+
     def lesson_title(title)
       title.split(',').first.gsub(/Module\s+\w+/, '') if title
     end
