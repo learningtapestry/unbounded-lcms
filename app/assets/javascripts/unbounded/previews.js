@@ -8,7 +8,8 @@
       $elm.popover({
         html: true,
         content: I18n.t('ui.loading'),
-        template: $('#popover-template').html()
+        template: $('#popover-template').html(),
+        container: 'body'
       }).popover('show');
     }
   }
@@ -17,8 +18,10 @@
     data.highlights = Unbounded.highlights.findHighlights($elm.data('lobject-id'));
     data.alignmentsTitle = I18n.t('unbounded.title.alignments')
     var popover = $elm.data('bs.popover');
+    $elm.attr('data-original-title', data.lobject_preview.title);
     popover.options.content = PreviewTemplate(data);
-    popover.options.title = data.title;
+    popover.options.title = data.lobject_preview.title;
+    popover.$tip.find('h3').show();
     popover.show();
   }
 

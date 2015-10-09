@@ -44,7 +44,7 @@ $btn-border-radius-large: 0px;
 $btn-border-radius-small: 0px;
 
 $popover-bg: $ub-purple;
-$popover-max-width: 600px;
+$popover-max-width: 450px;
 $popover-min-width: 300px;
 
 // Paddings, element sizes
@@ -85,16 +85,18 @@ h1, h2, h3, h4, h5, .navbar-brand, hero-title, .hero-subtitle {
 
 .popover.popover-lesson {
   min-width: $popover-min-width;
+  max-width: $popover-max-width;
   border-radius: 0px;
+  .popover-title {
+    text-transform: uppercase; font-family: $font-family-heading;
+    color: #fff;
+  }
   .popover-content {
     background-color: white;
     color: $ub-purple;
     margin: $ub-element-padding/2;
     padding-bottom: 0px;
     .lesson-popover-breadcrumb { font-size: small; font-family: $font-family-heading;}
-    .lesson-popover-title {
-      text-transform: uppercase; font-family: $font-family-heading;
-    }
     .lesson-popover-content {padding-bottom: $ub-element-padding;padding-top: $ub-element-padding;}
     .lesson-popover-cta {
       margin-left: -14px;
