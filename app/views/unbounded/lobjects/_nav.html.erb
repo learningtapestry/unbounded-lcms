@@ -10,9 +10,9 @@
 
       <% if curriculum.grade? %>
         <%= render partial: 'grade_nav', locals: { curriculum: curriculum } %>
-      <% elsif curriculum.module? %>
+      <% elsif curriculum.module? || (curriculum.unit? && all_units_empty?(curriculum.current_module)) %>
         <%= render partial: 'module_nav', locals: { curriculum: curriculum } %>
-      <% elsif curriculum.lesson? || curriculum.unit? %>
+      <% elsif curriculum.unit? || curriculum.lesson? %>
         <%= render partial: 'unit_nav', locals: { curriculum: curriculum } %>
       <% end %>
     </div>

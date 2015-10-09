@@ -91,5 +91,9 @@ module Unbounded
         unbounded_show_path(resource)
       end
     end
+
+    def all_units_empty?(_module)
+      _module.lobject_children.all? { |lc| lc.child.lobject_children.empty? }
+    end
   end
 end
