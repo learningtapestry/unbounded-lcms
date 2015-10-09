@@ -1,5 +1,11 @@
 include Content::Models
 
+pd_body = <<-HTML
+Professional Development
+HTML
+
+Page.create_with(body: pd_body, title: 'Professional Development').find_or_create_by(slug: 'professional_development')
+
 tos_body = <<-HTML
 <p><em>Last updated: July 10, 2015</em></p>
 

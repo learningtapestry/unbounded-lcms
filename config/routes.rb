@@ -27,6 +27,7 @@ Rails.application.routes.draw do
           grade: anything_goes,
           standards: anything_goes
         }
+      get '/professional_development' => 'pages#show_slug', as: :pd, slug: 'professional_development'
       get '/resources/:id/preview' => 'lobjects#preview', as: 'resource_preview'
       get '/resources/:id' => 'lobjects#show', as: :show
       get '/resources/*slug' => 'lobjects#show'
