@@ -359,6 +359,11 @@ header {
   color: $ub-purple;
 }
 
+.search-total {
+  color: $ub-purple;
+  text-align: right;
+}
+
 .search-form-page .curriculum-content,
 .lesson-page .sidebar {
   .module-wrapper {
@@ -468,7 +473,6 @@ header {
 		}
 		.search-results-content {
 			@include make-md-column(12);
-			.search-total {text-align: right; @include make-md-column(12);}
 			.search-results {@include make-md-column(12);}
 			.search-pagination {@include make-md-column(12); nav {float:right}}
 			.list-description {

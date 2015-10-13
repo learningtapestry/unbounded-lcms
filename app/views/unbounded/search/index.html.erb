@@ -68,13 +68,19 @@
                   <div>
                   </div>
                 </div>
+                <div class="search-total">
+                  <%= @search.total_hits %> Results - Page <%= @search.page %>
+                  |
+                  <%= t('.show') %>
+                  <%= select_tag(:limit, options_for_select([[25, 25], [50, 50], [100, 100]], params[:limit])) %>
+                  <%= t('.per_page') %>
+                </div>
                 <% end %>
               </div>
               <hr>
             </div>
             <div class="search-results-content">
               <div class="row">
-                <div class="search-total"><%= @search.total_hits %> Results - Page <%= @search.page %></div>
                 <div class="search-pagination">
                   <%= render partial: 'pagination' %>
                 </div>

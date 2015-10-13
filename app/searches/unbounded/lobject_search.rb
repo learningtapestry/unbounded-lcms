@@ -9,7 +9,7 @@ module Unbounded
       :total_hits, :total_pages, :page, :limit
 
     def initialize(params)
-      @limit = limit = 100
+      @limit = limit = params[:limit] = Integer(params[:limit]) rescue 100
       @page = page = (params[:page].try(:to_i) || 1)
 
       params = params.dup
