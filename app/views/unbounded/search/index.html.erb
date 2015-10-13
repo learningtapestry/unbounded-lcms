@@ -1,4 +1,4 @@
-<div class="search-results-page" data-role="page">
+<div class="search-form-page search-results-page" data-role="page">
   <div class="container">
     <div class="row">
       <div class="breadcrumbs-list">
@@ -15,41 +15,50 @@
 
   <div class="container">
     <div class="row">
-      <div class="sidebar hidden-sm hidden-xs">
-        <div class="row">
-          <% @search.facets.each do |facet, values| %>
-            <% next if values.size == 0 %>
-            <div class="sidebar-block">
-              <div class="sidebar-block-wrapper">
-                  <h4><%= t("unbounded.title.#{facet}") %></h4>
-                  <div class="sidebar-block-content">
-                    <ul class="list-unstyled vertical-breath">
-                      <% values.each do |value, doc_count| %>
-                        <li>
-                          <%= link_to(value, add_to_search(facet => value)) %> (<%= doc_count %>)
-                        </li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
       <div class="search-content">
         <div class="row">
           <div class="search-content-wrapper">
             <div class="search-controls">
-              <form id="form-search" class="form-horizontal form-search" data-action="<%=unbounded_search_path %>" method="GET">
+              <div class=search-form>
+                <%= form_tag :unbounded_search, class: 'form-horizontal form-search', id: 'form-search', method: :get do %>
+
+                <div class='curriculum-search-form form-horizontal'>
+                  <div class="form-group">
+
+                    <div class="ub-group">
+                      <div class="ub-group-wrapper">
+                        <label for=""><%= t('curriculum_page.search_form.subject_label') %></label>
+                        <div class="ub-select">
+                          <%= select_tag(:subject, options_for_select(@dropdown_options.subject_options, params[:subject]), { class: 'curriculum-filter curriculum-filter-subject selectize form-control', include_blank: true }) %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="ub-group">
+                      <div class="ub-group-wrapper">
+                        <label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
+                        <div class="ub-select">
+                          <%= select_tag(:grade, options_for_select(@dropdown_options.grade_options, params[:grade]), { class: 'curriculum-filter curriculum-filter-grade selectize form-control', include_blank: true }) %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="ub-group">
+                      <div class="ub-group-wrapper">
+                        <label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
+                        <div class="ub-select">
+                          <%= select_tag(:standards, options_for_select(@dropdown_options.standard_options, params[:standards]), { class: 'curriculum-filter curriculum-filter-standard selectize form-control', include_blank: true, multiple: true }) %>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
                 <div class="form-group">
-                  <label class="control-label" for="query">Search for</label>
+                  <label class="control-label search-for-label" for="query">Search for</label>
                   <div class="search-group">
                     <div class="input-group">
-                      <% current_search.each do |k,v| %>
-                        <% unless k == 'query' %>
-                          <input type="hidden" name="<%= k %>" value="<%= v %>">
-                        <% end %>
-                      <% end %>
                       <input type="search" class="form-control" name="query" placeholder="Search for..." value="<%= params[:query] %>">
                       <span class="input-group-btn">
                         <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
@@ -59,12 +68,16 @@
                   <div>
                   </div>
                 </div>
-              </form>
+                <% end %>
+              </div>
               <hr>
             </div>
             <div class="search-results-content">
               <div class="row">
                 <div class="search-total"><%= @search.total_hits %> Results - Page <%= @search.page %></div>
+                <div class="search-pagination">
+                  <%= render partial: 'pagination' %>
+                </div>
                 <div class="search-results">
                   <% @search.results.each do |lobject| %>
                       <%= render partial: 'lobject_preview', locals: { lobject: lobject } %>
