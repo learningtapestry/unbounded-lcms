@@ -6,11 +6,7 @@
     <title><%= content_for?(:title) ? yield(:title) : t('unbounded.browser') %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('unbounded.browser') %>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <%= favicon_link_tag 'favicon.ico' %>
-    <%= favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon', type: 'image/png' %>
-
+    <%= favicon_link_tag 'favicon/favicon.ico' %>
     <%= stylesheet_link_tag 'unbounded', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'i18n' %>
     <%= javascript_include_tag 'translations' %>
