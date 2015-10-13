@@ -5,27 +5,63 @@
         <form class="curriculum-search-form form-horizontal" action="" method="POST">
           <div class="form-group">
             <div class="ub-group">
-              <div class="ub-group-wrapper">
-                <label for=""><%= t('curriculum_page.search_form.subject_label') %></label>
-                <div class="ub-select">
-                  <%= select('dropdown_options', 'subject', dropdown_options.subject_options, { include_blank: true, selected: dropdown_options.subject }, { class: 'curriculum-filter curriculum-filter-subject selectize form-control' }) %>
+              <label for="">1. <%= t('curriculum_page.search_form.subject_label') %></label>
+              <div class="ub-radio">
+                <div class="radio" disabled>
+                  <label>
+                    <input type="radio" name="ela-radio" value="" disabled>
+                    English Language Arts
+                  </label>
+                </div>
+                <div class="radio" disabled>
+                  <label>
+                    <input type="radio" name="math-radio" value="" disabled>
+                    Mathematics
+                  </label>
                 </div>
               </div>
             </div>
             <div class="ub-group">
-              <div class="ub-group-wrapper">
-                <label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
-                <div class="ub-select">
-                  <%= select('dropdown_options', 'grade_id', dropdown_options.grade_options, { include_blank: true, selected: dropdown_options.grade_id }, { class: 'curriculum-filter curriculum-filter-grade selectize form-control'}) %>
+              <label for="">2. <%= t('curriculum_page.search_form.grade_label') %></label>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <div class="ub-radio">
+                    <div class="radio" disabled>
+                      <label>
+                        <input type="radio" name="gr9-radio" value="" disabled>
+                        Grade9
+                      </label>
+                    </div>
+                    <div class="radio" disabled>
+                      <label>
+                        <input type="radio" name="gr10-radio" value="" disabled>
+                        Grade10
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="ub-radio">
+                    <div class="radio" disabled>
+                      <label>
+                        <input type="radio" name="ela-radio" value="" disabled>
+                        Grade9
+                      </label>
+                    </div>
+                    <div class="radio" disabled>
+                      <label>
+                        <input type="radio" name="math-radio" value="" disabled>
+                        Grade10
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="ub-group">
-              <div class="ub-group-wrapper">
-                <label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
-                <div class="ub-select">
-                  <%= select('dropdown_options', 'standards', dropdown_options.standard_options, { include_blank: true, selected: dropdown_options.standard_ids }, { class: 'curriculum-filter curriculum-filter-standard selectize form-control', multiple: true}) %>
-                </div>
+              <label for="">3. <%= t('curriculum_page.search_form.standard_label') %></label>
+              <div class="ub-select">
+                <%= select('dropdown_options', 'standards', dropdown_options.standard_options, { include_blank: true, selected: dropdown_options.standard_ids }, { class: 'curriculum-filter curriculum-filter-standard selectize form-control', multiple: true}) %>
               </div>
             </div>
           </div>

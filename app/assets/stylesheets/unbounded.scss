@@ -9,6 +9,13 @@ $ub-yellow: #f5d329;
 $ub-dark-bgray: #34495E;
 $ub-bg-filter-light-purple: rgba(26,25,48,0.5);
 $ub-bg-filter-purple: rgba(26,25,48,0.8);
+$ub-range: #f3611c;
+$ub-green: #11b894;
+$ub-green-sbc: #97c40f;
+$ub-light-green-sbc: #e5ebce;
+$ub-unit-bg: #e6e6e7;
+$ub-txt-gray: #58595b;
+$ub-txt-light-gray: #949699;
 
 // Fonts
 @import "_fonts";
@@ -17,11 +24,22 @@ $ub-bg-filter-purple: rgba(26,25,48,0.8);
 $font-size-icon: 21px;
 $font-size-form: 18px;
 $font-size-caret: 32px;
+$font-size-footer: 12px;
+// Curriculum
+$font-size-form-label: 25px;
+$font-size-form-control: 19px;
+$font-size-title-module: 32px;
+$font-size-base-curriculum: 24px;
+$font-size-toggle: 15px;
+// Subscribe
+$font-size-sbc-tagline: 32px;
+$font-size-sbc-btn: 21px;
 
 // Bootstrap variables
 $font-family-sans-serif: "Caponi Slab Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-family-heading: "PFCentroSansPro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-family-heading-light: "PFCentroSansProLight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
 $text-color: $ub-purple;
 $body-bg: white;
 
@@ -255,14 +273,14 @@ header {
 }
 
 .module-nav-unit.active .ub-square-unit {
-    fill: $ub-yellow;
+  fill: $ub-yellow;
 }
 
 
 .search-form-page {
   .header-module {
-    background-image: image-url('curriculum.jpg');
-    background-size: cover;
+    background-color: $ub-purple;
+    //background: $ub-bg-filter-purple image-url('curriculum.jpg') no-repeat cover;
   }
   .header-module {
     padding-top: $ub-module-padding;
@@ -273,12 +291,12 @@ header {
         > div.form-group {
           > div {
             @include make-md-column(4, $grid-gutter-width/2);
-            .ub-group-wrapper {
-              padding: $grid-gutter-width/2 $grid-gutter-width/2;
-              background-color: $ub-bg-filter-purple;
-            }
+            > label {min-height: 50px;}
+            //.ub-group-wrapper {
+            //  padding: $grid-gutter-width/2 $grid-gutter-width/2;
+              //background-color: $ub-bg-filter-purple;
+            //}
           }
-          label {min-height: 50px;}
           margin-bottom: $ub-module-padding;
         }
         .btn-ub {background-color: $ub-yellow; color: $ub-purple; }

@@ -9,6 +9,16 @@
 }
 
 @font-face {
+  font-family: 'PFCentroSansProLight';
+  src: font-url('centro/PFCentroSansPro-LightItalic.eot'); /* IE9 Compat Modes */
+  src: font-url('centro/PFCentroSansPro-LightItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       font-url('centro/PFCentroSansPro-LightItalic.woff') format('woff'), /* Modern Browsers */
+       font-url('centro/PFCentroSansPro-LightItalic.svg#PFCentroSansPro-LightItalic') format('svg'); /* Legacy iOS */
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
   font-family: 'PFCentroSansPro';
   src: font-url('centro/PFCentroSansPro-Bold.eot'); /* IE9 Compat Modes */
   src: font-url('centro/PFCentroSansPro-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
