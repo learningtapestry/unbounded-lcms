@@ -1,3 +1,6 @@
-<%= @page.title %>
-
-<%= @page.body.html_safe %>
+<div class=container>
+  <div class=row>
+    <h2 class=text-center><%= @page.title %></h2>
+    <div class=page-body><%= @page.body.html_safe %></div>
+  </div>
+</div>
