@@ -266,24 +266,6 @@ header {
   }
   .header-module {
     padding-top: $ub-module-padding;
-    .search-form {
-      @include make-md-column(12);
-      form {
-        color: white; font-size: $font-size-form;
-        > div.form-group {
-          > div {
-            @include make-md-column(4, $grid-gutter-width/2);
-            .ub-group-wrapper {
-              padding: $grid-gutter-width/2 $grid-gutter-width/2;
-              background-color: $ub-bg-filter-purple;
-            }
-          }
-          label {min-height: 50px;}
-          margin-bottom: $ub-module-padding;
-        }
-        .btn-ub {background-color: $ub-yellow; color: $ub-purple; }
-      }
-    }
   }
   .curriculum-content {
     padding-top: $ub-module-padding;
@@ -352,6 +334,34 @@ header {
         }
     }
   }
+}
+
+.search-form {
+  @include make-md-column(12);
+  form {
+    color: white; font-size: $font-size-form;
+    div.form-group {
+      > div {
+        @include make-md-column(4, $grid-gutter-width/2);
+        .ub-group-wrapper {
+          padding: $grid-gutter-width/2 $grid-gutter-width/2;
+          background-color: $ub-bg-filter-purple;
+        }
+      }
+      label {min-height: 50px;}
+      margin-bottom: $ub-module-padding;
+    }
+    .btn-ub {background-color: $ub-yellow; color: $ub-purple; }
+  }
+}
+
+.search-for-label {
+  color: $ub-purple;
+}
+
+.search-total {
+  color: $ub-purple;
+  text-align: right;
 }
 
 .search-form-page .curriculum-content,
@@ -446,7 +456,6 @@ header {
 		}
 	}
 	.search-content{
-		@include make-md-column(9);
 		.search-content-wrapper{
 			padding: $ub-element-padding $padding-base-horizontal;
 			background-color: white;
@@ -464,7 +473,6 @@ header {
 		}
 		.search-results-content {
 			@include make-md-column(12);
-			.search-total {text-align: right; @include make-md-column(12);}
 			.search-results {@include make-md-column(12);}
 			.search-pagination {@include make-md-column(12); nav {float:right}}
 			.list-description {
