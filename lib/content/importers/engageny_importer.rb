@@ -110,7 +110,7 @@ module Content
             inner join taxonomy_vocabulary on taxonomy_vocabulary.vid = taxonomy_term_data.vid 
             where nid = ? and taxonomy_vocabulary.name like 'CCLS%'
           }, eny_node.nid])
-          .each{ |r| standards[r.vocabulary_name.gsub('CCLS - ', '')] << r.name }
+          .each{ |r| standards[r.vocabulary_name.gsub('CCLS - ', '').gsub('CCLS', 'ELA')] << r.name }
 
           eny_doc.standards = standards
 
