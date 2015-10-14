@@ -17,15 +17,17 @@
       </div>
     </div>
 
-    <div class="row stripe-module">
-      <div class="hero-text">
-        <h2><%= t('nav.professional_development') %></h2>
-        <div class="hero-dsc"><%= t('home_page.professional_development_html') %></div>
+    <% if false %>
+      <div class="row stripe-module">
+        <div class="hero-text">
+          <h2><%= t('nav.professional_development') %></h2>
+          <div class="hero-dsc"><%= t('home_page.professional_development_html') %></div>
+        </div>
+        <div class="hero-img">
+          <%= image_tag("professional_development.jpg", :alt => t('nav.professional_development')) %>
+        </div>
       </div>
-      <div class="hero-img">
-        <%= image_tag("professional_development.jpg", :alt => t('nav.professional_development')) %>
-      </div>
-    </div>
+    <% end %>
 
     <div class="row stripe-module">
       <div class="hero-img">
