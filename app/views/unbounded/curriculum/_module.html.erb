@@ -7,7 +7,9 @@
             <%= link_to(module_node_title(mod), unbounded_show_path(mod.content.id)) %>
           </div>
           <div class="module-title-dsc">
-            <%= link_to(mod.content.title, unbounded_show_path(mod.content.id)) %>
+            <%= link_to(unbounded_show_path(mod.content.id)) do %>
+              <%= truncate_html(mod.content.description.html_safe, length: klass.include?('12') ? 240 : 100) %>
+            <% end %>
           </div>
         </div>
       </div>

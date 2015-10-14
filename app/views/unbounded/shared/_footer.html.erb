@@ -6,12 +6,13 @@
 	  	<% end %>
 	  </div>
 	  <div class="footer-txt">
-	  	<ul class="list-unstyled list-inline text-center">
+	  	<ul class="list-unstyled list-inline text-left">
 		  	<li><%= t('footer.copyright_html') %></li>
 		  	<li><%= t('footer.rights_html') %></li>
+		  	<li><%= link_to t('layouts.unbounded.tos'), :unbounded_tos_page %></li>
 		  </ul>
-      <ul class='list-inline text-center'>
-        <li><%= link_to t('layouts.unbounded.tos'), :unbounded_tos_page %></li>
+       <!--
+      <ul class='list-inline text-left'>
         <% if user_signed_in? %>
           <% if can? :read, :admin_root %>
             <li><%= link_to(t('layouts.unbounded.admin'), :unbounded_admin) %></li>
@@ -20,15 +21,16 @@
         <% else %>
           <li><%= link_to('Administrator access', new_user_session_path) %></li>
         <% end %>
+        -->
       </ul>
 	  </div>
-		<div class="footer-list">
+		<!--div class="footer-list">
 			<ul class="list-unstyled list-inline pull-right">
 				<li><i class="fa fa-twitter"></i></li>
 		    <li><i class="fa fa-facebook"></i></li>
 		    <li><i class="fa fa-youtube"></i></li>
 		    <li><i class="fa fa-linkedin-square"></i></li>
 			</ul>
-		</div>
+		</div-->
 	</div>
 </div>
