@@ -14,19 +14,27 @@
     return jqElm[0].selectize;
   }
 
-  function getGradeName(selectize, value) {
-    return selectize.getItem(value)[0].innerHTML.replace(' ', '_');
+  function getGradeName(value) {
+    return value.replace(' ', '_');
   }
 
-  function subjectDropdown() {
-    return $('select.curriculum-filter-subject');
+  function getSubjectSelection() {
+    return $('.curriculum-subject-selection');
   }
 
-  function gradeDropdown() {
-    return $('select.curriculum-filter-grade');
+  function getSubjectRadios() {
+    return getSubjectSelection().find(':radio');
   }
 
-  function standardDropdown() {
+  function getGradeSelection() {
+    return $('.curriculum-grade-selection');
+  }
+
+  function getGradeRadios() {
+    return getGradeSelection().find(':radio');
+  }
+
+  function getStandardDropdown() {
     return $('select.curriculum-filter-standard');
   }
 
@@ -46,49 +54,35 @@
     });
   }
 
-  function initializeSubjectDropdown() {
-    var selectize = getSelectize(subjectDropdown());
-    selectize.on('change', function(newVal) {
-      var locationParams = {};
-
-      var gradeSelectize = getSelectize(gradeDropdown());
-      var gradeVal = gradeSelectize.getValue();
-      if (gradeVal.length) {
-        locationParams.grade = getGradeName(gradeSelectize, gradeVal);
-      } else if (newVal === 'all') {
-        newVal = '';
-      }
-
-      locationParams.subject = newVal;
-
-      visit(Routes.unbounded_curriculum_path(locationParams));
-    });
+  function getSelectedSubject() {
+    return getSubjectRadios().filter(':checked').val() || 'all';
   }
 
-  function initializeGradeDropdown() {
-    var selectize = getSelectize(gradeDropdown());
-    selectize.on('change', function(newVal) {
-      var newLocation;
-      if (newVal === 'all') {
-        newLocation = Routes.unbounded_curriculum_path({
-          subject: subjectDropdown().val()
-        });
-      } else {
-        var subjectVal = subjectDropdown().val();
-        if (subjectVal === '') {
-          subjectVal = 'all';
-        }
-        newLocation = Routes.unbounded_curriculum_path({
-          subject: subjectVal,
-          grade: getGradeName(selectize, newVal)
-        });
-      }
-      visit(newLocation);
-    });
+  function getSelectedGrade() {
+    var grade = getGradeRadios().filter(':checked').data('grade');
+    if (grade) {
+      return getGradeName(grade);
+    }
+    return null;
+  }
+
+  function onChangeFilter(e) {
+    visit(Routes.unbounded_curriculum_path({
+      grade: getSelectedGrade(),
+      subject: getSelectedSubject()
+    }));
+  }
+
+  function initializeSubjectSelection() {
+    getSubjectRadios().on('change', onChangeFilter);
+  }
+
+  function initializeGradeSelection() {
+    getGradeRadios().on('change', onChangeFilter);
   }
 
   function initializeStandardDropdown() {
-    var selectize = getSelectize(standardDropdown());
+    var selectize = getSelectize(getStandardDropdown());
     selectize.on('change', function(newVal) {
       if (_.includes(newVal, 'all')) {
         $('.lesson-active').removeClass('lesson-active');
@@ -99,8 +93,8 @@
       }
 
       Unbounded.highlights.fetchHighlights({
-        subject: subjectDropdown().val(),
-        grade: gradeDropdown().val(),
+        subject: getSubjectRadios().val(),
+        grade: getGradeRadios().val(),
         standards: newVal
       }, highlightLessons);
     });
@@ -108,8 +102,8 @@
     var currentValue = selectize.getValue();
     if (currentValue.length) {
       fetchHighlights({
-        subject: subjectDropdown().val(),
-        grade: gradeDropdown().val(),
+        subject: getSubjectRadios().val(),
+        grade: getGradeRadios().val(),
         standards: currentValue
       }, highlightLessons);
     }
@@ -117,8 +111,8 @@
 
   function initializeCurriculum() {
     initializeLessonIndex();
-    initializeSubjectDropdown();
-    initializeGradeDropdown();
+    initializeSubjectSelection();
+    initializeGradeSelection();
     initializeStandardDropdown();
     Unbounded.initializePreviews();
   }

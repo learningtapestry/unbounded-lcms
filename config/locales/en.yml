@@ -192,6 +192,17 @@ en:
       math_lesson_label: "Lesson %{idx}"
       unit_title: "Unit %{idx}"
       module_title: "Module %{idx}"
+    grades:
+      ela:
+        grade_9: Grade 9
+        grade_10: Grade 10
+        grade_11: Grade 11
+        grade_12: Grade 12
+      math:
+        grade_9: Algebra
+        grade_10: Geometry
+        grade_11: Algebra II
+        grade_12: Precalculus
     title:
       logo: Unbounded
       subscribe: Get Updates and Stay Connected

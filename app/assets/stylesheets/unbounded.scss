@@ -868,3 +868,7 @@ form.inline {
 @import "unbounded_md";
 @import "unbounded_sm";
 @import "unbounded_xs";
+
+.curriculum-search-form input[type=radio] {
+    cursor: pointer;
+}

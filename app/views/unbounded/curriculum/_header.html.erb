@@ -6,52 +6,39 @@
           <div class="form-group">
             <div class="ub-group">
               <label for="">1. <%= t('curriculum_page.search_form.subject_label') %></label>
-              <div class="ub-radio">
-                <div class="radio">
-                  <input type="radio" name="ela-radio" value="">
-                  <label>English Language Arts</label>
-                </div>
-                <div class="radio" checked>
-                  <input type="radio" name="math-radio" value="" checked>
-                  <label>Mathematics</label>
-                </div>
+              <div class="ub-radio curriculum-subject-selection">
+                <% dropdown_options.subject_options.each do |opt| %>
+                  <div class="radio">
+                    <input type="radio"
+                      name="dropdown_options[subject]"
+                      value="<%= opt.value %>"
+                      <% if opt.checked %> checked <% end %>
+                      id="subject-<%= opt.value %>">
+                    <label for="subject-<%= opt.value %>"><%= opt.title %></label>
+                  </div>
+                <% end %>
               </div>
             </div>
             <div class="ub-group">
               <label for="">2. <%= t('curriculum_page.search_form.grade_label') %></label>
-              <div class="form-group">
-                <div class="col-md-6">
-                  <div class="ub-radio">
-                    <div class="radio" disabled>
-                      <label>
-                        <input type="radio" name="gr9-radio" value="" disabled>
-                        Grade9
-                      </label>
-                    </div>
-                    <div class="radio" disabled>
-                      <label>
-                        <input type="radio" name="gr10-radio" value="" disabled>
-                        Grade10
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="ub-radio">
-                    <div class="radio" disabled>
-                      <label>
-                        <input type="radio" name="ela-radio" value="" disabled>
-                        Grade9
-                      </label>
-                    </div>
-                    <div class="radio" disabled>
-                      <label>
-                        <input type="radio" name="math-radio" value="" disabled>
-                        Grade10
-                      </label>
+              <div class="form-group curriculum-grade-selection">
+                <% dropdown_options.grade_options.each_slice(2).each do |grade_group| %>
+                  <div class="col-md-6">
+                    <div class="ub-radio">
+                      <% grade_group.each do |opt| %>
+                        <div class="radio">
+                          <input type="radio"
+                            name="dropdown_options[grade_id]"
+                            data-grade="<%= opt.grade %>"
+                            value="<%= opt.value %>"
+                            <% if opt.checked %> checked <% end %>
+                            id="grade-<%= opt.value %>">
+                          <label for="grade-<%= opt.value %>"><%= opt.title %></label>
+                        </div>
+                      <% end %>
                     </div>
                   </div>
-                </div>
+                <% end %>
               </div>
             </div>
             <div class="ub-group">

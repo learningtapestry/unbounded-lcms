@@ -33,9 +33,16 @@ module Unbounded
 
     def subject_options
       [
-        all_option,
-        [I18n.t('unbounded.curriculum.ela'), 'ela'],
-        [I18n.t('unbounded.curriculum.math'), 'math']
+        struct(
+          title: I18n.t('unbounded.curriculum.ela'),
+          value: 'ela',
+          checked: subject == 'ela'
+        ),
+        struct(
+          title: I18n.t('unbounded.curriculum.math'),
+          value: 'math',
+          checked: subject == 'math'
+        )
       ]
     end
 
@@ -44,11 +51,27 @@ module Unbounded
     end
 
     def grade_options
-      [all_option] + (grades.map { |g| [g.grade, g.id] })
+      grades.map do |g|
+        struct(
+          title: grade_name(g.grade),
+          value: g.id,
+          grade: g.grade,
+          checked: grade_id == g.id
+        )
+      end
+    end
+
+    def grade_name(grade)
+      grade_subject = subject || 'ela'
+      I18n.t("unbounded.grades.#{grade_subject}.#{grade.strip.gsub(' ', '_')}")
     end
 
     def all_option
       [I18n.t('ui.all'), 'all']
+    end
+
+    def struct(hash)
+      OpenStruct.new(hash)
     end
   end
 end
