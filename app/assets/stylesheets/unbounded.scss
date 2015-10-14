@@ -9,6 +9,7 @@ $ub-yellow: #f5d329;
 $ub-dark-bgray: #34495E;
 $ub-bg-filter-light-purple: rgba(26,25,48,0.5);
 $ub-bg-filter-purple: rgba(26,25,48,0.8);
+$ub-bg-header: rgba(255,255,255,0.9);
 $ub-orange: #f3611c;
 $ub-green: #11b894;
 $ub-green-sbc: #97c40f;
@@ -20,12 +21,18 @@ $ub-bg: #f2f3ee;
 
 // Fonts
 @import "_fonts";
+@import "_icon_fonts";
 
 // Font sizes
 $font-size-icon: 21px;
 $font-size-form: 18px;
 $font-size-caret: 32px;
 $font-size-footer: 12px;
+$font-size-header: 19px;
+// Home page
+$font-size-hp-title: 18px;
+$font-size-hp-content: 28px;
+$font-size-hp-readmore: 20px;
 // Curriculum
 $font-size-form-label: 24px;
 $font-size-form-control: 14px;
@@ -39,21 +46,28 @@ $font-size-sbc-tagline: 24px;
 $font-size-sbc-input: 21px;
 $font-size-sbc-btn: 14px;
 
-// Bootstrap variables
-$font-family-sans-serif: "Caponi Slab Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family-heading: "PFCentroSansPro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family-heading-light: "PFCentroSansProLight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-centropro: "PFCentroSansPro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-centropro-light: "PFCentroSansProLight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-centrocond: "PFCentroSansCond", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-centrocond-light: "PFCentroSansCondLight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-caponi: "Caponi Slab Web", Georgia, "Times New Roman", Times, serif;
 
-$text-color: $ub-purple;
+// Bootstrap variables
+$font-family-sans-serif: $font-family-centropro-light;
+$font-family-serif: $font-family-caponi;
+$headings-font-family: $font-family-centrocond-light;
+$font-size-base: 18px;
+
+$text-color: $ub-txt-gray;
 $body-bg: $ub-bg;
 
-$navbar-height: 55px;
-$navbar-default-bg: white;
-$navbar-default-link-color: $ub-gray;
-$navbar-default-color: $ub-gray;
-$navbar-default-link-hover-bg: white;
-$navbar-default-link-active-bg: white;
-$navbar-default-link-hover-color: $ub-purple;
+$navbar-height: 95px;
+$navbar-default-bg: transparent;
+$navbar-default-link-color: $ub-purple;
+$navbar-default-color: $ub-purple;
+$navbar-default-link-hover-bg: transparent;
+$navbar-default-link-active-bg: transparent;
+$navbar-default-link-hover-color: $ub-txt-light-gray;
 $navbar-default-border: none;
 $navbar-border-radius: 0px;
 
@@ -73,6 +87,7 @@ $popover-min-width: 300px;
 $ub-module-padding: 30px;
 $ub-header-padding: 320px;
 $ub-element-padding: 15px;
+$ub-logo-padding: 40px;
 $logo-height: 30px;
 $logo-footer-width: 150px;
 $logo-title-height: 36px;
@@ -90,11 +105,15 @@ $header-img-height: 565px;
 @import "selectize.bootstrap3";
 @import "unbounded_controls";
 
-h1, h2, h3, h4, h5, .navbar-brand, hero-title, .hero-subtitle {
-	font-family: $font-family-heading;
+h1, h2 {
+  font-family: $font-family-centrocond;
 }
 
-@mixin inline-styles-overwrite($txt-color: $ub-purple, $bg-color: $ub-light-purple, $font-size: $font-size-base, $font-family: $font-family-sans-serif, $font-style: normal) {
+h3, h4, h5, .navbar-brand, hero-title, .hero-subtitle {
+	font-family: $headings-font-family;
+}
+
+@mixin inline-styles-overwrite($txt-color: $ub-txt-gray, $bg-color: white, $font-size: $font-size-base, $font-family: $font-family-sans-serif, $font-style: normal) {
   color: $txt-color!important; font-family: $font-family!important;
   font-size: $font-size!important;
   font-style: $font-style!important;
@@ -107,10 +126,23 @@ h1, h2, h3, h4, h5, .navbar-brand, hero-title, .hero-subtitle {
   color: $font-color;
 }
 
-.inline-link-styles-overwrite {
-  color: $ub-purple!important; text-decoration: none!important;
-  font-family: $font-family-sans-serif!important; font-size: $font-size-base!important;
-  &:hover, &:focus {color: darken($ub-purple, 15%)!important; text-decoration: underline!important;}
+@mixin inline-link-styles-overwrite ($font-size: $font-size-base, $color: $ub-txt-light-gray) {
+  color: $color!important; text-decoration: none!important;
+  font-family: $font-family-sans-serif!important; font-size: $font-size!important;
+  &:hover, &:focus {color: darken($color, 15%)!important; text-decoration: underline!important;}
+}
+
+a {
+  color: $ub-txt-light-gray;
+  &:hover, &:focus {
+    color: darken($ub-txt-light-gray, 15%);
+    text-decoration: underline;
+  }
+}
+
+.module-block {
+  background-color: white;
+  @include box-shadow(3px 3px 0px darken($ub-unit-bg, 10%));
 }
 
 .popover.popover-lesson {
@@ -118,36 +150,59 @@ h1, h2, h3, h4, h5, .navbar-brand, hero-title, .hero-subtitle {
   max-width: $popover-max-width;
   border-radius: 0px;
   .popover-title {
-    text-transform: uppercase; font-family: $font-family-heading;
+    text-transform: uppercase; font-family: $headings-font-family;
     color: #fff;
   }
   .popover-content {
     background-color: white;
-    color: $ub-purple;
+    color: $ub-txt-gray;
     margin: $ub-element-padding/2;
     padding-bottom: 0px;
-    .lesson-popover-breadcrumb { font-size: small; font-family: $font-family-heading;}
+    .lesson-popover-breadcrumb { font-size: small; font-family: $headings-font-family;}
     .lesson-popover-content {padding-bottom: $ub-element-padding;padding-top: $ub-element-padding;}
     .lesson-popover-cta {
       margin-left: -14px;
       margin-right: -14px;
-      .btn {background-color: $ub-light-purple; font-size: $font-size-form;}
+      .btn {background-color: $ub-light-gray; font-size: $font-size-form;}
       a {
-        &:hover, &:focus {color: $ub-purple!important;}
+        &:hover, &:focus {color: darken($ub-txt-gray, 15%)!important;}
       }
     }
   }
 }
 
 header {
+  margin-top: -2px;
   .navbar {
-    font-family: $font-family-heading;
+    .container {background-color: $ub-bg-header;}
+    font-family: $headings-font-family;
     .nav li a {
-      text-transform: uppercase;
+      //text-transform: uppercase;
+      @include set-typography($font-size-header, $ub-purple, $font-family-centropro-light);
     }
-    .navbar-form {input[name='query'] {min-width: 200px;}}
+    .nav > li {height: $navbar-height - 3px;}
+    .nav li.active { border-bottom: $ub-purple 4px solid; a {color: $ub-purple;}}
+    .navbar-brand {
+      background-color: $ub-purple;
+      height: $navbar-height - 10px;
+      margin-left: 10px!important; margin-bottom: 10px;
+      padding-top: $ub-logo-padding;
+      img {height: $logo-height;}
+      &:hover, &:focus {
+        background-color: $ub-purple;
+      }
+    }
+    .navbar-form {
+      input[name='query'] {min-width: 200px;}
+      margin-bottom: $padding-large-vertical; margin-top: $padding-large-vertical;
+      border-color: $ub-bg-header;
+    }
+    ul.dropdown-menu {
+      background-color: $ub-bg-header;
+      margin: 0px; border: none; box-shadow: none;
+      margin-top: 3px;
+    }
     margin-bottom: 0px;
-    //background: rgba(255, 255, 255, 0.8);
   }
 }
 
@@ -175,7 +230,7 @@ header {
           > label {
             @include make-md-column(6);
             padding-bottom: $ub-module-padding; padding-top: $ub-module-padding + 4px;
-            @include set-typography($font-size-sbc-tagline, $ub-txt-gray, $font-family-sans-serif);
+            @include set-typography($font-size-sbc-tagline, $ub-txt-gray, $font-family-caponi);
             font-weight: bold; text-align: center;
           }
           > div:nth-child(2) {
@@ -186,7 +241,7 @@ header {
               border-radius: 0px; background-color: transparent;
               box-shadow: none; border: none;
               font-size: $font-size-sbc-input;
-              @include ub-placeholder($ub-txt-gray, $font-family-sans-serif);
+              @include ub-placeholder($ub-txt-gray, $font-family-caponi);
             }
           }
           > div:last-child {
@@ -211,7 +266,7 @@ header {
     height: $header-img-height;
   }
   .header-module {
-    padding-top: $ub-module-padding * 6;
+    padding-top: $ub-module-padding * 6.5;
     padding-bottom: $ub-header-padding;
     .hero-text {
       float: right;
@@ -220,32 +275,68 @@ header {
       > div { padding: $ub-element-padding $ub-element-padding; display: block;}
       .hero-title {
         background-color: $ub-bg-filter-light-purple;
-        h1 {font-family: $font-family-sans-serif; font-size: 44px;}
+        h1 {font-family: $font-family-caponi; font-size: 44px;}
       }
       .hero-subtitle {
         color: $ub-yellow;
         background-color: $ub-bg-filter-purple;
-        font-family: $font-family-heading-light;
+        font-family: $font-family-centropro-light;
         font-style: italic;
         font-size: 26px;
       }
     }
   }
   .stripe-module {
-    margin-top: $ub-module-padding; margin-bottom: $ub-module-padding;
-    background-color: $ub-light-gray;
+    margin-top: $ub-module-padding;
+    border-top: 4px $ub-purple solid;
+    @extend .module-block;
+    overflow: hidden; position: relative;
     .hero-img {
-      @include make-md-column(6.5); padding-left: 0px; padding-right: 0px;
-      img { width: 100%;}
+      @include make-md-column(5.5); padding-left: 0px; padding-right: 0px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+    }
+    .hero-img-curriculum {
+      background-image: image-url('curriculum.jpg');
+      background-size: cover;
+      left: 0;
+    }
+    .hero-img-about {
+      background-image: image-url('about.jpg');
+      background-size: cover;
+      right: 0;
+    }
+    .hero-text-curriculum {
+      @include make-md-column-offset(5.5);
     }
     .hero-text {
-      h2 img {height: $logo-title-height; padding-bottom: 9px;}
-      @include make-md-column(5.5);
-      padding-bottom: $ub-element-padding;
+      padding-bottom: $ub-module-padding; padding-top: $ub-module-padding;
+      .hero-title, .hero-title a {
+        @include set-typography($font-size-hp-title, $ub-purple, $font-family-centropro);
+        text-transform: uppercase;
+        display: table;
+      }
+      .hero-title a { padding-bottom:  $ub-element-padding; border-bottom: 4px $ub-yellow solid;}
+      @include make-md-column(6.5);
+      .hero-dsc {
+        padding-top:  $ub-element-padding;
+        padding-left: 50px; padding-right: 50px;
+        @include set-typography($font-size-hp-content, $ub-txt-gray, $font-family-caponi);
+        font-weight: 300;
+        .hero-readmore{
+          a {
+            @include set-typography($font-size-hp-readmore, $ub-yellow, $font-family-centropro-light);
+            font-style: italic;
+            &:hover, &:focus, i:hover, i:focus {
+              font-weight: bold; color: $ub-yellow; text-decoration: none;
+            }
+          }
+        }
+      }
     }
   }
 }
-
 
 .lesson.lesson-empty {
   .ub-square-lesson {fill: white!important;}
@@ -294,42 +385,19 @@ header {
   fill: $ub-yellow;
 }
 
-
-
-// Subscribe:
-// Get Updates and stay connected - CaponiSlab, bold, 30px
-// 21px, Slab Regular Itallic
-
-// Footer
-// [PFCentroSansP... Light 12px
-
-// Header
-// Light 20px
-
-// Controls
-// Caponi Regulaar 25px
-// Caponi Slab 19px
-
-// Module
-// Grade Bold + Light, 32px
-// dsc - light itallic, 24px, #58595b, light 24px #949699
-// Module-unit Centro Bold, 24px
-// Unit background - #e6e6e7
-
-// Show less - 15px
-
 .search-form-page {
   .header-module {
+    margin-top: -$navbar-height;
+    padding-top: $navbar-height + $ub-module-padding * 2;
     @include gradient-horizontal($ub-bg-filter-purple, $ub-bg-filter-purple);
     background: linear-gradient($ub-bg-filter-purple, $ub-bg-filter-purple), image-url('curriculum.jpg');
     background-size: cover;
   }
   .header-module {
-    padding-top: $ub-module-padding;
     .search-form {
       @include make-md-column(12);
       form {
-        @include set-typography($font-size-form-control, white);
+        @include set-typography($font-size-form-control, white, $font-family-caponi);
         > div.form-group {
           > div {
             @include make-md-column(4, $grid-gutter-width/2);
@@ -343,8 +411,8 @@ header {
   .curriculum-map-ela {
     .curriculum-grade {border-top: 4px $ub-orange solid;}
     .curriculum-grade-title {
-      span.title { @include set-typography($font-size-grade, $ub-orange, $font-family-heading);}
-      span.subtitle { @include set-typography($font-size-grade, $ub-orange, $font-family-heading-light);}
+      span.title { @include set-typography($font-size-grade, $ub-orange, $font-family-centrocond);}
+      span.subtitle { @include set-typography($font-size-grade, $ub-orange, $font-family-centrocond-light);}
     }
     .module {
       .module-title {
@@ -366,8 +434,8 @@ header {
   .curriculum-map-math {
     .curriculum-grade {border-top: 4px $ub-green solid;}
     .curriculum-grade-title {
-      span.title { @include set-typography($font-size-grade, $ub-green, $font-family-heading);}
-      span.subtitle { @include set-typography($font-size-grade, $ub-green, $font-family-heading-light);}
+      span.title { @include set-typography($font-size-grade, $ub-green, $font-family-centrocond);}
+      span.subtitle { @include set-typography($font-size-grade, $ub-green, $font-family-centrocond-light);}
     }
     .module {
       .module-title {
@@ -390,7 +458,7 @@ header {
   .curriculum-content {
     padding-top: $ub-module-padding;
     //background-color: $ub-unit-bg;
-    @include set-typography($font-size-base-curriculum, $ub-txt-gray, $font-family-heading);
+    @include set-typography($font-size-base-curriculum, $ub-txt-gray, $font-family-centropro-light);
     .curriculum-grade {
       @include make-md-column(12, $ub-module-padding * 2);
       background-color: white; margin-bottom: $ub-module-padding * 2;
@@ -401,16 +469,18 @@ header {
       .curriculum-grade-control {
         @include make-md-column(2);
         text-align: left; padding-top: $padding-large-vertical;
-        @include set-typography($font-size-toggle, $ub-txt-light-gray, $font-family-heading-light);
-        .curriculum-grade-icon {@extend .fa-minus;}
+        @include set-typography($font-size-toggle, $ub-txt-light-gray, $font-family-centropro-light);
+        .curriculum-grade-icon {@extend .ub-icon-minus;}
       }
-      .curriculum-grade-control.collapsed {.curriculum-grade-icon {@extend .fa-plus;}}
+      .curriculum-grade-control.collapsed {.curriculum-grade-icon {@extend .ub-icon-plus;}}
       .curriculum-grade-dsc {
         @include make-md-column(10);
-        p, p span { @include inline-styles-overwrite($ub-txt-gray, white, $font-size-base-curriculum, $font-family-heading-light, italic);}
-        a {@extend .inline-link-styles-overwrite;}
+        a {@include inline-link-styles-overwrite($font-size-base-curriculum);}
+        .curriculum-grade-short-dsc{
+          p, p span { @include inline-styles-overwrite($ub-txt-gray, white, $font-size-base-curriculum, $font-family-centropro-light, italic);}
+        }
         .curriculum-grade-materials {
-          p, p span { @include inline-styles-overwrite($ub-txt-light-gray, white, $font-size-base-curriculum, $font-family-heading-light, normal);}
+          p, p span { @include inline-styles-overwrite($ub-txt-light-gray, white, $font-size-base-curriculum, $font-family-centropro-light, normal);}
         }
       }
     }
@@ -445,8 +515,8 @@ header {
         .module-title-title {@include make-md-column(12);}
         .module-title-dsc {
           @include make-md-column(10);
-          p, p span { @include inline-styles-overwrite($ub-txt-gray, white, $font-size-base-curriculum, $font-family-heading-light, italic);}
-          a {@extend .inline-link-styles-overwrite;}
+          p, p span { @include inline-styles-overwrite($ub-txt-gray, white, $font-size-base-curriculum, $font-family-centropro-light, italic);}
+          a {@include inline-link-styles-overwrite($font-size-base-curriculum);}
           a:hover, a:focus { text-decoration: none!important;}
           strong {font-weight: normal!important;}
           p {margin-bottom: 0px!important; display: inline!important;}
@@ -499,9 +569,9 @@ header {
         @include make-md-column(12, $padding-xs-horizontal * 2);
         padding-bottom: $ub-element-padding;
         .module-title-title {
-          @include set-typography($font-size-module, $ub-txt-gray, $font-family-heading);
+          @include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro);
         }
-        //font-family: $font-family-heading;
+        //font-family: $headings-font-family;
       }
       .unit {
         //@include make-md-column(4, $padding-xs-horizontal * 2);
@@ -515,7 +585,7 @@ header {
               @include make-md-column(12, $padding-xs-horizontal * 2);
               padding-bottom: $ub-element-padding;
               a {
-                @include set-typography($font-size-unit, $ub-txt-gray, $font-family-heading);
+                @include set-typography($font-size-unit, $ub-txt-gray, $font-family-centropro);
                 text-transform: uppercase;
               }
             }
@@ -713,6 +783,14 @@ header {
   }
 }
 
+.page-body {
+  @extend .module-block;
+  border-top: 4px $ub-purple solid;
+  @include make-md-column(12);
+  h1, h2 {color: $ub-purple;}
+  margin-top: $ub-module-padding; padding-bottom: $ub-module-padding;
+}
+
 footer {
   background-color: $ub-purple; color: white;
   i.fa {color: $ub-light-gray; font-size: $font-size-icon;}
@@ -736,9 +814,6 @@ footer {
   a {
     color: #fff;
     text-decoration: none;
-    &:hover{
-      color: $ub-yellow;
-    }
   }
 }
 
@@ -748,7 +823,7 @@ footer {
       line-height: 1;
       .nav li a {
         padding-bottom: 0px;
-        padding-top: ($navbar-height - $logo-height)/2 + ($logo-height - $font-size-base);
+        padding-top: $ub-logo-padding + ($logo-height - $font-size-header + 5px);
       }
     }
   }
@@ -786,7 +861,7 @@ form.inline {
 }
 
 .homepage-link:hover {
-  border-bottom: 2px solid;
+  //border-bottom: 2px solid;
   text-decoration: none;
 }
 

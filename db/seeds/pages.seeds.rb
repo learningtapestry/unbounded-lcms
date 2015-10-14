@@ -4,8 +4,8 @@ about_body = <<-HTML
 <p>We are a team of former classroom teachers, curriculum writers, school leaders, and education experts who have worked in the private, public, and non-profit sectors. We are dedicated to teacher learning and teacher growth. We know that teaching is hard work and requires excellent training, high quality materials, and meaningful support for practitioners who are continuously striving to better serve their students.</p>
 <p>We provide educators with high-quality materials and hands-on professional development to help their students achieve the learning goals set by higher standards. We empower educators to make strong instructional decisions through immersive training and access to free standards-aligned resources to adapt for their classrooms, schools and districts.</p>
 
-<h2>Staff Bios</h2>
 <hr>
+<h2>Staff Bios</h2>
 
 <h3>Kate Gerson</h3>
 <h5>Managing Partner</h5>
