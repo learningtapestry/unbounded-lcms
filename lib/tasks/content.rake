@@ -70,4 +70,9 @@ namespace :content do
   task setup_engageny: [:'db:restore_engageny', :'content:import_engageny']
 end
 
+namespace :cache do
+  desc 'Clears up Rails cache store'
+  task clear: [:environment] { Rails.cache.clear }
+end
+
 Rake::Task['test:run'].enhance ['test:content']
