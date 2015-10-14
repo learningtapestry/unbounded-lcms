@@ -137,6 +137,8 @@ namespace :content do
   task import_engageny_collections: [:boot] do
     require 'content/importers/engageny_importer'
     Content::Importers::EngagenyImporter.import_all_collections_and_related
+    Content::Importers::EngagenyImporter.fix_curriculum_maps
+    Content::Importers::EngagenyImporter.create_writing_module
   end
 
   desc 'Import all EngageNY data'

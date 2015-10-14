@@ -3,36 +3,29 @@ require 'content/search'
 
 module Unbounded
   class LobjectSearch
+    include Content::Models
+
     attr_reader :operation, :facets, :results,
       :total_hits, :total_pages, :page, :limit
 
     def initialize(params)
-      @limit = limit = 100
+      @limit = limit = params[:limit] = Integer(params[:limit]) rescue 100
       @page = page = (params[:page].try(:to_i) || 1)
 
-      if params[:query] == ''
-        params.delete(:query)
-      end
+      params = params.dup
 
-      aggregation_paths = {
-        'sources.engageny' => 'sources.engageny.active',
-        'resource_types' => 'resource_types.name.raw',
-        'grades' => 'grades.grade.raw',
-        'topics' => 'topics.name.raw',
-        'subjects' => 'subjects.name.raw',
-        'alignments' => 'alignments.name.raw'
-      }
+      params.delete(:grade) if params[:subject] == 'all'
+      params.delete(:subject) if params[:subject] == 'all'
+      params[:standards].delete('all') rescue nil
 
-      param_paths = {
-        'active' => 'sources.engageny',
-        'resource_type' => 'resource_types',
-        'grade' => 'grades',
-        'topic' => 'topics',
-        'subject' => 'subjects',
-        'alignment' => 'alignments'
-      }
+      collection_ids =
+        if (subject = params[:subject]).present? && subject != 'all'
+          LobjectCollection.curriculum_maps_for(subject)
+        else
+          LobjectCollection.curriculum_maps
+        end.map(&:id)
 
-      include_aggs = aggregation_paths.except(*(param_paths.slice(*params.keys).values))
+      standard_ids = params[:standards].kind_of?(Array) ? params[:standards].map(&:to_i) : []
 
       search_definition = Content::Search::Esbuilder.build do
         size limit
@@ -40,116 +33,65 @@ module Unbounded
 
         query do
           function_score do
-            functions << {
-              filter: {
-                nested: {
-                  path: 'collections',
-                  filter: {
-                    exists: {
-                      field: 'collections.id'
-                    }
-                  }
+            if standard_ids.any?
+              functions << {
+                script_score: {
+                  params: {
+                    ids: standard_ids
+                  },
+                  script: '_score + doc["alignments.id"].values.intersect(ids).size()'
                 }
-              },
-              boost_factor: 2
-            }
+              }
+            end
 
             query do
               filtered do
                 filter do
                   bool do
                     apply LobjectRestrictions, :restrict_lobjects
-                    
-                    if params[:active]
-                      must do
-                        nested do
-                          path 'sources.engageny'
-                          filter do
-                            term 'sources.engageny.active' => params[:active]
-                          end
+
+                    must do
+                      nested do
+                        path 'collections'
+                        filter do
+                          terms 'collections.id' => collection_ids
                         end
                       end
                     end
 
-                    if params[:resource_type]
-                      must do
-                        nested do
-                          path 'resource_types'
-                          filter do
-                            term 'resource_types.name.raw' => params[:resource_type]
-                          end
-                        end
-                      end
-                    end
-
-                    if params[:grade]
+                    if params[:grade].present?
                       must do
                         nested do
                           path 'grades'
                           filter do
-                            term 'grades.grade.raw' => params[:grade]
+                            term 'grades.id' => params[:grade]
                           end
                         end
                       end
                     end
 
-                    if params[:topic]
-                      must do
-                        nested do
-                          path 'topics'
-                          filter do
-                            term 'topics.name.raw' => params[:topic]
-                          end
-                        end
-                      end
-                    end
-
-                    if params[:subject]
-                      must do
-                        nested do
-                          path 'subjects'
-                          filter do
-                            term 'subjects.name.raw' => params[:subject]
-                          end
-                        end
-                      end
-                    end
-
-                    if params[:alignment]
+                    if standard_ids.any?
                       must do
                         nested do
                           path 'alignments'
                           filter do
-                            term 'alignments.name.raw' => params[:alignment]
+                            terms 'alignments.id' => standard_ids
                           end
                         end
                       end
-                    end  
+                    end
                   end
                 end
 
-                if params[:query]
+                if params[:query].present?
                   query do
                     bool do
                       should { match 'title' => { query: params[:query], boost: 4 } }
+                      should { match 'grade.grade.raw' => { query: params[:query], boost: 4} }
                       should { match 'description' => { query: params[:query], boost: 2 } }
                       should { match '_all' => params[:query] }
                     end
                   end
-                end
-              end
-            end
-          end
-        end
-
-        include_aggs.each do |p, f|
-          aggregation p do
-            nested do
-              path p
-              aggregation p do
-                terms do
-                  field f
-                  size 0
                 end
               end
             end
@@ -164,14 +106,6 @@ module Unbounded
       @results = operation.map(&:_source)
       @total_hits = operation.response.hits.total.to_i
       @total_pages = (@total_hits + (@limit-1))/@limit
-
-      if operation.response[:aggregations]
-        operation.response.aggregations.each do |path, agg|
-          agg[path].buckets.each do |bucket|
-            @facets[path][bucket['key']] = bucket['doc_count']
-          end
-        end
-      end
     end
   end
 end

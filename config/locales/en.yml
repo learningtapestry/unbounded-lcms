@@ -217,6 +217,10 @@ en:
         engageny: Document status
       topic: Topic
       topics: Topics
+    search:
+      index:
+        per_page: results per page
+        show: Show
     shared:
       additional_lobjects:
         title: 'Additional Materials:'

@@ -79,6 +79,10 @@ module Content
       accepts_nested_attributes_for :lobject_urls
 
       class << self
+        def by_title(title)
+          joins(:lobject_titles).where('lobject_titles.title' => title)
+        end
+
         def bulk_edit(sample, lobjects)
           before = init_for_bulk_edit(lobjects)
           after  = sample
