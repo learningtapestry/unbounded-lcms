@@ -373,6 +373,8 @@ module Content
                 mod_node.position = mod_node.parent.lobject_children.size
                 mod_node.save!
               end
+
+              curriculum_map.generate_slugs
             end
           end
         end

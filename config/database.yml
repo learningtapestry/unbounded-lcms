@@ -18,6 +18,7 @@ development:
 
 engageny:
   <<: *default
+  database: <%= ENV['ENGAGENY_DATABASE'] %>
 
 test:
   <<: *default

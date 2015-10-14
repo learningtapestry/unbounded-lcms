@@ -1,7 +1,7 @@
 module Content
   module Models
     class LobjectChild < ActiveRecord::Base
-      belongs_to :lobject_collection
+      belongs_to :lobject_collection, inverse_of: :lobject_children
       belongs_to :parent, class_name: 'Content::Models::Lobject', foreign_key: 'parent_id'
       belongs_to :child, class_name: 'Content::Models::Lobject', foreign_key: 'child_id'
 

@@ -15,7 +15,7 @@ module Content
 
       belongs_to :lobject
       belongs_to :lobject_collection_type
-      has_many :lobject_children, dependent: :destroy
+      has_many :lobject_children, dependent: :destroy, inverse_of: :lobject_collection
       alias_attribute :children, :lobject_children
 
       validates :lobject, presence: true
@@ -40,6 +40,26 @@ module Content
 
       def as_hash(root_lobject = lobject)
         build_hash(root_lobject, find_relations)
+      end
+
+      def add_child(child, parent: lobject)
+        lobject_children.build(
+          parent: parent,
+          child: child,
+          position: next_position(parent)
+        )
+      end
+
+      def last_position(parent)
+        lobject_children
+          .where(parent: parent)
+          .order(position: :desc)
+          .first
+          .try(:position)
+      end
+
+      def next_position(parent)
+        (last_position(parent) || 0) + 1
       end
       
       protected
