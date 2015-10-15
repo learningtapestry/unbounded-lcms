@@ -41,6 +41,8 @@ $font-size-base-curriculum: 18px;
 $font-size-module: 21px;
 $font-size-unit: 18px;
 $font-size-toggle: 14px;
+// Resource
+$font-size-lesson-nav: 12px;
 // Subscribe
 $font-size-sbc-tagline: 24px;
 $font-size-sbc-input: 21px;
@@ -79,7 +81,7 @@ $btn-border-radius-base: 0px;
 $btn-border-radius-large: 0px;
 $btn-border-radius-small: 0px;
 
-$popover-bg: $ub-purple;
+$popover-bg: $ub-unit-bg;
 $popover-max-width: 450px;
 $popover-min-width: 300px;
 
@@ -145,29 +147,103 @@ a {
   @include box-shadow(3px 3px 0px darken($ub-unit-bg, 10%));
 }
 
+.ela-border {border-top: 4px $ub-orange solid; }
+.math-border {border-top: 4px $ub-green solid; }
+
+.lesson.lesson-empty {
+  .ub-square-lesson {fill: white!important;}
+  .ub-cc-lesson {fill: white!important;}
+  a {pointer-events: none;}
+}
+
+.lesson, .unit-nav, .module-nav {
+  a {
+    svg {width: 100%; height: 100%;}
+  }
+}
+
+.math {
+  .lesson, .unit-nav, .module-nav {
+    a {
+      .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module  {fill: $ub-green;}
+      &:hover, .active, &:focus {
+        .ub-square-lesson, {fill: $ub-green;}
+        .ub-square-unit, .ub-square-module {fill: white; stroke: $ub-green; stroke-width: 4em;}
+        .ub-cc-lesson {fill: white;}
+      }
+    }
+  }
+  .lesson.lesson-active {
+    .ub-square-lesson {fill: $ub-green;}
+    .ub-cc-lesson {fill: white;}
+  }
+  .module .module-title a.active, .unit .unit-title a.active {color: $ub-green!important;}
+  .module .module-title, .unit .unit-title, .lesson-nav, .grade-title {
+    a:hover, a:focus {
+      color: $ub-green!important;
+      text-decoration: none;
+    }
+  }
+}
+
+.ela {
+  .lesson, .unit-nav, .module-nav {
+    a {
+      .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module  {fill: $ub-orange;}
+      &:hover, .active, &:focus {
+        .ub-square-lesson {fill: $ub-orange;}
+        .ub-square-unit, .ub-square-module {fill: white; stroke: $ub-orange; stroke-width: 4em;}
+        .ub-cc-lesson {fill: white;}
+      }
+    }
+  }
+  .lesson.lesson-active {
+    .ub-square-lesson {fill: $ub-orange;}
+    .ub-cc-lesson {fill: white;}
+  }
+  .module .module-title a.active, .unit .unit-title a.active {color: $ub-orange!important;}
+  .module .module-title, .unit .unit-title, .lesson-nav, .grade-title {
+    a:hover, a:focus {
+      color: $ub-orange!important;
+      text-decoration: none;
+    }
+  }
+}
+
+.module-nav-unit.active .ub-square-unit {
+  fill: $ub-yellow;
+}
+
 .popover.popover-lesson {
   min-width: $popover-min-width;
   max-width: $popover-max-width;
   border-radius: 0px;
   .popover-title {
-    text-transform: uppercase; font-family: $headings-font-family;
-    color: #fff;
+    text-transform: uppercase; font-family: $font-family-caponi;
+    color: $ub-txt-gray; background-color: none; border: none;
   }
   .popover-content {
     background-color: white;
     color: $ub-txt-gray;
-    margin: $ub-element-padding/2;
+    margin: $ub-element-padding/2; margin-top: 0px;
     padding-bottom: 0px;
     .lesson-popover-breadcrumb { font-size: small; font-family: $headings-font-family;}
     .lesson-popover-content {padding-bottom: $ub-element-padding;padding-top: $ub-element-padding;}
     .lesson-popover-cta {
       margin-left: -14px;
       margin-right: -14px;
-      .btn {background-color: $ub-light-gray; font-size: $font-size-form;}
+      .btn {font-size: $font-size-form;}
       a {
-        &:hover, &:focus {color: darken($ub-txt-gray, 15%)!important;}
+        color: white; font-weight: bold;
       }
     }
+    .lesson-popover-cta-ela {.btn {
+      background-color: $ub-orange;
+      &:hover, &:focus {background-color: darken( $ub-orange, 10%)!important;}
+    }}
+    .lesson-popover-cta-math {.btn {background-color: $ub-green;
+      &:hover, &:focus {background-color: darken( $ub-green, 10%)!important;}
+    }}
   }
 }
 
@@ -338,54 +414,6 @@ header {
   }
 }
 
-.lesson.lesson-empty {
-  .ub-square-lesson {fill: white!important;}
-  .ub-cc-lesson {fill: white!important;}
-  a {pointer-events: none;}
-}
-
-.lesson, .unit-nav, .module-nav {
-  a {
-    svg {width: 100%; height: 100%;}
-  }
-}
-
-.math {
-  .lesson, .unit-nav, .module-nav {
-    a {
-      .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module  {fill: $ub-green;}
-      &:hover, .active, &:focus {
-        .ub-square-lesson, .ub-square-unit, .ub-square-module {fill: $ub-green;}
-        .ub-cc-lesson {fill: white;}
-      }
-    }
-  }
-  .lesson.lesson-active {
-    .ub-square-lesson {fill: $ub-green;}
-    .ub-cc-lesson {fill: white;}
-  }
-}
-
-.ela {
-  .lesson, .unit-nav, .module-nav {
-    a {
-      .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module  {fill: $ub-orange;}
-      &:hover, .active, &:focus {
-        .ub-square-lesson, .ub-square-unit, .ub-square-module {fill: $ub-orange;}
-        .ub-cc-lesson {fill: white;}
-      }
-    }
-  }
-  .lesson.lesson-active {
-    .ub-square-lesson {fill: $ub-orange;}
-    .ub-cc-lesson {fill: white;}
-  }
-}
-
-.module-nav-unit.active .ub-square-unit {
-  fill: $ub-yellow;
-}
-
 .search-form-page {
   .header-module {
     margin-top: -$navbar-height;
@@ -410,60 +438,27 @@ header {
     }
   }
   .curriculum-map-ela {
-    .curriculum-grade {border-top: 4px $ub-orange solid;}
+    .curriculum-grade {@extend .ela-border;}
     .curriculum-grade-title {
       span.title { @include set-typography($font-size-grade, $ub-orange, $font-family-centrocond);}
       span.subtitle { @include set-typography($font-size-grade, $ub-orange, $font-family-centrocond-light);}
     }
-    .module {
-      .module-title {
-        a:hover, a:focus {
-          color: $ub-orange;
-          text-decoration: none;
-        }
-      }
-    }
-    .unit {
-      .unit-title {
-        a:hover, a:focus {
-          color: $ub-orange!important;
-          text-decoration: none;
-        }
-      }
-    }
   }
   .curriculum-map-math {
-    .curriculum-grade {border-top: 4px $ub-green solid;}
+    .curriculum-grade {@extend .math-border;}
     .curriculum-grade-title {
       span.title { @include set-typography($font-size-grade, $ub-green, $font-family-centrocond);}
       span.subtitle { @include set-typography($font-size-grade, $ub-green, $font-family-centrocond-light);}
-    }
-    .module {
-      .module-title {
-        a:hover, a:focus {
-          color: $ub-green;
-          text-decoration: none;
-        }
-      }
-    }
-    .unit {
-      .unit-title {
-        a:hover, a:focus {
-          color: $ub-green!important;
-          text-decoration: none;
-        }
-      }
     }
   }
 
   .curriculum-content {
     padding-top: $ub-module-padding;
-    //background-color: $ub-unit-bg;
     @include set-typography($font-size-base-curriculum, $ub-txt-gray, $font-family-centropro-light);
     .curriculum-grade {
       @include make-md-column(12, $ub-module-padding * 2);
-      background-color: white; margin-bottom: $ub-module-padding * 2;
-      @include box-shadow(3px 3px 0px darken($ub-unit-bg, 10%));
+      margin-bottom: $ub-module-padding * 2;
+      @extend .module-block;
       padding-top: $ub-module-padding;
       > .row {margin-bottom: $ub-element-padding;}
       .curriculum-grade-title { @include make-md-column(10); }
@@ -569,7 +564,7 @@ header {
       .module-title {
         @include make-md-column(12, $padding-xs-horizontal * 2);
         padding-bottom: $ub-element-padding;
-        .module-title-title {
+        .module-title-title, .module-title-title a  {
           @include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro);
         }
         //font-family: $headings-font-family;
@@ -706,44 +701,49 @@ header {
 
 .lesson-page {
   //background-color: $ub-light-gray;
-  padding-top: $ub-module-padding; padding-bottom: $ub-module-padding;
+  padding-top: $ub-module-padding; //padding-bottom: $ub-module-padding;
+  .sidebar-ela {
+    .grade {
+      @extend .ela-border;
+    }
+  }
+  .sidebar-math {
+    .grade {
+      @extend .math-border;
+    }
+  }
   .sidebar {
     @include make-md-column(2);
+    > .row {margin-right: 0px;}
+    .grade {
+      @include make-md-column(12, 24px);
+      @extend .module-block; padding-top: $ub-element-padding; padding-bottom: $ub-element-padding;
+      margin-bottom: $ub-element-padding;
+      .grade-title a {
+        @include set-typography($font-size-module, $ub-txt-gray, $font-family-centrocond);
+        &:hover, &:focus {text-decoration: none;}
+      }
+    }
     .module {
-      padding-bottom: $ub-element-padding;
+      margin-bottom: $ub-element-padding; padding-top: $ub-element-padding;
       @include make-md-column(12);
-      a:hover {
-        color: $ub-yellow !important;
-        text-decoration: none;
-      }
-      .active {
-        color: $ub-yellow;
-      }
-      .module-title {
-        text-transform: uppercase;
-        .module-title-grades, .module-title-module {
-          display: block;
-        }
-        .module-title-grades {
-          color: $ub-light-purple;
-          font-size: $font-size-small;
-        }
-        .module-title-module {
-          color: white;
-        }
-      }
+      @extend .module-block;
+      .module-wrapper > .row {@include make-row($padding-large-horizontal);}
       .unit {
         @include make-md-column(12, $padding-xs-horizontal * 2);
+        .unit-wrapper > .row {@include make-row(-$grid-gutter-width/2);}
       }
       .lesson-nav {
         > div.row > div {padding-bottom: $padding-base-vertical;}
-        color: white; font-size: $font-size-small;
-        a {color: white; font-size: $font-size-small; text-decoration: none;}
+        a {
+          @include set-typography($font-size-lesson-nav, $ub-txt-gray, $font-family-caponi);
+          text-decoration: none;
+        }
         div.disabled {
-          color: darken($ub-gray, 10%);
+          color: lighten($ub-txt-light-gray, 15%);
           a {
-            color: darken($ub-gray, 10%); pointer-events: none; cursor: default;
-            &:hover, &:focus {color: darken($ub-gray, 10%)!important;}
+            color: lighten($ub-txt-light-gray, 15%); pointer-events: none; cursor: default;
+            &:hover, &:focus {color: lighten($ub-txt-light-gray, 15%)!important;}
           }
         }
         .nav-module-up, .nav-module-down {
@@ -761,12 +761,15 @@ header {
       }
     }
   }
+  .lesson-content-ela {@extend .ela-border;}
+  .lesson-content-math {@extend .math-border;}
   .lesson-content {
     @include make-md-column(10); background-color: white; padding-bottom: $ub-element-padding;
+    @extend .module-block;
     h4, h5 {text-transform: uppercase;}
     .lesson-img {
       @include make-md-column(12);
-      background-image: image-url('home_background.jpeg'); background-size: cover;
+      background-image: image-url('professional_development.jpg'); background-size: cover;
       height: $lesson-img-height;
       margin-bottom: $ub-element-padding;
     }
@@ -775,9 +778,9 @@ header {
     }
     .lesson-resources {
       @include make-md-column(5.5);
-      h5 {font-weight: bold; color: $ub-purple;}
+      h5 {font-weight: bold;}
       ul.media-list {padding-top: $ub-element-padding;}
-      color: $ub-dark-bgray; a {color: $ub-dark-bgray;}
+      //color: $ub-dark-bgray; a {color: $ub-dark-bgray;}
       .lesson-inst-resources {@include make-md-column(12);}
       .lesson-dev-resources {@include make-md-column(12);}
     }

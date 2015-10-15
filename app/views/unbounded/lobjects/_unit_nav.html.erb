@@ -1,13 +1,15 @@
 <div class=unit>
   <div class=unit-wrapper>
     <div class=row>
-        <%= link_to unit_title(curriculum), unbounded_resource_path(curriculum, curriculum.current_unit), class: ['unit-title', ('active' if curriculum.current_lobject == curriculum.current_unit)] %>
+      <div class="unit-title">
+        <%= link_to unit_title(curriculum), unbounded_resource_path(curriculum, curriculum.current_unit), class: [('active' if curriculum.current_lobject == curriculum.current_unit)] %>
+      </div>
       <div class=lessons>
         <div class=row>
           <% curriculum.lessons.each do |lesson| %>
             <div class='lesson <%= 'lesson-active' if curriculum.current_lesson == lesson %>'>
               <%= link_to(unbounded_resource_path(curriculum, lesson), data: { 'lobject-id' => lesson.id }) do %>
-                <%= render 'square_svg' %>
+                <%= render partial: 'unbounded/shared/lesson_svg' %>
               <% end %>
             </div>
           <% end %>
