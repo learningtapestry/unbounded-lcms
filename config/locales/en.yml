@@ -278,7 +278,7 @@ en:
       ell_label: What % of your students are ELL?
       ell_level_label: >
         What level are your ELL students in:
-      text_label: Is there a specific text you wnat to use?
+      text_label: Is there any specific text?
   lesson_page:
     instructional_resources: Instructional resources
     related_resources: Related professional development resources

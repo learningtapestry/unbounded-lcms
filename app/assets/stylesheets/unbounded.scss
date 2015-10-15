@@ -134,6 +134,8 @@ h3, h4, h5, .navbar-brand, hero-title, .hero-subtitle {
   &:hover, &:focus {color: darken($color, 15%)!important; text-decoration: underline!important;}
 }
 
+hr.tiny {margin-bottom: $padding-base-vertical * 2; margin-top: $padding-base-vertical;}
+
 a {
   color: $ub-txt-light-gray;
   &:hover, &:focus {
@@ -536,34 +538,6 @@ header {
   }
 }
 
-.search-form {
-  @include make-md-column(12);
-  form {
-    color: white; font-size: $font-size-form;
-    div.form-group {
-      > div {
-        @include make-md-column(4, $grid-gutter-width/2);
-        .ub-group-wrapper {
-          padding: $grid-gutter-width/2 $grid-gutter-width/2;
-          background-color: $ub-bg-filter-purple;
-        }
-      }
-      > label {min-height: 50px;}
-      margin-bottom: $ub-module-padding;
-    }
-    .btn-ub {background-color: $ub-yellow; color: $ub-purple; }
-  }
-}
-
-.search-for-label {
-  color: $ub-purple;
-}
-
-.search-total {
-  color: $ub-purple;
-  text-align: right;
-}
-
 .search-form-page .curriculum-content,
 .lesson-page .sidebar {
   .module-wrapper {
@@ -637,57 +611,59 @@ header {
 
 .search-results-page {
 	//background-color: $ub-light-gray;
-  padding-bottom: $ub-module-padding;
-	.breadcrumbs-list {
+  padding-top: $ub-module-padding;
+	.search-controls {
+    background: $ub-bg-filter-purple;
+    padding-top: $ub-module-padding;
+    margin-bottom: $ub-element-padding;
 		@include make-md-column(12);
-		padding-top: $ub-element-padding; //padding-bottom: $ub-element-padding;
-	}
-	.sidebar {
-		@include make-md-column(3);
-		.sidebar-block {
-			@include make-md-column(12);
-			padding-bottom: $ub-element-padding;
-			.sidebar-block-wrapper {
-				padding-top: $ub-element-padding; padding-bottom: $ub-element-padding;
-				padding-left: $padding-base-horizontal; padding-right: $padding-base-horizontal;
-				background-color: $ub-purple; color: white;
-				.sidebar-block-content{
-					padding: $padding-base-horizontal $padding-base-vertical;
-					background-color: $ub-light-purple; color: $ub-purple;
-				}
-				h4 {text-transform: uppercase;}
-			}
-		}
-	}
-	.search-content{
-		.search-content-wrapper{
-			padding: $ub-element-padding $padding-base-horizontal;
-			background-color: white;
-			@include clearfix;
-		}
-		.search-controls {
-			@include make-md-column(12);
-			form {
-				> div.form-group {
-					> label {@include make-md-column(4); }
-					> div.search-group {@include make-md-column(6);}
-					> div:last-child {@include make-md-column(2);}
-				}
-			}
-		}
-		.search-results-content {
-			@include make-md-column(12);
-			.search-results {@include make-md-column(12);}
-			.search-pagination {@include make-md-column(12); nav {float:right}}
-			.list-description {
-        background-color: white; color: gray!important;
-        p, span {
-          @include inline-styles-overwrite(gray, white);
-          margin: 0 0 10px!important;
-          span {@include inline-styles-overwrite(gray, white);}
+    form {
+      @include set-typography($font-size-form-control, white, $font-family-caponi);
+      > div.form-filters-group {
+        > div {
+          @include make-md-column(4, $grid-gutter-width/2);
+          > label {min-height: 50px; font-size: $font-size-form-label; font-weight: normal;}
         }
+        margin-bottom: $ub-module-padding;
       }
-		}
+      > div.form-keyword-group {
+        > label { @include make-md-column-offset(0.5); @include make-md-column(3, $grid-gutter-width/2); font-size: $font-size-form-label; font-weight: normal}
+        > div {@include make-md-column(8, $grid-gutter-width/2);}
+        margin-bottom: $ub-module-padding;
+      }
+      > div.form-group:last-child {
+       > div {@include make-md-column(2); @include make-md-column-offset(5);}
+       .btn {background-color: $ub-purple; border-color: $ub-purple; font-size: $font-size-form-label; color: white; font-weight: bold;}
+       margin-bottom: 0px;
+      }
+    }
+	}
+  .search-results-content {
+    @extend .module-block;
+    padding-bottom: $ub-module-padding;
+    border-top: 4px $ub-purple solid;
+		@include make-md-column(12);
+    .breadcrumbs-list {@include make-md-column(12); padding-top: $ub-element-padding;
+      .breadcrumb {padding-left: 0px; margin-bottom: 0px;}
+    }
+    .search-total {@include make-md-column(6); }
+		.search-results {
+      @include make-md-column(12);
+      h5 a {@include set-typography($font-size-base + 2px, $ub-purple, $font-family-caponi);}
+    }
+		.search-pagination {
+      @include make-md-column(6); .pagination {margin: 0px;}
+      nav {float:right}
+    }
+    .search-pagination-bottom {@include make-md-column-offset(6);}
+		.list-description {
+      background-color: white; color: $ub-txt-gray!important;
+      p, span {
+        @include inline-styles-overwrite($ub-txt-gray, white, $font-size-small);
+        margin: 0 0 10px!important;
+        span {@include inline-styles-overwrite($ub-txt-gray, white, $font-size-small);}
+      }
+    }
 	}
 }
 
