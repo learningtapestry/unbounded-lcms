@@ -166,16 +166,14 @@ a {
   .lesson, .unit-nav, .module-nav {
     a {
       .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module  {fill: $ub-green;}
-      &:hover, .active, &:focus {
-        .ub-square-lesson, {fill: $ub-green;}
-        .ub-square-unit, .ub-square-module {fill: white; stroke: $ub-green; stroke-width: 4em;}
-        .ub-cc-lesson {fill: white;}
+      &:hover, &:focus, .active {
+        .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module {fill: darken($ub-green, 20%);}
+      //.ub-square-unit, .ub-square-module {fill: white; stroke: $ub-green; stroke-width: 4em;}
       }
     }
   }
   .lesson.lesson-active {
-    .ub-square-lesson {fill: $ub-green;}
-    .ub-cc-lesson {fill: white;}
+    .ub-square-lesson, .ub-cc-lesson {fill: darken($ub-green, 20%);}
   }
   .module .module-title a.active, .unit .unit-title a.active {color: $ub-green!important;}
   .module .module-title, .unit .unit-title, .lesson-nav, .grade-title {
@@ -186,20 +184,24 @@ a {
   }
 }
 
+.curriculum-map-math.math {
+  .lesson.lesson-active {
+    .ub-square-lesson {fill: $ub-green;}
+    .ub-cc-lesson {fill: white;}
+  }
+}
+
 .ela {
   .lesson, .unit-nav, .module-nav {
     a {
       .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module  {fill: $ub-orange;}
       &:hover, .active, &:focus {
-        .ub-square-lesson {fill: $ub-orange;}
-        .ub-square-unit, .ub-square-module {fill: white; stroke: $ub-orange; stroke-width: 4em;}
-        .ub-cc-lesson {fill: white;}
+        .ub-square-lesson, .ub-cc-lesson, ub-square-unit, .ub-square-module {fill: darken($ub-orange, 20%);}
       }
     }
   }
   .lesson.lesson-active {
-    .ub-square-lesson {fill: $ub-orange;}
-    .ub-cc-lesson {fill: white;}
+    .ub-square-lesson, .ub-cc-lesson {fill: darken($ub-orange, 20%);}
   }
   .module .module-title a.active, .unit .unit-title a.active {color: $ub-orange!important;}
   .module .module-title, .unit .unit-title, .lesson-nav, .grade-title {
@@ -207,6 +209,13 @@ a {
       color: $ub-orange!important;
       text-decoration: none;
     }
+  }
+}
+
+.curriculum-map-ela.ela {
+  .lesson.lesson-active {
+    .ub-square-lesson {fill: $ub-orange;}
+    .ub-cc-lesson {fill: white;}
   }
 }
 
@@ -769,7 +778,7 @@ header {
     h4, h5 {text-transform: uppercase;}
     .lesson-img {
       @include make-md-column(12);
-      background-image: image-url('professional_development.jpg'); background-size: cover;
+      background-image: image-url('resource_background.jpg'); background-size: cover;
       height: $lesson-img-height;
       margin-bottom: $ub-element-padding;
     }
