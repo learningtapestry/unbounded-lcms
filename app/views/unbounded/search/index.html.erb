@@ -22,36 +22,51 @@
               <div class=search-form>
                 <%= form_tag :unbounded_search, class: 'form-horizontal form-search', id: 'form-search', method: :get do %>
 
-                <div class='curriculum-search-form form-horizontal'>
+                <div class="curriculum-search-form form-horizontal" action="" method="POST" style="background-color: green">
                   <div class="form-group">
-
                     <div class="ub-group">
-                      <div class="ub-group-wrapper">
-                        <label for=""><%= t('curriculum_page.search_form.subject_label') %></label>
-                        <div class="ub-select">
-                          <%= select_tag(:subject, options_for_select(@dropdown_options.subject_options, params[:subject]), { class: 'curriculum-filter curriculum-filter-subject selectize form-control', include_blank: true }) %>
-                        </div>
+                      <label for="">1. <%= t('curriculum_page.search_form.subject_label') %></label>
+                      <div class="ub-radio curriculum-subject-selection">
+                        <% @dropdown_options.subject_options.each do |opt| %>
+                          <div class="radio">
+                            <input type="radio"
+                              name="subject"
+                              value="<%= opt.value %>"
+                              <% if params[:subject] == opt.value %> checked <% end %>
+                              id="subject-<%= opt.value %>">
+                            <label for="subject-<%= opt.value %>"><%= opt.title %></label>
+                          </div>
+                        <% end %>
                       </div>
                     </div>
-
                     <div class="ub-group">
-                      <div class="ub-group-wrapper">
-                        <label for=""><%= t('curriculum_page.search_form.grade_label') %></label>
-                        <div class="ub-select">
-                          <%= select_tag(:grade, options_for_select(@dropdown_options.grade_options, params[:grade]), { class: 'curriculum-filter curriculum-filter-grade selectize form-control', include_blank: true }) %>
-                        </div>
+                      <label for="">2. <%= t('curriculum_page.search_form.grade_label') %></label>
+                      <div class="form-group curriculum-grade-selection">
+                        <% @dropdown_options.grade_options.each_slice(2).each do |grade_group| %>
+                          <div class="col-md-6">
+                            <div class="ub-radio">
+                              <% grade_group.each do |opt| %>
+                                <div class="radio">
+                                  <input type="radio"
+                                    name="grade"
+                                    data-grade="<%= opt.grade %>"
+                                    value="<%= opt.value %>"
+                                    <% if params[:grade] == opt.value.to_s %> checked <% end %>
+                                    id="grade-<%= opt.value %>">
+                                  <label for="grade-<%= opt.value %>"><%= opt.title %></label>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        <% end %>
                       </div>
                     </div>
-
                     <div class="ub-group">
-                      <div class="ub-group-wrapper">
-                        <label for=""><%= t('curriculum_page.search_form.standard_label') %></label>
-                        <div class="ub-select">
-                          <%= select_tag(:standards, options_for_select(@dropdown_options.standard_options, params[:standards]), { class: 'curriculum-filter curriculum-filter-standard selectize form-control', include_blank: true, multiple: true }) %>
-                        </div>
+                      <label for="">3. <%= t('curriculum_page.search_form.standard_label') %></label>
+                      <div class="ub-select">
+                        <%= select_tag(:standards, options_for_select(@dropdown_options.standard_options, params[:standards]), { class: 'curriculum-filter curriculum-filter-standard selectize form-control', include_blank: true, multiple: true }) %>
                       </div>
                     </div>
-
                   </div>
                 </div>
 
