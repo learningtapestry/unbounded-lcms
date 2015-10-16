@@ -379,6 +379,51 @@ module Content
           end
         end
 
+        def create_additional_modules
+          create_module(
+            Lobject.by_title('Grade 9 English Language Arts').first,
+            'Grade 9 ELA Writing Module',
+            {
+              'Grade 9 ELA Writing Module, Unit 1 - Keep on Reading' => 20,
+              'Grade 9 ELA Writing Module, Unit 2 - Informative Writing' => 20,
+              'Grade 9 ELA Writing Module, Unit 3 - Narrative Writing' => 19
+            }
+          )
+
+          create_units(
+            Lobject.by_title('Grade 11 ELA Module 3').first,
+            {
+              'Grade 11 ELA Module 3, Unit 1' => 11,
+              'Grade 11 ELA Module 3, Unit 2' => 15,
+              'Grade 11 ELA Module 3, Unit 3' => 12
+            }
+          )
+
+          create_units(
+            Lobject.by_title('Grade 11 ELA Module 4').first,
+            {
+              'Grade 11 ELA Module 4, Unit 1' => 16,
+              'Grade 11 ELA Module 4, Unit 2' => 22
+            }
+          )
+
+          create_units(
+            Lobject.by_title('Grade 12 ELA Module 2').first,
+            {
+              'Grade 12 ELA Module 2, Unit 1' => 16,
+              'Grade 12 ELA Module 2, Unit 2' => 22
+            }
+          )
+
+          create_units(
+            Lobject.by_title('Grade 12 ELA Module 3').first,
+            {
+              'Grade 12 ELA Module 3, Unit 1' => 27,
+              'Grade 12 ELA Module 3, Unit 2' => 11
+            }
+          )
+        end
+
         def create_writing_module
           module_title = 'Grade 9 ELA Writing Module'
 
@@ -425,8 +470,56 @@ module Content
             grade_9_collection.save!
           end
         end
+
+        def create_module(grade_lobject, module_title, module_structure)
+          Lobject.transaction do
+            return unless Lobject.by_title(module_title).empty?
+
+            root_lobject = LobjectBuilder.new
+              .set_organization(Organization.unbounded)
+              .add_title(module_title)
+              .save!
+
+            grade_lobject.curriculum_map_collection.add_child(root_lobject).save!
+
+            create_units(root_lobject, module_structure)
+          end
+        end
+
+        def create_units(module_lobject, module_structure)
+          Lobject.transaction do
+            grade_collection = module_lobject.curriculum_map_collection
+
+            module_structure.each do |unit_title, lesson_count|
+              return unless Lobject.by_title(unit_title).empty?
+
+              unit = LobjectBuilder.new
+                .set_organization(Organization.unbounded)
+                .add_title(unit_title)
+                .save!
+
+              puts "#{unit.id} - #{unit.title}"
+
+              grade_collection.add_child(unit, parent: module_lobject)
+
+              lesson_count.times do |i|
+                lesson_no = i+1
+
+                lesson = LobjectBuilder.new
+                  .set_organization(Organization.unbounded)
+                  .add_title("#{unit_title}, Lesson #{lesson_no}")
+                  .save!
+
+                  puts "#{lesson.id} - #{lesson.title}"
+
+                grade_collection.add_child(lesson, parent: unit)
+              end
+            end
+
+            grade_collection.save!
+          end
+        end
       end
     end
   end
-  
 end

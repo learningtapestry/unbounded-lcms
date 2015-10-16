@@ -138,7 +138,7 @@ namespace :content do
     require 'content/importers/engageny_importer'
     Content::Importers::EngagenyImporter.import_all_collections_and_related
     Content::Importers::EngagenyImporter.fix_curriculum_maps
-    Content::Importers::EngagenyImporter.create_writing_module
+    Content::Importers::EngagenyImporter.create_additional_modules
   end
 
   desc 'Import all EngageNY data'
