@@ -71,7 +71,7 @@
         </div>
       </div>
       <% if curriculum = @lobject.unbounded_curriculum %>
-        <div class="sidebar visible-xs-block">
+        <div class="sidebar sidebar-<%= @lobject.curriculum_subject %> <%= @lobject.curriculum_subject %> visible-xs-block">
           <div class="row">
             <%= render partial: 'nav', locals: { curriculum: curriculum } %>
           </div>
