@@ -25,7 +25,7 @@ module Unbounded
       visit "/resources/#{@grade.id}"
 
       within '.left-sidebar' do
-        grade_link  = find('a.active.module-title-grades')
+        grade_link  = find('.grade-title a.active')
         assert_equal grade_link[:href], '/curriculum/ela/grade_1'
         assert_equal grade_link.text,   'Grade 1'
 
@@ -41,11 +41,11 @@ module Unbounded
       visit "/resources/#{@module1.id}"
 
       within '.left-sidebar' do
-        grade_link  = find('a.module-title-grades:not(.active)')
+        grade_link  = find('.grade-title a:not(.active)')
         assert_equal grade_link[:href], '/curriculum/ela/grade_1'
         assert_equal grade_link.text,   'Grade 1'
 
-        module_link = find('a.active.module-title-module')
+        module_link = find('.module-title a.active')
         assert_equal module_link[:href], "/resources/#{@module1.id}"
         assert_equal module_link.text,   'Module 1'
 
@@ -61,15 +61,15 @@ module Unbounded
       visit "/resources/#{@unit_1_1.id}"
 
       within '.left-sidebar' do
-        grade_link  = find('a.module-title-grades:not(.active)')
+        grade_link  = find('.grade-title a:not(.active)')
         assert_equal grade_link[:href], '/curriculum/ela/grade_1'
         assert_equal grade_link.text,   'Grade 1'
 
-        module_link = find('a.module-title-module:not(.active)')
+        module_link = find('.module-title a:not(.active)')
         assert_equal module_link[:href], "/resources/#{@module1.id}"
         assert_equal module_link.text,   'Module 1'    
 
-        unit_link = find('a.active.unit-title')
+        unit_link = find('.unit-title a.active')
         assert_equal unit_link[:href], "/resources/#{@unit_1_1.id}"
         assert_equal unit_link.text,   'Unit 1'
 
@@ -86,15 +86,15 @@ module Unbounded
       visit "/resources/#{@lesson_1_1.id}"
 
       within '.left-sidebar' do
-        grade_link  = find('a.module-title-grades:not(.active)')
+        grade_link  = find('.grade-title a:not(.active)')
         assert_equal grade_link[:href], '/curriculum/ela/grade_1'
         assert_equal grade_link.text,   'Grade 1'
 
-        module_link = find('a.module-title-module:not(.active)')
+        module_link = find('.module-title a:not(.active)')
         assert_equal module_link[:href], "/resources/#{@module1.id}"
         assert_equal module_link.text,   'Module 1'    
 
-        unit_link = find('a.unit-title:not(.active)')
+        unit_link = find('.unit-title a:not(.active)')
         assert_equal unit_link[:href], "/resources/#{@unit_1_1.id}"
         assert_equal unit_link.text,   'Unit 1'    
 
@@ -111,15 +111,15 @@ module Unbounded
       visit "/resources/#{@lesson_1_2.id}"
 
       within '.left-sidebar' do
-        grade_link  = find('a.module-title-grades:not(.active)')
+        grade_link  = find('.grade-title a:not(.active)')
         assert_equal grade_link[:href], '/curriculum/ela/grade_1'
         assert_equal grade_link.text,   'Grade 1'
 
-        module_link = find('a.module-title-module:not(.active)')
+        module_link = find('.module-title a:not(.active)')
         assert_equal module_link[:href], "/resources/#{@module1.id}"
         assert_equal module_link.text,   'Module 1'    
 
-        unit_link = find('a.unit-title:not(.active)')
+        unit_link = find('.unit-title a:not(.active)')
         assert_equal unit_link[:href], "/resources/#{@unit_1_1.id}"
         assert_equal unit_link.text,   'Unit 1'    
 
@@ -136,15 +136,15 @@ module Unbounded
       visit "/resources/#{@lesson_1_3.id}"
 
       within '.left-sidebar' do
-        grade_link  = find('a.module-title-grades:not(.active)')
+        grade_link  = find('.grade-title a:not(.active)')
         assert_equal grade_link[:href], '/curriculum/ela/grade_1'
         assert_equal grade_link.text,   'Grade 1'
 
-        module_link = find('a.module-title-module:not(.active)')
+        module_link = find('.module-title a:not(.active)')
         assert_equal module_link[:href], "/resources/#{@module1.id}"
         assert_equal module_link.text,   'Module 1'    
 
-        unit_link = find('a.unit-title:not(.active)')
+        unit_link = find('.unit-title a:not(.active)')
         assert_equal unit_link[:href], "/resources/#{@unit_1_1.id}"
         assert_equal unit_link.text,   'Unit 1'    
 
