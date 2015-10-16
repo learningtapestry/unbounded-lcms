@@ -4,22 +4,22 @@
 
     <div class="curriculum-content">
       <div class="container">
-        <div id="curriculum-resources">
-          <div class="curriculum-map curriculum-map-ela">
+        <div id="curriculum-resources" class="row">
+          <div class="curriculum-map curriculum-map-ela ela">
             <% @curriculum_roots[:ela].each do |grade| %>
-              <%= render partial: 'grade', object: grade %>    
+              <%= render partial: 'grade', object: grade %>
             <% end %>
           </div>
 
-          <div class="curriculum-map curriculum-map-math">
+          <div class="curriculum-map curriculum-map-math math">
             <% @curriculum_roots[:math].each do |grade| %>
-              <%= render partial: 'grade', object: grade %>    
+              <%= render partial: 'grade', object: grade %>
             <% end %>
           </div>
         </div>
       </div>
     </div>
-    
+
     <%= render partial: 'unbounded/shared/resource_preview' %>
 
   </div>

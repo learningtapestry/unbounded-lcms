@@ -1,0 +1,49 @@
+@font-face {
+	font-family: 'UBIcons';
+	src: font-url('ub/UBIcons.eot');
+	src: font-url('ub/UBIcons.eot#iefix') format('embedded-opentype'),
+		font-url('ub/UBIcons.ttf') format('truetype'),
+		font-url('ub/UBIcons.woff') format('woff'),
+		font-url('ub/UBIcons.svg#UBIcon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="ub-icon-"], [class*=" ub-icon-"] {
+	font-family: 'UBIcons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.ub-icon-arrow-left:before {
+	content: "\e094";
+}
+.ub-icon-arrow-right:before {
+	content: "\e095";
+}
+.ub-icon-arrow-up:before {
+	content: "\e096";
+}
+.ub-icon-arrow-down:before {
+	content: "\e097";
+}
+.ub-icon-plus:before {
+	content: "\e114";
+}
+.ub-icon-minus:before {
+	content: "\e115";
+}
+.ub-icon-cross:before {
+	content: "\e117";
+}
+.ub-icon-menu:before {
+	content: "\e120";
+}

@@ -192,9 +192,20 @@ en:
       math_lesson_label: "Lesson %{idx}"
       unit_title: "Unit %{idx}"
       module_title: "Module %{idx}"
+    grades:
+      ela:
+        grade_9: Grade 9
+        grade_10: Grade 10
+        grade_11: Grade 11
+        grade_12: Grade 12
+      math:
+        grade_9: Algebra
+        grade_10: Geometry
+        grade_11: Algebra II
+        grade_12: Precalculus
     title:
       logo: Unbounded
-      subscribe: Stay connected
+      subscribe: Get Updates and Stay Connected
       active: Document status
       age_range: Age range
       age_ranges: Age ranges
@@ -253,9 +264,10 @@ en:
     professional_development_html: >
       We help teachers make better instructional decisions by providing immersive training and free standards&ndash;aligned resources for their students.
     about_html: >
-      We are dedicated to a singular goal: helping fellow educators help their students to achieve learning goals set by higher standards
+      We are dedicated to a singular goal: helping fellow educators help their students to achieve learning goals set by higher standards.
     slogan: "Strong schools, strong students"
     tagline: Educators getting smarter together about high standards
+    readmore: Read More
   curriculum_page:
     search_form:
       grade_label: What is the grade?
@@ -266,7 +278,7 @@ en:
       ell_label: What % of your students are ELL?
       ell_level_label: >
         What level are your ELL students in:
-      text_label: Is there a specific text you wnat to use?
+      text_label: Is there any specific text?
   lesson_page:
     instructional_resources: Instructional resources
     related_resources: Related professional development resources

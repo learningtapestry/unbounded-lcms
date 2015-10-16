@@ -1,23 +1,29 @@
 <% lobject_presenter(grade.content) do |g| %>
-  <div>
-    <div class="curriculum-grade">
-      <h1 class="curriculum-grade-title"><%= g.title %></h1>
-      <div class="row">
-        <div class="curriculum-grade-control collapsed" data-toggle="collapse" data-target="#curriculum-grade-desc-<%= g.id %>" aria-expanded="false">
-          <i class="fa fa-3x curriculum-grade-icon" title="Show/hide Additional materials"></i>
-        </div>
-        <div class="curriculum-grade-dsc">
-          <div class="curriculum-grade-short-dsc"><%= g.grade_description.html_safe %></div>
-          <div class="curriculum-grade-materials collapse" aria-expanded="false" id="curriculum-grade-desc-<%= g.id %>">
-            <%= render partial: 'unbounded/shared/additional_lobjects', object: g.additional_lobjects %>
-          </div>
+  <div class="curriculum-grade">
+    <div class="row">
+      <div class="curriculum-grade-title">
+        <span class="title"><%= grade_title(g.title) %></span>
+        <span class="subtitle"><%= grade_subtitle(g.title) %></span>
+      </div>
+      <div class="curriculum-grade-control collapsed" data-toggle="collapse" data-target="#curriculum-grade-desc-<%= g.id %>" aria-expanded="false">
+        <div class="pull-right">
+          <span>SHOW MORE</span>
+          <i class="ub-icon-grade curriculum-grade-icon"></i>
         </div>
       </div>
-      <div class="row">
-        <% each_with_module_class(grade.children) do |mod, klass| %>
-          <%= render partial: 'module', locals: { mod: mod, klass: klass } %>
-        <% end %>
+    </div>
+    <div class="row">
+      <div class="curriculum-grade-dsc">
+        <div class="curriculum-grade-short-dsc"><%= g.grade_description.html_safe %></div>
+        <div class="curriculum-grade-materials collapse" aria-expanded="false" id="curriculum-grade-desc-<%= g.id %>">
+          <%= render partial: 'unbounded/shared/additional_lobjects', object: g.additional_lobjects %>
+        </div>
       </div>
+    </div>
+    <div class="row">
+      <% each_with_module_class(grade.children) do |mod, klass| %>
+        <%= render partial: 'module', locals: { mod: mod, klass: klass } %>
+      <% end %>
     </div>
   </div>
 <% end %>

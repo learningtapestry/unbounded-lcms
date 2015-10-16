@@ -9,6 +9,16 @@
 }
 
 @font-face {
+  font-family: 'PFCentroSansProLight';
+  src: font-url('centro/PFCentroSansPro-LightItalic.eot'); /* IE9 Compat Modes */
+  src: font-url('centro/PFCentroSansPro-LightItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       font-url('centro/PFCentroSansPro-LightItalic.woff') format('woff'), /* Modern Browsers */
+       font-url('centro/PFCentroSansPro-LightItalic.svg#PFCentroSansPro-LightItalic') format('svg'); /* Legacy iOS */
+  font-style: italic;
+  font-weight: normal;
+}
+
+@font-face {
   font-family: 'PFCentroSansPro';
   src: font-url('centro/PFCentroSansPro-Bold.eot'); /* IE9 Compat Modes */
   src: font-url('centro/PFCentroSansPro-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -16,6 +26,26 @@
        font-url('centro/PFCentroSansPro-Bold.svg#PFCentroSansPro-Bold') format('svg'); /* Legacy iOS */
   font-style: normal;
   font-weight: bold;
+}
+
+@font-face {
+  font-family: 'PFCentroSansCond';
+  src: font-url('centro/PFCentroSansCond-Bold.eot'); /* IE9 Compat Modes */
+  src: font-url('centro/PFCentroSansCond-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       font-url('centro/PFCentroSansCond-Bold.woff') format('woff'), /* Modern Browsers */
+       font-url('centro/PFCentroSansCond-Bold.svg#PFCentroSansCond-Bold') format('svg'); /* Legacy iOS */
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'PFCentroSansCondLight';
+  src: font-url('centro/PFCentroSansCond-Light.eot'); /* IE9 Compat Modes */
+  src: font-url('centro/PFCentroSansCond-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       font-url('centro/PFCentroSansCond-Light.woff') format('woff'), /* Modern Browsers */
+       font-url('centro/PFCentroSansCond-Light.svg#PFCentroSansCond-Light') format('svg'); /* Legacy iOS */
+  font-style: normal;
+  font-weight: normal;
 }
 
 @font-face {
@@ -64,4 +94,10 @@
   font-weight:  600;
   font-style:   normal;
   font-stretch: normal;
+}
+
+p {
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
 }

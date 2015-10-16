@@ -39,6 +39,14 @@ module Unbounded
       )
     end
 
+    def grade_title(title)
+      title.gsub(/Grade\s+\d+/, '') if title
+    end
+
+    def grade_subtitle(title)
+      " - " + title[/Grade\s+\d+/] if title[/Grade\s+\d+/]
+    end
+
     def lesson_title(title)
       title.split(',').first.gsub(/Module\s+\w+/, '') if title
     end

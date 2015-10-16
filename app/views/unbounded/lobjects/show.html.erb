@@ -13,13 +13,13 @@
     <% end %>
     <div class="row">
       <% if curriculum = @lobject.unbounded_curriculum %>
-        <div class="sidebar left-sidebar hidden-xs">
+        <div class="sidebar sidebar-<%= @lobject.curriculum_subject %> <%= @lobject.curriculum_subject %> left-sidebar hidden-xs ">
           <div class="row">
             <%= render partial: 'nav', locals: { curriculum: curriculum } %>
           </div>
         </div>
       <% end %>
-      <div class="lesson-content">
+      <div class="lesson-content lesson-content-<%= @lobject.curriculum_subject %> <%= @lobject.curriculum_subject %>">
         <div class="row">
           <div class="lesson-img"></div>
           <div class="lesson-dsc">
