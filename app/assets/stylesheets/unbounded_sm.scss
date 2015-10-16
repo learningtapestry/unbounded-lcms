@@ -187,20 +187,20 @@ $font-size-form-label: 20px;
 	  }
 	}
 
-	    .search-form {
-	      @include make-sm-column(12);
-	      form {
-	        > div.form-group {
-	          > div {
-	            @include make-sm-column(4, $grid-gutter-width/2);
-	            > label {min-height: 38px; font-size: $font-size-form-label;}
-	          }
-	        }
-	        .curriculum-grade-selection {
-	        	> div {@include make-sm-column(6, $grid-gutter-width/2);}
-	        }
-	      }
-	    }
+	    // .search-form {
+	    //   @include make-sm-column(12);
+	    //   form {
+	    //     > div.form-group {
+	    //       > div {
+	    //         @include make-sm-column(4, $grid-gutter-width/2);
+	    //         > label {min-height: 38px; font-size: $font-size-form-label;}
+	    //       }
+	    //     }
+	    //     .curriculum-grade-selection {
+	    //     	> div {@include make-sm-column(6, $grid-gutter-width/2);}
+	    //     }
+	    //   }
+	    // }
 
 	.search-results-page {
 		.search-controls {
@@ -212,6 +212,9 @@ $font-size-form-label: 20px;
 	          > label {min-height: 38px; font-size: $font-size-form-label; }
 	        }
 	      }
+	      .curriculum-grade-selection {
+	      	> div {@include make-sm-column(6, $grid-gutter-width/2);}
+	    	}
 	      > div.form-keyword-group {
 	        > label { @include make-sm-column-offset(0); @include make-sm-column(4, $grid-gutter-width/2); font-size: $font-size-form-label;}
 	        > div {@include make-sm-column(8, $grid-gutter-width/2);}

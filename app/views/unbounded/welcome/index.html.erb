@@ -8,6 +8,10 @@
 
   <div class="container page-content">
     <div class="row stripe-module">
+      <%= link_to unbounded_about_path, class: 'homepage-link visible-xs-block' do %>
+        <div class="hero-img hero-img-about">
+        </div>
+      <% end %>
       <div class="hero-text hero-text-about">
         <div class="hero-title"><%= link_to t('nav.about'), unbounded_about_path, class: 'homepage-link' %></div>
         <div class="hero-dsc">
@@ -19,7 +23,7 @@
           </div>
         </div>
       </div>
-      <%= link_to unbounded_about_path, class: 'homepage-link' do %>
+      <%= link_to unbounded_about_path, class: 'homepage-link hidden-xs' do %>
         <div class="hero-img hero-img-about">
         </div>
       <% end %>
