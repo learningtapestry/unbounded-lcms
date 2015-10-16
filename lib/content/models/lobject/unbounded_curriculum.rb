@@ -149,6 +149,18 @@ class UnboundedCurriculum
     @subject ||= (parents.last || current_node).content.curriculum_subject
   end
 
+  def resource_kind
+    if lesson?
+      :lesson
+    elsif unit?
+      :unit
+    elsif module?
+      :module
+    else
+      :grade
+    end
+  end
+
   private
     def current_unit_node
       @current_unit_node ||= begin

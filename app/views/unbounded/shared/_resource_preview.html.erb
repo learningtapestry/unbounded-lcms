@@ -10,7 +10,7 @@
     </div>
   <%% } %>
   <div class="lesson-popover-cta lesson-popover-cta-<%%= lobject_preview.curriculum_subject %>">
-    <a class="btn btn-default btn-block" href="<%%= Routes.unbounded_show_path(lobject_preview.id) %>"><%= t('ui.open_lesson') %></a>
+    <a class="btn btn-default btn-block" href="<%%= Routes.unbounded_show_path(lobject_preview.id) %>"><%%= t('ui.open_' + (lobject_preview.resource_kind || 'lesson')) %></a>
   </div>
 </script>
 
