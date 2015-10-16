@@ -221,8 +221,8 @@ a {
   }
 }
 
-.module-nav-unit.active .ub-square-unit {
-  fill: $ub-yellow;
+a.module-nav-unit.active .ub-square-unit {
+  fill: darken($ub-orange, 20%);
 }
 
 .popover.popover-lesson {
@@ -316,7 +316,7 @@ header {
           margin-bottom: 0px;
           > label {
             @include make-md-column(6);
-            padding-bottom: $ub-module-padding; padding-top: $ub-module-padding + 4px;
+            padding-bottom: $ub-module-padding; padding-top: $ub-module-padding + 8px;
             @include set-typography($font-size-sbc-tagline, $ub-txt-gray, $font-family-caponi);
             font-weight: bold; text-align: center;
           }
@@ -853,6 +853,23 @@ form.inline {
   //border-bottom: 2px solid;
   text-decoration: none;
 }
+
+@media (min-width: $screen-lg-min ){
+  .home-page {
+    .header-module {
+      .hero-wrapper {
+        @include container-fixed;
+        width: 1200px;
+        //> div {@include make-row();
+        //  > div {@include make-lg-column(6); @include make-lg-column-offset(6);}
+      }
+    }
+  }
+  .nav-lesson-right {
+    .media .media-body {padding-left: 15px;}
+  }
+}
+
 
 @import "unbounded_md";
 @import "unbounded_sm";
