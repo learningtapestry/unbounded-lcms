@@ -528,6 +528,18 @@ module Content
             lobject_description.update_column(:description, lobject_description.description.gsub(regex, ''))
           end
         end
+
+        def remove_styles_from_descriptions
+          LobjectDescription.where("description ~ '(class|style)='").each do |lobject_description|
+            doc = Nokogiri::HTML(lobject_description.description)
+            doc.css('[class], [style]').each do |node|
+              node.remove_attribute('class')
+              node.remove_attribute('style')
+            end
+            doc.xpath('//comment()').remove
+            lobject_description.update_column(:description, doc.to_s)
+          end
+        end
       end
     end
   end
