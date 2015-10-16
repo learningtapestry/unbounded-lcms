@@ -159,12 +159,25 @@ en:
           page_title: New Page
         update:
           success: Page updated successfully.
+      staff_members:
+        create:
+          success: Staff Member created successfully.
+        destroy:
+          success: Staff Member deleted successfully.
+        index:
+          new_staff_member: Add Staff Member
+          page_title: Staff Members
+        new:
+          page_title: New Staff Member
+        update:
+          success: Staff Member updated successfully.
       welcome:
         index:
           collection_types: Collection Types
           collections: Collections
           pages: Pages
           resources: Resources
+          staff_members: Staff Members
     lobjects:
       nav:
         next_lesson: Next LESSON
@@ -203,6 +216,9 @@ en:
         grade_10: Geometry
         grade_11: Algebra II
         grade_12: Precalculus
+    pages:
+      about:
+        staff_members: Staff Members
     title:
       logo: Unbounded
       subscribe: Get Updates and Stay Connected

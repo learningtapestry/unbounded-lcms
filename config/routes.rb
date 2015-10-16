@@ -42,6 +42,7 @@ Rails.application.routes.draw do
         resources :lobject_children, only: :create
         resources :lobjects, except: :show
         resources :pages, except: :show
+        resources :staff_members, except: :show
         resources :tags, only: :create
       end
 
