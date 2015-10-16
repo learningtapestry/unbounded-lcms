@@ -13,85 +13,73 @@ module Unbounded
       @page = page = (params[:page].try(:to_i) || 1)
 
       params = params.dup
-
-      params.delete(:grade) if params[:subject] == 'all'
-      params.delete(:subject) if params[:subject] == 'all'
       params[:standards].delete('all') rescue nil
 
       collection_ids =
-        if (subject = params[:subject]).present? && subject != 'all'
+        if (subject = params[:subject]).present?
           LobjectCollection.curriculum_maps_for(subject)
         else
           LobjectCollection.curriculum_maps
         end.map(&:id)
 
-      standard_ids = params[:standards].kind_of?(Array) ? params[:standards].map(&:to_i) : []
+      standard_ids = params[:standards].kind_of?(Array) ? params[:standards] : []
 
       search_definition = Content::Search::Esbuilder.build do
         size limit
         from (page - 1) * limit
 
         query do
-          function_score do
-            if standard_ids.any?
-              functions << {
-                script_score: {
-                  params: {
-                    ids: standard_ids
-                  },
-                  script: '_score + doc["alignments.id"].values.intersect(ids).size()'
-                }
-              }
+          filtered do
+            filter do
+              bool do
+                apply LobjectRestrictions, :restrict_lobjects
+
+                must do
+                  nested do
+                    path 'collections'
+                    filter do
+                      terms 'collections.id' => collection_ids
+                    end
+                  end
+                end
+
+                if params[:grade].present?
+                  must do
+                    nested do
+                      path 'grades'
+                      filter do
+                        term 'grades.id' => params[:grade]
+                      end
+                    end
+                  end
+                end
+              end
             end
 
-            query do
-              filtered do
-                filter do
-                  bool do
-                    apply LobjectRestrictions, :restrict_lobjects
-
-                    must do
+            if standard_ids.any?
+              query do
+                bool do
+                  standard_ids.each do |standard_id|
+                    should do
                       nested do
-                        path 'collections'
-                        filter do
-                          terms 'collections.id' => collection_ids
-                        end
-                      end
-                    end
-
-                    if params[:grade].present?
-                      must do
-                        nested do
-                          path 'grades'
-                          filter do
-                            term 'grades.id' => params[:grade]
-                          end
-                        end
-                      end
-                    end
-
-                    if standard_ids.any?
-                      must do
-                        nested do
-                          path 'alignments'
-                          filter do
-                            terms 'alignments.id' => standard_ids
-                          end
+                        path 'alignments'
+                        query do
+                          term 'alignments.id' => standard_id
                         end
                       end
                     end
                   end
                 end
+              end
+            end
 
-                if params[:query].present?
-                  query do
-                    bool do
-                      should { match 'title' => { query: params[:query], boost: 4 } }
-                      should { match 'grade.grade.raw' => { query: params[:query], boost: 4} }
-                      should { match 'description' => { query: params[:query], boost: 2 } }
-                      should { match '_all' => params[:query] }
-                    end
-                  end
+            if params[:query].present?
+              query do
+                bool do
+                  should { match 'title' => { query: params[:query], boost: 4 } }
+                  should { match 'grade.grade.raw' => { query: params[:query], boost: 4} }
+                  should { match 'description' => { query: params[:query], boost: 2 } }
+                  should { match '_all' => params[:query] }
                 end
               end
             end

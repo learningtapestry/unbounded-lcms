@@ -32,7 +32,7 @@ module Content
           end
 
           Elasticsearch::Model.client.bulk(body: bulk_data)
-          
+
           searchables.each do |searchable|
             searchable.__elasticsearch__.refresh_index!
           end
@@ -67,21 +67,8 @@ module Content
       module InstanceMethods
         def setup
           super
-          
-          if self.class.check_elasticsearch
-            self.class.prefix_index_names
-            self.class.create_indeces
-          else
-            skip
-          end
-        end
 
-        def teardown
-          super
-          
-          if self.class.check_elasticsearch
-            self.class.restore_original_index_names
-          end
+          skip unless self.class.check_elasticsearch
         end
       end
     end
