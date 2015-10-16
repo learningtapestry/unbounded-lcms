@@ -47,12 +47,12 @@
             <div class="form-group form-keyword-group">
               <label>4. <%= t('curriculum_page.search_form.text_label') %></label>
               <div>
-                <input type="search" class="form-control" name="query" placeholder="Search for..." value="<%= params[:query] %>">
+                <input type="search" class="form-control" id=query name="query" placeholder="Search for..." value="<%= params[:query] %>">
               </div>
             </div>
             <div class="form-group">
               <div>
-                <button class="btn btn-default btn-block" type="submit"><%= t('ui.search') %></button>
+                <button class="btn btn-default btn-block" id=search type="submit"><%= t('ui.search') %></button>
               </div>
             </div>
           <% end %>

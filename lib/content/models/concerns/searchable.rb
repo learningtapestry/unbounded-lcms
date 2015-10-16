@@ -15,6 +15,10 @@ module Content
         base.include(Elasticsearch::Model)
 
         base.instance_eval do
+          if (prefix = ENV['ELASTICSEARCH_PREFIX']).present?
+            index_name("#{prefix}_#{index_name}")
+          end
+
           @original_index_name = index_name
         end
 

@@ -14,7 +14,6 @@ module IntegrationDatabase
   module ClassMethods
     def uses_integration_database
       @integration_database = true
-      self.elasticsearch_prefix = 'integration'
     end
 
     def integration_database
@@ -29,6 +28,7 @@ module IntegrationDatabase
   def setup
     if uses_integration_database?
       establish_connection(:integration)
+      Content::Models::Lobject.index_name 'integration_content-models-lobjects'
     end
     super
   end
@@ -37,7 +37,7 @@ module IntegrationDatabase
     super
     if uses_integration_database?
       establish_connection(Rails.env.to_s)
-      self.elasticsearch_prefix = 'test'
+      Content::Models::Lobject.index_name 'test_content-models-lobjects'
     end
   end
 
