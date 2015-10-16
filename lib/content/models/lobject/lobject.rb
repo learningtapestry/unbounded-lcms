@@ -240,15 +240,17 @@ module Content
       end
 
       def curriculum_root
-        curriculum_map_collection.lobject.lobject_parents.first.parent
+        curriculum_map_collection && curriculum_map_collection.lobject.lobject_parents.first.parent
       end
 
       def curriculum_subject
-        t = curriculum_root.title
-        if t.include?('Math')
-          :math
-        elsif t.include?('ELA')
-          :ela
+        if curriculum_root
+          t = curriculum_root.title
+          if t.include?('Math')
+            :math
+          elsif t.include?('ELA')
+            :ela
+          end
         end
       end
 
