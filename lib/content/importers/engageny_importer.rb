@@ -519,6 +519,15 @@ module Content
             grade_collection.save!
           end
         end
+
+        def remove_superfluous_text_from_descriptions
+          str_regex = 'in order to assist educators with the implementation of the common core, the new york state education department provides curricular (materials|modules) in P-12 english language arts and mathematics[[:space:]]that schools and districts can adopt or adapt for local purposes\.\ '
+          regex     = /#{str_regex}/i
+
+          LobjectDescription.where('description ~* ?', str_regex).each do |lobject_description|
+            lobject_description.update_column(:description, lobject_description.description.gsub(regex, ''))
+          end
+        end
       end
     end
   end
