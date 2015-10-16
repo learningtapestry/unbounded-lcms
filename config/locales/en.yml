@@ -203,6 +203,9 @@ en:
         grade_10: Geometry
         grade_11: Algebra II
         grade_12: Precalculus
+    pages:
+      about:
+        staff_members: Staff Members
     title:
       logo: Unbounded
       subscribe: Get Updates and Stay Connected

@@ -1,0 +1,44 @@
+.aboutPage__members {
+  background: $ub-light-green-sbc;
+  font-size: 0;
+  padding: 0;
+}
+
+.aboutPage__member {
+  display: inline-table;
+  font-size: $font-size-base-curriculum;
+  width: 50%;
+
+  &:nth-child(even) {
+    .aboutPage__member__bio {
+      margin-left: -100%;
+    }
+  }
+}
+
+.aboutPage__member__toggle {
+  display: none;
+
+  &:checked {
+    & ~ * {
+      background: $ub-green-sbc;
+    }
+
+    & ~ .aboutPage__member__bio {
+      display: block;
+    }
+  }
+}
+
+.aboutPage__member__label {
+  cursor: pointer;
+  margin: 0;
+  padding: 0 13px 5px;
+  width: 100%;
+}
+
+.aboutPage__member__bio {
+  display: none;
+  padding: 13px;
+  width: 200%;  
+}
