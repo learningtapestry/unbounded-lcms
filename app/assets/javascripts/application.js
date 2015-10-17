@@ -32,7 +32,7 @@ function t(args) {
 }
 
 var ready = function() {
-  $('.selectize').selectize({ allowEmptyOption: true });
+  $('.selectize').selectize({ allowEmptyOption: true, plugins: ['remove_button'] });
   window.initializeLobjectForm();
   window.initializeLobjectList();
   window.initializeTree();
