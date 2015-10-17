@@ -24,7 +24,7 @@ module Unbounded
         wait_until_modal_hidden(selector)
       end
 
-      assert_equal find('.form-group.content_models_lobject_alignments .selectize-input.items .item').text, name
+      assert_equal find('.form-group.content_models_lobject_alignments .selectize-input.items .item').text, "#{name}×"
     end
 
     def test_create_grade
@@ -63,7 +63,7 @@ module Unbounded
           wait_until_modal_hidden(modal_selector)
         end
 
-        assert_equal find(".form-group.content_models_lobject_#{association} .selectize-input.items .item").text, name.downcase
+        assert_equal find(".form-group.content_models_lobject_#{association} .selectize-input.items .item").text, "#{name.downcase}×"
       end
 
       def wait_until_modal_hidden(selector)
