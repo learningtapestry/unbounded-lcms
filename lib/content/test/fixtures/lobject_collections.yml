@@ -2,6 +2,14 @@ easol:
   lobject: easol
   lobject_collection_type: nti
 
+ela_root_collection:
+  lobject: ela_curriculum_root
+  lobject_collection_type: curriculum_map
+
+math_root_collection:
+  lobject: math_curriculum_root
+  lobject_collection_type: curriculum_map
+
 unbounded:
   lobject: unbounded
   lobject_collection_type: curriculum_map

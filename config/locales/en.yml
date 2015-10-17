@@ -49,6 +49,16 @@ en:
         lobject_collection_type: Collection Type
       content/models/url:
         url: URL
+  devise:
+    passwords:
+      new:
+        page_title: Forgot Your Password?
+    registrations:
+      new:
+        page_title: Sign Up
+    sessions:
+      new:
+        page_title: Log In
   layouts:
     unbounded:
       admin: Administration
@@ -77,7 +87,7 @@ en:
         destroy:
           success: Collection Type deleted successfully.
         edit:
-          page_title: "Edit Collection Type #%{collection_type_id}"
+          page_title: "Edit %{collection_type} Collection Type"
         index:
           new_collection_type: Add Collection Type
           page_title: Collection Types
@@ -93,7 +103,7 @@ en:
         edit:
           add_node: Add node
           manage_lobjects: Manage Learning Objects
-          page_title: "Edit Learning Objects Collection #%{collection_id}"
+          page_title: "Edit %{collection} Collection"
         editable_tree:
           add_node: Add node
           delete_subtree: Delete subtree
@@ -101,11 +111,11 @@ en:
         index:
           items_count: Items count
           new_collection: Add Learning Objects Collection
-          page_title: Learning Objects Collections
+          page_title: Collections
         new:
-          page_title: New Learning Objects Collection
+          page_title: New Collection
         show:
-          page_title: "Learning Objects Collection #%{collection_id}"
+          page_title: "%{collection} Collection"
         update:
           success: Learning Objects Collection was updated successfully.
       lobject_bulk_edits:
@@ -121,7 +131,7 @@ en:
         destroy:
           success: "Learning Object #%{lobject_id} was deleted successfully."
         edit:
-          page_title: "Edit Learning Object #%{lobject_id}"
+          page_title: "Edit %{lobject}"
         form:
           add_download: Add Downloadable Resource
           create_alignment: Create Alignment
@@ -139,7 +149,7 @@ en:
           status: Status
           subjects: Subjects
         new:
-          page_title: New Learning Object
+          page_title: New Resource
         search_form:
           grades: Grades
           resource_types: Resource Types
@@ -151,7 +161,7 @@ en:
         destroy:
           success: Page deleted successfully.
         edit:
-          page_title: "Edit Page #%{page_id}"
+          page_title: "Edit %{page} Page"
         index:
           new_page: Add Page
           page_title: Pages
@@ -175,6 +185,7 @@ en:
         index:
           collection_types: Collection Types
           collections: Collections
+          page_title: Admin
           pages: Pages
           resources: Resources
           staff_members: Staff Members
@@ -205,6 +216,8 @@ en:
       math_lesson_label: "Lesson %{idx}"
       unit_title: "Unit %{idx}"
       module_title: "Module %{idx}"
+      index:
+        page_title: Curriculum
     grades:
       ela:
         grade_9: Grade 9
@@ -246,6 +259,7 @@ en:
       topics: Topics
     search:
       index:
+        page_title: Search
         per_page: results per page
         show: Show
     shared:
