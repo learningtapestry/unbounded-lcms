@@ -154,8 +154,7 @@ a {
 .math-border {border-top: 4px $ub-green solid; }
 
 .lesson.lesson-empty {
-  .ub-square-lesson {fill: white!important;}
-  .ub-cc-lesson {fill: white!important; background-color: white!important;}
+  .ub-cc-lesson {background-color: white!important;}
   a {pointer-events: none;}
 }
 
@@ -168,18 +167,16 @@ a {
 .math {
   .lesson, .unit-nav, .module-nav {
     a {
-      .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module  {fill: $ub-green;}
+      .ub-square-unit, .ub-square-module  {fill: $ub-green;}
       .ub-cc-lesson {background-color: $ub-green;}
       &:hover, &:focus, .active {
-        .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module {fill: darken($ub-green, 20%);}
+        .ub-square-unit, .ub-square-module {fill: darken($ub-green, 20%);}
         .ub-cc-lesson {background-color: darken($ub-green, 20%);}
-      //.ub-square-unit, .ub-square-module {fill: white; stroke: $ub-green; stroke-width: 4em;}
       }
     }
   }
   .lesson.lesson-active {
-    .ub-square-lesson, .ub-cc-lesson {fill: darken($ub-green, 20%);}
-    .ub-cc-lesson {background-color: darken($ub-green, 20%);}
+    .ub-cc-lesson { background-color: darken($ub-green, 20%);}
   }
   .module .module-title a.active, .unit .unit-title a.active {color: $ub-green!important;}
   .module .module-title, .unit .unit-title, .lesson-nav, .grade-title {
@@ -192,8 +189,7 @@ a {
 
 .curriculum-map-math.math {
   .lesson.lesson-active {
-    .ub-square-lesson {fill: $ub-green;}
-    .ub-cc-lesson {fill: white; background-color: $ub-green;}
+    .ub-cc-lesson {background-color: $ub-green;}
     a:hover .ub-cc-lesson {background-color: darken($ub-green, 20%);}
   }
 }
@@ -201,16 +197,15 @@ a {
 .ela {
   .lesson, .unit-nav, .module-nav {
     a {
-      .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module  {fill: $ub-orange;}
+      .ub-square-unit, .ub-square-module  {fill: $ub-orange;}
       .ub-cc-lesson {background-color: $ub-orange;}
       &:hover, .active, &:focus {
-        .ub-square-lesson, .ub-cc-lesson, .ub-square-unit, .ub-square-module {fill: darken($ub-orange, 20%);}
+        .ub-square-unit, .ub-square-module {fill: darken($ub-orange, 20%)!important;}
         .ub-cc-lesson {background-color: darken($ub-orange, 20%);}
       }
     }
   }
   .lesson.lesson-active {
-    .ub-square-lesson, .ub-cc-lesson {fill: darken($ub-orange, 20%);}
     .ub-cc-lesson {background-color: darken($ub-orange, 20%);}
   }
   .module .module-title a.active, .unit .unit-title a.active {color: $ub-orange!important;}
@@ -224,8 +219,7 @@ a {
 
 .curriculum-map-ela.ela {
   .lesson.lesson-active {
-    .ub-square-lesson {fill: $ub-orange;}
-    .ub-cc-lesson {fill: white; background-color: $ub-orange;}
+    .ub-cc-lesson {background-color: $ub-orange;}
     a:hover .ub-cc-lesson {background-color: darken($ub-orange, 20%);}
   }
 }

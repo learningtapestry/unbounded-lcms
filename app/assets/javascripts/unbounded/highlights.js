@@ -3,6 +3,7 @@ Unbounded.highlights = {
   fetchHighlights: function(options, callback) {
     var that = this;
 
+    $('.lesson-active').find('use').attr('xlink:href', '');
     $('.lesson-active').removeClass('lesson-active');
 
     $.ajax({
