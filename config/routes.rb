@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
 
   if ENV['CONTENT_ROOT_WEBSITE'] == 'unbounded'
+    root to: 'unbounded/browse#index'
+    
     scope module: :unbounded, as: :unbounded do
       get '/' => 'welcome#index'
       get '/about' => 'pages#show_slug', slug: 'about'
@@ -58,5 +60,4 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'unbounded/browse#index'
 end
