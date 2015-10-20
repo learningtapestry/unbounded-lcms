@@ -2,3 +2,8 @@ about:
   title: About
   body: About us
   slug: about
+
+tos:
+  body: Terms of Service
+  slug: tos
+  title: Terms of Service

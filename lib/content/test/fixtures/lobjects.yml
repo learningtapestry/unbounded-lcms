@@ -1,11 +1,17 @@
+easol:
+  organization: easol
+
+ela_curriculum_root:
+  organization: unbounded
+
 lr:
   organization_id:
 
 lr2:
   organization_id:
 
-easol:
-  organization: easol
+math_curriculum_root:
+  organization: unbounded
 
 no_organization:
   organization_id:

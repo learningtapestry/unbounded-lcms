@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><%= content_for?(:title) ? yield(:title) : t('unbounded.browser') %></title>
+    <title><%= page_title %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('unbounded.browser') %>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= render partial: 'unbounded/shared/favicon' %>

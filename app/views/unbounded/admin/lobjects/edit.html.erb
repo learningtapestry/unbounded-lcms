@@ -1,5 +1,9 @@
+<% title = t('.page_title', lobject: @lobject.title) %>
+
+<% set_page_title title %>
+
 <div class=nc-content>
-  <h2 class=text-center><%= t('.page_title', lobject_id: @lobject.id) %></h2>
+  <h2 class=text-center><%= title %></h2>
 
   <%= render 'form' %>
 </div>

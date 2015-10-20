@@ -2,6 +2,14 @@ easol_cats:
   lobject: easol
   title: Cats
 
+ela_curriculum_root:
+  lobject: ela_curriculum_root
+  title: ELA Curriculum Map
+  
+math_curriculum_root:
+  lobject: math_curriculum_root
+  title: Math Curriculum Map
+
 no_organization_tea:
   lobject: no_organization
   title: Tea

@@ -1,5 +1,9 @@
+<% title = t('.page_title', collection_type: @collection_type.name) %>
+
+<% set_page_title title %>
+
 <div class=nc-content>
-  <h2 class=text-center><%= t('.page_title', collection_type_id: @collection_type.id) %></h2>
+  <h2 class=text-center><%= title %></h2>
 
   <%= render 'form' %>
 </div>

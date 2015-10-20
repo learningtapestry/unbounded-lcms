@@ -1,5 +1,9 @@
+<% title = t('.page_title', collection: @collection.lobject.title) %>
+
+<% set_page_title title %>
+
 <div class=nc-content>
-  <h2 class=text-center><%= t('.page_title', collection_id: @collection.id) %></h2>
+  <h2 class=text-center><%= title %></h2>
 
   <%= simple_form_for @collection, url: unbounded_admin_collection_path(@collection) do |f| %>
     <%= f.association :lobject_collection_type, as: :select %>
