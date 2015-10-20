@@ -14,3 +14,5 @@ Rails.application.config.assets.precompile += [
   'i18n.js',
   'translations.js'
 ]
+
+Rails.application.config.assets.paths << "#{Rails.root}/public/javascripts"
