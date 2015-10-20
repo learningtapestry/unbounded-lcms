@@ -1,8 +1,9 @@
 class LobjectPreviewSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :curriculum_subject, :resource_kind
+  include TruncateHtmlHelper
 
   def description
-    object.description.truncate(300, separator: ' ') if object.description
+    truncate_html(object.description, length: 300) if object.description
   end
 
   def resource_kind
