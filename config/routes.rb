@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
 
   if ENV['CONTENT_ROOT_WEBSITE'] == 'unbounded'
-    root to: 'unbounded/browse#index'
+    root to: 'unbounded/welcome#index'
     
     scope module: :unbounded, as: :unbounded do
       get '/' => 'welcome#index'
