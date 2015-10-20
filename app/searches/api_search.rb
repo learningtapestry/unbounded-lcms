@@ -37,7 +37,6 @@ class ApiSearch
           filter do
             bool do
               must { term 'hidden' => false }
-              must { term 'has_lr_source' => true }
 
               if params['language']
                 must do

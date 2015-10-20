@@ -13,8 +13,7 @@ class ApiController < ApplicationController
   def show_alignments
     options = {
       entity: Alignment,
-      join_entity: LobjectAlignment,
-      source_type: SourceDocument.source_types[:lr]
+      join_entity: LobjectAlignment
     }
 
     @results = ApiResourceCount.new(params, options) do |query|
@@ -41,8 +40,7 @@ class ApiController < ApplicationController
   def show_subjects
     options = {
       entity: Subject,
-      join_entity: LobjectSubject,
-      source_type: SourceDocument.source_types[:lr]
+      join_entity: LobjectSubject
     }
 
     @results = ApiResourceCount.new(params, options) do |query|
@@ -61,8 +59,7 @@ class ApiController < ApplicationController
   def show_identities
     options = {
       entity: Identity,
-      join_entity: LobjectIdentity,
-      source_type: SourceDocument.source_types[:lr]
+      join_entity: LobjectIdentity
     }
 
     @results = ApiResourceCount.new(params, options) do |query|

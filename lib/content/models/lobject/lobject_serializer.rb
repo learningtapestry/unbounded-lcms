@@ -17,6 +17,7 @@ module Content
           grades: grades,
           has_engageny_source: has_engageny_source,
           has_lr_source: has_lr_source,
+          has_easol_source: has_easol_source,
           identities: identities,
           languages: languages,
           resource_locators: resource_locators,
@@ -93,6 +94,10 @@ module Content
 
       def has_lr_source
         lobject.documents.map(&:source_document).any? { |source_doc| source_doc.lr? }
+      end
+
+      def has_easol_source
+        lobject.organization == Organization.easol
       end
 
       def languages

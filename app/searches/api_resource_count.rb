@@ -4,7 +4,7 @@ require 'content/search'
 class ApiResourceCount
   attr_reader :results
 
-  def initialize(params, entity:, join_entity:, source_type:)
+  def initialize(params, entity:, join_entity:)
     limit = params[:limit].try(:to_i) || 100
     page = params[:page].try(:to_i) || 1
     entity_name = entity.table_name.singularize.to_sym
@@ -13,8 +13,6 @@ class ApiResourceCount
     query = join_entity
     .select(entity_id, :lobject_id)
     .joins(entity_name)
-    .joins(lobject: { lobject_documents: { document: :source_document } })
-    .where('source_documents.source_type' => source_type)
     .group(entity_id, :lobject_id)
 
     query = yield query if block_given?
