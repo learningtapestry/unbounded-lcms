@@ -287,10 +287,14 @@ en:
     save: Save
     subscribe: Subscribe
     search: Search
-    open_lesson: Open this Lesson
-    open_module: Open this Module
-    open_unit: Open this Unit
-    open_grade: Open this Grade
+    open_ela_lesson: Open this Lesson
+    open_ela_module: Open this Module
+    open_ela_unit: Open this Unit
+    open_ela_grade: Open this Grade
+    open_math_lesson: Open this Lesson
+    open_math_module: Open this Module
+    open_math_unit: Open this Topic
+    open_math_grade: Open this Grade
   home_page:
     curriculum_html: >
       We offer teachers a comprehensive Standards&ndash;aligned library of free education resources, built on years of experience creating widely adopted OER curriculum and professional development materials.
