@@ -112,7 +112,7 @@ class PageTitlesTestCase < IntegrationTestCase
 
   def test_home_page
     visit '/'
-    assert_page_title 'Unbounded Content Browser'
+    assert_page_title 'UnboundEd'
   end
 
   def test_resource_page

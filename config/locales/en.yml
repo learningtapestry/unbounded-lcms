@@ -204,7 +204,6 @@ en:
         up_link: "Previous %{title}"
       sidebar_down_nav:
         down_link: "Next %{title}"
-    browser: Unbounded Content Browser
     curriculum:
       ela: English Language Arts
       math: Mathematics
@@ -218,6 +217,7 @@ en:
       module_title: "Module %{idx}"
       index:
         page_title: Curriculum
+    default_title: UnboundEd
     grades:
       ela:
         grade_9: Grade 9

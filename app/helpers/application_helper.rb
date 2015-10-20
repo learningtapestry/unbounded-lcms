@@ -9,10 +9,8 @@ module ApplicationHelper
       content_for(:page_title)
     else
       controller = controller_path.gsub('/', '.')
-      t("#{controller}.#{action_name}.page_title")
+      t("#{controller}.#{action_name}.page_title", default: t('unbounded.default_title'))
     end
-  rescue I18n::MissingTranslationData
-    t('unbounded.browser')
   end
 
   def set_page_title(title)
