@@ -356,7 +356,7 @@ DEPENDENCIES
   shoulda
   simple_form
   spring
-  truncate_html
+  truncate_html (~> 0.9.3)
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
