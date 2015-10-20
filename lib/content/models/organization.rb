@@ -12,6 +12,10 @@ module Content
       def self.lt
         find_or_create_by!(name: 'LearningTapestry')
       end
+
+      def self.easol
+        find_or_create_by!(name: 'EASOL')
+      end
     end
   end
 end
