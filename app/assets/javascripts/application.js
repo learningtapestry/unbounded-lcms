@@ -38,6 +38,7 @@ var ready = function() {
   window.initializeTree();
   window.initializeCurriculum();
   window.initializeResource();
+  svg4everybody();
 };
 
 $(document).ready(ready);

@@ -43,6 +43,7 @@
       _.each(alignment.highlights, function(highlight) {
         if (highlight in Lessons) {
           $(Lessons[highlight]).addClass('lesson-active');
+          $(Lessons[highlight]).find('use').attr('xlink:href', svg_lesson_cc);
         }
       });
     });
@@ -85,6 +86,7 @@
     var selectize = getSelectize(getStandardDropdown());
     selectize.on('change', function(newVal) {
       if (_.includes(newVal, 'all')) {
+        $('.lesson-active').find('use').attr('xlink:href', '');
         $('.lesson-active').removeClass('lesson-active');
         selectize.setValue([], true);
         selectize.close();
