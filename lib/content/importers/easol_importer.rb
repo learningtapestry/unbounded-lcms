@@ -43,6 +43,12 @@ module Content
             end
           end
 
+          if row[7].present?
+            row[7].split(',').each do |res|
+              builder.add_resource_type(ResourceType.normalize_name(res.strip))
+            end
+          end
+
           builder.save!
         end
 
