@@ -20,11 +20,6 @@ staff_members = [
     position: 'Chief Academic Officer for Mathematics'
   },
   {
-         bio: 'Kristine Cole is an expert in adult learning and Common Core implementation. She is a former mathematics coach at Indian River Central School District and mathematics teacher in Copenhagen Central School District in New York. As the Director of Professional Development, Kristine leads the calibration and training of all coaches and staff to ensure high-quality learning experiences at the Standards Institutes. Kristine was also a Fellow for Educator Engagement with the Regents Research Fund, where she designed eleven New York State Network Team Institutes that provided differentiated sessions for teachers, school leaders, district and regional educators on Common Core K-12 ELA and mathematics curriculum implementation. Kristine also led professional development programs across 14 districts in New York State.',
-        name: 'Kristine Cole',
-    position: 'Director of Professional Development'
-  },
-  {
          bio: 'Kristen Ehlman is a national expert in school leadership with more than 25 years of experience as an educator. Kristen began her career as an elementary and middle school teacher in Maryland. As the Director of Leadership, Kristen designs and conducts professional development sessions focused on school and district leadership, change management, and effective implementation strategies. Most recently, Kristen served as the National Director of Principal Support at New Leaders, a national non-profit that develops transformational school leaders. Kristen was also a Staff Development Specialist in Montgomery County Public Schools, and trained teachers and administrators in Ukraine for Step By Step, a non-profit organization that promotes democratic education reform in the newly formed democracies around the world. She is a certified Facilitative Leadership affiliate trainer for the Interaction Institute for Social Change in Boston.',
         name: 'Kristen Ehlman',
     position: 'Director of Leadership'
@@ -68,11 +63,6 @@ staff_members = [
          bio: 'Ha My Vu is an experienced education researcher who began her career as a middle school mathematics teacher in Philadelphia and New York City. As the Director of Evaluation, Ha My leads the development and analysis of the effectiveness and impact of the organization’s professional development, coaching, and virtual learning services. Previously, Ha My was a Fellow for Teacher and Leader Effectiveness at the Regents Research Fund, where she oversaw data analysis and policy recommendations about the implementation of the Annual Professional Performance Review and the Common Core State Standards. Ha My was also the Research Director at the New York City Department of Education, where she led multiple projects to collect, analyze, and report human capital data to the DOE community, the broader education community, and the public.',
         name: 'Ha My Vu',
     position: 'Director of Evaluation'
-  },
-  {
-         bio: 'Jason Wells is experienced in designing and operationalizing learning experiences for teachers and school leaders. As the Director of Events and Operations, he manages all logistics and operations for the Standards Institutes. Prior, Jason was a Fellow for Educator Engagement at the Regents Research Fund, where he was the Project Manager for the development of the K-12 Common Core ELA and mathematics curricula. There, he also served as a Special Project Manager to the Commissioner of Education. Jason was the Director of Principal Support at New Leaders, a national nonprofit that develops transformational school leaders, and was responsible for leading the design and implementation of two new programs, the Aspiring Principals and Principal Institute programs.',
-        name: 'Jason Wells',
-    position: 'Director of Events and Operations'
   }
 ]
 
