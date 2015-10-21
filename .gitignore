@@ -32,4 +32,4 @@
 /public/assets
 
 # Ignore generated JS files
-/public/javascripts/translations.js
+/app/assets/javascripts/translations.js
