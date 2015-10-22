@@ -9,7 +9,8 @@
         html: true,
         content: I18n.t('ui.loading'),
         template: $('#popover-template').html(),
-        container: 'body'
+        container: 'body',
+        placement: 'auto right'
       }).popover('show');
     }
   }
