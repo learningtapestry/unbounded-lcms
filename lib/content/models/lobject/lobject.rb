@@ -317,6 +317,8 @@ module Content
           indexes :collections, type: :nested do
           end
 
+          indexes :curriculum_title, type: :string, search_analyzer: :lobjects_analyzer
+
           indexes :description, type: :string, search_analyzer: :lobjects_analyzer
 
           indexes :downloads, type: :nested do
