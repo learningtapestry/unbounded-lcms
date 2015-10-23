@@ -22,7 +22,7 @@ module Unbounded
           LobjectCollection.curriculum_maps
         end.map(&:id)
 
-      standard_ids = params[:standards].kind_of?(Array) ? params[:standards] : []
+      standard_ids = params[:standard_ids].kind_of?(Array) ? params[:standard_ids] : []
 
       search_definition = Content::Search::Esbuilder.build do
         size limit
@@ -43,12 +43,12 @@ module Unbounded
                   end
                 end
 
-                if params[:grade].present?
+                if params[:grade_id].present?
                   must do
                     nested do
                       path 'grades'
                       filter do
-                        term 'grades.id' => params[:grade]
+                        term 'grades.id' => params[:grade_id]
                       end
                     end
                   end
