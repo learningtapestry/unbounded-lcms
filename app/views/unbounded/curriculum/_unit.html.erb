@@ -4,7 +4,7 @@
       <div class="row">
         <div class="unit-title">
           <div>
-            <%= link_to(unit_node_title(unit), unbounded_show_path(unit.content.id), data: { 'lobject-id' => unit.content.id }) %>
+            <%= link_to(unit_node_title(unit), unbounded_resource_path(unit.content), data: { 'lobject-id' => unit.content.id }) %>
           </div>
         </div>
         <div class="lessons">

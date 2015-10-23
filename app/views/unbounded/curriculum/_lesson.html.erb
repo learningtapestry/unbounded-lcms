@@ -1,5 +1,5 @@
 <div class="lesson" data-lobject-id="<%= lesson.content.id %>">
-  <%= link_to(unbounded_show_path(lesson.content.id)) do %>
+  <%= link_to(unbounded_resource_path(lesson.content)) do %>
     <%= render partial: 'unbounded/shared/lesson_svg' %>
   <% end %>
 </div>

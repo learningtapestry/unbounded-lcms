@@ -61,7 +61,7 @@
                           <i class="fa fa-2x file-<%= resource_icon(related_lobject) %>"></i>
                         </div>
                         <div class="media-body lobject-related-resource">
-                          <%= link_to(related_lobject.title, unbounded_show_path(id: related_lobject.id)) %> (<%= related_resource_type(related_lobject) %>)
+                          <%= link_to(related_lobject.title, unbounded_resource_path(related_lobject)) %> (<%= related_resource_type(related_lobject) %>)
                         </div>
                       </li>
                     <% end %>
