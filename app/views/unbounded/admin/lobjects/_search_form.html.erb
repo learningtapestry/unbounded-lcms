@@ -1,4 +1,4 @@
-<%= simple_form_for @q, url: :unbounded_admin_lobjects, html: { class: 'form-inline well', method: :get } do |f| %>
+<%= simple_form_for @q, url: :unbounded_admin_lobjects, html: { class: 'form-inline well admin-lobject-search', method: :get } do |f| %>
 
   <%= f.input :lobject_grades_grade_id_in, as: :select, collection: Content::Models::Grade.all, input_html: { class: 'selectize lobject-search-select', multiple: true }, label: t('.grades'), label_method: :grade, required: false, wrapper_html: { class: 'lobject-search-wrap' } %>
 
