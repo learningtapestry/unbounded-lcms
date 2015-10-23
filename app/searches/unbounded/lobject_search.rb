@@ -53,19 +53,13 @@ module Unbounded
                     end
                   end
                 end
-              end
-            end
 
-            if standard_ids.any?
-              query do
-                bool do
-                  standard_ids.each do |standard_id|
-                    should do
-                      nested do
-                        path 'alignments'
-                        query do
-                          term 'alignments.id' => standard_id
-                        end
+                if standard_ids.any?
+                  must do
+                    nested do
+                      path 'alignments'
+                      filter do
+                        terms 'alignments.id' => standard_ids
                       end
                     end
                   end

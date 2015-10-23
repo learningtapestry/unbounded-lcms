@@ -19,13 +19,11 @@ module Unbounded
         end
       end
 
-      (9..12).each do |g|
-        should do
-          nested do
-            path 'grades'
-            filter do
-              term 'grades.grade.raw' => "grade #{g}"
-            end
+      must do
+        nested do
+          path 'grades'
+          filter do
+            terms 'grades.grade.raw' => ['grade 9', 'grade 10', 'grade 11', 'grade 12']
           end
         end
       end
