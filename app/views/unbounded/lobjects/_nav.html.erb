@@ -10,7 +10,7 @@
       <div class="module-title">
         <% if curriculum.current_module_node %>
           <div class="module-title-title">
-            <%= link_to module_node_title(curriculum.current_module_node), unbounded_resource_path(curriculum, curriculum.current_module), class: [('active' if curriculum.module?)] %>
+            <%= link_to module_node_title(curriculum.current_module_node), unbounded_resource_path(curriculum.current_module, curriculum), class: [('active' if curriculum.module?)] %>
           </div>
         <% end %>
       </div>

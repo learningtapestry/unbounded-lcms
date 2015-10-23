@@ -258,6 +258,10 @@ module Content
         lobject_slugs.find_by(lobject_collection_id: collection.id).try(:value)
       end
 
+      def slug
+        lobject_slugs.first.try(:value)
+      end
+
       # ElasticSearch.
       include Searchable
       include Searchable::Callbacks

@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       get '/professional_development' => 'pages#show_slug', as: :pd, slug: 'professional_development'
       get '/resources/:id/preview' => 'lobjects#preview', as: 'resource_preview'
       get '/resources/:id' => 'lobjects#show', as: :show
-      get '/resources/*slug' => 'lobjects#show'
+      get '/resources/*slug' => 'lobjects#show', as: :show_with_slug
       get '/search' => 'search#index'
       get '/tos' => 'pages#show_slug', as: :tos_page, slug: 'tos'
 

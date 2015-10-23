@@ -22,6 +22,7 @@ module Content
           languages: languages,
           resource_locators: resource_locators,
           resource_types: resource_types,
+          slug: slug,
           sources: sources,
           subjects: subjects,
           title: title,
@@ -132,6 +133,10 @@ module Content
         .resource_types
         .uniq
         .as_json(only: [:id, :name])
+      end
+
+      def slug
+        lobject.slug
       end
 
       def sources
