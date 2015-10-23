@@ -44,7 +44,7 @@
                           <i class="fa fa-2x file-<%= file_icon(attachment_content_type(download)) %>"></i>
                         </div>
                         <div class="media-body">
-                          <%= link_to(download.title, attachment_url(download), target: '_blank') %>
+                          <%= link_to(download.title, attachment_url(download), target: '_blank', class: 'resource-attachment') %>
                         </div>
                       </li>
                     <% end %>
