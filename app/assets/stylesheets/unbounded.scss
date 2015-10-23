@@ -881,3 +881,18 @@ form.inline {
 .curriculum-search-form input[type=radio] {
     cursor: pointer;
 }
+
+.curriculum-grade {
+    .collapsed .show-ctrl{
+        display: initial;
+    }
+    .collapsed .hide-ctrl{
+        display: none;
+    }
+    .show-ctrl {
+        display: none;
+    }
+    .hide-ctrl {
+        display: initial;
+    }
+}
