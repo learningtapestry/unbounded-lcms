@@ -2,7 +2,7 @@
   <div class=unit-wrapper>
     <div class=row>
       <div class="unit-title">
-        <%= link_to unit_title(curriculum), unbounded_resource_path(curriculum.current_unit, curriculum), class: [('active' if curriculum.current_lobject == curriculum.current_unit)] %>
+        <%= link_to unit_title(curriculum), unbounded_resource_path(curriculum.current_unit, curriculum), class: [('active' if curriculum.current_lobject == curriculum.current_unit)], data: { 'lobject-id' => curriculum.current_unit.id } %>
       </div>
       <div class=lessons>
         <div class=row>
