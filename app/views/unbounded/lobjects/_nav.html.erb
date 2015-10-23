@@ -36,14 +36,14 @@
 
         <% if curriculum.unit? %>
           <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_module, title: 'module' } %>
-          <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, next_obj: curriculum.next_unit, title: 'unit' } %>
+          <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, next_obj: curriculum.next_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit") } %>
           <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_module, title: 'module' } %>
         <% end %>
 
         <% if curriculum.lesson? %>
-          <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, title: 'unit' } %>
+          <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit") } %>
           <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_lesson, next_obj: curriculum.next_lesson, title: 'lesson' } %>
-          <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_unit, title: 'unit' } %>
+          <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit") } %>
         <% end %>
       </div>
     </div>
