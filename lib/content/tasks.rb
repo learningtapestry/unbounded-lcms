@@ -138,7 +138,13 @@ namespace :content do
     require 'content/importers/engageny_importer'
     Content::Importers::EngagenyImporter.import_all_collections_and_related
     Content::Importers::EngagenyImporter.fix_curriculum_maps
+    Content::Importers::EngagenyImporter.create_writing_module
     Content::Importers::EngagenyImporter.create_additional_modules
+    Content::Importers::EngagenyImporter.import_non_canonical_urls
+    Content::Importers::EngagenyImporter.import_additional_lobjects
+    Content::Importers::EngagenyImporter.remove_superfluous_text_from_descriptions
+    Content::Importers::EngagenyImporter.remove_styles_from_descriptions
+    Content::Importers::EngagenyImporter.update_engageny_lobjects
   end
 
   desc 'Import all EngageNY data'
