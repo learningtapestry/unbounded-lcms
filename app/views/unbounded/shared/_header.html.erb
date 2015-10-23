@@ -15,6 +15,7 @@
           <%= nav_link t('nav.curriculum'), unbounded_curriculum_path %>
           <%= nav_link t('nav.professional_development'), unbounded_pd_path, style: "display: none" %>
           <%= nav_link t('nav.about'), unbounded_about_path %>
+          <% if false %>
           <li class="visible-xs-block">
             <form action="<%= unbounded_search_path %>" class="navbar-form" role="search">
               <div class="form-group">
@@ -44,6 +45,7 @@
               </li>
             </ul>
           </li>
+          <% end %>
         </ul>
       </div>
     </div>
