@@ -83,20 +83,20 @@ module Unbounded
     end
 
     def sidebar_nav_link(curriculum, link_obj)
-      link_obj.present? ? unbounded_resource_path(curriculum, link_obj) : '#'
+      link_obj.present? ? unbounded_resource_path(link_obj, curriculum) : '#'
     end
 
     def lobject_presenter(lobject)
       yield LobjectPresenter.new(lobject)
     end
 
-    def unbounded_resource_path(curriculum, resource)
-      slug = resource.slug_for_collection(curriculum.collection)
+    def unbounded_resource_path(resource, curriculum = nil)
+      slug = curriculum ? resource.slug_for_collection(curriculum.collection) : resource.slug
 
       if slug
-        "/resources/#{slug}"
+        unbounded_show_with_slug_path(slug)
       else
-        unbounded_show_path(resource)
+        unbounded_show_path(resource.id)
       end
     end
 

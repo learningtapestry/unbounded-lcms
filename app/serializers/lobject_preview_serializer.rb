@@ -1,5 +1,5 @@
 class LobjectPreviewSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :curriculum_subject, :resource_kind
+  attributes :id, :title, :description, :curriculum_subject, :resource_kind, :slug
   include TruncateHtmlHelper
 
   def description

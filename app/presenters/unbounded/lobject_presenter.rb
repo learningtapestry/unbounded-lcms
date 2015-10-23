@@ -5,6 +5,7 @@ module Unbounded
 
     include Content::Models
     include Rails.application.routes.url_helpers
+    include Unbounded::LobjectHelper
 
     def description
       html_description_body.to_html
@@ -61,10 +62,10 @@ module Unbounded
         href = "/#{href}" unless href.start_with?('/')
 
         url = Url.find_by(url: "https://www.engageny.org#{href}").canonical
-        lobject_id = LobjectUrl.where(url: url).first.try(:lobject_id)
+        lobject = LobjectUrl.where(url: url).first.try(:lobject)
 
-        if lobject_id
-          unbounded_show_path(id: lobject_id)
+        if lobject
+          unbounded_resource_path(lobject)
         else
           "https://www.engageny.org#{href}"
         end

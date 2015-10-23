@@ -3,8 +3,8 @@
     <h5>
       <% if lobject.sources.engageny && lobject.sources.engageny.any? { |source| !source.active } %>
       <strong>Not active</strong>
-      <% end %>
-      <%= link_to(lobject.title, unbounded_show_path(id: lobject.id)) %>
+      <% end %>      
+      <%= link_to lobject.title, unbounded_resource_path(lobject) %>
     </h5>
     <div class="list-description">
       <%= truncate_html(lobject.description.try(:html_safe), length: 150) %>
