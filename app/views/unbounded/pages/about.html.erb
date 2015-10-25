@@ -15,11 +15,11 @@
             <% member_id = "member_#{member.id}"%>
             <li class=aboutPage__member>
               <input class=aboutPage__member__toggle id=<%= member_id %> name=member-toggle type=radio>
-              <span class=aboutPage__member__close title='<%= t('ui.close') %>'>×</span>
 
               <%= label_tag member_id, class: 'aboutPage__member__label' do %>
                 <h3 class=aboutPage__member__name><%= member.name %></h3>
                 <div class=aboutPage__member__position><%= member.position %></div>
+                <span class=aboutPage__member__close title='<%= t('ui.close') %>'>×</span>
               <% end %>
 
               <div class=aboutPage__member__bio><%= member[:bio] %></div>

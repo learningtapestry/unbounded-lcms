@@ -7,7 +7,6 @@
 .aboutPage__member {
   display: inline-table;
   font-size: $font-size-base-curriculum;
-  position: relative;
   width: 50%;
 
   &:nth-child(even) {
@@ -26,7 +25,7 @@
     }
 
     & ~ .aboutPage__member__bio,
-    & ~ .aboutPage__member__close {
+    & ~ .aboutPage__member__label .aboutPage__member__close {
       display: block;
     }
   }
@@ -43,10 +42,15 @@
   top: 0;
 }
 
+.no-js .aboutPage__member__close {
+  display: none !important;
+}
+
 .aboutPage__member__label {
   cursor: pointer;
   margin: 0;
   padding: 0 13px 5px;
+  position: relative;
   width: 100%;
 }
 
