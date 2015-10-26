@@ -81,9 +81,8 @@ module Unbounded
                 if params[:query].present?
                   query do
                     bool do
-                      should { match curriculum_title: { query: params[:query], boost: 4 } }
-                      should { match 'description' => { query: params[:query], boost: 2 } }
-                      should { match '_all' => params[:query] }
+                      should { match curriculum_title: { query: params[:query], operator: 'and', boost: 4 } }
+                      should { match description: { query: params[:query], operator: 'and', boost: 2 } }
                     end
                   end
                 end

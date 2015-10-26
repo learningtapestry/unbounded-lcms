@@ -273,7 +273,8 @@ module Content
             lobjects_analyzer: {
               type: 'custom',
               tokenizer: 'standard',
-              filter: [ 'standard', 'lowercase', 'stop', 'lobjects_synonyms_filter' ]
+              filter: [ 'standard', 'lowercase', 'stop', 'lobjects_synonyms_filter' ],
+              stopwords: '_english_'
             }
           }
         } do
