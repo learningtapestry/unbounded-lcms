@@ -11,7 +11,9 @@ class ApiControllerTest < ControllerTestCase
 
   def test_show_alignments_resource_count
     get 'show_alignments'
-    expected_counts = Lobject.all.map(&:alignments).map(&:size)
+    expected_counts = Alignment.all
+      .map { |a| LobjectAlignment.where(alignment: a).size }
+      .select { |c| c != 0 }
     actual_counts = @json_response.map { |a| a['resource_count'].to_i }
     assert_same_elements expected_counts, actual_counts
   end
