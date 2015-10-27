@@ -14,21 +14,37 @@ module Content
         after_save :generate_slugs, if: :curriculum_map?
       end
 
+      def ela?
+        root_collection_title == ELA_ROOT_TITLE
+      end
+
       def generate_slugs
         return unless curriculum_map?
 
-        # Find the root collection for this curriculum map collection
-        root = LobjectCollection.
-                 select('lobject_titles.title').
-                 joins(lobject: [:lobject_titles, { lobject_children: :child }]).
-                 where(lobject_titles: { title: [ELA_ROOT_TITLE, MATH_ROOT_TITLE] }).
-                 where(lobject_children: { child: lobject })
+        root = root_collection
 
-        return if root.count != 1
+        return unless root
 
-        @root_title = root.first.title
+        @root_title = root.title
 
         generate_slug(tree.root, PREFIXES[@root_title])
+      end
+
+      def math?
+        root_collection_title == MATH_ROOT_TITLE
+      end
+
+      def root_collection
+        @root_collection ||= LobjectCollection.
+                               select('lobject_titles.title').
+                               joins(lobject: [:lobject_titles, { lobject_children: :child }]).
+                               where(lobject_titles: { title: [ELA_ROOT_TITLE, MATH_ROOT_TITLE] }).
+                               where(lobject_children: { child: lobject }).
+                               first
+      end
+
+      def root_collection_title
+        root_collection.title rescue nil
       end
 
       private

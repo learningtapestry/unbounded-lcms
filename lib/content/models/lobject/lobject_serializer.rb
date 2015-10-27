@@ -12,6 +12,7 @@ module Content
           age_ranges:  age_ranges,
           alignments: alignments,
           collections: collections,
+          curriculum_title: curriculum_title,
           description: description,
           downloads: downloads,
           grades: grades,
@@ -68,6 +69,28 @@ module Content
             id: c.id,
             title: c.lobject.title
           }
+        end
+      end
+
+      def curriculum_title
+        if collection = lobject.find_collections.first
+          if collection.ela?
+            lobject.title.downcase
+          elsif collection.math?
+            result = lobject.title
+
+            unless result =~ /mathematics/i
+              result = "mathematics #{result}"
+            end
+
+            grade_regex = 'grade\s+\d+'
+            unless result =~ /#{grade_regex}/i
+              grade = lobject.grades.where('grade ~* ?', grade_regex).first
+              result = "#{grade.grade} #{result}" if grade
+            end
+
+            result.downcase
+          end
         end
       end
 

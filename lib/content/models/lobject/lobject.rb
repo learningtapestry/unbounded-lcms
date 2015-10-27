@@ -277,7 +277,8 @@ module Content
             lobjects_analyzer: {
               type: 'custom',
               tokenizer: 'standard',
-              filter: [ 'standard', 'lowercase', 'stop', 'lobjects_synonyms_filter' ]
+              filter: [ 'standard', 'lowercase', 'stop', 'lobjects_synonyms_filter' ],
+              stopwords: '_english_'
             }
           }
         } do
@@ -320,6 +321,8 @@ module Content
 
           indexes :collections, type: :nested do
           end
+
+          indexes :curriculum_title, type: :string, search_analyzer: :lobjects_analyzer
 
           indexes :description, type: :string, search_analyzer: :lobjects_analyzer
 
