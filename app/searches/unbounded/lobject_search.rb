@@ -30,14 +30,16 @@ module Unbounded
 
         query do
           function_score do
-            functions << {
-              script_score: {
-                params: {
-                  standard_ids: standard_ids
-                },
-                script: '_source.alignments.collect { it.id }.intersect(standard_ids).size()'
+            if standard_ids.any?
+              functions << {
+                script_score: {
+                  params: {
+                    standard_ids: standard_ids
+                  },
+                  script: '_score * _source.alignments.collect { it.id }.intersect(standard_ids).size()'
+                }
               }
-            }
+            end
 
             query do
               filtered do
