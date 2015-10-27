@@ -4,14 +4,14 @@ require 'test_helper'
 class ApiControllerTest < ControllerTestCase
   def test_show_alignments
     get 'show_alignments'
-    expected_names = Lobject.with_lr_source.map(&:alignments).flatten.uniq.map(&:name)
+    expected_names = Lobject.all.map(&:alignments).flatten.uniq.map(&:name)
     actual_names = @json_response.map { |a| a['alignment']['name'] }
     assert_same_elements expected_names, actual_names
   end
 
   def test_show_alignments_resource_count
     get 'show_alignments'
-    expected_counts = Lobject.with_lr_source.map(&:alignments).map(&:size)
+    expected_counts = Lobject.all.map(&:alignments).map(&:size)
     actual_counts = @json_response.map { |a| a['resource_count'].to_i }
     assert_same_elements expected_counts, actual_counts
   end
@@ -28,7 +28,7 @@ class ApiControllerTest < ControllerTestCase
     assert_equal 'Common Core State Standards for Mathematics', @json_response[0]['alignment']['framework']
 
     expected_count = Lobject
-    .with_lr_source.map(&:alignments).flatten.uniq
+    .all.map(&:alignments).flatten.uniq
     .select { |a| a.framework == 'Common Core State Standards for Mathematics' }
     .size
 
@@ -51,7 +51,7 @@ class ApiControllerTest < ControllerTestCase
 
   def test_show_alignments_header
     get 'show_alignments'
-    expected_count = Lobject.with_lr_source.map(&:alignments).flatten.uniq.size
+    expected_count = Lobject.all.map(&:alignments).flatten.uniq.size
     assert_equal expected_count, @response.headers['x-total-count'].to_i
   end
 
