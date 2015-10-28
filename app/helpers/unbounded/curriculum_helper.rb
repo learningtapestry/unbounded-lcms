@@ -4,7 +4,8 @@ module Unbounded
       subject = params[:subject] || 'all'
       grade = params[:grade] || 'all'
       standards = params[:standards] || 'all'
-      "curriculum/#{subject}/#{grade}/#{standards}"
+      max_updated_at = Content::Models::Lobject.maximum(:updated_at).try(:utc).try(:to_s, :number)
+      "curriculum/#{subject}/#{grade}/#{standards}/#{max_updated_at}"
     end
 
     def each_units(unit, &block)
