@@ -1,8 +1,6 @@
 require 'test_helper'
 
-class SearchResultsTestCase < IntegrationTestCase
-  uses_integration_database
-
+class SearchResultsTestCase < IntegrationDatabaseTestCase
   RANGE = (1..3)
 
   def setup

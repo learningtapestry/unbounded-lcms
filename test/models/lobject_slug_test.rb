@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class LobjectSlugTestCase < TestCase
-  uses_integration_database
+class LobjectSlugTestCase < IntegrationDatabaseTestCase
 
   def setup
     super

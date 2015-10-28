@@ -14,12 +14,14 @@ module Content
 
         base.include(Elasticsearch::Model)
 
-        base.instance_eval do
-          if (prefix = ENV['ELASTICSEARCH_PREFIX']).present?
-            index_name("#{prefix}_#{index_name}")
-          end
+        original_index_name = base.index_name
 
-          @original_index_name = index_name
+        base.index_name do
+          if ['production', 'staging', 'development'].include?(Rails.env)
+            original_index_name
+          else
+            "#{Rails.env}_#{original_index_name}"
+          end
         end
 
         base.class_eval do 
@@ -45,10 +47,6 @@ module Content
         def dsl_search(options = {}, &blk)
           search_def = Content::Search::Esbuilder.build(&blk).to_hash
           search(search_def, options)
-        end
-
-        def restore_original_index_name
-          index_name @original_index_name
         end
 
         def synonyms_filter_name
