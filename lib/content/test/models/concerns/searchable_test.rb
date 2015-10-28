@@ -69,7 +69,7 @@ module Content
             }
           }
         }
-        Models::Lobject.update_index_settings(update_settings)
+        Models::Lobject.update_index_settings(update_settings); sleep 1
 
         settings = Models::Lobject.get_index_settings
         assert settings[Models::Lobject.index_name]['settings']['index']['analysis']['analyzer'].has_key?('test_analyzer')
@@ -78,7 +78,7 @@ module Content
       end
 
       def test_update_index_synonyms
-        Models::Lobject.update_index_synonyms(['test', 'synonym'])
+        Models::Lobject.update_index_synonyms(['test', 'synonym']); sleep 1
         assert_equal ['test', 'synonym'], Models::Lobject.get_index_synonyms
 
         Models::Lobject.__elasticsearch__.create_index! force: true
