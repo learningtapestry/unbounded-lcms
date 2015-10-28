@@ -85,6 +85,7 @@ module Unbounded
                     bool do
                       should { match curriculum_title: { query: params[:query], operator: 'and', boost: 4 } }
                       should { match description: { query: params[:query], operator: 'and', boost: 2 } }
+                      should { match title: { query: params[:query], operator: 'and', boost: 3 } }
                     end
                   end
                 end
