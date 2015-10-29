@@ -4,7 +4,7 @@
     <% dropdown_options.subject_options.each do |opt| %>
       <div class="radio">
         <% subject_id = "subject_#{opt.value}" %>
-        <%= radio_button_tag :subject, opt.value, opt.checked, id: subject_id %>
+        <%= radio_button_tag :subject, opt.value, opt.checked, class: 'searchForm__subjectRadio', data: { subject: opt.value }, id: subject_id %>
         <%= label_tag subject_id, opt.title %>
       </div>
     <% end %>
@@ -21,7 +21,14 @@
             <div class="radio">
               <% grade_id = "grade_#{opt.value}" %>
               <%= radio_button_tag :grade_id, opt.value, opt.checked, data: { grade: opt.grade }, id: grade_id %>
-              <%= label_tag grade_id, opt.title %>
+              <%= label_tag grade_id, class: 'searchForm__gradeLabel' do %>
+                <span class=searchForm__gradeLabel__elaTitle <%= display_style(opt.title == opt.ela_title) %>>
+                  <%= opt.ela_title %>
+                </span>
+                <span class=searchForm__gradeLabel__mathTitle <%= display_style(opt.title == opt.math_title) %>>
+                  <%= opt.math_title %>
+                </span>
+              <% end %>
             </div>
           <% end %>
         </div>

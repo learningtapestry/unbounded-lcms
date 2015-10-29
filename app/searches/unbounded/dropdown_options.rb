@@ -53,7 +53,9 @@ module Unbounded
     def grade_options
       grades.map do |g|
         struct(
-          title: grade_name(g.grade),
+          title: grade_name(subject, g.grade),
+          ela_title: grade_name('ela', g.grade),
+          math_title: grade_name('math', g.grade),
           value: g.id,
           grade: g.grade,
           checked: grade_id == g.id
@@ -61,9 +63,9 @@ module Unbounded
       end
     end
 
-    def grade_name(grade)
-      grade_subject = subject || 'ela'
-      I18n.t("unbounded.grades.#{grade_subject}.#{grade.strip.gsub(' ', '_')}")
+    def grade_name(subject, grade)
+      subject ||= 'ela'
+      I18n.t("unbounded.grades.#{subject}.#{grade.strip.gsub(' ', '_')}")
     end
 
     def all_option
