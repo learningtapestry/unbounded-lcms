@@ -209,12 +209,18 @@ en:
       math: Mathematics
       ela_unit: unit
       math_unit: topic
+      module: module
+      lesson: lesson
       ela_module_label: "Module %{idx}"
       math_module_label: "Module %{idx}"
       ela_unit_label: "Unit %{idx}"
       math_unit_label: "Topic %{idx}"
       ela_lesson_label: "Lesson %{idx}"
       math_lesson_label: "Lesson %{idx}"
+      ela_unit_x_label: "%{title} <span>(Core Materials for %{lesson} above)</span>"
+      math_unit_x_label: "%{title} <span>(Core Materials for %{lesson} above)</span>"
+      ela_lesson_x_label: "%{title} of %{count} <span>(Part of %{unit_title})</span>"
+      math_lesson_x_label: "%{title} of %{count} <span>(Part of %{unit_title})</span>"
       unit_title: "Unit %{idx}"
       module_title: "Module %{idx}"
       index:

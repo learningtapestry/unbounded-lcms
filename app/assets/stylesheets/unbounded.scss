@@ -153,6 +153,7 @@ a {
 
 .ela-border {border-top: 4px $ub-orange solid; }
 .math-border {border-top: 4px $ub-green solid; }
+.unit-border {border-top: 4px $ub-unit-bg solid; }
 
 .lesson.lesson-empty {
   .ub-cc-lesson {background-color: white!important;}
@@ -170,9 +171,11 @@ a {
     a {
       .ub-square-unit, .ub-square-module  {fill: $ub-green;}
       .ub-cc-lesson {background-color: $ub-green;}
-      &:hover, &:focus, .active {
+      &:hover, &:focus, .active, &.active {
+        text-decoration: none;
         .ub-square-unit, .ub-square-module {fill: darken($ub-green, 20%);}
         .ub-cc-lesson {background-color: darken($ub-green, 20%);}
+        figcaption {color: darken($ub-green, 20%)!important;;}
       }
     }
   }
@@ -200,9 +203,11 @@ a {
     a {
       .ub-square-unit, .ub-square-module  {fill: $ub-orange;}
       .ub-cc-lesson {background-color: $ub-orange;}
-      &:hover, .active, &:focus {
+      &:hover, .active, &.active, &:focus {
+        text-decoration: none;
         .ub-square-unit, .ub-square-module {fill: darken($ub-orange, 20%)!important;}
         .ub-cc-lesson {background-color: darken($ub-orange, 20%);}
+        figcaption {color: darken($ub-orange, 20%)!important;}
       }
     }
   }
@@ -223,10 +228,6 @@ a {
     .ub-cc-lesson {background-color: $ub-orange;}
     a:hover .ub-cc-lesson {background-color: darken($ub-orange, 20%);}
   }
-}
-
-a.module-nav-unit.active .ub-square-unit {
-  fill: darken($ub-orange, 20%);
 }
 
 .popover.popover-lesson {
@@ -721,6 +722,11 @@ header {
       .unit {
         @include make-md-column(12, $padding-xs-horizontal * 2);
         .unit-wrapper > .row {@include make-row(-$grid-gutter-width/2);}
+        figcaption {
+          @include set-typography($font-size-lesson-nav, $ub-txt-gray, $font-family-caponi);
+          text-decoration: none; text-transform: uppercase;
+          padding-left: 0px;
+        }
       }
       .lesson-nav {
         > div.row > div {padding-bottom: $padding-base-vertical;}
@@ -750,17 +756,26 @@ header {
       }
     }
   }
-  .lesson-content-ela {@extend .ela-border;}
-  .lesson-content-math {@extend .math-border;}
+  .lesson-content-ela {@extend .ela-border; .lesson-dsc i {color: darken($ub-orange, 20%);}}
+  .lesson-content-math {@extend .math-border; .lesson-dsc i {color: darken($ub-green, 20%);}}
+  .unit-content {@extend .unit-border;  padding-top: $ub-element-padding;.lesson-dsc i {color: $ub-unit-bg;} }
   .lesson-content {
-    @include make-md-column(10); background-color: white; padding-bottom: $ub-element-padding;
-    @extend .module-block;
-    h4, h5 {text-transform: uppercase;}
     .lesson-img {
       @include make-md-column(12);
       background-image: image-url('resource_background.jpg'); background-size: cover;
       height: $lesson-img-height;
       margin-bottom: $ub-element-padding;
+    }
+  }
+  .resource-content {@include make-md-column(10);}
+  .lesson-content, .unit-content {
+    @include make-md-column(12); background-color: white; padding-bottom: $ub-element-padding;
+    @extend .module-block;
+    margin-bottom: $ub-element-padding;
+    h4, h5 {
+      text-transform: uppercase;
+      span {text-transform: none;}
+      i {margin-left: -$grid-gutter-width/2; padding-right: $padding-xs-horizontal;}
     }
     .lesson-dsc {
       @include make-md-column(6.5);

@@ -211,7 +211,8 @@ $header-img-block-height: 195px;
         }
       }
     }
-    .lesson-content {
+    .resource-content {@include make-xs-column(12);}
+    .lesson-content, .unit-content {
       @include make-xs-column(12);
       margin-bottom: $ub-module-padding;
       .lesson-img {

@@ -48,11 +48,25 @@ module Unbounded
     end
 
     def lesson_title(title)
-      title.split(',').first.gsub(/Module\s+\w+/, '') if title
+      title.split(',').first.gsub(/Module\s+\w+/, '').strip if title
     end
 
     def lesson_no(title)
-      title.split(',').last if title
+      title.split(',').last.strip if title
+    end
+
+    def resource_title(title, curriculum)
+      if curriculum.lesson?
+        subject = curriculum.subject
+        t("unbounded.curriculum.#{subject}_lesson_x_label", title: lesson_no(title), count: curriculum.lessons.count, unit_title: unit_title(curriculum))
+      else
+        lesson_no(title)
+      end
+    end
+
+    def lesson_unit_title(title, curriculum)
+      subject = curriculum.subject
+      t("unbounded.curriculum.#{subject}_unit_x_label", title: unit_title(curriculum), lesson: lesson_no(title))
     end
 
     def unit_title(curriculum)

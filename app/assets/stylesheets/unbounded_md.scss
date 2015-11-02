@@ -41,8 +41,11 @@
         }
       }
     }
-    .lesson-content {
+    .resource-content {
       @include make-md-column(9.6);
+    }
+    .lesson-content, .unit-content {
+      @include make-md-column(12);
     }
   }
 }
