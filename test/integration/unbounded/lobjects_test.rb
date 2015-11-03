@@ -19,6 +19,7 @@ module Unbounded
       @resource_type2 = resource_types(:textbook)
       @subject1       = subjects(:math)
       @subject2       = subjects(:physics)
+      @subtitle       = Faker::Lorem.sentence
       @title          = Faker::Lorem.sentence
       @topic1         = topics(:stem)
       @topic2         = topics(:video_library)
@@ -43,6 +44,7 @@ module Unbounded
       assert_equal page.find('.form-group.content_models_lobject_lobject_urls_url_url.has-error .help-block').text, "can't be blank"
 
       fill_in 'Title',       with: @title
+      fill_in 'Subtitle',    with: @subtitle
       fill_in 'URL',         with: @url
       fill_in 'Description', with: @description
       check 'Hidden'
@@ -69,6 +71,7 @@ module Unbounded
       assert_equal lobject.hidden?,      true
       assert_equal lobject.language,     @language
       assert_equal lobject.organization, @unbounded_org
+      assert_equal lobject.subtitle,     @subtitle
       assert_equal lobject.title,        @title
       assert_equal lobject.url.url,      @url
       assert_same_elements lobject.additional_lobjects, [@no_org_lobject]
@@ -101,6 +104,7 @@ module Unbounded
       assert_equal current_path, "/admin/lobjects/#{lobject.id}/edit"
 
       fill_in 'Title',       with: @title
+      fill_in 'Subtitle',    with: @subtitle
       fill_in 'URL',         with: @url
       fill_in 'Description', with: @description
       uncheck 'Hidden'
@@ -128,6 +132,7 @@ module Unbounded
       assert_equal lobject.description, @description
       assert_equal lobject.hidden?,     false
       assert_equal lobject.language,    @language
+      assert_equal lobject.subtitle,    @subtitle
       assert_equal lobject.title,       @title
       assert_equal lobject.url.url,     @url
       assert_same_elements lobject.additional_lobjects, [@easol_lobject]
