@@ -9,4 +9,10 @@ class LobjectPreviewSerializer < ActiveModel::Serializer
   def resource_kind
     object.unbounded_curriculum.try(:resource_kind)
   end
+
+  def title
+    title    = object.title.present? ? object.title : nil
+    subtitle = object.subtitle.present? ? object.subtitle : nil
+    [title, subtitle].compact.join(': ')
+  end
 end
