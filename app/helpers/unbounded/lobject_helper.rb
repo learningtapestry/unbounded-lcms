@@ -59,8 +59,8 @@ module Unbounded
       subject = curriculum.subject
       units = curriculum.units
       unit  = curriculum.current_unit
-      idx = units.index(unit)
-      t("unbounded.curriculum.#{subject}_unit_label", idx: idx + 1)
+      idx = unit_index(subject, units.index(unit))
+      t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
     end
 
     def module_node_title(module_node)
@@ -70,7 +70,8 @@ module Unbounded
 
     def unit_node_title(unit_node)
       subject = unit_node.content.curriculum_subject
-      t("unbounded.curriculum.#{subject}_unit_label", idx: unit_node.position + 1)
+      idx = unit_index(subject, unit_node.position)
+      t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
     end
 
     def file_icon(type)
@@ -102,6 +103,21 @@ module Unbounded
 
     def all_units_empty?(_module)
       _module.lobject_children.all? { |lc| lc.child.lobject_children.empty? }
+    end
+
+    def unit_index(subject, idx)
+      idx += 1
+      if subject == :math
+        result = ''
+        while idx > 0
+          mod = (idx - 1) % 26
+          result = "#{(mod + 65).chr}#{result}"
+          idx = (idx - mod) / 26
+        end
+        result
+      else
+        idx
+      end
     end
   end
 end
