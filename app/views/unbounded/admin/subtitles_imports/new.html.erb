@@ -1,0 +1,10 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <%= simple_form_for @importer, url: :unbounded_admin_subtitles_imports do |f| %>
+    <div class=form-group>
+      <%= f.input :file, as: :file %>
+      <%= f.button :submit, t('.import'), name: nil %>
+    </div>
+  <% end %>
+</div>

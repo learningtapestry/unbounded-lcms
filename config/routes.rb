@@ -45,6 +45,7 @@ Rails.application.routes.draw do
         resources :lobjects, except: :show
         resources :pages, except: :show
         resources :staff_members, except: :show
+        resources :subtitles_imports, only: [:index, :new, :create]
         resources :tags, only: :create
       end
 

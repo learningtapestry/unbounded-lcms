@@ -22,6 +22,7 @@ gem 'oj_mimic_json', '~> 1.0.1'
 gem 'pg', '~> 0.18.2'
 gem 'rails', '4.2.4'
 gem 'ransack', '~> 1.7.0'
+gem 'roo', '~> 2.2'
 gem 'rubytree', '~> 0.9.6'
 gem 'sass-rails', '~> 5.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
