@@ -1,0 +1,30 @@
+<div class=nc-content>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('ui.import_subtitles'), :new_unbounded_admin_subtitles_import, class: 'btn btn-success' %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title', count: @lobjects.count) %></h2>
+
+  <% if @lobjects.any? %>
+    <table class=table>
+      <tr>
+        <th>ID
+        <th><%= Content::Models::LobjectTitle.human_attribute_name :title %>
+        <th><%= Content::Models::LobjectTitle.human_attribute_name :subtitle %>
+      </tr>
+
+      <% @lobjects.each do |lobject| %>
+        <tr class=lobject id=lobject_<%= lobject.id %>>
+          <td class=id><%= lobject.id %>
+          <td class=title><%= lobject.title %>
+          <td class=subtitle><%= lobject.subtitle %>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <p class=text-center><em><%= t('.no_results') %></em>
+  <% end %>
+
+</div>

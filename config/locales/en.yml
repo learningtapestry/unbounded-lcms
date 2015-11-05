@@ -31,6 +31,14 @@ en:
           warning: 'Warning: this operation will shut down the Elasticsearch index for a few seconds.'
         update:
           success: Synonyms updated successfully
+  activemodel:
+    errors:
+      models:
+        content/importers/subtitles_importer:
+          attributes:
+            file:
+              incorrect_format: 'incorrect format: %{count} columns instead of %{limit}'
+              incorrect_type: has incorrect type
   activerecord:
     models:
       content/models/lobject: Resource
@@ -181,6 +189,14 @@ en:
           page_title: New Staff Member
         update:
           success: Staff Member updated successfully.
+      subtitles_imports:
+        index:
+          page_title: Import results
+          no_results: Nothing was imported
+        new:
+          import: Import
+          spreadsheet: Spreadsheet
+          page_title: Import subtitles
       welcome:
         index:
           collection_types: Collection Types
@@ -285,6 +301,7 @@ en:
     close: Close
     delete: Delete
     edit: Edit
+    import_subtitles: Import subtitles
     loading: Loading
     remove: Remove
     save: Save
