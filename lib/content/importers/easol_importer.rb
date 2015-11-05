@@ -54,6 +54,33 @@ module Content
 
         nil
       end
+
+      def self.import_lr_csv_to_lobjects(filename)
+        CSV.foreach(filename, headers: true).with_index do |row, i|
+          puts "Importing row #{i}."
+          next if Url.find_by(url: row['url'])
+
+          builder = LobjectBuilder.new
+            .add_publisher(row['publisher'])
+            .add_title(row['title'])
+            .add_url(row['url'])
+            .set_organization(Organization.lr)
+
+          if (description = row['description']).present?
+            builder.add_description(description)
+          end
+
+          if (alignments = row['col_a']).present?
+            alignments.split(',').each do |alignment|
+              builder.add_alignment(alignment.strip)
+            end
+          end
+
+          builder.save!
+        end
+
+        nil
+      end
     end
   end
 end

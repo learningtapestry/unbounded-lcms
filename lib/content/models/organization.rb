@@ -9,6 +9,10 @@ module Content
         find_or_create_by!(name: 'UnboundEd')
       end
 
+      def self.lr
+        find_or_create_by!(name: 'LearningRegistry')
+      end
+
       def self.lt
         find_or_create_by!(name: 'LearningTapestry')
       end

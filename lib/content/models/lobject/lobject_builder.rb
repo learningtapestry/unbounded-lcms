@@ -2,10 +2,19 @@ module Content
   module Models
     class LobjectBuilder
       attr_reader :lobject
-      
+
       def initialize
         @lobject = Lobject.new
       end
+
+      def add_alignment(standard)
+        @lobject.lobject_alignments.build(
+          alignment: Alignment.where(name: standard).first_or_create.canonical
+        )
+        self
+      end
+
+      alias_method :add_standard, :add_alignment
 
       def add_description(description)
         @lobject.lobject_descriptions.build(description: description)
@@ -30,13 +39,6 @@ module Content
       def add_resource_type(resource_type)
         @lobject.lobject_resource_types.build(
           resource_type: ResourceType.where(name: resource_type).first_or_create.canonical
-        )
-        self
-      end
-
-      def add_standard(standard)
-        @lobject.lobject_alignments.build(
-          alignment: Alignment.where(name: standard).first_or_create.canonical
         )
         self
       end
