@@ -17,6 +17,10 @@ module Content
           canonicals.where('checked_at is NULL')
         end
       }
+
+      def stripped
+        url.gsub(/^(https?:\/\/)?(www\.)?/, '')
+      end
     end
   end
 end

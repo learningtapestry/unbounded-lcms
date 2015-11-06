@@ -1,0 +1,15 @@
+<% if document = lobject.documents.first %>
+  <hr>
+
+  <div class=small>
+    <p>From EngageNY.org of the New York State Education Department. <%= document.title %>.
+
+    <% if url = lobject.urls.first %>
+      <p>Available from <%= url.stripped %>; accessed <%= l lobject.created_at.to_date %>.
+    <% end %>
+
+    <p>License: <%= link_to 'http://creativecommons.org/licenses/by-nc-sa/3.0/', 'http://creativecommons.org/licenses/by-nc-sa/3.0/' %>
+
+    <p class=text-right><%= image_tag 'cc_logo.svg', alt: 'Creative Commons logo', size: '156x36' %>
+  </div>
+<% end %>
