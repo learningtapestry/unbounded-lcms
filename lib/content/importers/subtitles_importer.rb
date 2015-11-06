@@ -4,9 +4,10 @@ module Content
       include ActiveModel::Model
       include Content::Models
 
-      COLUMNS_COUNT  = 5
-      ID_INDEX       = 1
-      SUBTITLE_INDEX = 3
+      COLUMNS_COUNT     = 5
+      DESCRIPTION_INDEX = 4
+      ID_INDEX          = 1
+      SUBTITLE_INDEX    = 3
 
       attr_accessor :file, :lobjects
 
@@ -28,12 +29,24 @@ module Content
 
           (2..sheet.last_row).each do |i|
             row = sheet.row(i)
-            if (subtitle = row[SUBTITLE_INDEX]).present?
+            description = row[DESCRIPTION_INDEX]
+            subtitle = row[SUBTITLE_INDEX]
+            if description.present? || subtitle.present?
               if (lobject = Lobject.find_by_id(row[ID_INDEX])).present?
-                if lobject_title = lobject.lobject_titles.first
-                  lobject_title.update_column(:subtitle, subtitle)
-                else
-                  lobject.lobject_titles.create!(subtitle: subtitle)
+                if description.present?
+                  if lobject_description = lobject.lobject_descriptions.first
+                    lobject_description.update_column(:description, description)
+                  else
+                    lobject.lobject_descriptions.create!(description: description)
+                  end
+                end
+
+                if subtitle.present?
+                  if lobject_title = lobject.lobject_titles.first
+                    lobject_title.update_column(:subtitle, subtitle)
+                  else
+                    lobject.lobject_titles.create!(subtitle: subtitle)
+                  end
                 end
 
                 @lobjects << lobject

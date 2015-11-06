@@ -7,7 +7,7 @@ module Unbounded
 
       def index
         if ids = session[:imported_lobject_ids]
-          @lobjects = Lobject.where(id: ids).includes(:lobject_titles)
+          @lobjects = Lobject.where(id: ids).includes(:lobject_descriptions, :lobject_titles)
         else
           redirect_to :new_unbounded_admin_subtitles_import
         end

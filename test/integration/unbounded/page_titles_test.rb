@@ -52,6 +52,11 @@ class PageTitlesTestCase < IntegrationTestCase
     assert_page_title "Edit #{collection.lobject.title} Collection"
   end
 
+  def test_admin_import_page
+    visit '/admin/subtitles_imports/new'
+    assert_page_title 'Import subtitles & descriptions'
+  end
+
   def test_admin_page_pages
     tos = pages(:tos)
 

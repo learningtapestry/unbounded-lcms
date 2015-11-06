@@ -13,6 +13,7 @@
         <th>ID
         <th><%= Content::Models::LobjectTitle.human_attribute_name :title %>
         <th><%= Content::Models::LobjectTitle.human_attribute_name :subtitle %>
+        <th><%= Content::Models::LobjectDescription.human_attribute_name :description %>
       </tr>
 
       <% @lobjects.each do |lobject| %>
@@ -20,6 +21,7 @@
           <td class=id><%= lobject.id %>
           <td class=title><%= lobject.title %>
           <td class=subtitle><%= lobject.subtitle %>
+          <td class=description><%= lobject.description.html_safe %>
         </tr>
       <% end %>
     </table>

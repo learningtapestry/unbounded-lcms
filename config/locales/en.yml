@@ -196,7 +196,7 @@ en:
         new:
           import: Import
           spreadsheet: Spreadsheet
-          page_title: Import subtitles
+          page_title: 'Import subtitles & descriptions'
       welcome:
         index:
           collection_types: Collection Types
@@ -301,7 +301,7 @@ en:
     close: Close
     delete: Delete
     edit: Edit
-    import_subtitles: Import subtitles
+    import_subtitles: 'Import subtitles & descriptions'
     loading: Loading
     remove: Remove
     save: Save
