@@ -50,7 +50,7 @@ class ApiController < ApplicationController
       end
 
       query
-    end.results
+    end
 
     @results = q.results
     @total_count = q.total_count
@@ -70,7 +70,7 @@ class ApiController < ApplicationController
       end
 
       query
-    end.results
+    end
 
     @results = q.results
     @total_count = q.total_count
