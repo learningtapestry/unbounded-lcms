@@ -44,7 +44,7 @@ class ApiController < ApplicationController
       join_entity: LobjectSubject
     }
 
-    @results = ApiResourceCount.new(params, options) do |query|
+    q = ApiResourceCount.new(params, options) do |query|
       if params[:name]
         query.where!('lower(subjects.name) like ?', "%#{params[:name].downcase}%")
       end
@@ -52,7 +52,8 @@ class ApiController < ApplicationController
       query
     end.results
 
-    @total_count = @results.size.to_s
+    @results = q.results
+    @total_count = q.total_count
 
     api_response
   end
@@ -63,7 +64,7 @@ class ApiController < ApplicationController
       join_entity: LobjectIdentity
     }
 
-    @results = ApiResourceCount.new(params, options) do |query|
+    q = ApiResourceCount.new(params, options) do |query|
       if params[:name]
         query.where!('lower(identities.name) like ?', "%#{params[:name].downcase}%")
       end
@@ -71,7 +72,8 @@ class ApiController < ApplicationController
       query
     end.results
 
-    @total_count = @results.size.to_s
+    @results = q.results
+    @total_count = q.total_count
 
     api_response
   end
