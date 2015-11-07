@@ -1,4 +1,4 @@
-admin_admin:
+admin_unbounded:
   organization: unbounded
   role: admin
   user: admin

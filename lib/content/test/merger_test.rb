@@ -169,7 +169,7 @@ module Content
 
         Merger.new(lobject).merge!(doc2)
 
-        assert_equal ['en', 'es'], lobject.languages.map(&:name)
+        assert_same_elements ['en', 'es'], lobject.languages.map(&:name)
       end
 
       def test_merge_languages_new_object
