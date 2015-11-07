@@ -4,9 +4,9 @@ class ApiController < ApplicationController
   before_action :remove_blank_params
 
   def show_resources
-    api_search = ApiSearch.new(params)
-    @results = api_search.results
-    @total_count = @results[:results].size.to_s
+    q = ApiSearch.new(params)
+    @results = q.results
+    @total_count = q.total_count
     api_response
   end
 
@@ -16,7 +16,7 @@ class ApiController < ApplicationController
       join_entity: LobjectAlignment
     }
 
-    @results = ApiResourceCount.new(params, options) do |query|
+    q = ApiResourceCount.new(params, options) do |query|
       if params[:name]
         query.where!('lower(alignments.name) like ?', "%#{params[:name].downcase}%")
       end
@@ -30,9 +30,10 @@ class ApiController < ApplicationController
       end
 
       query
-    end.results
+    end
 
-    @total_count = @results.size.to_s
+    @results = q.results
+    @total_count = q.total_count
 
     api_response
   end
@@ -82,7 +83,7 @@ class ApiController < ApplicationController
   end
 
   def api_response
-    response.headers['x-total-count'] = @total_count
+    response.headers['x-total-count'] = @total_count.to_s
     render json: @results, root: nil
   end
 end

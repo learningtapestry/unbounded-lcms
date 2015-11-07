@@ -2,7 +2,7 @@ require 'content/models'
 require 'content/search'
 
 class ApiSearch
-  attr_reader :operation, :results
+  attr_reader :operation, :results, :total_count
 
   def initialize(params)
     limit = params[:limit].try(:to_i) || 100
@@ -157,5 +157,7 @@ class ApiSearch
       aggregations: facets,
       results: operation.map(&:_source)
     }
+
+    @total_count = operation.response[:hits][:total]
   end
 end
