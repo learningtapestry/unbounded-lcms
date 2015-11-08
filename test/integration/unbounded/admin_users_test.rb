@@ -2,6 +2,8 @@ require 'test_helper'
 
 module Unbounded
   class AdminUsersTestCase < IntegrationTestCase
+    include EmailSpec::Helpers
+
     def setup
       super
       @admin = users(:admin)
@@ -75,7 +77,7 @@ module Unbounded
       assert page.find('.alert-success').text.include? 'deleted successfully'
       assert_nil User.find_by_id(@unbounded_user.id)
     end
-    
+
     def test_reset_password
       navigate_to_users
 
@@ -87,6 +89,22 @@ module Unbounded
       assert_equal '/admin/users', current_path
       assert page.find('.alert-success').text.include? 'will receive a password reset'
       assert_not_nil @unbounded_user.reset_password_token
+
+      email = last_email_sent
+      assert_equal ['no-reply@unbounded.org'],    email.from
+      assert_equal 'Reset password instructions', email.subject
+      assert_equal [@unbounded_user.email],       email.to
+
+      new_password_link = URI.extract(email.body.raw_source).first
+      password = Faker::Internet.password
+      visit new_password_link
+      fill_in 'New password',         with: password
+      fill_in 'Confirm new password', with: password
+      click_button 'Change my password'
+
+      assert_equal '/', current_path
+      assert_equal '× Your password has been changed successfully. You are now signed in.', find('.alert-success').text
+      assert @unbounded_user.reload.valid_password?(password)
     end
 
     protected

@@ -47,6 +47,7 @@ end
 group :test do
   gem 'capybara'
   gem 'database_cleaner', '~> 1.4.1'
+  gem 'email_spec', '~> 1.6'
   gem 'faker'
   gem 'guard'
   gem 'guard-minitest'

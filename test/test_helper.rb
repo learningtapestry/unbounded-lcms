@@ -8,6 +8,7 @@ require 'minitest/rails/capybara'
 require 'shoulda/context'
 require 'shoulda/matchers'
 require 'capybara/poltergeist';
+require 'email_spec'
 
 Capybara.javascript_driver = :poltergeist
 
