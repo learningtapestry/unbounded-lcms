@@ -197,6 +197,29 @@ en:
           import: Import
           spreadsheet: Spreadsheet
           page_title: 'Import subtitles & descriptions'
+      users:
+        create:
+          success: "User %{user} was created successfully."
+          error:  "User %{user} could not be created."
+        index:
+          email: E-mail
+          name: Name
+          new_user: New user
+          page_title: Users
+          reset_password_btn: Reset password
+        search_form:
+          email: E-mail
+          name: Name
+        destroy:
+          success: "User was deleted successfully."
+        edit:
+          page_title: "Edit user %{user}"
+        reset_password:
+          success: "User will receive a password reset e-mail."
+        update:
+          success: "Changes to %{user} were saved successfully."
+        new:
+          page_title: New user
       welcome:
         index:
           collection_types: Collection Types
@@ -205,6 +228,7 @@ en:
           pages: Pages
           resources: Resources
           staff_members: Staff Members
+          users: Users
     lobjects:
       nav:
         next_lesson: Next LESSON
