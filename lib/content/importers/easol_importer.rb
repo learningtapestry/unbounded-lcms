@@ -1,5 +1,4 @@
 require 'csv'
-
 require 'content/models'
 
 module Content
@@ -7,76 +6,76 @@ module Content
     class EasolImporter
       include Content::Models
 
-      def self.import_csv(filename)
-        csv_data = CSV.parse(File.read(filename))
+      HEADERS = %w(id url publisher title description grade resource_type standard subject)
 
-        csv_data.each_with_index do |row, i|
-          puts "Importing row #{i}."
-          next unless row[2].present?
-          next if Url.find_by(url: row[2])
-
-          builder = LobjectBuilder.new
-            .add_publisher(row[0])
-            .add_title(row[1])
-            .add_url(row[2])
-            .set_organization(Organization.easol)
-
-          if row[3].present?
-            builder.add_description(row[3])
-          end
-
-          if row[4].present?
-            row[4].split(',').each do |subject|
-              builder.add_subject(Subject.normalize_name(subject))
-            end
-          end
-
-          if row[5].present?
-            row[5].split(',').each do |grade|
-              builder.add_grade(Grade.normalize_grade(grade))
-            end
-          end
-
-          if row[6].present?
-            row[6].split(',').each do |standard|
-              builder.add_standard(standard.strip)
-            end
-          end
-
-          if row[7].present?
-            row[7].split(',').each do |res|
-              builder.add_resource_type(ResourceType.normalize_name(res.strip))
-            end
-          end
-
-          builder.save!
-        end
-
-        nil
-      end
-
-      def self.import_lr_csv_to_lobjects(filename)
+      def self.import_csv(filename, replace: false)
         CSV.foreach(filename, headers: true).with_index do |row, i|
           puts "Importing row #{i}."
-          next if Url.find_by(url: row['url'])
-
-          builder = LobjectBuilder.new
-            .add_publisher(row['publisher'])
-            .add_title(row['title'])
-            .add_url(row['url'])
-            .set_organization(Organization.lr)
-
-          if (description = row['description']).present?
-            builder.add_description(description)
+          
+          if replace
+            next unless row['id'].present?
+            builder = LobjectBuilder.new(Lobject.find(row['id']))
+          else
+            next unless row['url'].present?
+            next if Url.find_by(url: row['url'])
+            builder = LobjectBuilder.new
           end
 
-          if (alignments = row['col_a']).present?
-            alignments.split(',').each do |alignment|
-              builder.add_alignment(alignment.strip)
+          raise StandardError, "Fields should be: #{fields}" unless row.headers == HEADERS
+
+          Lobject.transaction do
+            if (description = row['description']).present?
+              builder.clear_descriptions
+              builder.add_description(description.strip)
             end
-          end
 
-          builder.save!
+            if (grades = row['grade']).present?
+              builder.clear_grades
+              grades.split(',').each do |grade|
+                builder.add_grade(Grade.normalize_grade(grade))
+              end
+            end
+
+            if (publishers = row['publisher']).present?
+              builder.clear_identities
+              publishers.split(',').each do |publisher|
+                builder.add_publisher(publisher.strip)
+              end
+            end
+
+            if (resource_types = row['resource_type']).present?
+              builder.clear_resource_types
+              resource_types.split(',').each do |resource_type|
+                builder.add_resource_type(ResourceType.normalize_name(resource_type))
+              end
+            end
+
+            if (alignments = row['standard']).present?
+              builder.clear_alignments
+              alignments.split(',').each do |alignment|
+                builder.add_alignment(alignment.strip)
+              end
+            end
+
+            if (subjects = row['subject']).present?
+              builder.clear_subjects
+              subjects.split(',').each do |subject|
+                builder.add_subject(Subject.normalize_name(subject))
+              end
+            end
+
+            if (title = row['title']).present?
+              builder.clear_titles
+              builder.add_title(title.strip)
+            end
+
+            if (url = row['url']).present?
+              builder.clear_urls
+              builder.add_url(url.strip)
+            end
+
+            builder.save!
+          end
         end
 
         nil
