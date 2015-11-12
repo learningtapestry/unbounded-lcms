@@ -21,7 +21,7 @@ module Content
             builder = LobjectBuilder.new
           end
 
-          raise StandardError, "Fields should be: #{fields}" unless row.headers == HEADERS
+          raise ArgumentError, "Fields should be: #{HEADERS}" unless row.headers == HEADERS
 
           Lobject.transaction do
             if (description = row['description']).present?
