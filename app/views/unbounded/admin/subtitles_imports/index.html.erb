@@ -8,6 +8,8 @@
   <h2 class=text-center><%= t('.page_title', count: @lobjects.count) %></h2>
 
   <% if @lobjects.any? %>
+    <p class='results-count text-center'><%= t('.results_count', count: @lobjects.count)%>
+
     <table class=table>
       <tr>
         <th>ID

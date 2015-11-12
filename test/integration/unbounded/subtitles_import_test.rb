@@ -35,7 +35,7 @@ class SubtitlesImportTestCase < IntegrationTestCase
     attach_file 'File', @too_much_columns
     click_button 'Import'
     assert_equal '/admin/subtitles_imports', current_path
-    assert_equal 'incorrect format: 6 columns instead of 5', page.find('.form-group.content_importers_subtitles_importer_file.has-error .help-block').text
+    assert has_no_selector?('.form-group.content_importers_subtitles_importer_file.has-error .help-block')
   end
 
   def test_results_page
@@ -106,6 +106,7 @@ class SubtitlesImportTestCase < IntegrationTestCase
       click_button 'Import'
       assert_equal '/admin/subtitles_imports', current_path
       assert_equal 3, all('tr.lobject').size
+      assert_equal '3 resource(s) updated', find('p.results-count').text
 
       assert_equal 'Description 1', lobject1.reload.description
       assert_equal 'Description 2', lobject2.reload.description

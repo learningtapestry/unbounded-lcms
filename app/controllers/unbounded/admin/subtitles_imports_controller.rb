@@ -6,7 +6,7 @@ module Unbounded
       include Content::Importers
 
       def index
-        if ids = session[:imported_lobject_ids]
+        if (ids = Rails.cache.read(:imported_lobject_ids)).kind_of?(Array)
           @lobjects = Lobject.where(id: ids).includes(:lobject_descriptions, :lobject_titles)
         else
           redirect_to :new_unbounded_admin_subtitles_import
@@ -21,7 +21,7 @@ module Unbounded
         file = params[:content_importers_subtitles_importer][:file] rescue nil
         @importer = SubtitlesImporter.new(file)
         if @importer.import
-          session[:imported_lobject_ids] = @importer.lobjects.map(&:id)
+          Rails.cache.write(:imported_lobject_ids, @importer.lobjects.map(&:id))
           redirect_to :unbounded_admin_subtitles_imports
         else
           render :new

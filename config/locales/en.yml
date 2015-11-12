@@ -191,8 +191,9 @@ en:
           success: Staff Member updated successfully.
       subtitles_imports:
         index:
-          page_title: Import results
           no_results: Nothing was imported
+          page_title: Import results
+          results_count: '%{count} resource(s) updated'
         new:
           import: Import
           spreadsheet: Spreadsheet

@@ -4,7 +4,7 @@ module Content
       include ActiveModel::Model
       include Content::Models
 
-      COLUMNS_COUNT     = 5
+      MIN_COLUMNS_COUNT = 5
       DESCRIPTION_INDEX = 4
       ID_INDEX          = 1
       SUBTITLE_INDEX    = 3
@@ -62,7 +62,7 @@ module Content
 
           if @doc
             cols_count = @doc.row(1).size
-            errors.add(:file, :incorrect_format, count: cols_count, limit: COLUMNS_COUNT) unless cols_count == COLUMNS_COUNT
+            errors.add(:file, :incorrect_format, count: cols_count, limit: MIN_COLUMNS_COUNT) if cols_count < MIN_COLUMNS_COUNT
           else
             errors.add(:file, :incorrect_type)
           end

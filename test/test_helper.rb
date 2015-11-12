@@ -44,6 +44,7 @@ class IntegrationTestCase < ActionDispatch::IntegrationTest
     super
     Capybara.reset_sessions!
     Capybara.use_default_driver if Capybara.current_driver == :poltergeist
+    Rails.cache.clear
   end
 
   def use_poltergeist
