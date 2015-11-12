@@ -17,6 +17,7 @@ module Unbounded
                       .create(user_params)
           @user.add_to_organization(@organization)
           @user.add_role(@organization, Role.named(:admin))
+          @user.send_reset_password_instructions
           redirect_to(:unbounded_admin_users, notice: t('.success', user: @user.email))
         end
       rescue

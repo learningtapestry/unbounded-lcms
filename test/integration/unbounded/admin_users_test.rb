@@ -32,6 +32,7 @@ module Unbounded
       assert_equal @name, @last_user.name
       assert_equal @email, @last_user.email
       assert_equal '/admin/users', current_path
+      assert_password_reset_email @last_user
     end
 
     def test_edit_user_bad_org
@@ -78,7 +79,7 @@ module Unbounded
       assert_nil User.find_by_id(@unbounded_user.id)
     end
 
-    def test_reset_password
+    def test_reset_user_password
       navigate_to_users
 
       within "#user_#{@unbounded_user.id}" do
@@ -89,12 +90,23 @@ module Unbounded
       assert_equal '/admin/users', current_path
       assert page.find('.alert-success').text.include? 'will receive a password reset'
       assert_not_nil @unbounded_user.reset_password_token
+      assert_password_reset_email @unbounded_user
+    end
+
+    def test_logged_out_password_reset
+      logout
+
+      visit '/users/sign_in'
+      click_link 'Forgot your password?'
+      assert_equal '/users/password/new', current_path
+
+      fill_in 'Email', with: @unbounded_user.email
+      click_button 'Send me reset password instructions'
+      assert_equal '/users/sign_in', current_path
+      assert_equal '× You will receive an email with instructions on how to reset your password in a few minutes.', find('.alert-success').text
+      assert_password_reset_email @unbounded_user
 
       email = last_email_sent
-      assert_equal ['no-reply@unbounded.org'],    email.from
-      assert_equal 'Reset password instructions', email.subject
-      assert_equal [@unbounded_user.email],       email.to
-
       new_password_link = URI.extract(email.body.raw_source).first
       password = Faker::Internet.password
       visit new_password_link
@@ -108,6 +120,13 @@ module Unbounded
     end
 
     protected
+
+    def assert_password_reset_email(user)
+      email = last_email_sent
+      assert_equal ['no-reply@unbounded.org'],    email.from
+      assert_equal 'Reset password instructions', email.subject
+      assert_equal [user.email],                  email.to
+    end
 
     def navigate_to_users
       visit '/admin'
