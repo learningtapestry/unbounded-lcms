@@ -1,7 +1,11 @@
 $(function() {
   $('.aboutPage__member__label').click(function() {
-    var $toggle = $(this).parent().find('.aboutPage__member__toggle');
-    $toggle.prop('checked', !$toggle.prop('checked'));
-    return false;
+    var $member = $(this).parent();
+    if ($member.hasClass('active')) {
+      $member.removeClass('active');
+    } else {
+      $('.aboutPage__member').removeClass('active');
+      $member.addClass('active');
+    }
   });
 });

@@ -14,18 +14,16 @@
       margin-left: -100%;
     }
   }
-}
 
-.aboutPage__member__toggle {
-  display: none;
+  &.active {
+    background: $ub-unit-bg;
 
-  &:checked {
-    & ~ * {
-      background: $ub-unit-bg;
+    .aboutPage__member__close {
+      display: block;
     }
 
-    & ~ .aboutPage__member__bio,
-    & ~ .aboutPage__member__label .aboutPage__member__close {
+    .aboutPage__member__bio {
+      background: $ub-unit-bg;
       display: block;
     }
   }
@@ -42,24 +40,19 @@
   top: 0;
 }
 
-.no-js .aboutPage__member__close {
-  display: none !important;
-}
-
 .aboutPage__member__label {
   cursor: pointer;
   margin: 0;
-  padding: 0 13px 5px;
+  padding: 32px 13px 5px;
   position: relative;
-  width: 100%;
 }
 
 .aboutPage__member__name {
-  margin: 32px 0 0;
+  margin: 0;
 }
 
 .aboutPage__member__bio {
   display: none;
   padding: 32px 13px;
-  width: 200%;  
+  width: 200%;
 }
