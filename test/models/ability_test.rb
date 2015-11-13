@@ -3,6 +3,7 @@ require 'test_helper'
 class AbilityTest < Content::Test::ContentTestBase
   def test_admin_can_manage_lobjects
     @mark.add_role(@unbounded, @admin)
+    @mark.save
     ability = Ability.new(@mark)
     assert ability.can?(:manage, Lobject.new(organization: @unbounded))
   end

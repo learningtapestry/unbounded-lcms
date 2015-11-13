@@ -12,17 +12,13 @@ module Unbounded
       end
 
       def create
-        User.transaction do
-          @user = User.create_with(password: Devise.friendly_token.first(20))
-                      .create(user_params)
-          @user.add_to_organization(@organization)
-          @user.add_role(@organization, Role.named(:admin))
-          @user.send_reset_password_instructions
+        @user = User.create_for_organization(@organization, :admin, user_params)
+
+        if @user.persisted?
           redirect_to(:unbounded_admin_users, notice: t('.success', user: @user.email))
+        else
+          render :new
         end
-      rescue
-        flash[:notice] = t('.error', user: @user.email)
-        render :new
       end
 
       def edit
