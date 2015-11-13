@@ -2,14 +2,16 @@
   <hr>
 
   <div class=small>
-    <p>From EngageNY.org of the New York State Education Department. <%= document.title %>.
+    From EngageNY.org of the New York State Education Department. <%= document.title %>.
+    <br>
 
     <% if url = lobject.urls.first %>
-      <p>Available from <%= url.stripped %>; accessed <%= l lobject.created_at.to_date %>.
+      Available from <%= url.stripped %>; accessed 2015-05-29.
+      <br>
     <% end %>
 
-    <p>License: <%= link_to 'http://creativecommons.org/licenses/by-nc-sa/3.0/', 'http://creativecommons.org/licenses/by-nc-sa/3.0/' %>
+    License: <%= link_to 'http://creativecommons.org/licenses/by-nc-sa/3.0/', 'http://creativecommons.org/licenses/by-nc-sa/3.0/' %>
 
-    <p class=text-right><%= image_tag 'cc_logo.svg', alt: 'Creative Commons logo', size: '156x36' %>
+    <%= image_tag 'cc_logo.svg', alt: 'Creative Commons logo', size: '78x18' %>
   </div>
 <% end %>
