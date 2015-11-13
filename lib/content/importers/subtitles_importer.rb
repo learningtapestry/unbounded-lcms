@@ -35,7 +35,7 @@ module Content
               if (lobject = Lobject.find_by_id(row[ID_INDEX])).present?
                 if description.present?
                   if lobject_description = lobject.lobject_descriptions.first
-                    lobject_description.update_column(:description, description)
+                    lobject_description.update_attribute(:description, description)
                   else
                     lobject.lobject_descriptions.create!(description: description)
                   end
@@ -43,7 +43,7 @@ module Content
 
                 if subtitle.present?
                   if lobject_title = lobject.lobject_titles.first
-                    lobject_title.update_column(:subtitle, subtitle)
+                    lobject_title.update_attribute(:subtitle, subtitle)
                   else
                     lobject.lobject_titles.create!(subtitle: subtitle)
                   end
