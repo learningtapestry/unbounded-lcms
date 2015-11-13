@@ -150,12 +150,6 @@ namespace :content do
   desc 'Import all EngageNY data'
   task import_engageny: [:import_engageny_documents, :process, :import_engageny_collections]
 
-  desc 'Import LR documents from a CSV file'
-  task import_csv: [:boot] do
-    require 'content/importers/csv_importer'
-    Content::Importers::CsvImporter.import_csv(ENV['file'], ENV['format'])
-  end
-
   namespace :elasticsearch do
 
     desc 'Create ElasticSearch index definitions for searchable models'
