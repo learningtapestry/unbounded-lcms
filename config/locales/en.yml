@@ -35,7 +35,7 @@ en:
       csv_imports:
         new:
           export: Export data
-          export_csv: Export all data as CSV (compressed)
+          export_csv: Export all data as CSV
           import: Import data
           page_title: Import/export data
           replace: Replace all data

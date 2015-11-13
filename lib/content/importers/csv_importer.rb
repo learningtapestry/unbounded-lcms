@@ -30,7 +30,7 @@ module Content
           Lobject.find_each do |lobject|
             yield CSV.generate_line([
               lobject.id,
-              lobject.url.url,
+              lobject.url.try(:url),
               lobject.lobject_identities
                 .select { |id| id.identity_type == 'publisher' }
                 .map(&:identity)
