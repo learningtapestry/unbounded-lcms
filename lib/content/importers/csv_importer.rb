@@ -59,6 +59,8 @@ module Content
         File.open(filename) do |f|
           CSV.parse(f.readline).first.to_a == HEADERS
         end
+      rescue
+        false
       end
 
       def self.import(filename, replace: false)

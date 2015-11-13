@@ -25,25 +25,30 @@ en:
       welcome:
         index:
           edit_synonyms: Edit synonyms
+          csv_imports: Import CSV
       synonyms:
         edit:
           page_title: Edit synonyms
           warning: 'Warning: this operation will shut down the Elasticsearch index for a few seconds.'
         update:
           success: Synonyms updated successfully
-      import:
-        index:
+      csv_imports:
+        new:
           export: Export data
           export_csv: Export all data as CSV (compressed)
           import: Import data
           page_title: Import/export data
           replace: Replace all data
-        import_csv:
+        create:
           success: Thank you. File import is in progress.
           fail_csv: Could not import. Please check whether your file is a CSV and whether the fields are correct.
   activemodel:
     errors:
       models:
+        lt/admin/csv_import:
+          attributes:
+            file:
+              incorrect_format: 'should be a CSV with the headers: %{headers}'
         content/importers/subtitles_importer:
           attributes:
             file:

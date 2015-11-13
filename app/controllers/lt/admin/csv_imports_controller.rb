@@ -1,20 +1,18 @@
-require 'content/importers/csv_importer'
-
 module Lt
   module Admin
-    class ImportController < AdminController
-      def index
+    class CsvImportsController < AdminController
+      def new
+        @csv_import = CsvImport.new
       end
 
-      def import_csv
-        file = CsvImport.store_file(params.required('file'))
-        if file && Content::Importers::CsvImporter.check_csv(file.full_path)
-          CsvImportJob.perform_later(file.full_path, !!params['replace'])
+      def create
+        @csv_import = CsvImport.new(csv_import_params)
+        if @csv_import.import
           flash[:notice] = t('.success')
+          redirect_to :new_lt_admin_csv_import
         else
-          flash[:notice] = t('.fail_csv')
+          render :new
         end
-        redirect_to :lt_admin_import
       end
 
       def export
@@ -25,6 +23,12 @@ module Lt
         headers.delete("Content-Length")
         response.status = 200
         self.response_body = Content::Importers::CsvImporter::Exporter.new
+      end
+
+      protected
+
+      def csv_import_params
+        params.require(:lt_admin_csv_import).permit(:file, :replace)
       end
     end
   end
