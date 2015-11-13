@@ -1,6 +1,10 @@
+require 'content/importers/csv_importer'
+
 module Lt
   module Admin
     class CsvImportsController < AdminController
+      include Content::Importers
+
       def new
         @csv_import = CsvImport.new
       end
@@ -22,7 +26,7 @@ module Lt
         headers["Content-disposition"] = "attachment; filename=Content-#{Time.now.strftime("%Y-%m-%d")}.csv"
         headers.delete("Content-Length")
         response.status = 200
-        self.response_body = Content::Importers::CsvImporter::Exporter.new
+        self.response_body = CsvImporter::Exporter.new
       end
 
       protected
