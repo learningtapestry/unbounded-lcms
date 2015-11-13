@@ -1,0 +1,19 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <h3><%= t('.import') %></h3>
+  <%= form_tag(:lt_admin_import_csv, multipart: true) do %>
+    <input type="file" name="file">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="replace" value="1" checked="checked"> <%= t('.replace') %>
+      </label>
+    </div>
+    <input type="submit" value="<%= t('ui.import') %>" class="btn btn-primary">
+  <% end %>
+
+  <hr>
+
+  <h3><%= t('.export') %></h3>
+  <%= link_to t('.export_csv'), :lt_admin_export, class: 'btn btn-default' %>
+</div>

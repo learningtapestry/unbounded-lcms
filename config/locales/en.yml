@@ -31,6 +31,16 @@ en:
           warning: 'Warning: this operation will shut down the Elasticsearch index for a few seconds.'
         update:
           success: Synonyms updated successfully
+      import:
+        index:
+          export: Export data
+          export_csv: Export all data as CSV (compressed)
+          import: Import data
+          page_title: Import/export data
+          replace: Replace all data
+        import_csv:
+          success: Thank you. File import is in progress.
+          fail_csv: Could not import. Please check whether your file is a CSV and whether the fields are correct.
   activemodel:
     errors:
       models:
@@ -327,6 +337,8 @@ en:
     delete: Delete
     edit: Edit
     import_subtitles: 'Import subtitles & descriptions'
+    import: Import
+    export: Export
     loading: Loading
     remove: Remove
     save: Save

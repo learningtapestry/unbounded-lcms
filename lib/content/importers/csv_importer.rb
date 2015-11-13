@@ -6,44 +6,134 @@ require 'content/models'
 module Content
   module Importers
     class CsvImporter
-      class << self
-        def import_lr(csv_data)
-          csv_data.each do |row|
-            if lr_doc = Models::LrDocument.find_by(doc_id: row[0])
-              next
-            else
-              lr_doc = Models::LrDocument.new(
-                doc_id: row[0],
-                active: row[1],
-                doc_type: row[2],
-                doc_version: row[3],
-                payload_placement: row[4],
-                resource_data_type: row[5],
-                resource_locator: row[6],
-                raw_data: JSON.parse(row[7]),
-                created_at: row[8],
-                updated_at: row[9],
-                resource_data_json: JSON.parse(row[10]),
-                resource_data_xml: row[11],
-                resource_data_string: row[12],
-                identity: JSON.parse(row[13]),
-                keys: JSON.parse(row[14]),
-                payload_schema: JSON.parse(row[15]),
-                format_parsed_at: row[16],
-                source_document: Models::SourceDocument.new(source_type: Models::SourceDocument.source_types[:lr])
-              )
+      include Content::Models
 
-              lr_doc.save!
+      HEADERS = %w(id url publisher title description grade resource_type standard subject)
+
+      class Exporter
+        include Content::Models
+        include Enumerable
+
+        def each
+          yield header
+          
+          generate_csv do |row|
+            yield row
+          end
+        end
+
+        def header
+          CSV.generate_line(HEADERS).to_s
+        end
+
+        def generate_csv
+          Lobject.find_each do |lobject|
+            yield CSV.generate_line([
+              lobject.id,
+              lobject.url.url,
+              lobject.lobject_identities
+                .select { |id| id.identity_type == 'publisher' }
+                .map(&:identity)
+                .map(&:name)
+                .join(','),
+              lobject.title,
+              lobject.description,
+              lobject.grades
+                .map(&:grade)
+                .join(','),
+              lobject.resource_types
+                .map(&:name)
+                .join(','),
+              lobject.alignments
+                .map(&:name)
+                .join(','),
+              lobject.subjects
+                .map(&:name)
+                .join(',')             
+            ]).to_s
+          end
+        end
+      end
+
+      def self.check_csv(filename)
+        File.open(filename) do |f|
+          CSV.parse(f.readline).first.to_a == HEADERS
+        end
+      end
+
+      def self.import(filename, replace: false)
+        CSV.foreach(filename, headers: true).with_index do |row, i|
+          if i == 0 && row.headers != HEADERS
+            raise ArgumentError, "Fields should be: #{HEADERS} but are #{row.headers}"
+          end
+
+          puts "Importing row #{i}."
+          
+          if replace
+            next unless row['id'].present?
+            builder = LobjectBuilder.new(Lobject.find(row['id']))
+          else
+            next unless row['url'].present?
+            next if Url.find_by(url: row['url'])
+            builder = LobjectBuilder.new
+          end
+
+          Lobject.transaction do
+            if (description = row['description']).present?
+              builder.clear_descriptions
+              builder.add_description(description.strip)
             end
+
+            if (grades = row['grade']).present?
+              builder.clear_grades
+              grades.split(',').each do |grade|
+                builder.add_grade(Grade.normalize_grade(grade))
+              end
+            end
+
+            if (publishers = row['publisher']).present?
+              builder.clear_identities
+              publishers.split(',').each do |publisher|
+                builder.add_publisher(publisher.strip)
+              end
+            end
+
+            if (resource_types = row['resource_type']).present?
+              builder.clear_resource_types
+              resource_types.split(',').each do |resource_type|
+                builder.add_resource_type(ResourceType.normalize_name(resource_type))
+              end
+            end
+
+            if (alignments = row['standard']).present?
+              builder.clear_alignments
+              alignments.split(',').each do |alignment|
+                builder.add_alignment(alignment.strip)
+              end
+            end
+
+            if (subjects = row['subject']).present?
+              builder.clear_subjects
+              subjects.split(',').each do |subject|
+                builder.add_subject(Subject.normalize_name(subject))
+              end
+            end
+
+            if (title = row['title']).present?
+              builder.clear_titles
+              builder.add_title(title.strip)
+            end
+
+            if (url = row['url']).present?
+              builder.clear_urls
+              builder.add_url(url.strip)
+            end
+
+            builder.save!
           end
         end
 
-        def import_csv(filename, csv_format)
-          csv_data = CSV.parse(File.read(filename))
-          if csv_format.to_sym == :lr
-            import_lr(csv_data)
-          end
-        end
+        nil
       end
     end
   end
