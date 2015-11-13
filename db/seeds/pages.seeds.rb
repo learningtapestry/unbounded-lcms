@@ -1,8 +1,7 @@
 include Content::Models
 
 about_body = <<-HTML
-<p>We are a team of former classroom teachers, curriculum writers, school leaders, and education experts who have worked in the private, public, and non-profit sectors. We are dedicated to teacher learning and teacher growth. We know that teaching is hard work and requires excellent training, high quality materials, and meaningful support for practitioners who are continuously striving to better serve their students.</p>
-<p>We provide educators with high-quality materials and hands-on professional development to help their students achieve the learning goals set by higher standards. We empower educators to make strong instructional decisions through immersive training and access to free standards-aligned resources to adapt for their classrooms, schools and districts.</p>
+<p>Welcome to highschoolcurriculumpilot.org. This is an experimental curriculum project to designed learn about how teachers can make effective use of well organized materials. We have relied on OER curriculum heavily for this pilot. If you have questions or feedback about this site, please contact us. We hope you enjoy using this site!</p>
 HTML
 
 Page.create_with(body: about_body, title: 'About Us').find_or_create_by(slug: 'about')
