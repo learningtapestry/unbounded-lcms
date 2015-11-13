@@ -69,8 +69,6 @@ module Content
             raise ArgumentError, "Fields should be: #{HEADERS} but are #{row.headers}"
           end
 
-          puts "Importing row #{i}."
-          
           if replace
             next unless row['id'].present?
             builder = LobjectBuilder.new(Lobject.find(row['id']))
