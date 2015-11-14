@@ -1,6 +1,8 @@
 class LobjectPreviewSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :curriculum_subject, :resource_kind, :slug
   include TruncateHtmlHelper
+  include Unbounded::LobjectHelper
+  
+  attributes :id, :title, :description, :curriculum_subject, :resource_kind, :slug
 
   def description
     truncate_html(object.description, length: 300) if object.description
@@ -11,8 +13,6 @@ class LobjectPreviewSerializer < ActiveModel::Serializer
   end
 
   def title
-    title    = object.title.present? ? object.title : nil
-    subtitle = object.subtitle.present? ? object.subtitle : nil
-    [title, subtitle].compact.join(': ')
+    full_title(object.title, object.subtitle)
   end
 end

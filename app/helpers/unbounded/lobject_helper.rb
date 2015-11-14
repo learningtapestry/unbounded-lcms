@@ -54,7 +54,7 @@ module Unbounded
     def lesson_no(lobject)
       title    = lobject.title.split(',').last rescue nil
       subtitle = lobject.subtitle.present? ? lobject.subtitle : nil
-      [title, subtitle].join(': ')
+      full_title(title, subtitle)
     end
 
     def unit_title(curriculum)
@@ -63,28 +63,22 @@ module Unbounded
       unit  = curriculum.current_unit
       idx = unit_index(subject, units.index(unit))
       title = t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
-      if (subtitle = unit.subtitle).present?
-        "#{title}: #{subtitle}"
-      else
-        title
-      end
+      full_title(title, unit.subtitle)
     end
 
     def module_node_title(module_node)
       subject = module_node.content.curriculum_subject
       title = t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
-      if (subtitle = module_node.content.subtitle).present?
-        "#{title}: #{subtitle}"
-      else
-        title
-      end
+      subtitle = module_node.content.subtitle
+      full_title(title, subtitle)
     end
 
     def unit_node_title(unit_node)
       subject = unit_node.content.curriculum_subject
       idx = unit_index(subject, unit_node.position)
       title = t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
-      "#{title}: #{unit_node.content.subtitle}"
+      subtitle = unit_node.content.subtitle
+      full_title(title, subtitle)
     end
 
     def file_icon(type)
@@ -130,6 +124,14 @@ module Unbounded
         result
       else
         idx
+      end
+    end
+
+    def full_title(title, subtitle)
+      if subtitle.present?
+        "#{title}: #{subtitle}"
+      else
+        title
       end
     end
   end
