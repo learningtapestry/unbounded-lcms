@@ -12,22 +12,22 @@ module Content
       has_many :organizations, through: :user_organizations
 
       def self.create_for_organization(organization, role, params)
-        @user = new(params)
+        user = new(params)
         
         transaction do
-          @user.add_to_organization(organization)
-          @user.add_role(organization, Role.named(role))
+          user.add_to_organization(organization)
+          user.add_role(organization, Role.named(role))
 
-          unless @user.password
-            @user.password = Devise.friendly_token.first(20)
-            @user.send_reset_password_instructions rescue nil
+          unless user.password
+            user.password = Devise.friendly_token.first(20)
+            user.send_reset_password_instructions rescue nil
           end
 
-          @user.save!
+          user.save!
         end rescue ActiveRecord::RecordInvalid
-        @user.persisted? # Prevents bug in Rails. See https://github.com/rails/rails/issues/22066
+        user.persisted? # Prevents bug in Rails. See https://github.com/rails/rails/issues/22066
 
-        @user
+        user
       end
 
       def roles(org)
