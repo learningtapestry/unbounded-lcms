@@ -12,4 +12,6 @@ after :organizations, :roles do
 
   admin.add_role(Organization.lt, Role.named(:admin))
   admin.add_role(Organization.unbounded, Role.named(:admin))
+
+  admin.save
 end
