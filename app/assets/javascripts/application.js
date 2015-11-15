@@ -33,6 +33,7 @@ function t(args) {
 
 var ready = function() {
   $('.selectize').selectize({ allowEmptyOption: true, plugins: ['remove_button'] });
+  window.initializeAbout();
   window.initializeLobjectForm();
   window.initializeLobjectList();
   window.initializeTree();

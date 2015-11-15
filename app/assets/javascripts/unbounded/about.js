@@ -1,4 +1,4 @@
-$(function() {
+window.initializeAbout = function() {
   $('.aboutPage__member__label').click(function() {
     var $member = $(this).parent();
     if ($member.hasClass('active')) {
@@ -8,4 +8,4 @@ $(function() {
       $member.addClass('active');
     }
   });
-});
+}
