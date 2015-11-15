@@ -1,0 +1,18 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <h3><%= t('.import') %></h3>
+
+  <%= simple_form_for @csv_import, url: :lt_admin_csv_imports do |f| %>
+    <div class=form-group>
+      <%= f.input :replace, as: :boolean %>
+      <%= f.input :file, as: :file %>
+      <%= f.button :submit, t('.import'), name: nil %>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <h3><%= t('.export') %></h3>
+  <%= link_to t('.export_csv'), :export_new_lt_admin_csv_import, class: 'btn btn-default' %>
+</div>

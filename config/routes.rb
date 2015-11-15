@@ -61,6 +61,10 @@ Rails.application.routes.draw do
       get '/' => 'welcome#index'
       get '/synonyms' => 'synonyms#edit', as: :edit_synonyms
       post '/synonyms' => 'synonyms#update'
+
+      resources :csv_imports, only: [:new, :create] do
+        get :export, on: :new
+      end
     end
   end
 
