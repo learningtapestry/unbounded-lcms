@@ -621,7 +621,7 @@ header {
     padding-top: $ub-module-padding;
     margin-bottom: $ub-element-padding;
 		@include make-md-column(12);
-    form {
+    .search-form {
       @include set-typography($font-size-form-control, white, $font-family-caponi);
       > div.form-filters-group {
         > div {

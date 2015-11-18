@@ -1,9 +1,10 @@
 <div class="search-results-page" data-role="page">
   <div class="container">
     <div class="row">
-      <div class="search-controls">
-        <div class=search-form>
-          <%= form_tag :unbounded_search, class: 'form-horizontal curriculum-search-form', id: 'form-search', method: :get do %>
+      <%= form_tag :unbounded_search, class: 'form-horizontal curriculum-search-form', id: 'form-search', method: :get do %>
+
+        <div class="search-controls">
+          <div class=search-form>
             <div class="form-group form-filters-group">
               <%= render partial: 'unbounded/shared/search_options', locals: { dropdown_options: @dropdown_options } %>
             </div>
@@ -18,43 +19,43 @@
                 <button class="btn btn-default btn-block" id=search type="submit"><%= t('ui.search') %></button>
               </div>
             </div>
-          <% end %>
+          </div>
         </div>
-      </div>
 
-      <div class="search-results-content">
-        <div class="row">
-          <div class="breadcrumbs-list">
-            <ol class="breadcrumb">
-              <% current_search.except(:query).each do |k,v| %>
-                <li>
-                  <%= link_to(t("unbounded.title.#{k}") + " #{v}", unbounded_search_path(search_up_to(k))) %>
-                </li>
+        <div class="search-results-content">
+          <div class="row">
+            <div class="breadcrumbs-list">
+              <ol class="breadcrumb">
+                <% current_search.except(:query).each do |k,v| %>
+                  <li>
+                    <%= link_to(t("unbounded.title.#{k}") + " #{v}", unbounded_search_path(search_up_to(k))) %>
+                  </li>
+                <% end %>
+              </ol>
+              <hr class="tiny">
+            </div>
+            <div class="search-total">
+              <%= @search.total_hits %> Results - Page <%= @search.page %>
+              |
+              <%= t('.show') %>
+              <%= select_tag(:limit, options_for_select([[25, 25], [50, 50], [100, 100]], params[:limit])) %>
+              <%= t('.per_page') %>
+            </div>
+            <div class="search-pagination">
+              <%= render partial: 'pagination' %>
+            </div>
+            <div class="search-results">
+              <% @search.results.each do |lobject| %>
+                  <%= render partial: 'lobject_preview', locals: { lobject: lobject } %>
               <% end %>
-            </ol>
-            <hr class="tiny">
-          </div>
-          <div class="search-total">
-            <%= @search.total_hits %> Results - Page <%= @search.page %>
-            |
-            <%= t('.show') %>
-            <%= select_tag(:limit, options_for_select([[25, 25], [50, 50], [100, 100]], params[:limit])) %>
-            <%= t('.per_page') %>
-          </div>
-          <div class="search-pagination">
-            <%= render partial: 'pagination' %>
-          </div>
-          <div class="search-results">
-            <% @search.results.each do |lobject| %>
-                <%= render partial: 'lobject_preview', locals: { lobject: lobject } %>
-            <% end %>
-          </div>
-          <div class="search-pagination search-pagination-bottom">
-            <%= render partial: 'pagination' %>
+            </div>
+            <div class="search-pagination search-pagination-bottom">
+              <%= render partial: 'pagination' %>
+            </div>
           </div>
         </div>
-      </div>
 
+      <% end %>
     </div>
   </div>
 </div>

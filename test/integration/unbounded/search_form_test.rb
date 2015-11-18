@@ -35,4 +35,17 @@ class SearchFormTestCase < IntegrationTestCase
     click_button 'Search'
     assert_equal ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'], all('.searchForm__gradeLabel').map(&:text)
   end
+
+  def test_per_page
+    visit '/search'
+    assert_equal '100', find('#limit').value
+
+    select '50', from: 'limit'
+    click_button 'Search'
+    assert_equal '50', find('#limit').value
+
+    select '25', from: 'limit'
+    click_button 'Search'
+    assert_equal '25', find('#limit').value
+  end
 end
