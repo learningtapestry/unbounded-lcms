@@ -20,6 +20,7 @@
       <% elsif curriculum.module? || (curriculum.unit? && all_units_empty?(curriculum.current_module)) %>
         <%= render partial: 'module_nav', locals: { curriculum: curriculum } %>
       <% elsif curriculum.unit? || curriculum.lesson? %>
+        <%= render partial: 'module_nav', locals: { curriculum: curriculum } %>
         <%= render partial: 'unit_nav', locals: { curriculum: curriculum } %>
       <% end %>
     </div>
@@ -41,10 +42,12 @@
         <% end %>
 
         <% if curriculum.lesson? %>
-          <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_module, title: t("unbounded.curriculum.module") } %>
+          <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_module, title: t("unbounded.curriculum.module"), icon: 'angle-double-up' } %>
+          <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit"), icon: 'angle-up' } %>
           <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_lesson, next_obj: curriculum.next_lesson, title: t('unbounded.curriculum.lesson') } %>
-          <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, next_obj: curriculum.next_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit") } %>
-          <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_module, title: t("unbounded.curriculum.module") } %>
+          <!--%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, next_obj: curriculum.next_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit") } %-->
+          <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit"), icon: 'angle-down' } %>
+          <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_module, title: t("unbounded.curriculum.module"), icon: 'angle-double-down' } %>
         <% end %>
       </div>
     </div>

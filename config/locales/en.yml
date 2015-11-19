@@ -217,7 +217,7 @@ en:
       math_unit_label: "Topic %{idx}"
       ela_lesson_label: "Lesson %{idx}"
       math_lesson_label: "Lesson %{idx}"
-      ela_unit_x_label: "%{title} <span>(Core Materials for %{lesson} above)</span>"
+      ela_unit_x_label: "%{title}"
       math_unit_x_label: "%{title} <span>(Core Materials for %{lesson} above)</span>"
       ela_lesson_x_label: "%{title} of %{count} <span>(Part of %{unit_title})</span>"
       math_lesson_x_label: "%{title} of %{count} <span>(Part of %{unit_title})</span>"

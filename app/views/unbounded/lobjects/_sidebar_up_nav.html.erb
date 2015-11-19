@@ -1,6 +1,6 @@
 <div class='nav-module-up <%= 'disabled' unless prev_obj %>'>
   <%= link_to sidebar_nav_link(curriculum, prev_obj) do %>
-    <div><i class='fa fa-3x fa-angle-double-up'></i></div>
+    <div><i class="fa fa-3x fa-<%= icon %>"></i></div>
     <div><%= t('.up_link', title: title.upcase) %></div>
   <% end %>
 </div>

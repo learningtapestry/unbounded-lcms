@@ -768,14 +768,29 @@ header {
     }
   }
   .resource-content {@include make-md-column(10);}
-  .lesson-content, .unit-content {
-    @include make-md-column(12); background-color: white; padding-bottom: $ub-element-padding;
+  .lesson-content {
+    @include make-md-column(10); background-color: white; padding-bottom: $ub-element-padding;
     @extend .module-block;
     margin-bottom: $ub-element-padding;
     h4, h5 {
       text-transform: uppercase;
       span {text-transform: none;}
-      i {margin-left: -$grid-gutter-width/2; padding-right: $padding-xs-horizontal;}
+      //i {margin-left: -$grid-gutter-width/2; padding-right: $padding-xs-horizontal;}
+    }
+    .unit-dsc {
+      @include make-md-column(12);
+      .unit-content-title {
+        span.title { @include set-typography($font-size-grade, $ub-orange, $font-family-centrocond);}
+        span.subtitle { @include set-typography($font-size-grade, $ub-orange, $font-family-centrocond-light);}
+        @include make-md-column(10);
+      }
+      .unit-content-control{
+        @include make-md-column(2);
+        text-align: left; padding-top: $padding-large-vertical;
+        @include set-typography($font-size-toggle, $ub-txt-light-gray, $font-family-centropro-light);
+        .unit-content-icon {@extend .ub-icon-minus;}
+      }
+      .unit-content-control.collapsed {.unit-content-icon {@extend .ub-icon-plus;}}
     }
     .lesson-dsc {
       @include make-md-column(6.5);
