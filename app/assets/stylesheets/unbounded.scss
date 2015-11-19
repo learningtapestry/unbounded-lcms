@@ -495,16 +495,29 @@ header {
         }
       }
     }
+    .module-12, .module-6 {
+      .unit.unit-multiple {
+        .unit-wrapper .lessons {@include make-md-column(6, $padding-xs-horizontal * 2);}
+        .unit-wrapper .lessons-0 {padding-right: $padding-base-horizontal + $grid-gutter-width/2;}
+        .unit-wrapper .lessons-1 {padding-left: $padding-base-horizontal + $grid-gutter-width/2;}
+      }
+    }
     .module-12 {
       @include make-md-column(12, $padding-base-horizontal);
       .unit {
         @include make-md-column(2, $padding-xs-horizontal * 2);
+      }
+      .unit.unit-multiple {
+        @include make-md-column(4, $padding-xs-horizontal * 2);
       }
     }
     .module-6 {
       @include make-md-column(6, $padding-base-horizontal);
       .unit {
         @include make-md-column(4, $padding-xs-horizontal * 2);
+      }
+      .unit.unit-multiple {
+        @include make-md-column(8, $padding-xs-horizontal * 2);
       }
     }
     .module-12, .module-6 {

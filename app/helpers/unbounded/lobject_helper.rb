@@ -129,6 +129,7 @@ module Unbounded
 
     def full_title(title, subtitle)
       if subtitle.present?
+        #"<div class='r-title'>#{title}</div><div class='r-subtitle'>#{subtitle}</div>"
         "#{title}: #{subtitle}"
       else
         title
