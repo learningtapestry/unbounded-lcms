@@ -56,23 +56,24 @@ $font-size-form-label: 20px;
 	      .unit {
 	        @include make-sm-column(4, $padding-xs-horizontal * 2);
 	      }
+	      .unit.unit-multiple {
+	        @include make-sm-column(8, $padding-xs-horizontal * 2);
+	      }
 	    }
 	    .module-6 {
 	      @include make-sm-column(12, $padding-base-horizontal);
 	      .unit {
 	        @include make-sm-column(4, $padding-xs-horizontal * 2);
 	      }
+	      .unit.unit-multiple {
+	        @include make-sm-column(8, $padding-xs-horizontal * 2);
+	      }
 	    }
 	    .module-12, .module-6 {
-	      .unit-0 {
-	        padding-right: 0px; margin-right: 0px;
-	        .unit-wrapper {padding-right: $padding-xs-horizontal;}
-	      }
-	      .unit-1 {
-	        padding-left: 0px; margin-left: 0px;
-	        .unit-wrapper {
-	          padding-left: $padding-xs-horizontal;
-	        }
+	      .unit.unit-multiple {
+	        .unit-wrapper .lessons {@include make-sm-column(6, $padding-xs-horizontal * 2);}
+	        .unit-wrapper .lessons-0 {padding-right: $padding-xs-horizontal * 2 + $grid-gutter-width/2;}
+	        .unit-wrapper .lessons-1 {padding-left: $padding-xs-horizontal * 2 + $grid-gutter-width/2;}
 	      }
 	    }
 	    .module {
@@ -90,7 +91,7 @@ $font-size-form-label: 20px;
 	.lesson-page .sidebar {
 	  .module-wrapper {
 	    > div {
-	      @include make-row(-$padding-xs-horizontal * 4);
+	      @include make-row(0px);
 	      .module-title {
 	        @include make-sm-column(12, $padding-xs-horizontal * 2);
 	      }

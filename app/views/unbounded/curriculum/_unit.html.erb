@@ -1,9 +1,12 @@
-<div class="unit unit-<%= 'multiple' if unit.children.size > 16 %>">
+<% multiple_mode = 'unit-multiple' if unit.children.size > 16 %>
+<div class="unit <%= multiple_mode %>">
   <div class="unit-wrapper">
     <div class="row">
       <div class="unit-title">
         <div>
-          <%= link_to(unit_node_title(unit), unbounded_resource_path(unit.content), data: { 'lobject-id' => unit.content.id }) %>
+          <%= link_to(unbounded_resource_path(unit.content), data: { 'lobject-id' => unit.content.id }) do %>
+            <%= unit_node_title(unit, multiple_mode) %>
+          <% end %>
         </div>
       </div>
       <% each_units(unit) do |lessons, i| %>

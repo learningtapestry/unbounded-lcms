@@ -4,7 +4,7 @@
       <div class="module-title">
         <div class="row">
           <div class="module-title-title">
-            <%= link_to(module_node_title(mod), unbounded_resource_path(mod.content)) %>
+            <%= link_to(module_node_title(mod, klass), unbounded_resource_path(mod.content)) %>
           </div>
           <div class="module-title-dsc">
             <%= link_to(unbounded_resource_path(mod.content)) do %>
