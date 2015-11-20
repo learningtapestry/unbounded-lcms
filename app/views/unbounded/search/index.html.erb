@@ -1,7 +1,7 @@
 <div class="search-results-page" data-role="page">
   <div class="container">
     <div class="row">
-      <%= form_tag :unbounded_search, class: 'form-horizontal curriculum-search-form', id: 'form-search', method: :get do %>
+      <%= form_tag :unbounded_search, class: 'form-horizontal curriculum-search-form searchForm', id: 'form-search', method: :get do %>
 
         <div class="search-controls">
           <div class=search-form>
@@ -38,7 +38,7 @@
               <%= @search.total_hits %> Results - Page <%= @search.page %>
               |
               <%= t('.show') %>
-              <%= select_tag(:limit, options_for_select([[25, 25], [50, 50], [100, 100]], params[:limit])) %>
+              <%= select_tag(:limit, options_for_select([[25, 25], [50, 50], [100, 100]], params[:limit]), class: 'searchForm__limit') %>
               <%= t('.per_page') %>
             </div>
             <div class="search-pagination">

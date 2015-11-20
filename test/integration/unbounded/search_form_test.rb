@@ -1,12 +1,9 @@
 require 'test_helper'
 
 class SearchFormTestCase < IntegrationTestCase
-  def setup
-    super
-    use_poltergeist
-  end
-
   def test_curriculum_page
+    use_poltergeist
+
     visit '/curriculum'
     assert_equal ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'], all('.searchForm__gradeLabel').map(&:text)
     choose 'English Language Arts'
@@ -22,6 +19,8 @@ class SearchFormTestCase < IntegrationTestCase
   end
 
   def test_search_page
+    use_poltergeist
+
     visit '/search'
     assert_equal ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'], all('.searchForm__gradeLabel').map(&:text)
     choose 'English Language Arts'
@@ -47,5 +46,9 @@ class SearchFormTestCase < IntegrationTestCase
     select '25', from: 'limit'
     click_button 'Search'
     assert_equal '25', find('#limit').value
+
+    select '100', from: 'limit'
+    click_button 'Search'
+    assert_equal '100', find('#limit').value
   end
 end
