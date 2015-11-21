@@ -51,40 +51,54 @@ module Unbounded
       title.split(',').first.gsub(/Module\s+\w+/, '').strip if title
     end
 
-    def lesson_no(title)
-      title.split(',').last.strip if title
-    end
-
-    def resource_title(title, curriculum)
+    def resource_title(lobject, curriculum)
       if curriculum.lesson?
         subject = curriculum.subject
-        t("unbounded.curriculum.#{subject}_lesson_x_label", title: lesson_no(title), count: curriculum.lessons.count, unit_title: unit_title(curriculum))
+        t("unbounded.curriculum.#{subject}_lesson_x_label", title: lesson_no(lobject), count: curriculum.lessons.count, unit_title: unit_title(curriculum))
       else
-        lesson_no(title)
+        lesson_no(lobject)
       end
     end
 
-    def lesson_unit_title(title, curriculum)
+    def lesson_unit_title(lobject, curriculum)
       subject = curriculum.subject
-      t("unbounded.curriculum.#{subject}_unit_x_label", title: unit_title(curriculum), lesson: lesson_no(title))
+      t("unbounded.curriculum.#{subject}_unit_x_label", title: unit_title(curriculum), lesson: lesson_no(lobject))
+    end
+
+    def lesson_no(lobject)
+      title    = lobject.title.split(',').last rescue nil
+      subtitle = lobject.subtitle.present? ? lobject.subtitle : nil
+      full_title(title, subtitle)
     end
 
     def unit_title(curriculum)
       subject = curriculum.subject
       units = curriculum.units
       unit  = curriculum.current_unit
-      idx = units.index(unit)
-      t("unbounded.curriculum.#{subject}_unit_label", idx: idx + 1)
+      idx = unit_index(subject, units.index(unit))
+      title = t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
+      full_title(title, unit.subtitle)
     end
 
-    def module_node_title(module_node)
+    def module_node_title(module_node, klass = '12')
       subject = module_node.content.curriculum_subject
-      t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
+      title = t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
+      subtitle = module_node.content.subtitle
+      subtitle = subtitle.truncate(klass.include?('12') ? 200: 90, separator: /\s/) if subtitle.present?
+      full_title(title, subtitle)
     end
 
-    def unit_node_title(unit_node)
+    def unit_node_title(unit_node, multiple = nil)
       subject = unit_node.content.curriculum_subject
-      t("unbounded.curriculum.#{subject}_unit_label", idx: unit_node.position + 1)
+      idx = unit_index(subject, unit_node.position)
+      title = t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
+      subtitle = unit_node.content.subtitle
+      if subtitle.present?
+        subtitle = subtitle.truncate(multiple.nil? ? 30: 60, separator: /\s/)
+        subtitle_class = "r-subtitle-break" if multiple.nil? && subtitle.split(/\s+/).first.length >= 12 && subtitle.length > 20
+        #subtitle_class = "r-subtitle-break" if subtitle.split(/\s+/).group_by(&:size).max[0] >= 12 && subtitle.length > 20
+      end
+      full_title(title, subtitle, subtitle_class)
     end
 
     def file_icon(type)
@@ -116,6 +130,29 @@ module Unbounded
 
     def all_units_empty?(_module)
       _module.lobject_children.all? { |lc| lc.child.lobject_children.empty? }
+    end
+
+    def unit_index(subject, idx)
+      idx += 1
+      if subject == :math
+        result = ''
+        while idx > 0
+          mod = (idx - 1) % 26
+          result = "#{(mod + 65).chr}#{result}"
+          idx = (idx - mod) / 26
+        end
+        result
+      else
+        idx
+      end
+    end
+
+    def full_title(title, subtitle, subtitle_class = nil)
+      if subtitle.present?
+        content_tag(:span, title, :class => "r-title") + content_tag(:span, subtitle, :class => "r-subtitle #{subtitle_class}")
+      else
+        content_tag(:span, title, :class => "r-title")
+      end
     end
   end
 end

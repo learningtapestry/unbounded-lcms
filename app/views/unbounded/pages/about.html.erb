@@ -6,21 +6,17 @@
     	<h1><%= @page.title %></h1>
     	<%= @page.body.html_safe %>
 
-      <hr>
       <% if (members = StaffMember.all).any? %>
-        <h2><%= t('.staff_members') %></h2>
-
         <ul class=aboutPage__members>
           <% members.each do |member| %>
             <% member_id = "member_#{member.id}"%>
             <li class=aboutPage__member>
-              <input class=aboutPage__member__toggle id=<%= member_id %> name=member-toggle type=radio>
 
-              <%= label_tag member_id, class: 'aboutPage__member__label' do %>
+              <div class=aboutPage__member__label>
                 <h3 class=aboutPage__member__name><%= member.name %></h3>
                 <div class=aboutPage__member__position><%= member.position %></div>
                 <span class=aboutPage__member__close title='<%= t('ui.close') %>'>×</span>
-              <% end %>
+              </div>
 
               <div class=aboutPage__member__bio><%= member[:bio] %></div>
           <% end %>

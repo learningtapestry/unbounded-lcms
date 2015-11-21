@@ -1,27 +1,34 @@
 <div class="search-results-page" data-role="page">
+  <div class="header-module">
+    <div class="container">
+      <div class="row">
+        <%= form_tag :unbounded_search, class: 'form-horizontal curriculum-search-form searchForm', id: 'form-search', method: :get do %>
+          <div class="search-controls">
+            <div class=search-form>
+              <div class="form-group form-filters-group">
+                <%= render partial: 'unbounded/shared/search_options', locals: { dropdown_options: @dropdown_options } %>
+              </div>
+              <div class="form-group form-keyword-group searchForm__fts">
+                <label class=searchForm__fts__label for=query>4. <%= t('curriculum_page.search_form.text_label') %></label>
+                <div class=searchForm__fts__inputWrap>
+                  <input type="search" class="form-control" id=query name="query" placeholder="<%= t('.search_for') %>" value="<%= params[:query] %>">
+                </div>
+              </div>
+              <div class="form-group">
+                <div>
+                  <button class="btn btn-default btn-block" id=search type="submit"><%= t('ui.search') %></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="limit" value="<%= params[:limit] %>">
+        <% end %>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="row">
-      <div class="search-controls">
-        <div class=search-form>
-          <%= form_tag :unbounded_search, class: 'form-horizontal curriculum-search-form', id: 'form-search', method: :get do %>
-            <div class="form-group form-filters-group">
-              <%= render partial: 'unbounded/shared/search_options', locals: { dropdown_options: @dropdown_options } %>
-            </div>
-            <div class="form-group form-keyword-group searchForm__fts">
-              <label class=searchForm__fts__label for=query>4. <%= t('curriculum_page.search_form.text_label') %></label>
-              <div class=searchForm__fts__inputWrap>
-                <input type="search" class="form-control" id=query name="query" placeholder="<%= t('.search_for') %>" value="<%= params[:query] %>">
-              </div>
-            </div>
-            <div class="form-group">
-              <div>
-                <button class="btn btn-default btn-block" id=search type="submit"><%= t('ui.search') %></button>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
       <div class="search-results-content">
         <div class="row">
           <div class="breadcrumbs-list">
@@ -38,7 +45,7 @@
             <%= @search.total_hits %> Results - Page <%= @search.page %>
             |
             <%= t('.show') %>
-            <%= select_tag(:limit, options_for_select([[25, 25], [50, 50], [100, 100]], params[:limit])) %>
+            <%= select_tag(:limit, options_for_select([[25, 25], [50, 50], [100, 100]], params[:limit]), class: 'searchForm__limit') %>
             <%= t('.per_page') %>
           </div>
           <div class="search-pagination">
@@ -54,7 +61,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>

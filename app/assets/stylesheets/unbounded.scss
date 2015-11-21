@@ -39,7 +39,7 @@ $font-size-form-control: 14px;
 $font-size-grade: 32px;
 $font-size-base-curriculum: 18px;
 $font-size-module: 21px;
-$font-size-unit: 18px;
+$font-size-unit: 16px;
 $font-size-toggle: 14px;
 // Resource
 $font-size-lesson-nav: 12px;
@@ -94,6 +94,8 @@ $logo-height: 30px;
 $logo-footer-width: 150px;
 $logo-title-height: 36px;
 
+// Curriculum page
+$unit-title-height: 65px;
 // Lesson page
 $lesson-img-height: 195px;
 // Home page
@@ -182,10 +184,10 @@ a {
   .lesson.lesson-active {
     .ub-cc-lesson { background-color: darken($ub-green, 20%);}
   }
-  .module .module-title a.active, .unit .unit-title a.active {color: $ub-green!important;}
+  .module .module-title a.active, .unit .unit-title a.active {&, .r-title, .r-subtitle {color: $ub-green!important;}}
   .module .module-title, .unit .unit-title, .lesson-nav, .grade-title {
     a:hover, a:focus {
-      color: $ub-green!important;
+      &, .r-title, .r-subtitle {color: $ub-green!important;}
       text-decoration: none;
     }
   }
@@ -214,10 +216,10 @@ a {
   .lesson.lesson-active {
     .ub-cc-lesson {background-color: darken($ub-orange, 20%);}
   }
-  .module .module-title a.active, .unit .unit-title a.active {color: $ub-orange!important;}
+  .module .module-title a.active, .unit .unit-title a.active {&, .r-title, .r-subtitle {color: $ub-orange!important;}}
   .module .module-title, .unit .unit-title, .lesson-nav, .grade-title {
     a:hover, a:focus {
-      color: $ub-orange!important;
+      &, .r-title, .r-subtitle {color: $ub-orange!important;}
       text-decoration: none;
     }
   }
@@ -430,7 +432,7 @@ header {
   }
 }
 
-.search-form-page {
+.search-form-page, .search-results-page {
   .header-module {
     margin-top: -$navbar-height;
     padding-top: $navbar-height + $ub-module-padding * 2;
@@ -438,6 +440,9 @@ header {
     background: linear-gradient($ub-bg-filter-purple, $ub-bg-filter-purple), image-url('curriculum.jpg');
     background-size: cover;
   }
+}
+
+.search-form-page {
   .header-module {
     .search-form {
       @include make-md-column(12);
@@ -496,35 +501,46 @@ header {
         }
       }
     }
+    .module-12, .module-6 {
+      .unit.unit-multiple {
+        .unit-wrapper .lessons {@include make-md-column(6, $padding-xs-horizontal * 2);}
+        .unit-wrapper .lessons-0 {padding-right: $padding-xs-horizontal * 2 + $grid-gutter-width/2;}
+        .unit-wrapper .lessons-1 {padding-left: $padding-xs-horizontal * 2 + $grid-gutter-width/2;}
+      }
+    }
     .module-12 {
       @include make-md-column(12, $padding-base-horizontal);
       .unit {
         @include make-md-column(2, $padding-xs-horizontal * 2);
       }
-    }
-    .module-6 {
-      @include make-md-column(6, $padding-base-horizontal);
-      .unit {
+      .unit.unit-multiple {
         @include make-md-column(4, $padding-xs-horizontal * 2);
       }
     }
-    .module-12, .module-6 {
-      .unit-0 {
-        padding-right: 0px; margin-right: 0px;
-        .unit-wrapper {padding-right: $padding-xs-horizontal;}
+    .module-6 {
+      @include make-md-column(6,  0px); padding-left: $padding-base-horizontal/2;
+      .unit {
+        @include make-md-column(4, $padding-xs-horizontal * 2);
       }
-      .unit-1 {
-        padding-left: 0px; margin-left: 0px;
-        .unit-wrapper {
-          padding-left: $padding-xs-horizontal;
-          .unit-title {visibility:hidden;}
-        }
+      .unit.unit-multiple {
+        @include make-md-column(8, $padding-xs-horizontal * 2);
       }
     }
+    .module-6 + .module-6 {
+     padding-right: $padding-base-horizontal/2; padding-left: 0px;
+    }
+
     .module {
       padding-top: $padding-base-vertical; padding-bottom: $padding-base-vertical;
       .module-title {
-        .module-title-title {@include make-md-column(12);}
+        .module-title-title {
+          @include make-md-column(12);
+          &, & a  {
+            .r-title {
+               &:after {content: ': ';}
+            }
+          }
+        }
         .module-title-dsc {
           @include make-md-column(10);
           p, p span { @include inline-styles-overwrite($ub-txt-gray, white, $font-size-base-curriculum, $font-family-centropro-light, italic);}
@@ -540,6 +556,18 @@ header {
         }
       }
     }
+    .unit {
+      .unit-wrapper {
+        .unit-title {
+          min-height: $unit-title-height!important;
+          a {
+            .r-title {
+              &:after {content: ': ';}
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -548,17 +576,20 @@ header {
   .module-wrapper {
     padding-top: $ub-element-padding/2; padding-bottom: $ub-element-padding/2;
     > div {
-      @include make-row(-$padding-xs-horizontal * 4);
+      @include make-row(0px);
       .module-title {
         @include make-md-column(12, $padding-xs-horizontal * 2);
         padding-bottom: $ub-element-padding;
-        .module-title-title, .module-title-title a  {
-          @include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro);
+        .module-title-title {
+          &, & a  {
+            .r-title {
+              @include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro);
+            }
+            .r-subtitle {@include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro-light);}
+          }
         }
-        //font-family: $headings-font-family;
       }
       .unit {
-        //@include make-md-column(4, $padding-xs-horizontal * 2);
         padding-top: $padding-base-vertical; padding-bottom: $padding-base-vertical;
         .unit-wrapper {
           background-color: $ub-unit-bg;
@@ -569,8 +600,14 @@ header {
               @include make-md-column(12, $padding-xs-horizontal * 2);
               padding-bottom: $ub-element-padding;
               a {
-                @include set-typography($font-size-unit, $ub-txt-gray, $font-family-centropro);
-                text-transform: uppercase;
+                .r-title {
+                  @include set-typography($font-size-unit, $ub-txt-gray, $font-family-centropro);
+                  text-transform: uppercase;
+                }
+                .r-subtitle {
+                  @include set-typography($font-size-unit - 2px, $ub-txt-gray, $font-family-centropro-light);
+                }
+                .r-subtitle-break {word-break: break-all;}
               }
             }
             .lessons, .modules, .units {
@@ -615,14 +652,15 @@ header {
 }
 
 .search-results-page {
+  .header-module {margin-bottom: $ub-module-padding; }
 	//background-color: $ub-light-gray;
-  padding-top: $ub-module-padding;
+  //padding-top: $ub-module-padding;
 	.search-controls {
-    background: $ub-bg-filter-purple;
-    padding-top: $ub-module-padding;
-    margin-bottom: $ub-element-padding;
+    //background: $ub-bg-filter-purple;
+    //padding-top: $ub-module-padding;
+    //margin-bottom: $ub-element-padding;
 		@include make-md-column(12);
-    form {
+    .search-form {
       @include set-typography($font-size-form-control, white, $font-family-caponi);
       > div.form-filters-group {
         > div {
@@ -718,7 +756,15 @@ header {
       margin-bottom: $ub-element-padding; padding-top: $ub-element-padding;
       @include make-md-column(12);
       @extend .module-block;
-      .module-wrapper > .row {@include make-row($padding-large-horizontal);}
+      .module-wrapper {
+        > .row {@include make-row($padding-large-horizontal);}
+         > div .module-title .module-title-title {
+          .r-title {
+            display: block;
+          }
+          .r-subtitle {font-size: $font-size-unit;}
+        }
+      }
       .unit {
         @include make-md-column(12, $padding-xs-horizontal * 2);
         .unit-wrapper > .row {@include make-row(-$grid-gutter-width/2);}
@@ -726,6 +772,11 @@ header {
           @include set-typography($font-size-lesson-nav, $ub-txt-gray, $font-family-caponi);
           text-decoration: none; text-transform: uppercase;
           padding-left: 0px;
+        }
+        .unit-wrapper {
+          .unit-title {
+            .r-title { display: block;}
+          }
         }
       }
       .lesson-nav {
@@ -759,14 +810,6 @@ header {
   .lesson-content-ela {@extend .ela-border; .lesson-dsc i {color: darken($ub-orange, 20%);}}
   .lesson-content-math {@extend .math-border; .lesson-dsc i {color: darken($ub-green, 20%);}}
   .unit-content {@extend .unit-border;  padding-top: $ub-element-padding;.lesson-dsc i {color: $ub-unit-bg;} }
-  .lesson-content {
-    .lesson-img {
-      @include make-md-column(12);
-      background-image: image-url('resource_background.jpg'); background-size: cover;
-      height: $lesson-img-height;
-      margin-bottom: $ub-element-padding;
-    }
-  }
   .resource-content {@include make-md-column(10);}
   .lesson-content {
     @include make-md-column(10); background-color: white; padding-bottom: $ub-element-padding;
@@ -777,11 +820,25 @@ header {
       span {text-transform: none;}
       //i {margin-left: -$grid-gutter-width/2; padding-right: $padding-xs-horizontal;}
     }
+    .r-title {&:after {content: ': ';}}
+    .lesson-img {
+      @include make-md-column(12);
+      background-image: image-url('resource_background.jpg'); background-size: cover;
+      height: $lesson-img-height;
+      margin-bottom: $ub-element-padding;
+    }
+    .unit-lesson-content {
+      background-color: $ub-unit-bg;
+      margin-top: $ub-module-padding;
+      padding-top: $ub-element-padding;
+      padding-bottom: $ub-element-padding;
+      margin-bottom: -$ub-element-padding;
+    }
     .unit-dsc {
       @include make-md-column(12);
       .unit-content-title {
-        span.title { @include set-typography($font-size-grade, $ub-orange, $font-family-centrocond);}
-        span.subtitle { @include set-typography($font-size-grade, $ub-orange, $font-family-centrocond-light);}
+        span.title { @include set-typography($font-size-grade, $ub-txt-gray, $font-family-centrocond);}
+        span.subtitle { @include set-typography($font-size-grade, $ub-txt-gray, $font-family-centrocond-light);}
         @include make-md-column(10);
       }
       .unit-content-control{
@@ -913,19 +970,13 @@ form.inline {
     cursor: pointer;
 }
 
-.curriculum-grade {
-    .collapsed .show-ctrl{
-        display: initial;
+.curriculum-grade, .unit-content-control {
+    &.collapsed, .collapsed {
+      .show-ctrl {display: initial;}
+      .hide-ctrl {display: none;}
     }
-    .collapsed .hide-ctrl{
-        display: none;
-    }
-    .show-ctrl {
-        display: none;
-    }
-    .hide-ctrl {
-        display: initial;
-    }
+    .show-ctrl {display: none;}
+    .hide-ctrl {display: initial;}
 }
 
 .admin-lobject-search .lobject-search-wrap .selectize-control {

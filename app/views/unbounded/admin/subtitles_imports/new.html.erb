@@ -1,0 +1,26 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <div class='alert alert-warning'>
+    <p>For successful import, a spreadsheet must contain the following columns:
+
+    <p>
+      <ol>
+        <li>ID Unbounded Database
+        <li>ID Our Database
+        <li>Current Resource Title
+        <li>Resource Subtitle
+        <li>Resource Description
+      </ol>
+    </p>
+
+    <p>The columns names don't matter, but their order does.
+  </div>
+
+  <%= simple_form_for @importer, url: :unbounded_admin_subtitles_imports do |f| %>
+    <div class=form-group>
+      <%= f.input :file, as: :file %>
+      <%= f.button :submit, t('.import'), name: nil %>
+    </div>
+  <% end %>
+</div>

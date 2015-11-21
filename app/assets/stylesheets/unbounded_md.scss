@@ -1,3 +1,6 @@
+$font-size-unit: 13px;
+$unit-wrapper-padding: 8px;
+
 @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
   .search-form-page {
     .curriculum-content {
@@ -10,6 +13,37 @@
         .module-title {
           .module-title-dsc {
             @include make-md-column(12);
+          }
+        }
+      }
+      .module-12, .module-6 {
+        .unit.unit-multiple {
+          .unit-wrapper .lessons-0 {padding-right: $padding-xs-horizontal * 2 + $unit-wrapper-padding;}
+          .unit-wrapper .lessons-1 {padding-left: $padding-xs-horizontal * 2 + $unit-wrapper-padding;}
+        }
+      }
+    }
+  }
+
+  .search-form-page .curriculum-content,
+  .lesson-page .sidebar {
+    .module-wrapper {
+      > div {
+        .unit {
+          .unit-wrapper {
+            > div {
+              @include make-row(-$unit-wrapper-padding * 2);
+              .unit-title {
+                a {
+                  .r-title {
+                    font-size: $font-size-unit;
+                  }
+                  .r-subtitle {
+                    font-size: $font-size-unit - 1px;
+                  }
+                }
+              }
+            }
           }
         }
       }

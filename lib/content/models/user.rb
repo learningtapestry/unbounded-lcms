@@ -11,21 +11,39 @@ module Content
 
       has_many :organizations, through: :user_organizations
 
-      def roles(org, roles = nil)
-        if roles
-          user_roles.destroy_all
-          roles.each { |role| add_role(org, role) }; true
-        else
-          Role.joins(:user_roles).where(user_roles: { organization: org, user: self })
-        end
+      def self.create_for_organization(organization, role, params)
+        user = new(params)
+        
+        transaction do
+          user.add_to_organization(organization)
+          user.add_role(organization, Role.named(role))
+
+          unless user.password
+            user.password = Devise.friendly_token.first(20)
+            user.send_reset_password_instructions rescue nil
+          end
+
+          user.save!
+        end rescue ActiveRecord::RecordInvalid
+        user.persisted? # Prevents bug in Rails. See https://github.com/rails/rails/issues/22066
+
+        user
+      end
+
+      def roles(org)
+        Role.joins(:user_roles).where(user_roles: { organization: org, user: self })
       end
 
       def add_role(org, role)
-        UserRole.find_or_create_by!(user: self, organization: org, role: role); true
+        user_roles.build(organization: org, role: role) unless has_role?(org, role)
       end
 
       def remove_role(org, role)
         !user_roles.where(organization: org, role: role).destroy_all.empty?
+      end
+
+      def has_org?(org)
+        !user_organizations.where(organization: org).empty?
       end
 
       def has_role?(org, role)
@@ -33,7 +51,7 @@ module Content
       end
 
       def add_to_organization(org)
-        UserOrganization.find_or_create_by!(user: self, organization: org); true
+        user_organizations.build(organization: org) unless has_org?(org)
       end
 
       def remove_from_organization(org)

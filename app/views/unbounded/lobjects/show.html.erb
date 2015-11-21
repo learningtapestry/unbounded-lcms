@@ -22,35 +22,33 @@
         </div>
       <% end %>
       <div class="lesson-content lesson-content-<%= @lobject.curriculum_subject %> <%= @lobject.curriculum_subject %>">
+        <div class="row">
+          <div class="lesson-img"></div>
+          <%= render partial: 'resource_content', locals: {lobject: @lobject, show_dsc: true, resource_title: resource_title(@lobject, curriculum)} %>
+        </div>
         <% if curriculum.lesson? %>
-          <div class="row">
-            <div class="lesson-img"></div>
+          <div class="row unit-lesson-content">
             <div class="unit-dsc">
               <div class="row">
                 <div class="unit-content-title">
-                  <span class="title"><%= lesson_unit_title(@lobject.title, curriculum).html_safe %></span>
-                  <span class="subtitle"> &ndash; <%= lesson_title(@lobject.title) %></span>
+                  <h4><%= lesson_unit_title(@lobject, curriculum).html_safe %></h4>
+                  <!--span class="title"><%= lesson_unit_title(@lobject, curriculum).html_safe %></span>
+                  <span class="subtitle"> &ndash; <%= lesson_title(@lobject.title) %></span-->
                 </div>
-                <div class="unit-content-control collapsed" data-toggle="collapse" data-target="#unit-content" aria-expanded="false">
+                <div class="unit-content-control" data-toggle="collapse" data-target="#unit-content" aria-expanded="false">
                   <div class="pull-right">
-                    <span class="hidden-xs"><%= t('ui.show_more').upcase %></span>
+                    <span class="hidden-xs show-ctrl"><%= t('ui.show_more').upcase %></span>
+                    <span class="hidden-xs hide-ctrl"><%= t('ui.show_less').upcase %></span>
                     <i class="ub-icon-unit-content unit-content-icon"></i>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="unit-materials collapse" aria-expanded="false" id="unit-content">
+            <div class="unit-materials collapse in" aria-expanded="true" id="unit-content">
               <%= render partial: 'resource_content', locals: {lobject: curriculum.current_unit, show_dsc: false} %>
             </div>
           </div>
-          <hr>
         <% end %>
-        <div class="row">
-          <% if !curriculum.lesson? %>
-            <div class="lesson-img"></div>
-          <% end %>
-          <%= render partial: 'resource_content', locals: {lobject: @lobject, show_dsc: true, resource_title: resource_title(@lobject.title, curriculum)} %>
-        </div>
       </div>
       <% if curriculum = @lobject.unbounded_curriculum %>
         <div class="sidebar sidebar-<%= @lobject.curriculum_subject %> <%= @lobject.curriculum_subject %> visible-xs-block">

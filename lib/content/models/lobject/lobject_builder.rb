@@ -2,10 +2,19 @@ module Content
   module Models
     class LobjectBuilder
       attr_reader :lobject
-      
-      def initialize
-        @lobject = Lobject.new
+
+      def initialize(lobject = Lobject.new)
+        @lobject = lobject
       end
+
+      def add_alignment(standard)
+        @lobject.lobject_alignments.build(
+          alignment: Alignment.where(name: standard).first_or_create.canonical
+        )
+        self
+      end
+
+      alias_method :add_standard, :add_alignment
 
       def add_description(description)
         @lobject.lobject_descriptions.build(description: description)
@@ -34,13 +43,6 @@ module Content
         self
       end
 
-      def add_standard(standard)
-        @lobject.lobject_alignments.build(
-          alignment: Alignment.where(name: standard).first_or_create.canonical
-        )
-        self
-      end
-
       def add_subject(subject)
         @lobject.lobject_subjects.build(
           subject: Subject.where(name: subject).first_or_create.canonical
@@ -60,17 +62,49 @@ module Content
         self
       end
 
+      def clear_alignments
+        @lobject.lobject_alignments.destroy_all
+      end
+      
+      def clear_descriptions
+        @lobject.lobject_descriptions.destroy_all
+      end
+      
+      def clear_grades
+        @lobject.lobject_grades.destroy_all
+      end
+      
+      def clear_identities
+        @lobject.lobject_identities.destroy_all
+      end
+      
+      def clear_resource_types
+        @lobject.lobject_resource_types.destroy_all
+      end
+      
+      def clear_subjects
+        @lobject.lobject_subjects.destroy_all
+      end
+      
+      def clear_titles
+        @lobject.lobject_titles.destroy_all
+      end
+      
+      def clear_urls
+        @lobject.lobject_urls.destroy_all
+      end
+
       def set_organization(organization)
         @lobject.organization = organization
         self
       end
 
       def save
-        @lobject.save! ; @lobject
+        @lobject.save ; @lobject
       end
 
       def save!
-        @lobject.save ; @lobject
+        @lobject.save! ; @lobject
       end
     end
   end

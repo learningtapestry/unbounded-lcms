@@ -6,6 +6,7 @@
   <div class="dsc">
     <%= lobject.description.html_safe %>
     <%= render partial: 'unbounded/shared/additional_lobjects', object: lobject.additional_lobjects %>
+    <%= render partial: 'engageny', locals: { lobject: @lobject } if show_dsc %>
   </div>
 </div>
 <div class="lesson-resources">

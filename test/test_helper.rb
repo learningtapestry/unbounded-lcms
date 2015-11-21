@@ -8,6 +8,7 @@ require 'minitest/rails/capybara'
 require 'shoulda/context'
 require 'shoulda/matchers'
 require 'capybara/poltergeist';
+require 'email_spec'
 
 Capybara.javascript_driver = :poltergeist
 
@@ -43,6 +44,7 @@ class IntegrationTestCase < ActionDispatch::IntegrationTest
     super
     Capybara.reset_sessions!
     Capybara.use_default_driver if Capybara.current_driver == :poltergeist
+    Rails.cache.clear
   end
 
   def use_poltergeist

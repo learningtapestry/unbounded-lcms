@@ -25,12 +25,35 @@ en:
       welcome:
         index:
           edit_synonyms: Edit synonyms
+          csv_imports: Import CSV
       synonyms:
         edit:
           page_title: Edit synonyms
           warning: 'Warning: this operation will shut down the Elasticsearch index for a few seconds.'
         update:
           success: Synonyms updated successfully
+      csv_imports:
+        new:
+          export: Export data
+          export_csv: Export all data as CSV
+          import: Import data
+          page_title: Import/export data
+          replace: Replace all data
+        create:
+          success: Thank you. File import is in progress.
+          fail_csv: Could not import. Please check whether your file is a CSV and whether the fields are correct.
+  activemodel:
+    errors:
+      models:
+        lt/admin/csv_import:
+          attributes:
+            file:
+              incorrect_format: 'should be a CSV with the headers: %{headers}'
+        content/importers/subtitles_importer:
+          attributes:
+            file:
+              incorrect_format: 'incorrect format: %{count} columns instead of %{limit}'
+              incorrect_type: has incorrect type
   activerecord:
     models:
       content/models/lobject: Resource
@@ -75,7 +98,7 @@ en:
     curriculum: Curriculum
     professional_development: Professional Development
     news: News
-    about: About unboundED
+    about: About
   resources_count:
     one: resource
     other: resources
@@ -181,6 +204,38 @@ en:
           page_title: New Staff Member
         update:
           success: Staff Member updated successfully.
+      subtitles_imports:
+        index:
+          no_results: Nothing was imported
+          page_title: Import results
+          results_count: '%{count} resource(s) updated'
+        new:
+          import: Import
+          spreadsheet: Spreadsheet
+          page_title: 'Import subtitles & descriptions'
+      users:
+        create:
+          success: "User %{user} was created successfully."
+          error:  "User %{user} could not be created."
+        index:
+          email: E-mail
+          name: Name
+          new_user: New user
+          page_title: Users
+          reset_password_btn: Reset password
+        search_form:
+          email: E-mail
+          name: Name
+        destroy:
+          success: "User was deleted successfully."
+        edit:
+          page_title: "Edit user %{user}"
+        reset_password:
+          success: "User will receive a password reset e-mail."
+        update:
+          success: "Changes to %{user} were saved successfully."
+        new:
+          page_title: New user
       welcome:
         index:
           collection_types: Collection Types
@@ -189,6 +244,7 @@ en:
           pages: Pages
           resources: Resources
           staff_members: Staff Members
+          users: Users
     lobjects:
       nav:
         next_lesson: Next LESSON
@@ -291,6 +347,9 @@ en:
     close: Close
     delete: Delete
     edit: Edit
+    import_subtitles: 'Import subtitles & descriptions'
+    import: Import
+    export: Export
     loading: Loading
     remove: Remove
     save: Save

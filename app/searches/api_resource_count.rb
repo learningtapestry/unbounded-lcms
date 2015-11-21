@@ -2,7 +2,7 @@ require 'content/models'
 require 'content/search'
 
 class ApiResourceCount
-  attr_reader :results
+  attr_reader :results, :total_count
 
   def initialize(params, entity:, join_entity:)
     limit = params[:limit].try(:to_i) || 100
@@ -21,7 +21,7 @@ class ApiResourceCount
 
     counts_sql = %{
       select
-        q.#{entity_id}, count(*) as count
+        q.#{entity_id}, count(*) as count, count(*) OVER() AS total_count
       from
         (#{inner_sql}) q
       group by
@@ -45,5 +45,7 @@ class ApiResourceCount
 
       result
     end
+
+    @total_count = counts.any? ? counts.first['total_count'] : 0
   end
 end

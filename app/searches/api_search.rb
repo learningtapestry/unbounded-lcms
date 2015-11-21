@@ -2,7 +2,7 @@ require 'content/models'
 require 'content/search'
 
 class ApiSearch
-  attr_reader :operation, :results
+  attr_reader :operation, :results, :total_count
 
   def initialize(params)
     limit = params[:limit].try(:to_i) || 100
@@ -101,14 +101,13 @@ class ApiSearch
           if params[:query]
             query do
               bool do
-                should { match 'title' => { query: params[:query], boost: 4 } }
-                should { match 'description' => { query: params[:query], boost: 2 } }
-                should { match '_all' => params[:query] }
+                should { match title: { query: params[:query], operator: 'and', boost: 2 } }
+                should { match description: { query: params[:query], operator: 'and' } }
               end
             end
           elsif params[:title]
             query do
-              match 'title' => params[:title]
+              match title: { query: params[:title], operator: 'and' }
             end
           end
         end
@@ -157,5 +156,7 @@ class ApiSearch
       aggregations: facets,
       results: operation.map(&:_source)
     }
+
+    @total_count = operation.response[:hits][:total]
   end
 end

@@ -1,13 +1,16 @@
-<% each_units(unit) do |lessons, i| %>
-  <div class="unit unit-<%= i if unit.children.size > 16 %>">
-    <div class="unit-wrapper">
-      <div class="row">
-        <div class="unit-title">
-          <div>
-            <%= link_to(unit_node_title(unit), unbounded_resource_path(unit.content), data: { 'lobject-id' => unit.content.id }) %>
-          </div>
+<% multiple_mode = 'unit-multiple' if unit.children.size > 16 %>
+<div class="unit <%= multiple_mode %>">
+  <div class="unit-wrapper">
+    <div class="row">
+      <div class="unit-title">
+        <div>
+          <%= link_to(unbounded_resource_path(unit.content), data: { 'lobject-id' => unit.content.id }) do %>
+            <%= unit_node_title(unit, multiple_mode) %>
+          <% end %>
         </div>
-        <div class="lessons">
+      </div>
+      <% each_units(unit) do |lessons, i| %>
+        <div class="lessons lessons-<%= i if unit.children.size > 16 %>">
           <div class="row">
             <% lessons.each do |lesson| %>
               <%= render partial: 'lesson', object: lesson %>
@@ -20,7 +23,7 @@
             <% end %>
           </div>
         </div>
-      </div>
+      <% end %>
     </div>
   </div>
-<% end %>
+</div>

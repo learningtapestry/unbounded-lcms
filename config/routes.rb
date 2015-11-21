@@ -45,7 +45,11 @@ Rails.application.routes.draw do
         resources :lobjects, except: :show
         resources :pages, except: :show
         resources :staff_members, except: :show
+        resources :subtitles_imports, only: [:index, :new, :create]
         resources :tags, only: :create
+        resources :users, except: :show do
+          post :reset_password, on: :member
+        end
       end
 
       resources :pages, only: :show
@@ -57,6 +61,10 @@ Rails.application.routes.draw do
       get '/' => 'welcome#index'
       get '/synonyms' => 'synonyms#edit', as: :edit_synonyms
       post '/synonyms' => 'synonyms#update'
+
+      resources :csv_imports, only: [:new, :create] do
+        get :export, on: :new
+      end
     end
   end
 
