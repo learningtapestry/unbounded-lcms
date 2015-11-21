@@ -34,11 +34,12 @@ function t(args) {
 var ready = function() {
   $('.selectize').selectize({ allowEmptyOption: true, plugins: ['remove_button'] });
   window.initializeAbout();
+  window.initializeCurriculum();
   window.initializeLobjectForm();
   window.initializeLobjectList();
-  window.initializeTree();
-  window.initializeCurriculum();
   window.initializeResource();
+  window.initializeSearchForm();
+  window.initializeTree();
   svg4everybody();
 };
 
