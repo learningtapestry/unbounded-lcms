@@ -226,7 +226,7 @@ $header-img-block-height: 195px;
   .search-results-page {
     .search-controls {
       @include make-xs-column(12);
-      form {
+      .search-form {
         > div.form-filters-group {
           > div {
             @include make-xs-column(12); padding-bottom: $ub-element-padding;

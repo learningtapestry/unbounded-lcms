@@ -206,7 +206,7 @@ $font-size-form-label: 20px;
 	.search-results-page {
 		.search-controls {
 			@include make-sm-column(12);
-	    form {
+	    .search-form {
 	      > div.form-filters-group {
 	        > div {
 	          @include make-sm-column(4, $grid-gutter-width/2);
