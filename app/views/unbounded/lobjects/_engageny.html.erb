@@ -1,17 +1,16 @@
 <% if document = lobject.documents.first %>
   <hr>
 
-  <div class=small>
-    From EngageNY.org of the New York State Education Department. <%= document.title %>.
-    <br>
+  <div class="enageny-reference">
+    <p>From EngageNY.org of the New York State Education Department. <%= document.title %>.</p>
 
-    <% if url = lobject.urls.first %>
-      Available from <%= url.stripped %>; accessed 2015-05-29.
-      <br>
-    <% end %>
-
-    License: <%= link_to 'http://creativecommons.org/licenses/by-nc-sa/3.0/', 'http://creativecommons.org/licenses/by-nc-sa/3.0/' %>
-
-    <%= image_tag 'cc_logo.svg', alt: 'Creative Commons logo', size: '78x18' %>
+    <p class="cc-logo-link">
+      <% if url = lobject.urls.first %>
+        Available from <%= url.stripped %>;<br>accessed 2015-05-29.
+      <% end %>
+      <%= link_to 'http://creativecommons.org/licenses/by-nc-sa/3.0/' do %>
+        <%= image_tag 'cc_logo.png', alt: 'Creative Commons logo' %>
+      <% end %>
+    </p>
   </div>
 <% end %>

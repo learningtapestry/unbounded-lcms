@@ -829,7 +829,7 @@ header {
     }
     .unit-lesson-content {
       background-color: $ub-unit-bg;
-      margin-top: $ub-module-padding;
+      margin-top: $ub-element-padding;
       padding-top: $ub-element-padding;
       padding-bottom: $ub-element-padding;
       margin-bottom: -$ub-element-padding;
@@ -859,6 +859,11 @@ header {
       //color: $ub-dark-bgray; a {color: $ub-dark-bgray;}
       .lesson-inst-resources {@include make-md-column(12);}
       .lesson-dev-resources {@include make-md-column(12);}
+    }
+    .enageny-reference {
+      font-size: $font-size-base/1.5;
+      p {margin-bottom: $padding-xs-vertical;}
+      img {height: $font-size-base * 1.2;}
     }
   }
 }
