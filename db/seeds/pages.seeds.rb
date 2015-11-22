@@ -1,7 +1,7 @@
 include Content::Models
 
 about_body = <<-HTML
-<p>Welcome to highschoolcurriculumpilot.org. This is an experimental curriculum project to designed learn about how teachers can make effective use of well organized materials. We have relied on OER curriculum heavily for this pilot. If you have questions or feedback about this site, please contact us. We hope you enjoy using this site!</p>
+<p>This is an experimental curriculum project designed to learn about how teachers can make effective use of well organized materials. We relied on ELA and math OER curriculum in grades 9-12 heavily for this pilot project. If you have any questions or feedback about the materials on this site, please contact us. We hope you enjoy using this site!</p>
 HTML
 
 Page.create_with(body: about_body, title: 'About Us').find_or_create_by(slug: 'about')

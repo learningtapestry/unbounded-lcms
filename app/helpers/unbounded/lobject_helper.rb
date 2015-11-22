@@ -66,19 +66,25 @@ module Unbounded
       full_title(title, unit.subtitle)
     end
 
-    def module_node_title(module_node)
+    def module_node_title(module_node, klass = '12')
       subject = module_node.content.curriculum_subject
       title = t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
       subtitle = module_node.content.subtitle
+      subtitle = subtitle.truncate(klass.include?('12') ? 200: 90, separator: /\s/) if subtitle.present?
       full_title(title, subtitle)
     end
 
-    def unit_node_title(unit_node)
+    def unit_node_title(unit_node, multiple = nil)
       subject = unit_node.content.curriculum_subject
       idx = unit_index(subject, unit_node.position)
       title = t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
       subtitle = unit_node.content.subtitle
-      full_title(title, subtitle)
+      if subtitle.present?
+        subtitle = subtitle.truncate(multiple.nil? ? 30: 60, separator: /\s/)
+        subtitle_class = "r-subtitle-break" if multiple.nil? && subtitle.split(/\s+/).first.length >= 12 && subtitle.length > 20
+        #subtitle_class = "r-subtitle-break" if subtitle.split(/\s+/).group_by(&:size).max[0] >= 12 && subtitle.length > 20
+      end
+      full_title(title, subtitle, subtitle_class)
     end
 
     def file_icon(type)
@@ -127,11 +133,11 @@ module Unbounded
       end
     end
 
-    def full_title(title, subtitle)
+    def full_title(title, subtitle, subtitle_class = nil)
       if subtitle.present?
-        "#{title}: #{subtitle}"
+        content_tag(:span, title, :class => "r-title with-colon") + content_tag(:span, subtitle, :class => "r-subtitle #{subtitle_class}")
       else
-        title
+        content_tag(:span, title, :class => "r-title")
       end
     end
   end

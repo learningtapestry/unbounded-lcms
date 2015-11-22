@@ -1,7 +1,7 @@
 class LobjectPreviewSerializer < ActiveModel::Serializer
   include TruncateHtmlHelper
   include Unbounded::LobjectHelper
-  
+
   attributes :id, :title, :description, :curriculum_subject, :resource_kind, :slug
 
   def description
@@ -13,6 +13,10 @@ class LobjectPreviewSerializer < ActiveModel::Serializer
   end
 
   def title
-    full_title(object.title, object.subtitle)
+    if object.subtitle.present?
+      "#{object.title}: #{object.subtitle}"
+    else
+      object.title
+    end
   end
 end

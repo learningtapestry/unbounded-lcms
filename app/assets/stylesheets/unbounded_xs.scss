@@ -91,27 +91,21 @@ $header-img-block-height: 195px;
       }
       .module-12 {
         @include make-xs-column(12, $padding-base-horizontal);
-        .unit {
+        .unit, .unit.unit-multiple {
           @include make-xs-column(12, $padding-xs-horizontal * 2);
         }
       }
       .module-6 {
         @include make-xs-column(12, $padding-base-horizontal);
-        .unit {
+        .unit, .unit.unit-multiple {
           @include make-xs-column(12, $padding-xs-horizontal * 2);
         }
       }
       .module-12, .module-6 {
-        .unit-0 {
-          padding-bottom: 0px!important;
-          .unit-wrapper {padding-bottom: 0px!important; padding-right: 0px;}
-        }
-        .unit-1 {
-          padding-top: 0px!important;
-          .unit-wrapper {
-            padding-top: 0px!important;
-            padding-left: 0px;
-          }
+        .unit.unit-multiple {
+          //.unit-wrapper .lessons {@include make-xs-column(12, $padding-xs-horizontal * 2);}
+          .unit-wrapper .lessons-0 {padding-right: $padding-xs-horizontal;}
+          .unit-wrapper .lessons-1 {padding-left: $padding-xs-horizontal;}
         }
       }
       .module {
@@ -121,6 +115,7 @@ $header-img-block-height: 195px;
           .module-title-dsc {@include make-xs-column(12);}
         }
       }
+      .unit .unit-wrapper .unit-title {min-height: 1px!important;}
     }
   }
 
@@ -231,7 +226,7 @@ $header-img-block-height: 195px;
   .search-results-page {
     .search-controls {
       @include make-xs-column(12);
-      form {
+      .search-form {
         > div.form-filters-group {
           > div {
             @include make-xs-column(12); padding-bottom: $ub-element-padding;

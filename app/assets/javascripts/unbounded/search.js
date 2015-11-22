@@ -1,5 +1,6 @@
 window.initializeSearchForm = function() {
   $('.searchForm__limit').change(function() {
+    $('.searchForm input[name="limit"]').val(this.value);
     $('.searchForm').submit();
   });
 
