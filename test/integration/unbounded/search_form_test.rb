@@ -1,9 +1,12 @@
 require 'test_helper'
 
-class SearchFormTestCase < IntegrationTestCase
-  def test_curriculum_page
+class SearchFormTestCase < IntegrationDatabaseTestCase
+  def setup
+    super
     use_poltergeist
+  end
 
+  def test_curriculum_page
     visit '/curriculum'
     assert_equal ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'], all('.searchForm__gradeLabel').map(&:text)
     choose 'English Language Arts'
@@ -19,8 +22,6 @@ class SearchFormTestCase < IntegrationTestCase
   end
 
   def test_search_page
-    use_poltergeist
-
     visit '/search'
     assert_equal ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'], all('.searchForm__gradeLabel').map(&:text)
     choose 'English Language Arts'
@@ -38,17 +39,21 @@ class SearchFormTestCase < IntegrationTestCase
   def test_per_page
     visit '/search'
     assert_equal '100', find('#limit').value
+    assert_equal 100, all('.search-results h5').size
 
     select '50', from: 'limit'
-    click_button 'Search'
+    sleep 0.1
     assert_equal '50', find('#limit').value
+    assert_equal 50, all('.search-results h5').size
 
     select '25', from: 'limit'
-    click_button 'Search'
+    sleep 0.1
     assert_equal '25', find('#limit').value
+    assert_equal 25, all('.search-results h5').size
 
     select '100', from: 'limit'
-    click_button 'Search'
+    sleep 0.1
     assert_equal '100', find('#limit').value
+    assert_equal 100, all('.search-results h5').size
   end
 end
