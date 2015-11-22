@@ -535,7 +535,7 @@ header {
         .module-title-title {
           @include make-md-column(12);
           &, & a  {
-            .r-title {
+            .r-title.with-colon {
                &:after {content: ': ';}
             }
           }
@@ -560,7 +560,7 @@ header {
         .unit-title {
           min-height: $unit-title-height!important;
           a {
-            .r-title {
+            .r-title.with-colon {
               &:after {content: ': ';}
             }
           }
@@ -807,7 +807,7 @@ header {
     @include make-md-column(10); background-color: white; padding-bottom: $ub-element-padding;
     @extend .module-block;
     h4, h5 {text-transform: uppercase;}
-    .r-title {&:after {content: ': ';}}
+    .r-title.with-colon {&:after {content: ': ';}}
     .lesson-img {
       @include make-md-column(12);
       background-image: image-url('resource_background.jpg'); background-size: cover;
