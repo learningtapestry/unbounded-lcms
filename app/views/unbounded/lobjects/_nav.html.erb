@@ -1,6 +1,6 @@
 <div class="grade">
   <div class="grade-title">
-    <%= link_to lesson_title(curriculum.current_grade.title), grade_url(curriculum), class: ['module-title-grades', ('active' if curriculum.grade?)] %>
+    <%= link_to lesson_title(curriculum.current_grade.title), grade_url(curriculum), class: ['module-title-grades'] %>
   </div>
 </div>
 
@@ -16,9 +16,7 @@
         <% end %>
       </div>
 
-      <% if curriculum.grade? %>
-        <%= render partial: 'grade_nav', locals: { curriculum: curriculum } %>
-      <% elsif curriculum.module? || (curriculum.unit? && all_units_empty?(curriculum.current_module)) %>
+      <% if curriculum.module? || (curriculum.unit? && all_units_empty?(curriculum.current_module)) %>
         <%= render partial: 'module_nav', locals: { curriculum: curriculum } %>
       <% elsif curriculum.unit? || curriculum.lesson? %>
         <%= render partial: 'module_nav', locals: { curriculum: curriculum } %>
