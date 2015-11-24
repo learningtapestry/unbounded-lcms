@@ -536,7 +536,7 @@ header {
         .module-title-title {
           @include make-md-column(12);
           &, & a  {
-            .r-title {
+            .r-title.with-colon {
                &:after {content: ': ';}
             }
           }
@@ -561,7 +561,7 @@ header {
         .unit-title {
           min-height: $unit-title-height!important;
           a {
-            .r-title {
+            .r-title.with-colon {
               &:after {content: ': ';}
             }
           }
@@ -653,12 +653,7 @@ header {
 
 .search-results-page {
   .header-module {margin-bottom: $ub-module-padding; }
-	//background-color: $ub-light-gray;
-  //padding-top: $ub-module-padding;
 	.search-controls {
-    //background: $ub-bg-filter-purple;
-    //padding-top: $ub-module-padding;
-    //margin-bottom: $ub-element-padding;
 		@include make-md-column(12);
     .search-form {
       @include set-typography($font-size-form-control, white, $font-family-caponi);
@@ -807,9 +802,9 @@ header {
       }
     }
   }
-  .lesson-content-ela {@extend .ela-border; .lesson-dsc i {color: darken($ub-orange, 20%);}}
-  .lesson-content-math {@extend .math-border; .lesson-dsc i {color: darken($ub-green, 20%);}}
-  .unit-content {@extend .unit-border;  padding-top: $ub-element-padding;.lesson-dsc i {color: $ub-unit-bg;} }
+  .lesson-content-ela {@extend .ela-border;}
+  .lesson-content-math {@extend .math-border;}
+  .unit-content {@extend .unit-border;  padding-top: $ub-element-padding;}
   .resource-content {@include make-md-column(10);}
   .lesson-content {
     @include make-md-column(10); background-color: white; padding-bottom: $ub-element-padding;
@@ -818,9 +813,9 @@ header {
     h4, h5 {
       text-transform: uppercase;
       span {text-transform: none;}
-      //i {margin-left: -$grid-gutter-width/2; padding-right: $padding-xs-horizontal;}
     }
-    .r-title {&:after {content: ': ';}}
+    h4, h5 {text-transform: uppercase;}
+    .r-title.with-colon {&:after {content: ': ';}}
     .lesson-img {
       @include make-md-column(12);
       background-image: image-url('resource_background.jpg'); background-size: cover;
@@ -946,7 +941,6 @@ form.inline {
 }
 
 .homepage-link:hover {
-  //border-bottom: 2px solid;
   text-decoration: none;
 }
 
@@ -956,8 +950,6 @@ form.inline {
       .hero-wrapper {
         @include container-fixed;
         width: 1200px;
-        //> div {@include make-row();
-        //  > div {@include make-lg-column(6); @include make-lg-column-offset(6);}
       }
     }
   }

@@ -149,7 +149,7 @@ module Unbounded
 
     def full_title(title, subtitle, subtitle_class = nil)
       if subtitle.present?
-        content_tag(:span, title, :class => "r-title") + content_tag(:span, subtitle, :class => "r-subtitle #{subtitle_class}")
+        content_tag(:span, title, :class => "r-title with-colon") + content_tag(:span, subtitle, :class => "r-subtitle #{subtitle_class}")
       else
         content_tag(:span, title, :class => "r-title")
       end
