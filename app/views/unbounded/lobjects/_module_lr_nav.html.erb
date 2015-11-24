@@ -1,0 +1,15 @@
+<div class="module-title-nav">
+  <div class="module-title-prev <%= 'disabled' unless prev_obj %>">
+    <%= link_to sidebar_nav_link(curriculum, prev_obj) do %>
+      <i class="fa fa-lg fa-angle-double-left"></i>
+    <% end %>
+  </div>
+  <div class="module-title-title">
+    <%= link_to module_title(curriculum.current_module_node), unbounded_resource_path(curriculum.current_module, curriculum), class: ['r-title', ('active' if curriculum.module?)] %>
+  </div>
+  <div class="module-title-next <%= 'disabled' unless next_obj %>">
+    <%= link_to sidebar_nav_link(curriculum, next_obj) do %>
+      <i class="fa fa-lg fa-angle-double-right"></i>
+    <% end %>
+  </div>
+</div>

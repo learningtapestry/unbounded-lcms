@@ -312,7 +312,6 @@ header {
 }
 
 .subscribe-module {
-  //background-color: white;
   > div.container {
     margin-top: $ub-module-padding * 2; margin-bottom: $ub-module-padding * 2;
     > div.row > div {
@@ -364,7 +363,6 @@ header {
     padding-bottom: $ub-header-padding;
     .hero-text {
       float: right;
-      //padding-right: $ub-module-padding;
       color: white;
       > div { padding: $ub-element-padding $ub-element-padding; display: block;}
       .hero-title {
@@ -580,14 +578,8 @@ header {
       .module-title {
         @include make-md-column(12, $padding-xs-horizontal * 2);
         padding-bottom: $ub-element-padding;
-        .module-title-title {
-          &, & a  {
-            .r-title {
-              @include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro);
-            }
-            .r-subtitle {@include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro-light);}
-          }
-        }
+        .r-title { @include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro);}
+        .r-subtitle {@include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro-light);}
       }
       .unit {
         padding-top: $padding-base-vertical; padding-bottom: $padding-base-vertical;
@@ -723,8 +715,7 @@ header {
 }
 
 .lesson-page {
-  //background-color: $ub-light-gray;
-  padding-top: $ub-module-padding; //padding-bottom: $ub-module-padding;
+  padding-top: $ub-module-padding;
   .sidebar-ela {
     .grade {
       @extend .ela-border;
@@ -753,12 +744,25 @@ header {
       @extend .module-block;
       .module-wrapper {
         > .row {@include make-row($padding-large-horizontal);}
-         > div .module-title .module-title-title {
-          .r-title {
-            display: block;
-          }
-          .r-subtitle {font-size: $font-size-unit;}
+        .module-title-nav {@include make-row(0px);}
+        .module-title-subtitle {.r-subtitle {font-size: $font-size-unit;}}
+        .module-title-title {
+          @include make-md-column(8, $padding-xs-horizontal); text-align: center;
         }
+        .module-title-prev, .module-title-next {
+          @include make-md-column(2, $padding-xs-horizontal);
+          i {line-height: 1;}
+          a {color: $ub-txt-gray;}
+          &.disabled {
+            color: lighten($ub-txt-light-gray, 15%);
+            a {
+              color: lighten($ub-txt-light-gray, 15%); pointer-events: none; cursor: default;
+              &:hover, &:focus {color: lighten($ub-txt-light-gray, 15%)!important;}
+            }
+          }
+        }
+        .module-title-prev {text-align: left; }
+        .module-title-next {text-align: right;}
       }
       .unit {
         @include make-md-column(12, $padding-xs-horizontal * 2);
@@ -774,47 +778,25 @@ header {
           }
         }
       }
-      .lesson-nav {
-        > div.row > div {padding-bottom: $padding-base-vertical;}
-        a {
-          @include set-typography($font-size-lesson-nav, $ub-txt-gray, $font-family-caponi);
-          text-decoration: none;
-        }
-        div.disabled {
-          color: lighten($ub-txt-light-gray, 15%);
-          a {
-            color: lighten($ub-txt-light-gray, 15%); pointer-events: none; cursor: default;
-            &:hover, &:focus {color: lighten($ub-txt-light-gray, 15%)!important;}
-          }
-        }
-        .nav-module-up, .nav-module-down {
-          text-align: center;
-          @include make-md-column(12, $padding-xs-horizontal * 2);
-          > div:first-child {margin-bottom: -$padding-base-vertical;}
-        }
-        .nav-lesson-left, .nav-lesson-right {
-          @include make-md-column(6, $padding-xs-horizontal);
-          .media {
-            .media-left {padding-right: $padding-xs-horizontal;}
-            .media-right {padding-left: $padding-xs-horizontal;}
-          }
-        }
-      }
     }
   }
   .lesson-content-ela {@extend .ela-border;}
   .lesson-content-math {@extend .math-border;}
   .unit-content {@extend .unit-border;  padding-top: $ub-element-padding;}
   .resource-content {@include make-md-column(10);}
-  .lesson-content {
-    @include make-md-column(10); background-color: white; padding-bottom: $ub-element-padding;
+  .lesson-content-enageny {@include make-md-column(12);}
+  .enageny-reference {
+    font-size: $font-size-base/1.6;
+    p {margin-bottom: $padding-xs-vertical;}
+    img {height: $font-size-base;}
+  }
+  .lesson-content-content {
+    @include make-md-column(12); background-color: white; padding-bottom: $ub-element-padding;
     @extend .module-block;
     margin-bottom: $ub-element-padding;
     h4, h5 {
       text-transform: uppercase;
-      span {text-transform: none;}
     }
-    h4, h5 {text-transform: uppercase;}
     .r-title.with-colon {&:after {content: ': ';}}
     .lesson-img {
       @include make-md-column(12);
@@ -832,9 +814,16 @@ header {
     .unit-dsc {
       @include make-md-column(12);
       .unit-content-title {
-        span.title { @include set-typography($font-size-grade, $ub-txt-gray, $font-family-centrocond);}
-        span.subtitle { @include set-typography($font-size-grade, $ub-txt-gray, $font-family-centrocond-light);}
         @include make-md-column(10);
+        padding-bottom: $ub-element-padding;
+      }
+      .unit-content-title-title {
+        @include set-typography($font-size-h4, $ub-txt-gray, $font-family-centrocond-light);
+        text-transform: uppercase; margin-bottom: $padding-xs-vertical;
+      }
+      .unit-content-title-subtitle {
+        @include set-typography($font-size-h5, $ub-txt-gray, $font-family-centrocond-light);
+        margin-top: $padding-base-vertical;
       }
       .unit-content-control{
         @include make-md-column(2);
@@ -844,6 +833,18 @@ header {
       }
       .unit-content-control.collapsed {.unit-content-icon {@extend .ub-icon-plus;}}
     }
+    .unit-materials {@include make-md-column(12);}
+    .resource-title {
+      @include make-md-column(12); padding-bottom: $ub-element-padding;
+      .resource-title-title {
+        @include set-typography($font-size-grade, $ub-txt-gray, $font-family-centrocond);
+        text-transform: uppercase; margin-bottom: $padding-xs-vertical; margin-top: $padding-large-vertical;
+      }
+      .resource-title-subtitle {
+        @include set-typography($font-size-h4, $ub-txt-gray, $font-family-centrocond-light);
+        text-transform: none; margin-top: $padding-base-vertical;
+      }
+    }
     .lesson-dsc {
       @include make-md-column(6.5);
     }
@@ -851,14 +852,8 @@ header {
       @include make-md-column(5.5);
       h5 {font-weight: bold;}
       ul.media-list {padding-top: $ub-element-padding;}
-      //color: $ub-dark-bgray; a {color: $ub-dark-bgray;}
       .lesson-inst-resources {@include make-md-column(12);}
       .lesson-dev-resources {@include make-md-column(12);}
-    }
-    .enageny-reference {
-      font-size: $font-size-base/1.5;
-      p {margin-bottom: $padding-xs-vertical;}
-      img {height: $font-size-base * 1.2;}
     }
   }
 }
@@ -974,6 +969,7 @@ form.inline {
     }
     .show-ctrl {display: none;}
     .hide-ctrl {display: initial;}
+    .show-ctrl, .hide-ctrl, i {cursor: pointer;}
 }
 
 .admin-lobject-search .lobject-search-wrap .selectize-control {

@@ -175,6 +175,7 @@ $header-img-block-height: 195px;
     padding-top: 0px; padding-bottom: 0px;
     .sidebar {
       @include make-xs-column(12);
+      padding-top: $ub-element-padding;
       > .row {@include make-row();}
       .module-wrapper {
         > div {
@@ -191,23 +192,21 @@ $header-img-block-height: 195px;
 
       .module {
         @include make-xs-column(12);
+        .module-title-title {
+          @include make-xs-column(8, $padding-xs-horizontal);
+        }
+        .module-title-prev, .module-title-next {
+          @include make-xs-column(2, $padding-xs-horizontal);
+        }
+        .module-title-subtitle {text-align: center;}
         .unit {
           @include make-xs-column(12, $padding-xs-horizontal);
-        }
-        .lesson-nav {
-          a {font-size: $font-size-form;}
-          .nav-module-up, .nav-module-down {
-            @include make-xs-column(12, $padding-large-horizontal * 2);
-          }
-          .nav-lesson-left, .nav-lesson-right {
-            @include make-xs-column(6, $padding-large-horizontal * 2);
-            .media-body {vertical-align: middle;}
-          }
         }
       }
     }
     .resource-content {@include make-xs-column(12);}
-    .lesson-content, .unit-content {
+    .lesson-content-content, .lesson-content-enageny {@include make-xs-column(12);}
+    .lesson-content, .unit-materials {
       @include make-xs-column(12);
       margin-bottom: $ub-module-padding;
       .lesson-img {
@@ -220,6 +219,15 @@ $header-img-block-height: 195px;
         @include make-xs-column(12);
         .lesson-inst-resources {@include make-xs-column(12); padding-bottom: $ub-element-padding;}
         .lesson-dev-resources {@include make-xs-column(12);}
+      }
+    }
+    .unit-dsc {
+      @include make-xs-column(12);
+      .unit-content-title {
+        @include make-xs-column(10);
+      }
+      .unit-content-control{
+        @include make-xs-column(2);
       }
     }
   }

@@ -1,13 +1,17 @@
-<div class="lesson-dsc">
-  <% if show_dsc %>
-    <h4><%= resource_title.html_safe %></h4>
-    <!--h2><%= lesson_title(lobject.title) %></h2-->
-  <% end %>
-  <div class="dsc">
-    <%= lobject.description.html_safe %>
-    <%= render partial: 'unbounded/shared/additional_lobjects', object: lobject.additional_lobjects %>
-    <%= render partial: 'engageny', locals: { lobject: @lobject } if show_dsc %>
+<% if show_dsc %>
+  <div class="resource-title">
+    <h1 class="resource-title-title">
+      <%= resource_title(lobject, curriculum) %>
+    </h1>
+    <h2 class="resource-title-subtitle">
+      <%= resource_subtitle(lobject) %>
+    </h2>
   </div>
+<% end %>
+
+<div class="lesson-dsc">
+  <%= lobject.description.html_safe if lobject.description.present? %>
+  <%= render partial: 'unbounded/shared/additional_lobjects', object: lobject.additional_lobjects %>
 </div>
 <div class="lesson-resources">
   <div class="row">

@@ -1,10 +1,6 @@
 <% if document = lobject.documents.first %>
-  <hr>
-
   <div class="enageny-reference">
-    <p>From EngageNY.org of the New York State Education Department. <%= document.title %>.</p>
-
-    <p class="cc-logo-link">
+    <p class="cc-logo-link">From EngageNY.org of the New York State Education Department. <%= document.title.strip %>.
       <% if url = lobject.urls.first %>
         Available from <%= url.stripped %>;<br>accessed 2015-05-29.
       <% end %>
