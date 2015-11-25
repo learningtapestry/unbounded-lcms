@@ -3,15 +3,15 @@ require 'test_helper'
 module Unbounded
   class LobjectShowTestCase < IntegrationTestCase
     def test_related_resource_type_video
-      lobject = lobjects(:unbounded)
+      lobject = lobjects(:unbounded_lesson_1_1_1_1)
       visit "/resources/#{lobject.id}"
-      assert find('.lobject-related-resource').has_content?('Video')
+      assert all('.lesson-resources').first.has_content?('Video')
     end
 
     def test_related_resource_type_resource
-      lobject = lobjects(:easol)
+      lobject = lobjects(:unbounded_unit_1_1_1)
       visit "/resources/#{lobject.id}"
-      assert find('.lobject-related-resource').has_content?('Resource')
+      assert all('.lesson-resources').first.has_content?('Resource')
     end
   end
 end

@@ -94,6 +94,12 @@ unbounded_module_1_3:
   parent: unbounded_grade1
   position: 3
 
+unbounded_rewrite_urls:
+  child: unbounded_rewrite_urls
+  lobject_collection: unbounded_curriculum
+  parent: unbounded_module_1_3
+  position: 2
+
 unbounded_unit_1_1_1:
   child: unbounded_unit_1_1_1
   lobject_collection: unbounded_curriculum

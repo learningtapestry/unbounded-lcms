@@ -68,6 +68,7 @@ unbounded_lesson_1_3_1_1:
 
 unbounded_module_1_1:
   lobject: unbounded_module_1_1
+  subtitle: Grade 1, Module 1 Subtitle
   title: Grade 1, Module 1
 
 unbounded_module_1_2:
@@ -80,6 +81,7 @@ unbounded_module_1_3:
 
 unbounded_unit_1_1_1:
   lobject: unbounded_unit_1_1_1
+  subtitle: Grade 1, Module 1, Unit 1 Subtitle
   title: Grade 1, Module 1, Unit 1
 
 unbounded_unit_1_1_2:

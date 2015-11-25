@@ -42,17 +42,17 @@ class SearchFormTestCase < IntegrationDatabaseTestCase
     assert_equal 100, all('.search-results h5').size
 
     select '50', from: 'limit'
-    sleep 0.1
+    sleep 0.5
     assert_equal '50', find('#limit').value
     assert_equal 50, all('.search-results h5').size
 
     select '25', from: 'limit'
-    sleep 0.1
+    sleep 0.5
     assert_equal '25', find('#limit').value
     assert_equal 25, all('.search-results h5').size
 
     select '100', from: 'limit'
-    sleep 0.1
+    sleep 0.5
     assert_equal '100', find('#limit').value
     assert_equal 100, all('.search-results h5').size
   end
