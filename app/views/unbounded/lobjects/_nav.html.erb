@@ -1,6 +1,6 @@
 <div class="grade">
   <div class="grade-title">
-    <%= link_to lesson_title(curriculum.current_grade.title), grade_url(curriculum), class: ['module-title-grades', ('active' if curriculum.grade?)] %>
+    <%= link_to lesson_title(curriculum.current_grade.title), grade_url(curriculum), class: ['module-title-grades'] %>
   </div>
 </div>
 
@@ -9,45 +9,21 @@
     <div class="row">
       <div class="module-title">
         <% if curriculum.current_module_node %>
-          <div class="module-title-title">
-            <%= link_to module_node_title(curriculum.current_module_node), unbounded_resource_path(curriculum.current_module, curriculum), class: [('active' if curriculum.module?)] %>
+          <%= render partial: 'module_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_module, next_obj: curriculum.next_module} %>
+          <div class="module-title-subtitle">
+            <%= link_to module_subtitle(curriculum.current_module_node), unbounded_resource_path(curriculum.current_module, curriculum), class: ['r-subtitle', ('active' if curriculum.module?)] if curriculum.current_module_node.content.subtitle %>
           </div>
         <% end %>
       </div>
 
-      <% if curriculum.grade? %>
-        <%= render partial: 'grade_nav', locals: { curriculum: curriculum } %>
-      <% elsif curriculum.module? || (curriculum.unit? && all_units_empty?(curriculum.current_module)) %>
+      <% if curriculum.module? || (curriculum.unit? && all_units_empty?(curriculum.current_module)) %>
         <%= render partial: 'module_nav', locals: { curriculum: curriculum } %>
       <% elsif curriculum.unit? || curriculum.lesson? %>
+        <%= render partial: 'module_nav', locals: { curriculum: curriculum } %>
         <%= render partial: 'unit_nav', locals: { curriculum: curriculum } %>
       <% end %>
     </div>
   </div>
 </div>
-
-<% unless curriculum.grade? %>
-  <div class="module">
-    <div class="module-wrapper lesson-nav">
-      <div class="row">
-        <% if curriculum.module? %>
-          <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_module, next_obj: curriculum.next_module, title: 'module' } %>
-        <% end %>
-
-        <% if curriculum.unit? %>
-          <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_module, title: 'module' } %>
-          <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, next_obj: curriculum.next_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit") } %>
-          <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_module, title: 'module' } %>
-        <% end %>
-
-        <% if curriculum.lesson? %>
-          <%= render partial: 'sidebar_up_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit") } %>
-          <%= render partial: 'sidebar_lr_nav', locals: {curriculum: curriculum, prev_obj: curriculum.previous_lesson, next_obj: curriculum.next_lesson, title: 'lesson' } %>
-          <%= render partial: 'sidebar_down_nav', locals: {curriculum: curriculum, next_obj: curriculum.next_unit, title: t("unbounded.curriculum.#{curriculum.subject}_unit") } %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-<% end %>
 
 <%= render partial: 'unbounded/shared/resource_preview' %>

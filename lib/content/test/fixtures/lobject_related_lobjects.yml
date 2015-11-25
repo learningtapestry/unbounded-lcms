@@ -1,7 +1,7 @@
-unbounded_easol:
-  lobject: unbounded
+unbounded_lesson_1_1_1_1_resource:
+  lobject: unbounded_lesson_1_1_1_1
   related_lobject: easol
 
-easol_unbounded_textbook:
-  lobject: easol
+unbounded_unit_1_1_1_textbook:
+  lobject: unbounded_unit_1_1_1
   related_lobject: unbounded_textbook

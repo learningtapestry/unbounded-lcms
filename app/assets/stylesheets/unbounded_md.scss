@@ -59,24 +59,14 @@ $unit-wrapper-padding: 8px;
         .unit {
           @include make-md-column(12, $padding-xs-horizontal);
         }
-        .lesson-nav {
-          > div.row > div {padding-bottom: $padding-base-vertical;}
-          .nav-module-up, .nav-module-down {
-            @include make-md-column(12, $padding-xs-horizontal);
-            > div:first-child {margin-bottom: -$padding-base-vertical;}
-          }
-          .nav-lesson-left, .nav-lesson-right {
-            @include make-md-column(6, $padding-xs-horizontal);
-            .media {
-              .media-left {padding-right: $padding-xs-horizontal;}
-              .media-right {padding-left: $padding-xs-horizontal;}
-            }
-          }
-        }
       }
     }
-    .lesson-content {
-      @include make-md-column(9.6);
+    .resource-content { @include make-md-column(9.6);}
+    .unit-content, .lesson-content-content, .lesson-content-enageny {
+      @include make-md-column(12);
+    }
+    .enageny-reference {
+      font-size: $font-size-base/1.7;
     }
   }
 }

@@ -4,7 +4,7 @@ about_body = <<-HTML
 <p>This is an experimental curriculum project designed to learn about how teachers can make effective use of well organized materials. We relied on ELA and math OER curriculum in grades 9-12 heavily for this pilot project. If you have any questions or feedback about the materials on this site, please contact us. We hope you enjoy using this site!</p>
 HTML
 
-Page.create_with(body: about_body, title: 'About Us').find_or_create_by(slug: 'about')
+Page.create_with(body: about_body, title: 'About').find_or_create_by(slug: 'about')
 
 pd_body = <<-HTML
 Professional Development

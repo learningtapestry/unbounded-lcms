@@ -155,6 +155,7 @@ a {
 
 .ela-border {border-top: 4px $ub-orange solid; }
 .math-border {border-top: 4px $ub-green solid; }
+.unit-border {border-top: 4px $ub-unit-bg solid; }
 
 .lesson.lesson-empty {
   .ub-cc-lesson {background-color: white!important;}
@@ -172,9 +173,11 @@ a {
     a {
       .ub-square-unit, .ub-square-module  {fill: $ub-green;}
       .ub-cc-lesson {background-color: $ub-green;}
-      &:hover, &:focus, .active {
+      &:hover, &:focus, .active, &.active {
+        text-decoration: none;
         .ub-square-unit, .ub-square-module {fill: darken($ub-green, 20%);}
         .ub-cc-lesson {background-color: darken($ub-green, 20%);}
+        figcaption {color: darken($ub-green, 20%)!important;;}
       }
     }
   }
@@ -202,9 +205,11 @@ a {
     a {
       .ub-square-unit, .ub-square-module  {fill: $ub-orange;}
       .ub-cc-lesson {background-color: $ub-orange;}
-      &:hover, .active, &:focus {
+      &:hover, .active, &.active, &:focus {
+        text-decoration: none;
         .ub-square-unit, .ub-square-module {fill: darken($ub-orange, 20%)!important;}
         .ub-cc-lesson {background-color: darken($ub-orange, 20%);}
+        figcaption {color: darken($ub-orange, 20%)!important;}
       }
     }
   }
@@ -225,10 +230,6 @@ a {
     .ub-cc-lesson {background-color: $ub-orange;}
     a:hover .ub-cc-lesson {background-color: darken($ub-orange, 20%);}
   }
-}
-
-a.module-nav-unit.active .ub-square-unit {
-  fill: darken($ub-orange, 20%);
 }
 
 .popover.popover-lesson {
@@ -311,7 +312,6 @@ header {
 }
 
 .subscribe-module {
-  //background-color: white;
   > div.container {
     margin-top: $ub-module-padding * 2; margin-bottom: $ub-module-padding * 2;
     > div.row > div {
@@ -363,7 +363,6 @@ header {
     padding-bottom: $ub-header-padding;
     .hero-text {
       float: right;
-      //padding-right: $ub-module-padding;
       color: white;
       > div { padding: $ub-element-padding $ub-element-padding; display: block;}
       .hero-title {
@@ -579,14 +578,8 @@ header {
       .module-title {
         @include make-md-column(12, $padding-xs-horizontal * 2);
         padding-bottom: $ub-element-padding;
-        .module-title-title {
-          &, & a  {
-            .r-title {
-              @include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro);
-            }
-            .r-subtitle {@include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro-light);}
-          }
-        }
+        .r-title { @include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro);}
+        .r-subtitle {@include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro-light);}
       }
       .unit {
         padding-top: $padding-base-vertical; padding-bottom: $padding-base-vertical;
@@ -652,12 +645,7 @@ header {
 
 .search-results-page {
   .header-module {margin-bottom: $ub-module-padding; }
-	//background-color: $ub-light-gray;
-  //padding-top: $ub-module-padding;
 	.search-controls {
-    //background: $ub-bg-filter-purple;
-    //padding-top: $ub-module-padding;
-    //margin-bottom: $ub-element-padding;
 		@include make-md-column(12);
     .search-form {
       @include set-typography($font-size-form-control, white, $font-family-caponi);
@@ -727,8 +715,7 @@ header {
 }
 
 .lesson-page {
-  //background-color: $ub-light-gray;
-  padding-top: $ub-module-padding; //padding-bottom: $ub-module-padding;
+  padding-top: $ub-module-padding;
   .sidebar-ela {
     .grade {
       @extend .ela-border;
@@ -757,45 +744,37 @@ header {
       @extend .module-block;
       .module-wrapper {
         > .row {@include make-row($padding-large-horizontal);}
-         > div .module-title .module-title-title {
-          .r-title {
-            display: block;
-          }
-          .r-subtitle {font-size: $font-size-unit;}
+        .module-title-nav {@include make-row(0px);}
+        .module-title-subtitle {.r-subtitle {font-size: $font-size-unit;}}
+        .module-title-title {
+          @include make-md-column(8, $padding-xs-horizontal); text-align: center;
         }
+        .module-title-prev, .module-title-next {
+          @include make-md-column(2, $padding-xs-horizontal);
+          i {line-height: 1;}
+          a {color: $ub-txt-gray;}
+          &.disabled {
+            color: lighten($ub-txt-light-gray, 15%);
+            a {
+              color: lighten($ub-txt-light-gray, 15%); pointer-events: none; cursor: default;
+              &:hover, &:focus {color: lighten($ub-txt-light-gray, 15%)!important;}
+            }
+          }
+        }
+        .module-title-prev {text-align: left; }
+        .module-title-next {text-align: right;}
       }
       .unit {
         @include make-md-column(12, $padding-xs-horizontal * 2);
         .unit-wrapper > .row {@include make-row(-$grid-gutter-width/2);}
+        figcaption {
+          @include set-typography($font-size-lesson-nav, $ub-txt-gray, $font-family-caponi);
+          text-decoration: none; text-transform: uppercase;
+          padding-left: 0px;
+        }
         .unit-wrapper {
           .unit-title {
             .r-title { display: block;}
-          }
-        }
-      }
-      .lesson-nav {
-        > div.row > div {padding-bottom: $padding-base-vertical;}
-        a {
-          @include set-typography($font-size-lesson-nav, $ub-txt-gray, $font-family-caponi);
-          text-decoration: none;
-        }
-        div.disabled {
-          color: lighten($ub-txt-light-gray, 15%);
-          a {
-            color: lighten($ub-txt-light-gray, 15%); pointer-events: none; cursor: default;
-            &:hover, &:focus {color: lighten($ub-txt-light-gray, 15%)!important;}
-          }
-        }
-        .nav-module-up, .nav-module-down {
-          text-align: center;
-          @include make-md-column(12, $padding-xs-horizontal * 2);
-          > div:first-child {margin-bottom: -$padding-base-vertical;}
-        }
-        .nav-lesson-left, .nav-lesson-right {
-          @include make-md-column(6, $padding-xs-horizontal);
-          .media {
-            .media-left {padding-right: $padding-xs-horizontal;}
-            .media-right {padding-left: $padding-xs-horizontal;}
           }
         }
       }
@@ -803,16 +782,68 @@ header {
   }
   .lesson-content-ela {@extend .ela-border;}
   .lesson-content-math {@extend .math-border;}
-  .lesson-content {
-    @include make-md-column(10); background-color: white; padding-bottom: $ub-element-padding;
+  .unit-content {@extend .unit-border;  padding-top: $ub-element-padding;}
+  .resource-content {@include make-md-column(10);}
+  .lesson-content-enageny {@include make-md-column(12);}
+  .enageny-reference {
+    font-size: $font-size-base/1.6;
+    p {margin-bottom: $padding-xs-vertical;}
+    img {height: $font-size-base;}
+  }
+  .lesson-content-content {
+    @include make-md-column(12); background-color: white; padding-bottom: $ub-element-padding;
     @extend .module-block;
-    h4, h5 {text-transform: uppercase;}
+    margin-bottom: $ub-element-padding;
+    h4, h5 {
+      text-transform: uppercase;
+    }
     .r-title.with-colon {&:after {content: ': ';}}
     .lesson-img {
       @include make-md-column(12);
       background-image: image-url('resource_background.jpg'); background-size: cover;
       height: $lesson-img-height;
       margin-bottom: $ub-element-padding;
+    }
+    .unit-lesson-content {
+      background-color: $ub-unit-bg;
+      margin-top: $ub-element-padding;
+      padding-top: $ub-element-padding;
+      padding-bottom: $ub-element-padding;
+      margin-bottom: -$ub-element-padding;
+    }
+    .unit-dsc {
+      @include make-md-column(12);
+      .unit-content-title {
+        @include make-md-column(10);
+        padding-bottom: $ub-element-padding;
+      }
+      .unit-content-title-title {
+        @include set-typography($font-size-h4, $ub-txt-gray, $font-family-centrocond-light);
+        text-transform: uppercase; margin-bottom: $padding-xs-vertical;
+      }
+      .unit-content-title-subtitle {
+        @include set-typography($font-size-h5, $ub-txt-gray, $font-family-centrocond-light);
+        margin-top: $padding-base-vertical;
+      }
+      .unit-content-control{
+        @include make-md-column(2);
+        text-align: left; padding-top: $padding-large-vertical;
+        @include set-typography($font-size-toggle, $ub-txt-light-gray, $font-family-centropro-light);
+        .unit-content-icon {@extend .ub-icon-minus;}
+      }
+      .unit-content-control.collapsed {.unit-content-icon {@extend .ub-icon-plus;}}
+    }
+    .unit-materials {@include make-md-column(12);}
+    .resource-title {
+      @include make-md-column(12); padding-bottom: $ub-element-padding;
+      .resource-title-title {
+        @include set-typography($font-size-grade, $ub-txt-gray, $font-family-centrocond);
+        text-transform: uppercase; margin-bottom: $padding-xs-vertical; margin-top: $padding-large-vertical;
+      }
+      .resource-title-subtitle {
+        @include set-typography($font-size-h4, $ub-txt-gray, $font-family-centrocond-light);
+        text-transform: none; margin-top: $padding-base-vertical;
+      }
     }
     .lesson-dsc {
       @include make-md-column(6.5);
@@ -821,7 +852,6 @@ header {
       @include make-md-column(5.5);
       h5 {font-weight: bold;}
       ul.media-list {padding-top: $ub-element-padding;}
-      //color: $ub-dark-bgray; a {color: $ub-dark-bgray;}
       .lesson-inst-resources {@include make-md-column(12);}
       .lesson-dev-resources {@include make-md-column(12);}
     }
@@ -906,7 +936,6 @@ form.inline {
 }
 
 .homepage-link:hover {
-  //border-bottom: 2px solid;
   text-decoration: none;
 }
 
@@ -916,8 +945,6 @@ form.inline {
       .hero-wrapper {
         @include container-fixed;
         width: 1200px;
-        //> div {@include make-row();
-        //  > div {@include make-lg-column(6); @include make-lg-column-offset(6);}
       }
     }
   }
@@ -935,19 +962,14 @@ form.inline {
     cursor: pointer;
 }
 
-.curriculum-grade {
-    .collapsed .show-ctrl{
-        display: initial;
+.curriculum-grade, .unit-content-control {
+    &.collapsed, .collapsed {
+      .show-ctrl {display: initial;}
+      .hide-ctrl {display: none;}
     }
-    .collapsed .hide-ctrl{
-        display: none;
-    }
-    .show-ctrl {
-        display: none;
-    }
-    .hide-ctrl {
-        display: initial;
-    }
+    .show-ctrl {display: none;}
+    .hide-ctrl {display: initial;}
+    .show-ctrl, .hide-ctrl, i {cursor: pointer;}
 }
 
 .admin-lobject-search .lobject-search-wrap .selectize-control {

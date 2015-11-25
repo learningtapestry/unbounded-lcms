@@ -48,13 +48,25 @@ module Unbounded
     end
 
     def lesson_title(title)
-      title.split(',').first.gsub(/Module\s+\w+/, '') if title
+      title.split(',').first.gsub(/Module\s+\w+/, '').strip if title
     end
 
-    def lesson_no(lobject)
-      title    = lobject.title.split(',').last rescue nil
-      subtitle = lobject.subtitle.present? ? lobject.subtitle : nil
-      full_title(title, subtitle)
+    def resource_title(lobject, curriculum)
+      obj_count = curriculum.current_node.parent.children.size rescue nil
+      obj_count ? t("unbounded.curriculum.resource_label", title: lobject.title, count: obj_count) : lobject.title
+    end
+
+    def resource_subtitle(lobject)
+      lobject.subtitle
+    end
+
+    def lesson_unit_title(curriculum)
+      unit_title(curriculum)
+    end
+
+    def lesson_unit_subtitle(lobject)
+      lesson_title = lobject.title.split(',').last rescue nil
+      t("unbounded.curriculum.unit_x_label", lesson: lesson_title)
     end
 
     def unit_title(curriculum)
@@ -64,6 +76,15 @@ module Unbounded
       idx = unit_index(subject, units.index(unit))
       title = t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
       full_title(title, unit.subtitle)
+    end
+
+    def module_title(module_node)
+      subject = module_node.content.curriculum_subject
+      t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
+    end
+
+    def module_subtitle(module_node)
+      module_node.content.subtitle
     end
 
     def module_node_title(module_node, klass = '12')

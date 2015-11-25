@@ -158,22 +158,26 @@ $font-size-form-label: 20px;
 
 	    .module {
 	      @include make-sm-column(12);
+        .module-title-title {
+          @include make-sm-column(8, $padding-xs-horizontal);
+        }
+        .module-title-prev, .module-title-next {
+          @include make-sm-column(2, $padding-xs-horizontal);
+				}
 	      .unit {
 	        @include make-sm-column(12, $padding-xs-horizontal);
-	      }
-	      .lesson-nav {
-	        .nav-module-up, .nav-module-down {
-	          @include make-sm-column(12, $padding-xs-horizontal);
-	        }
-	        .nav-lesson-left, .nav-lesson-right {
-	          @include make-sm-column(6, $padding-xs-horizontal);
-	        }
-	        .nav-lesson-right .media-body { padding-left: 10px;}
+	        figcaption {
+          	font-size: $font-size-lesson-nav - 2px;
+        	}
 	      }
 	    }
 	  }
-	  .lesson-content {
+	  .resource-content {
 	    @include make-sm-column(9);
+	  }
+	  .lesson-content-content, .lesson-content-enageny {@include make-sm-column(12);}
+	  .lesson-content, .unit-materials {
+	    @include make-sm-column(12);
 	    .lesson-img {
 	      @include make-sm-column(12);
 	    }
@@ -186,22 +190,16 @@ $font-size-form-label: 20px;
 	      .lesson-dev-resources {@include make-md-column(12);}
 	    }
 	  }
+    .unit-dsc {
+      @include make-sm-column(12);
+      .unit-content-title {
+        @include make-sm-column(9);
+      }
+      .unit-content-control{
+        @include make-sm-column(3);
+      }
+    }
 	}
-
-	    // .search-form {
-	    //   @include make-sm-column(12);
-	    //   form {
-	    //     > div.form-group {
-	    //       > div {
-	    //         @include make-sm-column(4, $grid-gutter-width/2);
-	    //         > label {min-height: 38px; font-size: $font-size-form-label;}
-	    //       }
-	    //     }
-	    //     .curriculum-grade-selection {
-	    //     	> div {@include make-sm-column(6, $grid-gutter-width/2);}
-	    //     }
-	    //   }
-	    // }
 
 	.search-results-page {
 		.search-controls {
