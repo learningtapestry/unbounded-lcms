@@ -3,6 +3,16 @@
 
   <h3><%= t('.import') %></h3>
 
+  <div class="alert alert-info">
+    <h4>Notes on importing CSVs</h4>
+    <ul>
+      <li>The CSV file must have the following headers: id, url, publisher, title, description, grade, resource_type, standard, subject.</li>
+      <li>The value for a field may be empty, but the header must still exist.</li>
+      <li>If the "replace" option is checked, duplicate resources get overwritten with the new values.</li>
+      <li>Otherwise, duplicate resources are skipped.</li>
+    </ul>
+  </div>
+
   <%= simple_form_for @csv_import, url: :lt_admin_csv_imports do |f| %>
     <div class=form-group>
       <%= f.input :replace, as: :boolean %>
