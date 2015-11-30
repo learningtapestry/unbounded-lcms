@@ -10,25 +10,20 @@ module Content
 
       HEADERS = %w(id url publisher title description grade resource_type standard subject)
 
-      class Exporter
-        include Content::Models
-        include Enumerable
-
-        def each
-          yield header
-          
-          generate_csv do |row|
-            yield row
-          end
+      def self.check_csv(filename)
+        File.open(filename) do |f|
+          CSV.parse(f.readline).first.to_a == HEADERS
         end
+      rescue
+        false
+      end
 
-        def header
-          CSV.generate_line(HEADERS).to_s
-        end
+      def self.export(filename)
+        CSV.open(filename, 'wb') do |csv|
+          csv << HEADERS
 
-        def generate_csv
           Lobject.find_each do |lobject|
-            yield CSV.generate_line([
+            csv << [
               lobject.id,
               lobject.url.try(:url),
               lobject.lobject_identities
@@ -50,17 +45,9 @@ module Content
               lobject.subjects
                 .map(&:name)
                 .join(',')             
-            ]).to_s
+            ]
           end
         end
-      end
-
-      def self.check_csv(filename)
-        File.open(filename) do |f|
-          CSV.parse(f.readline).first.to_a == HEADERS
-        end
-      rescue
-        false
       end
 
       def self.import(filename, replace: false)

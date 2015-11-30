@@ -24,5 +24,12 @@
   <hr>
 
   <h3><%= t('.export') %></h3>
-  <%= link_to t('.export_csv'), :export_new_lt_admin_csv_import, class: 'btn btn-default' %>
+  <% if @export_in_progress %>
+    <div class="alert alert-info">
+      There's a CSV export in progress. Please check back later to see if it's finished.
+    </div>
+  <% else %>
+    <p><%= link_to t('.download_csv'), :lt_admin_csv_export %></p>
+    <p><%= link_to t('.export_csv'), :lt_admin_create_csv_export, class: 'btn btn-default', method: :post %></p>
+  <% end %>
 </div>

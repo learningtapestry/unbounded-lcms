@@ -35,13 +35,16 @@ en:
       csv_imports:
         new:
           export: Export data
-          export_csv: Export all data as CSV
+          export_csv: Recreate CSV export
+          download_csv: Download last CSV export
           import: Import data
           page_title: Import/export data
           replace: Replace all data
         create:
           success: Thank you. File import is in progress.
           fail_csv: Could not import. Please check whether your file is a CSV and whether the fields are correct.
+        create_export:
+          success: File export is in progress.
   activemodel:
     errors:
       models:

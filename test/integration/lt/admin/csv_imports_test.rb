@@ -84,6 +84,7 @@ module Lt
 
       def test_export
         navigate_to_import
+        
         # Add resources we're aware of before checking the export file.
         within('#new_lt_admin_csv_import') do
           attach_file 'File', csv_path('csv_import_increment.csv')
@@ -92,11 +93,14 @@ module Lt
           end
         end
 
-        click_link 'Export all data as CSV'
+        assert_performed_jobs 1 do
+          click_link 'Recreate CSV export'
+        end
 
-        header = page.response_headers['Content-Disposition']
-        assert_match (/^attachment/), header
-        assert_match (/csv/), header
+        assert_equal '/lt/admin/csv_imports/new', current_path
+
+        click_link 'Download last CSV export'
+
         exported_csv = CSV.parse(page.body, headers: true)
         assert_equal %w(id url publisher title description grade resource_type standard subject), exported_csv.headers
 
@@ -121,6 +125,12 @@ module Lt
         refute exported_lobject_2['resource_type'].present?
         refute exported_lobject_2['standard'].present?
         refute exported_lobject_2['subject'].present?
+
+        File.delete(
+          Dir["#{Rails.public_path.join('csv_exports')}/*"]
+            .sort { |a,b| File.mtime(a) <=> File.mtime(b) }
+            .last
+        )
       end
 
       protected

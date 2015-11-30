@@ -30,6 +30,7 @@
 
 # Ignore assets pipeline compiled files
 /public/assets
+/public/csv_exports
 
 # Ignore generated JS files
 /app/assets/javascripts/translations.js

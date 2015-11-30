@@ -62,9 +62,9 @@ Rails.application.routes.draw do
       get '/synonyms' => 'synonyms#edit', as: :edit_synonyms
       post '/synonyms' => 'synonyms#update'
 
-      resources :csv_imports, only: [:new, :create] do
-        get :export, on: :new
-      end
+      resources :csv_imports, only: [:new, :create]
+      get '/csv_imports/export' => 'csv_imports#export', as: :csv_export
+      post '/csv_imports/export' => 'csv_imports#create_export', as: :create_csv_export
     end
   end
 
