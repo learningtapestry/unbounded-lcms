@@ -3,13 +3,20 @@ production: &production
     - command: cd $STACK_PATH && bundle exec rake lt:c66_after_bundle
       target: rails
       execute: true
-      run_on: single_server
+      run_on: all_servers
       apply_during: all    
   after_symlink:
     - command: cd $STACK_PATH && bundle exec rake lt:c66_after_symlink
       target: rails
       execute: true
-      run_on: single_server
-      apply_during: all   
+      run_on: all_servers
+      apply_during: all  
+    - source: /.cloud66/after_symlink.sh
+      destination: /tmp/after_symlink.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
+      run_on: all_servers 
 staging:
   <<: *production
