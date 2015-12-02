@@ -1,4 +1,5 @@
 require 'csv'
+require 'fileutils'
 require 'erb'
 require 'ostruct'
 require 'test_helper'
@@ -11,6 +12,10 @@ module Lt
 
       def setup
         super
+      end
+
+      def teardown
+        FileUtils.rm_rf(Dir.glob("#{CsvImport::UPLOAD_PATH}/*"))
       end
 
       def test_empty_csv

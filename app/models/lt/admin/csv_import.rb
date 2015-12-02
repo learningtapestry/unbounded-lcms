@@ -4,6 +4,8 @@ require 'securerandom'
 module Lt
   module Admin
     class CsvImport
+      UPLOAD_PATH = Rails.public_path.join('uploads', 'lt', 'admin', 'csv_imports')
+
       include ActiveModel::Model
       include Content::Importers
 
@@ -25,10 +27,11 @@ module Lt
       end
 
       def copy_file
-        basename = Rails.public_path.join('uploads', 'lt', 'admin', 'csv_imports')
-        path = basename.join("#{SecureRandom.uuid}_#{file.original_filename}")
-        FileUtils.mkdir_p(basename); FileUtils.cp(file.path, path)
-        path.to_s
+        FileUtils.mkdir_p(UPLOAD_PATH)
+
+        path = UPLOAD_PATH.join("#{SecureRandom.uuid}_#{file.original_filename}").to_s
+        FileUtils.cp(file.path, path) ; File.chmod(0644, path)
+        path
       end
 
       def replace?
