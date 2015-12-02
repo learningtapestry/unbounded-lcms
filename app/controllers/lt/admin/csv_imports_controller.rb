@@ -7,7 +7,7 @@ module Lt
 
       def new
         @csv_import = CsvImport.new
-        @export_in_progress = export_in_progress?
+        @job_in_progress = job_in_progress?
       end
 
       def create
@@ -46,8 +46,10 @@ module Lt
         csv_export_folder.join("ContentExport_#{date}_#{uuid}.csv").to_s
       end
 
-      def export_in_progress?
-        Delayed::Job.all.any? { |dj| dj.handler.include? 'CsvExportJob' }
+      def job_in_progress?
+        Delayed::Job.all.any? do |dj|
+          %w[CsvImportJob CsvExportJob].any? { |job| dj.handler.include?(job) }
+        end
       end
     end
   end
