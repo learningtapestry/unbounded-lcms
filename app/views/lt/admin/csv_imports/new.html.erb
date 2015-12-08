@@ -7,7 +7,9 @@
     <h4>Notes on importing CSVs</h4>
     <ul>
       <li>The CSV file must have the following headers: id, url, publisher, title, description, grade, resource_type, standard, subject.</li>
-      <li>The value for a field may be empty, but the header must still exist.</li>
+      <li>URL is the only mandatory field.</li>
+      <li>The ID field is meant for overwriting a particular resource in the database.</li>
+      <li>Even if the row value for a resource field is empty, the CSV must still have all the headers.</li>
       <li>If the "replace" option is checked, duplicate resources get overwritten with the new values.</li>
       <li>Otherwise, duplicate resources are skipped.</li>
     </ul>

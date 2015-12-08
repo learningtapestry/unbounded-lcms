@@ -12,7 +12,7 @@ module Content
 
       def self.check_csv(filename)
         File.open(filename) do |f|
-          CSV.parse(f.readline).first.to_a == HEADERS
+          CSV.parse(f.readline).first.to_a.sort == HEADERS.sort
         end
       rescue
         false
