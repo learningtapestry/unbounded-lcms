@@ -153,6 +153,9 @@ en:
       lobject_children:
         create:
           success: New Node added into Collection successfully.
+      lobject_exports:
+        new:
+          page_title: Export Resources
       lobjects:
         destroy:
           success: "Learning Object #%{lobject_id} was deleted successfully."
@@ -348,6 +351,7 @@ en:
     close: Close
     delete: Delete
     edit: Edit
+    export_resources: Export Resources
     import_subtitles: 'Import subtitles & descriptions'
     import: Import
     export: Export
