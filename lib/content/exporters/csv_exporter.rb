@@ -31,7 +31,7 @@ module Content
               lobject.id,
               lobject.title,
               lobject.subtitle,
-              lobject.description,
+              text_description(lobject.description),
               "#{HOST}/resources/#{lobject.id}",
               lobject.grades.map(&:grade).join(', '),
               lobject.alignments.map(&:name).join(', '),
@@ -48,6 +48,15 @@ module Content
         name = ['unbounded_resources']
         name += @grades.map(&:grade).map { |g| g.gsub(' ', '-') }
         name.join('_') + '.csv'
+      end
+
+      private
+
+      def text_description(description)
+        doc = Nokogiri::HTML(description)
+        doc.xpath('//p/text()').text
+      rescue
+        nil
       end
     end
   end
