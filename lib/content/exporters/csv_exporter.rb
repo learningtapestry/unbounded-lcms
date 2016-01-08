@@ -15,7 +15,11 @@ module Content
       end
 
       def export
+        child_ids_rel = LobjectCollection.curriculum_maps.select('DISTINCT lobject_children.child_id').joins(:lobject_children)
+        root_ids_rel  = LobjectCollection.curriculum_maps.select(:lobject_id)
+
         lobjects = Lobject.select('DISTINCT lobjects.*').
+                           where('(lobjects.id IN (:root_ids)) OR (lobjects.id IN (:child_ids))', child_ids: child_ids_rel, root_ids: root_ids_rel).
                            includes(:alignments, :documents, :grades, :lobject_descriptions, :lobject_titles, :resource_types, :subjects)
 
         if @grades.any?
