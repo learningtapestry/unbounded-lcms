@@ -51,6 +51,10 @@ GEM
       rails (>= 3)
     aws-sdk-resources (2.2.8)
       aws-sdk-core (= 2.2.8)
+    axlsx (2.1.0.pre)
+      htmlentities (~> 4.3.1)
+      nokogiri (>= 1.4.1)
+      rubyzip (~> 1.1.7)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -153,6 +157,7 @@ GEM
       guard-compat (~> 1.2)
       minitest (>= 3.0)
     hashie (3.4.2)
+    htmlentities (4.3.4)
     i18n (0.7.0)
     i18n-js (2.1.2)
       i18n
@@ -340,6 +345,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.9.3)
   aws-sdk-rails (~> 1.0)
+  axlsx (~> 2.1.0.pre)
   bootstrap-sass (~> 3.3.5.1)
   byebug
   cancancan (~> 1.12.0)

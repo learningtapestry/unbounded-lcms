@@ -1,4 +1,4 @@
-require 'content/exporters/csv_exporter'
+require 'content/exporters/excel_exporter'
 
 module Unbounded
   module Admin
@@ -9,9 +9,9 @@ module Unbounded
       end
 
       def create
-        exporter = CsvExporter.new(params[:grades])
-        csv_data = exporter.export
-        send_data csv_data, disposition: 'attachment', filename: exporter.filename, type: 'text/csv'
+        exporter = ExcelExporter.new(params[:grades])
+        excel_data = exporter.export
+        send_data excel_data, disposition: 'attachment', filename: exporter.filename, type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       end
     end
   end

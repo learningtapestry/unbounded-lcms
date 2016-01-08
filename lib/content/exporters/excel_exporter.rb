@@ -4,7 +4,7 @@ require 'content/models'
 
 module Content
   module Exporters
-    class CsvExporter
+    class ExcelExporter
       include Content::Models
 
       HEADERS = ['ID Unbounded Database', 'ID Our Database', 'Title', 'Subtitle', 'Description', 'URL', 'Grades', 'Standards', 'Resource Types', 'Subjects']
@@ -26,11 +26,12 @@ module Content
           lobjects = lobjects.where(lobject_grades: { grade_id: @grades.map(&:id) })
         end
 
-        csv = CSV.generate do |csv|
-          csv << HEADERS
-
+        package = Axlsx::Package.new
+        package.workbook.add_worksheet do |sheet|
+          sheet.add_row(HEADERS)
+          
           lobjects.find_each do |lobject|
-            csv << [
+            sheet.add_row([
               lobject.documents.first.try(:source_document_id),
               lobject.id,
               lobject.title,
@@ -41,17 +42,19 @@ module Content
               lobject.alignments.map(&:name).join(', '),
               lobject.resource_types.map(&:name).join(', '),
               lobject.subjects.map(&:name).join(', ')
-            ]
+            ])
           end
         end
 
-        csv
+        stream = StringIO.new
+        stream.write(package.to_stream.read)
+        stream.string
       end
 
       def filename
         name = ['unbounded_resources']
         name += @grades.map(&:grade).map { |g| g.gsub(' ', '-') }
-        name.join('_') + '.csv'
+        name.join('_') + '.xlsx'
       end
 
       private

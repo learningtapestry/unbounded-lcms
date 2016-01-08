@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'aws-sdk-rails', '~> 1.0'
 gem 'active_model_serializers', '~> 0.9.3'
+gem 'axlsx', '~> 2.1.0.pre'
 gem 'bootstrap-sass', '~> 3.3.5.1'
 gem 'cancancan', '~> 1.12.0'
 gem 'carrierwave', '~> 0.10.0'
