@@ -1,5 +1,3 @@
-require 'csv'
-
 require 'content/models'
 
 module Content
@@ -10,7 +8,7 @@ module Content
       HEADERS = ['ID Unbounded Database', 'ID Our Database', 'Title', 'Subtitle', 'Description', 'URL', 'Grades', 'Standards', 'Resource Types', 'Subjects']
       HOST    = 'https://content-staging.learningtapestry.com'
 
-      def initialize(grade_ids)
+      def initialize(grade_ids = [])
         @grades = Grade.where(id: grade_ids).order(:grade)
       end
 
@@ -27,7 +25,7 @@ module Content
         end
 
         package = Axlsx::Package.new
-        package.workbook.add_worksheet do |sheet|
+        package.workbook.add_worksheet(name: 'Resources') do |sheet|
           sheet.add_row(HEADERS)
           
           lobjects.find_each do |lobject|
@@ -36,7 +34,7 @@ module Content
               lobject.id,
               lobject.title,
               lobject.subtitle,
-              text_description(lobject.description),
+              lobject.text_description,
               "#{HOST}/resources/#{lobject.id}",
               lobject.grades.map(&:grade).join(', '),
               lobject.alignments.map(&:name).join(', '),
@@ -55,15 +53,6 @@ module Content
         name = ['unbounded_resources']
         name += @grades.map(&:grade).map { |g| g.gsub(' ', '-') }
         name.join('_') + '.xlsx'
-      end
-
-      private
-
-      def text_description(description)
-        doc = Nokogiri::HTML(description)
-        doc.xpath('//p/text()').text
-      rescue
-        nil
       end
     end
   end

@@ -172,6 +172,13 @@ module Content
         lobject_descriptions.first.try(:description)
       end
 
+      def text_description
+        doc = Nokogiri::HTML(description)
+        doc.xpath('//p/text()').text
+      rescue
+        nil
+      end
+
       def doc_created_at
         documents.order(doc_created_at: :asc).limit(1).first.try(:doc_created_at)
       end
