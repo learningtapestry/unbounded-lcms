@@ -35,7 +35,7 @@ window.initializeTree = function() {
     }
   });
 
-  $('.add-link').click(function() {
+  $(document).on('click', '.add-link', function() {
     var $parent = $(this).closest('li');
     // Set parent ID
     $('#new-child-parent-id').val($parent.data('id'));
@@ -50,14 +50,14 @@ window.initializeTree = function() {
     return false;
   });
 
-  $('.delete-link').click(function() {
+  $(document).on('click', '.delete-link', function() {
     var $parent = $(this).closest('li');
     $parent.addClass('deleted');
     $('.destroy', $parent).val(1);
     return false;
   });
 
-  $('.restore-link').click(function() {
+  $(document).on('click', '.restore-link', function() {
     var $parent = $(this).closest('li');
     $parent.removeClass('deleted');
     $('.destroy', $parent).val(0);
