@@ -23,7 +23,7 @@
           <td class=id><%= lobject.id %>
           <td class=title><%= lobject.title %>
           <td class=subtitle><%= lobject.subtitle %>
-          <td class=description><%= lobject.description.html_safe %>
+          <td class=description><%= lobject.description.try(:html_safe) %>
         </tr>
       <% end %>
     </table>
