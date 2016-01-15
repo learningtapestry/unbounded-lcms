@@ -6,7 +6,6 @@
     <title><%= page_title %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('unbounded.default_title') %>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%= render partial: 'unbounded/shared/favicon' %>
     <script>document.querySelector('html').className = 'js';</script>
     <%= stylesheet_link_tag 'unbounded', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'i18n' %>

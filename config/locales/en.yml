@@ -285,7 +285,7 @@ en:
       module_title: "Module %{idx}"
       index:
         page_title: Curriculum
-    default_title: UnboundEd
+    default_title: Untitled
     grades:
       ela:
         grade_9: Grade 9
@@ -395,7 +395,7 @@ en:
     instructional_resources: Instructional resources
     related_resources: Related professional development resources
   footer:
-    copyright_html: Copyright &copy; UNBOUNDED ltd.
+    copyright_html: Copyright © 2016
     address_html: >
       123 Main Street, 12th fl, New York NY 10003
     phone_html: (888)123-4567
