@@ -74,7 +74,14 @@ module Unbounded
       units = curriculum.units
       unit  = curriculum.current_unit
       idx = unit_index(subject, units.index(unit))
-      title = t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
+
+      title =
+        if (short_title = unit.short_title).present?
+          short_title
+        else
+          t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
+        end
+
       full_title(title, unit.subtitle)
     end
 
@@ -98,7 +105,15 @@ module Unbounded
     def unit_node_title(unit_node, multiple = nil)
       subject = unit_node.content.curriculum_subject
       idx = unit_index(subject, unit_node.position)
-      title = t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
+      unit = unit_node.content
+
+      title =
+        if (short_title = unit.short_title).present?
+          short_title
+        else
+          t("unbounded.curriculum.#{subject}_unit_label", idx: idx)
+        end
+
       subtitle = unit_node.content.subtitle
       if subtitle.present?
         subtitle = subtitle.truncate(multiple.nil? ? 30: 60, separator: /\s/)
@@ -159,6 +174,14 @@ module Unbounded
         content_tag(:span, title, :class => "r-title with-colon") + content_tag(:span, subtitle, :class => "r-subtitle #{subtitle_class}")
       else
         content_tag(:span, title, :class => "r-title")
+      end
+    end
+
+    def short_unit_title(curriculum, unit, idx)
+      if (short_title = unit.short_title).present?
+        short_title
+      else
+        t("unbounded.curriculum.#{curriculum.subject}_unit_label", idx: idx + 1)
       end
     end
   end

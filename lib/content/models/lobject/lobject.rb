@@ -164,6 +164,10 @@ module Content
         lobject_titles.first.try(:title)
       end
 
+      def short_title
+        lobject_titles.first.try(:short_title)
+      end
+
       def subtitle
         lobject_titles.first.try(:subtitle)
       end
