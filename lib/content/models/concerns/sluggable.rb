@@ -59,7 +59,9 @@ module Content
 
           full_slug = "#{prefix}/#{slug}"
 
-          if url_slug = LobjectSlug.find_by(lobject_collection: self, value: full_slug)
+          if (url_slug = LobjectSlug.find_by(lobject_collection: self, lobject_id: node.content.id))
+            url_slug.update_column(:value, full_slug)
+          elsif (url_slug = LobjectSlug.find_by(lobject_collection: self, value: full_slug))
             url_slug.update_column(:lobject_id, node.content.id)
           else
             LobjectSlug.create!(lobject: node.content, lobject_collection: self, value: full_slug)
@@ -88,8 +90,15 @@ module Content
         end
 
         def unit_slug(node)
-          slug = UNIT_SLUGS[@root_title]
-          "#{slug}-#{node.position + 1}"
+          if (short_title = node.content.short_title).present?
+            short_title.
+              gsub(',', '').
+              gsub(' ', '-').
+              downcase 
+          else
+            slug = UNIT_SLUGS[@root_title]
+            "#{slug}-#{node.position + 1}"
+          end
         end
     end
   end
