@@ -96,6 +96,7 @@ $logo-title-height: 36px;
 
 // Curriculum page
 $unit-title-height: 65px;
+$unit-with_part-title-height: 90px;
 // Lesson page
 $lesson-img-height: 195px;
 // Home page
@@ -558,6 +559,9 @@ header {
       .unit-wrapper {
         .unit-title {
           min-height: $unit-title-height!important;
+          &.with-part {
+            min-height: $unit-with-part-title-height!important;
+          }
           a {
             .r-title.with-colon {
               &:after {content: ': ';}

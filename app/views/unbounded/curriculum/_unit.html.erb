@@ -2,7 +2,7 @@
 <div class="unit <%= multiple_mode %>">
   <div class="unit-wrapper">
     <div class="row">
-      <div class="unit-title">
+      <div class="unit-title<% if unit.content.short_title.present? then %> with-part<% end %>">
         <div>
           <%= link_to(unbounded_resource_path(unit.content), data: { 'lobject-id' => unit.content.id }) do %>
             <%= unit_node_title(unit, multiple_mode) %>

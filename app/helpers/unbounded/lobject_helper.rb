@@ -179,7 +179,7 @@ module Unbounded
 
     def short_unit_title(curriculum, unit, idx)
       if (short_title = unit.short_title).present?
-        short_title
+        short_title.tr('nit', '').tr('art', '')
       else
         t("unbounded.curriculum.#{curriculum.subject}_unit_label", idx: idx + 1)
       end
