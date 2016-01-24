@@ -7,7 +7,14 @@ module Unbounded
     end
 
     def attachment_content_type(download)
-      t("unbounded.content_type.#{download.content_type}") rescue download.content_type
+      case download.content_type
+      when 'application/zip' then 'zip'
+      when 'application/pdf' then 'pdf'
+      when 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' then 'excel'
+      when 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' then 'powerpoint'
+      when 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' then 'doc'
+      else download.content_type
+      end
     end
 
     def attachment_url(download)
@@ -130,7 +137,7 @@ module Unbounded
     end
 
     def file_icon(type)
-      type == 'pdf' ? type: 'doc'
+      %w(excel doc pdf powerpoint zip).include?(type) ? type : 'unknown'
     end
 
     def resource_icon(lobject)
