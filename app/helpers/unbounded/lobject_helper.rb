@@ -52,8 +52,14 @@ module Unbounded
     end
 
     def resource_title(lobject, curriculum)
+      title     = lobject.title
       obj_count = curriculum.current_node.parent.children.size rescue nil
-      obj_count ? t("unbounded.curriculum.resource_label", title: lobject.title, count: obj_count) : lobject.title
+
+      if obj_count && lobject.short_title.blank? && title =~ /\d$/
+        t("unbounded.curriculum.resource_label", title: title, count: obj_count)
+      else
+        title
+      end
     end
 
     def resource_subtitle(lobject)
