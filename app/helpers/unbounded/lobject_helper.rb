@@ -62,7 +62,7 @@ module Unbounded
       title     = lobject.title
       obj_count = curriculum.current_node.parent.children.size rescue nil
 
-      if obj_count && lobject.short_title.blank? && title =~ /\d$/
+      if obj_count && obj_count > 1 && lobject.short_title.blank? && title =~ /\d$/
         t("unbounded.curriculum.resource_label", title: title, count: obj_count)
       else
         title
