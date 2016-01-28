@@ -108,8 +108,14 @@ module Unbounded
     end
 
     def module_node_title(module_node, klass = '12')
-      subject = module_node.content.curriculum_subject
-      title = t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
+      title =
+        if (short_title = module_node.content.short_title).present?
+          short_title
+        else
+          subject = module_node.content.curriculum_subject
+          t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
+        end
+
       subtitle = module_node.content.subtitle
       subtitle = subtitle.truncate(klass.include?('12') ? 200: 90, separator: /\s/) if subtitle.present?
       full_title(title, subtitle)
