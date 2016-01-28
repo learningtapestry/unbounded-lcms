@@ -32,23 +32,6 @@
         </ul>
       <% end %>
     </div>
-    <div class="lesson-dev-resources">
-      <% if (related_lobjects = lobject.related_lobjects).any? %>
-        <h5><%= t('lesson_page.related_resources') %></h5>
-        <ul class="media-list">
-          <% related_lobjects.each do |related_lobject| %>
-            <li class="media">
-              <div class="media-left media-middle">
-                <i class="fa fa-2x file-<%= resource_icon(related_lobject) %>"></i>
-              </div>
-              <div class="media-body lobject-related-resource">
-                <%= link_to(related_lobject.title, unbounded_resource_path(related_lobject)) %> (<%= related_resource_type(related_lobject) %>)
-              </div>
-            </li>
-          <% end %>
-        </ul>
-      <% end %>
-    </div>
   </div>
 </div>
 
