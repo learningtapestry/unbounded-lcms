@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114164400) do
+ActiveRecord::Schema.define(version: 20160128232037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,11 @@ ActiveRecord::Schema.define(version: 20160114164400) do
 
   add_index "documents", ["merged_at"], name: "index_documents_on_merged_at", using: :btree
   add_index "documents", ["url_id"], name: "index_documents_on_url_id", using: :btree
+
+  create_table "download_categories", force: :cascade do |t|
+    t.string "name",        null: false
+    t.string "description"
+  end
 
   create_table "downloads", force: :cascade do |t|
     t.string   "filename"
@@ -315,12 +320,14 @@ ActiveRecord::Schema.define(version: 20160114164400) do
     t.integer  "lobject_id"
     t.integer  "document_id"
     t.integer  "download_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.boolean  "active"
+    t.integer  "download_category_id"
   end
 
   add_index "lobject_downloads", ["document_id"], name: "index_lobject_downloads_on_document_id", using: :btree
+  add_index "lobject_downloads", ["download_category_id"], name: "index_lobject_downloads_on_download_category_id", using: :btree
   add_index "lobject_downloads", ["download_id"], name: "index_lobject_downloads_on_download_id", using: :btree
   add_index "lobject_downloads", ["lobject_id"], name: "index_lobject_downloads_on_lobject_id", using: :btree
 
@@ -650,6 +657,7 @@ ActiveRecord::Schema.define(version: 20160114164400) do
   add_foreign_key "lobject_documents", "documents"
   add_foreign_key "lobject_documents", "lobjects"
   add_foreign_key "lobject_downloads", "documents"
+  add_foreign_key "lobject_downloads", "download_categories"
   add_foreign_key "lobject_downloads", "downloads"
   add_foreign_key "lobject_downloads", "lobjects"
   add_foreign_key "lobject_grades", "documents"
@@ -679,6 +687,7 @@ ActiveRecord::Schema.define(version: 20160114164400) do
   add_foreign_key "lobjects", "organizations"
   add_foreign_key "lr_documents", "source_documents"
   add_foreign_key "resource_types", "resource_types", column: "parent_id"
+  add_foreign_key "subjects", "subjects", column: "parent_id"
   add_foreign_key "subjects", "subjects", column: "parent_id"
   add_foreign_key "urls", "urls", column: "parent_id"
   add_foreign_key "user_organizations", "organizations"

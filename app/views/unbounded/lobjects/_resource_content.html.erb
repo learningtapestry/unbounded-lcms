@@ -16,20 +16,25 @@
 <div class="lesson-resources">
   <div class="row">
     <div class="lesson-inst-resources">
-      <% if (downloads = lobject.downloads.uniq).any? %>
-        <h5><%= t('lesson_page.instructional_resources') %></h5>
-        <ul class="media-list">
-          <% downloads.each do |download| %>
-            <li class="media">
-              <div class="media-left media-middle">
-                <i class="fa fa-2x file-<%= file_icon(attachment_content_type(download)) %>"></i>
-              </div>
-              <div class="media-body">
-                <%= link_to(download.title, attachment_url(download), target: '_blank', class: 'resource-attachment') %>
-              </div>
-            </li>
-          <% end %>
-        </ul>
+      <% downloads_by_category = lobject.downloads_by_category %>
+      <% if downloads_by_category.keys.any? %>
+        <div>
+          <h5><%= t('lesson_page.instructional_resources') %></h5>
+          <ul class="media-list">
+            <% downloads_by_category.delete(nil).each do |download| %>
+              <%= render partial: 'download', locals: {download: download} %>
+            <% end %>
+          </ul>
+        </div>
+        <br>
+        <% downloads_by_category.keys.each do |category| %>
+          <h5><%= t("unbounded.download_categories.#{category}") %></h5>
+          <ul class="media-list">
+            <% downloads_by_category[category].each do |download| %>
+              <%= render partial: 'download', locals: {download: download} %>
+            <% end %>
+          </ul>
+        <% end %>
       <% end %>
     </div>
   </div>

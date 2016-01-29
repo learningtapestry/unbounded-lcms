@@ -4,6 +4,7 @@ module Content
       belongs_to :lobject
       belongs_to :document
       belongs_to :download
+      belongs_to :download_category
 
       validates :download, presence: true
 

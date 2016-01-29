@@ -53,6 +53,7 @@
           <%= download_fields.input :file, as: :file %>
           <%= download_fields.input_field :filename_cache, as: :hidden %>
         <% end %>
+        <%= lobject_download_fields.association :download_category, as: :select, input_html: { class: 'selectize', id: 'download_categories_select' } %>
         <%= lobject_download_fields.link_to_remove t('ui.remove'), class: 'btn btn-danger btn-sm' %>
       </div>
     <% end %>

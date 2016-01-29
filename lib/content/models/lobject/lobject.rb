@@ -269,6 +269,15 @@ module Content
         end
       end
 
+      def downloads_by_category
+        by_category = {}
+        lobject_downloads.group_by { |d| d.download_category.try(:name) }.each do |key, dl_group|
+          by_category[key] = dl_group.map(&:download)
+          yield key, by_category[key] if block_given?
+        end
+        by_category
+      end
+
       def slug_for_collection(collection)
         lobject_slugs.find_by(lobject_collection_id: collection.id).try(:value)
       end
