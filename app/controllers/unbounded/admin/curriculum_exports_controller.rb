@@ -1,15 +1,15 @@
-require 'content/exporters/excel_exporter'
+require 'content/exporters/curriculum_exporter'
 
 module Unbounded
   module Admin
-    class LobjectExportsController < AdminController
+    class CurriculumExportsController < AdminController
       include Content::Exporters
 
       def new
       end
 
       def create
-        exporter = ExcelExporter.new(params[:grades])
+        exporter = CurriculumExporter.new(params[:grades])
         excel_data = exporter.export
         send_data excel_data, disposition: 'attachment', filename: exporter.filename, type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       end

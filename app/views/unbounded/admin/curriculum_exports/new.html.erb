@@ -1,7 +1,7 @@
 <div class=nc-content>
   <h2 class=text-center><%= t('.page_title') %></h2>
 
-  <%= form_tag :unbounded_admin_lobject_export do %>
+  <%= form_tag :unbounded_admin_curriculum_export do %>
     <h3>Choose the grades you'd like to export</h3>
 
     <% Content::Models::Grade.order(:name).each do |grade| %>

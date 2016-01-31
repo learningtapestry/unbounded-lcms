@@ -144,6 +144,9 @@ en:
           page_title: "%{collection} Collection"
         update:
           success: Learning Objects Collection was updated successfully.
+      curriculum_exports:
+        new:
+          page_title: Export Resources
       lobject_bulk_edits:
         create:
           success: "%{count} %{resources_count} updated successfully."
@@ -153,9 +156,6 @@ en:
       lobject_children:
         create:
           success: New Node added into Collection successfully.
-      lobject_exports:
-        new:
-          page_title: Export Resources
       lobjects:
         destroy:
           success: "Learning Object #%{lobject_id} was deleted successfully."

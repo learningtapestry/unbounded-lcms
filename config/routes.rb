@@ -40,9 +40,9 @@ Rails.application.routes.draw do
         get '/' => 'welcome#index'
         resources :collection_types
         resources :collections
+        resource :curriculum_export, only: %i(new create)
         resource :lobject_bulk_edits, only: [:new, :create]
         resources :lobject_children, only: :create
-        resource :lobject_export, only: [:new, :create]
         resources :lobjects, except: :show
         resources :pages, except: :show
         resources :staff_members, except: :show

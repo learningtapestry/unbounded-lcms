@@ -2,7 +2,7 @@ require 'content/models'
 
 module Content
   module Exporters
-    class ExcelExporter
+    class CurriculumExporter
       include Content::Models
 
       HEADERS = ['ID Unbounded Database', 'ID Our Database', 'Title', 'Subtitle', 'Description', 'URL', 'Grades', 'Standards', 'Resource Types', 'Subjects']
@@ -13,16 +13,16 @@ module Content
       end
 
       def export
-        child_ids_rel = LobjectCollection.curriculum_maps.select('DISTINCT lobject_children.child_id').joins(:lobject_children)
-        root_ids_rel  = LobjectCollection.curriculum_maps.select(:lobject_id)
+        collections_rel = LobjectCollection.curriculum_maps.
+                                            joins(lobject: :lobject_grades).
+                                            where(lobject_grades: { grade_id: @grades.map(&:id) })
+
+        child_ids_rel = collections_rel.select('DISTINCT lobject_children.child_id').joins(:lobject_children)
+        root_ids_rel  = collections_rel.select(:lobject_id)
 
         lobjects = Lobject.select('DISTINCT lobjects.*').
                            where('(lobjects.id IN (:root_ids)) OR (lobjects.id IN (:child_ids))', child_ids: child_ids_rel, root_ids: root_ids_rel).
                            includes(:alignments, :documents, :grades, :lobject_descriptions, :lobject_titles, :resource_types, :subjects)
-
-        if @grades.any?
-          lobjects = lobjects.where(lobject_grades: { grade_id: @grades.map(&:id) })
-        end
 
         package = Axlsx::Package.new
         package.workbook.add_worksheet(name: 'Resources') do |sheet|
@@ -50,7 +50,7 @@ module Content
       end
 
       def filename
-        name = ['unbounded_resources']
+        name = ['unbounded_curriculum']
         name += @grades.map(&:grade).map { |g| g.gsub(' ', '-') }
         name.join('_') + '.xlsx'
       end
