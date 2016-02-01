@@ -4,13 +4,14 @@
 
   <%= f.simple_fields_for :lobject_titles do |lobject_titles_fields| %>
     <%= lobject_titles_fields.input :title %>
+    <%= lobject_titles_fields.input :short_title %>
     <%= lobject_titles_fields.input :subtitle %>
   <% end %>
 
   <%= f.simple_fields_for :lobject_urls do |lobject_urls_fields| %>
 
     <%= lobject_urls_fields.simple_fields_for :url do |url_fields| %>
-      <%= url_fields.input :url %>
+      <%= url_fields.input :url, required: false %>
     <% end %>
 
   <% end %>
