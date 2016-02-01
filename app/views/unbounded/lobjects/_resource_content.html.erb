@@ -17,7 +17,7 @@
   <div class="row">
     <div class="lesson-inst-resources">
       <% downloads_by_category = lobject.downloads_by_category %>
-      <% if downloads_by_category.keys.any? %>
+      <% if downloads_by_category.keys.size > 0 %>
         <div>
           <h5><%= t('lesson_page.instructional_resources') %></h5>
           <ul class="media-list">
