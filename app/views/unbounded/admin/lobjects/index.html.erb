@@ -31,7 +31,7 @@
           <% check_box_id = "ids_#{lobject.id}" %>
           <td><%= check_box_tag 'ids[]', lobject.id, false, class: 'lobject-checkbox', id: check_box_id %>
           <td><%= label_tag check_box_id, lobject.id, class: 'lobject-id-label' %>
-          <td><%= link_to lobject.title, unbounded_show_path(lobject) %>
+          <td><%= link_to lobject.title, unbounded_show_path(lobject) %> <%= link_to t('ui.edit'), edit_unbounded_admin_lobject_path(lobject), class: 'btn btn-default', 'data-no-turbolink' => '' %>
           <td class=lobject-tag-col><%= lobject.grades.map(&:grade).select(&:present?).join(', ') %>
           <td class=lobject-tag-col><%= lobject.alignments.map(&:name).select(&:present?).join(', ') %>
           <td class=lobject-tag-col><%= lobject.resource_types.map(&:name).select(&:present?).join(', ') %>
