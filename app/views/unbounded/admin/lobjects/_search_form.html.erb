@@ -8,6 +8,8 @@
 
   <%= f.input :lobject_subjects_subject_id_in, as: :select, collection: Content::Models::Subject.all, input_html: { class: 'selectize lobject-search-select', multiple: true }, label: t('.subjects'), required: false, wrapper_html: { class: 'lobject-search-wrap' }  %>
 
+  <%= f.input :lobject_titles_title_cont, label: t('.title'), required: false, wrapper_html: { class: 'lobject-search-wrap' }  %> 
+
   <%= f.button :submit, t('ui.search'), class: 'lobject-search-button', name: nil %>
 
 <% end %>

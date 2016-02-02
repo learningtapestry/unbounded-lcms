@@ -184,6 +184,7 @@ en:
           resource_types: Resource Types
           standards: Standards
           subjects: Subjects
+          title: Title
       pages:
         create:
           success: Page created successfully.
