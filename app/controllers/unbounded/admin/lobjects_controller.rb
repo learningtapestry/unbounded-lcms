@@ -13,10 +13,7 @@ module Unbounded
 
       def new
         @lobject = Lobject.new(organization: Organization.unbounded)
-        @lobject.lobject_descriptions.new
-        @lobject.lobject_languages.new
-        @lobject.lobject_titles.new
-        @lobject.lobject_urls.new(url: Url.new)
+        initialize_for_edit
       end
 
       def create
@@ -30,6 +27,7 @@ module Unbounded
       end
 
       def edit
+        initialize_for_edit
       end
 
       def update
@@ -46,6 +44,12 @@ module Unbounded
       end
 
       private
+        def initialize_for_edit
+          @lobject.lobject_descriptions.new unless @lobject.lobject_descriptions.any?
+          @lobject.lobject_languages.new(language: Language.first) unless @lobject.lobject_languages.any?
+          @lobject.lobject_titles.new unless @lobject.lobject_titles.any?
+        end
+
         def find_resource
           @lobject = Organization.unbounded.lobjects.find(params[:id])
         end
