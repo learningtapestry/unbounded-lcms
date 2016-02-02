@@ -8,14 +8,6 @@
     <%= lobject_titles_fields.input :subtitle %>
   <% end %>
 
-  <%= f.simple_fields_for :lobject_urls do |lobject_urls_fields| %>
-
-    <%= lobject_urls_fields.simple_fields_for :url do |url_fields| %>
-      <%= url_fields.input :url, required: false %>
-    <% end %>
-
-  <% end %>
-
   <%= f.simple_fields_for :lobject_languages do |lobject_languages_fields| %>
     <%= lobject_languages_fields.input :language_id, as: :select, collection: language_collection_options, include_blank: false %>
   <% end %>
