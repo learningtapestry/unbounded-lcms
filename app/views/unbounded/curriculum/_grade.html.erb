@@ -1,3 +1,4 @@
+<% curriculum = grade.content.unbounded_curriculum; %>
 <% lobject_presenter(grade.content) do |g| %>
   <div class="curriculum-grade">
     <div class="row">
@@ -23,7 +24,7 @@
     </div>
     <div class="row">
       <% each_with_module_class(grade.children) do |mod, klass| %>
-        <%= render partial: 'module', locals: { mod: mod, klass: klass } %>
+        <%= render partial: 'module', locals: { mod: mod, klass: klass, curriculum: curriculum } %>
       <% end %>
     </div>
   </div>

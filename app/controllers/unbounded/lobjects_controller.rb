@@ -12,12 +12,13 @@ module Unbounded
 
     private
       def find_resource
-        @lobject =
-          if id = params[:id]
-            Lobject.find(id)
-          elsif slug = params[:slug]
-            LobjectSlug.find_by_value!(slug).lobject
-          end
+        if id = params[:id]
+          @lobject = Lobject.find(id)
+        elsif slug = params[:slug]
+          slug = LobjectSlug.find_by_value!(slug)
+          @lobject = slug.lobject
+          @curriculum = UnboundedCurriculum.new(slug.lobject_collection, @lobject)
+        end
       end
   end
 end

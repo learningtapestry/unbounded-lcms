@@ -14,7 +14,7 @@
       <br>
     <% end %>
     <div class="row">
-      <% if curriculum = @lobject.unbounded_curriculum %>
+      <% if curriculum = @curriculum || @lobject.unbounded_curriculum %>
         <div class="sidebar sidebar-<%= @lobject.curriculum_subject %> <%= @lobject.curriculum_subject %> left-sidebar hidden-xs ">
           <div class="row">
             <%= render partial: 'nav', locals: { curriculum: curriculum } %>

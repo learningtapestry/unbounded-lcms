@@ -4,7 +4,7 @@
     <div class="row">
       <div class="unit-title<% if unit.content.short_title.present? then %> with-part<% end %>">
         <div>
-          <%= link_to(unbounded_resource_path(unit.content), data: { 'lobject-id' => unit.content.id }) do %>
+          <%= link_to(unbounded_resource_path(unit.content, curriculum), data: { 'lobject-id' => unit.content.id }) do %>
             <%= unit_node_title(unit, multiple_mode) %>
           <% end %>
         </div>
@@ -13,7 +13,7 @@
         <div class="lessons lessons-<%= i if unit.children.size > 16 %>">
           <div class="row">
             <% lessons.each do |lesson| %>
-              <%= render partial: 'lesson', object: lesson %>
+              <%= render partial: 'lesson', locals: { lesson: lesson, curriculum: curriculum } %>
             <% end %>
 
             <% if (unit.children.size > 0 && unit.children.size < 16) || (lessons.size > 0 && lessons.size < 16) %>

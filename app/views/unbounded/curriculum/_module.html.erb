@@ -4,10 +4,10 @@
       <div class="module-title">
         <div class="row">
           <div class="module-title-title">
-            <%= link_to(module_node_title(mod, klass), unbounded_resource_path(mod.content)) %>
+            <%= link_to(module_node_title(mod, klass), unbounded_resource_path(mod.content, curriculum)) %>
           </div>
           <div class="module-title-dsc">
-            <%= link_to(unbounded_resource_path(mod.content)) do %>
+            <%= link_to(unbounded_resource_path(mod.content, curriculum)) do %>
               <%= truncate_html(mod.content.description.html_safe, length: klass.include?('12') ? 240 : 100) if mod.content.description.present? %>
             <% end %>
           </div>
@@ -15,7 +15,7 @@
       </div>
       <div class="curriculum-map curriculum-map-units">
         <% mod.children.each do |unit| %>
-          <%= render partial: 'unit', object: unit %>
+          <%= render partial: 'unit', locals: { unit: unit, curriculum: curriculum } %>
         <% end %>
       </div>
     </div>
