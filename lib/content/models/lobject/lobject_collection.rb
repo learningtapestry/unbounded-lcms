@@ -35,7 +35,7 @@ module Content
       end
 
       def tree(root_lobject = lobject)
-        build_tree(root_lobject, find_relations)
+        @tree ||= build_tree(root_lobject, find_relations)
       end
 
       def as_hash(root_lobject = lobject)
@@ -60,6 +60,54 @@ module Content
 
       def next_position(parent)
         (last_position(parent) || 0) + 1
+      end
+
+      def find_node(id)
+        tree.find { |n| n.content.id == id }
+      end
+
+      def delete_branch(parent_id)
+        leaves = []
+        find_node(parent_id).each do |leaf|
+          leaves << [leaf.parent.content.id, leaf.content.id]
+        end
+        transaction do
+          leaves.reverse.each do |(pid, cid)|
+            LobjectChild.where(
+              parent_id: pid,
+              child_id: cid,
+              lobject_collection_id: self.id
+            ).first.destroy
+          end
+        end
+      end
+
+      def copy_branch(branch, parent_id:, position:)
+        leaves = []
+        branch.each_with_index do |leaf, i|
+          if i == 0
+            leaves << [parent_id, leaf.content.id, position]
+          else
+            leaves << [leaf.parent.content.id, leaf.content.id, leaf.position+1]
+          end
+        end
+        transaction do
+          LobjectChild.where(parent_id: parent_id, lobject_collection_id: self.id).each do |child|
+            if child.position >= position
+              child.position += 1
+              child.save!
+            end
+          end
+
+          leaves.each do |(pid, cid, pos)|
+            LobjectChild.create!(
+              parent_id: pid,
+              child_id: cid,
+              position: pos,
+              lobject_collection_id: self.id
+            )
+          end
+        end
       end
       
       protected
