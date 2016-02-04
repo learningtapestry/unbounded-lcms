@@ -347,6 +347,9 @@ en:
       "application/msword": doc
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document": openoffice document
       "application/vnd.ms-powerpoint": powerpoint
+    welcome:
+      index:
+        page_title: Highschool Curriculum Pilot
   ui:
     actions: Actions
     add: Add
