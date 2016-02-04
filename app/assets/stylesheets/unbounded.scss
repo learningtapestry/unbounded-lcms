@@ -39,6 +39,7 @@ $font-size-form-control: 14px;
 $font-size-grade: 32px;
 $font-size-base-curriculum: 18px;
 $font-size-module: 21px;
+$font-size-module-small: 11px;
 $font-size-unit: 16px;
 $font-size-toggle: 14px;
 // Resource
@@ -583,6 +584,7 @@ header {
         @include make-md-column(12, $padding-xs-horizontal * 2);
         padding-bottom: $ub-element-padding;
         .r-title { @include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro);}
+        .r-title-small { @include set-typography($font-size-module-small, $ub-txt-gray, $font-family-centropro);}
         .r-subtitle {@include set-typography($font-size-module, $ub-txt-gray, $font-family-centropro-light);}
       }
       .unit {

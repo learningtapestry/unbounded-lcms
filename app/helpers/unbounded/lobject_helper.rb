@@ -99,8 +99,20 @@ module Unbounded
     end
 
     def module_title(module_node)
-      subject = module_node.content.curriculum_subject
-      t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
+      t = module_node.content.short_title || begin
+        subject = module_node.content.curriculum_subject
+        t("unbounded.curriculum.#{subject}_module_label", idx: module_node.position + 1)
+      end
+
+      t.gsub('Developing Core Proficiencies Curriculum', 'Core Proficiencies')
+    end
+
+    def module_title_class(mod_title)
+      if mod_title.size > 10
+        'r-title-small'
+      else
+        'r-title'
+      end
     end
 
     def module_subtitle(module_node)
