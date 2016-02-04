@@ -603,7 +603,7 @@ header {
                 .r-subtitle {
                   @include set-typography($font-size-unit - 2px, $ub-txt-gray, $font-family-centropro-light);
                 }
-                .r-subtitle-break {word-break: break-all;}
+                .r-subtitle-break {word-break: keep-all;}
               }
             }
             .lessons, .modules, .units {
