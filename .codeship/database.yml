@@ -12,7 +12,7 @@ development: &development
 
 integration:
   <<: *development
-  database: integration<%= ENV['TEST_ENV_NUMBER'] %>
+  database: integration
 
 test:
   adapter: postgresql
