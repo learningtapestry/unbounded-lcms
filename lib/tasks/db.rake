@@ -1,6 +1,5 @@
 namespace :db do
 
-  # db:dump
   desc 'Dumps the database.'
   task dump: :environment do
     config = ActiveRecord::Base.connection_config
@@ -23,9 +22,8 @@ namespace :db do
     raise unless system(dump_cmd)
   end
 
-  # db:restore
-  desc 'Restores the database.'
-  task restore: [:environment, :drop, :create] do
+  desc 'Runs pg_restore.'
+  task pg_restore: [:environment] do
     config = ActiveRecord::Base.connection_config
 
     restore_cmd = <<-bash
@@ -43,4 +41,7 @@ namespace :db do
 
     raise unless system(restore_cmd)
   end
+
+  desc 'Drops, creates and restores the database from a dump.'
+  task restore: [:environment, :drop, :create, :pg_restore]
 end
