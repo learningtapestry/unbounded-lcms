@@ -1,12 +1,12 @@
 production: &production
   after_bundle:
-    - command: cd $STACK_PATH && bundle exec rake lt:c66_after_bundle
+    - command: cd $STACK_PATH && bundle exec rake cloud66:after_bundle
       target: rails
       execute: true
       run_on: all_servers
       apply_during: all    
   after_symlink:
-    - command: cd $STACK_PATH && bundle exec rake lt:c66_after_symlink
+    - command: cd $STACK_PATH && bundle exec rake cloud66:after_symlink
       target: rails
       execute: true
       run_on: all_servers
