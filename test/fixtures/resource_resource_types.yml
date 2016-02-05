@@ -1,0 +1,15 @@
+unbounded_activity:
+  resource: unbounded
+  resource_type: activity
+
+unbounded_video:
+  resource: unbounded
+  resource_type: video
+
+easol_video:
+  resource: easol
+  resource_type: video
+
+unbounded_textbook:
+  resource: unbounded_textbook
+  resource_type: textbook

@@ -1,0 +1,27 @@
+<div class=nc-content>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('.new_collection_type'), :new_admin_collection_type, class: 'btn btn-success' %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <table class=table>
+    <tr>
+      <th>ID
+      <th><%= ResourceCollectionType.human_attribute_name :name %>
+      <th><%= t('ui.actions') %>
+    </tr>
+
+    <% @collection_types.each do |collection_type| %>
+      <tr id=collection_type_<%= collection_type.id %>>
+        <td><%= collection_type.id %>
+        <td><%= link_to collection_type.name, admin_collection_type_path(collection_type) %>
+        <td>
+          <%= link_to t('ui.edit'), edit_admin_collection_type_path(collection_type), class: 'btn btn-default' %>
+          <%= button_to t('ui.delete'), admin_collection_type_path(collection_type), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+      </tr>
+    <% end %>
+  </table>
+</div>

@@ -1,0 +1,16 @@
+<% if @resource_child.persisted? %>
+  <% form = SimpleForm::FormBuilder.new(@collection.class.model_name.singular, @collection, self, {}) %>
+  <% tree = @resource_child.collection.tree(@resource_child.child) %>
+  <% html = render partial: 'admin/collections/editable_tree', locals: { form: form, tree: tree } %>
+
+  var $parent = $('#resource_<%= @resource_child.parent_id %>');
+  var $list   = $('> ul', $parent);
+  if ($list.length == 0) {
+    $list = $('<ul>');
+    $parent.append($list);
+  }
+
+  $list.append($('<%=j html %>'));
+<% end %>
+
+$('#add-child-modal').modal('hide');

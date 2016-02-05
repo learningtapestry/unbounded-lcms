@@ -2,14 +2,14 @@
 // All this logic will automatically be available in application.js.
 
 $(function() {
-  $(document).on('click', '.lobject-node-opener', function() {
+  $(document).on('click', '.resource-node-opener', function() {
     $(this).parent().find('> ul').toggle();
   });
 
   function closeNodes() {
-    $('.lobject-node')
+    $('.resource-node')
       .not($('.you-are-here').parents('li'))
-      .find('.lobject-node-opener').each(function() {
+      .find('.resource-node-opener').each(function() {
         $(this).parent().find('> ul').hide();
       });
   }

@@ -1,5 +1,3 @@
-require 'content/tasks'
-
 namespace :test do
   Rails::TestTask.new(content: 'test:prepare') do |t|
     t.pattern = 'lib/content/test/**/*_test.rb'
@@ -17,7 +15,7 @@ namespace :integration do
 
   desc 'Seeds the integration ElasticSearch indeces.'
   task :prepare_elasticsearch do
-    Content::Models::Searchable.searchables.each do |s|
+    Searchable.searchables.each do |s|
       unless s.index_name.start_with?('integration')
         s.index_name("integration_#{s.index_name}")
       end

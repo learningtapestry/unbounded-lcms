@@ -1,0 +1,26 @@
+<% title = t('.page_title', collection: @collection.resource.title) %>
+
+<% set_page_title title %>
+
+<div class=nc-content>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('ui.edit'), edit_admin_collection_path(@collection), class: 'btn btn-default', 'data-no-turbolink' => '' %>
+      <%= button_to t('ui.delete'), admin_collection_path(@collection), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= title %></h2>
+
+  <div>
+    <h3><%= ResourceCollection.human_attribute_name :resource_collection_type %></h3>
+    <%= @collection.resource_collection_type.try(:name) %>
+  </div>
+
+  <div>
+    <h3><%= Resource.model_name.human.pluralize %></h3>
+    <ul class=collection-tree>
+      <%= render partial: 'tree', locals: { tree: @collection.tree } %>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<% resource = tree.content %>
+<% resource_child = resource.resource_child_for_collection(@collection) %>
+
+<li class=resource-node data-id=<%= resource.id %> id=resource_<%= resource.id %>>
+  <% if resource_child %>
+    <%= form.simple_fields_for :resource_children, [resource_child] do |f| %>
+      <%= f.input_field :_destroy, as: :hidden, class: 'destroy', value: 0 %>
+      <%= f.input_field :child_id, as: :hidden, class: 'child-id', value: resource.id %>
+      <%= f.input_field :parent_id, as: :hidden, class: 'parent-id', value: resource_child.parent_id %>
+      <%= f.input_field :position, as: :hidden, class: 'position', value: resource_child.position %>
+    <% end %>
+  <% else %>
+    <%= hidden_field_tag nil, resource.id, class: 'child-id' %>
+  <% end %>
+
+  <span class=resource-title><%= resource.title %></span>
+  <span class=links>
+    <%= link_to t('.add_node'), '#', class: 'add-link clickable' %>
+    |
+    <%= link_to t('.delete_subtree'), '#', class: 'delete-link clickable' %>
+  </span>
+  <%= link_to t('.restore_subtree'), '#', class: 'restore-link clickable' %>
+
+  <% if tree.children.size > 0 %>
+    <ul>
+      <% tree.children.each do |child_tree| %>
+        <%= render partial: 'admin/collections/editable_tree', locals: { form: form, tree: child_tree } %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

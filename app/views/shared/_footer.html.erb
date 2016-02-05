@@ -1,0 +1,16 @@
+<div class="container">
+	<div class="row">
+		<div class="footer-logo">
+	  	<%= link_to root_path do %>
+	  		<!-- <%= image_tag 'logo.svg', :alt => t('title.logo') %> -->
+	  	<% end %>
+	  </div>
+	  <div class="footer-txt">
+	  	<ul class="list-unstyled list-inline text-left">
+		  	<li><%= t('footer.copyright_html') %></li>
+		  	<li><%= t('footer.rights_html') %></li>
+		  	<li><%= link_to t('layouts.application.tos'), :tos_page %></li>
+		  </ul>
+	  </div>
+	</div>
+</div>

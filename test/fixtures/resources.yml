@@ -1,0 +1,103 @@
+easol:
+  title: Cats
+
+ela_curriculum_root:
+  title: ELA Curriculum Map
+
+math_curriculum_root:
+  title: Math Curriculum Map
+
+no_organization:
+  title: Tea
+
+unbounded:
+  hidden: true
+  title: Kanji
+  description: Remember the Kanji
+
+unbounded_engageny_source:
+  engageny_title: Test
+  engageny_url: https://www.engageny.org/content/unbounded
+
+unbounded_ela_root:
+  title: ELA Curriculum Map
+
+unbounded_grade1:
+  title: Grade 1
+
+unbounded_lesson_1_1_1_1:
+  title: Grade 1, Module 1, Unit 1, Lesson 1
+
+unbounded_lesson_1_1_1_2:
+  title: Grade 1, Module 1, Unit 1, Lesson 2
+
+unbounded_lesson_1_1_1_3:
+  title: Grade 1, Module 1, Unit 1, Lesson 3
+
+unbounded_lesson_1_1_2_1:
+  title: Grade 1, Module 1, Unit 2, Lesson 1
+
+unbounded_lesson_1_1_2_2:
+  title: Grade 1, Module 1, Unit 2, Lesson 2
+
+unbounded_lesson_1_2_1_1:
+  title: Grade 1, Module 2, Unit 1, Lesson 1
+
+unbounded_lesson_1_2_1_2:
+  title: Grade 1, Module 2, Unit 1, Lesson 2
+
+unbounded_lesson_1_2_2_1:
+  title: Grade 1, Module 2, Unit 2, Lesson 1
+
+unbounded_lesson_1_2_2_2:
+  title: Grade 1, Module 2, Unit 2, Lesson 2
+
+unbounded_lesson_1_3_1_1:
+  title: Grade 1, Module 3, Unit 1, Lesson 1
+
+unbounded_module_1_1:
+  subtitle: Grade 1, Module 1 Subtitle
+  title: Grade 1, Module 1  
+
+unbounded_module_1_2:
+  title: Grade 1, Module 2
+
+unbounded_module_1_3:
+  title: Grade 1, Module 3
+
+unbounded_rewrite_urls:
+  engageny_title: Test
+  engageny_url: https://www.unbounded.org/unbounded_rewrite_urls
+  description: |
+    <a href="/sites/default/files/downloadable-resources/2014/Jun/a-story-of-functions-curriculum-map-and-overview.pdf">Download URL #1</a>
+    <a href="/sites/default/files/resource/attachments/ccls_checklist_for_algebra_i.pdf">Download URL #2</a>
+    <a href="sites/default/files/resource/attachments/ccls_checklist_for_algebra_i.pdf">Download URL No Slash</a>
+    <a href="/content/unbounded">Resource URL Canonical</a>
+    <a href="/content/unbounded_has_parent">Resource URL Non-canonical</a>
+    <a href="content/unbounded">Resource URL No Slash</a>
+
+unbounded_textbook:
+  title: Textbook
+
+unbounded_unit_1_1_1:
+  subtitle: Grade 1, Module 1, Unit 1 Subtitle
+  title: Grade 1, Module 1, Unit 1  
+
+unbounded_unit_1_1_2:
+  title: Grade 1, Module 1, Unit 2
+
+unbounded_unit_1_1_3:
+  title: Grade 1, Module 1, Unit 3
+
+unbounded_unit_1_2_1:
+  title: Grade 1, Module 2, Unit 1
+  
+unbounded_unit_1_2_2:
+  title: Grade 1, Module 2, Unit 2
+
+unbounded_unit_1_3_1:
+  title: Grade 1, Module 3, Unit 1
+
+unbounded_with_canonical_url:
+  engageny_title: Test
+  engageny_url: https://www.engageny.org/content/unbounded_is_parent

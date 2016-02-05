@@ -1,0 +1,66 @@
+<div class="home-page" data-role="page">
+  <div class="header-module">
+    <div class="hero-wrapper">
+      <div class="hero-text">
+        <div class="hero-title"><h1><%= t('home_page.slogan') %></h1></div>
+        <div class="hero-subtitle"><%= t('home_page.tagline') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container page-content">
+    <div class="row stripe-module">
+      <%= link_to about_path, class: 'homepage-link visible-xs-block' do %>
+        <div class="hero-img hero-img-about">
+        </div>
+      <% end %>
+      <div class="hero-text hero-text-about">
+        <div class="hero-title"><%= link_to t('nav.about'), about_path, class: 'homepage-link' %></div>
+        <div class="hero-dsc">
+          <%= t('home_page.about_html') %>
+          <div class="hero-readmore">
+            <%= link_to about_path, class: 'homepage-link' do %>
+              <%= t('home_page.readmore') %> <i class="ub-icon-arrow-right"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <%= link_to about_path, class: 'homepage-link hidden-xs' do %>
+        <div class="hero-img hero-img-about">
+        </div>
+      <% end %>
+    </div>
+
+    <div class="row stripe-module">
+      <%= link_to :curriculum, class: 'homepage-link' do %>
+        <div class="hero-img hero-img-curriculum">
+        </div>
+      <% end %>
+      <div class="hero-text hero-text-curriculum">
+        <div class="hero-title"><%= link_to t('nav.curriculum'), :curriculum, class: 'homepage-link' %></div>
+        <div class="hero-dsc">
+          <%= t('home_page.curriculum_html') %>
+          <div class="hero-readmore">
+            <%= link_to :curriculum, class: 'homepage-link' do %>
+              <%= t('home_page.readmore') %> <i class="ub-icon-arrow-right"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% if false %>
+      <div class="row stripe-module">
+        <div class="hero-text">
+          <div class="hero-title"><%= t('nav.professional_development') %></div>
+          <div class="hero-dsc"><%= t('home_page.professional_development_html') %></div>
+        </div>
+        <div class="hero-img">
+          <%= image_tag("professional_development.jpg", :alt => t('nav.professional_development')) %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+
+</div>

@@ -2,16 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.lobject-node {
+.resource-node {
     list-style-type: none;
     padding: 5px 0 5px;
 }
 
-.lobject-node ul {
+.resource-node ul {
     padding-top: 5px;
 }
 
-.lobject-tree {
+.resource-tree {
     padding-left: 0;
 }
 
@@ -19,12 +19,12 @@
     font-weight: bold;
 }
 
-.lobject-node-opener {
+.resource-node-opener {
     margin-right: 5px;
     border: 0;
 }
 
-.lobject-node-opener-blank {
+.resource-node-opener-blank {
     display: inline-block;
     width: 27px;
 }

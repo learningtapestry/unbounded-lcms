@@ -20,61 +20,30 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  lt:
-    admin:
-      welcome:
-        index:
-          edit_synonyms: Edit synonyms
-          csv_imports: Import CSV
-      synonyms:
-        edit:
-          page_title: Edit synonyms
-          warning: 'Warning: this operation will shut down the Elasticsearch index for a few seconds.'
-        update:
-          success: Synonyms updated successfully
-      csv_imports:
-        new:
-          export: Export data
-          export_csv: Recreate CSV export
-          download_csv: Download last CSV export
-          import: Import data
-          page_title: Import/export data
-          replace: Replace all data
-        create:
-          success: Thank you. File import is in progress.
-          fail_csv: Could not import. Please check whether your file is a CSV and whether the fields are correct.
-        create_export:
-          success: File export is in progress.
   activemodel:
     errors:
       models:
-        lt/admin/csv_import:
-          attributes:
-            file:
-              incorrect_format: 'should be a CSV with the headers: %{headers}'
-        content/importers/subtitles_importer:
+        subtitles_importer:
           attributes:
             file:
               incorrect_format: 'incorrect format: %{count} columns instead of %{limit}'
               incorrect_type: has incorrect type
   activerecord:
     models:
-      content/models/lobject: Resource
+      resource: Resource
     attributes:
-      content/models/grade:
+      grade:
         grade: Name
-      content/models/lobject:
-        additional_lobjects: Additional materials
-        lobject_downloads: Downloadable resources
-        related_lobjects: Related materials
+      resource:
+        additional_resources: Additional materials
+        resource_downloads: Downloadable resources
+        related_resources: Related materials
         status: Status
-      content/models/lobject_child:
+      resource_child:
         child_id: Learning Object
-      content/models/lobject_collection:
-        lobject: Root Learning Object
-        lobject_collection_type: Collection Type
-      content/models/url:
-        url: URL
+      resource_collection:
+        resource: Root Learning Object
+        resource_collection_type: Collection Type
   devise:
     passwords:
       new:
@@ -86,12 +55,12 @@ en:
       new:
         page_title: Log In
   layouts:
-    unbounded:
+    application:
       admin: Administration
       tos: Terms of Service
-    unbounded_admin:
+    admin:
       admin: Administration
-  lobject_statuses:
+  resource_statuses:
     active: Active
     hidden: Hidden
   resource_types:
@@ -105,251 +74,6 @@ en:
   resources_count:
     one: resource
     other: resources
-  unbounded:
-    admin:
-      collection_types:
-        create:
-          success: Collection Type created successfully.
-        destroy:
-          success: Collection Type deleted successfully.
-        edit:
-          page_title: "Edit %{collection_type} Collection Type"
-        index:
-          new_collection_type: Add Collection Type
-          page_title: Collection Types
-        new:
-          page_title: New Collection Type
-        update:
-          success: Collection Type updated successfully.
-      collections:
-        create:
-          success: Learning Objects Collection created successfully.
-        destroy:
-          success: "Learning Objects Collection #%{collection_id} was deleted successfully."
-        edit:
-          add_node: Add node
-          manage_lobjects: Manage Learning Objects
-          page_title: "Edit %{collection} Collection"
-        editable_tree:
-          add_node: Add node
-          delete_subtree: Delete subtree
-          restore_subtree: Restore subtree
-        index:
-          items_count: Items count
-          new_collection: Add Learning Objects Collection
-          page_title: Collections
-        new:
-          page_title: New Collection
-        show:
-          page_title: "%{collection} Collection"
-        update:
-          success: Learning Objects Collection was updated successfully.
-      curriculum_exports:
-        new:
-          page_title: Export Resources
-      lobject_bulk_edits:
-        create:
-          success: "%{count} %{resources_count} updated successfully."
-        new:
-          no_resources: No resources were selected.
-          page_title: Edit Tags
-      lobject_children:
-        create:
-          success: New Node added into Collection successfully.
-      lobjects:
-        destroy:
-          success: "Learning Object #%{lobject_id} was deleted successfully."
-        edit:
-          page_title: "Edit %{lobject}"
-        form:
-          add_download: Add Downloadable Resource
-          create_alignment: Create Alignment
-          create_grade: Create Grade
-          create_resource_type: Create Resource Type
-          create_subject: Create Subject
-          create_topic: Create Topic
-        index:
-          grade_levels: Grade Levels
-          new_lobject: Add Resource
-          page_title: Content Administration
-          resource: Resource
-          resource_types: Resource Types
-          standards: Standards
-          status: Status
-          subjects: Subjects
-        new:
-          page_title: New Resource
-        search_form:
-          grades: Grades
-          resource_types: Resource Types
-          standards: Standards
-          subjects: Subjects
-          title: Title
-      pages:
-        create:
-          success: Page created successfully.
-        destroy:
-          success: Page deleted successfully.
-        edit:
-          page_title: "Edit %{page} Page"
-        index:
-          new_page: Add Page
-          page_title: Pages
-        new:
-          page_title: New Page
-        update:
-          success: Page updated successfully.
-      staff_members:
-        create:
-          success: Staff Member created successfully.
-        destroy:
-          success: Staff Member deleted successfully.
-        index:
-          new_staff_member: Add Staff Member
-          page_title: Staff Members
-        new:
-          page_title: New Staff Member
-        update:
-          success: Staff Member updated successfully.
-      subtitles_imports:
-        index:
-          no_results: Nothing was imported
-          page_title: Import results
-          results_count: '%{count} resource(s) updated'
-        new:
-          import: Import
-          spreadsheet: Spreadsheet
-          page_title: 'Import subtitles & descriptions'
-      users:
-        create:
-          success: "User %{user} was created successfully."
-          error:  "User %{user} could not be created."
-        index:
-          email: E-mail
-          name: Name
-          new_user: New user
-          page_title: Users
-          reset_password_btn: Reset password
-        search_form:
-          email: E-mail
-          name: Name
-        destroy:
-          success: "User was deleted successfully."
-        edit:
-          page_title: "Edit user %{user}"
-        reset_password:
-          success: "User will receive a password reset e-mail."
-        update:
-          success: "Changes to %{user} were saved successfully."
-        new:
-          page_title: New user
-      welcome:
-        index:
-          collection_types: Collection Types
-          collections: Collections
-          page_title: Admin
-          pages: Pages
-          resources: Resources
-          staff_members: Staff Members
-          users: Users
-    lobjects:
-      nav:
-        next_lesson: Next LESSON
-        next_module: Next MODULE
-        next_unit: Next UNIT
-        previous_lesson: Previous LESSON
-        previous_module: Previous MODULE
-        previous_unit: Previous UNIT
-      sidebar_lr_nav:
-        previous_link: "Previous %{title}"
-        next_link: "Next %{title}"
-      sidebar_up_nav:
-        up_link: "Previous %{title}"
-      sidebar_down_nav:
-        down_link: "Next %{title}"
-    curriculum:
-      ela: English Language Arts
-      math: Mathematics
-      ela_unit: unit
-      math_unit: topic
-      module: module
-      lesson: lesson
-      ela_module_label: "Module %{idx}"
-      math_module_label: "Module %{idx}"
-      ela_unit_label: "Unit %{idx}"
-      math_unit_label: "Topic %{idx}"
-      ela_lesson_label: "Lesson %{idx}"
-      math_lesson_label: "Lesson %{idx}"
-      resource_label: "%{title} of %{count}"
-      unit_x_label: "(Core Materials for %{lesson} above)"
-      unit_title: "Unit %{idx}"
-      module_title: "Module %{idx}"
-      index:
-        page_title: Curriculum
-    default_title: Untitled
-    download_categories:
-      rubrics_and_tools: Rubrics And Tools
-      texts: Texts
-    grades:
-      ela:
-        grade_9: Grade 9
-        grade_10: Grade 10
-        grade_11: Grade 11
-        grade_12: Grade 12
-      math:
-        grade_9: Algebra I
-        grade_10: Geometry
-        grade_11: Algebra II
-        grade_12: Precalculus
-    pages:
-      about:
-        staff_members: Staff Members
-    title:
-      logo: Unbounded
-      subscribe: Get Updates and Stay Connected
-      active: Document status
-      age_range: Age range
-      age_ranges: Age ranges
-      alignment: Alignment
-      alignments: Alignments
-      grade: Grade
-      grades: Grades
-      identity: Identity
-      identities: Identities
-      language: Language
-      languages: Languages
-      resource_type: Resource type
-      resource_types: Resource types
-      subject: Subject
-      subjects: Subjects
-      standard: Standard
-      standards: Standards
-      status: Document status
-      sources:
-        engageny: Document status
-      topic: Topic
-      topics: Topics
-    search:
-      index:
-        page_title: Search
-        per_page: results per page
-        search_for: Search for…
-        show: Show
-    shared:
-      additional_lobjects:
-        title: 'Additional Materials:'
-    content_type:
-      "application/zip": zip
-      "application/pdf": pdf
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": openoffice spreadsheet
-      "application/vnd.ms-excel": excel
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation": openoffice presentation
-      "application/msword": doc
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": openoffice document
-      "application/vnd.ms-powerpoint": powerpoint
-    welcome:
-      index:
-        page_title: Highschool Curriculum Pilot
   ui:
     actions: Actions
     add: Add
@@ -408,3 +132,247 @@ en:
     phone_html: (888)123-4567
     rights_html: All rights reserved.
     search: Search
+  admin:
+    collection_types:
+      create:
+        success: Collection Type created successfully.
+      destroy:
+        success: Collection Type deleted successfully.
+      edit:
+        page_title: "Edit %{collection_type} Collection Type"
+      index:
+        new_collection_type: Add Collection Type
+        page_title: Collection Types
+      new:
+        page_title: New Collection Type
+      update:
+        success: Collection Type updated successfully.
+    collections:
+      create:
+        success: Learning Objects Collection created successfully.
+      destroy:
+        success: "Learning Objects Collection #%{collection_id} was deleted successfully."
+      edit:
+        add_node: Add node
+        manage_resources: Manage Learning Objects
+        page_title: "Edit %{collection} Collection"
+      editable_tree:
+        add_node: Add node
+        delete_subtree: Delete subtree
+        restore_subtree: Restore subtree
+      index:
+        items_count: Items count
+        new_collection: Add Learning Objects Collection
+        page_title: Collections
+      new:
+        page_title: New Collection
+      show:
+        page_title: "%{collection} Collection"
+      update:
+        success: Learning Objects Collection was updated successfully.
+    curriculum_exports:
+      new:
+        page_title: Export Resources
+    resource_bulk_edits:
+      create:
+        success: "%{count} %{resources_count} updated successfully."
+      new:
+        no_resources: No resources were selected.
+        page_title: Edit Tags
+    resource_children:
+      create:
+        success: New Node added into Collection successfully.
+    resources:
+      destroy:
+        success: "Learning Object #%{resource_id} was deleted successfully."
+      edit:
+        page_title: "Edit %{resource}"
+      form:
+        add_download: Add Downloadable Resource
+        create_alignment: Create Alignment
+        create_grade: Create Grade
+        create_resource_type: Create Resource Type
+        create_subject: Create Subject
+        create_topic: Create Topic
+      index:
+        grade_levels: Grade Levels
+        new_resource: Add Resource
+        page_title: Content Administration
+        resource: Resource
+        resource_types: Resource Types
+        standards: Standards
+        status: Status
+        subjects: Subjects
+      new:
+        page_title: New Resource
+      search_form:
+        grades: Grades
+        resource_types: Resource Types
+        standards: Standards
+        subjects: Subjects
+        title: Title
+    pages:
+      create:
+        success: Page created successfully.
+      destroy:
+        success: Page deleted successfully.
+      edit:
+        page_title: "Edit %{page} Page"
+      index:
+        new_page: Add Page
+        page_title: Pages
+      new:
+        page_title: New Page
+      update:
+        success: Page updated successfully.
+    staff_members:
+      create:
+        success: Staff Member created successfully.
+      destroy:
+        success: Staff Member deleted successfully.
+      index:
+        new_staff_member: Add Staff Member
+        page_title: Staff Members
+      new:
+        page_title: New Staff Member
+      update:
+        success: Staff Member updated successfully.
+    subtitles_imports:
+      index:
+        no_results: Nothing was imported
+        page_title: Import results
+        results_count: '%{count} resource(s) updated'
+      new:
+        import: Import
+        spreadsheet: Spreadsheet
+        page_title: 'Import subtitles & descriptions'
+    users:
+      create:
+        success: "User %{user} was created successfully."
+        error:  "User %{user} could not be created."
+      index:
+        email: E-mail
+        name: Name
+        new_user: New user
+        page_title: Users
+        reset_password_btn: Reset password
+      search_form:
+        email: E-mail
+        name: Name
+      destroy:
+        success: "User was deleted successfully."
+      edit:
+        page_title: "Edit user %{user}"
+      reset_password:
+        success: "User will receive a password reset e-mail."
+      update:
+        success: "Changes to %{user} were saved successfully."
+      new:
+        page_title: New user
+    welcome:
+      index:
+        collection_types: Collection Types
+        collections: Collections
+        page_title: Admin
+        pages: Pages
+        resources: Resources
+        staff_members: Staff Members
+        users: Users
+  resources:
+    nav:
+      next_lesson: Next LESSON
+      next_module: Next MODULE
+      next_unit: Next UNIT
+      previous_lesson: Previous LESSON
+      previous_module: Previous MODULE
+      previous_unit: Previous UNIT
+    sidebar_lr_nav:
+      previous_link: "Previous %{title}"
+      next_link: "Next %{title}"
+    sidebar_up_nav:
+      up_link: "Previous %{title}"
+    sidebar_down_nav:
+      down_link: "Next %{title}"
+  curriculum:
+    ela: English Language Arts
+    math: Mathematics
+    ela_unit: unit
+    math_unit: topic
+    module: module
+    lesson: lesson
+    ela_module_label: "Module %{idx}"
+    math_module_label: "Module %{idx}"
+    ela_unit_label: "Unit %{idx}"
+    math_unit_label: "Topic %{idx}"
+    ela_lesson_label: "Lesson %{idx}"
+    math_lesson_label: "Lesson %{idx}"
+    resource_label: "%{title} of %{count}"
+    unit_x_label: "(Core Materials for %{lesson} above)"
+    unit_title: "Unit %{idx}"
+    module_title: "Module %{idx}"
+    index:
+      page_title: Curriculum
+  default_title: Untitled
+  download_categories:
+    rubrics_and_tools: Rubrics And Tools
+    texts: Texts
+  grades:
+    ela:
+      grade_9: Grade 9
+      grade_10: Grade 10
+      grade_11: Grade 11
+      grade_12: Grade 12
+    math:
+      grade_9: Algebra I
+      grade_10: Geometry
+      grade_11: Algebra II
+      grade_12: Precalculus
+  pages:
+    about:
+      staff_members: Staff Members
+  title:
+    logo: Unbounded
+    subscribe: Get Updates and Stay Connected
+    active: Document status
+    age_range: Age range
+    age_ranges: Age ranges
+    alignment: Alignment
+    alignments: Alignments
+    grade: Grade
+    grades: Grades
+    identity: Identity
+    identities: Identities
+    language: Language
+    languages: Languages
+    resource_type: Resource type
+    resource_types: Resource types
+    subject: Subject
+    subjects: Subjects
+    standard: Standard
+    standards: Standards
+    status: Document status
+    sources:
+      engageny: Document status
+    topic: Topic
+    topics: Topics
+  search:
+    index:
+      page_title: Search
+      per_page: results per page
+      search_for: Search for…
+      show: Show
+  shared:
+    additional_resources:
+      title: 'Additional Materials:'
+  content_type:
+    "application/zip": zip
+    "application/pdf": pdf
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": openoffice spreadsheet
+    "application/vnd.ms-excel": excel
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation": openoffice presentation
+    "application/msword": doc
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": openoffice document
+    "application/vnd.ms-powerpoint": powerpoint
+  welcome:
+    index:
+      page_title: Highschool Curriculum Pilot

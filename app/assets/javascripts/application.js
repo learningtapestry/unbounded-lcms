@@ -35,8 +35,8 @@ var ready = function() {
   $('.selectize').selectize({ allowEmptyOption: true, plugins: ['remove_button'] });
   window.initializeAbout();
   window.initializeCurriculum();
-  window.initializeLobjectForm();
-  window.initializeLobjectList();
+  window.initializeResourceForm();
+  window.initializeResourceList();
   window.initializeResource();
   window.initializeSearchForm();
   window.initializeTree();

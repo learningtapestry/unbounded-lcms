@@ -1,0 +1,43 @@
+<% title = t('.page_title', collection: @collection.resource.title) %>
+
+<% set_page_title title %>
+
+<div class=nc-content>
+  <h2 class=text-center><%= title %></h2>
+
+  <%= simple_form_for @collection, url: admin_collection_path(@collection) do |f| %>
+    <%= f.association :resource_collection_type, as: :select %>
+
+    <div><%= label_tag nil, t('.manage_resources') %></div>
+    <ul class='editable-tree'>
+      <%= render partial: 'editable_tree', locals: { form: f, tree: @collection.tree } %>
+    </ul>
+
+    <%= f.button :submit, t('ui.save'), name: nil %>
+  <% end %>
+
+  <div class=modal id=add-child-modal>
+    <div class=modal-dialog>
+      <div class=modal-content>
+        <div class=modal-header>
+          <button aria-hidden class=close data-dismiss=modal type=button>×</button>
+          <h4 class=modal-title><%= t('.add_node') %></h4>
+        </div>
+
+        <%= simple_form_for ResourceChild.new, url: :admin_resource_children, remote: true do |f| %>
+          <div class=modal-body>
+            <%= f.input_field :resource_collection_id, as: :hidden, value: @collection.id %>
+            <%= f.input_field :parent_id, as: :hidden, id: 'new-child-parent-id' %>
+            <%= f.input_field :position, as: :hidden, id: 'new-child-position' %>
+            <%= f.input :child_id, as: :select, input_html: { class: 'selectize' } %>
+          </div>
+
+          <div class=modal-footer>
+            <button class='btn btn-link' data-dismiss=modal type=button><%= t('ui.close') %></button>
+            <%= f.button :submit, t('ui.add'), name: nil %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

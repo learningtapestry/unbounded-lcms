@@ -1,0 +1,7 @@
+unbounded_lesson_1_1_1_1_resource:
+  resource: unbounded_lesson_1_1_1_1
+  related_resource: easol
+
+unbounded_unit_1_1_1_textbook:
+  resource: unbounded_unit_1_1_1
+  related_resource: unbounded_textbook

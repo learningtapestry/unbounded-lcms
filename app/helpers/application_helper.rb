@@ -17,7 +17,7 @@ module ApplicationHelper
       content_for(:page_title)
     else
       controller = controller_path.gsub('/', '.')
-      t("#{controller}.#{action_name}.page_title", default: t('unbounded.default_title'))
+      t("#{controller}.#{action_name}.page_title", default: t('default_title'))
     end
   end
 

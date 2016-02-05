@@ -50,8 +50,8 @@
   }
 
   function initializeLessonIndex() {
-    $('[data-lobject-id]').each(function(elm) {
-      Lessons[parseInt($(this).data('lobject-id'))] = this;
+    $('[data-resource-id]').each(function(elm) {
+      Lessons[parseInt($(this).data('resource-id'))] = this;
     });
   }
 
@@ -68,7 +68,7 @@
   }
 
   function onChangeFilter(e) {
-    visit(Routes.unbounded_curriculum_path({
+    visit(Routes.curriculum_path({
       grade: getSelectedGrade(),
       subject: getSelectedSubject()
     }));

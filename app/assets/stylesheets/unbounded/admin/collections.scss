@@ -32,7 +32,7 @@
 }
 
 .editable-tree {
-  .lobject-title {
+  .resource-title {
     cursor: move;
   }
  
@@ -45,7 +45,7 @@
       display: none;
     }
 
-    .lobject-title {
+    .resource-title {
       cursor: default;
       text-decoration: line-through;
     }

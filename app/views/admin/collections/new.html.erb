@@ -1,0 +1,10 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <%= simple_form_for @collection, url: :admin_collections do |f| %>
+    <%= f.association :resource_collection_type, as: :select %>
+    <%= f.association :resource, as: :select, input_html: { class: 'selectize' } %>
+
+    <%= f.button :submit, t('ui.save'), name: nil %>
+  <% end %>
+</div>

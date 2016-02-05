@@ -10,7 +10,7 @@ window.initializeTree = function() {
       $('> .parent-id', $e).val(parentID);
 
       // Update positions
-      $('> .lobject-node .position', $parentList).each(function(i, e) {
+      $('> .resource-node .position', $parentList).each(function(i, e) {
         $(e).val(i + 1);
       });
     },

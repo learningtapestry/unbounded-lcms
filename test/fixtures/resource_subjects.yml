@@ -1,0 +1,7 @@
+unbounded_chemistry:
+  resource: unbounded
+  subject: chemistry
+
+unbounded_math:
+  resource: unbounded
+  subject: math

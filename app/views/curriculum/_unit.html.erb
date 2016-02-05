@@ -1,0 +1,29 @@
+<% multiple_mode = 'unit-multiple' if unit.children.size > 16 %>
+<div class="unit <%= multiple_mode %>">
+  <div class="unit-wrapper">
+    <div class="row">
+      <div class="unit-title<% if unit.content.short_title.present? then %> with-part<% end %>">
+        <div>
+          <%= link_to(unbounded_resource_path(unit.content, curriculum), data: { 'resource-id' => unit.content.id }) do %>
+            <%= unit_node_title(unit, multiple_mode) %>
+          <% end %>
+        </div>
+      </div>
+      <% each_units(unit) do |lessons, i| %>
+        <div class="lessons lessons-<%= i if unit.children.size > 16 %>">
+          <div class="row">
+            <% lessons.each do |lesson| %>
+              <%= render partial: 'lesson', locals: { lesson: lesson, curriculum: curriculum } %>
+            <% end %>
+
+            <% if (unit.children.size > 0 && unit.children.size < 16) || (lessons.size > 0 && lessons.size < 16) %>
+              <% (16 - lessons.size).times do %>
+                <%= render partial: 'empty_lesson' %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

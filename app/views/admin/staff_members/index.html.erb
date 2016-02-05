@@ -1,0 +1,29 @@
+<div class=nc-content>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('.new_staff_member'), :new_admin_staff_member, class: 'btn btn-success' %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <table class=table>
+    <tr>
+      <th>ID
+      <th><%= StaffMember.human_attribute_name :name %>
+      <th><%= StaffMember.human_attribute_name :position %>
+      <th><%= t('ui.actions') %>
+    </tr>
+
+    <% @staff_members.each do |staff_member| %>
+      <tr id=staff_member_<%= staff_member.id %>>
+        <td><%= staff_member.id %>
+        <td><%= link_to staff_member.name, admin_staff_member_path(staff_member) %>
+        <td><%= staff_member.position %>
+        <td>
+          <%= link_to t('ui.edit'), edit_admin_staff_member_path(staff_member), class: 'btn btn-default' %>
+          <%= button_to t('ui.delete'), admin_staff_member_path(staff_member), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+      </tr>
+    <% end %>
+  </table>
+</div>

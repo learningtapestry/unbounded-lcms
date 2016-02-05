@@ -1,5 +1,3 @@
-include Content::Models
-
 about_body = <<-HTML
 <p>This is an experimental curriculum project designed to learn about how teachers can make effective use of well organized materials. We relied on ELA and math OER curriculum in grades 9–12 heavily for this pilot project. If you have any questions or feedback about the materials on this site, please contact us. We hope you enjoy using this site!</p>
 HTML

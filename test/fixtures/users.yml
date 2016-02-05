@@ -1,0 +1,23 @@
+admin:
+  encrypted_password: <%= User.new.send(:password_digest, 'admin123') %>
+  email: admin@example.com
+  name: Admin
+  admin: true
+
+mark:
+  name: Mark Twain
+  email: mark@twain.com
+  encrypted_password: <%= User.new.send(:password_digest, 'marktwain123') %>
+  admin: true
+
+unbounded:
+  name: Joe Unbounded
+  email: unbounded@unbounded.org
+  encrypted_password: <%= User.new.send(:password_digest, 'unbounded123') %>
+  admin: true
+
+lr:
+  name: LearningRegistry
+  email: lr@learningregistry.org
+  encrypted_password: <%= User.new.send(:password_digest, 'lregistry123') %>
+  admin: true

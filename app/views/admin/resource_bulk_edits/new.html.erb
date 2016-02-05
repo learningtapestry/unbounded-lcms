@@ -1,0 +1,21 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <%= simple_form_for @resource, url: :admin_resource_bulk_edits do |f| %>
+
+    <% @resources.each do |resource| %>
+      <%= hidden_field_tag 'ids[]', resource.id %>
+    <% end %>
+
+    <%= f.association :grades, as: :select, input_html: { class: 'selectize', multiple: true }, label_method: :grade %>
+
+    <%= f.association :alignments, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+    <%= f.association :resource_types, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+    <%= f.association :subjects, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+    <%= f.button :submit, t('ui.save'), name: nil %>
+
+  <% end %>
+</div>

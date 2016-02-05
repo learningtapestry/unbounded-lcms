@@ -1,0 +1,60 @@
+<% url = @resource.new_record? ? :admin_resources : admin_resource_path(@resource) %>
+
+<%= simple_nested_form_for @resource, url: url, html: { id: 'resource_form' } do |f| %>
+
+  <%= f.input :title %>
+  <%= f.input :short_title %>
+  <%= f.input :subtitle %>
+
+  <%= f.input :hidden %>
+
+  <%= f.input :description, as: :ckeditor, input_html: { rows: 10 } %>
+
+  <%= f.association :grades, as: :select, input_html: { class: 'selectize', id: 'grades_select', multiple: true } %>
+  <p><%= link_to t('.create_grade'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'grades' } %>
+
+  <%= f.association :topics, as: :select, input_html: { class: 'selectize', id: 'topics_select', multiple: true } %>
+  <p><%= link_to t('.create_topic'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'topics' } %>
+
+  <%= f.association :subjects, as: :select, input_html: { class: 'selectize', id: 'subjects_select', multiple: true } %>
+  <p><%= link_to t('.create_subject'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'subjects' } %>
+
+  <%= f.association :resource_types, as: :select, input_html: { class: 'selectize', id: 'resource_types_select', multiple: true } %>
+  <p><%= link_to t('.create_resource_type'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'resource_types' } %>
+
+  <%= f.association :alignments, as: :select, input_html: { class: 'selectize', id: 'alignments_select', multiple: true } %>
+  <p><%= link_to t('.create_alignment'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'alignments' } %>
+
+  <%= f.association :related_resources, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+  <%= f.association :additional_resources, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+  <div class=form-group>
+    <%= f.label :resource_downloads %>
+    <%= f.fields_for :resource_downloads do |resource_download_fields| %>
+      <div class=well>
+        <%= resource_download_fields.simple_fields_for :download, resource_download_fields.object.try(:download) || Download.new do |download_fields| %>
+          <%= download_fields.input :title %>
+          <%= download_fields.input :file, as: :file %>
+          <%= download_fields.input_field :filename_cache, as: :hidden %>
+        <% end %>
+        <%= resource_download_fields.association :download_category, as: :select, input_html: { class: 'selectize', id: 'download_categories_select' } %>
+        <%= resource_download_fields.link_to_remove t('ui.remove'), class: 'btn btn-danger btn-sm' %>
+      </div>
+    <% end %>
+    <p><%= f.link_to_add t('.add_download'), :resource_downloads, class: 'btn btn-success btn-sm' %></p>
+  </div>
+
+  <%= f.button :submit, t('ui.save'), name: nil %>
+
+<% end %>
+
+<%= render partial: 'modal', locals: { association: :alignments, title: t('.create_alignment') } %>
+
+<%= render partial: 'modal', locals: { association: :grades, title: t('.create_grade') } %>
+
+<%= render partial: 'modal', locals: { association: :resource_types, title: t('.create_resource_type') } %>
+
+<%= render partial: 'modal', locals: { association: :subjects, title: t('.create_subject') } %>
+
+<%= render partial: 'modal', locals: { association: :topics, title: t('.create_topic') } %>

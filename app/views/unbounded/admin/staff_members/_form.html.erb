@@ -1,8 +1,0 @@
-<% url = @staff_member.new_record? ? :unbounded_admin_staff_members : unbounded_admin_staff_member_path(@staff_member) %>
-
-<%= simple_form_for @staff_member, url: url do |f| %>
-  <%= f.input :name %>
-  <%= f.input :position %>
-  <%= f.input :bio, as: :text, input_html: { rows: 8 } %>
-  <%= f.button :submit, t('ui.save'), name: nil %>
-<% end %>

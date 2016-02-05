@@ -8,7 +8,7 @@ Unbounded.highlights = {
 
     $.ajax({
       dataType: 'json',
-      url: Routes.unbounded_curriculum_highlights_path(),
+      url: Routes.curriculum_highlights_path(),
       data: {
         subject: options.subject,
         grade: options.grade,
@@ -20,10 +20,10 @@ Unbounded.highlights = {
       }
     });
   },
-  findHighlights: function(lobjectId) {
+  findHighlights: function(resourceId) {
     return _.filter(this._highlights, function(alignment) {
       return _.some(alignment.highlights, function(highlightedId) {
-        return highlightedId == lobjectId;
+        return highlightedId == resourceId;
       });
     });
   },

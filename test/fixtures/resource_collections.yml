@@ -1,0 +1,23 @@
+easol:
+  resource: easol
+  resource_collection_type: nti
+
+ela_root_collection:
+  resource: ela_curriculum_root
+  resource_collection_type: curriculum_map
+
+math_root_collection:
+  resource: math_curriculum_root
+  resource_collection_type: curriculum_map
+
+unbounded:
+  resource: unbounded
+  resource_collection_type: curriculum_map
+
+unbounded_ela_root:
+  resource: unbounded_ela_root
+  resource_collection_type:
+
+unbounded_curriculum:
+  resource: unbounded_grade1
+  resource_collection_type: curriculum_map

@@ -1,0 +1,42 @@
+<% if show_dsc %>
+  <div class="resource-title">
+    <h1 class="resource-title-title">
+      <%= resource_title(resource, curriculum) %>
+    </h1>
+    <h2 class="resource-title-subtitle">
+      <%= resource_subtitle(resource) %>
+    </h2>
+  </div>
+<% end %>
+
+<div class="lesson-dsc">
+  <%= resource.description.html_safe if resource.description.present? %>
+  <%= render partial: 'shared/additional_resources', object: resource.additional_resources %>
+</div>
+<div class="lesson-resources">
+  <div class="row">
+    <div class="lesson-inst-resources">
+      <% downloads_by_category = resource.downloads_by_category %>
+      <% if downloads_by_category.keys.size > 0 %>
+        <div>
+          <h5><%= t('lesson_page.instructional_resources') %></h5>
+          <ul class="media-list">
+            <% downloads_by_category.delete(nil).each do |download| %>
+              <%= render partial: 'download', locals: {download: download} %>
+            <% end %>
+          </ul>
+        </div>
+        <br>
+        <% downloads_by_category.keys.each do |category| %>
+          <h5><%= t("download_categories.#{category}") %></h5>
+          <ul class="media-list">
+            <% downloads_by_category[category].each do |download| %>
+              <%= render partial: 'download', locals: {download: download} %>
+            <% end %>
+          </ul>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
