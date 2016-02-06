@@ -6,6 +6,7 @@ default: &default
   database: <%= ENV['POSTGRESQL_DATABASE'] %>
   username: <%= ENV['POSTGRESQL_USERNAME'] %>
   password: <%= ENV['POSTGRESQL_PASSWORD'] %>
+  port: <%= ENV.fetch('POSTGRESQL_PORT', 5432) %>
 
 production: &production
   <<: *default
