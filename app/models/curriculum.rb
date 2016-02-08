@@ -47,25 +47,6 @@ class Curriculum < ActiveRecord::Base
     where(curriculum_type: CurriculumType.lesson)
   end
 
-  def self.draw_node_recursively(node, depth)
-    padding = '  '*depth
-    sep = depth == 0 ? '' : '-> '
-    desc = "#{node.position}. #{node.resource.title} # id #{node.id} -> #{node.item_type}, id #{node.item_id}"
-    puts "#{padding}#{sep}#{desc}"
-
-    node.children.each_with_index do |child, i|
-      draw_node_recursively(child, depth+1)
-    end
-  end
-
-  def draw
-    old_logger = ActiveRecord::Base.logger
-    ActiveRecord::Base.logger = nil
-    self.class.draw_node_recursively(self, 0)
-    ActiveRecord::Base.logger = old_logger
-    nil
-  end
-
   def item_is_resource?
     item_type == 'Resource'
   end
@@ -152,6 +133,28 @@ class Curriculum < ActiveRecord::Base
 
   def lesson?
     curriculum_type == CurriculumType.lesson
+  end
+
+  # Drawing (for debugging)
+
+  def self._draw_node_recursively(node, depth)
+    padding = '  '*depth
+    sep = depth == 0 ? '' : '-> '
+    desc = "#{node.position}. #{node.resource.title} # id #{node.id} -> #{node.item_type}, id #{node.item_id}"
+    puts "#{padding}#{sep}#{desc}"
+
+    node.children.each_with_index do |child, i|
+      draw_node_recursively(child, depth+1)
+    end
+  end
+
+  # Draw a text representation of the tree
+  def _draw
+    old_logger = ActiveRecord::Base.logger
+    ActiveRecord::Base.logger = nil
+    self.class.draw_node_recursively(self, 0)
+    ActiveRecord::Base.logger = old_logger
+    nil
   end
 
 end
