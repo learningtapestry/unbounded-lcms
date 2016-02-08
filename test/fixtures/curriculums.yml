@@ -1,0 +1,55 @@
+math_map:
+  curriculum_type: map
+  item: math_curriculum_root(Resource)
+
+math_map_grade:
+  curriculum_type: grade
+  item: math_grade(Curriculum)
+  parent: math_map
+
+math_grade:
+  curriculum_type: grade
+  item: math_grade(Resource)
+
+math_grade_module:
+  curriculum_type: module
+  item: math_module(Curriculum)
+  parent: math_grade
+
+math_module:
+  curriculum_type: module
+  item: math_module(Resource)
+
+math_module_unit:
+  curriculum_type: unit
+  item: math_unit(Curriculum)
+  parent: math_module
+
+math_unit:
+  curriculum_type: unit
+  item: math_unit(Resource)
+
+math_unit_lesson:
+  curriculum_type: lesson
+  item: math_lesson(Resource)
+  parent: math_unit
+  position: 0
+
+math_unit_lesson_1:
+  curriculum_type: lesson
+  item: math_lesson_1(Resource)
+  parent: math_unit 
+  position: 1 
+
+ela_map:
+  curriculum_type: map
+  item: ela_curriculum_root(Resource)
+
+ela_grade:
+  curriculum_type: grade
+  item: ela_grade(Resource)
+
+ela_map_grade:
+  curriculum_type: grade
+  item: ela_grade(Curriculum)
+  parent: ela_map

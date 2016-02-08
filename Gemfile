@@ -6,6 +6,7 @@ gem 'axlsx', '~> 2.1.0.pre'
 gem 'bootstrap-sass', '~> 3.3.5.1'
 gem 'carrierwave', '~> 0.10.0'
 gem 'ckeditor'
+gem 'closure_tree', '~> 6.0'
 gem 'daemons', '~> 1.2', '>= 1.2.3'
 gem 'devise', '~> 3.5.2', require: ['devise', 'devise/orm/active_record']
 gem 'dotenv-rails', '~> 2.0.2', groups: [:development, :integration, :test]
