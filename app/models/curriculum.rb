@@ -21,41 +21,17 @@ class Curriculum < ActiveRecord::Base
     )
   end
 
-  def self.ela
-    where_subject(Subject.ela)
-  end
+  def self.ela; where_subject(Subject.ela); end
+  def self.math; where_subject(Subject.math); end
 
-  def self.math
-    where_subject(Subject.math)
-  end
+  def self.maps; where(curriculum_type: CurriculumType.map); end
+  def self.grades; where(curriculum_type: CurriculumType.grade); end
+  def self.modules; where(curriculum_type: CurriculumType.module); end
+  def self.units; where(curriculum_type: CurriculumType.unit); end
+  def self.lessons; where(curriculum_type: CurriculumType.lesson); end
 
-  def self.maps
-    where(curriculum_type: CurriculumType.map)
-  end
-
-  def self.grades
-    where(curriculum_type: CurriculumType.grade)
-  end
-  
-  def self.modules
-    where(curriculum_type: CurriculumType.module)
-  end
-  
-  def self.units
-    where(curriculum_type: CurriculumType.unit)
-  end
-  
-  def self.lessons
-    where(curriculum_type: CurriculumType.lesson)
-  end
-
-  def item_is_resource?
-    item_type == 'Resource'
-  end
-
-  def item_is_curriculum?
-    item_type == 'Curriculum'
-  end
+  def item_is_resource?; item_type == 'Resource'; end
+  def item_is_curriculum?; item_type == 'Curriculum'; end
 
   def resource
     if item_is_resource?
@@ -75,38 +51,14 @@ class Curriculum < ActiveRecord::Base
 
   # Navigation
 
-  def map?
-    curriculum_type == CurriculumType.map
-  end
-
-  def grade?
-    curriculum_type == CurriculumType.grade
-  end
-
-  def module?
-    curriculum_type == CurriculumType.module
-  end
-
-  def unit?
-    curriculum_type == CurriculumType.unit
-  end
-
-  def lesson?
-    curriculum_type == CurriculumType.lesson
-  end
+  def map?; current_level == :map; end
+  def grade?; current_level == :grade; end
+  def module?; current_level == :module; end
+  def unit?; current_level == :unit; end
+  def lesson?; current_level == :lesson; end
 
   def current_level
-    if lesson?
-      :lesson
-    elsif unit?
-      :unit
-    elsif module?
-      :module
-    elsif grade?
-      :grade
-    elsif map?
-      :map
-    end
+    curriculum_type.name.to_sym
   end
 
   def hierarchy

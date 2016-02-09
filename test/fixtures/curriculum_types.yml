@@ -9,3 +9,6 @@ module:
 
 unit:
   name: unit
+
+lesson:
+  name: lesson

@@ -63,8 +63,4 @@ class CurriculumTest < ActiveSupport::TestCase
     assert_equal curriculums(:math_unit_lesson), curriculums(:math_unit_lesson_1).previous
   end
 
-  test '#up goes up one level' do
-    assert_equal curriculums(:math_unit), curriculums(:math_unit_lesson).up(1)
-  end
-
 end
