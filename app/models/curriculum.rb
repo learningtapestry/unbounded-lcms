@@ -11,6 +11,8 @@ class Curriculum < ActiveRecord::Base
   belongs_to :curriculum_item, class_name: 'Curriculum',
     foreign_key: 'item_id', foreign_type: 'Curriculum'
 
+  # Scopes
+
   def self.where_subject(subjects)
     joins(resource_item: [:subjects])
     .where(
@@ -73,6 +75,26 @@ class Curriculum < ActiveRecord::Base
 
   # Navigation
 
+  def map?
+    curriculum_type == CurriculumType.map
+  end
+
+  def grade?
+    curriculum_type == CurriculumType.grade
+  end
+
+  def module?
+    curriculum_type == CurriculumType.module
+  end
+
+  def unit?
+    curriculum_type == CurriculumType.unit
+  end
+
+  def lesson?
+    curriculum_type == CurriculumType.lesson
+  end
+
   def current_level
     if lesson?
       :lesson
@@ -97,42 +119,6 @@ class Curriculum < ActiveRecord::Base
 
   def previous
     siblings_before.last
-  end
-
-  def up(i = 1)
-    raise ArgumentError.new('The #up method is 1-indexed') if i < 0
-    return self if i == 0
-    ancestors[i-1]
-  end
-
-  # Maps
-
-  def map?
-    curriculum_type == CurriculumType.map
-  end
-
-  # Grades
-
-  def grade?
-    curriculum_type == CurriculumType.grade
-  end
-
-  # Modules
-
-  def module?
-    curriculum_type == CurriculumType.module
-  end
-
-  # Units
-
-  def unit?
-    curriculum_type == CurriculumType.unit
-  end
-
-  # Lessons
-
-  def lesson?
-    curriculum_type == CurriculumType.lesson
   end
 
   # Drawing (for debugging)
