@@ -1,0 +1,25 @@
+en:
+  activemodel:
+    errors:
+      models:
+        subtitles_importer:
+          attributes:
+            file:
+              incorrect_format: 'incorrect format: %{count} columns instead of %{limit}'
+              incorrect_type: has incorrect type
+  activerecord:
+    models:
+      resource: Resource
+    attributes:
+      grade:
+        grade: Name
+      resource:
+        additional_resources: Additional materials
+        resource_downloads: Downloadable resources
+        related_resources: Related materials
+        status: Status
+      resource_child:
+        child_id: Resource
+      resource_collection:
+        resource: Root Resource
+        resource_collection_type: Collection Type
