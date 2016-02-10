@@ -13,18 +13,18 @@ class ResourceCollectionsTestCase < ActionDispatch::IntegrationTest
 
   def test_new_resource_collection
     visit '/admin/collections'
-    click_link 'Add Learning Objects Collection'
+    click_link 'Add Resource Collection'
     click_button 'Save'
     assert_equal find('.form-group.resource_collection_resource.has-error .help-block').text, "can't be blank"
 
     select @collection_type.name, from: 'Collection Type'
-    select @resource.title,        from: 'Root Learning Object'
+    select @resource.title,       from: 'Root Resource'
     click_button 'Save'
     collection = ResourceCollection.last
     assert_equal collection.resource_collection_type, @collection_type
     assert_equal collection.resource, @resource
     assert_equal current_path, "/admin/collections/#{collection.id}/edit"
-    assert_equal find('.alert.alert-success').text, '× Learning Objects Collection created successfully.'
+    assert_equal find('.alert.alert-success').text, '× Resource Collection created successfully.'
   end
 
   def test_edit_collection
@@ -51,7 +51,7 @@ class ResourceCollectionsTestCase < ActionDispatch::IntegrationTest
     end
     assert_nil ResourceCollection.find_by_id(collection.id)
     assert_equal current_path, '/admin/collections'
-    assert_equal find('.alert.alert-success').text, "× Learning Objects Collection ##{collection.id} was deleted successfully."
+    assert_equal find('.alert.alert-success').text, "× Resource Collection ##{collection.id} was deleted successfully."
   end
 
   def test_delete_collection_from_show_page
@@ -62,6 +62,6 @@ class ResourceCollectionsTestCase < ActionDispatch::IntegrationTest
     click_button 'Delete'
     assert_nil ResourceCollection.find_by_id(collection.id)
     assert_equal current_path, '/admin/collections'
-    assert_equal find('.alert.alert-success').text, "× Learning Objects Collection ##{collection.id} was deleted successfully."
+    assert_equal find('.alert.alert-success').text, "× Resource Collection ##{collection.id} was deleted successfully."
   end
 end

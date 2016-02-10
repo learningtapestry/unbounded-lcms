@@ -116,6 +116,6 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
 
     assert_nil Resource.find_by_id(resource.id)
     assert_equal current_path, '/admin/resources'
-    assert_equal page.find('.alert.alert-success').text, "× Learning Object ##{resource.id} was deleted successfully."
+    assert_equal page.find('.alert.alert-success').text, "× Resource ##{resource.id} was deleted successfully."
   end
 end

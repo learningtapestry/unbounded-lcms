@@ -24,5 +24,7 @@ module Content
     config.action_mailer.delivery_method = :aws_sdk
     
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
   end
 end

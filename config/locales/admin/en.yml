@@ -1,0 +1,147 @@
+en:
+  admin:
+    collection_types:
+      create:
+        success: Collection Type created successfully.
+      destroy:
+        success: Collection Type deleted successfully.
+      edit:
+        page_title: "Edit %{collection_type} Collection Type"
+      index:
+        new_collection_type: Add Collection Type
+        page_title: Collection Types
+      new:
+        page_title: New Collection Type
+      update:
+        success: Collection Type updated successfully.
+    collections:
+      create:
+        success: Resource Collection created successfully.
+      destroy:
+        success: "Resource Collection #%{collection_id} was deleted successfully."
+      edit:
+        add_node: Add node
+        manage_resources: Manage Resources
+        page_title: "Edit %{collection} Collection"
+      editable_tree:
+        add_node: Add node
+        delete_subtree: Delete subtree
+        restore_subtree: Restore subtree
+      index:
+        items_count: Items count
+        new_collection: Add Resource Collection
+        page_title: Collections
+      new:
+        page_title: New Collection
+      show:
+        page_title: "%{collection} Collection"
+      update:
+        success: Resource Collection was updated successfully.
+    curriculum_exports:
+      new:
+        page_title: Export Resources
+    resource_bulk_edits:
+      create:
+        success: "%{count} %{resources_count} updated successfully."
+      new:
+        no_resources: No resources were selected.
+        page_title: Edit Tags
+    resource_children:
+      create:
+        success: New Node added into Collection successfully.
+    resources:
+      destroy:
+        success: "Resource #%{resource_id} was deleted successfully."
+      edit:
+        page_title: "Edit %{resource}"
+      form:
+        add_download: Add Downloadable Resource
+        create_alignment: Create Alignment
+        create_grade: Create Grade
+        create_resource_type: Create Resource Type
+        create_subject: Create Subject
+        create_topic: Create Topic
+      index:
+        grade_levels: Grade Levels
+        new_resource: Add Resource
+        page_title: Content Administration
+        resource: Resource
+        resource_types: Resource Types
+        standards: Standards
+        status: Status
+        subjects: Subjects
+      new:
+        page_title: New Resource
+      search_form:
+        grades: Grades
+        resource_types: Resource Types
+        standards: Standards
+        subjects: Subjects
+        title: Title
+    pages:
+      create:
+        success: Page created successfully.
+      destroy:
+        success: Page deleted successfully.
+      edit:
+        page_title: "Edit %{page} Page"
+      index:
+        new_page: Add Page
+        page_title: Pages
+      new:
+        page_title: New Page
+      update:
+        success: Page updated successfully.
+    staff_members:
+      create:
+        success: Staff Member created successfully.
+      destroy:
+        success: Staff Member deleted successfully.
+      index:
+        new_staff_member: Add Staff Member
+        page_title: Staff Members
+      new:
+        page_title: New Staff Member
+      update:
+        success: Staff Member updated successfully.
+    subtitles_imports:
+      index:
+        no_results: Nothing was imported
+        page_title: Import results
+        results_count: '%{count} resource(s) updated'
+      new:
+        import: Import
+        spreadsheet: Spreadsheet
+        page_title: 'Import subtitles & descriptions'
+    users:
+      create:
+        success: "User %{user} was created successfully."
+        error:  "User %{user} could not be created."
+      index:
+        email: E-mail
+        name: Name
+        new_user: New user
+        page_title: Users
+        reset_password_btn: Reset password
+      search_form:
+        email: E-mail
+        name: Name
+      destroy:
+        success: "User was deleted successfully."
+      edit:
+        page_title: "Edit user %{user}"
+      reset_password:
+        success: "User will receive a password reset e-mail."
+      update:
+        success: "Changes to %{user} were saved successfully."
+      new:
+        page_title: New user
+    welcome:
+      index:
+        collection_types: Collection Types
+        collections: Collections
+        page_title: Admin
+        pages: Pages
+        resources: Resources
+        staff_members: Staff Members
+        users: Users
