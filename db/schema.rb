@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205205613) do
+ActiveRecord::Schema.define(version: 20160206123157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,32 @@ ActiveRecord::Schema.define(version: 20160205205613) do
 
   add_index "alignments", ["framework"], name: "index_alignments_on_framework", using: :btree
   add_index "alignments", ["framework_url"], name: "index_alignments_on_framework_url", using: :btree
+
+  create_table "curriculum_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id",   null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations",   null: false
+  end
+
+  add_index "curriculum_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "curriculum_anc_desc_idx", unique: true, using: :btree
+  add_index "curriculum_hierarchies", ["descendant_id"], name: "curriculum_desc_idx", using: :btree
+
+  create_table "curriculum_types", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
+  create_table "curriculums", force: :cascade do |t|
+    t.integer "curriculum_type_id", null: false
+    t.integer "parent_id"
+    t.integer "position"
+    t.integer "item_id",            null: false
+    t.string  "item_type",          null: false
+  end
+
+  add_index "curriculums", ["curriculum_type_id"], name: "index_curriculums_on_curriculum_type_id", using: :btree
+  add_index "curriculums", ["item_id"], name: "index_curriculums_on_item_id", using: :btree
+  add_index "curriculums", ["item_type"], name: "index_curriculums_on_item_type", using: :btree
+  add_index "curriculums", ["parent_id"], name: "index_curriculums_on_parent_id", using: :btree
 
   create_table "download_categories", force: :cascade do |t|
     t.string "name",        null: false
@@ -249,6 +275,8 @@ ActiveRecord::Schema.define(version: 20160205205613) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "curriculums", "curriculum_types"
+  add_foreign_key "curriculums", "curriculums", column: "parent_id"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"
   add_foreign_key "resource_alignments", "alignments"

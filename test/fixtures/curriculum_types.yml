@@ -1,0 +1,14 @@
+map:
+  name: map
+
+grade:
+  name: grade
+
+module:
+  name: module
+
+unit:
+  name: unit
+
+lesson:
+  name: lesson

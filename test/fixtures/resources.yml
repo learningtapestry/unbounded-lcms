@@ -7,6 +7,24 @@ ela_curriculum_root:
 math_curriculum_root:
   title: Math Curriculum Map
 
+math_grade:
+  title: Math Grade
+
+math_module:
+  title: Math Module
+
+math_unit:
+  title: Math Unit
+
+math_lesson:
+  title: Math Lesson
+
+math_lesson_1:
+  title: Math Lesson 1
+
+ela_grade:
+  title: ELA Grade
+
 no_organization:
   title: Tea
 
