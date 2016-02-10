@@ -13,22 +13,22 @@ class Curriculum < ActiveRecord::Base
 
   # Scopes
 
-  def self.where_subject(subjects)
+  scope :where_subject, ->(subjects) {
     joins(resource_item: [:subjects])
     .where(
       'item_type'   => 'Resource',
       'subjects.id' => Array.wrap(subjects).map(&:id)
     )
-  end
+  }
 
-  def self.ela; where_subject(Subject.ela); end
-  def self.math; where_subject(Subject.math); end
+  scope :ela, -> { where_subject(Subject.ela) }
+  scope :math, -> { where_subject(Subject.math) }
 
-  def self.maps; where(curriculum_type: CurriculumType.map); end
-  def self.grades; where(curriculum_type: CurriculumType.grade); end
-  def self.modules; where(curriculum_type: CurriculumType.module); end
-  def self.units; where(curriculum_type: CurriculumType.unit); end
-  def self.lessons; where(curriculum_type: CurriculumType.lesson); end
+  scope :maps, -> { where(curriculum_type: CurriculumType.map) }
+  scope :grades, -> { where(curriculum_type: CurriculumType.grade) }
+  scope :modules, -> { where(curriculum_type: CurriculumType.module) }
+  scope :units, -> { where(curriculum_type: CurriculumType.unit) }
+  scope :lessons, -> { where(curriculum_type: CurriculumType.lesson) }
 
   def item_is_resource?; item_type == 'Resource'; end
   def item_is_curriculum?; item_type == 'Curriculum'; end
