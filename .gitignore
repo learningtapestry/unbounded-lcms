@@ -34,3 +34,8 @@
 
 # Ignore generated JS files
 /app/assets/javascripts/translations.js
+/app/assets/javascripts/generated/*
+
+# Ignore npm files
+npm-debug.log
+node_modules

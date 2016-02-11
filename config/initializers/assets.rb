@@ -17,3 +17,4 @@ Rails.application.config.assets.precompile += [
 ]
 
 Rails.application.config.assets.paths << "#{Rails.root}/public/javascripts"
+Rails.application.config.assets.precompile += ['generated/*']
