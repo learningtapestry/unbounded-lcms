@@ -373,6 +373,7 @@ DEPENDENCIES
   email_spec (~> 1.6)
   faker
   font-awesome-sass (~> 4.4.0)
+  foreman (~> 0.78.0)
   guard
   guard-minitest
   i18n-js (~> 2.1.2)
