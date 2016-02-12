@@ -14,6 +14,20 @@ front-end.
 * `node v5.6.0`
 * `PostgreSQL 9.4`
 
+## Project setup
+
+- Setup `.env.test`, `.env.development` and `.env.integration`
+- `bundle && bundle exec rake cloud66:after_bundle`
+- `npm i && npm run build`
+
+### Running tests
+
+```bash
+cp db/dump/content.dump.freeze db/dump/content.dump
+RAILS_ENV=integration rake db:restore
+rake test
+```
+
 ## React integration
 
 `package.json` and `webpack.config.js` sit in the project root to drive `npm`
@@ -43,10 +57,3 @@ Besides being useful for development, this PostgreSQL dump is expected to
 feed the `integration` environment DB. Please set up a `.env.integration`
 file to use it.
 
-## Running tests
-
-```bash
-cp db/dump/content.dump.freeze db/dump/content.dump
-RAILS_ENV=integration rake db:restore
-rake test
-```
