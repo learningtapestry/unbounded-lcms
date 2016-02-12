@@ -29,13 +29,18 @@ A generated bundle may be required inside a JavaScript file known by Rails
 components are made available for inclusion in Rails views by using the
 `react_on_rails` helpers, such as `react_component`.
 
+## Development
+
+
+
 ## Integration database
 
 For convenience, a copy of the unboundED materials database is available
 in `db/dump/content.dump.freeze`.
 
-This PostgreSQL dump is expected to feed the `integration` environment DB.
-Please set up a `.env.integration` file to use it.
+Besides being useful for development, this PostgreSQL dump is expected to
+feed the `integration` environment DB. Please set up a `.env.integration`
+file to use it.
 
 ## Running tests
 
