@@ -16,14 +16,24 @@ front-end.
 
 ## Project setup
 
-- Setup `.env.test`, `.env.development` and `.env.integration`
-- `bundle && bundle exec rake cloud66:after_bundle`
-- `npm i && npm run build`
+1. Set up `.env.test`, `.env.development` and `.env.integration`
+2. `bundle && bundle exec rake cloud66:after_bundle`
+3. `npm i && npm run build`
 
-### Running tests
+### Integration database
+
+For convenience, a copy of a reference unboundED database is available
+at `db/dump/content.dump.freeze`. 
+
+Besides being useful for development, this copy is expected to
+feed the `integration` environment DB. Please set up a `.env.integration`
+file to use it.
+
+Currently, the `integration` environment is required for tests.
 
 ```bash
 cp db/dump/content.dump.freeze db/dump/content.dump
+RAILS_ENV=development rake db:restore
 RAILS_ENV=integration rake db:restore
 rake test
 ```
@@ -47,13 +57,3 @@ components are made available for inclusion in Rails views by using the
 
 A convenient `Procfile.dev` is available to run `webpack --watch` in parallel
 with the Rails development server. Run it with `foreman start -f Procfile.dev`.
-
-## Integration database
-
-For convenience, a copy of the unboundED materials database is available
-in `db/dump/content.dump.freeze`.
-
-Besides being useful for development, this PostgreSQL dump is expected to
-feed the `integration` environment DB. Please set up a `.env.integration`
-file to use it.
-
