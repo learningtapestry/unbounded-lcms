@@ -29,9 +29,10 @@ A generated bundle may be required inside a JavaScript file known by Rails
 components are made available for inclusion in Rails views by using the
 `react_on_rails` helpers, such as `react_component`.
 
-## Development
+### Development
 
-
+A convenient `Procfile.dev` is available to run `webpack --watch` in parallel
+with the Rails development server. Run it with `foreman start -f Procfile.dev`.
 
 ## Integration database
 
