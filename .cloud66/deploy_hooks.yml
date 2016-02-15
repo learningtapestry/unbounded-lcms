@@ -1,10 +1,17 @@
 production: &production
   after_bundle:
+    - source: /.cloud66/after_bundle.sh
+      destination: /tmp/after_bundle.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
+      run_on: all_servers     
     - command: cd $STACK_PATH && bundle exec rake cloud66:after_bundle
       target: rails
       execute: true
       run_on: all_servers
-      apply_during: all    
+      apply_during: all
   after_symlink:
     - command: cd $STACK_PATH && bundle exec rake cloud66:after_symlink
       target: rails
