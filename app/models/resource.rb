@@ -33,6 +33,9 @@ class Resource < ActiveRecord::Base
   has_many :resource_parents, class_name: 'ResourceChild', foreign_key: 'child_id'
   has_many :resource_children, class_name: 'ResourceChild', foreign_key: 'parent_id'
 
+  # Curriculums.
+  has_many :curriculums, as: :item
+
   # Related resources.
   has_many :resource_related_resources, dependent: :destroy
   has_many :related_resources, through: :resource_related_resources
@@ -41,6 +44,10 @@ class Resource < ActiveRecord::Base
   has_many :resource_slugs, dependent: :destroy
 
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
+
+  scope :lessons, -> {
+    joins(:curriculums).where(curriculums: { curriculum_type: CurriculumType.lesson })
+  }
 
   class << self
     def by_title(title)
