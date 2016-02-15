@@ -36,3 +36,5 @@ production: &production
       run_on: all_servers 
 staging:
   <<: *production
+development:
+  <<: *production
