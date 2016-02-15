@@ -21,4 +21,4 @@
 #       only: "*"
 #
 translations:
-  - file: "app/assets/javascripts/translations.js"
+  - file: "app/assets/javascripts/generated/translations.js"

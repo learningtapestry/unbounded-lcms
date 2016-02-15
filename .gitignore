@@ -33,7 +33,6 @@
 /public/csv_exports
 
 # Ignore generated JS files
-/app/assets/javascripts/translations.js
 /app/assets/javascripts/generated/*
 
 # Ignore npm files
