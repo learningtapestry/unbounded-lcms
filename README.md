@@ -38,20 +38,36 @@ RAILS_ENV=integration rake db:restore
 rake test
 ```
 
-## React integration
+## React front-end
+
+### Rails integration
 
 `package.json` and `webpack.config.js` sit in the project root to drive `npm`
 and `webpack`.
 
-Components are developed in `app/assets/components` and registered in bundles
-in `app/assets/bundles`. Once a bundle is added as an entry point in
-`webpack.config.js`, `webpack` generates the bundled codebase inside
-`app/assets/javascripts/generated`.
+For Rails integration, components must be registered in bundles. Once such a
+bundle is added as an entry point in `webpack.config.js`, `webpack` generates
+the bundled codebase inside `app/assets/javascripts/generated`.
 
-A generated bundle may be required inside a JavaScript file known by Rails 
+A generated bundle may be required in a JavaScript file known by Rails 
 (for example, `application.js`). Once it is required, all the registered
 components are made available for inclusion in Rails views by using the
 `react_on_rails` helpers, such as `react_component`.
+
+A `ReactRenderable` concern for controllers is available that adds the helper
+`react_render`. This helper renders the view defined in `Controller.react_view`
+passing in its `props:` option, and optionally does a server-side render
+with the `prerender:` option.
+
+### Front-end project structure
+
+The project is divided by 'concerns' or 'domains'. Components, stores, reducers
+and actions should be organized according to the relevant concern. Shared code
+may reside in `lib/`.
+
+The sections of the website that must be rendered by React are referenced
+in `app/App` as `react-router` routes. The main router instance is connected
+to a redux store that should record non-local application state.
 
 ### Development
 
