@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 import appStore from './store';
 import App from './App';
 import ReactOnRails from 'react-on-rails';
