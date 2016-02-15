@@ -40,6 +40,13 @@ en:
     curriculum_exports:
       new:
         page_title: Export Resources
+    google_docs:
+      index:
+        new_google_doc: New Google Doc
+        page_title: Google Docs
+      new:
+        page_title: New Google Doc
+        submit: Import
     resource_bulk_edits:
       create:
         success: "%{count} %{resources_count} updated successfully."
@@ -140,6 +147,7 @@ en:
       index:
         collection_types: Collection Types
         collections: Collections
+        google_docs: Google Docs
         page_title: Admin
         pages: Pages
         resources: Resources

@@ -1,0 +1,8 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+  
+  <%= simple_form_for :google_doc, url: [:import, :admin, :google_docs], html: { method: :get } do |f| %>
+    <%= f.input :url %>
+    <%= f.button :submit, t('.submit') %>
+  <% end %>
+</div>

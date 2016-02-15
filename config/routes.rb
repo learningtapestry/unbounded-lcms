@@ -29,6 +29,12 @@ Rails.application.routes.draw do
     resources :collection_types
     resources :collections
     resource :curriculum_export, only: %i(new create)
+    resources :google_docs, only: %i(index new) do
+      collection do
+        get :import
+        get :oauth2_callback
+      end
+    end
     resource :resource_bulk_edits, only: [:new, :create]
     resources :resource_children, only: :create
     resources :resources, except: :show
@@ -41,6 +47,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :pages, only: :show
+  resources :google_docs, only: :show
 
+  resources :pages, only: :show
 end

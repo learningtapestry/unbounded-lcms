@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160206123157) do
+ActiveRecord::Schema.define(version: 20160212174619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,26 @@ ActiveRecord::Schema.define(version: 20160206123157) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  create_table "google_doc_images", force: :cascade do |t|
+    t.string   "file",         null: false
+    t.string   "original_url", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "google_doc_images", ["original_url"], name: "index_google_doc_images_on_original_url", unique: true, using: :btree
+
+  create_table "google_docs", force: :cascade do |t|
+    t.string   "content",          null: false
+    t.string   "file_id",          null: false
+    t.string   "name",             null: false
+    t.string   "original_content", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "google_docs", ["file_id"], name: "index_google_docs_on_file_id", unique: true, using: :btree
 
   create_table "grades", force: :cascade do |t|
     t.string   "grade"

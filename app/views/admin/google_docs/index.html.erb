@@ -1,0 +1,23 @@
+<div class=nc-content>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('.new_google_doc'), :new_admin_google_doc, class: 'btn btn-success' %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <table class=table>
+    <tr>
+      <th>ID
+      <th><%= GoogleDoc.human_attribute_name :name %>
+    </tr>
+
+    <% @google_docs.each do |google_doc| %>
+      <tr id=google_doc_<%= google_doc.id %>>
+        <td><%= google_doc.id %>
+        <td><%= link_to google_doc.name, google_doc %>
+      </tr>
+    <% end %>
+  </table>
+</div>

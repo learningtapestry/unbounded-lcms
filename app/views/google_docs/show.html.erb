@@ -1,0 +1,22 @@
+<% set_page_title @google_doc.name %>
+
+<div class='container googleDoc'>
+  <div class=row>
+    <div class=page-body>
+      <div class=col-sm-4>
+        <div class=googleDoc__nav>
+          <h4><%= t('.contents') %></h4>
+          <nav class=list-unstyled>
+            <% @google_doc.headings.each do |heading| %>
+              <li class='googleDoc__nav__item level<%= heading.level %>'><%= link_to heading.text, "##{heading.id}" %>
+            <% end %>
+          </nav>
+        </div>
+      </div>
+
+      <div class=col-sm-8>
+        <%= @google_doc.content %>
+      </div>
+    </div>
+  </div>
+</div>

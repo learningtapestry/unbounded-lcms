@@ -1,0 +1,22 @@
+.googleDoc .popover {
+  line-height: 1.5;
+  width: 300px;
+}
+
+.googleDoc__nav__item {
+  &.level1 {
+    padding-left: 1em;
+  }
+  &.level2 {
+    padding-left: 2em;
+  }
+  &.level3 {
+    padding-left: 3em;
+  }
+  &.level4 {
+    padding-left: 4em;
+  }
+  &.level5 {
+    padding-left: 5em;
+  }
+}

@@ -35,6 +35,7 @@ var ready = function() {
   $('.selectize').selectize({ allowEmptyOption: true, plugins: ['remove_button'] });
   window.initializeAbout();
   window.initializeCurriculum();
+  window.initializeGoogleDoc();
   window.initializeResourceForm();
   window.initializeResourceList();
   window.initializeResource();
