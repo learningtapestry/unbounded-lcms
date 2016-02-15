@@ -42,5 +42,6 @@ Rails.application.routes.draw do
   end
 
   resources :pages, only: :show
+  resources :lessons, only: :show
 
 end

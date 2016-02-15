@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    // [bundle]: path.resolve(__dirname, 'app', 'assets', 'bundles', '[bundle].js')
+    app: path.resolve(__dirname, 'app', 'assets', 'javascripts', 'app', 'bundle.js')
   },
   output: {
     path: path.resolve(__dirname, 'app', 'assets', 'javascripts', 'generated'),
@@ -36,13 +36,14 @@ module.exports = {
       {
         test: /\.(eot|woff|woff2|ttf|svg|png|jpe?g|gif)(\?\S*)?$/,
         loader: 'url-loader?limit=100000&name=[name].[ext]'
-      }
+      },
+      { test: require.resolve('react'), loader: 'expose?React' }
     ]
   },
   sassLoader: {
-    includePaths: [path.resolve(__dirname, 'app', 'assets')]
+    includePaths: [path.resolve(__dirname, 'app', 'assets', 'javascripts')]
   },
   resolve: {
-    root: [path.resolve(__dirname, 'app', 'assets')]
+    root: [path.resolve(__dirname, 'app', 'assets', 'javascripts')]
   }
 };
