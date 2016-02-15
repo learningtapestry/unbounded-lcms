@@ -1,12 +1,21 @@
 production: &production
-  after_bundle:
-    - source: /.cloud66/after_bundle.sh
-      destination: /tmp/after_bundle.sh
+  first_thing:
+    - source: /.cloud66/first_thing.sh
+      destination: /tmp/first_thing.sh
       target: rails
       execute: true
       sudo: true
       apply_during: all
-      run_on: all_servers     
+      run_on: all_servers
+  after_checkout:
+    - source: /.cloud66/after_checkout.sh
+      destination: /tmp/after_checkout.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
+      run_on: all_servers      
+  after_bundle:
     - command: cd $STACK_PATH && bundle exec rake cloud66:after_bundle
       target: rails
       execute: true
