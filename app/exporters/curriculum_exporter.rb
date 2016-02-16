@@ -1,5 +1,5 @@
 class CurriculumExporter
-  HEADERS = ['ID Unbounded Database', 'ID Our Database', 'Title', 'Subtitle', 'Description', 'URL', 'Grades', 'Standards', 'Resource Types', 'Subjects']
+  HEADERS = ['ID Our Database', 'Title', 'Subtitle', 'Description', 'URL', 'Grades', 'Standards', 'Resource Types', 'Subjects']
   HOST    = 'https://content-staging.learningtapestry.com'
 
   def initialize(grade_ids = [])
@@ -16,7 +16,7 @@ class CurriculumExporter
 
     resources = Resource.select('DISTINCT resources.*').
                        where('(resources.id IN (:root_ids)) OR (resources.id IN (:child_ids))', child_ids: child_ids_rel, root_ids: root_ids_rel).
-                       includes(:alignments, :documents, :grades, :resource_descriptions, :resource_titles, :resource_types, :subjects)
+                       includes(:alignments, :grades, :resource_types, :subjects)
 
     package = Axlsx::Package.new
     package.workbook.add_worksheet(name: 'Resources') do |sheet|
@@ -24,7 +24,6 @@ class CurriculumExporter
       
       resources.find_each do |resource|
         sheet.add_row([
-          resource.documents.first.try(:source_document_id),
           resource.id,
           resource.title,
           resource.subtitle,
