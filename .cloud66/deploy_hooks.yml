@@ -5,24 +5,24 @@ production: &production
       target: rails
       execute: true
       sudo: true
-      apply_during: all
+      apply_during: build_only
       run_on: all_servers
   after_checkout:
     - source: /.cloud66/after_checkout.sh
-      destination: /tmp/after_checkout.sh
+      destination: /tmp/after_checkout.sh    
       target: rails
       execute: true
-      sudo: true
       apply_during: all
-      run_on: all_servers      
+      run_on: all_servers 
+      run_as: ubuntu  
   after_bundle:
-    - command: cd $STACK_PATH && bundle exec rake cloud66:after_bundle
+    - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cloud66:after_bundle
       target: rails
       execute: true
       run_on: all_servers
       apply_during: all
   after_symlink:
-    - command: cd $STACK_PATH && bundle exec rake cloud66:after_symlink
+    - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cloud66:after_symlink
       target: rails
       execute: true
       run_on: all_servers
