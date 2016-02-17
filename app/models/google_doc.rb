@@ -40,9 +40,9 @@ class GoogleDoc < ActiveRecord::Base
   end
 
   def realign_tables(doc)
-    left_margin_regex = /margin-left:\s*(auto|-?\d+)/
     doc.css('table').each do |table|
-      table[:style] = table[:style].gsub(left_margin_regex, 'margin-left:0') rescue nil
+      style = table[:style].gsub(/margin-left:[^;]+;?/, '') rescue nil
+      table[:style] = "margin-left:0;#{style}"
     end
     doc
   end
