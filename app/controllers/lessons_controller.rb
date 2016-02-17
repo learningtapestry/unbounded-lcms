@@ -17,7 +17,7 @@ class LessonsController < ApplicationController
 
     def lesson_props
       {
-        lessons: { @lesson.id => @lesson }
+        lessons: { @lesson.id => LessonSerializer.new(@lesson).as_json }
       }
     end
 end
