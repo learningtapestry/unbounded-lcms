@@ -1,6 +1,8 @@
 window.initializeGoogleDoc = function() {
-  if ($('.googleDoc').length > 0) {
-    $('.googleDoc__nav').sticky();
+  var $googleDoc = $('.googleDoc');
+
+  if ($googleDoc.length > 0) {
+    $('.googleDoc__nav').sticky({ bottomSpacing: $('body').height() - $googleDoc.height() - $googleDoc.offset().top });
 
     $('.googleDoc__task').click(function() {
       $(this).toggleClass('__fullHeight');
