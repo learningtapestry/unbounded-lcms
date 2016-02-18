@@ -1,6 +1,9 @@
 require 'google/apis/drive_v3'
 
 class GoogleDoc < ActiveRecord::Base
+  CUSTOM_TAG_ELEMENT = 'h3'
+  TASK_CLASS = 'googleDoc__task'
+
   before_save :process_content
   after_save :download_images
 
@@ -34,16 +37,43 @@ class GoogleDoc < ActiveRecord::Base
   def process_content
     return unless original_content.present?
 
-    doc = Nokogiri::HTML(original_content).xpath('/html/body/*')
-    doc = realign_tables(doc)
+    self.content = Nokogiri::HTML(original_content).xpath('/html/body/*').to_s
+    process_tasks
+    realign_tables
+
     self.content = doc.to_s
   end
 
-  def realign_tables(doc)
+  def process_tasks
+    doc.css(CUSTOM_TAG_ELEMENT).each do |h3|
+      value = h3.text.chomp.strip
+      next unless value =~ /<TASK(;\d+)?>/
+
+      element = h3.next_sibling
+
+      loop do
+        if (span = element.at_xpath('.//span[img]'))
+          style = span[:style].gsub(/max-height:[^;]+;?/, '') rescue nil
+          if (height = value[/\d+/])
+            style = "max-height:#{height}px; #{style}"
+          end
+          span[:style] = style
+          span[:class] = TASK_CLASS
+          break
+        end
+
+        element = element.next_sibling
+        break unless element
+      end
+
+      h3.remove
+    end
+  end
+
+  def realign_tables
     doc.css('table').each do |table|
       style = table[:style].gsub(/margin-left:[^;]+;?/, '') rescue nil
       table[:style] = "margin-left:0;#{style}"
     end
-    doc
   end
 end

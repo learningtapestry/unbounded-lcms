@@ -1,6 +1,8 @@
-.googleDoc .popover {
-  line-height: 1.5;
-  width: 300px;
+.googleDoc {
+  .popover {
+    line-height: 1.5;
+    width: 300px;
+  }
 }
 
 .googleDoc__nav__item {
@@ -18,5 +20,14 @@
   }
   &.level5 {
     padding-left: 5em;
+  }
+}
+
+.googleDoc__task {
+  cursor: pointer;
+  max-height: 200px;
+
+  &.__fullHeight {
+    max-height: none !important;
   }
 }

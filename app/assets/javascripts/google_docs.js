@@ -2,6 +2,10 @@ window.initializeGoogleDoc = function() {
   if ($('.googleDoc').length > 0) {
     $('.googleDoc__nav').sticky();
 
+    $('.googleDoc__task').click(function() {
+      $(this).toggleClass('__fullHeight');
+    });
+
     $('a[href^="#ftnt"]:not([href^="#ftnt_ref"])').popover({
       content: function() {
         var $this = $(this);
