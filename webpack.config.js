@@ -15,7 +15,7 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'babel',
         query: {
-          presets: ['react', 'es2015']
+          presets: ['stage-2', 'react', 'es2015']
         },
         exclude: /node_modules/
       },

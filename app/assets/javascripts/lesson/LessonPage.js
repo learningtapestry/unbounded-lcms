@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchLesson } from './actions';
+import { lessonPage } from './actions';
 import { Link } from 'react-router';
 import { Page } from 'page';
 import Lesson from './Lesson';
@@ -9,14 +9,12 @@ class LessonPage extends Page {
     return this.props.params.id;
   }
 
-  get lesson() {
-    return this.props.lessons[this.lessonId];
+  showable(id) {
+    return (id in this.props.lessons);
   }
 
   componentDidMount() {
-    if (!(this.lessonId in this.props.lessons)) {
-      this.fetch();
-    }
+    this.fetch();
   }
 
   componentDidUpdate(prevProps) {
@@ -27,16 +25,21 @@ class LessonPage extends Page {
   }
 
   fetch() {
-    this.tryDispatch(fetchLesson(this.lessonId));
+    this.tryDispatch(lessonPage(this.lessonId));
   }
 
   render() {
+    const lesson = this.props.lessons[this.props.lessonPage];
+
     return this.tryRender(
-      <Lesson {...this.lesson} />
+      <div>
+      <Lesson {...lesson} />
+      </div>
     );
   }
 }
 
 export default connect(state => ({
-  lessons: state.lessons
+  lessons: state.entities.lessons,
+  lessonPage: state.lessonPage
 }))(LessonPage);

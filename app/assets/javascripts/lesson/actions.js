@@ -1,27 +1,51 @@
 import { fetchJson } from 'lib';
 import { createAction } from 'redux-actions';
+import { normalize, Schema, arrayOf } from 'normalizr';
 
-export const
-  REQUEST_LESSON = 'REQUEST_LESSON',
-  requestLesson = createAction(REQUEST_LESSON),
+const lessonSchema = new Schema('lessons');
 
-  RECEIVE_LESSON = 'RECEIVE_LESSON',
-  receiveLesson = createAction(RECEIVE_LESSON);
+export const LESSON_REQUEST = 'LESSON_REQUEST';
+export const LESSON_SUCCESS = 'LESSON_SUCCESS';
 
 export function fetchLesson(id) {
   return (dispatch, getState) => {
-    const { lessons } = getState();
+    const { entities } = getState();
 
-    if (id in lessons) {
-      return lessons[id];
+    if (id in entities.lessons) {
+      return Promise.resolve(entities.lessons[id]);
     }
 
-    dispatch(requestLesson(id));
+    dispatch({
+      type: LESSON_REQUEST,
+      payload: id
+    });
 
     return fetchJson(`http://localhost:3000/lessons/${id}.json`)
       .then(lesson => {
-        dispatch(receiveLesson(lesson));
-        return lesson;
+        const normalized = normalize(lesson, lessonSchema);
+
+        dispatch({
+          type: LESSON_SUCCESS,
+          payload: normalized
+        });
+
+        return normalized;
       });
   };
 };
+
+export const LESSON_PAGE = 'LESSON_PAGE';
+export function lessonPage(id) {
+  return dispatch => {
+    return dispatch(fetchLesson(id)).then(lesson => {    
+      dispatch({
+        type: LESSON_PAGE_SUCCESS,
+        payload: id
+      });
+
+      return id;
+    });
+  };
+};
+
+export const LESSON_PAGE_SUCCESS = 'LESSON_PAGE_SUCCESS';

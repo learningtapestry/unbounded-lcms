@@ -1,11 +1,9 @@
-import { RECEIVE_LESSON, } from './actions';
+import { LESSON_PAGE_SUCCESS } from './actions';
 
-export function lessons(state = {}, action) {
+export function lessonPage(state = null, action) {
   switch(action.type) {
-    case RECEIVE_LESSON:
-      return Object.assign({}, state, {
-        [action.payload.id]: action.payload
-      });
+    case LESSON_PAGE_SUCCESS:
+      return action.payload;
     default:
       return state;
   }

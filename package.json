@@ -5,6 +5,7 @@
     "font-awesome": "^4.5.0",
     "lodash": "^4.3.0",
     "normalize.css": "^3.0.3",
+    "normalizr": "^2.0.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-on-rails": "3.0.0-rc.1",
