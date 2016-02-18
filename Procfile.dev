@@ -1,2 +1,2 @@
-web: rails s
+web: rails s -b 0.0.0.0
 webpack: npm run watch

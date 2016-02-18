@@ -2,6 +2,7 @@
   "name": "unbounded",
   "version": "1.0.0",
   "dependencies": {
+    "babel-preset-stage-2": "^6.5.0",
     "font-awesome": "^4.5.0",
     "lodash": "^4.3.0",
     "normalize.css": "^3.0.3",
