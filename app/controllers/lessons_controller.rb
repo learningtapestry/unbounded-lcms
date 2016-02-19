@@ -5,7 +5,8 @@ class LessonsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html { react_render props: lesson_props }
+      # format.html { react_render props: lesson_props }
+      format.html
       format.json { render json: @lesson }
     end
   end
@@ -17,7 +18,7 @@ class LessonsController < ApplicationController
 
     def lesson_props
       {
-        entities: { 
+        entities: {
           lessons: { @lesson.id.to_i => LessonSerializer.new(@lesson).as_json }
         },
         lessonPage: @lesson.id.to_i
