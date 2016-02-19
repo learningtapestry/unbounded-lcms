@@ -35,8 +35,10 @@ gem 'seedbank', '~> 0.3'
 gem 'simple_form'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
+gem 'wicked_pdf', '~> 0.6'
 gem 'will_paginate', '~> 3.0.7', require: ['will_paginate', 'will_paginate/active_record']
 gem 'will_paginate-bootstrap'
+gem 'wkhtmltopdf-binary', '~> 0.9'
 gem 'truncate_html', '~> 0.9.3'
 
 group :development, :test do

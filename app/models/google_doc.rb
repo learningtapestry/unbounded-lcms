@@ -2,6 +2,7 @@ require 'google/apis/drive_v3'
 
 class GoogleDoc < ActiveRecord::Base
   CUSTOM_TAG_ELEMENT = 'h3'
+  FOOTNOTES_CLASS = 'googleDoc__footnotes'
   TASK_CLASS = 'googleDoc__task'
 
   before_save :process_content
@@ -34,10 +35,17 @@ class GoogleDoc < ActiveRecord::Base
     update_column(:content, doc.to_s)
   end
 
+  def mark_footnotes
+    if (hr = doc.at_xpath('hr[following-sibling::div[.//a[starts-with(@id, "ftnt")]]]'))
+      hr[:class] = FOOTNOTES_CLASS
+    end
+  end
+
   def process_content
     return unless original_content.present?
 
     self.content = Nokogiri::HTML(original_content).xpath('/html/body/*').to_s
+    mark_footnotes
     process_tasks
     realign_tables
 

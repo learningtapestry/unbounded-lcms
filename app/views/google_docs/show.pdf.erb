@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<meta charset=utf-8>
+
+<style>
+  img {
+    page-break-inside: avoid !important;
+  }
+
+  .googleDoc__footnotes {
+    page-break-before: always;
+  }
+
+  .googleDoc__task {
+    max-height: none !important;
+  }
+</style>
+
+<%= @google_doc.content_for_pdf %>

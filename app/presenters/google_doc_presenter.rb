@@ -5,6 +5,14 @@ class GoogleDocPresenter < SimpleDelegator
     doc.to_s.html_safe
   end
 
+  def content_for_pdf
+    path2public = Rails.root.join('public')
+    doc.css('img[src^="/uploads"]').each do |img|
+      img[:src] = "file://#{path2public}#{img[:src]}"
+    end
+    doc.to_s.html_safe
+  end
+
   def headings
     headings =
       doc.css('h1, h2, h3, h4, h5, h6').each_with_index.map do |h, i|
