@@ -1,16 +1,32 @@
-<div class="container">
-	<div class="row">
-		<div class="footer-logo">
-	  	<%= link_to root_path do %>
-	  		<!-- <%= image_tag 'logo.svg', :alt => t('title.logo') %> -->
-	  	<% end %>
-	  </div>
-	  <div class="footer-txt">
-	  	<ul class="list-unstyled list-inline text-left">
-		  	<li><%= t('footer.copyright_html') %></li>
-		  	<li><%= t('footer.rights_html') %></li>
-		  	<li><%= link_to t('layouts.application.tos'), :tos_page %></li>
+<footer class="c-footer">
+	<div class="c-footer__wrapper u-flex--space-between">
+    <div class="c-footer__item">
+      <div class="c-footer__wrapper u-flex--start">
+        <div class="c-footer__item">
+    	  	<%= link_to root_path, class: 'c-footer__link' do %>
+    	  		<%= t('title.logo') %>
+    	  	<% end %>
+    	  </div>
+    	  <div class="c-footer__item">
+    	  	<ul class="c-footer__list">
+    		  	<li><%= link_to t('nav.curriculum'), curriculum_path, class: 'c-footer__link' %></li>
+    		  	<li><%= link_to t('nav.lessons'), curriculum_path, class: 'c-footer__link' %></li>
+            <li><%= link_to t('nav.instructions'), curriculum_path, class: 'c-footer__link' %></li>
+            <li><%= link_to t('nav.about'), about_path, class: 'c-footer__link' %></li>
+            <li><%= link_to t('footer.contact'), curriculum_path, class: 'c-footer__link' %></li>
+            <li><%= link_to t('footer.privacy'), curriculum_path, class: 'c-footer__link' %></li>
+    		  	<li><%= link_to t('footer.terms'), :tos_page, class: 'c-footer__link' %></li>
+    		  </ul>
+    	  </div>
+      </div>
+    </div>
+	  <div class="c-footer__item">
+      <ul class="c-footer__list u-text--base-font">
+		  	<li><i class="fa fa-twitter"></i></li>
+		  	<li><i class="fa fa-facebook"></i></li>
+        <li><i class="fa fa-vimeo"></i></li>
+        <li><i class="fa fa-youtube"></i></li>
 		  </ul>
-	  </div>
+    </div>
 	</div>
-</div>
+</footer>

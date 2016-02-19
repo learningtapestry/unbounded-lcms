@@ -1,0 +1,13 @@
+$text-sizes: (
+  'base' : $font-size-base,
+  'large': $font-size-large,
+  'small': $font-size-small
+);
+
+.u-text {
+  @each $text-size, $text-size-value in $text-sizes {
+    @include m(#{$text-size}-font) {
+      font-size: $text-size-value;
+    }
+  }
+}

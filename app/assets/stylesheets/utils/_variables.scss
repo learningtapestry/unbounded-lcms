@@ -1,0 +1,35 @@
+// Colors
+$ub-primary: #424242;
+$ub-page-bg: #d2d7d3;
+$ub-btn-light: #d2d7d3;
+$ub-btn-base: #616161;
+$ub-btn-dark: #424242;
+$ub-panel-bg: #9e9e9e;
+$ub-hero-bg: #616161;
+$ub-nav-bg: #424242;
+$ub-white: #fff;
+$ub-whitesmoke: #f5f5f5;
+
+// Layout
+$ub-footer-height: 42px;
+
+// Bootstrap variables
+$body-bg: $ub-page-bg;
+$brand-primary: $ub-primary;
+
+$font-family-sans-serif: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$headings-font-family: $font-family-sans-serif;
+$font-size-base: 16px;
+
+$border-radius-base: 0;
+
+//=== Inverted navbar
+// Reset inverted navbar basics
+$navbar-inverse-color: $ub-white;
+$navbar-inverse-link-color: $ub-whitesmoke;
+$navbar-inverse-bg: $ub-nav-bg;
+$navbar-inverse-border: none;
+
+// Inverted navbar toggle
+$navbar-inverse-toggle-hover-bg: $ub-nav-bg;
+$navbar-inverse-toggle-border-color: none;

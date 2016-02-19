@@ -1,0 +1,33 @@
+.c-footer {
+  @extend  .container;
+  background-color: $ub-nav-bg;
+  color: $ub-whitesmoke;
+  font-size: $font-size-small;
+  padding: $padding-large-vertical $grid-gutter-width / 2;
+
+  @include e(wrapper) {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  @include e(item) {
+    padding: 0 $grid-gutter-width / 2;
+    &:first-child { padding-left: 0; }
+    &:last-child  { padding-right: 0; }
+  }
+
+  @include e(list) {
+    @extend .list-unstyled;
+    @extend .list-inline;
+    color: $ub-whitesmoke;
+    margin-bottom: 0;
+  }
+
+  @include e(link) {
+    color: $ub-whitesmoke;
+    &:hover, &:focus { color: $ub-white; }
+  }
+}

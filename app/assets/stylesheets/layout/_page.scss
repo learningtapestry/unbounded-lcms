@@ -1,0 +1,23 @@
+html, body {
+  height: 100%;
+}
+
+.page-wrap {
+  margin-bottom: -$ub-footer-height;
+  min-height: 100%;
+  &:after {
+    content: '';
+    display: block;
+  }
+}
+
+.c-footer, .page-wrap:after {
+  height: $ub-footer-height;
+}
+
+.c-page {
+  @extend  .container;
+  @include e('wrapper') {
+    @include make-row();
+  };
+}
