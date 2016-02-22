@@ -1,3 +1,3 @@
 WickedPdf.config = {
-  wkhtmltopdf: ENV['WKHTMLTOPDF_PATH']
+  exe_path: ENV['WKHTMLTOPDF_PATH']
 }
