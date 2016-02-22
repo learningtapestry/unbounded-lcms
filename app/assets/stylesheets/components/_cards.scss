@@ -1,0 +1,22 @@
+.o-card {
+  @include flex-grid-column(3);
+  display: flex;
+
+  @include e(title) {
+    @extend .u-margin-bottom--small;
+  }
+
+  @include e(dsc) {
+    @extend .u-text--small;
+  }
+
+  @include e(button) {
+    text-align: center;
+  }
+
+  @include m(connect) {
+    @include flex-grid-column(4);
+    display: flex;
+  }
+
+}

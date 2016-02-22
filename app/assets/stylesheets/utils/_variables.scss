@@ -1,35 +1,32 @@
 // Colors
-$ub-primary: #424242;
-$ub-page-bg: #d2d7d3;
-$ub-btn-light: #d2d7d3;
-$ub-btn-base: #616161;
-$ub-btn-dark: #424242;
-$ub-panel-bg: #9e9e9e;
-$ub-hero-bg: #616161;
-$ub-nav-bg: #424242;
+$ub-primary: #616161;
+$ub-secondary: #bdbdbd;
+$ub-page-bg: #e0e0e0;
+$ub-btn-light: #e0e0e0;
+$ub-btn-base: #9e9e9e;
+$ub-btn-dark: #616161;
+$ub-panel-bg: #bdbdbd;
+$ub-hero-bg: #9e9e9e;
+$ub-nav-bg: #616161;
+$ub-light-bg: #bdbdbd;
+$ub-dark-bg: #9e9e9e;
 $ub-white: #fff;
 $ub-whitesmoke: #f5f5f5;
+$ub-txt: #333;
+
 
 // Layout
-$ub-footer-height: 42px;
+$ub-footer-height: (
+  medium: 42px,
+  small: 0
+);
 
-// Bootstrap variables
-$body-bg: $ub-page-bg;
-$brand-primary: $ub-primary;
-
-$font-family-sans-serif: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$headings-font-family: $font-family-sans-serif;
-$font-size-base: 16px;
-
-$border-radius-base: 0;
-
-//=== Inverted navbar
-// Reset inverted navbar basics
-$navbar-inverse-color: $ub-white;
-$navbar-inverse-link-color: $ub-whitesmoke;
-$navbar-inverse-bg: $ub-nav-bg;
-$navbar-inverse-border: none;
-
-// Inverted navbar toggle
-$navbar-inverse-toggle-hover-bg: $ub-nav-bg;
-$navbar-inverse-toggle-border-color: none;
+// Paddings, margins
+$ub-base-margin: 1rem;
+$ub-base-padding: 1rem;
+$ub-large-margin: $ub-base-margin * 1.5;
+$ub-xlarge-margin: $ub-base-margin * 2;
+$ub-small-margin: $ub-base-margin * .75;
+$ub-large-padding: $ub-base-padding * 1.5;
+$ub-xlarge-padding: $ub-base-padding * 2;
+$ub-small-padding: $ub-base-padding * .75;

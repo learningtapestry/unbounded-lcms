@@ -1,33 +1,32 @@
 .c-footer {
-  @extend  .container;
-  background-color: $ub-nav-bg;
-  color: $ub-whitesmoke;
-  font-size: $font-size-small;
-  padding: $padding-large-vertical $grid-gutter-width / 2;
 
-  @include e(wrapper) {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
+  @include e(wrap) {
+    @include flex-grid-row();
+    @include flex-grid-row-align(left, center);
+
+    @each $breakpoint, $footer-height in $ub-footer-height {
+      @include breakpoint($breakpoint) {
+        min-height: $footer-height;
+      }
+    }
   }
 
   @include e(item) {
-    padding: 0 $grid-gutter-width / 2;
-    &:first-child { padding-left: 0; }
-    &:last-child  { padding-right: 0; }
+    @include flex-grid-column(shrink);
+    @include m(full) {
+      @include flex-grid-column();
+    }
   }
 
   @include e(list) {
-    @extend .list-unstyled;
-    @extend .list-inline;
+    @extend .menu;
     color: $ub-whitesmoke;
     margin-bottom: 0;
+    li a { padding-left: .5rem; padding-right: .5rem; }
+
+    @include m(right) {
+      li { float: right; }
+    }
   }
 
-  @include e(link) {
-    color: $ub-whitesmoke;
-    &:hover, &:focus { color: $ub-white; }
-  }
 }

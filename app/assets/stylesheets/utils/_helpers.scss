@@ -1,13 +1,51 @@
 $text-sizes: (
-  'base' : $font-size-base,
-  'large': $font-size-large,
-  'small': $font-size-small
+  'base' : $global-font-size,
+  'large': $lead-font-size,
+  'small': $small-font-size
 );
 
 .u-text {
   @each $text-size, $text-size-value in $text-sizes {
-    @include m(#{$text-size}-font) {
+    @include m(#{$text-size}) {
       font-size: $text-size-value;
+    }
+  }
+}
+
+$margins: (
+  'xs': $ub-small-margin * .7,
+  'small': $ub-small-margin,
+  'base': $ub-base-margin,
+  'large': $ub-large-margin,
+  'xlarge': $ub-xlarge-margin
+);
+$margins-align: (top, bottom);
+
+@each $margin-type, $margin-value in $margins {
+  @each $align in $margins-align {
+    .u-margin-#{$align}--#{$margin-type} {
+      margin-#{$align}: $margin-value;
+    }
+  }
+}
+
+$bg: (
+  light: $ub-white,
+  base: $ub-panel-bg,
+  dark: $ub-hero-bg
+);
+
+@each $bg-type, $bg-color in $bg {
+  .u-bg--#{$bg-type} {
+    background-color: $bg-color;
+  }
+}
+
+.u-wrap {
+  @each $bg-type, $bg-color in $bg {
+    @include m($bg-type) {
+      @extend .u-bg--#{$bg-type};
+      padding: $ub-base-padding;
     }
   }
 }

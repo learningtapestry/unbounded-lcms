@@ -2,22 +2,42 @@ html, body {
   height: 100%;
 }
 
-.page-wrap {
-  margin-bottom: -$ub-footer-height;
-  min-height: 100%;
-  &:after {
-    content: '';
-    display: block;
+@each $breakpoint, $footer-height in $ub-footer-height {
+  @include breakpoint($breakpoint) {
+    .u-page-wrap {
+      margin-bottom: -$footer-height;
+      min-height: 100%;
+      &:after {
+        content: '';
+        display: block;
+      }
+    }
+
+    .u-page-wrap:after {
+      height: $footer-height;
+    }
   }
 }
 
-.c-footer, .page-wrap:after {
-  height: $ub-footer-height;
-}
+.o-page {
+  @include flex-grid-row();
+  margin-bottom: $ub-large-margin * 2;
+  margin-top: $ub-base-margin;
 
-.c-page {
-  @extend  .container;
-  @include e('wrapper') {
-    @include make-row();
+  @include e(wrap) {
+    @include flex-grid-row();
   };
+
+  @include e(hero) {
+    @include flex-grid-column(12);
+  }
+
+  @include e(content) {
+    @include flex-grid-column(12);
+  }
+
+  @include e(module) {
+    @include flex-grid-column(12, 0);
+  }
+
 }

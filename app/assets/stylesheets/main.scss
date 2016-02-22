@@ -6,10 +6,12 @@
   'utils/placeholders';
 
 @import
+  'themes/settings';
+
+@import
   'font-awesome-sprockets',
   'font-awesome',
-  'bootstrap-sprockets',
-  'bootstrap';
+  'vendors/foundation_and_overrides';
 
 @import
   'utils/helpers';
@@ -19,9 +21,18 @@
   'base/typography';
 
 @import
+  'components/buttons',
+  'components/cards',
+  'components/freshdesk',
+  'components/titles',
+  'components/panel-dsc',
+  'components/panel';
+
+@import
   'layout/header',
   'layout/footer',
   'layout/flex',
+  'layout/navigation',
   'layout/page',
   'layout/sidebar';
 

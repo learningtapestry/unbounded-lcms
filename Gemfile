@@ -38,6 +38,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate', '~> 3.0.7', require: ['will_paginate', 'will_paginate/active_record']
 gem 'will_paginate-bootstrap'
 gem 'truncate_html', '~> 0.9.3'
+gem 'foundation-rails', '~> 6.1'
 
 group :development, :test do
   gem 'byebug'

@@ -1,0 +1,38 @@
+.c-about-block {
+  padding-bottom: $ub-large-padding;
+  padding-top: $ub-large-padding;
+}
+
+.c-about-hero {
+  @extend %u-ph-img--light;
+  background-color: $ub-hero-bg;
+  margin-bottom: $ub-large-margin;
+
+  @include e(body) {
+    float: right;
+    padding: $ub-base-padding * 2;
+    padding-top: $ub-large-padding * 4;
+    width: grid-column(6);
+  }
+}
+
+.c-about-partners {
+  @include flex-grid-column(12);
+  @include media-object-container;
+
+  @include e(img) {
+    @include media-object-section;
+    width: grid-column(4);
+    text-align: right;
+    img {
+      @extend .u-bg--dark;
+      height: 100%; width: 80%;
+    }
+  }
+
+  @include e(body) {
+    @include media-object-section;
+    padding-left: $ub-large-padding;
+    width: grid-column(8);
+  }
+}

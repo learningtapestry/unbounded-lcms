@@ -1,0 +1,15 @@
+.o-title {
+  @extend .u-text--small;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: $ub-small-margin;
+
+  @include e(title) {
+    float: left;
+  }
+
+  @include e(duration) {
+    float: right;
+  }
+
+}

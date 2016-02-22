@@ -1,10 +1,46 @@
 <% set_page_title @page.title %>
 
-<div class=container>
-  <div class=row>
-    <div class=page-body>
-    	<h1><%= @page.title %></h1>
-    	<%= @page.body.html_safe %>
+<div class="o-page">
+  <div class="o-page__hero c-about-hero">
+    <div class="c-about-hero__body">
+      <h1>About UnboundEd</h1>
+      <p>Descriptive text lorem ipsum sapereprese venimi, consedi quoditi con re, consedi quoditi conre ministret.</p>
+    </div>
+  </div>
+  <div class="o-page__module c-about-block">
+    <div class="o-dsc">
+      <div class="o-dsc__title">MISSION & VISION BLOCK TITLE</div>
+      <div class="o-dsc__dsc">Display text about curriculum lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus aut dolessite paribus aut aut et undellabor acestib aut et undellabor acestib. Lat apienderum eumeture, voluptae venit lat la quas aliquid est estio.</div>
+      <div class="o-dsc__button">
+        <%= link_to t('ui.learn_more'), '#', class: 'o-btn--light' %>
+      </div>
+    </div>
+  </div>
+  <div class="c-about-partners c-about-block u-bg--light">
+    <div class="c-about-partners__img">
+      <%= image_tag('placeholder') %>
+    </div>
+    <div class="c-about-partners__body">
+      <h2>PEOPLE & PARTNERS</h2>
+      <p>Display text about curriculum lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus aut dolessite paribus aut aut et undellabor acestib aut et undellabor acestib.</p>
+      <%= link_to 'Our Team', '#', class: 'o-btn--light u-margin-top--base' %>
+    </div>
+  </div>
+  <div class="o-page__module c-about-block">
+    <div class="o-dsc">
+      <div class="o-dsc__title">Careers</div>
+      <div class="o-dsc__dsc">Display text about curriculum lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus aut dolessite paribus aut aut et undellabor acestib aut et undellabor acestib.</div>
+      <div class="o-dsc__button">
+        <%= link_to 'Work with Us', '#', class: 'o-btn--light' %>
+      </div>
+    </div>
+  </div>
+  <%= render partial: "shared/freshdesk" %>
+  <div class="o-page__module c-about-block">
+    <div class="o-dsc c-about-block">
+      <div class="o-dsc__title">CONTACT BLOCK TITLE</div>
+      <div class="o-dsc__dsc">Display text about curriculum lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus aut dolessite paribus aut aut et undellabor acestib aut et undellabor acestib.</div>
+      <%= render partial: "shared/contact" %>
     </div>
   </div>
 </div>

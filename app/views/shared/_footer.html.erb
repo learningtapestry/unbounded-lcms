@@ -1,31 +1,43 @@
 <footer class="c-footer">
-	<div class="c-footer__wrapper u-flex--space-between">
-    <div class="c-footer__item">
-      <div class="c-footer__wrapper u-flex--start">
-        <div class="c-footer__item">
-    	  	<%= link_to root_path, class: 'c-footer__link' do %>
-    	  		<%= t('title.logo') %>
-    	  	<% end %>
-    	  </div>
-    	  <div class="c-footer__item">
-    	  	<ul class="c-footer__list">
-    		  	<li><%= link_to t('nav.curriculum'), curriculum_path, class: 'c-footer__link' %></li>
-    		  	<li><%= link_to t('nav.lessons'), curriculum_path, class: 'c-footer__link' %></li>
-            <li><%= link_to t('nav.instructions'), curriculum_path, class: 'c-footer__link' %></li>
-            <li><%= link_to t('nav.about'), about_path, class: 'c-footer__link' %></li>
-            <li><%= link_to t('footer.contact'), curriculum_path, class: 'c-footer__link' %></li>
-            <li><%= link_to t('footer.privacy'), curriculum_path, class: 'c-footer__link' %></li>
-    		  	<li><%= link_to t('footer.terms'), :tos_page, class: 'c-footer__link' %></li>
-    		  </ul>
-    	  </div>
-      </div>
+	<div class="c-footer__wrap c-navbar">
+    <div class="c-footer__item u-text--small">
+    	<%= link_to root_path, class: 'c-navbar__link' do %>
+    		<strong><%= t('title.logo') %></strong>
+    	<% end %>
     </div>
 	  <div class="c-footer__item">
-      <ul class="c-footer__list u-text--base-font">
-		  	<li><i class="fa fa-twitter"></i></li>
-		  	<li><i class="fa fa-facebook"></i></li>
-        <li><i class="fa fa-vimeo"></i></li>
-        <li><i class="fa fa-youtube"></i></li>
+	  	<ul class="c-footer__list u-text--small">
+		  	<li><%= link_to t('nav.curriculum'), root_path, class: 'c-navbar__link' %></li>
+		  	<li><%= link_to t('nav.lessons'), root_path, class: 'c-navbar__link' %></li>
+        <li><%= link_to t('nav.instructions'), root_path, class: 'c-navbar__link' %></li>
+        <li><%= link_to t('nav.about'), about_path, class: 'c-navbar__link' %></li>
+        <li><%= link_to t('footer.contact'), root_path, class: 'c-navbar__link' %></li>
+        <li><%= link_to t('footer.privacy'), root_path, class: 'c-navbar__link' %></li>
+		  	<li><%= link_to t('footer.terms'), :tos_page, class: 'c-navbar__link' %></li>
+		  </ul>
+	  </div>
+	  <div class="c-footer__item c-footer__item--full">
+      <ul class="c-footer__list c-footer__list--right">
+		  	<li>
+          <%= link_to '#', class: 'c-navbar__link' do %>
+            <i class="fa fa-twitter"></i>
+          <% end %>
+        </li>
+		  	<li>
+          <%= link_to '#', class: 'c-navbar__link' do %>
+            <i class="fa fa-facebook"></i>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to '#', class: 'c-navbar__link' do %>
+            <i class="fa fa-vimeo"></i>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to '#', class: 'c-navbar__link' do %>
+            <i class="fa fa-youtube"></i>
+          <% end %>
+        </li>
 		  </ul>
     </div>
 	</div>
