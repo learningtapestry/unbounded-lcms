@@ -1,3 +1,4 @@
+<!-- Ref:  (v5)NEW-1577_Annotated_IA_v05  page 21 -->
 <div> <!-- item (1) -->
   <a href="#">View Unit: <%= @lesson.unit.title %></a>
 </div>
@@ -26,6 +27,11 @@
     </div>
   </div>
 
+  <div> <!-- item (5) -->
+    <!-- TODO missing link -->
+    <a href="#">Related Instruction</a>
+  </div>
+
   <div> <!-- item (8) -->
     <!-- TODO missing links -->
     <div>
@@ -36,7 +42,8 @@
     </div>
   </div>
 
-  <ul> <!-- tabs -->
+
+  <ul> <!-- item (6) : tabs -->
     <li>Summary</li>
     <li>Full Text</li>
   </ul>
@@ -67,7 +74,7 @@
 
     <div><!-- item (12) -->
       <h2>Tags</h2>
-      <div><!-- TODO --></div>
+      <div><%= @lesson.tags %></div>
     </div>
 
     <div><!-- item (13) -->

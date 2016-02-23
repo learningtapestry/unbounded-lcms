@@ -22,4 +22,8 @@ class LessonPresenter < SimpleDelegator
   def teaser_text
     description.truncate_words(25).html_safe
   end
+
+  def tags
+    subjects.map(&:name).join(', ')
+  end
 end
