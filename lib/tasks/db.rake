@@ -30,13 +30,13 @@ namespace :db do
     restore_cmd = <<-bash
       PGPASSWORD=#{config[:password]} \
       pg_restore \
-        --port #{config[:port]} \
-        --host #{config[:host]} \
-        --username #{config[:username]} \
+        --port=#{config[:port]} \
+        --host=#{config[:host]} \
+        --username=#{config[:username]} \
         --no-owner \
         --no-acl \
         -n public \
-        --dbname #{config[:database]} #{Rails.root}/db/dump/content.dump
+        --dbname=#{config[:database]} #{Rails.root}/db/dump/content.dump
     bash
 
     puts "Restoring #{Rails.env} database."

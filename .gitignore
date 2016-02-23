@@ -27,6 +27,7 @@
 .env.integration
 .env.staging
 .env.test
+.env
 
 # Ignore assets pipeline compiled files
 /public/assets
@@ -38,3 +39,6 @@
 # Ignore npm files
 npm-debug.log
 node_modules
+
+# ignore vagrant files
+/.vagrant

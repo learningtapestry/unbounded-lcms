@@ -1,6 +1,8 @@
 //= require ./routes
 //= require jquery
 //= require foundation
-//= require generated/app
+//= require react
+//= require react_ujs
+//= require components
 
-$(function(){ $(document).foundation(); });
+$(function() { $(document).foundation(); });
