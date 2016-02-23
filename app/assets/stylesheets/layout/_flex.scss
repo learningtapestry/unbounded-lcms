@@ -1,9 +1,0 @@
-$flex-justify-types: 'flex-start', 'flex-end', 'center', 'space-between', 'space-around';
-
-.u-flex {
-  @each $justify in $flex-justify-types {
-    @include m(#{$justify}) {
-      justify-content: $justify;
-    }
-  }
-}
