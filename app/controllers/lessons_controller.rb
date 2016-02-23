@@ -1,11 +1,9 @@
 class LessonsController < ApplicationController
   include ReactRenderable
 
-  before_action :find_lesson
-
   def show
+    @lesson = LessonPresenter.new find_lesson
     respond_to do |format|
-      # format.html { react_render props: lesson_props }
       format.html
       format.json { render json: @lesson }
     end
@@ -13,7 +11,7 @@ class LessonsController < ApplicationController
 
   protected
     def find_lesson
-      @lesson = Resource.lessons.find(params[:id])
+      @lesson =  Resource.lessons.find(params[:id])
     end
 
     def lesson_props
