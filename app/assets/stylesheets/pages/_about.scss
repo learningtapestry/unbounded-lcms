@@ -12,7 +12,15 @@
     float: right;
     padding: $ub-base-padding * 2;
     padding-top: $ub-large-padding * 4;
-    width: grid-column(6);
+    width: grid-column(12);
+
+    @include breakpoint(large) {
+      width: grid-column(6);
+    }
+
+    @include breakpoint(medium) {
+      width: grid-column(8);
+    }
   }
 }
 

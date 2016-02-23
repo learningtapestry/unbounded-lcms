@@ -2,7 +2,7 @@
   @include flex-grid-column(12);
 
   @include e(wrap) {
-    @include flex-grid-row($gutter: $ub-base-padding * 2);
+    @include flex-grid-row();
     background-color: $ub-panel-bg;
     padding: $ub-base-padding 0;
   }
@@ -12,11 +12,20 @@
   }
 
   @include e(text) {
-    @include flex-grid-column(3, $gutter: $ub-base-padding * 2);
+    @include flex-grid-column(12, $gutter: $ub-base-padding * 2);
+    @extend .u-margin-bottom--small;
+
+    @include breakpoint(large) {
+      @include flex-grid-column(3, $gutter: $ub-base-padding * 2);
+    }
   }
 
   @include e(form) {
-    @include flex-grid-column(9, $gutter: $ub-base-padding * 2);
+    @include flex-grid-column(12, $gutter: $ub-base-padding * 2);
+    
+    @include breakpoint(large) {
+      @include flex-grid-column(9, $gutter: $ub-base-padding * 2);
+    }
   }
 
 }

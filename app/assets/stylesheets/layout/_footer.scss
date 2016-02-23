@@ -9,24 +9,47 @@
         min-height: $footer-height;
       }
     }
+
+    @include breakpoint(large down) {
+      padding-bottom: $ub-base-margin;
+      padding-top: $ub-base-margin;
+    }
   }
 
   @include e(item) {
-    @include flex-grid-column(shrink);
-    @include m(full) {
-      @include flex-grid-column();
+    @include flex-grid-column(12);
+
+    @include breakpoint(large down) {
+      & + & { margin-top: $ub-small-margin; }
     }
+
+    @include breakpoint(large) {
+      @include flex-grid-column(shrink);
+
+      @include m(full) {
+        @include flex-grid-column();
+      }
+    }
+
   }
 
   @include e(list) {
-    @extend .menu;
+    @include menu-base;
+    @include menu-direction(horizontal);
     color: $ub-whitesmoke;
-    margin-bottom: 0;
     li a { padding-left: .5rem; padding-right: .5rem; }
 
     @include m(right) {
-      li { float: right; }
+      @include breakpoint(large) {
+        li { float: right; }
+      }
+    }
+
+    @include breakpoint(large down) {
+      display: inline-flex;
+      flex-wrap: wrap;
+      li { flex: 0 0 auto; }
+      li a { padding: .1rem 1rem .1rem 0; }
     }
   }
-
 }

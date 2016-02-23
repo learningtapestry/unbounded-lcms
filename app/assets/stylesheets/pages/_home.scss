@@ -5,7 +5,15 @@
   @include e(body) {
     float: right;
     padding: $global-padding * 2;
-    width: grid-column(5);
+    width: grid-column(12);
+
+    @include breakpoint(large) {
+      width: grid-column(5);
+    }
+    
+    @include breakpoint(medium) {
+      width: grid-column(8);
+    }
   }
 }
 
@@ -26,16 +34,12 @@
   }
 }
 
-.c-hp-ela {
-  @include flex-grid-column(6);
+.c-hp-ela, .c-hp-math {
+  @include flex-grid-column(12);
 
-  @include e(panel) {
-    @extend %u-ph-img--light;
+  @include breakpoint(medium) {
+    @include flex-grid-column(6);
   }
-}
-
-.c-hp-math {
-  @include flex-grid-column(6);
 
   @include e(panel) {
     @extend %u-ph-img--light;

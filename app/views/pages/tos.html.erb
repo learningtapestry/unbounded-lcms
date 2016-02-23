@@ -1,10 +1,8 @@
 <% set_page_title @page.title %>
 
-<div class=container>
-  <div class=row>
-    <div class=page-body>
-    	<h1><%= @page.title %></h1>
-    	<%= @page.body.html_safe %>
-    </div>
+<div class="o-page o-page--centered">
+  <div class="o-page__content">
+  	<h1><%= @page.title %></h1>
+  	<%= @page.body.html_safe %>
   </div>
 </div>

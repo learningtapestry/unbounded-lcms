@@ -24,16 +24,16 @@ html, body {
   margin-bottom: $ub-large-margin * 2;
   margin-top: $ub-base-margin;
 
-  @include e(wrap) {
-    @include flex-grid-row();
-  };
+  @include m(centered) {
+    @include flex-grid-row-align($x: center);
+  }
 
   @include e(hero) {
     @include flex-grid-column(12);
   }
 
   @include e(content) {
-    @include flex-grid-column(12);
+    @include flex-grid-column(11);
   }
 
   @include e(module) {

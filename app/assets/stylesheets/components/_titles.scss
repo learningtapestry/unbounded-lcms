@@ -1,8 +1,8 @@
 .o-title {
   @extend .u-text--small;
   font-weight: bold;
-  text-transform: uppercase;
   margin-bottom: $ub-small-margin;
+  text-transform: uppercase;
 
   @include e(title) {
     float: left;

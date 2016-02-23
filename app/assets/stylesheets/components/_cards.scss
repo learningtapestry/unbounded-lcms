@@ -1,6 +1,6 @@
 .o-card {
-  @include flex-grid-column(3);
   display: flex;
+  @extend .u-margin-bottom--small;
 
   @include e(title) {
     @extend .u-margin-bottom--small;
@@ -14,9 +14,28 @@
     text-align: center;
   }
 
+  @include m(base) {
+    @include flex-grid-column(12);
+
+    @include breakpoint(large) {
+      @include flex-grid-column(3);
+    }
+
+    @include breakpoint(medium only) {
+      @include flex-grid-column(6);
+    }
+  }
+
   @include m(connect) {
-    @include flex-grid-column(4);
-    display: flex;
+    @include flex-grid-column(12);
+
+    @include breakpoint(large) {
+      @include flex-grid-column(4);
+    }
+
+    @include breakpoint(medium only) {
+      @include flex-grid-column(6);
+    }
   }
 
 }
