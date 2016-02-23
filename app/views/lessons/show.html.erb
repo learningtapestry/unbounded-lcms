@@ -17,10 +17,10 @@
 
   <div> <!-- item (4) -->
     <a href="#">Download Lesson</a>
-    <div>
-      <ul> <!-- TODO fix me -->
+    <div> <!-- modal content -->
+      <ul>
         <% @lesson.downloads.each do |download| %>
-        <li><a href="<%= download.url %>"><%= "#{download.title} (#{download.content_type})" %></a></li>
+          <%= render 'resources/download', download: download %>
         <% end %>
       </ul>
     </div>
@@ -53,9 +53,9 @@
 
     <div><!-- item (10) -->
       <h2>Downloads</h2>
-      <ul> <!-- TODO fix me & extract to partial -->
+      <ul>
         <% @lesson.downloads.each do |download| %>
-        <li><a href="<%= download.url %>"><%= "#{download.title} (#{download.content_type})" %></a></li>
+          <%= render 'resources/download', download: download %>
         <% end %>
       </ul>
     </div>
