@@ -1,2 +1,4 @@
 //= require ./routes
-//= require generated/app
+//= require react
+//= require react_ujs
+//= require components
