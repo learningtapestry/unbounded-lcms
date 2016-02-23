@@ -1,6 +1,78 @@
+<div> <!-- item (1) -->
+  <a href="#">View Unit: <%= @lesson.unit.title %></a>
+</div>
+
 <div>
-  <h1><%= @lesson.title %></h1>
-  <div>
-    <%= @lesson.description.html_safe %>
+  <div> <!-- item (2) -->
+    <a href="#"><%= @lesson.subject_and_grade_title %></a>
+  </div>
+
+  <div> <!-- item (3) -->
+    <div>Lesson</div>
+    <h1><%= @lesson.title %></h1>
+    <div>
+      <%= @lesson.teaser_text %>
+    </div>
+  </div>
+
+  <div> <!-- item (4) -->
+    <a href="#">Download Lesson</a>
+    <div>
+      <ul> <!-- TODO fix me -->
+        <% @lesson.downloads.each do |download| %>
+        <li><a href="<%= download.url %>"><%= "#{download.title} (#{download.content_type})" %></a></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div> <!-- item (8) -->
+    <!-- TODO missing links -->
+    <div>
+      <a href="#"><strong>Previous Lesson in Series</strong></br><%= 'prev lesson title'%></a>
+    </div>
+    <div>
+      <a href="#"><strong>Next Lesson in Series</strong></br><%= 'next lesson title'%></a>
+    </div>
+  </div>
+
+  <ul> <!-- tabs -->
+    <li>Summary</li>
+    <li>Full Text</li>
+  </ul>
+
+  <div> <!-- summary tab content -->
+    <div><!-- item (7) -->
+      <!-- TODO -->
+    </div>
+
+    <div><!-- item (9) -->
+      <h2>Description</h2>
+      <div><%= @lesson.description.html_safe %></div>
+    </div>
+
+    <div><!-- item (10) -->
+      <h2>Downloads</h2>
+      <ul> <!-- TODO fix me & extract to partial -->
+        <% @lesson.downloads.each do |download| %>
+        <li><a href="<%= download.url %>"><%= "#{download.title} (#{download.content_type})" %></a></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div><!-- item (11) -->
+      <h2>Prerequisites</h2>
+      <div><!-- TODO --></div>
+    </div>
+
+    <div><!-- item (12) -->
+      <h2>Tags</h2>
+      <div><!-- TODO --></div>
+    </div>
+
+    <div><!-- item (13) -->
+      <h2>Credits</h2>
+      <div><!-- TODO --></div>
+    </div>
   </div>
 </div>
