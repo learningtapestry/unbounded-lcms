@@ -24,6 +24,9 @@ en:
     phone_html: (888)123-4567
     rights_html: All rights reserved.
     search: Search
+    contact: Contact
+    privacy: Privacy
+    terms: Terms of Use
   layouts:
     admin:
       admin: Administration
@@ -31,10 +34,18 @@ en:
       admin: Administration
       tos: Terms of Service
   nav:
-    about: About
-    curriculum: Curriculum
+    about: About Unbounded
+    curriculum: Explore Curriculum
+    lessons: Find Lessons
+    instructions: Enhance Instruction
     news: News
     professional_development: Professional Development
+    about_dropdown:
+      mission: Mission & Vision
+      institute: Standards Institute
+      people: People & Partners
+      careers: Careers
+      contact: Contact
   resources:
     nav:
       next_lesson: Next LESSON
@@ -51,7 +62,7 @@ en:
     sidebar_down_nav:
       down_link: "Next %{title}"
   title:
-    logo: Unbounded
+    logo: Unbounded Logo
     subscribe: Get Updates and Stay Connected
     active: Document status
     age_range: Age range
@@ -102,3 +113,9 @@ en:
     open_math_unit: Open this Topic
     show_less: Show Less
     show_more: Show More
+    learn_more: Learn More
+    view_all_lessons: View All Lessons
+    view_all_instructions: View All Instructions
+    go: Go
+    register: Register Now
+    questions: Questions?

@@ -1,0 +1,40 @@
+@charset 'utf-8';
+
+@import
+  'utils/variables',
+  'utils/mixins',
+  'utils/placeholders';
+
+@import
+  'themes/settings';
+
+@import
+  'font-awesome-sprockets',
+  'font-awesome',
+  'vendors/foundation_and_overrides';
+
+@import
+  'utils/helpers';
+
+@import
+  'base/fonts',
+  'base/typography';
+
+@import
+  'components/buttons',
+  'components/cards',
+  'components/freshdesk',
+  'components/titles',
+  'components/panel-dsc',
+  'components/panel';
+
+@import
+  'layout/header',
+  'layout/footer',
+  'layout/navigation',
+  'layout/page',
+  'layout/sidebar';
+
+@import
+  'pages/home',
+  'pages/about';

@@ -12,6 +12,7 @@ Rails.application.config.assets.precompile += [
   'admin.css',
   'ckeditor/*',
   'unbounded.css',
+  'main.css',
   'i18n.js',
   'generated/*'
 ]

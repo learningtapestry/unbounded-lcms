@@ -1,0 +1,26 @@
+.o-dsc {
+  @include e(title) {
+    @extend .u-text--small;
+    @extend .u-margin-bottom--small;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  @include e(dsc) {
+    @extend .u-text--large;
+    @extend .u-margin-bottom--large;
+    text-align: center;
+  }
+
+  @include e(cards) {
+    @include flex-grid-row($gutter: $grid-column-gutter);
+    @include flex-grid-row-align($x: spaced);
+    @extend .u-margin-bottom--large;
+  }
+
+  @include e(button) {
+    text-align: center;
+  }
+
+}

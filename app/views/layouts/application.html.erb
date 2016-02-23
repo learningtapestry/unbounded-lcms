@@ -7,30 +7,22 @@
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('default_title') %>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>document.querySelector('html').className = 'js';</script>
-    <%= stylesheet_link_tag 'unbounded', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'main', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'i18n' %>
     <%= javascript_include_tag 'generated/translations' %>
 		<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 		<%= csrf_meta_tags %>
   </head>
   <body>
-  	<header>
+    <div class="u-page-wrap">
       <%= render partial: "shared/header" %>
-  	</header>
-    <!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-
-    <%= render partial: 'shared/flash' %>
-
-    <%= yield %>
-
-
-    <%= render partial: "shared/subscribe" %>
-
-    <footer>
-        <%= render partial: "shared/footer" %>
-    </footer>
+      <!--[if lt IE 8]>
+          <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <%= render partial: 'shared/flash' %>
+      <%= yield %>
+    </div>
+    <%= render partial: "shared/footer" %>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
