@@ -46,10 +46,19 @@ class GoogleDoc < ActiveRecord::Base
 
     self.content = Nokogiri::HTML(original_content).xpath('/html/body/*').to_s
     mark_footnotes
+    process_external_links
     process_tasks
     realign_tables
 
     self.content = doc.to_s
+  end
+
+  def process_external_links
+    doc.css('a[href^="https://www.google.com/url"]').each do |a|
+      url = URI(a[:href])
+      params = Rack::Utils.parse_query(url.query)
+      a[:href] = params['q']
+    end
   end
 
   def process_tasks
