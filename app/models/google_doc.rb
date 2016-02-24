@@ -1,7 +1,7 @@
 require 'google/apis/drive_v3'
 
 class GoogleDoc < ActiveRecord::Base
-  CUSTOM_TAG_ELEMENT = 'h3'
+  CUSTOM_TAG_ELEMENT = 'h4'
   FOOTNOTES_CLASS = 'googleDoc__footnotes'
   TASK_CLASS = 'googleDoc__task'
 
