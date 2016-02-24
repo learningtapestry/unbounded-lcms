@@ -4,15 +4,15 @@ class LessonPresenter < SimpleDelegator
   end
 
   def unit
-    units.first
+    @unit ||= units.first
   end
 
   def subject
-    unit.subjects.first
+    @subject ||= unit.subjects.first
   end
 
   def grade
-    unit.grades.first
+    @grade ||= unit.grades.first
   end
 
   def subject_and_grade_title
@@ -25,5 +25,17 @@ class LessonPresenter < SimpleDelegator
 
   def tags
     subjects.map(&:name).join(', ')
+  end
+
+  def curriculum
+    @curriculum ||= curriculums.first
+  end
+
+  def next
+    @next ||= curriculum.next.try(:resource)
+  end
+
+  def previous
+    @previous ||= curriculum.previous.try(:resource)
   end
 end

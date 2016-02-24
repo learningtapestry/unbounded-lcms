@@ -1,5 +1,6 @@
 <!-- Ref:  (v5)NEW-1577_Annotated_IA_v05  page 21 -->
 <div> <!-- item (1) -->
+  <!-- TODO unit url -->
   <a href="#">View Unit: <%= @lesson.unit.title %></a>
 </div>
 
@@ -28,18 +29,20 @@
   </div>
 
   <div> <!-- item (5) -->
-    <!-- TODO missing link -->
     <a href="#">Related Instruction</a>
   </div>
 
   <div> <!-- item (8) -->
-    <!-- TODO missing links -->
+    <% if @lesson.previous %>
     <div>
-      <a href="#"><strong>Previous Lesson in Series</strong></br><%= 'prev lesson title'%></a>
+      <a href="<%= lesson_path(@lesson.previous) %>"><strong>Previous Lesson in Series</strong></br><%= @lesson.previous.title %></a>
     </div>
+    <% end %>
+    <% if @lesson.next %>
     <div>
-      <a href="#"><strong>Next Lesson in Series</strong></br><%= 'next lesson title'%></a>
+      <a href="<%= lesson_path(@lesson.next) %>"><strong>Next Lesson in Series</strong></br><%= @lesson.next.title %></a>
     </div>
+    <% end %>
   </div>
 
 
