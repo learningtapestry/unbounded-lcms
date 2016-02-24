@@ -1,0 +1,43 @@
+html, body {
+  height: 100%;
+}
+
+@each $breakpoint, $footer-height in $ub-footer-height {
+  @include breakpoint($breakpoint) {
+    .u-page-wrap {
+      margin-bottom: -$footer-height;
+      min-height: 100%;
+      &:after {
+        content: '';
+        display: block;
+      }
+    }
+
+    .u-page-wrap:after {
+      height: $footer-height;
+    }
+  }
+}
+
+.o-page {
+  @include flex-grid-row();
+  margin-bottom: $ub-large-margin * 2;
+  margin-top: $ub-base-margin;
+
+  @include m(centered) {
+    @include flex-grid-row-align($x: center);
+  }
+
+  @include e(hero) {
+    @include flex-grid-column(12);
+  }
+
+  @include e(content) {
+    @include flex-grid-column(11);
+  }
+
+  @include e(module) {
+    @include flex-grid-column(12, 0);
+  }
+
+}

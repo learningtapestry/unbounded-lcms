@@ -1,0 +1,59 @@
+.c-hp-hero {
+  @extend %u-ph-img--light;
+  background-color: $ub-hero-bg;
+
+  @include e(body) {
+    float: right;
+    padding: $global-padding * 2;
+    width: grid-column(12);
+
+    @include breakpoint(large) {
+      width: grid-column(5);
+    }
+    
+    @include breakpoint(medium) {
+      width: grid-column(8);
+    }
+  }
+}
+
+.c-hp-standards {
+  @include flex-grid-column(12);
+  @include media-object-container;
+
+  @include e(img) {
+    @include media-object-section;
+    width: grid-column(4);
+    img { height: 100%; width: 100%; }
+  }
+
+  @include e(body) {
+    @include media-object-section;
+    padding-left: $ub-large-padding;
+    width: grid-column(8);
+  }
+}
+
+.c-hp-ela, .c-hp-math {
+  @include flex-grid-column(12);
+
+  @include breakpoint(medium) {
+    @include flex-grid-column(6);
+  }
+
+  @include e(panel) {
+    @extend %u-ph-img--light;
+  }
+}
+
+.c-hp-hr {
+  @include flex-grid-column(12);
+  hr {
+    margin-bottom: $ub-large-margin;
+    margin-top: $ub-xlarge-margin;
+  }
+}
+
+.c-hp-module {
+  @include flex-grid-column(12, 0);
+}
