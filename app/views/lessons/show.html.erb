@@ -1,7 +1,6 @@
 <!-- Ref:  (v5)NEW-1577_Annotated_IA_v05  page 21 -->
 <div> <!-- item (1) -->
-  <!-- TODO unit url -->
-  <a href="#">View Unit: <%= @lesson.unit.title %></a>
+  <a href="<%= unit_path(@lesson.unit) %>">View Unit: <%= @lesson.unit.title %></a>
 </div>
 
 <div>
