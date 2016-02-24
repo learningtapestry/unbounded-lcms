@@ -51,8 +51,9 @@
   </ul>
 
   <div> <!-- summary tab content -->
+
     <div><!-- item (7) -->
-      <!-- TODO -->
+      <!-- for now this is only social sharing icons -->
     </div>
 
     <div><!-- item (9) -->
@@ -79,9 +80,11 @@
       <div><%= @lesson.tags %></div>
     </div>
 
+    <% if @lesson.engageny_url %>
     <div><!-- item (13) -->
       <h2>Credits</h2>
-      <div><!-- TODO --></div>
+      <%= render 'resources/engageny', resource: @lesson %>
     </div>
+    <% end %>
   </div>
 </div>
