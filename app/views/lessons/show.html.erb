@@ -70,10 +70,20 @@
       </ul>
     </div>
 
-    <div><!-- item (11) -->
+    <!-- item (11) -->
+    <% unless @lesson.requirements.empty? %>
+    <div>
       <h2>Prerequisites</h2>
-      <div><!-- TODO --></div>
+      <div>
+        <ul>
+        <% @lesson.requirements.each do |req| %>
+          <li>
+            <a href="<%= lesson_path req %>"><%= req.title %></a>
+          </li>
+        <% end %>
+      </div>
     </div>
+    <% end %>
 
     <div><!-- item (12) -->
       <h2>Tags</h2>

@@ -40,6 +40,10 @@ class Resource < ActiveRecord::Base
   has_many :resource_related_resources, dependent: :destroy
   has_many :related_resources, through: :resource_related_resources
 
+  # Requirements
+  has_many :resource_requirements, dependent: :destroy
+  has_many :requirements, through: :resource_requirements
+
   # Slugs
   has_many :resource_slugs, dependent: :destroy
 
