@@ -1,6 +1,9 @@
 class LessonPresenter < SimpleDelegator
   def units
-    curriculums.map { |c| c.ancestors.where(curriculum_type: CurriculumType.unit).first.resource }
+    curriculums.map do |c|
+      parent = c.parent
+      parent.curriculum_type == CurriculumType.unit ? parent.resource : nil
+    end.compact
   end
 
   def unit
@@ -16,11 +19,11 @@ class LessonPresenter < SimpleDelegator
   end
 
   def subject_and_grade_title
-    "#{subject.name.titleize} / #{grade.name}"
+    "#{subject.try(:name).try(:titleize)} / #{grade.try(:name)}"
   end
 
   def teaser_text
-    description.truncate_words(25).html_safe
+    description ? description.truncate_words(25).html_safe : ''
   end
 
   def tags

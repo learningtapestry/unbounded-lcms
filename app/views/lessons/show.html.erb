@@ -62,7 +62,7 @@
 
     <div><!-- item (9) -->
       <h2>Description</h2>
-      <div><%= @lesson.description.html_safe %></div>
+      <div><%= @lesson.description.try(:html_safe) %></div>
     </div>
 
     <div><!-- item (10) -->
