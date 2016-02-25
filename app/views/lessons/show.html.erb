@@ -17,13 +17,17 @@
   </div>
 
   <div> <!-- item (4) -->
-    <a href="#">Download Lesson</a>
-    <div> <!-- modal content -->
+    <button data-open="downloads-modal">Download Lesson</button>
+    <div class="reveal" id="downloads-modal" data-reveal> <!-- modal content -->
+      <h2>Download Lesson</h2>
       <ul>
         <% @lesson.downloads.each do |download| %>
           <%= render 'resources/download', download: download %>
         <% end %>
       </ul>
+      <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
   </div>
 
