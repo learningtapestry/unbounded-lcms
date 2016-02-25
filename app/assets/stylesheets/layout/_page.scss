@@ -28,6 +28,12 @@ html, body {
     @include flex-grid-row-align($x: center);
   }
 
+  @include e(wrap) {
+    @include m(nest) {
+      @include grid-row-nest;
+    }
+  }
+
   @include e(hero) {
     @include flex-grid-column(12);
   }
