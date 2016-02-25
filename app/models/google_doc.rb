@@ -35,6 +35,17 @@ class GoogleDoc < ActiveRecord::Base
     update_column(:content, doc.to_s)
   end
 
+  def embed_videos
+    doc.css('a[href*="youtube.com/watch?"]').each do |a|
+      url = URI(a[:href])
+      params = Rack::Utils.parse_query(url.query)
+      video_id = params['v']
+      src = "https://www.youtube.com/embed/#{video_id}"
+      iframe = doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0, height: 315, src: src, width: 560)
+      a.replace(iframe)
+    end
+  end
+
   def mark_footnotes
     if (hr = doc.at_xpath('hr[following-sibling::div[.//a[starts-with(@id, "ftnt")]]]'))
       hr[:class] = FOOTNOTES_CLASS
@@ -47,6 +58,7 @@ class GoogleDoc < ActiveRecord::Base
     self.content = Nokogiri::HTML(original_content).xpath('/html/body/*').to_s
     mark_footnotes
     process_external_links
+    embed_videos
     process_tasks
     realign_tables
 
