@@ -1,105 +1,89 @@
 <!-- Ref:  (v5)NEW-1577_Annotated_IA_v05  page 21 -->
-<div> <!-- item (1) -->
-  <a href="<%= unit_path(@lesson.unit) %>">View Unit: <%= @lesson.unit.title %></a>
-</div>
-
-<div>
-  <div> <!-- item (2) -->
-    <a href="#"><%= @lesson.subject_and_grade_title %></a>
-  </div>
-
-  <div> <!-- item (3) -->
-    <div>Lesson</div>
-    <h1><%= @lesson.title %></h1>
-    <div>
-      <%= @lesson.teaser_text %>
-    </div>
-  </div>
-
-  <div> <!-- item (4) -->
-    <button data-open="downloads-modal">Download Lesson</button>
-    <div class="reveal" id="downloads-modal" data-reveal> <!-- modal content -->
-      <h2>Download Lesson</h2>
-      <ul>
-        <% @lesson.downloads.each do |download| %>
-          <%= render 'resources/download', download: download %>
-        <% end %>
-      </ul>
-      <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  </div>
-
-  <div> <!-- item (5) -->
-    <a href="#">Related Instruction</a>
-  </div>
-
-  <div> <!-- item (8) -->
-    <% if @lesson.previous %>
-    <div>
-      <a href="<%= lesson_path(@lesson.previous) %>"><strong>Previous Lesson in Series</strong></br><%= @lesson.previous.title %></a>
-    </div>
-    <% end %>
-    <% if @lesson.next %>
-    <div>
-      <a href="<%= lesson_path(@lesson.next) %>"><strong>Next Lesson in Series</strong></br><%= @lesson.next.title %></a>
-    </div>
+<div class="o-page o-page--centered">
+  <div class="o-page__content u-margin-bottom--base">
+    <%= link_to unit_path(@lesson.unit), class: 'o-btn--bordered' do %>
+      <%= t('ui.resources.btn.view', title: 'Unit', idx: @lesson.unit.id) + ': ' + @lesson.unit.title %>
     <% end %>
   </div>
-
-
-  <ul> <!-- item (6) : tabs -->
-    <li>Summary</li>
-    <li>Full Text</li>
-  </ul>
-
-  <div> <!-- summary tab content -->
-
-    <div><!-- item (7) -->
-      <div><strong>Curriculum Map</strong> - <%= @lesson.subject_and_grade_title %></div>
-      <!-- TODO the modules/units tree it still under construction, see with rm later -->
+  <div class="o-page__content u-bg--dark">
+    <div class="o-content-title">
+      <%= link_to @lesson.subject_and_grade_title, '#' %>
     </div>
-
-    <div><!-- item (9) -->
-      <h2>Description</h2>
-      <div><%= @lesson.description.try(:html_safe) %></div>
+  </div>
+  <div class="o-page__content">
+    <div class="o-title u-margin-top--base">
+      <span class="o-title__type">LESSON</span>
+      <span class="o-title__duration">60 min</span>
     </div>
-
-    <div><!-- item (10) -->
-      <h2>Downloads</h2>
-      <ul>
-        <% @lesson.downloads.each do |download| %>
-          <%= render 'resources/download', download: download %>
-        <% end %>
-      </ul>
+    <div class="o-resource-title">
+      <div class="o-resource-title__title">
+        <h2><%= @lesson.title %></h2>
+        <p class="u-text--large">
+          <%= @lesson.teaser_text %>
+        </p>
+      </div>
+      <div class="o-resource-title__links">
+        <button class="o-btn--dark" data-open="downloads-modal"><%= t('ui.resources.btn.download', title: 'Lesson') %></button>
+        <div class="reveal" id="downloads-modal" data-reveal> <!-- modal content -->
+          <h2><%= t('ui.resources.btn.download', title: 'Lesson') %></h2>
+          <ul>
+            <% @lesson.downloads.each do |download| %>
+              <%= render 'resources/download', download: download %>
+            <% end %>
+          </ul>
+          <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <%= link_to '#', 'Related Instruction', class: 'o-btn--bordered' %>
+      </div>
     </div>
-
-    <!-- item (11) -->
-    <% unless @lesson.requirements.empty? %>
-    <div>
-      <h2>Prerequisites</h2>
-      <div>
+    <div class="o-resource-summary">
+      <div class="o-resource-summary__map">
+        <strong>Curriculum Map</strong> - <%= @lesson.subject_and_grade_title %>
+      </div>
+      <div class="o-resource-summary__content">
+        <h3>Description</h3>
+        <%= @lesson.description.try(:html_safe) %>
+        <h3>Downloads</h3>
         <ul>
-        <% @lesson.requirements.each do |req| %>
-          <li>
-            <a href="<%= lesson_path req %>"><%= req.title %></a>
-          </li>
+          <% @lesson.downloads.each do |download| %>
+            <%= render 'resources/download', download: download %>
+          <% end %>
+        </ul>
+        <% unless @lesson.requirements.empty? %>
+          <h2>Prerequisites</h2>
+          <ul>
+          <% @lesson.requirements.each do |req| %>
+            <li>
+              <a href="<%= lesson_path req %>"><%= req.title %></a>
+            </li>
+          <% end %>
+          </ul>
+        <% end %>
+        <h3>Tags</h3>
+        <div><%= @lesson.tags %></div>
+        <h3>Credits</h3>
+        <% if @lesson.engageny_url %>
+        <div><!-- item (13) -->
+          <h2>Credits</h2>
+          <%= render 'resources/engageny', resource: @lesson %>
+        </div>
         <% end %>
       </div>
     </div>
-    <% end %>
-
-    <div><!-- item (12) -->
-      <h2>Tags</h2>
-      <div><%= @lesson.tags %></div>
-    </div>
-
-    <% if @lesson.engageny_url %>
-    <div><!-- item (13) -->
-      <h2>Credits</h2>
-      <%= render 'resources/engageny', resource: @lesson %>
-    </div>
-    <% end %>
   </div>
+</div>
+
+<div> <!-- item (8) -->
+  <% if @lesson.previous %>
+  <div>
+    <a href="<%= lesson_path(@lesson.previous) %>"><strong>Previous Lesson in Series</strong></br><%= @lesson.previous.title %></a>
+  </div>
+  <% end %>
+  <% if @lesson.next %>
+  <div>
+    <a href="<%= lesson_path(@lesson.next) %>"><strong>Next Lesson in Series</strong></br><%= @lesson.next.title %></a>
+  </div>
+  <% end %>
 </div>

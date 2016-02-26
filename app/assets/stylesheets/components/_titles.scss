@@ -11,5 +11,14 @@
   @include e(duration) {
     float: right;
   }
+}
 
+.o-content-title {
+  @extend .u-bg--dark;
+  @include flex-grid-column();
+  color: $ub-white;
+  font-weight: bold;
+  padding-bottom: $ub-tiny-padding;
+  padding-top: $ub-tiny-padding;
+  text-transform: uppercase;
 }

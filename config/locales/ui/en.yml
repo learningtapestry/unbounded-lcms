@@ -47,6 +47,9 @@ en:
       careers: Careers
       contact: Contact
   resources:
+    btn:
+      view: "View %{title} %{idx}"
+      download: "Download %{title}"
     nav:
       next_lesson: Next LESSON
       next_module: Next MODULE
