@@ -29,10 +29,12 @@ class FindLessonsHeader extends React.Component {
   }
 
   render() {
+    let startLessonNum = (this.props.current_page - 1) * this.state.show_by + 1;
+    let endLessonNum = startLessonNum +  this.props.num_items - 1;
     return (
       <div className="c-fl-s-header">
         <div className="c-fl-s-header__item">
-          <p>Showing {this.props.num_items} of {this.props.total_hits} Lessons</p>
+          <p>Showing {startLessonNum}&mdash;{endLessonNum} of {this.props.total_hits} Lessons</p>
         </div>
         <div className="c-fl-s-header__item">
           <div className="c-fl-s-select">

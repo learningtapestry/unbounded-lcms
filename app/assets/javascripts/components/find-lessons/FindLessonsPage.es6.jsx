@@ -35,6 +35,7 @@ class FindLessonsPage extends React.Component {
                          breakLabel={<li className="break"><a href="">...</a></li>}
                          pageNum={this.props.meta.total_pages}
                          initialSelected={this.props.meta.current_page - 1}
+                         forceSelected={this.props.meta.current_page - 1}
                          marginPagesDisplayed={2}
                          pageRangeDisplayed={5}
                          clickCallback={this.handlePageClick.bind(this)}

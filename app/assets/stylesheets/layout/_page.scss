@@ -21,8 +21,13 @@ html, body {
 
 .o-page {
   @include flex-grid-row();
-  margin-bottom: $ub-large-margin * 2;
-  margin-top: $ub-base-margin;
+  margin-bottom: $ub-base-margin;
+  margin-top: $ub-large-margin * 2;
+
+  @include m(with-hero) {
+    margin-bottom: $ub-large-margin * 2;
+    margin-top: $ub-base-margin;
+  }
 
   @include m(centered) {
     @include flex-grid-row-align($x: center);
@@ -44,6 +49,10 @@ html, body {
 
   @include e(module) {
     @include flex-grid-column(12, 0);
+
+    @include m(margin-top) {
+      margin-top: $ub-large-margin * 2;
+    }
   }
 
 }
