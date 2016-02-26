@@ -111,8 +111,8 @@ class GoogleDoc < ActiveRecord::Base
 
   def realign_tables
     doc.css('table').each do |table|
-      style = table[:style].gsub(/margin-left:[^;]+;?/, '') rescue nil
-      table[:style] = "margin-left:0;#{style}"
+      style = table[:style].gsub(/margin-(left|right):[^;]+;?/, '') rescue nil
+      table[:style] = "margin-left:auto;margin-right:auto;#{style}"
     end
   end
 end

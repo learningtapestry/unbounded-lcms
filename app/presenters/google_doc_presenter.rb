@@ -35,7 +35,7 @@ class GoogleDocPresenter < SimpleDelegator
 
   def headings
     headings =
-      doc.css('h1, h2, h3, h4, h5, h6').each_with_index.map do |h, i|
+      doc.css('h1, h2, h3').each_with_index.map do |h, i|
         id = "heading_#{i}"
         level = h.name[/\d/].to_i
         text = h.text.chomp.strip
