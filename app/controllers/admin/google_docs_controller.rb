@@ -37,9 +37,9 @@ module Admin
         return
       end
 
-      GoogleDoc.import(file_id, credentials)
+      google_doc = GoogleDoc.import(file_id, credentials)
 
-      redirect_to :admin_google_docs
+      redirect_to :admin_google_docs, notice: t('.success', name: google_doc.name)
     end
   end
 end

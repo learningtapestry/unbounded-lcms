@@ -1,7 +1,7 @@
 <div class=nc-content>
   <div class=clearfix>
     <div class=pull-right>
-      <%= link_to t('.dangling_links'), :dangling_links_admin_google_docs, class: 'btn btn-success'%>
+      <%= link_to t('.dangling_links'), :dangling_links_admin_google_docs, class: 'btn btn-success' %>
       <%= link_to t('.import_google_doc'), :new_admin_google_doc, class: 'btn btn-success' %>
     </div>
   </div>
@@ -14,14 +14,16 @@
       <th><%= GoogleDoc.human_attribute_name :name %>
       <th><%= GoogleDoc.human_attribute_name :original_url %>
       <th><%= GoogleDoc.human_attribute_name :updated_at %>
+      <th>
     </tr>
 
     <% @google_docs.each do |google_doc| %>
       <tr id=google_doc_<%= google_doc.id %>>
         <td><%= google_doc.id %>
         <td><%= link_to google_doc.name, google_doc %>
-        <td><%= link_to google_doc.original_url, google_doc.original_url %>
+        <td><%= link_to google_doc.original_url, google_doc.original_url, class: 'googleDocs__originalDocLink' %>
         <td class=text-nowrap><%= l google_doc.updated_at, format: :short %>
+        <td><%= link_to t('ui.reimport'), import_admin_google_docs_path(google_doc: { url: google_doc.original_url }), class: 'btn btn-default', 'data-no-turbolink' => true %>
       </tr>
     <% end %>
   </table>

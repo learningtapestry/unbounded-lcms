@@ -43,6 +43,8 @@ en:
     google_docs:
       dangling_links:
         page_title: Dangling Links
+      import:
+        success: "'%{name}' imported successfully."
       index:
         dangling_links: Dangling Links
         import_google_doc: Import Google Doc
