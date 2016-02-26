@@ -11,6 +11,8 @@ en:
     models:
       resource: Resource
     attributes:
+      google_doc:
+        original_url: Original document
       grade:
         grade: Name
       resource:

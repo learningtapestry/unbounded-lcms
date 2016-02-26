@@ -4,7 +4,7 @@ require 'googleauth/web_user_authorizer'
 module Admin
   class GoogleDocsController < AdminController
     def index
-      @google_docs = GoogleDoc.all
+      @google_docs = GoogleDoc.order(updated_at: :desc)
     end
 
     def new

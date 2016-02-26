@@ -42,10 +42,10 @@ en:
         page_title: Export Resources
     google_docs:
       index:
-        new_google_doc: New Google Doc
+        import_google_doc: Import Google Doc
         page_title: Google Docs
       new:
-        page_title: New Google Doc
+        page_title: Import Google Doc
         submit: Import
     resource_bulk_edits:
       create:

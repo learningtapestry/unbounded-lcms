@@ -1,7 +1,7 @@
 <div class=nc-content>
   <div class=clearfix>
     <div class=pull-right>
-      <%= link_to t('.new_google_doc'), :new_admin_google_doc, class: 'btn btn-success' %>
+      <%= link_to t('.import_google_doc'), :new_admin_google_doc, class: 'btn btn-success' %>
     </div>
   </div>
 
@@ -11,12 +11,16 @@
     <tr>
       <th>ID
       <th><%= GoogleDoc.human_attribute_name :name %>
+      <th><%= GoogleDoc.human_attribute_name :original_url %>
+      <th><%= GoogleDoc.human_attribute_name :updated_at %>
     </tr>
 
     <% @google_docs.each do |google_doc| %>
       <tr id=google_doc_<%= google_doc.id %>>
         <td><%= google_doc.id %>
         <td><%= link_to google_doc.name, google_doc %>
+        <td><%= link_to google_doc.original_url, google_doc.original_url %>
+        <td class=text-nowrap><%= l google_doc.updated_at, format: :short %>
       </tr>
     <% end %>
   </table>

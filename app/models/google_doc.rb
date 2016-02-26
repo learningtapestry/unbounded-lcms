@@ -24,6 +24,10 @@ class GoogleDoc < ActiveRecord::Base
     @doc ||= Nokogiri::HTML.fragment(content)
   end
 
+  def original_url
+    "https://docs.google.com/document/d/#{file_id}/edit"
+  end
+
   private
 
   def download_images
