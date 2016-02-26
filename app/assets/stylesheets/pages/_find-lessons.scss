@@ -1,0 +1,28 @@
+.c-fl-s-header {
+  @include flex-grid-row();
+  @include flex-grid-row-align($x: justify, $y: middle);
+  @extend .u-margin-top--large;
+
+  @include e(item) {
+    @include flex-grid-column();
+  }
+}
+
+.c-fl-s-select {
+  @include flex-grid-row();
+  @include flex-grid-row-align($x: right, $y: middle);
+
+  @include e(item) {
+    @include flex-grid-column(shrink, 0);
+
+    select {
+      background-origin: border-box;
+      border: 0;
+      height: auto;
+      padding: 0 .75rem;
+
+      &:focus { border: 0; }
+    }
+  }
+
+}

@@ -2,7 +2,7 @@
 
   @include e(wrap) {
     @include flex-grid-row();
-    @include flex-grid-row-align(left, center);
+    @include flex-grid-row-align(left, middle);
 
     @each $breakpoint, $footer-height in $ub-footer-height {
       @include breakpoint($breakpoint) {
