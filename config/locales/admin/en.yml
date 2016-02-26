@@ -41,7 +41,10 @@ en:
       new:
         page_title: Export Resources
     google_docs:
+      dangling_links:
+        page_title: Dangling Links
       index:
+        dangling_links: Dangling Links
         import_google_doc: Import Google Doc
         page_title: Google Docs
       new:

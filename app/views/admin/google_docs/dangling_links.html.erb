@@ -1,0 +1,18 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <% @google_docs.each do |google_doc| %>
+    <% if (dangling_links = google_doc.dangling_links).any? %>
+      <h4>
+        <%= link_to google_doc.name, google_doc %>
+        /
+        <%= link_to GoogleDoc.human_attribute_name(:original_url), google_doc.original_url %>
+      </h4>
+      <ol>
+        <% dangling_links.each do |dangling_link| %>
+          <li><%= link_to dangling_link.text, dangling_link.url %>
+        <% end %>
+      </ol>
+    <% end %>
+  <% end %>
+</div>

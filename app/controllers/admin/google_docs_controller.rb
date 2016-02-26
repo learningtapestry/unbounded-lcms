@@ -10,6 +10,11 @@ module Admin
     def new
     end
 
+    # GET /google_docs/dangling_links
+    def dangling_links
+      @google_docs = GoogleDoc.all.map { |d| GoogleDocPresenter.new(d) }
+    end
+
     # GET /google_docs/oauth2_callback
     def oauth2_callback
       target_url = Google::Auth::WebUserAuthorizer.handle_auth_callback_deferred(request)

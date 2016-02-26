@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     resource :curriculum_export, only: %i(new create)
     resources :google_docs, only: %i(index new) do
       collection do
+        get :dangling_links
         get :import
         get :oauth2_callback
       end

@@ -1,6 +1,7 @@
 class GoogleDocPresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
 
+  DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
 
   def content
@@ -19,6 +20,17 @@ class GoogleDocPresenter < SimpleDelegator
       img[:src] = "file://#{path2public}#{img[:src]}"
     end
     doc.to_s.html_safe
+  end
+
+  def dangling_links
+    @dangling_links ||= begin
+      doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
+        file_id = GoogleDoc.file_id_from_url(a[:href])
+        next unless file_id.present?
+
+        DanglingLink.new(a.text, a[:href]) unless GoogleDoc.exists?(file_id: file_id)
+      end.compact
+    end
   end
 
   def headings
