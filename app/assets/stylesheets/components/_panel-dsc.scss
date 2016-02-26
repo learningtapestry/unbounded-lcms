@@ -1,4 +1,10 @@
 .o-dsc {
+  @include m(wrapped) {
+    @include flex-grid-row();
+    @include flex-grid-column();
+    @include flex-grid-row-align($x: center);
+  }
+
   @include e(title) {
     @extend .u-text--small;
     @extend .u-margin-bottom--small;
@@ -11,6 +17,11 @@
     @extend .u-text--large;
     @extend .u-margin-bottom--large;
     text-align: center;
+  }
+
+  @include e(txt) {
+    @extend .u-text--small;
+    @extend .u-margin-bottom--large;
   }
 
   @include e(cards) {

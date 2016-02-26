@@ -1,0 +1,38 @@
+.o-pagination {
+  @include flex-grid-row();
+  @include flex-grid-row-align($x: justify, $y: middle);
+  list-style: none;
+  text-transform: uppercase;
+
+  @include e(item) {
+    @include flex-grid-column();
+
+    @include m(next) {
+      text-align: right;
+      font-weight: bold;
+    }
+
+    @include m(prev) {
+      font-weight: bold;
+    }
+
+    @include m(disabled) {
+      &, a {
+        color: $ub-secondary;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  @include e(pages) {
+    display: inline-flex;
+    list-style: none;
+    li a { padding: 0 .5rem; }
+  }
+
+  @include e(page) {
+    @include m(active) {
+      font-weight: bold;
+    }
+  }
+}

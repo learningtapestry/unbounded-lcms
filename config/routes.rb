@@ -1,18 +1,18 @@
 Rails.application.routes.draw do
   root to: 'welcome#index'
-  
+
   anything_goes = /[^\/]+/
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
-  } 
+  }
 
   get '/' => 'welcome#index'
   get '/about' => 'pages#show_slug', slug: 'about'
   get '/curriculum/highlights' => 'curriculum#highlights', as: 'curriculum_highlights'
   get '/curriculum(/:subject(/:grade(/:standards)))' => 'curriculum#index',
     as: 'curriculum',
-    constraints: { 
+    constraints: {
       subject: anything_goes,
       grade: anything_goes,
       standards: anything_goes
@@ -42,5 +42,6 @@ Rails.application.routes.draw do
   end
 
   resources :pages, only: :show
+  resources :find_lessons, only: :index
 
 end

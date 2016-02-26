@@ -8,7 +8,7 @@
 	  <div class="c-footer__item">
 	  	<ul class="c-footer__list u-text--small">
 		  	<li><%= link_to t('nav.curriculum'), root_path, class: 'c-navbar__link' %></li>
-		  	<li><%= link_to t('nav.lessons'), root_path, class: 'c-navbar__link' %></li>
+		  	<li><%= link_to t('nav.lessons'), find_lessons_path, class: 'c-navbar__link' %></li>
         <li><%= link_to t('nav.instructions'), root_path, class: 'c-navbar__link' %></li>
         <li><%= link_to t('nav.about'), about_path, class: 'c-navbar__link' %></li>
         <li><%= link_to t('footer.contact'), root_path, class: 'c-navbar__link' %></li>

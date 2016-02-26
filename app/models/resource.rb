@@ -49,6 +49,9 @@ class Resource < ActiveRecord::Base
     joins(:curriculums).where(curriculums: { curriculum_type: CurriculumType.lesson })
   }
 
+  scope :asc, -> { order(created_at: :asc) }
+  scope :desc, -> { order(created_at: :desc) }
+
   class << self
     def by_title(title)
       where(title: title)
