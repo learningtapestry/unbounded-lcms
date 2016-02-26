@@ -397,7 +397,7 @@ DEPENDENCIES
   pg (~> 0.18.2)
   poltergeist
   rails (= 4.2.4)
-  rails-assets-classnames!
+  rails-assets-classnames (~> 2.2.3)!
   rails-assets-knockout (~> 3.3.0)!
   rails-assets-lodash (~> 3.9.3)!
   ransack (~> 1.7.0)

@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   get '/resources/:id' => 'resources#show', as: :show
   get '/resources/*slug' => 'resources#show', as: :show_with_slug
   get '/search' => 'search#index'
-  get '/find_lessons' => 'find_lessons#index'
   get '/tos' => 'pages#show_slug', as: :tos_page, slug: 'tos'
 
   namespace :admin do
@@ -43,5 +42,6 @@ Rails.application.routes.draw do
   end
 
   resources :pages, only: :show
+  resources :find_lessons, only: :index
 
 end

@@ -67,5 +67,5 @@ end
 source 'https://rails-assets.org' do
   gem 'rails-assets-lodash', '~> 3.9.3'
   gem 'rails-assets-knockout', '~> 3.3.0'
-  gem 'rails-assets-classnames'
+  gem 'rails-assets-classnames', '~> 2.2.3'
 end
