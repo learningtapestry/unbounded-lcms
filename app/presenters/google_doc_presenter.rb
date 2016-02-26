@@ -1,7 +1,15 @@
 class GoogleDocPresenter < SimpleDelegator
+  include Rails.application.routes.url_helpers
+
   Heading = Struct.new(:id, :level, :text)
 
   def content
+    doc.css('a[href*="docs.google.com/document/d/"]').each do |a|
+      file_id = GoogleDoc.file_id_from_url(a[:href])
+      if (google_doc = GoogleDoc.find_by_file_id(file_id))
+        a[:href] = google_doc_path(google_doc)
+      end
+    end
     doc.to_s.html_safe
   end
 

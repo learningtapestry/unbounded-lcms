@@ -8,16 +8,22 @@ class GoogleDoc < ActiveRecord::Base
   before_save :process_content
   after_save :download_images
 
-  def self.import(file_id, credentials)
-    service = Google::Apis::DriveV3::DriveService.new
-    service.authorization = credentials
+  class << self
+    def file_id_from_url(url)
+      url.scan(/\/d\/([^\/]+)\//).first.first rescue nil
+    end
 
-    file = service.get_file(file_id)
-    content = service.export_file(file_id, 'text/html').encode('ASCII-8BIT').force_encoding('UTF-8')
+    def import(file_id, credentials)
+      service = Google::Apis::DriveV3::DriveService.new
+      service.authorization = credentials
 
-    doc = find_or_initialize_by(file_id: file_id)
-    doc.update!(name: file.name, original_content: content)
-    doc
+      file = service.get_file(file_id)
+      content = service.export_file(file_id, 'text/html').encode('ASCII-8BIT').force_encoding('UTF-8')
+
+      doc = find_or_initialize_by(file_id: file_id)
+      doc.update!(name: file.name, original_content: content)
+      doc
+    end
   end
 
   def doc

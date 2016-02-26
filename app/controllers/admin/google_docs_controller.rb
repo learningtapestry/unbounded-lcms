@@ -18,7 +18,7 @@ module Admin
 
     # GET /google_docs/import
     def import
-      file_id = session[:file_id] ||= (params[:google_doc][:url].scan(/\/d\/([^\/]+)\//).first.first rescue nil)
+      file_id = session[:file_id] ||= GoogleDoc.file_id_from_url(params[:google_doc][:url])
       redirect_to [:new, :admin, :google_docs] if file_id.blank?
 
       client_id = Google::Auth::ClientId.new(ENV['GOOGLE_OAUTH2_CLIENT_ID'], ENV['GOOGLE_OAUTH2_CLIENT_SECRET'])
