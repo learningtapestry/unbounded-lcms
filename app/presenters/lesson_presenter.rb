@@ -23,7 +23,7 @@ class LessonPresenter < SimpleDelegator
   end
 
   def teaser_text
-    description ? description.truncate_words(25).html_safe : ''
+    description ? h.truncate_html(description, length: 150).html_safe : ''
   end
 
   def tags
@@ -41,4 +41,10 @@ class LessonPresenter < SimpleDelegator
   def previous
     @previous ||= curriculum.previous.try(:resource)
   end
+
+  private
+
+    def h
+      ApplicationController.helpers
+    end
 end

@@ -9,7 +9,7 @@ class LessonPresenterTest < ActiveSupport::TestCase
     @unit.grades << @grade
     @curriculum = curriculums(:math_unit_lesson)
     @lesson = @curriculum.resource
-    @lesson.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit.'
+    @lesson.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit.'
     @presenter = LessonPresenter.new @lesson
   end
 
@@ -35,7 +35,7 @@ class LessonPresenterTest < ActiveSupport::TestCase
   end
 
   test 'teaser_text' do
-    assert_equal 25, @presenter.teaser_text.split(' ').count
+    assert @presenter.teaser_text.length < @lesson.description.length
   end
 
   test 'tags' do
