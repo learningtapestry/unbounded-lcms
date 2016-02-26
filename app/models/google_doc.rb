@@ -46,6 +46,16 @@ class GoogleDoc < ActiveRecord::Base
     update_column(:content, doc.to_s)
   end
 
+  def embed_sound_cloud_links
+    doc.css('a[href*="soundcloud.com"]').each do |a|
+      url = a[:href]
+      src = URI('https://w.soundcloud.com/player')
+      src.query = URI.encode_www_form(url: url)
+      iframe = doc.document.create_element('iframe', frameborder: 'no', height: '166', scrolling: 'no', src: src, width: '100%')
+      a.replace(iframe)
+    end
+  end
+
   def embed_videos
     doc.css('a[href*="youtube.com/watch?"]').each do |a|
       url = URI(a[:href])
@@ -70,6 +80,7 @@ class GoogleDoc < ActiveRecord::Base
     self.content = Nokogiri::HTML(content).xpath('/html/body/*').to_s
     mark_footnotes
     process_external_links
+    embed_sound_cloud_links
     embed_videos
     process_tasks
     realign_tables
