@@ -3,6 +3,7 @@ require 'google/apis/drive_v3'
 class GoogleDoc < ActiveRecord::Base
   CUSTOM_TAG_ELEMENT = 'h4'
   FOOTNOTES_CLASS = 'googleDoc__footnotes'
+  STANDARD_CLASS = 'googleDoc__standard'
   TASK_CLASS = 'googleDoc__task'
 
   before_save :process_content
@@ -65,7 +66,8 @@ class GoogleDoc < ActiveRecord::Base
   def process_content
     return unless original_content.present?
 
-    self.content = Nokogiri::HTML(original_content).xpath('/html/body/*').to_s
+    content = wrap_standards(original_content)
+    self.content = Nokogiri::HTML(content).xpath('/html/body/*').to_s
     mark_footnotes
     process_external_links
     embed_videos
@@ -114,5 +116,18 @@ class GoogleDoc < ActiveRecord::Base
       style = table[:style].gsub(/margin-(left|right):[^;]+;?/, '') rescue nil
       table[:style] = "margin-left:auto;margin-right:auto;#{style}"
     end
+  end
+
+  def wrap_standards(content)
+    result = content.dup
+
+    GoogleDocStandard.all.each do |standard|
+      description = standard.description.gsub('"', '&quot;')
+      name = standard.name
+      node = %Q(<span class=#{STANDARD_CLASS} data-description="#{description}">#{name}</span>)
+      result.gsub!(/#{name}(\.\W|[^.])/) { |m| m.gsub!(name, node) }
+    end
+
+    result
   end
 end

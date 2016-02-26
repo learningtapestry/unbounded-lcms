@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160212174619) do
+ActiveRecord::Schema.define(version: 20160226151615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,13 @@ ActiveRecord::Schema.define(version: 20160212174619) do
   end
 
   add_index "google_doc_images", ["original_url"], name: "index_google_doc_images_on_original_url", unique: true, using: :btree
+
+  create_table "google_doc_standards", force: :cascade do |t|
+    t.string "description", null: false
+    t.string "name",        null: false
+  end
+
+  add_index "google_doc_standards", ["name"], name: "index_google_doc_standards_on_name", unique: true, using: :btree
 
   create_table "google_docs", force: :cascade do |t|
     t.string   "content",          null: false

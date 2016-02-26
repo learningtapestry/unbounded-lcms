@@ -26,6 +26,16 @@ window.initializeGoogleDoc = function() {
   if ($googleDoc.length > 0) {
     $('.googleDoc__nav').sticky({ bottomSpacing: $('body').height() - $googleDoc.height() - $googleDoc.offset().top });
 
+    $('.googleDoc__standard').popover({
+      content: function() {
+        return $(this).data('description');
+      },
+      delay: { hide: 500 },
+      html: true,
+      placement: 'top',
+      trigger: 'hover'
+    });
+
     $('.googleDoc__task').click(function() {
       $(this).toggleClass('__fullHeight');
     });
