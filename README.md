@@ -44,11 +44,26 @@ project. `react-rails` works by connecting the `babel` transpiler to the assets
 pipeline and adding lightweight helpers to plumb React components with Rails
 views.
 
+### File and folder structure
+
 Components should go inside `app/assets/javascripts/components`. Dependencies
 may be installed with `rails-assets`. If a dependency is used in a React
 component, it must be declared inside `components.js` (in addition to
 `application.js` if it's used elsewhere). Server side rendering won't work
 otherwise.
+
+- Each standalone component should reside in a separate folder with the format
+`example-component/`
+- Reusable classes must be defined each in a single file with the format
+  `ExampleClass.js.jsx`
+- ES6 and JSX files must end in `.js.jsx`
+
+### Data flow and state management
+
+Currently we're not using any libraries or frameworks to manage data flow and
+state in the application. This might change in the future. Smart components
+keep track of and modify their own state, and eventually fetch remote data. The
+preferred HTTP requests library is HTML5 fetch.
 
 ### Guidelines for components development
 
