@@ -18,7 +18,6 @@ front-end.
 
 1. Set up `.env.test`, `.env.development` and `.env.integration`
 2. `bundle && bundle exec rake cloud66:after_bundle`
-3. `npm i && npm run build`
 
 ### Integration database
 
