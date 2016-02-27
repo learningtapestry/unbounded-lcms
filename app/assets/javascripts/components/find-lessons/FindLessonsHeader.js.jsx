@@ -1,5 +1,5 @@
 function FindLessonsHeader(props) {
-  let startLessonNum = (props.current_page - 1) * (props.per_page + 1);
+  let startLessonNum = (props.current_page - 1) * props.per_page + 1;
   let endLessonNum = startLessonNum + props.num_items - 1;
 
   return (
