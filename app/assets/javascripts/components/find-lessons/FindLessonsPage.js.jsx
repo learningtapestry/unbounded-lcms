@@ -40,8 +40,14 @@ class FindLessonsPage extends React.Component {
     this.setState(Object.assign({}, this.state, { current_page: selected + 1 }), this.fetch);
   }
 
-  handleHeaderChanged(data) {
-    this.setState(Object.assign({}, this.state, data), this.fetch);
+  handleChangePerPage(event) {
+    let newPerPage = event.target.value;
+    this.setState(Object.assign({}, this.state, { per_page: newPerPage }), this.fetch);
+  }
+
+  handleChangeOrder(event) {
+    let newOrder = event.target.value;
+    this.setState(Object.assign({}, this.state, { order: newOrder }), this.fetch);
   }
 
   handleFilterbarUpdate(filterbar) {
@@ -53,9 +59,15 @@ class FindLessonsPage extends React.Component {
       <div className="o-page__wrap--nest">
         <Filterbar onUpdate={this.handleFilterbarUpdate.bind(this)}
           {...this.props.filterbar} />
-        <FindLessonsHeader {...this.state}
-                           num_items={this.state.cards.length}
-                           clickCallback={this.handleHeaderChanged.bind(this)} />
+        <FindLessonsHeader
+          onChangePerPage={this.handleChangePerPage.bind(this)}
+          onChangeOrder={this.handleChangeOrder.bind(this)}
+          current_page={this.state.current_page}
+          per_page={this.state.per_page}
+          num_items={this.state.cards.length}
+          total_hits={this.state.total_hits}
+          per_page={this.state.per_page}
+          order={this.state.order} />
         <FindLessonsCards data={this.state.cards} />
         <PaginationBoxView previousLabel={"< Previous"}
                         nextLabel={"Next >"}
