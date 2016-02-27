@@ -21,7 +21,7 @@ module Pagination
     end
 
     def serialize_with_pagination(resources, pagination:, each_serializer:)
-      options = {}
+      options = { root: :results }
       options[:meta_key] = :pagination
       options[:pagination] = {
         total_pages: resources.total_pages,
@@ -31,7 +31,7 @@ module Pagination
         total_hits: resources.total_entries
       }
       options[:each_serializer] = each_serializer
-      PaginationSerializer.new(resources, options).as_json
+      ActiveModel::ArraySerializer.new(resources, options).as_json
     end
   end
 end
