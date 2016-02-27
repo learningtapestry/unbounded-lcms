@@ -7,16 +7,14 @@ class FindLessonsPage extends React.Component {
 
   buildStateFromProps(props) {
     return {
-      cards: props.results,
+      lessons: props.results,
       per_page: props.pagination.per_page,
       order: props.pagination.order,
       current_page: props.pagination.current_page,
       total_pages: props.pagination.total_pages,
       num_items: props.pagination.num_items,
       total_hits: props.pagination.total_hits,
-      filterbar: {
-        query: {}
-      }
+      filterbar: props.filterbar
     };
   }
 
@@ -57,18 +55,19 @@ class FindLessonsPage extends React.Component {
   render () {
     return (
       <div className="o-page__wrap--nest">
-        <Filterbar onUpdate={this.handleFilterbarUpdate.bind(this)}
+        <Filterbar
+          onUpdate={this.handleFilterbarUpdate.bind(this)}
           {...this.props.filterbar} />
         <FindLessonsHeader
           onChangePerPage={this.handleChangePerPage.bind(this)}
           onChangeOrder={this.handleChangeOrder.bind(this)}
           current_page={this.state.current_page}
           per_page={this.state.per_page}
-          num_items={this.state.cards.length}
+          num_items={this.state.lessons.length}
           total_hits={this.state.total_hits}
           per_page={this.state.per_page}
           order={this.state.order} />
-        <FindLessonsCards data={this.state.cards} />
+        <FindLessonsCards lessons={this.state.lessons} />
         <PaginationBoxView previousLabel={"< Previous"}
                         nextLabel={"Next >"}
                         breakLabel={<li className="break"><a href="">...</a></li>}

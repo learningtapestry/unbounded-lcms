@@ -14,8 +14,10 @@ module Filterbar
 
     def filterbar_props
       {
-        subjects: subject_params,
-        grades: grade_params
+        filterbar: {
+          subjects: subject_params,
+          grades: grade_params
+        }
       }
     end
   end

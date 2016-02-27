@@ -26,6 +26,6 @@ class FindLessonsController < ApplicationController
         pagination: pagination_params,
         each_serializer: LessonSerializer,
       )
-      @props[:filterbar] = filterbar_props
+      @props.merge!(filterbar_props)
     end
 end
