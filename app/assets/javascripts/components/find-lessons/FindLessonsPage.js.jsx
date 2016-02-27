@@ -2,50 +2,77 @@ class FindLessonsPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      show_by: this.props.meta.show_by,
-      sort_by: this.props.meta.sort_by,
-      page: this.props.meta.current_page
-    }
+    this.state = this.buildStateFromProps(props);
   }
 
-  loadDataFromServer() {
-    location.href = location.pathname + '?' + $.param(this.state);
+  buildStateFromProps(props) {
+    return {
+      cards: props.results,
+      per_page: props.pagination.per_page,
+      order: props.pagination.order,
+      current_page: props.pagination.current_page,
+      total_pages: props.pagination.total_pages,
+      num_items: props.pagination.num_items,
+      total_hits: props.pagination.total_hits,
+      filterbar: {
+        query: {}
+      }
+    };
+  }
+
+  fetch() {
+    let query = {
+      format: 'json',
+      per_page: this.state.per_page,
+      order: this.state.order,
+      page: this.state.current_page,
+      ...this.state.filterbar.query
+    }
+    let url = Routes.find_lessons_path(query);
+    
+    fetch(url).then(r => r.json()).then(response => {
+      this.setState(this.buildStateFromProps(response));
+    });
   }
 
   handlePageClick(data) {
     let selected = data.selected;
-    this.setState({page: selected + 1}, this.loadDataFromServer);
+    this.setState(Object.assign({}, this.state, { current_page: selected + 1 }), this.fetch);
   }
 
   handleHeaderChanged(data) {
-    let newState = Object.assign({}, this.state, data);
-    this.setState(newState, this.loadDataFromServer);
+    this.setState(Object.assign({}, this.state, data), this.fetch);
+  }
+
+  handleFilterbarUpdate(filterbar) {
+    this.setState(Object.assign({}, this.state, { filterbar: filterbar }), this.fetch);
   }
 
   render () {
     return (
       <div className="o-page__wrap--nest">
-         <FindLessonsHeader {...this.props.meta}
-                            num_items={this.props.data.length}
-                            clickCallback={this.handleHeaderChanged.bind(this)} />
-         <FindLessonsCards data={this.props.data} />
-         <PaginationBoxView previousLabel={"< Previous"}
-                         nextLabel={"Next >"}
-                         breakLabel={<li className="break"><a href="">...</a></li>}
-                         pageNum={this.props.meta.total_pages}
-                         initialSelected={this.props.meta.current_page - 1}
-                         forceSelected={this.props.meta.current_page - 1}
-                         marginPagesDisplayed={2}
-                         pageRangeDisplayed={5}
-                         clickCallback={this.handlePageClick.bind(this)}
-                         containerClassName={"o-pagination"}
-                         itemClassName={"o-pagination__item"}
-                         nextClassName={"o-pagination__item--next"}
-                         previousClassName={"o-pagination__item--prev"}
-                         pagesClassName={"o-pagination__item--middle"}
-                         subContainerClassName={"o-pagination__pages"}
-                         activeClassName={"o-pagination__page--active"} />
+        <Filterbar onUpdate={this.handleFilterbarUpdate.bind(this)}
+          {...this.props.filterbar} />
+        <FindLessonsHeader {...this.state}
+                           num_items={this.state.cards.length}
+                           clickCallback={this.handleHeaderChanged.bind(this)} />
+        <FindLessonsCards data={this.state.cards} />
+        <PaginationBoxView previousLabel={"< Previous"}
+                        nextLabel={"Next >"}
+                        breakLabel={<li className="break"><a href="">...</a></li>}
+                        pageNum={this.state.total_pages}
+                        initialSelected={this.state.current_page - 1}
+                        forceSelected={this.state.current_page - 1}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        clickCallback={this.handlePageClick.bind(this)}
+                        containerClassName={"o-pagination"}
+                        itemClassName={"o-pagination__item"}
+                        nextClassName={"o-pagination__item--next"}
+                        previousClassName={"o-pagination__item--prev"}
+                        pagesClassName={"o-pagination__item--middle"}
+                        subContainerClassName={"o-pagination__pages"}
+                        activeClassName={"o-pagination__page--active"} />
        </div>
      );
    }

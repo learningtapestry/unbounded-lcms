@@ -249,6 +249,8 @@ GEM
       railties (= 4.2.4)
       sprockets-rails
     rails-assets-classnames (2.2.3)
+    rails-assets-es6-promise (3.1.2)
+    rails-assets-fetch (0.11.0)
     rails-assets-knockout (3.3.0)
     rails-assets-lodash (3.9.3)
     rails-deprecated_sanitizer (1.0.3)
@@ -398,6 +400,8 @@ DEPENDENCIES
   poltergeist
   rails (= 4.2.4)
   rails-assets-classnames (~> 2.2.3)!
+  rails-assets-es6-promise (~> 3.1.2)!
+  rails-assets-fetch (~> 0.11.0)!
   rails-assets-knockout (~> 3.3.0)!
   rails-assets-lodash (~> 3.9.3)!
   ransack (~> 1.7.0)

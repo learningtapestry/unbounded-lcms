@@ -65,6 +65,8 @@ group :test do
 end
 
 source 'https://rails-assets.org' do
+  gem 'rails-assets-es6-promise', '~> 3.1.2'
+  gem 'rails-assets-fetch', '~> 0.11.0'
   gem 'rails-assets-lodash', '~> 3.9.3'
   gem 'rails-assets-knockout', '~> 3.3.0'
   gem 'rails-assets-classnames', '~> 2.2.3'

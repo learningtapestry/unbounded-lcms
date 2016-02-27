@@ -3,22 +3,22 @@ class FindLessonsHeader extends React.Component {
     super(props);
 
     this.state = {
-      show_by: this.props.show_by,
-      sort_by: this.props.sort_by
+      per_page: this.props.per_page,
+      order: this.props.order
     }
 
   }
 
   handleShowByClick(evt) {
     evt.preventDefault ? evt.preventDefault() : (evt.returnValue = false);
-    if (this.state.show_by === parseInt(evt.target.value)) return;
-    this.setState({show_by: parseInt(evt.target.value)}, this.callCallback);
+    if (this.state.per_page === parseInt(evt.target.value)) return;
+    this.setState({per_page: parseInt(evt.target.value)}, this.callCallback);
   }
 
   handleSortByClick(evt) {
     evt.preventDefault ? evt.preventDefault() : (evt.returnValue = false);
-    if (this.state.show_by === evt.target.value) return;
-    this.setState({sort_by: evt.target.value}, this.callCallback);
+    if (this.state.per_page === evt.target.value) return;
+    this.setState({order: evt.target.value}, this.callCallback);
   }
 
   callCallback(selectedItem) {
@@ -29,7 +29,7 @@ class FindLessonsHeader extends React.Component {
   }
 
   render() {
-    let startLessonNum = (this.props.current_page - 1) * this.state.show_by + 1;
+    let startLessonNum = (this.props.current_page - 1) * this.state.per_page + 1;
     let endLessonNum = startLessonNum +  this.props.num_items - 1;
     return (
       <div className="c-fl-s-header">
@@ -39,13 +39,13 @@ class FindLessonsHeader extends React.Component {
         <div className="c-fl-s-header__item">
           <div className="c-fl-s-select">
             <div className="c-fl-s-select__item">
-              <select value={this.state.show_by} onChange={this.handleShowByClick.bind(this)}>
+              <select value={this.state.per_page} onChange={this.handleShowByClick.bind(this)}>
                 <option value="12">Show 12</option>
                 <option value="24">Show 24</option>
               </select>
             </div>
             <div className="c-fl-s-select__item">
-              <select value={this.state.sort_by} onChange={this.handleSortByClick.bind(this)}>
+              <select value={this.state.order} onChange={this.handleSortByClick.bind(this)}>
                 <option value="asc">Sort by asc</option>
                 <option value="desc">Sort by desc</option>
               </select>

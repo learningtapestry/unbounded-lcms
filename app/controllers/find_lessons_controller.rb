@@ -1,21 +1,31 @@
 class FindLessonsController < ApplicationController
-  before_action :fix_search_params
+  include Filterbar
+  include Pagination
+
+  before_action :find_lessons
+  before_action :set_props
 
   def index
-    lessons = Resource.lessons.send(params[:sort_by])
-                      .paginate(page: params[:page],
-                                per_page: params[:show_by])
-    @props = PaginationSerializer.new(lessons,
-                                      sort_by: params[:sort_by],
-                                      each_serializer: LessonSerializer)
-                                 .as_json
+    respond_to do |format|
+      format.html
+      format.json { render json: @props }
+    end
   end
 
   protected
+    def find_lessons
+      @lessons = Resource.lessons
+        .where_subject(Subject.from_names(subject_params))
+        .where_grade(Grade.from_names(grade_params))
+        .paginate(pagination_params.slice(:page, :per_page))
+        .order(created_at: pagination_params[:order])
+    end
 
-  def fix_search_params
-    params[:page] = (params[:page].try(:to_i) || 1)
-    params[:sort_by] = %w(asc desc).include?(params[:sort_by]) ? params[:sort_by] : 'asc'
-    params[:show_by] = (params[:show_by].try(:to_i) || 12)
-  end
+    def set_props
+      @props = serialize_with_pagination(@lessons,
+        pagination: pagination_params,
+        each_serializer: LessonSerializer,
+      )
+      @props[:filterbar] = filterbar_props
+    end
 end
