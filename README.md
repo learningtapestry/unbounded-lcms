@@ -40,36 +40,24 @@ rake test
 
 ## React front-end
 
-### Rails integration
+The project is using `react-rails` to integrate React components with the Rails
+project. `react-rails` works by connecting the `babel` transpiler to the assets
+pipeline and adding lightweight helpers to plumb React components with Rails
+views.
 
-`package.json` and `webpack.config.js` sit in the project root to drive `npm`
-and `webpack`.
+Components should go inside `app/assets/javascripts/components`. Dependencies
+may be installed with `rails-assets`. If a dependency is used in a React
+component, it must be declared inside `components.js` (in addition to
+`application.js` if it's used elsewhere). Server side rendering won't work
+otherwise.
 
-For Rails integration, components must be registered in bundles. Once such a
-bundle is added as an entry point in `webpack.config.js`, `webpack` generates
-the bundled codebase inside `app/assets/javascripts/generated`.
+### Guidelines for components development
 
-A generated bundle may be required in a JavaScript file known by Rails 
-(for example, `application.js`). Once it is required, all the registered
-components are made available for inclusion in Rails views by using the
-`react_on_rails` helpers, such as `react_component`.
+- Whenever possible, write [stateless functional components](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components)
+- Ideally there should be a single stateful component per page
+- Components should be as dumb as possible.
 
-A `ReactRenderable` concern for controllers is available that adds the helper
-`react_render`. This helper renders the view defined in `Controller.react_view`
-passing in its `props:` option, and optionally does a server-side render
-with the `prerender:` option.
-
-### Front-end project structure
-
-The project is divided by 'concerns' or 'domains'. Components, stores, reducers
-and actions should be organized according to the relevant concern. Shared code
-may reside in `lib/`.
-
-The sections of the website that must be rendered by React are referenced
-in `app/App` as `react-router` routes. The main router instance is connected
-to a redux store that should record non-local application state.
-
-### Development
-
-A convenient `Procfile.dev` is available to run `webpack --watch` in parallel
-with the Rails development server. Run it with `foreman start -f Procfile.dev`.
+  Example: if an UI interaction with a child component might result in state
+  changes, do not trigger those changes inside the child component. Pass it a 
+  callback as a prop and have the child component wire the UI interaction with
+  the callback. Only handle actual state changes in the parent component.
