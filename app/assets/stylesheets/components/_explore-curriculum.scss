@@ -1,0 +1,42 @@
+.o-expcur {
+  display: flex;
+  @extend .u-margin-bottom--small;
+
+  @include e(title) {
+    @extend .u-margin-bottom--small;
+  }
+
+  @include e(dsc) {
+    @extend .u-text--small;
+  }
+
+  @include e(button) {
+    text-align: center;
+  }
+
+  @include m(base) {
+    @include flex-grid-column(12);
+  }
+
+  @include e(body) {
+    background-color: #fff;
+    width: 100%;
+    padding: $ub-large-padding;
+  }
+
+  @include e(children) {
+    margin-left: $ub-xlarge-margin;
+  }
+
+  @include m(connect) {
+    @include flex-grid-column(12);
+
+    @include breakpoint(large) {
+      @include flex-grid-column(4);
+    }
+
+    @include breakpoint(medium only) {
+      @include flex-grid-column(6);
+    }
+  }
+}
