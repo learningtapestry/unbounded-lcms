@@ -45,6 +45,8 @@ group :development, :test do
 end
 
 group :development do
+  gem 'rack-livereload', '~> 0.3.16'
+  gem 'guard-livereload', '~> 2.5', '>= 2.5.2'
   gem 'safe_attributes', '~> 1.0.10'
   gem 'spring'
   gem 'web-console', '~> 2.0'
