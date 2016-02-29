@@ -13,12 +13,30 @@ class Curriculum < ActiveRecord::Base
 
   # Scopes
 
+  scope :with_resources, -> {
+    joins(:resource_item).where(item_type: 'Resource')
+  }
+
+  scope :with_curriculums, -> {
+    joins(:curriculum_item).where(item_type: 'Curriculum')
+  }
+
   scope :where_subject, ->(subjects) {
-    joins(resource_item: [:subjects])
-    .where(
-      'item_type'   => 'Resource',
-      'subjects.id' => Array.wrap(subjects).map(&:id)
-    )
+    subjects = Array.wrap(subjects)
+    return where(nil) unless subjects.any?
+
+    with_resources
+    .joins(resource_item: [:subjects])
+    .where(subjects: { id: Array.wrap(subjects).map(&:id) })
+  }
+
+  scope :where_grade, ->(grades) {
+    grades = Array.wrap(grades)
+    return where(nil) unless grades.any?
+
+    with_resources
+    .joins(resource_item: [:grades])
+    .where(grades: { id: Array.wrap(grades).map(&:id) })
   }
 
   scope :ela, -> { where_subject(Subject.ela) }

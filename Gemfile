@@ -45,6 +45,8 @@ group :development, :test do
 end
 
 group :development do
+  gem 'rack-livereload', '~> 0.3.16'
+  gem 'guard-livereload', '~> 2.5', '>= 2.5.2'
   gem 'safe_attributes', '~> 1.0.10'
   gem 'spring'
   gem 'web-console', '~> 2.0'
@@ -65,7 +67,9 @@ group :test do
 end
 
 source 'https://rails-assets.org' do
+  gem 'rails-assets-es6-promise', '~> 3.1.2'
+  gem 'rails-assets-fetch', '~> 0.11.0'
   gem 'rails-assets-lodash', '~> 3.9.3'
   gem 'rails-assets-knockout', '~> 3.3.0'
-  gem 'rails-assets-classnames'
+  gem 'rails-assets-classnames', '~> 2.2.3'
 end

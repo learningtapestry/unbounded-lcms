@@ -10,4 +10,19 @@ class Subject < ActiveRecord::Base
   def self.math
     find_by(name: 'math')
   end
+  
+  def self.from_names(names)
+    names = Array.wrap(names)
+  
+    fixed_names = names.map do |name|
+      name = name.to_s
+      if name.downcase == 'ela'
+        name = 'english language arts'
+      end
+      name
+    end
+  
+    where(name: fixed_names)
+  end
+
 end

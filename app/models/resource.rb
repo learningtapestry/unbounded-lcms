@@ -53,6 +53,26 @@ class Resource < ActiveRecord::Base
     joins(:curriculums).where(curriculums: { curriculum_type: CurriculumType.lesson })
   }
 
+  scope :where_subject, ->(subjects) {
+    subjects = Array.wrap(subjects)
+    return where(nil) unless subjects.any?
+
+    joins(:subjects)
+    .where(
+      'subjects.id' => Array.wrap(subjects).map(&:id)
+    )
+  }
+
+  scope :where_grade, ->(grades) {
+    grades = Array.wrap(grades)
+    return where(nil) unless grades.any?
+
+    joins(:grades)
+    .where(
+      'grades.id' => Array.wrap(grades).map(&:id)
+    )
+  }
+
   scope :asc, -> { order(created_at: :asc) }
   scope :desc, -> { order(created_at: :desc) }
 

@@ -18,7 +18,6 @@ front-end.
 
 1. Set up `.env.test`, `.env.development` and `.env.integration`
 2. `bundle && bundle exec rake cloud66:after_bundle`
-3. `npm i && npm run build`
 
 ### Integration database
 
@@ -40,36 +39,39 @@ rake test
 
 ## React front-end
 
-### Rails integration
+The project is using `react-rails` to integrate React components with the Rails
+project. `react-rails` works by connecting the `babel` transpiler to the assets
+pipeline and adding lightweight helpers to plumb React components with Rails
+views.
 
-`package.json` and `webpack.config.js` sit in the project root to drive `npm`
-and `webpack`.
+### File and folder structure
 
-For Rails integration, components must be registered in bundles. Once such a
-bundle is added as an entry point in `webpack.config.js`, `webpack` generates
-the bundled codebase inside `app/assets/javascripts/generated`.
+Components should go inside `app/assets/javascripts/components`. Dependencies
+may be installed with `rails-assets`. If a dependency is used in a React
+component, it must be declared inside `components.js` (in addition to
+`application.js` if it's used elsewhere). Server side rendering won't work
+otherwise.
 
-A generated bundle may be required in a JavaScript file known by Rails 
-(for example, `application.js`). Once it is required, all the registered
-components are made available for inclusion in Rails views by using the
-`react_on_rails` helpers, such as `react_component`.
+- Each standalone component should reside in a separate folder with the format
+`example-component/`
+- Reusable classes must be defined each in a single file with the format
+  `ExampleClass.js.jsx`
+- ES6 and JSX files must end in `.js.jsx`
 
-A `ReactRenderable` concern for controllers is available that adds the helper
-`react_render`. This helper renders the view defined in `Controller.react_view`
-passing in its `props:` option, and optionally does a server-side render
-with the `prerender:` option.
+### Data flow and state management
 
-### Front-end project structure
+Currently we're not using any libraries or frameworks to manage data flow and
+state in the application. This might change in the future. Smart components
+keep track of and modify their own state, and eventually fetch remote data. The
+preferred HTTP requests library is HTML5 fetch.
 
-The project is divided by 'concerns' or 'domains'. Components, stores, reducers
-and actions should be organized according to the relevant concern. Shared code
-may reside in `lib/`.
+### Guidelines for components development
 
-The sections of the website that must be rendered by React are referenced
-in `app/App` as `react-router` routes. The main router instance is connected
-to a redux store that should record non-local application state.
+- Whenever possible, write [stateless functional components](https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#stateless-functional-components)
+- Ideally there should be a single stateful component per page
+- Components should be as dumb as possible.
 
-### Development
-
-A convenient `Procfile.dev` is available to run `webpack --watch` in parallel
-with the Rails development server. Run it with `foreman start -f Procfile.dev`.
+  Example: if an UI interaction with a child component might result in state
+  changes, do not trigger those changes inside the child component. Pass it a 
+  callback as a prop and have the child component wire the UI interaction with
+  the callback. Only handle actual state changes in the parent component.
