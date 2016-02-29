@@ -1,0 +1,105 @@
+<!-- Ref:  (v5)NEW-1577_Annotated_IA_v05  page 21 -->
+<div> <!-- item (1) -->
+  <a href="<%= unit_path(@lesson.unit) %>">View Unit: <%= @lesson.unit.title %></a>
+</div>
+
+<div>
+  <div> <!-- item (2) -->
+    <a href="#"><%= @lesson.subject_and_grade_title %></a>
+  </div>
+
+  <div> <!-- item (3) -->
+    <div>Lesson</div>
+    <h1><%= @lesson.title %></h1>
+    <div>
+      <%= @lesson.teaser_text %>
+    </div>
+  </div>
+
+  <div> <!-- item (4) -->
+    <button data-open="downloads-modal">Download Lesson</button>
+    <div class="reveal" id="downloads-modal" data-reveal> <!-- modal content -->
+      <h2>Download Lesson</h2>
+      <ul>
+        <% @lesson.downloads.each do |download| %>
+          <%= render 'resources/download', download: download %>
+        <% end %>
+      </ul>
+      <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+
+  <div> <!-- item (5) -->
+    <a href="#">Related Instruction</a>
+  </div>
+
+  <div> <!-- item (8) -->
+    <% if @lesson.previous %>
+    <div>
+      <a href="<%= lesson_path(@lesson.previous) %>"><strong>Previous Lesson in Series</strong></br><%= @lesson.previous.title %></a>
+    </div>
+    <% end %>
+    <% if @lesson.next %>
+    <div>
+      <a href="<%= lesson_path(@lesson.next) %>"><strong>Next Lesson in Series</strong></br><%= @lesson.next.title %></a>
+    </div>
+    <% end %>
+  </div>
+
+
+  <ul> <!-- item (6) : tabs -->
+    <li>Summary</li>
+    <li>Full Text</li>
+  </ul>
+
+  <div> <!-- summary tab content -->
+
+    <div><!-- item (7) -->
+      <div><strong>Curriculum Map</strong> - <%= @lesson.subject_and_grade_title %></div>
+      <!-- TODO the modules/units tree it still under construction, see with rm later -->
+    </div>
+
+    <div><!-- item (9) -->
+      <h2>Description</h2>
+      <div><%= @lesson.description.try(:html_safe) %></div>
+    </div>
+
+    <div><!-- item (10) -->
+      <h2>Downloads</h2>
+      <ul>
+        <% @lesson.downloads.each do |download| %>
+          <%= render 'resources/download', download: download %>
+        <% end %>
+      </ul>
+    </div>
+
+    <!-- item (11) -->
+    <% unless @lesson.requirements.empty? %>
+    <div>
+      <h2>Prerequisites</h2>
+      <div>
+        <ul>
+        <% @lesson.requirements.each do |req| %>
+          <li>
+            <a href="<%= lesson_path req %>"><%= req.title %></a>
+          </li>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+
+    <div><!-- item (12) -->
+      <h2>Tags</h2>
+      <div><%= @lesson.tags %></div>
+    </div>
+
+    <% if @lesson.engageny_url %>
+    <div><!-- item (13) -->
+      <h2>Credits</h2>
+      <%= render 'resources/engageny', resource: @lesson %>
+    </div>
+    <% end %>
+  </div>
+</div>

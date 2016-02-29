@@ -44,5 +44,7 @@ Rails.application.routes.draw do
   resources :explore_curriculum, only: [:index, :show]
   resources :find_lessons, only: :index
   resources :pages, only: :show
+  resources :units, only: :show
+  resources :lessons, only: :show
 
 end

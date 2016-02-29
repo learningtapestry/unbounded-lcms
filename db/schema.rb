@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160206123157) do
+ActiveRecord::Schema.define(version: 20160224200754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,6 +168,15 @@ ActiveRecord::Schema.define(version: 20160206123157) do
 
   add_index "resource_related_resources", ["related_resource_id"], name: "index_resource_related_resources_on_related_resource_id", using: :btree
   add_index "resource_related_resources", ["resource_id"], name: "index_resource_related_resources_on_resource_id", using: :btree
+
+  create_table "resource_requirements", force: :cascade do |t|
+    t.integer  "resource_id",    null: false
+    t.integer  "requirement_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "resource_requirements", ["resource_id"], name: "index_resource_requirements_on_resource_id", using: :btree
 
   create_table "resource_resource_types", force: :cascade do |t|
     t.integer  "resource_id"
