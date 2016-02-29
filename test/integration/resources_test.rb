@@ -52,7 +52,6 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     end
 
     resource = Resource.last
-    assert_equal current_path, "/resources/#{resource.id}"
     assert_equal resource.description,  @description
     assert_equal resource.hidden?,      true
     assert_equal resource.subtitle,     @subtitle
@@ -68,9 +67,7 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
 
   def test_edit_unbounded_resource
     resource = resources(:unbounded)
-    visit "/resources/#{resource.id}"
-    click_link 'Edit'
-    assert_equal current_path, "/admin/resources/#{resource.id}/edit"
+    visit "/admin/resources/#{resource.id}/edit"
 
     fill_in 'Title',       with: @title
     fill_in 'Subtitle',    with: @subtitle
@@ -95,7 +92,6 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     end
 
     resource.reload
-    assert_equal current_path, "/resources/#{resource.id}"
     assert_equal resource.description, @description
     assert_equal resource.hidden?,     false
     assert_equal resource.subtitle,    @subtitle
@@ -111,8 +107,8 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
 
   def test_delete_unbounded_resource
     resource = resources(:unbounded)
-    visit "/resources/#{resource.id}"
-    click_button 'Delete'
+    visit "/admin/resources/#{resource.id}/edit"
+    click_link 'Delete'
 
     assert_nil Resource.find_by_id(resource.id)
     assert_equal current_path, '/admin/resources'

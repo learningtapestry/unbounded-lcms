@@ -28,11 +28,6 @@ class Resource < ActiveRecord::Base
   has_many :resource_grades, dependent: :destroy
   has_many :grades, through: :resource_grades
 
-  # Collections.
-  has_many :resource_collections, dependent: :destroy
-  has_many :resource_parents, class_name: 'ResourceChild', foreign_key: 'child_id'
-  has_many :resource_children, class_name: 'ResourceChild', foreign_key: 'parent_id'
-
   # Curriculums.
   has_many :curriculums, as: :item
 
@@ -43,9 +38,6 @@ class Resource < ActiveRecord::Base
   # Requirements
   has_many :resource_requirements, dependent: :destroy
   has_many :requirements, through: :resource_requirements
-
-  # Slugs
-  has_many :resource_slugs, dependent: :destroy
 
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
@@ -122,34 +114,6 @@ class Resource < ActiveRecord::Base
       resource.subject_ids       = resources.map(&:subject_ids).inject { |memo, ids| memo &= ids }
       resource
     end
-
-    def search(*args)
-      __elasticsearch__.search(*args)
-    end
-
-    def find_root_resource_for_curriculum(subject)
-      subject = subject.to_sym
-
-      raise 'Subject must be ELA or Math' unless [:ela, :math].include?(subject)
-
-      if subject == :ela
-        find_by(title: 'ELA Curriculum Map')
-      elsif subject == :math
-        find_by(title: 'Math Curriculum Map')
-      end
-    end
-
-    def find_curriculum_resources(subject)
-      find_root_resource_for_curriculum(subject)
-      .resource_collections.first.resource_children.map { |c| c.child }
-    end
-
-    def find_curriculums
-      {
-        ela: find_curriculum_resources(:ela),
-        math: find_curriculum_resources(:math)
-      }
-    end
   end
 
   def text_description
@@ -159,74 +123,11 @@ class Resource < ActiveRecord::Base
     nil
   end
 
-  def find_collections
-    children_table = ResourceChild.arel_table
-
-    collection_ids = ResourceChild
-      .select(:resource_collection_id)
-      .where(
-        children_table[:parent_id].eq(id)
-        .or(children_table[:child_id].eq(id))
-      )
-      .uniq
-      .pluck(:resource_collection_id)
-
-    ResourceCollection.includes(:resource).where(id: collection_ids, resources: { hidden: false })
-  end
-
-  def collection_trees
-    @collection_trees ||= find_collections.map { |c| c.tree }
-  end
-
-  def shallow_trees
-    @shallow_trees ||= collection_trees.map do |tree|
-      node = tree.find { |n| n.content.id == id }
-      (node.parentage || []).reverse + [node]
-    end
-  end
-
-  def unbounded_curriculum
-    if curriculum_map_collection
-      @unbounded_curriculum ||= UnboundedCurriculum.new(curriculum_map_collection, self)
-    end
-  end
-
   def related_resources
     @related_resources ||= resource_related_resources
       .includes(:related_resource)
       .order(:position)
       .map(&:related_resource)
-  end
-
-  def reload(options = nil)
-    super
-    @collection_trees = nil
-    @shallow_trees = nil
-    @related_resources = nil
-    self
-  end
-
-  def resource_child_for_collection(collection)
-    ResourceChild.find_by(child: self, collection: collection)
-  end
-
-  def curriculum_map_collection
-    find_collections.where(resource_collection_type: ResourceCollectionType.curriculum_map).first
-  end
-
-  def curriculum_root
-    curriculum_map_collection && curriculum_map_collection.resource.resource_parents.first.parent
-  end
-
-  def curriculum_subject
-    if curriculum_root
-      t = curriculum_root.title
-      if t.include?('Math')
-        :math
-      elsif t.include?('ELA')
-        :ela
-      end
-    end
   end
 
   def downloads_by_category
@@ -236,17 +137,5 @@ class Resource < ActiveRecord::Base
       yield key, by_category[key] if block_given?
     end
     by_category
-  end
-
-  def slug_for_collection(collection)
-    resource_slugs.find_by(resource_collection_id: collection.id).try(:value)
-  end
-
-  def slug
-    resource_slugs.first.try(:value)
-  end
-
-  def as_indexed_json(options={})
-    ResourceSerializer.new(self).as_indexed_json(options)
   end
 end

@@ -17,7 +17,7 @@ class Admin::ResourcesController < Admin::AdminController
     @resource = Resource.new(resource_params)
 
     if @resource.save
-      redirect_to show_url(@resource)
+      redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
       render :new
     end
@@ -28,7 +28,7 @@ class Admin::ResourcesController < Admin::AdminController
 
   def update
     if @resource.update_attributes(resource_params)
-      redirect_to show_url(@resource)
+      redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
       render :edit
     end

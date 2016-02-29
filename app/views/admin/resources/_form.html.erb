@@ -45,6 +45,12 @@
     <p><%= f.link_to_add t('.add_download'), :resource_downloads, class: 'btn btn-success btn-sm' %></p>
   </div>
 
+  <p>
+    <% if @resource.id.present? %>
+      <%= link_to t('ui.delete'), admin_resource_path(@resource), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+    <% end %>
+  </p>
+
   <%= f.button :submit, t('ui.save'), name: nil %>
 
 <% end %>

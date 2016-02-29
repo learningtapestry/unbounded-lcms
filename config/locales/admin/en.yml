@@ -78,6 +78,10 @@ en:
         standards: Standards
         subjects: Subjects
         title: Title
+      create:
+        success: "Resource #%{resource_id} was created successfully."        
+      update:
+        success: "Resource #%{resource_id} was updated successfully."
     pages:
       create:
         success: Page created successfully.
