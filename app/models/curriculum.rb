@@ -1,3 +1,35 @@
+#
+# `Curriculum` models the hierarchies between educational documents:
+#
+#   - A document might be a map, a grade, a module, an unit or a lesson.
+#   - A map has many grades, a grade has many modules, and so on.
+#   - A particular module or unit might appear in MULTIPLE grades or modules.
+#
+# A `Curriculum` row can have a parent column, which is another `Curriculum`.
+# This is how it represents a parent-child relationship.
+#
+# A `Curriculum` row can also reference a `Resource`, or another `Curriculum`.
+# When it references another `Curriculum`, it is referencing another hierarchy.
+# Example:
+#
+# Grade Curriculum          Module Cur. 1            Unit Cur. 1
+# |                         |                        |
+# | Module Cur. 1 (Cur ref) | Unit Cur. 1 (Cur ref)  | Lesson 1 (Resource ref)
+# | Module Cur. 2 (Cur ref) | Unit Cur. 2 (Cur ref)  | Lesson 2 (Resource ref)
+#
+# In other words, a `Curriculum` tree can reference `Resources` directly, but
+# it may also reference another tree.
+#
+# The root of a `Curriculum` tree will always reference a `Resource`.
+# The children of the root will probably reference other trees.
+#
+# `Curriculum#resource` will find the `Curriculum` `Resource` even if it is
+# an indirect reference through a tree.
+#
+# We're using the library `closure_tree`, which gives us handy methods to deal
+# with trees.
+# See: https://github.com/mceachen/closure_tree
+#
 class Curriculum < ActiveRecord::Base
   acts_as_tree order: 'position', dependent: :destroy
 
