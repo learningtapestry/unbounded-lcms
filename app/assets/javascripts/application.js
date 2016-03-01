@@ -1,3 +1,4 @@
+//= require turbolinks
 //= require ./routes
 //= require jquery
 //= require jquery_ujs
@@ -6,4 +7,9 @@
 //= require react_ujs
 //= require components
 
-$(function() { $(document).foundation(); });
+function ready() {
+  $(document).foundation();  
+}
+
+$(document).on('ready', ready);
+$(document).on('page:load', ready);
