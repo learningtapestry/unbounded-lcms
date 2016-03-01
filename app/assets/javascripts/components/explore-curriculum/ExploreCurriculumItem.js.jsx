@@ -22,22 +22,27 @@ function ExploreCurriculumItem(props) {
     _.includes(props.active, props.id) &&
     _.last(props.active) !== props.id;
 
+  let childrenCls = curriculum.type === 'unit' ? 'o-dsc__cards' : '';
+  const className = `o-expcur__children ${childrenCls}`;
+
   children = shouldRenderChildren ? 
     curriculum.children.map(c => (
-      <ExploreCurriculumItem
-        key={c.id}
-        id={c.id}
-        index={props.index}
-        onClickExpand={props.onClickExpand}
-        onClickViewDetails={props.onClickViewDetails}
-        parentage={[...props.parentage, c.id]}
-        active={props.active} />
+      c.type === 'lesson' ?
+        <LessonCard key={c.resource.id} lesson={c.resource} /> :
+        <ExploreCurriculumItem
+          key={c.id}
+          id={c.id}
+          index={props.index}
+          onClickExpand={props.onClickExpand}
+          onClickViewDetails={props.onClickViewDetails}
+          parentage={[...props.parentage, c.id]}
+          active={props.active} />
     )) : [];
 
   return (
     <div>
       {item}
-      <div className="o-expcur__children">
+      <div className={className}>
         {children}
       </div>
     </div>

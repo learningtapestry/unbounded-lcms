@@ -1,3 +1,4 @@
+//= require ./routes
 //= require es6-promise
 //= require fetch
 //= require classnames

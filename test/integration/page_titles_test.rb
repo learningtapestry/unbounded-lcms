@@ -20,38 +20,6 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
     assert_page_title 'Admin'
   end
 
-  def test_admin_collection_type_pages
-    collection_type = resource_collection_types(:nti)
-
-    visit '/admin/collection_types'
-    assert_page_title 'Collection Types'
-
-    visit '/admin/collection_types/new'
-    assert_page_title 'New Collection Type'
-
-    visit "/admin/collection_types/#{collection_type.id}"
-    assert_page_title collection_type.name
-
-    visit "/admin/collection_types/#{collection_type.id}/edit"
-    assert_page_title "Edit #{collection_type.name} Collection Type"
-  end
-
-  def test_admin_collection_pages
-    collection = resource_collections(:math_root_collection)
-
-    visit '/admin/collections'
-    assert_page_title 'Collections'
-
-    visit '/admin/collections/new'
-    assert_page_title 'New Collection'
-
-    visit "/admin/collections/#{collection.id}"
-    assert_page_title "#{collection.resource.title} Collection"
-
-    visit "/admin/collections/#{collection.id}/edit"
-    assert_page_title "Edit #{collection.resource.title} Collection"
-  end
-
   def test_admin_import_page
     visit '/admin/subtitles_imports/new'
     assert_page_title 'Import subtitles & descriptions'
@@ -110,20 +78,9 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
     assert_page_title 'Log In'
   end
 
-  def test_curriculum_page
-    visit '/curriculum'
-    assert_page_title 'Curriculum'
-  end
-
   def test_home_page
     visit '/'
     assert_page_title 'Highschool Curriculum Pilot'
-  end
-
-  def test_resource_page
-    resource = resources(:unbounded_lesson_1_1_2_1)
-    visit "/resources/#{resource.id}"
-    assert_page_title resource.title
   end
 
   def test_tos_page

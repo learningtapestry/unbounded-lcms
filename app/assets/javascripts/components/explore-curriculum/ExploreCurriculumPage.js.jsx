@@ -37,6 +37,15 @@ class ExploreCurriculumPage extends React.Component {
     return fetch(url).then(r => r.json());
   }
 
+  setActive(parentage, cur) {
+    this.setState({
+      ...this.state,
+      active: cur.children.length > 0 ?
+        [...parentage, cur.children[0].id] :
+        [...parentage]
+    });
+  }
+
   handleClickExpand(parentage) {
     this.setState({
       ...this.state,
@@ -46,20 +55,24 @@ class ExploreCurriculumPage extends React.Component {
 
   handleClickViewDetails(parentage) {
     const id = _.last(parentage);
-    this.fetchOne(id).then(response => {
-      let newState = {
-        ...this.state,
-        active: response.children.length > 0 ?
-          [...parentage, response.children[0].id] :
-          [...parentage],
-        curriculumsIndex: {
-          ...this.state.curriculumsIndex,
-          ...this.buildIndex(response.children),
-          [response.id]: response
-        }
-      }
-      this.setState(newState);
-    });
+    let cur = this.state.curriculumsIndex[id];
+
+    if (cur && cur.requested) {
+      this.setActive(parentage, cur);
+    } else {
+      this.fetchOne(id).then(response => {
+        response.requested = true;
+        this.setState({
+          ...this.state,
+          curriculumsIndex: {
+            ...this.state.curriculumsIndex,
+            ...this.buildIndex(response.children),
+            [response.id]: response
+          }
+        });
+        this.setActive(parentage, response);
+      });
+    }
   }
 
   handleFilterbarUpdate(filterbar) {

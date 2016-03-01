@@ -1,6 +1,0 @@
-<% url = @collection_type.new_record? ? :admin_collection_types : admin_collection_type_path(@collection_type) %>
-
-<%= simple_form_for @collection_type, url: url do |f| %>
-  <%= f.input :name %>
-  <%= f.button :submit, t('ui.save'), name: nil %>
-<% end %>

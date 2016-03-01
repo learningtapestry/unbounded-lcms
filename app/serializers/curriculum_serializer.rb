@@ -1,14 +1,9 @@
-class CurriculumSerializer < ActiveModel::Serializer
-  include TruncateHtmlHelper
-  
+class CurriculumSerializer < ActiveModel::Serializer  
   self.root = false
 
   attributes :id,
-    :resource_id,
+    :resource,
     :children,
-    :title,
-    :description,
-    :estimated_time,
     :type
 
   def initialize(object, options = {})
@@ -30,28 +25,26 @@ class CurriculumSerializer < ActiveModel::Serializer
     end
   end
 
-  def description
-    truncate_html(object.resource.description, length: 200)
-  end
-
-  def estimated_time
-    40
-  end
-
-  def expanded
-    true
-  end
-
-  def resource_id
-    object.resource.id
-  end
-
-  def title
-    object.resource.title
+  def resource
+    self.class::ResourceSerializer.new(object.resource).as_json
   end
 
   def type
     object.curriculum_type.name
   end
 
+  class ResourceSerializer < ActiveModel::Serializer
+    include TruncateHtmlHelper
+
+    self.root = false
+    attributes :id, :title, :description, :estimated_time
+
+    def description
+      truncate_html(object.description, length: 200)
+    end
+
+    def estimated_time
+      40
+    end
+  end
 end

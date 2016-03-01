@@ -1,10 +1,11 @@
 function ExploreCurriculumExpandedItem(props) {
-  const description = { __html: props.curriculum.description };
+  let resource = props.curriculum.resource;
+  const description = { __html: resource.description };
   
   return (
     <div className="o-expcur o-expcur--base">
       <div className="o-expcur__body">
-        <h2>{props.curriculum.title}</h2>
+        <h2>{resource.title}</h2>
         <div dangerouslySetInnerHTML={description}></div>
         <button onClick={props.onClickViewDetails}>
           VIEW DETAILS
