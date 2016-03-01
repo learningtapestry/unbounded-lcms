@@ -1,0 +1,12 @@
+<% if resource.engageny_url %>
+  <div class="enageny-reference">
+    <p class="cc-logo-link">From EngageNY.org of the New York State Education Department. <%= resource.engageny_title.strip %>.
+      <% if url = resource.engageny_url %>
+        Available from <%= url.gsub(/^(https?:\/\/)?(www\.)?/, '') %>;<br>accessed 2015-05-29.
+      <% end %>
+      <%= link_to 'http://creativecommons.org/licenses/by-nc-sa/3.0/' do %>
+        <%= image_tag 'cc_logo.png', alt: 'Creative Commons logo' %>
+      <% end %>
+    </p>
+  </div>
+<% end %>

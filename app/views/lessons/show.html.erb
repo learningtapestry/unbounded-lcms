@@ -22,7 +22,7 @@
       <h2>Download Lesson</h2>
       <ul>
         <% @lesson.downloads.each do |download| %>
-          <%= render 'resources/download', download: download %>
+          <%= render partial: 'resources/download', locals: { download: download } %>
         <% end %>
       </ul>
       <button class="close-button" data-close aria-label="Close modal" type="button">
@@ -70,7 +70,7 @@
       <h2>Downloads</h2>
       <ul>
         <% @lesson.downloads.each do |download| %>
-          <%= render 'resources/download', download: download %>
+          <%= render partial: 'resources/download', locals: { download: download }  %>
         <% end %>
       </ul>
     </div>
@@ -98,7 +98,7 @@
     <% if @lesson.engageny_url %>
     <div><!-- item (13) -->
       <h2>Credits</h2>
-      <%= render 'resources/engageny', resource: @lesson %>
+      <%= render partial: 'resources/engageny', locals: { resource: @lesson } %>
     </div>
     <% end %>
   </div>
