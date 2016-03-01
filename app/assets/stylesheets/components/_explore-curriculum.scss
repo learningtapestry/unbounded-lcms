@@ -25,7 +25,7 @@
   }
 
   @include e(children) {
-    margin-left: $ub-xlarge-margin;
+    margin-left: $ub-xlarge-margin !important;
   }
 
   @include m(connect) {
