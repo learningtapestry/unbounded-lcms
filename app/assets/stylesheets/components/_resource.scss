@@ -1,0 +1,48 @@
+.o-resource-title {
+  @include flex-grid-row(nest);
+
+  @include e(title) {
+    @include flex-grid-column();
+  }
+  @include e(links) {
+    @include flex-grid-column(shrink);
+  }
+}
+
+.o-resource-summary {
+  @include flex-grid-row(nest);
+
+  @include e(map) {
+    @include flex-grid-column(shrink);
+  }
+
+  @include e(content) {
+    @include flex-grid-column();
+  }
+}
+
+.o-resource {
+  @include e(item) {
+    @extend .u-margin-bottom--base;
+
+    @include m(description) {
+      @include inline-styles-override();
+      @include zero-margin-bottom();
+    }
+  }
+
+  @include e(list) {
+    @include menu-base;
+    @include menu-direction($dir: vertical);
+    li { padding-bottom: .35rem; padding-top: .35rem; }
+
+    @include m(icons) {
+      @include menu-icons($position: left);
+    }
+  }
+
+  @include e(cc) {
+
+  }
+
+}

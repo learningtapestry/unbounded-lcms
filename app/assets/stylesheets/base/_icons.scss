@@ -1,0 +1,39 @@
+.file-pdf:before {
+  @extend .fa;
+  content: $fa-var-file-pdf-o;
+}
+
+.file-doc:before {
+  @extend .fa;
+  content: $fa-var-file-word-o;
+}
+
+.file-video:before {
+  @extend .fa;
+  content: $fa-var-file-video-o;
+}
+
+.file-resource:before {
+  @extend .fa;
+  content: $fa-var-file-text-o;
+}
+
+.file-excel:before {
+  @extend .fa;
+  content: $fa-var-file-excel-o;
+}
+
+.file-powerpoint:before {
+  @extend .fa;
+  content: $fa-var-file-powerpoint-o;
+}
+
+.file-unknown:before {
+  @extend .fa;
+  content: $fa-var-file-o;
+}
+
+.file-zip:before {
+  @extend .fa;
+  content: $fa-var-file-zip-o;
+}

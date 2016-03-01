@@ -48,8 +48,9 @@ en:
       contact: Contact
   resources:
     btn:
-      view: "View %{title} %{idx}"
+      view: "View %{short_title}"
       download: "Download %{title}"
+      related: "Related Instructions"
     nav:
       next_lesson: Next LESSON
       next_module: Next MODULE
