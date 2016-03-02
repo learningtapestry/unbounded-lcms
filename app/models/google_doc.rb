@@ -2,7 +2,7 @@ require 'google/apis/drive_v3'
 
 class GoogleDoc < ActiveRecord::Base
   FOOTNOTES_CLASS = 'googleDoc__footnotes'
-  STANDARD_CLASS = 'googleDoc__standard'
+  KEYWORD_CLASS = 'googleDoc__keyword'
 
   before_save :process_content
   after_save :download_images
@@ -53,7 +53,7 @@ class GoogleDoc < ActiveRecord::Base
   def process_content
     return unless original_content.present?
 
-    content = wrap_standards(original_content)
+    content = wrap_keywords(original_content)
     self.content = Nokogiri::HTML(content).xpath('/html/body/*').to_s
     mark_footnotes
     process_external_links
@@ -77,14 +77,19 @@ class GoogleDoc < ActiveRecord::Base
     end
   end
 
-  def wrap_standards(content)
+  def wrap_keywords(content)
     result = content.dup
 
+    keywords = GoogleDocDefinition.all.map { |d| [d.keyword, d.description] }
+
     GoogleDocStandard.all.each do |standard|
-      description = standard.description.gsub('"', '&quot;')
-      name = standard.name
-      node = %Q(<span class=#{STANDARD_CLASS} data-description="#{description}">#{name}</span>)
-      result.gsub!(/#{name}(\.\W|[^.])/) { |m| m.gsub!(name, node) }
+      keywords << [standard.name, standard.description]
+    end
+    
+    keywords.each do |keyword, value|
+      value.gsub!('"', '&quot;')
+      node = %Q(<span class=#{KEYWORD_CLASS} data-description="#{value}">#{keyword}</span>)
+      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, node) }
     end
 
     result

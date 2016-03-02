@@ -26,7 +26,7 @@ window.initializeGoogleDoc = function() {
   if ($googleDoc.length > 0) {
     $('.googleDoc__nav').sticky({ bottomSpacing: $('body').height() - $googleDoc.height() - $googleDoc.offset().top });
 
-    $('.googleDoc__standard').popover({
+    $('.googleDoc__keyword').popover({
       content: function() {
         return $(this).data('description');
       },
