@@ -43,7 +43,8 @@ class CurriculumMapPresenter < SimpleDelegator
   def root_grade
     return @root_grade if @root_grade.present?
     @active_items = []
-    @root_grade = Curriculum.grades.find { |g| include_item?(g) }
+    @root_grade = Curriculum.grades.where_grade(grade)
+                            .where_subject(subject).find { |g| include_item?(g) }
   end
 
   def map_tree
