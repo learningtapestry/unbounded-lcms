@@ -16,13 +16,13 @@ class LessonsController < ApplicationController
 
     def find_curriculum
       if params[:node_id].present?
-        @curriculum = Curriculum.trees.find_by!(
+        Curriculum.trees.find_by!(
           id: params[:node_id],
           item_id: @lesson.id,
           item_type: 'Resource'
         )
       else
-        @curriculum = @lesson.curriculums.trees.first
+        @lesson.curriculums.trees.first
       end
     end
 end
