@@ -112,6 +112,7 @@ class GoogleDocPresenter < SimpleDelegator
     doc.css('a[href*="docs.google.com/document/d/"]').each do |a|
       file_id = GoogleDoc.file_id_from_url(a[:href])
       if (google_doc = GoogleDoc.find_by_file_id(file_id))
+        a.content = google_doc.name if a.text == a[:href]
         a[:href] = google_doc_url(google_doc)
       end
     end

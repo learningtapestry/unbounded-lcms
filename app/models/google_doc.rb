@@ -67,6 +67,7 @@ class GoogleDoc < ActiveRecord::Base
       url = URI(a[:href])
       params = Rack::Utils.parse_query(url.query)
       a[:href] = params['q']
+      a[:target] = '_blank'
     end
   end
 
