@@ -14,20 +14,25 @@
   'vendors/foundation_and_overrides';
 
 @import
+  'utils/styles_override',
   'utils/helpers';
 
 @import
   'base/fonts',
+  'base/icons',
   'base/typography';
 
 @import
   'components/buttons',
   'components/cards',
+  'components/curriculum_map',
+  'components/download-modal',
   'components/explore-curriculum',
   'components/filterbar',
   'components/freshdesk',
   'components/titles',
   'components/pagination',
+  'components/resource',
   'components/panel-dsc',
   'components/panel';
 
@@ -35,6 +40,7 @@
   'layout/header',
   'layout/footer',
   'layout/navigation',
+  'layout/sticky-navigation',
   'layout/page',
   'layout/sidebar';
 

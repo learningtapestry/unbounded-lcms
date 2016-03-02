@@ -12,7 +12,13 @@ $text-sizes: (
   }
 }
 
+.u-text--capitalized {
+  text-transform: capitalize;
+}
+
+
 $margins: (
+  'zero': 0,
   'xs': $ub-small-margin * .7,
   'small': $ub-small-margin,
   'base': $ub-base-margin,
@@ -32,7 +38,8 @@ $margins-align: (top, bottom);
 $bg: (
   light: $ub-white,
   base: $ub-panel-bg,
-  dark: $ub-hero-bg
+  dark: $ub-hero-bg,
+  primary: $ub-primary
 );
 
 @each $bg-type, $bg-color in $bg {
@@ -48,4 +55,9 @@ $bg: (
       padding: $ub-base-padding;
     }
   }
+}
+
+.u-pd-content {
+  padding-bottom: $ub-large-padding;
+  padding-top: $ub-base-padding;
 }

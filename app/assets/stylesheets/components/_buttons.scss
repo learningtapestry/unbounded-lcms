@@ -1,9 +1,37 @@
-.o-btn--light {
-  @extend .button;
-  @extend .secondary;
+.o-btn {
+  @include m(light) {
+    @extend .button;
+    @extend .secondary;
+    font-weight: bold;
+  }
+
+  @include m(base) {
+    @include button($background: $ub-btn-base, $color: $ub-txt);
+    font-weight: bold;
+  }
+
+  @include m(dark) {
+    @extend .button;
+    @extend .primary;
+    font-weight: bold;
+  }
+
+  @include m(bordered) {
+    @include button-hollow;
+    @include button-hollow-style($ub-btn-dark);
+  }
+
+  @include m(expand) {
+    @include button-expand(true);
+  }
 }
 
-.o-btn--dark {
-  @extend .button;
-  @extend .primary;
+.o-ub-btn {
+  @extend .o-btn--base;
+  min-width: 200px;
+
+  @include m(bordered) {
+    @include button-hollow;
+    @include button-hollow-style($ub-btn-base);
+  }
 }

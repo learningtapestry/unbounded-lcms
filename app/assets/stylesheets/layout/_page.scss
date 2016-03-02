@@ -37,6 +37,9 @@ html, body {
     @include m(nest) {
       @include grid-row-nest;
     }
+    @include m(row) {
+      @include flex-grid-row();
+    }
   }
 
   @include e(hero) {
@@ -45,6 +48,18 @@ html, body {
 
   @include e(content) {
     @include flex-grid-column(11);
+
+    @include m(collapse) {
+      @include flex-grid-column(11, 0);
+    }
+  }
+
+  @include e(sticky) {
+    @include flex-grid-column(1, 0);
+    $tmp-column-width: percentage(.5 / $grid-column-count);
+    flex: 0 0 $tmp-column-width;
+    max-width: $tmp-column-width;
+    position: relative;
   }
 
   @include e(module) {
@@ -53,6 +68,10 @@ html, body {
     @include m(margin-top) {
       margin-top: $ub-large-margin * 2;
     }
+  }
+
+  @include e(section) {
+    @include flex-grid-column(12);
   }
 
 }

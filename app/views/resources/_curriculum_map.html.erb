@@ -1,0 +1,22 @@
+<div class="o-c-map">
+  <% resource.map_tree.children.each do |mod| %>
+    <div class="o-c-map__module-wrap">
+      <div class="o-c-map__module <%= 'o-c-map__item--active' if mod.active? %>" style="width:<%= resource.module_width(mod) %>%;">
+        <%= mod.item.resource.short_title %>
+      </div>
+    </div>
+    <% if mod.active? %>
+      <div class="o-c-map__units-wrap">
+        <div class="o-c-map__units">
+          <% mod.children.each do |unit| %>
+            <div class="o-c-map__unit <%= 'o-c-map__item--active' if unit.active? %>">
+            <% unit.children.each do |lesson| %>
+              <div class="o-c-map__lesson <%= 'o-c-map__item--active' if lesson.active? %>"></div>
+            <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

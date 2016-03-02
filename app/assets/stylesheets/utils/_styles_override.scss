@@ -1,0 +1,43 @@
+@mixin inline-styles-override($txt-color: $ub-txt,
+                              $bg-color: $ub-white,
+                              $font-size: $global-font-size,
+                              $font-family: $body-font-family,
+                              $font-style: normal)
+{
+  color: $txt-color!important;
+  font-family: $font-family!important;
+  font-size: $font-size!important;
+  font-style: $font-style!important;
+  background-color: $bg-color!important;
+  text-decoration: none!important;
+
+  a {
+    color: $anchor-color !important;
+    text-decoration: $anchor-text-decoration !important;
+    line-height: inherit !important;
+    cursor: pointer !important;
+
+    &:hover,
+    &:focus {
+      color: $anchor-color-hover !important;
+      @if $anchor-text-decoration-hover != $anchor-text-decoration {
+        text-decoration: $anchor-text-decoration-hover !important;
+      }
+    }
+
+    img {
+      border: 0!important;
+    }
+  }
+
+  p {
+    font-size: inherit !important;
+    line-height: $paragraph-lineheight !important;
+    margin-bottom: $paragraph-margin-bottom !important;
+    text-rendering: $paragraph-text-rendering !important;
+  }
+}
+
+@mixin zero-margin-bottom() {
+  > *:last-child { margin-bottom: 0 !important; }
+}

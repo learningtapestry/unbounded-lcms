@@ -45,6 +45,7 @@
 // ---------
 //
 
+$global-flexbox: true;
 $global-font-size: 100%;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
@@ -432,7 +433,7 @@ $progress-radius: $global-radius;
 // 27. Reveal
 // ----------
 
-$reveal-background: $white;
+$reveal-background: $ub-page-bg;
 $reveal-width: 600px;
 $reveal-max-width: $global-width;
 $reveal-offset: rem-calc(100);

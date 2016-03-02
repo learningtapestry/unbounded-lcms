@@ -1,0 +1,18 @@
+.o-download-modal {
+  @include reveal-modal-base;
+  @include reveal-modal-width(35%);
+}
+
+.o-download-form {
+  > div { @include flex-grid-row(); }
+
+  @include e(item) {
+    @include flex-grid-column(12);
+  }
+
+  @include e(button) {
+    @extend .u-margin-top--small;
+    @include flex-grid-column(12);
+    text-align: center;
+  }
+}
