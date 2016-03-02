@@ -2,20 +2,26 @@ class GoogleDocPresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
 
   CUSTOM_TAG_ELEMENT = 'h4'
+  STAR_CLASS = 'googleDoc__star'
   TASK_CLASS = 'googleDoc__task'
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
 
-  def initialize(google_doc, host)
+  attr_reader :host, :view_context
+
+  def initialize(google_doc, host, view_context)
     super(google_doc)
     default_url_options[:host] = host
+    @host = host
+    @view_context = view_context
   end
 
   def content
     @content ||= begin
       embed_audios
       embed_videos
+      process_stars
       process_tasks
       replace_guide_links
       doc.to_s.html_safe
@@ -24,6 +30,7 @@ class GoogleDocPresenter < SimpleDelegator
 
   def content_for_pdf
     @content_for_pdf ||= begin
+      process_stars
       process_tasks(false)
       replace_guide_links
       replace_image_sources
@@ -82,6 +89,34 @@ class GoogleDocPresenter < SimpleDelegator
     end
   end
 
+  def process_stars
+    doc.css(CUSTOM_TAG_ELEMENT).each do |tag|
+      value = tag.text.chomp.strip
+      next unless value == '<STAR>'
+
+      table = tag.next_sibling
+      tag.remove
+
+      loop do
+        if table.name == 'table'
+          existing_cell = table.at_css('td')
+          style = existing_cell[:style]
+          existing_cell[:style] = "#{style};border-left:none"
+          
+          new_cell = doc.document.create_element('td', class: STAR_CLASS)
+          image = doc.document.create_element('img', src: view_context.image_path('yellow-star.png'), height: 26, width: 26)
+          new_cell.add_child(image)
+
+          table.at_css('tr').prepend_child(new_cell)
+          break
+        end
+
+        table = table.next_sibling
+        break unless table
+      end
+    end
+  end
+
   def process_tasks(process_images = true)
     doc.css(CUSTOM_TAG_ELEMENT).each do |tag|
       value = tag.text.chomp.strip
@@ -120,6 +155,9 @@ class GoogleDocPresenter < SimpleDelegator
 
   def replace_image_sources
     path2public = Rails.root.join('public')
+    doc.css('img[src^="/assets"]').each do |img|
+      img[:src] = "file://#{path2public}#{img[:src]}"
+    end
     doc.css('img[src^="/uploads"]').each do |img|
       img[:src] = "file://#{path2public}#{img[:src]}"
     end

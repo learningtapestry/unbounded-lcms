@@ -10,10 +10,8 @@
   .googleDoc__footnotes {
     page-break-before: always;
   }
-
-  .googleDoc__task {
-    max-height: none !important;
-  }
 </style>
+
+<%= wicked_pdf_stylesheet_link_tag 'unbounded/google_docs' -%>
 
 <%= @google_doc.content_for_pdf %>
