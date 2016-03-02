@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class LessonsControllerTest < ActionController::TestCase
+  setup do
+    Curriculum.seeds.grades.with_resources.find_each { |g| g.create_tree }
+  end
+
   test 'show lesson details' do
-    unit = curriculums(:math_unit)
     lesson = curriculums(:math_unit_lesson).resource
 
     get :show, id: lesson.id
