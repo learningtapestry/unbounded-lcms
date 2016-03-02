@@ -1,6 +1,6 @@
 class GoogleDocsController < ApplicationController
   def show
-    @google_doc = GoogleDocPresenter.new(GoogleDoc.find(params[:id]))
+    @google_doc = GoogleDocPresenter.new(GoogleDoc.find(params[:id]), request.base_url)
     respond_to do |format|
       format.html
       format.pdf do
