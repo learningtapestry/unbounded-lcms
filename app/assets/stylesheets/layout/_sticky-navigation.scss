@@ -1,7 +1,6 @@
 .o-sticky {
   position: fixed;
   top: 50%;
-  transform: translateY(-50%);
 
   @include m(right) {
     width: 3%;

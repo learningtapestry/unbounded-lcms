@@ -12,6 +12,11 @@ $text-sizes: (
   }
 }
 
+.u-text--capitalized {
+  text-transform: capitalize;
+}
+
+
 $margins: (
   'zero': 0,
   'xs': $ub-small-margin * .7,

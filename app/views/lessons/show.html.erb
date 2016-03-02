@@ -2,13 +2,13 @@
 <div class="o-page">
   <div class="o-page__sticky">
     <div class="o-sticky <%= 'o-sticky--disabled' unless @lesson.previous %>">
-      <a href="<%= lesson_path(@lesson.previous) %>"><i class="fa fa-2x fa-angle-left"></i></a>
+      <a href="<%= @lesson.previous ? lesson_path(@lesson.previous) : '#' %>"><i class="fa fa-2x fa-angle-left"></i></a>
       <!--strong>Previous Lesson in Series</strong></br> @lesson.previous.title -->
     </div>
   </div>
   <div class="o-page__content--collapse">
     <div class="o-page_wrap--row">
-      <%= link_to unit_path(@lesson.unit), class: 'o-btn--dark o-btn--bordered o-btn--expand o-page__section u-margin-bottom--base' do %>
+      <%= link_to unit_path(@lesson.unit), class: 'o-btn--dark o-btn--bordered o-btn--expand o-page__section u-margin-bottom--base .u-text--capitalized' do %>
         <%= t('resources.btn.view', short_title: @lesson.unit.short_title) + ': ' + @lesson.unit.title %>
       <% end %>
       <div class="o-page__section  u-bg--primary">
@@ -41,7 +41,8 @@
         <hr class="u-margin-top--xs"/>
         <div class="o-resource-summary">
           <div class="o-resource-summary__map">
-            <strong>Curriculum Map</strong> - <%= @lesson.subject_and_grade_title %>
+            <strong>Curriculum Map</strong> &ndash; <span class="u-text--capitalized"><%= @lesson.subject_and_grade_title %></span>
+            <%= render partial: 'resources/curriculum_map', locals: { resource: @lesson } %>
           </div>
           <div class="o-resource-summary__content">
             <div class="o-resource__item o-resource__item--description">
@@ -52,7 +53,7 @@
               <h3>Downloads</h3>
               <ul class="o-resource__list o-resource__list--icons">
                 <% @lesson.downloads.each do |download| %>
-                  <%= render 'resources/download', download: download %>
+                  <%= render partial: 'resources/download', locals: { download: download } %>
                 <% end %>
               </ul>
             </div>
@@ -75,18 +76,18 @@
             <% if @lesson.engageny_url %>
             <div class="o-resource__item">
               <h3>Credits</h3>
-              <%= render 'resources/engageny', resource: @lesson %>
+              <%= render partial: 'resources/engageny', locals: { resource: @lesson } %>
             </div>
             <% end %>
           </div>
         </div>
       </div>
-      <%= render 'resources/download_form', downloads: @lesson.downloads, title: 'Lesson' %>
+      <%= render partial: 'resources/download_form', locals: { downloads: @lesson.downloads, title: 'Lesson' } %>
     </div>
   </div>
   <div class="o-page__sticky">
     <div class="o-sticky o-sticky--right <%= 'o-sticky--disabled' unless @lesson.next %>">
-      <a href="<%= lesson_path(@lesson.next) %>"><i class="fa fa-2x fa-angle-right"></i></a>
+      <a href="<%= @lesson.next ? lesson_path(@lesson.next) : '#' %>"><i class="fa fa-2x fa-angle-right"></i></a>
       <!--strong>Next Lesson in Series</strong></br>@lesson.next.title -->
     </div>
   </div>

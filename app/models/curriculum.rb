@@ -125,6 +125,14 @@ class Curriculum < ActiveRecord::Base
     siblings_before.last
   end
 
+  def kids
+    if item_is_curriculum?
+      curriculum_item.children
+    else
+      children
+    end
+  end
+
   # Drawing (for debugging)
 
   def self._draw_node_recursively(node, depth)

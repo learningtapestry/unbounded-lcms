@@ -1,4 +1,4 @@
-class LessonPresenter < SimpleDelegator
+class LessonPresenter < CurriculumMapPresenter
   def units
     curriculums.map do |c|
       parent = c.parent
@@ -28,6 +28,10 @@ class LessonPresenter < SimpleDelegator
 
   def tags
     subjects.map(&:name).join(', ')
+  end
+
+  def test_curriculums
+    curriculums
   end
 
   def curriculum
