@@ -1,0 +1,25 @@
+<div class=nc-content>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('.import'), :new_admin_google_doc_definition, class: 'btn btn-success' %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <table class=table>
+    <tr>
+      <th><%= GoogleDocDefinition.human_attribute_name :keyword %>
+      <th><%= GoogleDocDefinition.human_attribute_name :description %>
+      <th><%= GoogleDocDefinition.human_attribute_name :updated_at %>
+      <th>
+    </tr>
+
+    <% @definitions.each do |definition| %>
+      <tr id=google_doc_<%= definition.id %>>
+        <td><%= definition.keyword %>
+        <td><%= definition.description %>
+        <td class=text-nowrap><%= l definition.updated_at, format: :short %>
+    <% end %>
+  </table>
+</div>

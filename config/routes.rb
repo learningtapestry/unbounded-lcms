@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     resources :collection_types
     resources :collections
     resource :curriculum_export, only: %i(new create)
+    resources :google_doc_definitions, only: %i(index new) do
+      get :import, on: :collection
+    end
     resources :google_docs, only: %i(index new) do
       collection do
         get :dangling_links

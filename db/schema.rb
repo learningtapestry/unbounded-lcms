@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226151615) do
+ActiveRecord::Schema.define(version: 20160229141346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,15 @@ ActiveRecord::Schema.define(version: 20160226151615) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  create_table "google_doc_definitions", force: :cascade do |t|
+    t.string   "keyword",     null: false
+    t.string   "description", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "google_doc_definitions", ["keyword"], name: "index_google_doc_definitions_on_keyword", unique: true, using: :btree
 
   create_table "google_doc_images", force: :cascade do |t|
     t.string   "file",         null: false

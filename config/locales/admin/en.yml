@@ -40,6 +40,15 @@ en:
     curriculum_exports:
       new:
         page_title: Export Resources
+    google_doc_definitions:
+      import:
+        success: Glossary imported successfully.
+      index:
+        import: Import
+        page_title: Glossary
+      new:
+        page_title: Import Glossary
+        submit: Import
     google_docs:
       dangling_links:
         page_title: Dangling Links
@@ -152,6 +161,7 @@ en:
       index:
         collection_types: Collection Types
         collections: Collections
+        glossary: Glossary
         google_docs: Google Docs
         page_title: Admin
         pages: Pages
