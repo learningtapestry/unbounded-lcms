@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224200754) do
+ActiveRecord::Schema.define(version: 20160302183515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20160224200754) do
     t.integer "position"
     t.integer "item_id",            null: false
     t.string  "item_type",          null: false
+    t.integer "seed_id"
   end
 
   add_index "curriculums", ["curriculum_type_id"], name: "index_curriculums_on_curriculum_type_id", using: :btree
@@ -286,6 +287,7 @@ ActiveRecord::Schema.define(version: 20160224200754) do
 
   add_foreign_key "curriculums", "curriculum_types"
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
+  add_foreign_key "curriculums", "curriculums", column: "seed_id"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"
   add_foreign_key "resource_alignments", "alignments"

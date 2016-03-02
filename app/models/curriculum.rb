@@ -26,14 +26,22 @@
 # `Curriculum#resource` will find the `Curriculum` `Resource` even if it is
 # an indirect reference through a tree.
 #
+# To make tree navigation more convenient in curriculums that reference
+# other curriculums, a resolved copy of the parent curriculum can be created
+# with `Curriculum#create_tree`.
+#
+# The copy will have all its references resolved as resources, and is available
+# at `Curriculum#tree`.
+#
 # We're using the library `closure_tree`, which gives us handy methods to deal
 # with trees.
-# See: https://github.com/mceachen/closure_tree
+# See: https://github.com/mceachen/closure_tree#accessing-data
 #
 class Curriculum < ActiveRecord::Base
   acts_as_tree order: 'position', dependent: :destroy
 
   belongs_to :parent, class_name: 'Curriculum', foreign_key: 'parent_id'
+  belongs_to :seed, class_name: 'Curriculum', foreign_key: 'seed_id'
 
   belongs_to :curriculum_type
 
@@ -55,6 +63,9 @@ class Curriculum < ActiveRecord::Base
     joins(:curriculum_item).where(item_type: 'Curriculum')
   }
 
+  scope :seeds, -> { where(seed_id: nil) }
+  scope :trees, -> { where.not(seed_id: nil) }
+
   scope :where_subject, ->(subjects) {
     subjects = Array.wrap(subjects)
     return where(nil) unless subjects.any?
@@ -72,6 +83,9 @@ class Curriculum < ActiveRecord::Base
     .joins(resource_item: [:grades])
     .where(grades: { id: Array.wrap(grades).map(&:id) })
   }
+
+  scope :seeds, -> { where(seed_id: nil) }
+  scope :trees, -> { where.not(seed_id: nil) }
 
   scope :ela, -> { where_subject(Subject.ela) }
   scope :math, -> { where_subject(Subject.math) }
@@ -125,14 +139,6 @@ class Curriculum < ActiveRecord::Base
     siblings_before.last
   end
 
-  def kids
-    if item_is_curriculum?
-      curriculum_item.children
-    else
-      children
-    end
-  end
-
   # Drawing (for debugging)
 
   def self._draw_node_recursively(node, depth)
@@ -142,7 +148,7 @@ class Curriculum < ActiveRecord::Base
     puts "#{padding}#{sep}#{desc}"
 
     node.children.each_with_index do |child, i|
-      draw_node_recursively(child, depth+1)
+      _draw_node_recursively(child, depth+1)
     end
   end
 
@@ -150,9 +156,59 @@ class Curriculum < ActiveRecord::Base
   def _draw
     old_logger = ActiveRecord::Base.logger
     ActiveRecord::Base.logger = nil
-    self.class.draw_node_recursively(self, 0)
+    self.class._draw_node_recursively(self, 0)
     ActiveRecord::Base.logger = old_logger
     nil
+  end
+
+  # Shadow tree
+
+  def tree
+    self.class.where(seed_id: self.id, parent_id: nil).first
+  end
+
+  def create_tree_recursively(seed_root = self, seed_leaf = self, tree = nil)
+    tree = self.class.create!(
+      item: seed_leaf.resource,
+      curriculum_type: seed_leaf.curriculum_type,
+      parent: tree,
+      position: seed_leaf.position,
+      seed: seed_root
+    )
+
+    # If the seed_leaf node is a *reference* to another tree, recurse through
+    # the referenced tree.
+    # Otherwise - if the seed_leaf node is itself a tree - recurse through
+    # the seed_leaf node.
+    if seed_leaf.item_is_curriculum?
+      recurse_from = seed_leaf.item 
+    else 
+      recurse_from = seed_leaf
+    end
+
+    recurse_from.children.each do |s|
+      create_tree_recursively(seed_root, s, tree)
+    end
+
+    tree
+  end
+
+  def create_tree(force: false)
+    raise ArgumentError.new('Only root nodes may have trees!') if parent.present?
+    raise ArgumentError.new('Only seed nodes may have trees!') if seed.present?
+
+    if tree.nil? || force
+      transaction do
+        tree.try(:destroy)
+        create_tree_recursively
+      end
+    end
+
+    tree.try(:reload)
+  end
+
+  def tree_or_create
+    tree || create_tree
   end
 
 end

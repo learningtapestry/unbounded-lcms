@@ -42,7 +42,9 @@ class Resource < ActiveRecord::Base
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
   scope :lessons, -> {
-    joins(:curriculums).where(curriculums: { curriculum_type: CurriculumType.lesson })
+    joins(:curriculums)
+    .where(curriculums: { curriculum_type: CurriculumType.lesson })
+    .where.not(curriculums: { seed_id: nil })
   }
 
   scope :where_subject, ->(subjects) {

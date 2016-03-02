@@ -1,4 +1,4 @@
-class LessonPresenter < CurriculumMapPresenter
+class LessonPresenter < SimpleDelegator
   def units
     curriculums.map do |c|
       parent = c.parent
