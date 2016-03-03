@@ -39,6 +39,10 @@ class Resource < ActiveRecord::Base
   has_many :resource_requirements, dependent: :destroy
   has_many :requirements, through: :resource_requirements
 
+  # Slugs
+  has_many :resource_slugs, dependent: :destroy
+  alias_attribute :slugs, :resource_slugs
+
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
   scope :lessons, -> {
@@ -140,4 +144,17 @@ class Resource < ActiveRecord::Base
     end
     by_category
   end
+
+  def first_tree
+    curriculums.trees.first
+  end
+
+  def ela?
+    subjects.include?(Subject.ela)
+  end
+
+  def math?
+    subjects.include?(Subject.math)
+  end
+
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302183515) do
+ActiveRecord::Schema.define(version: 20160302215314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,15 +190,16 @@ ActiveRecord::Schema.define(version: 20160302183515) do
   add_index "resource_resource_types", ["resource_type_id"], name: "index_resource_resource_types_on_resource_type_id", using: :btree
 
   create_table "resource_slugs", force: :cascade do |t|
-    t.integer  "resource_id",            null: false
-    t.integer  "resource_collection_id"
-    t.string   "value",                  null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer "resource_id",                  null: false
+    t.integer "curriculum_id"
+    t.boolean "canonical",     default: true, null: false
+    t.string  "value",                        null: false
   end
 
-  add_index "resource_slugs", ["resource_collection_id"], name: "index_resource_slugs_on_resource_collection_id", using: :btree
-  add_index "resource_slugs", ["resource_id", "resource_collection_id"], name: "index_resource_slugs_on_resource_id_and_resource_collection_id", unique: true, using: :btree
+  add_index "resource_slugs", ["canonical"], name: "index_resource_slugs_on_canonical", using: :btree
+  add_index "resource_slugs", ["curriculum_id"], name: "index_resource_slugs_on_curriculum_id", using: :btree
+  add_index "resource_slugs", ["resource_id", "curriculum_id"], name: "resource_slugs_cur_canonical_unique", unique: true, where: "canonical", using: :btree
+  add_index "resource_slugs", ["resource_id"], name: "index_resource_slugs_on_resource_id", using: :btree
   add_index "resource_slugs", ["value"], name: "index_resource_slugs_on_value", unique: true, using: :btree
 
   create_table "resource_subjects", force: :cascade do |t|
@@ -306,7 +307,7 @@ ActiveRecord::Schema.define(version: 20160302183515) do
   add_foreign_key "resource_related_resources", "resources", column: "related_resource_id"
   add_foreign_key "resource_resource_types", "resource_types"
   add_foreign_key "resource_resource_types", "resources"
-  add_foreign_key "resource_slugs", "resource_collections"
+  add_foreign_key "resource_slugs", "curriculums"
   add_foreign_key "resource_slugs", "resources"
   add_foreign_key "resource_subjects", "resources"
   add_foreign_key "resource_subjects", "subjects"

@@ -53,6 +53,9 @@ class Curriculum < ActiveRecord::Base
 
   has_many :referrers, class_name: 'Curriculum', as: 'item'
 
+  has_many :resource_slugs, dependent: :destroy
+  alias_attribute :slugs, :resource_slugs
+
   # Scopes
 
   scope :with_resources, -> {
@@ -164,7 +167,11 @@ class Curriculum < ActiveRecord::Base
   # Shadow tree
 
   def tree
-    self.class.where(seed_id: self.id, parent_id: nil).first
+    if seed.present?
+      root
+    else
+      self.class.where(seed_id: self.id, parent_id: nil).first
+    end
   end
 
   def create_tree_recursively(seed_root = self, seed_leaf = self, tree = nil)
@@ -209,6 +216,20 @@ class Curriculum < ActiveRecord::Base
 
   def tree_or_create
     tree || create_tree
+  end
+
+  # Slugs
+
+  def create_slugs
+    transaction do
+      tree.self_and_descendants.find_each do |curriculum|
+        ResourceSlug.create_for_curriculum(curriculum)
+      end
+    end
+  end
+
+  def slug
+    slugs.where(canonical: true).first
   end
 
 end

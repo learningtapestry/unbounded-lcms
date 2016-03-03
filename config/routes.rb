@@ -32,4 +32,5 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/*slug' => 'resources#show_with_slug', as: :show_with_slug
 end
