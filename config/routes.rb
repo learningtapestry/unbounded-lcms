@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get '/' => 'welcome#index'
+    get 'google_oauth2_callback' => 'google_oauth2#callback'
     resources :collection_types
     resources :collections
     resource :curriculum_export, only: %i(new create)
@@ -36,7 +37,6 @@ Rails.application.routes.draw do
       collection do
         get :dangling_links
         get :import
-        get :oauth2_callback
       end
     end
     resource :resource_bulk_edits, only: [:new, :create]
