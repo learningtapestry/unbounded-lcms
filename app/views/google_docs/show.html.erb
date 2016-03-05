@@ -18,7 +18,7 @@
         <p class=text-right>
           <%= link_to t('.download_as_pdf'), url_for(format: 'pdf'), class: 'btn btn-success' %>
         </p>
-        <%= @google_doc.content %>
+        <%= @google_doc.html %>
       </div>
     </div>
   </div>

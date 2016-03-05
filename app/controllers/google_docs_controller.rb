@@ -1,9 +1,15 @@
 class GoogleDocsController < ApplicationController
   def show
-    @google_doc = GoogleDocPresenter.new(GoogleDoc.find(params[:id]), request.base_url, view_context)
+    google_doc = GoogleDoc.find(params[:id])
+
     respond_to do |format|
-      format.html
+      format.html do
+        @google_doc = GoogleDocPresenter.new(google_doc, request.base_url, view_context)
+      end
+
       format.pdf do
+        @google_doc = GoogleDocPdfPresenter.new(google_doc, request.base_url, view_context)
+
         render pdf: @google_doc.name,
                disposition: 'attachment',
                margin: {

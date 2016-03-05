@@ -1,11 +1,7 @@
 require 'google/apis/drive_v3'
 
 class GoogleDoc < ActiveRecord::Base
-  FOOTNOTES_CLASS = 'googleDoc__footnotes'
-  KEYWORD_CLASS = 'googleDoc__keyword'
-
   before_save :process_content
-  after_save :download_images
 
   class << self
     def file_id_from_url(url)
@@ -25,74 +21,37 @@ class GoogleDoc < ActiveRecord::Base
     end
   end
 
-  def doc
-    @doc ||= Nokogiri::HTML.fragment(content)
-  end
-
   def original_url
     "https://docs.google.com/document/d/#{file_id}/edit"
   end
 
   private
 
-  def download_images
+  def download_images(doc)
     doc.css('img').each do |img|
       url = img[:src]
       image = GoogleDocImage.create_with(remote_file_url: url).find_or_create_by!(original_url: url)
       img[:src] = image.file.url
     end
-    update_column(:content, doc.to_s)
+    doc
   end
 
-  def mark_footnotes
-    if (hr = doc.at_xpath('hr[following-sibling::div[.//a[starts-with(@id, "ftnt")]]]'))
-      hr[:class] = FOOTNOTES_CLASS
-    end
-  end
-
-  def process_content
-    return unless original_content.present?
-
-    content = wrap_keywords(original_content)
-    self.content = Nokogiri::HTML(content).xpath('/html/body/*').to_s
-    mark_footnotes
-    process_external_links
-    realign_tables
-
-    self.content = doc.to_s
-  end
-
-  def process_external_links
+  def extract_links(doc)
     doc.css('a[href^="https://www.google.com/url"]').each do |a|
       url = URI(a[:href])
       params = Rack::Utils.parse_query(url.query)
       a[:href] = params['q']
       a[:target] = '_blank'
     end
+    doc
   end
 
-  def realign_tables
-    doc.css('table').each do |table|
-      style = table[:style].gsub(/margin-(left|right):[^;]+;?/, '') rescue nil
-      table[:style] = "margin-left:auto;margin-right:auto;#{style}"
-    end
-  end
-
-  def wrap_keywords(content)
-    result = content.dup
-
-    keywords = GoogleDocDefinition.all.map { |d| [d.keyword, d.description] }
-
-    GoogleDocStandard.all.each do |standard|
-      keywords << [standard.name, standard.description]
-    end
-    
-    keywords.each do |keyword, value|
-      value.gsub!('"', '&quot;')
-      node = %Q(<span class=#{KEYWORD_CLASS} data-description="#{value}">#{keyword}</span>)
-      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, node) }
-    end
-
-    result
+  def process_content
+    doc = Nokogiri::HTML(original_content)
+    body_str = doc.xpath('/html/body/*').to_s
+    body = Nokogiri::HTML.fragment(body_str)
+    body = download_images(body)
+    body = extract_links(body)
+    self.content = body.to_s
   end
 end

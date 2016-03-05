@@ -2,40 +2,23 @@ class GoogleDocPresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
 
   CUSTOM_TAG_ELEMENT = 'h4'
+  KEYWORD_CLASS = 'googleDoc__keyword'
   STAR_CLASS = 'googleDoc__star'
   TASK_CLASS = 'googleDoc__task'
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
 
-  attr_reader :host, :view_context
+  attr_reader :doc, :host, :view_context
 
-  def initialize(google_doc, host, view_context)
+  def initialize(google_doc, host, view_context, wrap_keywords: false)
     super(google_doc)
+
     default_url_options[:host] = host
     @host = host
     @view_context = view_context
-  end
-
-  def content
-    @content ||= begin
-      embed_audios
-      embed_videos
-      process_stars
-      process_tasks
-      replace_guide_links
-      doc.to_s.html_safe
-    end
-  end
-
-  def content_for_pdf
-    @content_for_pdf ||= begin
-      process_stars
-      process_tasks(false)
-      replace_guide_links
-      replace_image_sources
-      doc.to_s.html_safe
-    end
+    @wrap_keywords = wrap_keywords
+    init_doc
   end
 
   def dangling_links
@@ -64,6 +47,10 @@ class GoogleDocPresenter < SimpleDelegator
     min_level = headings.map(&:level).minmax.first
     headings.each { |h| h.level -= min_level }
     headings
+  end
+
+  def html
+    doc.to_s.html_safe
   end
 
   private
@@ -143,6 +130,13 @@ class GoogleDocPresenter < SimpleDelegator
     end
   end
 
+  def realign_tables
+    doc.css('table').each do |table|
+      style = table[:style].gsub(/margin-(left|right):[^;]+;?/, '') rescue nil
+      table[:style] = "margin-left:auto;margin-right:auto;#{style}"
+    end
+  end
+
   def replace_guide_links
     doc.css('a[href*="docs.google.com/document/d/"]').each do |a|
       file_id = GoogleDoc.file_id_from_url(a[:href])
@@ -153,13 +147,34 @@ class GoogleDocPresenter < SimpleDelegator
     end
   end
 
-  def replace_image_sources
-    path2public = Rails.root.join('public')
-    doc.css('img[src^="/assets"]').each do |img|
-      img[:src] = "file://#{path2public}#{img[:src]}"
+  def wrap_keywords(content)
+    result = content.dup
+
+    keywords = GoogleDocDefinition.all.map { |d| [d.keyword, d.description] }
+
+    GoogleDocStandard.all.each do |standard|
+      keywords << [standard.name, standard.description]
     end
-    doc.css('img[src^="/uploads"]').each do |img|
-      img[:src] = "file://#{path2public}#{img[:src]}"
+
+    keywords.each do |keyword, value|
+      value.gsub!('"', '&quot;')
+      node = %Q(<span class=#{KEYWORD_CLASS} data-description="#{value}">#{keyword}</span>)
+      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, node) }
     end
+
+    result
+  end
+
+  protected
+
+  def init_doc
+    html = @wrap_keywords ? wrap_keywords(content) : content
+    @doc = Nokogiri::HTML.fragment(html)
+    embed_audios
+    embed_videos
+    process_stars
+    process_tasks
+    realign_tables
+    replace_guide_links
   end
 end
