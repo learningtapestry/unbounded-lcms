@@ -56,6 +56,7 @@ en:
         success: "'%{name}' imported successfully."
       index:
         dangling_links: Dangling Links
+        glossary: Glossary
         import_google_doc: Import Google Doc
         page_title: Google Docs
       new:
@@ -161,7 +162,6 @@ en:
       index:
         collection_types: Collection Types
         collections: Collections
-        glossary: Glossary
         google_docs: Google Docs
         page_title: Admin
         pages: Pages
