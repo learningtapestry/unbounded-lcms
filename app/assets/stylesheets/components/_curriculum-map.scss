@@ -1,0 +1,112 @@
+@mixin curriculum-details {
+  @extend .u-margin-top--xs;
+  font-style: italic;
+}
+
+@mixin curriculum-map($lesson-size: 10px, $lesson-margin: 4px, $lessons-in-row: 4,
+                      $units-in-row: 3, $units-margin: 0, $module-height: 15px,
+                      $module-margin: $ub-xs-padding, $module-padding: $ub-tiny-padding $ub-xs-padding,
+                      $width: 245px, $bg-active: $ub-primary, $bg-base: $ub-panel-bg) {
+
+  $width-for-padding: 15px;
+  $unit-padding: ($width - $width-for-padding - (($lesson-size + $lesson-margin) * $lessons-in-row) * $units-in-row) / $units-in-row;
+  $units-row: (($lesson-size + $lesson-margin) * $lessons-in-row) * $units-in-row + $unit-padding * $units-in-row;
+  $lessons-row: ($lesson-size + $lesson-margin) * $lessons-in-row + $unit-padding;
+
+  @include flex-grid-row(nest);
+  flex-direction: column;
+
+  @include e(module-wrap) {
+    @include flex-grid-column();
+    margin-bottom: $module-margin;
+    width: $width;
+  }
+
+  @include e(module) {
+    @extend .u-text--small;
+    background-color: $bg-base;
+    color: $ub-white;
+    font-weight: bold;
+    min-height: $module-height;
+    padding: $module-padding;
+    text-transform: uppercase;
+  }
+
+  @include e(item) {
+    @include m(active) {
+      background-color: $bg-active;
+    }
+  }
+
+  @include e(units-wrap) {
+    @include flex-grid-column();
+    @extend .u-margin-bottom--xs;
+    margin-top: $units-margin;
+  }
+
+  @include e(units) {
+    @include flex-grid-row();
+    @include flex-grid-row-align($x: left, $y: top);
+    margin-left: 0;
+    width: $units-row;
+  }
+
+  @include e(unit) {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin-bottom: min($unit-padding, 10px);
+    padding-right: $unit-padding;
+    width: $lessons-row;
+  }
+
+  @include e(lesson) {
+    background-color: $bg-base;
+    height: $lesson-size;
+    margin: 0 $lesson-margin $lesson-margin 0;
+    width: $lesson-size;
+  }
+
+}
+
+.o-c-map {
+  @extend .u-margin-top--small;
+  @include curriculum-map($lesson-size: 12px);
+}
+
+.o-ch-map {
+  @include curriculum-map($width: 220px, $module-padding: 8px, $bg-base: $ub-primary);
+
+  @include e(details) {
+    @include curriculum-details;
+  }
+}
+
+.o-ch-short-map {
+  @include curriculum-map($lesson-size: 4px, $lesson-margin: 2px,
+                          $width: 100px, $module-height: 5px,
+                          $module-margin: 2px, $units-margin: 5px,
+                          $module-padding: 2px, $bg-base: $ub-primary);
+
+  @include e(details) {
+    display: none;
+  }
+}
+
+.o-ch-unit-map {
+  @include curriculum-map($lesson-size: 35px, $lesson-margin: 8px,
+                          $units-in-row: 1, $width: 200px,
+                          $bg-base: $ub-primary);
+  @include e(details) {
+    @include curriculum-details;
+  }
+}
+
+.o-ch-short-unit-map {
+  @include curriculum-map($lesson-size: 12px,
+                          $units-in-row: 1, $width: 85px,
+                          $bg-base: $ub-primary);
+  @include e(details) {
+    display: none;
+  }
+}

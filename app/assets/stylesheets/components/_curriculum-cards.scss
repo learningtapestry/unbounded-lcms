@@ -1,0 +1,39 @@
+$ub-cur-card-margin: 2px;
+
+.o-cur-card {
+  @extend .u-wrap--light;
+  @include flex-grid-row();
+  box-shadow: 0 $ub-cur-card-margin $ub-cur-card-margin rgba(0, 0, 0, .12);
+  cursor: pointer;
+  margin-bottom: $ub-cur-card-margin;
+
+  @include m(grade) {
+    margin-bottom: $ub-xlarge-margin;
+  }
+
+  @include m(short) {
+    @include flex-grid-row-align($y: middle);
+    margin-bottom: $ub-cur-card-margin !important;
+  }
+
+  @include e(map) {
+    @include flex-grid-column(shrink);
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column wrap;
+  }
+
+  @include e(body) {
+    @include flex-grid-column();
+
+    @include m(short) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  @include e(actions) {
+    @include flex-grid-column(shrink);
+  }
+}

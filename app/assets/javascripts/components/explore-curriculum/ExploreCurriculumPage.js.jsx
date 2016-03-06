@@ -102,7 +102,7 @@ class ExploreCurriculumPage extends React.Component {
           onUpdate={this.handleFilterbarUpdate.bind(this)}
           {...this.state.filterbar} />
         <ExploreCurriculumHeader totalItems={this.state.curriculums.length} />
-        <div className="o-dsc">
+        <div className="c-ec-cards">
           {curriculums}
         </div>
       </div>
