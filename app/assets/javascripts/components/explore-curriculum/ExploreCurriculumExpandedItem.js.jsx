@@ -14,7 +14,7 @@ function ExploreCurriculumExpandedItem(props) {
           <span className="o-title__duration">{resource.estimated_time} min</span>
         </div>
         <h2>{resource.title}</h2>
-        <div dangerouslySetInnerHTML={description}></div>
+        <div className="u-html-description" dangerouslySetInnerHTML={description}></div>
       </div>
       <div className="o-cur-card__actions">
         <div>

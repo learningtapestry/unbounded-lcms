@@ -1,5 +1,4 @@
 @mixin curriculum-details {
-  @extend .u-margin-top--xs;
   font-style: italic;
 }
 
@@ -40,7 +39,6 @@
 
   @include e(units-wrap) {
     @include flex-grid-column();
-    @extend .u-margin-bottom--xs;
     margin-top: $units-margin;
   }
 
@@ -55,7 +53,7 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
-    margin-bottom: min($unit-padding, 10px);
+    margin-bottom: min($unit-padding, $lesson-size * 2);
     padding-right: $unit-padding;
     width: $lessons-row;
   }
