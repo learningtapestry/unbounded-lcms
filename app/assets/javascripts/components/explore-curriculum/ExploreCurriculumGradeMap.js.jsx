@@ -1,24 +1,30 @@
 function ExploreCurriculumGradeMap(props) {
-  const mainClass = classNames({ 'o-ch-map': props.expanded,
-                                 'o-ch-short-map': !props.expanded });
-  const cssClasses = cssCurrirulumMapClasses(mainClass);
-  const details = props.expanded ?
-          <div className="o-ch-map__details">
-            <span>Show Modules</span>
-          </div> : '';
+  const mainClass = classNames({
+    'o-ch-map': props.expanded,
+    'o-ch-short-map': !props.expanded
+  });
 
-  let grades = _.range(7).map((v, i) => { return { styles: {width: `${_.random(70, 100)}%`}, short_title: `grade ${i}` }; });
+  const details = props.expanded ?
+    <div className="o-ch-map__details">
+      <span>Show Modules</span>
+    </div> : '';
+
+  const min = Math.min(...props.curriculum.module_sizes),
+        max = Math.max(...props.curriculum.module_sizes);
+
+  let grades = props.curriculum.module_sizes.map((size, i) => {
+    const styles = { width: `${scaleNumber(size, min, max, 70, 100)}%` };
+    return (
+      <div key={i} className={`${mainClass}__module-wrap`}>
+        <div className={`${mainClass}__module`} style={styles}></div>
+      </div>
+    );
+  });
 
   return (
     <div className="o-cur-card__map" onClick={props.onClickDetails}>
       <div className={mainClass}>
-        { grades.map(grade => {
-          return (
-            <div className={cssClasses['module-wrap']}>
-              <div className={cssClasses['module']} style={grade.styles}></div>
-            </div>
-          );
-        })}
+        {grades}
       </div>
       {details}
     </div>

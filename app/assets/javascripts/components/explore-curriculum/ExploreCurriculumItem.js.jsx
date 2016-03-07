@@ -1,5 +1,7 @@
 function ExploreCurriculumItem(props) {
+
   let curriculum = props.index[props.id];
+  
   // An item should expand if its parent is the last parent in the active branch.
   // Collapsed Grade -> Collapsed Mod -> Expanded Unit 1, Unit 2, Unit 3
   let item;

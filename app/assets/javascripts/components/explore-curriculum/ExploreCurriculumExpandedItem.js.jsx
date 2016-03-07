@@ -1,9 +1,25 @@
 function ExploreCurriculumExpandedItem(props) {
-  let resource = props.curriculum.resource;
+  const resource = props.curriculum.resource;
+
+  const curriculumComponent = {
+    'grade': ExploreCurriculumGradeMap,
+    'module': ExploreCurriculumModuleMap,
+    'unit': ExploreCurriculumUnitMap,
+    'lesson': ExploreCurriculumGradeMap
+  }[props.curriculum.type];
+
+  const curriculumMap = React.createElement(curriculumComponent, {
+    expanded: true,
+    onClickDetails: props.onClickViewDetails,
+    curriculum: props.curriculum
+  });
+  
+  const cssClasses = classNames(
+    'o-cur-card',
+    `o-cur-card--${props.curriculum.type}`
+  );
+
   const description = { __html: resource.description };
-  const cssClasses = classNames("o-cur-card", `o-cur-card--${props.curriculum.type}`);
-  let curriculumMap = React.createElement(curriculumMapComponents[props.curriculum.type],
-                                         { expanded: true, onClickDetails: props.onClickViewDetails});
 
   return (
     <div className={cssClasses}>
