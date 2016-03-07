@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get '/about' => 'pages#show_slug', slug: 'about'
   get '/tos' => 'pages#show_slug', as: :tos_page, slug: 'tos'
 
+  get  '/search' => 'search#index'
+  post '/search' => 'search#search'
+
   resources :explore_curriculum, only: [:index, :show]
   resources :find_lessons, only: :index
   resources :lessons, only: :show
