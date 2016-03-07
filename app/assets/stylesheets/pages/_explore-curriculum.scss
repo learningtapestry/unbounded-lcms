@@ -1,0 +1,28 @@
+.c-ec-cards {
+  @include flex-grid-column();
+
+  @include e(children) {
+    margin-left: $ub-xlarge-margin;
+    margin-bottom: 0;
+    margin-top: 0;
+
+    @include m(expanded) {
+      margin-bottom: $ub-large-margin;
+      margin-top: $ub-large-margin;
+    }
+
+    @include m(lessons) {
+      @include flex-grid-row(nest);
+
+      @each $breakpoint in $breakpoint-classes {
+        @include breakpoint($breakpoint) {
+          margin-left: $ub-xlarge-margin;
+        }
+      }
+    }
+  }
+}
+
+.c-ec-card {
+
+}
