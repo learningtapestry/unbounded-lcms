@@ -47,10 +47,14 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleClickExpand(parentage) {
-    this.setState({
-      ...this.state,
-      active: parentage
-    });
+    if (parentage[parentage.length-1] === this.state.active[parentage.length-1]) {
+      this.setState({
+        ...this.state,
+        active: parentage
+      });
+    } else {
+      this.handleClickViewDetails(parentage);
+    }
   }
 
   handleClickViewDetails(parentage) {
