@@ -1,4 +1,6 @@
-function scaleNumber(src, minSrc, maxSrc, minTgt, maxTgt) {
+// Scales a number `src` from range `[minSrc,maxSrc]` to `[minTgt,maxTgt]`.
+// Ref. http://stackoverflow.com/a/5295202
+function scaleNumber(minTgt, maxTgt, minSrc, maxSrc, src) {
   src = parseFloat(src);
   return (((maxTgt - minTgt) * (src - minSrc)) / (maxSrc - minSrc)) + minTgt;
 }
