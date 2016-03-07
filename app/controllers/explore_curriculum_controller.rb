@@ -18,7 +18,8 @@ class ExploreCurriculumController < ApplicationController
   end
 
   def set_index_props
-      @curriculums = Curriculum.grades
+      @curriculums = Curriculum.trees
+        .grades
         .with_resources
         .where_subject(Subject.from_names(subject_params))
         .where_grade(Grade.from_names(grade_params))
@@ -31,6 +32,6 @@ class ExploreCurriculumController < ApplicationController
 
   def set_show_props
     @curriculum = Curriculum.find(params[:id])
-    @props = CurriculumSerializer.new(@curriculum, with_children: true).as_json
+    @props = CurriculumSerializer.new(@curriculum, depth: 1).as_json
   end
 end

@@ -8,18 +8,18 @@ class CurriculumSerializer < ActiveModel::Serializer
 
   def initialize(object, options = {})
     super(object, options)
-    @with_children = !!options[:with_children]
+    @depth = options[:depth] || 0
   end
 
   def children
-    if @with_children
+    if @depth > 0
       kids = if object.item_is_curriculum?
         object.curriculum_item.children
       else
         object.children
       end
 
-      kids.map { |c| CurriculumSerializer.new(c).as_json }
+      kids.map { |c| CurriculumSerializer.new(c, depth: @depth - 1).as_json }
     else
       []
     end
