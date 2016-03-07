@@ -11,7 +11,7 @@ function ExploreCurriculumUnitMap(props) {
       <span>Show Lessons</span>
     </div> : '';
 
-  let lessons = [];
+  const lessons = [];
 
   for (let i = 0; i < props.curriculum.lesson_count; i++) {
     lessons.push((

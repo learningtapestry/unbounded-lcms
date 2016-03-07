@@ -55,7 +55,7 @@ class ExploreCurriculumPage extends React.Component {
 
   handleClickViewDetails(parentage) {
     const id = _.last(parentage);
-    let cur = this.state.curriculumsIndex[id];
+    const cur = this.state.curriculumsIndex[id];
 
     if (cur && cur.requested) {
       this.setActive(parentage, cur);
@@ -76,7 +76,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleFilterbarUpdate(filterbar) {
-    let newState = Object.assign({}, this.state, { filterbar: filterbar });
+    const newState = Object.assign({}, this.state, { filterbar: filterbar });
     this.setState(newState, () => {
       this.fetch().then(response => {
         this.setState(this.buildStateFromProps(response));

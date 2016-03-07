@@ -1,15 +1,14 @@
 function ExploreCurriculumItem(props) {
 
-  let curriculum = props.index[props.id];
+  const curriculum = props.index[props.id];
   
   // An item should expand if its parent is the last parent in the active branch.
   // Collapsed Grade -> Collapsed Mod -> Expanded Unit 1, Unit 2, Unit 3
-  let item;
-  let activeParent = props.index[props.active[props.active.length - 2]];
-  let shouldItemExpand = props.active.length === 1 ||
+  const activeParent = props.index[props.active[props.active.length - 2]];
+  const shouldItemExpand = props.active.length === 1 ||
     _.some(activeParent.children, c => c.id === props.id);
 
-  item = shouldItemExpand ?
+  const item = shouldItemExpand ?
     <ExploreCurriculumExpandedItem
       curriculum={curriculum}
       onClickViewDetails={props.onClickViewDetails.bind(this, props.parentage)} /> :
@@ -18,7 +17,6 @@ function ExploreCurriculumItem(props) {
       onClickExpand={props.onClickExpand.bind(this, props.parentage)} />;
 
   // Children should be rendered if the item is a parent in the active branch.
-  let children;
   const shouldRenderChildren = props.active.length > 1 &&
     _.includes(props.active, props.id) &&
     _.last(props.active) !== props.id;
@@ -27,7 +25,7 @@ function ExploreCurriculumItem(props) {
                                { 'c-ec-cards__children--lessons': curriculum.type === 'unit',
                                  'c-ec-cards__children--expanded': shouldRenderChildren });
 
-  children = shouldRenderChildren ?
+  const children = shouldRenderChildren ?
     curriculum.children.map(c => (
       c.type === 'lesson' ?
         <LessonCard key={c.resource.id} lesson={c.resource} type="light" /> :

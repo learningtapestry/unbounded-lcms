@@ -12,7 +12,7 @@ function ExploreCurriculumGradeMap(props) {
   const min = Math.min(...props.curriculum.module_sizes),
         max = Math.max(...props.curriculum.module_sizes);
 
-  let grades = props.curriculum.module_sizes.map((size, i) => {
+  const grades = props.curriculum.module_sizes.map((size, i) => {
     const styles = { width: `${scaleNumber(size, min, max, 70, 100)}%` };
     return (
       <div key={i} className={`${mainClass}__module-wrap`}>

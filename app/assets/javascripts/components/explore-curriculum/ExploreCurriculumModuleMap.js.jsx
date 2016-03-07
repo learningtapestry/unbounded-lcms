@@ -14,8 +14,8 @@ function ExploreCurriculumModuleMap(props) {
   const min = Math.min(...props.curriculum.unit_sizes),
         max = Math.max(...props.curriculum.unit_sizes);
 
-  let units = props.curriculum.unit_sizes.map((size, i) => {
-    let lessons = [];
+  const units = props.curriculum.unit_sizes.map((size, i) => {
+    const lessons = [];
 
     for (let j = 0; j < size; j++) {
       lessons.push((

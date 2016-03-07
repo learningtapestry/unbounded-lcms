@@ -1,5 +1,5 @@
 function ExploreCurriculumCollapsedItem(props) {
-  let resource = props.curriculum.resource;
+  const resource = props.curriculum.resource;
 
   const curriculumComponent = {
     'grade': ExploreCurriculumGradeMap,
@@ -8,7 +8,7 @@ function ExploreCurriculumCollapsedItem(props) {
     'lesson': ExploreCurriculumGradeMap
   }[props.curriculum.type];
 
-  let curriculumMap = React.createElement(curriculumComponent, {
+  const curriculumMap = React.createElement(curriculumComponent, {
     expanded: false,
     onClickDetails: props.onClickExpand,
     curriculum: props.curriculum

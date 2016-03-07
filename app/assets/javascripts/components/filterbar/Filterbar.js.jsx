@@ -2,7 +2,7 @@ class Filterbar extends React.Component {
   constructor(props) {
     super(props);
 
-    let initialState = {
+    const initialState = {
       subjects: [
         { displayName: 'ELA', name: 'ela', selected: false },
         { displayName: 'MATH', name: 'math', selected: false }
@@ -54,7 +54,7 @@ class Filterbar extends React.Component {
   }
 
   createQuery(state) {
-    let query = {
+    const query = {
       subjects: _.chain(state.subjects)
         .filter((subject) => subject.selected)
         .map(subject => subject.name)

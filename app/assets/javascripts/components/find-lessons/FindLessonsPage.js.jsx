@@ -19,14 +19,14 @@ class FindLessonsPage extends React.Component {
   }
 
   fetch() {
-    let query = {
+    const query = {
       format: 'json',
       per_page: this.state.per_page,
       order: this.state.order,
       page: this.state.current_page,
       ...this.state.filterbar.query
     }
-    let url = Routes.find_lessons_path(query);
+    const url = Routes.find_lessons_path(query);
     
     fetch(url).then(r => r.json()).then(response => {
       this.setState(this.buildStateFromProps(response));
@@ -34,17 +34,17 @@ class FindLessonsPage extends React.Component {
   }
 
   handlePageClick(data) {
-    let selected = data.selected;
+    const selected = data.selected;
     this.setState(Object.assign({}, this.state, { current_page: selected + 1 }), this.fetch);
   }
 
   handleChangePerPage(event) {
-    let newPerPage = event.target.value;
+    const newPerPage = event.target.value;
     this.setState(Object.assign({}, this.state, { per_page: newPerPage }), this.fetch);
   }
 
   handleChangeOrder(event) {
-    let newOrder = event.target.value;
+    const newOrder = event.target.value;
     this.setState(Object.assign({}, this.state, { order: newOrder }), this.fetch);
   }
 
