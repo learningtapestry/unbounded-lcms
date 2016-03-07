@@ -1,6 +1,6 @@
 function LessonCard(props) {
   let markup = { __html: props.lesson.description };
-  const url = Routes.lesson_path(props.lesson.id);
+  const url = props.lesson.path;
   const cssClasses = `u-wrap--${props.type}`;
 
   return (

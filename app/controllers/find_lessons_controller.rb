@@ -18,7 +18,7 @@ class FindLessonsController < ApplicationController
         .where_subject(Subject.from_names(subject_params))
         .where_grade(Grade.from_names(grade_params))
         .paginate(pagination_params.slice(:page, :per_page))
-        .order(created_at: pagination_params[:order])
+        .order('resources.created_at desc')
     end
 
     def set_props

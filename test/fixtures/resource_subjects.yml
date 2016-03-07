@@ -5,3 +5,7 @@ unbounded_chemistry:
 unbounded_math:
   resource: unbounded
   subject: math
+
+math_lesson_1:
+  resource: math_lesson_1
+  subject: math

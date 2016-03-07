@@ -157,4 +157,14 @@ class Resource < ActiveRecord::Base
     subjects.include?(Subject.math)
   end
 
+  def top_subject
+    if ela?
+      Subject.ela
+    elsif math?
+      Subject.math
+    else
+      nil
+    end
+  end
+
 end

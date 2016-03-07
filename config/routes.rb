@@ -7,9 +7,8 @@ Rails.application.routes.draw do
 
   resources :explore_curriculum, only: [:index, :show]
   resources :find_lessons, only: :index
-  resources :lessons, only: :show
   resources :pages, only: :show
-  resources :units, only: :show
+  resources :resources, only: :show
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
@@ -32,5 +31,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/*slug' => 'resources#show_with_slug', as: :show_with_slug
+  get '/*slug' => 'resources#show', as: :show_with_slug
 end

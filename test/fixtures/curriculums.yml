@@ -2,54 +2,48 @@ math_map:
   curriculum_type: map
   item: math_curriculum_root(Resource)
 
-math_map_grade:
+math_map_grade_1:
   curriculum_type: grade
-  item: math_grade(Curriculum)
+  item: math_grade_1(Curriculum)
   parent: math_map
 
-math_grade:
+math_grade_1:
   curriculum_type: grade
-  item: math_grade(Resource)
+  item: math_grade_1(Resource)
 
-math_grade_module:
+math_grade_1_module_1:
   curriculum_type: module
-  item: math_module(Curriculum)
-  parent: math_grade
+  item: math_module_1(Curriculum)
+  parent: math_grade_1
 
-math_module:
+math_module_1:
   curriculum_type: module
-  item: math_module(Resource)
+  item: math_module_1(Resource)
 
-math_module_unit:
+math_module_1_unit_1:
   curriculum_type: unit
-  item: math_unit(Curriculum)
-  parent: math_module
+  item: math_unit_1(Curriculum)
+  parent: math_module_1
 
-math_unit:
+math_unit_1:
   curriculum_type: unit
-  item: math_unit(Resource)
+  item: math_unit_1(Resource)
 
-math_unit_lesson:
-  curriculum_type: lesson
-  item: math_lesson(Resource)
-  parent: math_unit
-  position: 0
-
-math_unit_lesson_1:
+math_unit_1_lesson_1:
   curriculum_type: lesson
   item: math_lesson_1(Resource)
-  parent: math_unit 
-  position: 1 
+  parent: math_unit_1
+  position: 0
 
 ela_map:
   curriculum_type: map
   item: ela_curriculum_root(Resource)
 
-ela_grade:
+ela_grade_1:
   curriculum_type: grade
-  item: ela_grade(Resource)
+  item: ela_grade_1(Resource)
 
-ela_map_grade:
+ela_map_grade_1:
   curriculum_type: grade
-  item: ela_grade(Curriculum)
+  item: ela_grade_1(Curriculum)
   parent: ela_map

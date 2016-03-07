@@ -1,21 +1,24 @@
 class ResourcesController < ApplicationController
-  before_action :find_resource
+  def show
+    find_resource_and_curriculum
 
-  def show_with_slug
-    presenter, view, resource_variable =
-      case @curriculum.current_level
-      when :lesson then [LessonPresenter, 'lessons/show', '@lesson']
-      else [LessonPresenter, 'lessons/show', '@lesson']
-      end
-
-    instance_variable_set(resource_variable, presenter.new(@resource))
-    render view
+    if params[:id].present? && slug = @curriculum.slug
+      return redirect_to show_with_slug_path(slug.value), status: 301
+    end
   end
 
   protected
-    def find_resource
-      slug = ResourceSlug.find_by_value!(params[:slug])
-      @resource = slug.resource
-      @curriculum = CurriculumPresenter.new(slug.curriculum)
+    def find_resource_and_curriculum
+      if params[:slug].present?
+        slug = ResourceSlug.find_by_value!(params[:slug])
+        resource = slug.resource
+        curriculum = slug.curriculum
+      else
+        resource = Resource.find(params[:id])
+        curriculum = resource.first_tree
+      end
+
+      @resource = ResourcePresenter.new(resource)
+      @curriculum = CurriculumPresenter.new(curriculum)
     end
 end

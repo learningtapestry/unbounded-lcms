@@ -1,4 +1,4 @@
-class CurriculumSerializer < ActiveModel::Serializer
+class CurriculumSerializer < ActiveModel::Serializer  
   self.root = false
 
   attributes :id,
@@ -35,9 +35,10 @@ class CurriculumSerializer < ActiveModel::Serializer
 
   class ResourceSerializer < ActiveModel::Serializer
     include TruncateHtmlHelper
+    include ResourceHelper
 
     self.root = false
-    attributes :id, :title, :short_title, :description, :estimated_time
+    attributes :id, :title, :short_title, :description, :estimated_time, :path
 
     def description
       truncate_html(object.description, length: 200)
@@ -45,6 +46,10 @@ class CurriculumSerializer < ActiveModel::Serializer
 
     def estimated_time
       40
+    end
+
+    def path
+      show_resource_path(object)
     end
   end
 end
