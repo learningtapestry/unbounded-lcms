@@ -1,4 +1,5 @@
 class Resource < ActiveRecord::Base
+  include Search::ResourcesSearch
 
   # Additonal resources
   has_many :resource_additional_resources, dependent: :destroy
