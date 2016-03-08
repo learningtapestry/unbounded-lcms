@@ -1,5 +1,5 @@
 function LessonCard(props) {
-  const markup = { __html: props.lesson.description };
+  const markup = { __html: props.lesson.teaser };
   const url = props.lesson.path;
   const cssClasses = `u-wrap--${props.type}`;
 

@@ -8,6 +8,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     :curriculum_id,
     :title,
     :short_title,
+    :teaser,
     :description,
     :text_description,
     :estimated_time,
@@ -28,6 +29,10 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
 
   def short_title
     object.resource.short_title
+  end
+
+  def teaser
+    object.resource.teaser
   end
 
   def description
