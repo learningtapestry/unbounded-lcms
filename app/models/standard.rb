@@ -1,5 +1,7 @@
 class Standard < ActiveRecord::Base
   has_many :resource_standards
+  belongs_to :standard_cluster
+  belongs_to :standard_domain
 
   default_scope { order(:name) }
 
