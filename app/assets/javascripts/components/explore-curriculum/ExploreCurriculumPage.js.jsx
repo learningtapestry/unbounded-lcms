@@ -21,7 +21,7 @@ class ExploreCurriculumPage extends React.Component {
   createQuery(state) {
     return {
       format: 'json',
-      ...state.filterbar.query
+      ...state.filterbar
     };
   }
 
