@@ -33,7 +33,7 @@
 
   @include e(item) {
     @include m(active) {
-      background-color: $bg-active;
+      background-color: $bg-active !important;
     }
   }
 
