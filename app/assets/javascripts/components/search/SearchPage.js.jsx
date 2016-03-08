@@ -58,6 +58,7 @@ class SearchPage extends React.Component {
         <Filterbar
           onUpdate={this.handleFilterbarUpdate.bind(this)}
           {...this.props.filterbar} />
+        <Searchbar />
         <h2>TODO: results goes here!!</h2>
         <PaginationBoxView previousLabel={"< Previous"}
                         nextLabel={"Next >"}

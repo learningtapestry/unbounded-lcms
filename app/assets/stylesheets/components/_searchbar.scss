@@ -1,0 +1,37 @@
+@mixin o-searchbar-selectable {
+  @include button;
+
+  color: $ub-whitesmoke;
+  margin: 0 $ub-tiny-margin;
+
+  &:hover {
+    background-color: scale-color($button-background, $lightness: -50%);
+    color: $ub-whitesmoke;
+  }
+
+  &--selected {
+    & {
+      background-color: scale-color($button-background, $lightness: -50%);
+      color: #fff;
+    }
+  }
+}
+
+.o-searchbar {
+  display: flex;
+  margin: $ub-small-margin 0;
+  justify-content: space-between;
+
+  @include flex-grid-column(100%);
+
+  @include e(facets-list) {
+    @include e(facet) {
+      @include o-searchbar-selectable;
+      padding: 1em 2.4em;
+    }
+  }
+
+  .o-searchbar__input {
+    width: 65%;
+  }
+}
