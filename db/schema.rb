@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308190336) do
+ActiveRecord::Schema.define(version: 20160308214458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -241,15 +241,18 @@ ActiveRecord::Schema.define(version: 20160308190336) do
   end
 
   create_table "standards", force: :cascade do |t|
-    t.string   "name"
-    t.string   "framework"
-    t.string   "framework_url"
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "domain"
+    t.string   "cluster"
+    t.string   "subject",    null: false
   end
 
-  add_index "standards", ["framework"], name: "index_standards_on_framework", using: :btree
-  add_index "standards", ["framework_url"], name: "index_standards_on_framework_url", using: :btree
+  add_index "standards", ["cluster"], name: "index_standards_on_cluster", using: :btree
+  add_index "standards", ["domain"], name: "index_standards_on_domain", using: :btree
+  add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
+  add_index "standards", ["subject"], name: "index_standards_on_subject", using: :btree
 
   create_table "subjects", force: :cascade do |t|
     t.string   "name"
