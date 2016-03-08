@@ -16,7 +16,7 @@ class CurriculumExporter
 
     resources = Resource.select('DISTINCT resources.*').
                        where('(resources.id IN (:root_ids)) OR (resources.id IN (:child_ids))', child_ids: child_ids_rel, root_ids: root_ids_rel).
-                       includes(:alignments, :grades, :resource_types, :subjects)
+                       includes(:standards, :grades, :resource_types, :subjects)
 
     package = Axlsx::Package.new
     package.workbook.add_worksheet(name: 'Resources') do |sheet|
@@ -30,7 +30,7 @@ class CurriculumExporter
           resource.text_description,
           "#{HOST}/resources/#{resource.id}",
           resource.grades.map(&:grade).join(', '),
-          resource.alignments.map(&:name).join(', '),
+          resource.standards.map(&:name).join(', '),
           resource.resource_types.map(&:name).join(', '),
           resource.subjects.map(&:name).join(', ')
         ])

@@ -5,8 +5,8 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     super
 
     @admin          = users(:admin)
-    @alignment1     = alignments(:mp1)
-    @alignment2     = alignments(:mp2)
+    @standard1     = standards(:mp1)
+    @standard2     = standards(:mp2)
     @description    = Faker::Lorem.sentence(10)
     @easol_resource  = resources(:easol)
     @grade1         = grades(:grade1)
@@ -43,8 +43,8 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     select @topic2.name,          from: 'Topics'
     select @resource_type1.name,  from: 'Resource types'
     select @resource_type2.name,  from: 'Resource types'
-    select @alignment1.name,      from: 'Alignments'
-    select @alignment2.name,      from: 'Alignments'
+    select @standard1.name,      from: 'Standards'
+    select @standard2.name,      from: 'Standards'
     select @easol_resource.title,  from: 'Related materials'
     select @other_resource.title, from: 'Additional materials'
     within '#resource_form' do
@@ -57,7 +57,7 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     assert_equal resource.subtitle,     @subtitle
     assert_equal resource.title,        @title
     assert_same_elements resource.additional_resources, [@other_resource]
-    assert_same_elements resource.alignments,          [@alignment1, @alignment2]
+    assert_same_elements resource.standards,          [@standard1, @standard2]
     assert_same_elements resource.grades,              [@grade1, @grade2]
     assert_same_elements resource.related_resources,    [@easol_resource]
     assert_same_elements resource.resource_types,      [@resource_type1, @resource_type2]
@@ -81,8 +81,8 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     select @topic2.name, from: 'Topics'
     resource.resource_types.each { |resource_type| unselect resource_type.name, from: 'Resource types' }
     select @resource_type2.name, from: 'Resource types'
-    resource.alignments.each { |alignment| unselect alignment.name, from: 'Alignments' }
-    select @alignment2.name, from: 'Alignments'
+    resource.standards.each { |standard| unselect standard.name, from: 'Standards' }
+    select @standard2.name, from: 'Standards'
     unselect @easol_resource.title, from: 'Related materials'
     select @other_resource.title, from: 'Related materials'
     unselect @other_resource.title, from: 'Additional materials'
@@ -97,7 +97,7 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     assert_equal resource.subtitle,    @subtitle
     assert_equal resource.title,       @title
     assert_same_elements resource.additional_resources, [@easol_resource]
-    assert_same_elements resource.alignments,          [@alignment2]
+    assert_same_elements resource.standards,          [@standard2]
     assert_same_elements resource.grades,              [@grade2]
     assert_same_elements resource.related_resources,    [@other_resource]
     assert_same_elements resource.resource_types,      [@resource_type2]

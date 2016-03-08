@@ -21,8 +21,8 @@ Unbounded.highlights = {
     });
   },
   findHighlights: function(resourceId) {
-    return _.filter(this._highlights, function(alignment) {
-      return _.some(alignment.highlights, function(highlightedId) {
+    return _.filter(this._highlights, function(standard) {
+      return _.some(standard.highlights, function(highlightedId) {
         return highlightedId == resourceId;
       });
     });

@@ -12,9 +12,9 @@ class Resource < ActiveRecord::Base
   has_many :resource_topics, dependent: :destroy
   has_many :topics, through: :resource_topics
 
-  # Alignments.
-  has_many :resource_alignments, dependent: :destroy
-  has_many :alignments, through: :resource_alignments
+  # Standards.
+  has_many :resource_standards, dependent: :destroy
+  has_many :standards, through: :resource_standards
 
   # Resource types.
   has_many :resource_resource_types, dependent: :destroy
@@ -85,10 +85,10 @@ class Resource < ActiveRecord::Base
 
       transaction do
         resources.each do |resource|
-          # Alignments
-          resource.resource_alignments.where(alignment_id: before.alignment_ids).where.not(alignment_id: after.alignment_ids).destroy_all
-          (after.alignment_ids - before.alignment_ids).each do |alignment_id|
-            resource.resource_alignments.find_or_create_by!(alignment_id: alignment_id)
+          # Standards
+          resource.resource_standards.where(standard_id: before.standard_ids).where.not(standard_id: after.standard_ids).destroy_all
+          (after.standard_ids - before.standard_ids).each do |standard_id|
+            resource.resource_standards.find_or_create_by!(standard_id: standard_id)
           end
 
           # Grades
@@ -114,7 +114,7 @@ class Resource < ActiveRecord::Base
 
     def init_for_bulk_edit(resources)
       resource = new
-      resource.alignment_ids     = resources.map(&:alignment_ids).inject { |memo, ids| memo &= ids }
+      resource.standard_ids     = resources.map(&:standard_ids).inject { |memo, ids| memo &= ids }
       resource.grade_ids         = resources.map(&:grade_ids).inject { |memo, ids| memo &= ids }
       resource.resource_type_ids = resources.map(&:resource_type_ids).inject { |memo, ids| memo &= ids }
       resource.subject_ids       = resources.map(&:subject_ids).inject { |memo, ids| memo &= ids }

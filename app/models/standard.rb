@@ -1,5 +1,5 @@
-class Alignment < ActiveRecord::Base
-  has_many :resource_alignments
+class Standard < ActiveRecord::Base
+  has_many :resource_standards
 
   default_scope { order(:name) }
 
@@ -8,7 +8,7 @@ class Alignment < ActiveRecord::Base
   end
 
   def self.by_grades(grades)
-    joins(resource_alignments: { resource: [:grades] }).where(
+    joins(resource_standards: { resource: [:grades] }).where(
       'grades.id' => grades.map(&:id)
     )
   end
@@ -18,7 +18,7 @@ class Alignment < ActiveRecord::Base
   end
 
   def self.by_collections(collections)
-    joins(resource_alignments: { resource: [:resource_children] }).where(
+    joins(resource_standards: { resource: [:resource_children] }).where(
       'resource_children.resource_collection_id' => collections.map(&:id)
     )
   end

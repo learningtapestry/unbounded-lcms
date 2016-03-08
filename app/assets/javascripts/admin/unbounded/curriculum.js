@@ -39,8 +39,8 @@
   }
 
   function highlightLessons(highlights) {
-    _.each(highlights, function(alignment) {
-      _.each(alignment.highlights, function(highlight) {
+    _.each(highlights, function(standard) {
+      _.each(standard.highlights, function(highlight) {
         if (highlight in Lessons) {
           $(Lessons[highlight]).addClass('lesson-active');
           $(Lessons[highlight]).find('use').attr('xlink:href', svg_lesson_cc);

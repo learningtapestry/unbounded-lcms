@@ -11,21 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302215314) do
+ActiveRecord::Schema.define(version: 20160308184246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "alignments", force: :cascade do |t|
-    t.string   "name"
-    t.string   "framework"
-    t.string   "framework_url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "alignments", ["framework"], name: "index_alignments_on_framework", using: :btree
-  add_index "alignments", ["framework_url"], name: "index_alignments_on_framework_url", using: :btree
 
   create_table "curriculum_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false
@@ -94,16 +83,6 @@ ActiveRecord::Schema.define(version: 20160302215314) do
 
   add_index "resource_additional_resources", ["additional_resource_id"], name: "index_resource_additional_resources_on_additional_resource_id", using: :btree
   add_index "resource_additional_resources", ["resource_id", "additional_resource_id"], name: "index_resource_additional_resources", unique: true, using: :btree
-
-  create_table "resource_alignments", force: :cascade do |t|
-    t.integer  "resource_id"
-    t.integer  "alignment_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "resource_alignments", ["alignment_id"], name: "index_resource_alignments_on_alignment_id", using: :btree
-  add_index "resource_alignments", ["resource_id"], name: "index_resource_alignments_on_resource_id", using: :btree
 
   create_table "resource_children", force: :cascade do |t|
     t.integer  "parent_id",              null: false
@@ -202,6 +181,16 @@ ActiveRecord::Schema.define(version: 20160302215314) do
   add_index "resource_slugs", ["resource_id"], name: "index_resource_slugs_on_resource_id", using: :btree
   add_index "resource_slugs", ["value"], name: "index_resource_slugs_on_value", unique: true, using: :btree
 
+  create_table "resource_standards", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.integer  "standard_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "resource_standards", ["resource_id"], name: "index_resource_standards_on_resource_id", using: :btree
+  add_index "resource_standards", ["standard_id"], name: "index_resource_standards_on_standard_id", using: :btree
+
   create_table "resource_subjects", force: :cascade do |t|
     t.integer  "resource_id"
     t.integer  "subject_id"
@@ -250,6 +239,17 @@ ActiveRecord::Schema.define(version: 20160302215314) do
     t.datetime "updated_at",              null: false
   end
 
+  create_table "standards", force: :cascade do |t|
+    t.string   "name"
+    t.string   "framework"
+    t.string   "framework_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "standards", ["framework"], name: "index_standards_on_framework", using: :btree
+  add_index "standards", ["framework_url"], name: "index_standards_on_framework_url", using: :btree
+
   create_table "subjects", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -291,8 +291,6 @@ ActiveRecord::Schema.define(version: 20160302215314) do
   add_foreign_key "curriculums", "curriculums", column: "seed_id"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"
-  add_foreign_key "resource_alignments", "alignments"
-  add_foreign_key "resource_alignments", "resources"
   add_foreign_key "resource_children", "resource_collections"
   add_foreign_key "resource_children", "resources", column: "child_id"
   add_foreign_key "resource_children", "resources", column: "parent_id"
@@ -309,6 +307,8 @@ ActiveRecord::Schema.define(version: 20160302215314) do
   add_foreign_key "resource_resource_types", "resources"
   add_foreign_key "resource_slugs", "curriculums"
   add_foreign_key "resource_slugs", "resources"
+  add_foreign_key "resource_standards", "resources"
+  add_foreign_key "resource_standards", "standards"
   add_foreign_key "resource_subjects", "resources"
   add_foreign_key "resource_subjects", "subjects"
 end

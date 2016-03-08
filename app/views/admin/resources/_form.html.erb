@@ -22,8 +22,8 @@
   <%= f.association :resource_types, as: :select, input_html: { class: 'selectize', id: 'resource_types_select', multiple: true } %>
   <p><%= link_to t('.create_resource_type'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'resource_types' } %>
 
-  <%= f.association :alignments, as: :select, input_html: { class: 'selectize', id: 'alignments_select', multiple: true } %>
-  <p><%= link_to t('.create_alignment'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'alignments' } %>
+  <%= f.association :standards, as: :select, input_html: { class: 'selectize', id: 'standards_select', multiple: true } %>
+  <p><%= link_to t('.create_standard'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'standards' } %>
 
   <%= f.association :related_resources, as: :select, input_html: { class: 'selectize', multiple: true } %>
 
@@ -55,7 +55,7 @@
 
 <% end %>
 
-<%= render partial: 'modal', locals: { association: :alignments, title: t('.create_alignment') } %>
+<%= render partial: 'modal', locals: { association: :standards, title: t('.create_standard') } %>
 
 <%= render partial: 'modal', locals: { association: :grades, title: t('.create_grade') } %>
 

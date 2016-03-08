@@ -10,7 +10,7 @@ class Admin::ResourceBulkEditsController < Admin::AdminController
   end
 
   def create
-    resource_params = params.require(:resource).permit(alignment_ids: [], grade_ids: [], resource_type_ids: [], subject_ids: [])
+    resource_params = params.require(:resource).permit(standard_ids: [], grade_ids: [], resource_type_ids: [], subject_ids: [])
     sample = Resource.new(resource_params)
     Resource.bulk_edit(sample, @resources)
     redirect_to :admin_resources, notice: t('.success', count: @resources.count, resources_count: t(:resources_count, count: @resources.count))
@@ -18,6 +18,6 @@ class Admin::ResourceBulkEditsController < Admin::AdminController
 
   private
     def load_resources
-      @resources = Resource.where(id: params[:ids]).includes(:alignments, :grades, :resource_types, :subjects)
+      @resources = Resource.where(id: params[:ids]).includes(:standards, :grades, :resource_types, :subjects)
     end
 end

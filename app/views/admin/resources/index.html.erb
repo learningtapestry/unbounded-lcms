@@ -33,7 +33,7 @@
           <td><%= label_tag check_box_id, resource.id, class: 'resource-id-label' %>
           <td><%= resource.title %> <%= link_to t('ui.edit'), edit_admin_resource_path(resource), class: 'btn btn-default', 'data-no-turbolink' => '' %>
           <td class=resource-tag-col><%= resource.grades.map(&:grade).select(&:present?).join(', ') %>
-          <td class=resource-tag-col><%= resource.alignments.map(&:name).select(&:present?).join(', ') %>
+          <td class=resource-tag-col><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
           <td class=resource-tag-col><%= resource.resource_types.map(&:name).select(&:present?).join(', ') %>
           <td class=resource-tag-col><%= resource.subjects.map(&:name).select(&:present?).join(', ') %>
           <td><%= resource_status(resource) %>
