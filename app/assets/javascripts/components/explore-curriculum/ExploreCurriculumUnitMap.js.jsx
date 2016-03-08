@@ -4,7 +4,7 @@ function ExploreCurriculumUnitMap(props) {
     'o-ch-short-unit-map': !props.expanded
   });
 
-  const cssPrefix = _.curry(classPrefix)(mainClass, '__');
+  const cssPrefix = cls => `${mainClass}__${cls}`;
 
   const details = props.expanded ?
     <div className="o-ch-map__details">

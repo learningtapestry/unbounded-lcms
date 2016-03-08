@@ -4,15 +4,12 @@ function ExploreCurriculumModuleMap(props) {
     'o-ch-short-map': !props.expanded
   });
 
-  const cssPrefix = _.curry(classPrefix)(mainClass, '__');
+  const cssPrefix = cls => `${mainClass}__${cls}`;
 
   const details = props.expanded ?
     <div className="o-ch-map__details">
       <span>Show Units</span>
     </div> : '';
-
-  const min = Math.min(...props.curriculum.unit_sizes),
-        max = Math.max(...props.curriculum.unit_sizes);
 
   const units = props.curriculum.unit_sizes.map((size, i) => {
     const lessons = [];
