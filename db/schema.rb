@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309203450) do
+ActiveRecord::Schema.define(version: 20160309212401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -250,6 +250,17 @@ ActiveRecord::Schema.define(version: 20160309203450) do
     t.string "heading"
   end
 
+  create_table "standard_links", force: :cascade do |t|
+    t.integer "standard_begin_id", null: false
+    t.integer "standard_end_id",   null: false
+    t.string  "link_type",         null: false
+    t.string  "description"
+  end
+
+  add_index "standard_links", ["link_type"], name: "index_standard_links_on_link_type", using: :btree
+  add_index "standard_links", ["standard_begin_id"], name: "index_standard_links_on_standard_begin_id", using: :btree
+  add_index "standard_links", ["standard_end_id"], name: "index_standard_links_on_standard_end_id", using: :btree
+
   create_table "standards", force: :cascade do |t|
     t.string   "name",                null: false
     t.datetime "created_at"
@@ -327,6 +338,8 @@ ActiveRecord::Schema.define(version: 20160309203450) do
   add_foreign_key "resource_standards", "standards"
   add_foreign_key "resource_subjects", "resources"
   add_foreign_key "resource_subjects", "subjects"
+  add_foreign_key "standard_links", "standards", column: "standard_begin_id"
+  add_foreign_key "standard_links", "standards", column: "standard_end_id"
   add_foreign_key "standards", "standard_clusters"
   add_foreign_key "standards", "standard_domains"
 end
