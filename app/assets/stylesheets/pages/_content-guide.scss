@@ -24,6 +24,7 @@
 
 .c-ch-content {
   padding-top: $ub-xlarge-padding;
+  padding-bottom: $ub-large-padding;
 
   @include e(sidebar) {
     @include flex-grid-column(3);
