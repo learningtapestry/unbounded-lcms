@@ -1,0 +1,12 @@
+<div class="o-sidebar" data-sticky-container>
+  <nav class="o-sidebar__wrap sticky hide-for-small-only" data-sticky data-anchor="c-ch-content" data-sticky-on="medium">
+    <ul class="o-sidebar-nav" data-magellan>
+      <li class="o-sidebar-nav__header">Contents</li>
+      <% @contents.each_with_index do |heading, id| %>
+        <li class='o-sidebar-nav__item o-sidebar-nav__item--level<%= heading[:level] %>'>
+          <%= link_to heading[:title], "#heading_#{id}" %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</div>

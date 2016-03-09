@@ -1,0 +1,40 @@
+.c-cg-hero {
+  background-color: $ub-hero-bg;
+
+  @include e(img) {
+    @extend %u-ph-img--light;
+    @include flex-grid-column(12);
+    min-height: 4em;
+    background-color: $ub-hero-bg;
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(3);
+    }
+  }
+
+  @include e(body) {
+    @extend .u-wrap--base;
+    @include flex-grid-column(12);
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(9);
+    }
+  }
+}
+
+.c-ch-content {
+  padding-top: $ub-xlarge-padding;
+
+  @include e(sidebar) {
+    @include flex-grid-column(3);
+    border-right: 1px dotted $light-gray;
+  }
+
+  @include e(body) {
+    @include flex-grid-column(12);
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(9);
+    }
+  }
+}
