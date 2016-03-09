@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :find_lessons, only: :index
   resources :pages, only: :show
   resources :resources, only: :show
+  resources :google_docs, only: :show
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'

@@ -1,0 +1,29 @@
+.o-sidebar-nav {
+  @include menu-base;
+  @include menu-direction(vertical);
+  li a { padding: 0.4rem 1rem; }
+
+  @include e(header) {
+    display: inline-block !important;
+    border-bottom: 4px solid $ub-txt;
+    font-weight: bold;
+    margin: 0.7rem 1rem;
+    padding: 0.4rem 0;
+  }
+
+  @include e(item) {
+    a {
+      &.active, &:hover, &:focus {
+        font-weight: bold;
+      }
+    }
+
+    @include m(level1) {
+      margin-left: 1rem;
+    }
+
+    @include m(level2) {
+      margin-left: 2rem;
+    }
+  }
+}
