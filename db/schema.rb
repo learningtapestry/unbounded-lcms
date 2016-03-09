@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308223538) do
+ActiveRecord::Schema.define(version: 20160309203450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,8 +257,10 @@ ActiveRecord::Schema.define(version: 20160308223538) do
     t.string   "subject",             null: false
     t.integer  "standard_cluster_id"
     t.integer  "standard_domain_id"
+    t.string   "emphasis"
   end
 
+  add_index "standards", ["emphasis"], name: "index_standards_on_emphasis", using: :btree
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
   add_index "standards", ["standard_cluster_id"], name: "index_standards_on_standard_cluster_id", using: :btree
   add_index "standards", ["standard_domain_id"], name: "index_standards_on_standard_domain_id", using: :btree
