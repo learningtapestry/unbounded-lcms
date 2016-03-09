@@ -5,23 +5,26 @@ class Standard < ActiveRecord::Base
 
   default_scope { order(:name) }
 
-  def self.by_grade(grade)
+  scope :by_grade, ->(grade) {
     self.by_grades([grade])
-  end
+  }
 
-  def self.by_grades(grades)
+  scope :by_grades, ->(grades) {
     joins(resource_standards: { resource: [:grades] }).where(
       'grades.id' => grades.map(&:id)
     )
-  end
+  }
 
-  def self.by_collection(collection)
+  scope :by_collection, ->(collection) {
     self.by_collection([collection])
-  end
+  }
 
-  def self.by_collections(collections)
+  scope :by_collections, ->(collections) {
     joins(resource_standards: { resource: [:resource_children] }).where(
       'resource_children.resource_collection_id' => collections.map(&:id)
     )
-  end
+  }
+
+  scope :ela, ->{ where(subject: 'ela') }
+  scope :math, ->{ where(subject: 'math') }
 end
