@@ -1,8 +1,4 @@
 class ResourcePresenter < SimpleDelegator
-  def estimated_time
-    '45 mins'
-  end
-
   def tags
     subjects.order(name: :asc).pluck(:name).join(', ')
   end

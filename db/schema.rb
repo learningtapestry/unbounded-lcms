@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309212401) do
+ActiveRecord::Schema.define(version: 20160309233316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,6 +228,7 @@ ActiveRecord::Schema.define(version: 20160309212401) do
     t.string   "short_title"
     t.string   "subtitle"
     t.string   "teaser"
+    t.integer  "time_to_teach"
   end
 
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree

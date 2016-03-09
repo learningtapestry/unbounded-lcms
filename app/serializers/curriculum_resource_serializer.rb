@@ -11,7 +11,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     :teaser,
     :description,
     :text_description,
-    :estimated_time,
+    :time_to_teach,
     :type,
     :path
 
@@ -43,8 +43,8 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     truncate_html(object.resource.text_description, length: 200)
   end
 
-  def estimated_time
-    42
+  def time_to_teach
+    object.resource.time_to_teach
   end
 
   def type
