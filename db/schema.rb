@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309233316) do
+ActiveRecord::Schema.define(version: 20160310180207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,15 @@ ActiveRecord::Schema.define(version: 20160309233316) do
 
   add_index "resource_grades", ["grade_id"], name: "index_resource_grades_on_grade_id", using: :btree
   add_index "resource_grades", ["resource_id"], name: "index_resource_grades_on_resource_id", using: :btree
+
+  create_table "resource_reading_assignments", force: :cascade do |t|
+    t.integer "resource_id", null: false
+    t.string  "title",       null: false
+    t.string  "text_type",   null: false
+    t.string  "author",      null: false
+  end
+
+  add_index "resource_reading_assignments", ["resource_id"], name: "index_resource_reading_assignments_on_resource_id", using: :btree
 
   create_table "resource_related_resources", force: :cascade do |t|
     t.integer  "resource_id"
@@ -329,6 +338,7 @@ ActiveRecord::Schema.define(version: 20160309233316) do
   add_foreign_key "resource_downloads", "resources"
   add_foreign_key "resource_grades", "grades"
   add_foreign_key "resource_grades", "resources"
+  add_foreign_key "resource_reading_assignments", "resources"
   add_foreign_key "resource_related_resources", "resources"
   add_foreign_key "resource_related_resources", "resources", column: "related_resource_id"
   add_foreign_key "resource_resource_types", "resource_types"

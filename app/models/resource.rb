@@ -31,6 +31,10 @@ class Resource < ActiveRecord::Base
   # Curriculums.
   has_many :curriculums, as: :item
 
+  # Reading assignments.
+  has_many :resource_reading_assignments, dependent: :destroy
+  alias_attribute :reading_assignments, :resource_reading_assignments
+
   # Related resources.
   has_many :resource_related_resources, dependent: :destroy
   has_many :related_resources, through: :resource_related_resources
