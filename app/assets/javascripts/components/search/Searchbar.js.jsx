@@ -6,7 +6,8 @@ class Searchbar extends React.Component {
       facets: [
         { displayName: 'CURRICULUM', name: 'curriculum', selected: false },
         { displayName: 'INSTRUCTION', name: 'instruction', selected: false }
-      ]
+      ],
+      search_term: this.props.search_term
     };
 
     if ('facets' in this.props) {
@@ -32,7 +33,8 @@ class Searchbar extends React.Component {
       facets: _.chain(state.facets)
         .filter((facet) => facet.selected)
         .map(facet => facet.name)
-        .value()
+        .value(),
+      search_term: state.search_term,
     };
     return query;
   }
@@ -55,6 +57,14 @@ class Searchbar extends React.Component {
     }
   }
 
+  onUpdateSearch(value) {
+    console.log('onUpdateSearch:', value);
+    this.setState(this.withQuery({
+      ...this.state,
+      search_term: value
+    }));
+  }
+
   render() {
     const state = this.state;
 
@@ -71,7 +81,9 @@ class Searchbar extends React.Component {
             );
           })}
         </div>
-        <SearchInput />
+        <SearchInput
+          searchTerm={this.state.search_term}
+          onUpdate={this.onUpdateSearch.bind(this)}/>
       </div>
     );
   }

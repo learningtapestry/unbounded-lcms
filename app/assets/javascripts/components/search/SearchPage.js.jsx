@@ -55,6 +55,7 @@ class SearchPage extends React.Component {
   }
 
   handleSearchbarUpdate(searchbar) {
+    console.log('handleSearchbarUpdate', searchbar);
     this.setState(Object.assign({}, this.state, { searchbar: searchbar }), this.fetch);
   }
 
