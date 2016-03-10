@@ -1,5 +1,6 @@
 class SearchController < ApplicationController
   include Filterbar
+  include Searchbar
   include Pagination
 
   before_action :find_resources
@@ -15,10 +16,10 @@ class SearchController < ApplicationController
   protected
     def find_resources
       @resources = Resource.all
+        .where_subject(Subject.from_names(subject_params))
+        .where_grade(Grade.from_names(grade_params))
         .paginate(pagination_params.slice(:page, :per_page))
         .order(created_at: pagination_params[:order])
-        # .where_subject(Subject.from_names(subject_params))
-        # .where_grade(Grade.from_names(grade_params))
     end
 
     def set_props
@@ -27,5 +28,6 @@ class SearchController < ApplicationController
         each_serializer: LessonSerializer,  # ResourceSerializer
       )
       @props.merge!(filterbar_props)
+      @props.merge!(searchbar_props)
     end
 end

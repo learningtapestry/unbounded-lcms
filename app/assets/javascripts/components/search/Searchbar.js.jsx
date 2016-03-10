@@ -40,7 +40,7 @@ class Searchbar extends React.Component {
   onClickFacet(incoming) {
     this.setState(this.withQuery({
       ...this.state,
-      grades: this.state.facets.map(facet => {
+      facets: this.state.facets.map(facet => {
         if (incoming.name !== facet.name) return facet;
         return _.merge({}, facet, { selected: !facet.selected })
       })

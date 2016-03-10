@@ -14,7 +14,8 @@ class SearchPage extends React.Component {
       total_pages: props.pagination.total_pages,
       num_items: props.pagination.num_items,
       total_hits: props.pagination.total_hits,
-      filterbar: props.filterbar
+      filterbar: props.filterbar,
+      searchbar: props.searchbar,
     };
   }
 
@@ -24,7 +25,8 @@ class SearchPage extends React.Component {
       per_page: this.state.per_page,
       order: this.state.order,
       page: this.state.current_page,
-      ...this.state.filterbar.query
+      ...this.state.filterbar.query,
+      ...this.state.searchbar.query
     }
     let url = Routes.search_path(query);
 
@@ -52,13 +54,19 @@ class SearchPage extends React.Component {
     this.setState(Object.assign({}, this.state, { filterbar: filterbar }), this.fetch);
   }
 
+  handleSearchbarUpdate(searchbar) {
+    this.setState(Object.assign({}, this.state, { searchbar: searchbar }), this.fetch);
+  }
+
   render () {
     return (
       <div className="o-page__wrap--nest">
         <Filterbar
           onUpdate={this.handleFilterbarUpdate.bind(this)}
           {...this.props.filterbar} />
-        <Searchbar />
+        <Searchbar
+          onUpdate={this.handleSearchbarUpdate.bind(this)}
+          {...this.props.searchbar} />
         <h2>TODO: results goes here!!</h2>
         <PaginationBoxView previousLabel={"< Previous"}
                         nextLabel={"Next >"}
