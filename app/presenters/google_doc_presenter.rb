@@ -1,9 +1,7 @@
 class GoogleDocPresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
 
-  CUSTOM_TAG_ELEMENT = 'h4'
   KEYWORD_CLASS = 'googleDoc__keyword'
-  STAR_CLASS = 'googleDoc__star'
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
@@ -102,31 +100,24 @@ class GoogleDocPresenter < SimpleDelegator
     end.compact
   end
 
-  def process_stars
-    doc.css(CUSTOM_TAG_ELEMENT).each do |tag|
-      value = tag.text.chomp.strip
-      next unless value == '<STAR>'
+  def next_element_with_name(tag, name)
+    next_node = tag.next
+    loop do
+      return next_node if next_node.nil? || next_node.name == name
+      next_node = next_node.next
+    end
+  end
 
-      table = tag.next_sibling
+  def process_blockquotes
+    find_custom_tags('blockquotes') do |tag|
+      table = next_element_with_name(tag, 'table')
       tag.remove
+      return unless table
+      return unless table.css('td').size == 1
 
-      loop do
-        if table.name == 'table'
-          existing_cell = table.at_css('td')
-          style = existing_cell[:style]
-          existing_cell[:style] = "#{style};border-left:none"
-          
-          new_cell = doc.document.create_element('td', class: STAR_CLASS)
-          image = doc.document.create_element('img', src: view_context.image_path('yellow-star.png'), height: 26, width: 26)
-          new_cell.add_child(image)
-
-          table.at_css('tr').prepend_child(new_cell)
-          break
-        end
-
-        table = table.next_sibling
-        break unless table
-      end
+      blockquote = doc.document.create_element('blockquote')
+      blockquote.inner_html = table.at_css('td').inner_html
+      table.replace(blockquote)
     end
   end
 
@@ -164,15 +155,8 @@ class GoogleDocPresenter < SimpleDelegator
 
   def process_tasks(with_break: true)
     find_custom_tags('task') do |tag|
-      next_node = tag.next
+      table = next_element_with_name(tag, 'table')
       tag.remove
-
-      loop do
-        break if next_node.nil? || next_node.name == 'table'
-        next_node = next_node.next
-      end
-
-      table = next_node
       next unless table
       next unless table.css('tr').size == 3 || table.css('td').size == 3
 
@@ -238,7 +222,7 @@ class GoogleDocPresenter < SimpleDelegator
     @doc = Nokogiri::HTML.fragment(html)
     embed_audios
     embed_videos
-    process_stars
+    process_blockquotes
     process_tasks
     realign_tables
     replace_guide_links

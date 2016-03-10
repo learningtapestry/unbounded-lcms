@@ -14,8 +14,7 @@ Rails.application.config.assets.precompile += [
   'unbounded.css',
   'unbounded/google_docs.css',
   'i18n.js',
-  'translations.js',
-  'yellow-star.png'
+  'translations.js'
 ]
 
 Rails.application.config.assets.paths << "#{Rails.root}/public/javascripts"
