@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310183731) do
+ActiveRecord::Schema.define(version: 20160310185952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -229,7 +229,7 @@ ActiveRecord::Schema.define(version: 20160310183731) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "indexed_at"
-    t.boolean  "hidden",         default: false
+    t.boolean  "hidden",          default: false
     t.string   "engageny_url"
     t.string   "engageny_title"
     t.string   "description"
@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(version: 20160310183731) do
     t.string   "teaser"
     t.integer  "time_to_teach"
     t.string   "subject"
+    t.boolean  "ell_appropriate", default: false, null: false
   end
 
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
