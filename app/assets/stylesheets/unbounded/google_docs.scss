@@ -31,11 +31,12 @@
   vertical-align: top;
 }
 
-.googleDoc__task {
-  cursor: pointer;
-  max-height: 200px;
+.googleDoc__task__hidden {
+  display: none;
+  padding-top: 1em;
+}
 
-  &.__fullHeight {
-    max-height: none !important;
-  }
+.googleDoc__task__toggler {
+  display: inline-block;
+  margin-top: 1em;
 }

@@ -31,7 +31,7 @@ class GoogleDocPdfPresenter < GoogleDocPresenter
     @doc = Nokogiri::HTML.fragment(content)
     mark_footnotes
     process_stars
-    process_tasks
+    process_tasks(with_break: false)
     realign_tables
     replace_guide_links
     replace_image_sources

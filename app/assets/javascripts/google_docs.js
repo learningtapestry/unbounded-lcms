@@ -36,8 +36,9 @@ window.initializeGoogleDoc = function() {
       trigger: 'hover'
     });
 
-    $('.googleDoc__task').click(function() {
-      $(this).toggleClass('__fullHeight');
+    $('.googleDoc__task__toggler').click(function() {
+      $('.googleDoc__task__hidden', $(this).parent()).toggle();
+      return false;
     });
 
     $('a[href^="#ftnt"]:not([href^="#ftnt_ref"])').popover({

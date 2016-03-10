@@ -4,7 +4,6 @@ class GoogleDocPresenter < SimpleDelegator
   CUSTOM_TAG_ELEMENT = 'h4'
   KEYWORD_CLASS = 'googleDoc__keyword'
   STAR_CLASS = 'googleDoc__star'
-  TASK_CLASS = 'googleDoc__task'
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
@@ -91,6 +90,18 @@ class GoogleDocPresenter < SimpleDelegator
     end
   end
 
+  def find_custom_tags(tag_name, node = nil, &block)
+    (node || doc).css('span').map do |span|
+      if (span[:style] || '') =~ /font-weight:\s*bold/
+        if span.content == "<#{tag_name}>"
+          tag = span.parent
+          yield tag if block
+          tag
+        end
+      end
+    end.compact
+  end
+
   def process_stars
     doc.css(CUSTOM_TAG_ELEMENT).each do |tag|
       value = tag.text.chomp.strip
@@ -119,29 +130,69 @@ class GoogleDocPresenter < SimpleDelegator
     end
   end
 
-  def process_tasks(process_images = true)
-    doc.css(CUSTOM_TAG_ELEMENT).each do |tag|
-      value = tag.text.chomp.strip
-      next unless value =~ /<TASK(;\d+)?>/
+  def process_task_body(cell, with_break:)
+    body = doc.document.create_element('div', class: 'panel-body')
+    body.inner_html = cell.inner_html
 
-      element = tag.next_sibling
+    if (tag = find_custom_tags('task break', body).first)
+      if with_break
+        if (next_node = tag.next)
+          hidden = doc.document.create_element('div', class: 'googleDoc__task__hidden')
+          loop do
+            break unless next_node
+            current_node = next_node
+            next_node = current_node.next
+            hidden << current_node.dup
+            current_node.remove
+          end
+
+          toggler = doc.document.create_element('a', class: 'googleDoc__task__toggler', href: '#')
+          toggler.content = 'Show / Hide'
+
+          wrap = doc.document.create_element('div')
+          wrap << toggler
+          wrap << hidden
+          body << wrap
+        end
+      end
+
       tag.remove
-      next unless process_images
+    end
+  
+    body
+  end
+
+  def process_tasks(with_break: true)
+    find_custom_tags('task') do |tag|
+      next_node = tag.next
+      tag.remove
 
       loop do
-        if (span = element.at_xpath('.//span[img]'))
-          style = span[:style].gsub(/max-height:[^;]+;?/, '') rescue nil
-          if (height = value[/\d+/])
-            style = "max-height:#{height}px; #{style}"
-          end
-          span[:style] = style
-          span[:class] = TASK_CLASS
-          break
-        end
-
-        element = element.next_sibling
-        break unless element
+        break if next_node.nil? || next_node.name == 'table'
+        next_node = next_node.next
       end
+
+      table = next_node
+      next unless table
+      next unless table.css('tr').size == 3 || table.css('td').size == 3
+
+      title = doc.document.create_element('h4', class: 'panel-title')
+      title.inner_html = table.css('td')[0].inner_html
+
+      heading = doc.document.create_element('div', class: 'panel-heading')
+      heading << title
+
+      footer = doc.document.create_element('div', class: 'panel-footer')
+      footer.inner_html = table.css('td')[2].inner_html
+
+      body = process_task_body(table.css('td')[1], with_break: with_break)
+
+      panel = doc.document.create_element('div', class: 'panel panel-default')
+      panel << heading
+      panel << body
+      panel << footer
+
+      table.replace(panel)
     end
   end
 
