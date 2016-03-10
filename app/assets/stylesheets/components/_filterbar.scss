@@ -21,7 +21,7 @@
   display: flex;
   margin: $ub-small-margin 0;
   justify-content: space-between;
-  
+
   @include flex-grid-column(100%);
 
   @include e(subjects-list) {
@@ -35,6 +35,13 @@
     @include e(grade) {
       @include o-filterbar-selectable;
       padding: 1em 1.5em;
+    }
+  }
+
+  @include e(facets-list) {
+    @include e(facet) {
+      @include o-filterbar-selectable;
+      padding: 1em 2.4em;
     }
   }
 }

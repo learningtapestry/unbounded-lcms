@@ -64,11 +64,14 @@ class SearchPage extends React.Component {
       <div className="o-page__wrap--nest">
         <Filterbar
           onUpdate={this.handleFilterbarUpdate.bind(this)}
+          withFacets={true}
           {...this.props.filterbar} />
         <Searchbar
           onUpdate={this.handleSearchbarUpdate.bind(this)}
           {...this.props.searchbar} />
+
         <h2>TODO: results goes here!!</h2>
+
         <PaginationBoxView previousLabel={"< Previous"}
                         nextLabel={"Next >"}
                         breakLabel={<li className="break"><a href="">...</a></li>}

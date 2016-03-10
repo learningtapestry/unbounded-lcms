@@ -22,7 +22,11 @@ class Filterbar extends React.Component {
         { displayName: '10', mathDisplayName: 'GE', name: '10', selected: false },
         { displayName: '11', mathDisplayName: 'A2', name: '11', selected: false },
         { displayName: '12', mathDisplayName: 'PC', name: '12', selected: false }
-      ]
+      ],
+      facets: [
+        { displayName: 'CURRICULUM', name: 'curriculum', selected: false },
+        { displayName: 'INSTRUCTION', name: 'instruction', selected: false }
+      ],
     };
 
     if ('subjects' in this.props) {
@@ -45,6 +49,16 @@ class Filterbar extends React.Component {
       .value();
     }
 
+    if ('facets' in this.props) {
+      _
+      .chain(initialState.facets)
+      .filter(s => _.includes(this.props.facets, s.name))
+      .forEach(s => {
+        s.selected = true;
+      })
+      .value();
+    }
+
     this.state = this.withQuery(initialState);
   }
 
@@ -62,7 +76,11 @@ class Filterbar extends React.Component {
       grades: _.chain(state.grades)
         .filter((grade) => grade.selected)
         .map(grade => grade.name)
-        .value()
+        .value(),
+      facets: _.chain(state.facets)
+        .filter((facet) => facet.selected)
+        .map(facet => facet.name)
+        .value(),
     };
     return query;
   }
@@ -94,6 +112,16 @@ class Filterbar extends React.Component {
     }));
   }
 
+  onClickFacet(incoming) {
+    this.setState(this.withQuery({
+      ...this.state,
+      facets: this.state.facets.map(facet => {
+        if (incoming.name !== facet.name) return facet;
+        return _.merge({}, facet, { selected: !facet.selected })
+      })
+    }));
+  }
+
   componentWillUpdate(nextProps, nextState) {
     if ('onUpdate' in this.props) {
       if ($.param(this.state.query) !== $.param(nextState.query)) {
@@ -110,28 +138,49 @@ class Filterbar extends React.Component {
       'displayName';
 
     return (
-      <div className='o-filterbar'>
-        <div className='o-filterbar__subjects-list'>
-          {state.subjects.map(subject => {
-            return (
-              <FilterbarSubject
-                key={subject.name}
-                onClick={this.onClickSubject.bind(this, subject)}
-                displayName={subject.displayName}
-                selected={subject.selected} />
-            );
-          })}
+      <div>
+        <div className='o-filterbar'>
+          <div className='o-filterbar__subjects-list'>
+            {state.subjects.map(subject => {
+              return (
+                <FilterbarSubject
+                  key={subject.name}
+                  onClick={this.onClickSubject.bind(this, subject)}
+                  displayName={subject.displayName}
+                  selected={subject.selected} />
+              );
+            })}
+          </div>
+          <div className='o-filterbar__grades-list'>
+            {state.grades.map(grade => {
+              return (
+                <FilterbarGrade
+                  key={grade.name}
+                  onClick={this.onClickGrade.bind(this, grade)}
+                  displayName={grade[gradeName]}
+                  selected={grade.selected} />
+              );
+            })}
+          </div>
         </div>
-        <div className='o-filterbar__grades-list'>
-          {state.grades.map(grade => {
-            return (
-              <FilterbarGrade
-                key={grade.name}
-                onClick={this.onClickGrade.bind(this, grade)}
-                displayName={grade[gradeName]}
-                selected={grade.selected} />
-            );
-          })}
+        <div className='o-filterbar'>
+          {(() => {
+              if(this.props.withFacets) {
+                return (
+                  <div className='o-filterbar__facets-list'>
+                    {state.facets.map(facet => {
+                      return (
+                        <FilterbarFacet
+                          key={facet.name}
+                          onClick={this.onClickFacet.bind(this, facet)}
+                          displayName={facet.displayName}
+                          selected={facet.selected} />
+                      );
+                    })}
+                  </div>
+                );
+              } else { return false; }
+          })()}
         </div>
       </div>
     );

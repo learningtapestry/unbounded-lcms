@@ -12,11 +12,18 @@ module Filterbar
       Array.wrap(params[:subjects]) & ['ela', 'math']
     end
 
+    def facets_params
+      Array.wrap(params[:facets]) & [
+        'curriculum', 'instructions'
+      ]
+    end
+
     def filterbar_props
       {
         filterbar: {
           subjects: subject_params,
-          grades: grade_params
+          grades: grade_params,
+          facets: facets_params,
         }
       }
     end

@@ -24,13 +24,6 @@
 
   @include flex-grid-column(100%);
 
-  @include e(facets-list) {
-    @include e(facet) {
-      @include o-searchbar-selectable;
-      padding: 1em 2.4em;
-    }
-  }
-
   .o-searchbar__input {
     width: 65%;
   }

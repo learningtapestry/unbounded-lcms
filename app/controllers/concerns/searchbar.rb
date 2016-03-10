@@ -2,11 +2,6 @@ module Searchbar
   extend ActiveSupport::Concern
 
   included do
-    def facets_params
-      Array.wrap(params[:facets]) & [
-        'curriculum', 'instructions'
-      ]
-    end
 
     def search_term
       params[:search_term] || ''
