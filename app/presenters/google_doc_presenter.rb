@@ -56,13 +56,28 @@ class GoogleDocPresenter < SimpleDelegator
   private
 
   def embed_audios
-    doc.css('a[href*="soundcloud.com"]').each do |a|
+    urls_hash = {}
+
+    doc.css('a[href*="soundcloud.com"]').each_with_index do |a, index|
       url = a[:href]
-      src = URI('https://w.soundcloud.com/player')
-      src.query = URI.encode_www_form(url: url)
-      iframe = doc.document.create_element('iframe', frameborder: 'no', height: '166', scrolling: 'no', src: src, width: '100%')
-      a.replace(iframe)
+      id = "sc_container_#{index}"
+      urls_hash[id] = url
+      container = doc.document.create_element('div', id: id)
+      a.replace(container)
     end
+
+    return if urls_hash.empty?
+
+    doc << doc.document.create_element('script', src: 'https://connect.soundcloud.com/sdk/sdk-3.0.0.js')
+
+    script = doc.document.create_element('script')
+    script.content = "SC.initialize({ client_id: '#{ENV['SOUNDCLOUD_CLIENT_ID']}' });\n"
+
+    urls_hash.each do |id, url|
+      script.content += "SC.oEmbed('#{url}', { element: document.getElementById('#{id}') });\n"
+    end
+
+    doc << script
   end
 
   def embed_videos
