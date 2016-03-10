@@ -25,7 +25,7 @@ class CurriculumPresenter < SimpleDelegator
   end
 
   def subject_and_grade_title
-    subject = resource.top_subject.try(:name).try(:titleize)
+    subject = resource.subject.try(:titleize)
     grade = current_grade.resource.grades.first.try(:name)
     "#{subject} / #{grade}"
   end
