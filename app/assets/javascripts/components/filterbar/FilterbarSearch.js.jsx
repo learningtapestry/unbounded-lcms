@@ -1,4 +1,4 @@
-class SearchInput extends React.Component {
+class FilterbarSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {value: props.searchTerm};
@@ -17,7 +17,7 @@ class SearchInput extends React.Component {
 
   render() {
     return (
-      <input className='o-searchbar__input' type='text' placeholder='Enter Terms (e.g: writing, geometry, etc)' value={this.state.value} onChange={this.handleChange.bind(this)}/>
+      <input className='o-filterbar__search' type='text' placeholder='Enter Terms (e.g: writing, geometry, etc)' value={this.state.value} onChange={this.handleChange.bind(this)}/>
     );
   }
 }

@@ -27,6 +27,7 @@ class Filterbar extends React.Component {
         { displayName: 'CURRICULUM', name: 'curriculum', selected: false },
         { displayName: 'INSTRUCTION', name: 'instruction', selected: false }
       ],
+      search_term: this.props.search_term
     };
 
     this.initSelectedFilters(initialState, 'subjects');
@@ -59,9 +60,10 @@ class Filterbar extends React.Component {
 
   createQuery(state) {
     let query = {
-      subjects: this.getSelected(state, 'subjects'),
-      grades:   this.getSelected(state, 'grades'),
-      facets:   this.getSelected(state, 'facets'),
+      subjects   : this.getSelected(state, 'subjects'),
+      grades     : this.getSelected(state, 'grades'),
+      facets     : this.getSelected(state, 'facets'),
+      search_term: state.search_term
     };
     return query;
   }
@@ -100,6 +102,14 @@ class Filterbar extends React.Component {
         if (incoming.name !== facet.name) return facet;
         return _.merge({}, facet, { selected: !facet.selected })
       })
+    }));
+  }
+
+  onUpdateSearch(value) {
+    console.log('onUpdateSearch:', value);
+    this.setState(this.withQuery({
+      ...this.state,
+      search_term: value
     }));
   }
 
@@ -159,6 +169,15 @@ class Filterbar extends React.Component {
                       );
                     })}
                   </div>
+                );
+              } else { return false; }
+          })()}
+          {(() => {
+              if(this.props.withSearch) {
+                return (
+                  <FilterbarSearch
+                    searchTerm={this.state.search_term}
+                    onUpdate={this.onUpdateSearch.bind(this)}/>
                 );
               } else { return false; }
           })()}
