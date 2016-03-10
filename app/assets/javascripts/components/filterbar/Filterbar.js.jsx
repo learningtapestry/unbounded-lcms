@@ -29,37 +29,27 @@ class Filterbar extends React.Component {
       ],
     };
 
-    if ('subjects' in this.props) {
-      _
-      .chain(initialState.subjects)
-      .filter(s => _.includes(this.props.subjects, s.name))
-      .forEach(s => {
-        s.selected = true;
-      })
-      .value();
-    }
-
-    if ('grades' in this.props) {
-      _
-      .chain(initialState.grades)
-      .filter(g => _.includes(this.props.grades, g.name))
-      .forEach(g => {
-        g.selected = true;
-      })
-      .value();
-    }
-
-    if ('facets' in this.props) {
-      _
-      .chain(initialState.facets)
-      .filter(s => _.includes(this.props.facets, s.name))
-      .forEach(s => {
-        s.selected = true;
-      })
-      .value();
-    }
+    this.initSelectedFilters(initialState, 'subjects');
+    this.initSelectedFilters(initialState, 'grades');
+    this.initSelectedFilters(initialState, 'facets');
 
     this.state = this.withQuery(initialState);
+  }
+
+  initSelectedFilters(initialState, prop) {
+    if (prop in this.props) {
+      _.chain(initialState[prop])
+       .filter(s => _.includes(this.props[prop], s.name))
+       .forEach(s => { s.selected = true; })
+       .value();
+    }
+  }
+
+  getSelected(state, prop) {
+    return _.chain(state[prop])
+            .filter((obj) => obj.selected)
+            .map(obj => obj.name)
+            .value();
   }
 
   withQuery(state) {
@@ -69,18 +59,9 @@ class Filterbar extends React.Component {
 
   createQuery(state) {
     let query = {
-      subjects: _.chain(state.subjects)
-        .filter((subject) => subject.selected)
-        .map(subject => subject.name)
-        .value(),
-      grades: _.chain(state.grades)
-        .filter((grade) => grade.selected)
-        .map(grade => grade.name)
-        .value(),
-      facets: _.chain(state.facets)
-        .filter((facet) => facet.selected)
-        .map(facet => facet.name)
-        .value(),
+      subjects: this.getSelected(state, 'subjects'),
+      grades:   this.getSelected(state, 'grades'),
+      facets:   this.getSelected(state, 'facets'),
     };
     return query;
   }
