@@ -1,6 +1,5 @@
 class SearchController < ApplicationController
   include Filterbar
-  include Searchbar
   include Pagination
 
   before_action :find_resources
@@ -28,6 +27,5 @@ class SearchController < ApplicationController
         each_serializer: LessonSerializer,  # ResourceSerializer
       )
       @props.merge!(filterbar_props)
-      @props.merge!(searchbar_props)
     end
 end

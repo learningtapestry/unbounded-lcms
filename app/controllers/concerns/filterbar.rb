@@ -18,12 +18,18 @@ module Filterbar
       ]
     end
 
+    def search_term
+      params[:search_term]
+    end
+
+
     def filterbar_props
       {
         filterbar: {
           subjects: subject_params,
           grades: grade_params,
           facets: facets_params,
+          search_term: search_term
         }
       }
     end
