@@ -14,17 +14,18 @@ class SearchController < ApplicationController
 
   protected
     def find_resources
-      @resources = Resource.all
-        .where_subject(Subject.from_names(subject_params))
-        .where_grade(Grade.from_names(grade_params))
-        .paginate(pagination_params.slice(:page, :per_page))
-        .order(created_at: pagination_params[:order])
+      qset = search_term.blank? ? Resource.all : Resource.search(search_term).records
+      @resources = qset.where_subject(Subject.from_names(subject_params))
+                       .where_grade(Grade.from_names(grade_params))
+                       .paginate(pagination_params.slice(:page, :per_page))
+                       .order(created_at: pagination_params[:order])
+                       # .where_type(??)  # facets => curriculum | instructions
     end
 
     def set_props
       @props = serialize_with_pagination(@resources,
         pagination: pagination_params,
-        each_serializer: LessonSerializer,  # ResourceSerializer
+        each_serializer: ResourceSerializer
       )
       @props.merge!(filterbar_props)
     end
