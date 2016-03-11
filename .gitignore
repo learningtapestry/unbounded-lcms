@@ -27,10 +27,18 @@
 .env.integration
 .env.staging
 .env.test
+.env
 
 # Ignore assets pipeline compiled files
 /public/assets
 /public/csv_exports
 
 # Ignore generated JS files
-/app/assets/javascripts/translations.js
+/app/assets/javascripts/generated/*
+
+# Ignore npm files
+npm-debug.log
+node_modules
+
+# ignore vagrant files
+/.vagrant

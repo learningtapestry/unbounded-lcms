@@ -78,7 +78,7 @@ en:
         page_title: "Edit %{resource}"
       form:
         add_download: Add Downloadable Resource
-        create_alignment: Create Alignment
+        create_standard: Create Standard
         create_grade: Create Grade
         create_resource_type: Create Resource Type
         create_subject: Create Subject
@@ -100,6 +100,10 @@ en:
         standards: Standards
         subjects: Subjects
         title: Title
+      create:
+        success: "Resource #%{resource_id} was created successfully."        
+      update:
+        success: "Resource #%{resource_id} was updated successfully."
     pages:
       create:
         success: Page created successfully.

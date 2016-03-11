@@ -1,28 +1,20 @@
 Rails.application.routes.draw do
   root to: 'welcome#index'
-  
-  anything_goes = /[^\/]+/
-
-  devise_for :users, class_name: 'User', controllers: {
-    registrations: 'registrations'
-  } 
 
   get '/' => 'welcome#index'
   get '/about' => 'pages#show_slug', slug: 'about'
-  get '/curriculum/highlights' => 'curriculum#highlights', as: 'curriculum_highlights'
-  get '/curriculum(/:subject(/:grade(/:standards)))' => 'curriculum#index',
-    as: 'curriculum',
-    constraints: { 
-      subject: anything_goes,
-      grade: anything_goes,
-      standards: anything_goes
-    }
-  get '/professional_development' => 'pages#show_slug', as: :pd, slug: 'professional_development'
-  get '/resources/:id/preview' => 'resources#preview', as: 'resource_preview'
-  get '/resources/:id' => 'resources#show', as: :show
-  get '/resources/*slug' => 'resources#show', as: :show_with_slug
-  get '/search' => 'search#index'
   get '/tos' => 'pages#show_slug', as: :tos_page, slug: 'tos'
+
+  resources :content_guides, only: :show
+  resources :explore_curriculum, only: [:index, :show]
+  resources :find_lessons, only: :index
+  resources :pages, only: :show
+  resources :resources, only: :show
+  resources :google_docs, only: :show
+
+  devise_for :users, class_name: 'User', controllers: {
+    registrations: 'registrations'
+  }
 
   namespace :admin do
     get '/' => 'welcome#index'
@@ -51,7 +43,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :content_guides, only: :show
-
-  resources :pages, only: :show
+  get '/*slug' => 'resources#show', as: :show_with_slug
 end

@@ -1,0 +1,62 @@
+$text-sizes: (
+  'base' : $global-font-size,
+  'large': $lead-font-size,
+  'small': $small-font-size
+);
+
+.u-text {
+  @each $text-size, $text-size-value in $text-sizes {
+    @include m(#{$text-size}) {
+      font-size: $text-size-value;
+    }
+  }
+}
+
+.u-text--capitalized {
+  text-transform: capitalize;
+}
+
+$margins: (
+  'zero': 0,
+  'xs': $ub-small-margin * .7,
+  'small': $ub-small-margin,
+  'base': $ub-base-margin,
+  'large': $ub-large-margin,
+  'xlarge': $ub-xlarge-margin
+);
+$margins-align: (top, bottom);
+
+@each $margin-type, $margin-value in $margins {
+  @each $align in $margins-align {
+    .u-margin-#{$align}--#{$margin-type} {
+      margin-#{$align}: $margin-value;
+    }
+  }
+}
+
+$bg: (
+  light: $ub-white,
+  base: $ub-panel-bg,
+  dark: $ub-hero-bg,
+  primary: $ub-primary
+);
+
+@each $bg-type, $bg-color in $bg {
+  .u-bg--#{$bg-type} {
+    background-color: $bg-color;
+  }
+}
+
+.u-wrap {
+  @each $bg-type, $bg-color in $bg {
+    @include m($bg-type) {
+      @extend .u-bg--#{$bg-type};
+      padding: $ub-base-padding;
+    }
+  }
+}
+
+.u-pd-content {
+  padding-bottom: $ub-large-padding;
+  padding-top: $ub-base-padding;
+}

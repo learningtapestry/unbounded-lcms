@@ -1,21 +1,15 @@
 require 'test_helper'
 
 class ResourcesControllerTest < ActionController::TestCase
-  test 'get /resources/:id redirects to slug path if resource has slug' do
-    resource = resources(:unbounded_textbook)
-    get :show, id: resource.id
-    assert_redirected_to show_with_slug_path(resource.slug)
+  setup do
+    Curriculum.maps.each { |m| m.tree_or_create.create_slugs }
   end
 
-  test 'get /resources/:id shows the resource if there is no slug' do
-    resource = resources(:ela_curriculum_root)
-    get :show, id: resource.id
-    assert_response :success
-  end
+  test 'show lesson details' do
+    lesson = curriculums(:math_unit_1_lesson_1).resource
 
-  test 'get /resources/:slug shows the resource' do
-    resource = resources(:unbounded_textbook)
-    get :show, slug: resource.slug
-    assert_response :success
+    get :show, slug: lesson.first_tree.slug.value
+    assert_equal 200, response.status
+    assert_not_nil assigns(:resource)
   end
 end

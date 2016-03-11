@@ -1,0 +1,22 @@
+.o-title {
+  @extend .u-text--small;
+  font-weight: bold;
+  margin-bottom: $ub-small-margin;
+  text-transform: uppercase;
+
+  @include e(title) {
+    float: left;
+  }
+
+  @include e(duration) {
+    float: right;
+  }
+}
+
+.o-content-title {
+  font-weight: bold;
+  padding-bottom: $ub-xs-padding;
+  padding-top: $ub-xs-padding;
+  text-transform: uppercase;
+  &, a {color: $ub-white;}
+}

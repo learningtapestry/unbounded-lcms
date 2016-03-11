@@ -15,6 +15,7 @@ gem 'elasticsearch-dsl', '~> 0.1.1'
 gem 'elasticsearch-model', '~> 0.1.7'
 gem 'elasticsearch-rails', '~> 0.1.7'
 gem 'font-awesome-sass', '~> 4.4.0'
+gem 'foreman', '~> 0.78.0'
 gem 'google-api-client', '~> 0.9'
 gem 'googleauth', '~> 0.4'
 gem 'i18n-js', '~> 2.1.2'
@@ -27,6 +28,7 @@ gem 'oj_mimic_json', '~> 1.0.1'
 gem 'pg', '~> 0.18.2'
 gem 'rails', '4.2.4'
 gem 'ransack', '~> 1.7.0'
+gem 'react-rails', '~> 1.6'
 gem 'roo', '~> 2.2'
 gem 'rubytree', '~> 0.9.6'
 gem 'sass-rails', '~> 5.0'
@@ -39,12 +41,15 @@ gem 'wicked_pdf', '~> 0.6'
 gem 'will_paginate', '~> 3.0.7', require: ['will_paginate', 'will_paginate/active_record']
 gem 'will_paginate-bootstrap'
 gem 'truncate_html', '~> 0.9.3'
+gem 'foundation-rails', '~> 6.1'
 
 group :development, :test do
   gem 'byebug'
 end
 
 group :development do
+  gem 'rack-livereload', '~> 0.3.16'
+  gem 'guard-livereload', '~> 2.5', '>= 2.5.2'
   gem 'safe_attributes', '~> 1.0.10'
   gem 'spring'
   gem 'web-console', '~> 2.0'
@@ -65,6 +70,9 @@ group :test do
 end
 
 source 'https://rails-assets.org' do
+  gem 'rails-assets-es6-promise', '~> 3.1.2'
+  gem 'rails-assets-fetch', '~> 0.11.0'
   gem 'rails-assets-lodash', '~> 3.9.3'
   gem 'rails-assets-knockout', '~> 3.3.0'
+  gem 'rails-assets-classnames', '~> 2.2.3'
 end

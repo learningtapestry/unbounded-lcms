@@ -3,9 +3,9 @@
 
   <%% if (highlights.length) { %>
     <div class="lesson-popover-highlights">
-      <div class="lesson-popover-title"><%%= I18n.t('title.alignments') %></div>
+      <div class="lesson-popover-title"><%%= I18n.t('title.standards') %></div>
       <%% _.each(highlights, function(highlight) { %>
-        <p><%%= highlight.alignment.name %></p>
+        <p><%%= highlight.standard.name %></p>
       <%% }); %>
     </div>
   <%% } %>

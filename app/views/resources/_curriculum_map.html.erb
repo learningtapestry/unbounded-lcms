@@ -1,0 +1,38 @@
+<div class="o-c-map">
+  <% if curriculum.lesson? || curriculum.unit? %>
+    <% curriculum.current_grade.children.each do |mod| %>
+      <div class="o-c-map__module-wrap">
+        <div class="o-c-map__module <%= 'o-c-map__item--active' if curriculum.active?(mod) %>" style="width: <%= curriculum.module_width(mod) %>%;">
+          <%= mod.resource.short_title %>
+        </div>
+      </div>
+      <% if curriculum.active?(mod) %>
+        <div class="o-c-map__units-wrap">
+          <div class="o-c-map__units">
+            <% mod.children.each do |unit| %>
+              <div class="o-c-map__unit">
+              <% unit.children.each do |lesson| %>
+                <div class="o-c-map__lesson <%= 'o-c-map__item--active' if curriculum.active?(lesson) %>"></div>
+              <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% elsif curriculum.module? || curriculum.grade? %>
+    <% curriculum.current_grade.children.each do |mod| %>
+      <div class="o-c-map__module-wrap">
+        <div class="o-c-map__module <%= 'o-c-map__item--active' if curriculum.active?(mod) %>" style="width:<%= curriculum.module_width(mod) %>%;">
+          <%= mod.resource.short_title %>
+        </div>
+      </div>
+      <% if curriculum.active?(mod) %>
+        <div class="o-c-map__units-wrap">
+          <div class="o-c-map__units">
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

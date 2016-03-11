@@ -1,0 +1,35 @@
+// Colors
+$ub-primary: #616161;
+$ub-secondary: #bdbdbd;
+$ub-page-bg: #e0e0e0;
+$ub-btn-light: #e0e0e0;
+$ub-btn-base: #9e9e9e;
+$ub-btn-dark: #616161;
+$ub-panel-bg: #bdbdbd;
+$ub-hero-bg: #9e9e9e;
+$ub-nav-bg: #616161;
+$ub-light-bg: #bdbdbd;
+$ub-dark-bg: #9e9e9e;
+$ub-white: #fff;
+$ub-whitesmoke: #f5f5f5;
+$ub-txt: #333;
+
+
+// Layout
+$ub-footer-height: (
+  medium: 42px,
+  small: 0
+);
+
+// Paddings, margins
+$ub-base-margin: 1rem;
+$ub-base-padding: 1rem;
+$ub-large-margin: $ub-base-margin * 1.5;
+$ub-xlarge-margin: $ub-base-margin * 2;
+$ub-small-margin: $ub-base-margin * .75;
+$ub-tiny-margin: 1rem * .06;
+$ub-large-padding: $ub-base-padding * 1.5;
+$ub-xlarge-padding: $ub-base-padding * 2;
+$ub-small-padding: $ub-base-padding * .75;
+$ub-xs-padding: $ub-small-padding * .7;
+$ub-tiny-padding: $ub-base-padding * .06;

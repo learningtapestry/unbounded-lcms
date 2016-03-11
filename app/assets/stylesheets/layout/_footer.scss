@@ -1,0 +1,55 @@
+.c-footer {
+
+  @include e(wrap) {
+    @include flex-grid-row();
+    @include flex-grid-row-align(left, middle);
+
+    @each $breakpoint, $footer-height in $ub-footer-height {
+      @include breakpoint($breakpoint) {
+        min-height: $footer-height;
+      }
+    }
+
+    @include breakpoint(large down) {
+      padding-bottom: $ub-base-margin;
+      padding-top: $ub-base-margin;
+    }
+  }
+
+  @include e(item) {
+    @include flex-grid-column(12);
+
+    @include breakpoint(large down) {
+      & + & { margin-top: $ub-small-margin; }
+    }
+
+    @include breakpoint(large) {
+      @include flex-grid-column(shrink);
+
+      @include m(full) {
+        @include flex-grid-column();
+      }
+    }
+
+  }
+
+  @include e(list) {
+    @include menu-base;
+    @include menu-direction(horizontal);
+    color: $ub-whitesmoke;
+    li a { padding-left: .5rem; padding-right: .5rem; }
+
+    @include m(right) {
+      @include breakpoint(large) {
+        li { float: right; }
+      }
+    }
+
+    @include breakpoint(large down) {
+      display: inline-flex;
+      flex-wrap: wrap;
+      li { flex: 0 0 auto; }
+      li a { padding: .1rem 1rem .1rem 0; }
+    }
+  }
+}

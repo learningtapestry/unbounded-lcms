@@ -1,12 +1,12 @@
 production: &production
   after_bundle:
-    - command: cd $STACK_PATH && bundle exec rake cloud66:after_bundle
+    - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cloud66:after_bundle
       target: rails
       execute: true
       run_on: all_servers
-      apply_during: all    
+      apply_during: all
   after_symlink:
-    - command: cd $STACK_PATH && bundle exec rake cloud66:after_symlink
+    - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cloud66:after_symlink
       target: rails
       execute: true
       run_on: all_servers
@@ -19,4 +19,6 @@ production: &production
       apply_during: all
       run_on: all_servers 
 staging:
+  <<: *production
+development:
   <<: *production

@@ -1,0 +1,9 @@
+.c-navbar {
+  background-color: $ub-nav-bg;
+  color: $ub-whitesmoke;
+
+  @include e(link) {
+    &, a { color: $ub-whitesmoke; }
+    &:hover, &:focus, a:hover, a:focus { color: $ub-white; text-decoration: none; }
+  }
+}

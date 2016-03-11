@@ -1,0 +1,26 @@
+.c-header {
+  @include flex-grid-row;
+
+  @include e(top-bar) {
+    @include top-bar-container;
+    @include flex-grid-column;
+  }
+
+  @include e(logo) {
+    display: table-cell;
+    padding-left: 0;
+
+    @include breakpoint(medium down) {
+      display: block;
+      float: left;
+    }
+  }
+
+  @include e(h-menu) {
+    @include breakpoint(medium down) {
+      float: right;
+      padding-top: .5rem;
+    }
+  }
+
+}

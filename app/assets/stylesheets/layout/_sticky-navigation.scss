@@ -1,0 +1,16 @@
+.o-sticky {
+  position: fixed;
+  top: 50%;
+
+  @include m(right) {
+    width: 3%;
+    text-align: right;
+  }
+
+  @include m(disabled) {
+    &, a {
+      cursor: not-allowed;
+      pointer-events: none !important;
+    }
+  }
+}

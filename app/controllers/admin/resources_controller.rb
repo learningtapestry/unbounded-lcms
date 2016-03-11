@@ -5,7 +5,7 @@ class Admin::ResourcesController < Admin::AdminController
     @q = Resource.ransack(params[:q])
     @resources = @q.result.
                    order(id: :desc).
-                   includes(:alignments, :grades, :resource_types, :subjects).
+                   includes(:standards, :grades, :resource_types, :subjects).
                    paginate(page: params[:page], per_page: 15)
   end
 
@@ -17,7 +17,7 @@ class Admin::ResourcesController < Admin::AdminController
     @resource = Resource.new(resource_params)
 
     if @resource.save
-      redirect_to show_url(@resource)
+      redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
       render :new
     end
@@ -28,7 +28,7 @@ class Admin::ResourcesController < Admin::AdminController
 
   def update
     if @resource.update_attributes(resource_params)
-      redirect_to show_url(@resource)
+      redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
       render :edit
     end
@@ -54,7 +54,7 @@ class Admin::ResourcesController < Admin::AdminController
                 :subtitle,
                 :title,
                 additional_resource_ids: [],
-                alignment_ids: [],
+                standard_ids: [],
                 grade_ids: [],
                 resource_downloads_attributes: [:_destroy, :id, :download_category_id, { download_attributes: [:description, :file, :filename_cache, :id, :title] }],
                 related_resource_ids: [],

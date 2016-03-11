@@ -1,0 +1,80 @@
+html, body {
+  height: 100%;
+}
+
+@each $breakpoint, $footer-height in $ub-footer-height {
+  @include breakpoint($breakpoint) {
+    .u-page-wrap {
+      margin-bottom: -$footer-height;
+      min-height: 100%;
+      &:after {
+        content: '';
+        display: block;
+      }
+    }
+
+    .u-page-wrap:after {
+      height: $footer-height;
+    }
+  }
+}
+
+.o-page {
+  @include flex-grid-row();
+  margin-bottom: $ub-base-margin;
+  margin-top: $ub-large-margin * 2;
+
+  @include m(with-hero) {
+    margin-bottom: $ub-large-margin * 2;
+    margin-top: $ub-base-margin;
+  }
+
+  @include m(centered) {
+    @include flex-grid-row-align($x: center);
+  }
+
+  @include e(wrap) {
+    @include m(nest) {
+      @include grid-row-nest;
+    }
+    @include m(row) {
+      @include flex-grid-row();
+    }
+    @include m(row-nest) {
+      @include flex-grid-row(nest);
+    }
+  }
+
+  @include e(hero) {
+    @include flex-grid-column(12);
+  }
+
+  @include e(content) {
+    @include flex-grid-column(11);
+
+    @include m(collapse) {
+      @include flex-grid-column(11, 0);
+    }
+  }
+
+  @include e(sticky) {
+    @include flex-grid-column(1, 0);
+    $tmp-column-width: percentage(.5 / $grid-column-count);
+    flex: 0 0 $tmp-column-width;
+    max-width: $tmp-column-width;
+    position: relative;
+  }
+
+  @include e(module) {
+    @include flex-grid-column(12, 0);
+
+    @include m(margin-top) {
+      margin-top: $ub-large-margin * 2;
+    }
+  }
+
+  @include e(section) {
+    @include flex-grid-column(12);
+  }
+
+}

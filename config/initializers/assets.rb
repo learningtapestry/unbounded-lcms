@@ -13,8 +13,9 @@ Rails.application.config.assets.precompile += [
   'ckeditor/*',
   'unbounded.css',
   'unbounded/content_guides.css',
+  'main.css',
   'i18n.js',
-  'translations.js'
+  'generated/*'
 ]
 
 Rails.application.config.assets.paths << "#{Rails.root}/public/javascripts"

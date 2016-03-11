@@ -1,52 +1,45 @@
-<nav class="navbar navbar-default">
-  <div class="container">
-    <div class="row">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="ub-icon-collapse header-toggle-icon"></span>
-        </button>
-        <!-- <%= link_to root_path, class: 'navbar-brand' do %>
-          <%= image_tag 'logo.svg', :alt => t('title.logo') %>
-        <% end %> -->
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <%= nav_link t('nav.curriculum'), curriculum_path %>
-          <%= nav_link t('nav.about'), about_path %>
-          <% if false %>
-          <li class="visible-xs-block">
-            <form action="<%= unbounded_search_path %>" class="navbar-form" role="search">
-              <div class="form-group">
-                 <div class="input-group">
-                    <input name="query" type="search" class="form-control" placeholder="Search">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default btn-search" type="submit"><i class="fa fa-search"></i></button>
-                    </span>
-                 </div>
-              </div>
-            </form>
-          </li>
-          <li class="dropdown hidden-xs">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-lg fa-search"></i></a>
-            <ul class="dropdown-menu">
-              <li>
-                <form action="<%= unbounded_search_path %>" class="navbar-form" role="search">
-                  <div class="form-group">
-                     <div class="input-group">
-                        <input name="query" type="search" class="form-control" placeholder="Search">
-                        <span class="input-group-btn">
-                          <button class="btn btn-default btn-search" type="submit"><i class="fa fa-search"></i></button>
-                        </span>
-                     </div>
-                  </div>
-                </form>
-              </li>
+<header class="c-header">
+  <nav class="c-header__top-bar c-navbar">
+    <div class="top-bar-title">
+      <%= link_to root_path, class: 'menu-text c-header__logo c-navbar__link' do %>
+        <span><%= t('title.logo') %></span>
+      <% end %>
+      <span class="c-header__h-menu" data-responsive-toggle="navbar" data-hide-for="medium">
+        <span class="menu-icon dark" data-toggle></span>
+      </span>
+    </div>
+    <div id="navbar">
+      <div class="top-bar-left">
+        <ul class="dropdown menu vertical medium-horizontal" data-dropdown-menu>
+          <%= nav_link t('nav.curriculum'), explore_curriculum_index_path, class: 'c-navbar__link' %>
+          <%= nav_link t('nav.lessons'), find_lessons_path, class: 'c-navbar__link' %>
+          <%= nav_link t('nav.instructions'), root_path, class: 'c-navbar__link' %>
+          <li class="dropdown menu">
+            <%= link_to t('nav.about'), about_path, class: 'c-navbar__link' %>
+            <ul class="menu vertical">
+              <%= nav_link t('nav.about_dropdown.mission'), about_path, class: 'c-navbar__link' %>
+              <%= nav_link t('nav.about_dropdown.institute'), about_path, class: 'c-navbar__link' %>
+              <%= nav_link t('nav.about_dropdown.people'), about_path, class: 'c-navbar__link' %>
+              <%= nav_link t('nav.about_dropdown.careers'), about_path, class: 'c-navbar__link' %>
+              <%= nav_link t('nav.about_dropdown.contact'), about_path, class: 'c-navbar__link' %>
             </ul>
           </li>
-          <% end %>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu">
+          <li>
+            <%= link_to '#', class: 'c-navbar__link' do %>
+              <i class="fa fa-search"></i>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to '#', class: 'c-navbar__link' do %>
+              <i class="fa fa-share-alt"></i>
+            <% end %>
+          </li>
         </ul>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</header>

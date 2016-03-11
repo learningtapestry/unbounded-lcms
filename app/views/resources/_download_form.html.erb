@@ -1,0 +1,19 @@
+<div class="o-download-modal" id="downloads-modal" data-reveal> <!-- modal content -->
+  <h2><%= t('resources.btn.download', title: title) %></h2>
+  <p>Teaser text lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus.</p>
+  <form class="o-download-form">
+    <div>
+      <% downloads.each do |download| %>
+        <div class="o-download-form__item">
+          <input id="checkbox-<%=download.id%>" type="checkbox"><label for="checkbox1"><%= download.title %></label>
+        </div>
+      <% end %>
+      <div class="o-download-form__button">
+        <button type="submit" class="o-btn--base"><%= t('resources.btn.download', title: 'Files') %></button>
+      </div>
+    </div>
+  </form>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

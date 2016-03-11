@@ -1,7 +1,38 @@
 class ResourceSlug < ActiveRecord::Base
   belongs_to :resource
-  belongs_to :resource_collection
+  belongs_to :curriculum
 
-  validates :resource, :value, presence: true
-  validates :value, uniqueness: { case_sensitive: false, scope: :resource_collection }
+  def self.create_for_curriculum(curriculum)
+    if slug = find_by(curriculum: curriculum, canonical: true)
+      slug.reset_value
+      slug.save!
+    else
+      slug = new(
+        resource: curriculum.resource,
+        curriculum: curriculum,
+        canonical: true
+      )
+      slug.reset_value
+      slug.save!
+    end
+    slug
+  end
+
+  def self.clean_up(str)
+    str.strip.gsub(/\s+/, '-').gsub(/,+/, '-').downcase
+  end
+
+  def reset_value
+    if curriculum.present?
+      short_titles = self.class.clean_up(
+        curriculum
+        .self_and_ancestors
+        .map { |c| c.resource.short_title }
+        .reverse
+        .join('/')
+      )
+
+      self.value = short_titles
+    end
+  end
 end
