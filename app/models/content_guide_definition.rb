@@ -1,4 +1,4 @@
-class GoogleDocDefinition < ActiveRecord::Base
+class ContentGuideDefinition < ActiveRecord::Base
   validates :keyword, :description, presence: true
   validates :keyword, uniqueness: true
 

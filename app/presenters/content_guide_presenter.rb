@@ -1,15 +1,15 @@
-class GoogleDocPresenter < SimpleDelegator
+class ContentGuidePresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
 
-  KEYWORD_CLASS = 'googleDoc__keyword'
+  KEYWORD_CLASS = 'contengGuide__keyword'
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
 
   attr_reader :doc, :host, :view_context
 
-  def initialize(google_doc, host, view_context, wrap_keywords: false)
-    super(google_doc)
+  def initialize(content_guide, host, view_context, wrap_keywords: false)
+    super(content_guide)
 
     default_url_options[:host] = host
     @host = host
@@ -21,10 +21,10 @@ class GoogleDocPresenter < SimpleDelegator
   def dangling_links
     @dangling_links ||= begin
       doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
-        file_id = GoogleDoc.file_id_from_url(a[:href])
+        file_id = ContentGuide.file_id_from_url(a[:href])
         next unless file_id.present?
 
-        DanglingLink.new(a.text, a[:href]) unless GoogleDoc.exists?(file_id: file_id)
+        DanglingLink.new(a.text, a[:href]) unless ContentGuide.exists?(file_id: file_id)
       end.compact
     end
   end
@@ -128,7 +128,7 @@ class GoogleDocPresenter < SimpleDelegator
     if (tag = find_custom_tags('task break', body).first)
       if with_break
         if (next_node = tag.next)
-          hidden = doc.document.create_element('div', class: 'googleDoc__task__hidden')
+          hidden = doc.document.create_element('div', class: 'contengGuide__task__hidden')
           loop do
             break unless next_node
             current_node = next_node
@@ -137,7 +137,7 @@ class GoogleDocPresenter < SimpleDelegator
             current_node.remove
           end
 
-          toggler = doc.document.create_element('a', class: 'googleDoc__task__toggler', href: '#')
+          toggler = doc.document.create_element('a', class: 'contengGuide__task__toggler', href: '#')
           toggler.content = 'Show / Hide'
 
           wrap = doc.document.create_element('div')
@@ -189,10 +189,10 @@ class GoogleDocPresenter < SimpleDelegator
 
   def replace_guide_links
     doc.css('a[href*="docs.google.com/document/d/"]').each do |a|
-      file_id = GoogleDoc.file_id_from_url(a[:href])
-      if (google_doc = GoogleDoc.find_by_file_id(file_id))
-        a.content = google_doc.name if a.text == a[:href]
-        a[:href] = google_doc_url(google_doc)
+      file_id = ContentGuide.file_id_from_url(a[:href])
+      if (content_guide = ContentGuide.find_by_file_id(file_id))
+        a.content = content_guide.name if a.text == a[:href]
+        a[:href] = content_guide_url(content_guide)
       end
     end
   end
@@ -200,9 +200,9 @@ class GoogleDocPresenter < SimpleDelegator
   def wrap_keywords(content)
     result = content.dup
 
-    keywords = GoogleDocDefinition.all.map { |d| [d.keyword, d.description] }
+    keywords = ContentGuideDefinition.all.map { |d| [d.keyword, d.description] }
 
-    GoogleDocStandard.all.each do |standard|
+    ContentGuideStandard.all.each do |standard|
       keywords << [standard.name, standard.description]
     end
 

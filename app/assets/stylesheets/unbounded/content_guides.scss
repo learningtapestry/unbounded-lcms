@@ -1,11 +1,11 @@
-.googleDoc {
+.contengGuide {
   .popover {
     line-height: 1.2;
     width: 300px;
   }
 }
 
-.googleDoc__nav__item {
+.contengGuide__nav__item {
   &.level1 {
     padding-left: 1em;
   }
@@ -23,12 +23,12 @@
   }
 }
 
-.googleDoc__task__hidden {
+.contengGuide__task__hidden {
   display: none;
   padding-top: 1em;
 }
 
-.googleDoc__task__toggler {
+.contengGuide__task__toggler {
   display: inline-block;
   margin-top: 1em;
 }

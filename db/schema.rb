@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229141346) do
+ActiveRecord::Schema.define(version: 20160310163905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,42 @@ ActiveRecord::Schema.define(version: 20160229141346) do
 
   add_index "alignments", ["framework"], name: "index_alignments_on_framework", using: :btree
   add_index "alignments", ["framework_url"], name: "index_alignments_on_framework_url", using: :btree
+
+  create_table "content_guide_definitions", force: :cascade do |t|
+    t.string   "keyword",     null: false
+    t.string   "description", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "content_guide_definitions", ["keyword"], name: "index_content_guide_definitions_on_keyword", unique: true, using: :btree
+
+  create_table "content_guide_images", force: :cascade do |t|
+    t.string   "file",         null: false
+    t.string   "original_url", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "content_guide_images", ["original_url"], name: "index_content_guide_images_on_original_url", unique: true, using: :btree
+
+  create_table "content_guide_standards", force: :cascade do |t|
+    t.string "description", null: false
+    t.string "name",        null: false
+  end
+
+  add_index "content_guide_standards", ["name"], name: "index_content_guide_standards_on_name", unique: true, using: :btree
+
+  create_table "content_guides", force: :cascade do |t|
+    t.string   "content",          null: false
+    t.string   "file_id",          null: false
+    t.string   "name",             null: false
+    t.string   "original_content", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "content_guides", ["file_id"], name: "index_content_guides_on_file_id", unique: true, using: :btree
 
   create_table "curriculum_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false
@@ -46,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160229141346) do
     t.integer "position"
     t.integer "item_id",            null: false
     t.string  "item_type",          null: false
+    t.integer "seed_id"
   end
 
   add_index "curriculums", ["curriculum_type_id"], name: "index_curriculums_on_curriculum_type_id", using: :btree
@@ -68,42 +105,6 @@ ActiveRecord::Schema.define(version: 20160229141346) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
-
-  create_table "google_doc_definitions", force: :cascade do |t|
-    t.string   "keyword",     null: false
-    t.string   "description", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "google_doc_definitions", ["keyword"], name: "index_google_doc_definitions_on_keyword", unique: true, using: :btree
-
-  create_table "google_doc_images", force: :cascade do |t|
-    t.string   "file",         null: false
-    t.string   "original_url", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "google_doc_images", ["original_url"], name: "index_google_doc_images_on_original_url", unique: true, using: :btree
-
-  create_table "google_doc_standards", force: :cascade do |t|
-    t.string "description", null: false
-    t.string "name",        null: false
-  end
-
-  add_index "google_doc_standards", ["name"], name: "index_google_doc_standards_on_name", unique: true, using: :btree
-
-  create_table "google_docs", force: :cascade do |t|
-    t.string   "content",          null: false
-    t.string   "file_id",          null: false
-    t.string   "name",             null: false
-    t.string   "original_content", null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "google_docs", ["file_id"], name: "index_google_docs_on_file_id", unique: true, using: :btree
 
   create_table "grades", force: :cascade do |t|
     t.string   "grade"
@@ -139,6 +140,13 @@ ActiveRecord::Schema.define(version: 20160229141346) do
 
   add_index "resource_alignments", ["alignment_id"], name: "index_resource_alignments_on_alignment_id", using: :btree
   add_index "resource_alignments", ["resource_id"], name: "index_resource_alignments_on_resource_id", using: :btree
+
+  create_table "resource_backups", force: :cascade do |t|
+    t.string   "comment",    null: false
+    t.string   "dump"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "resource_children", force: :cascade do |t|
     t.integer  "parent_id",              null: false
@@ -205,6 +213,15 @@ ActiveRecord::Schema.define(version: 20160229141346) do
   add_index "resource_related_resources", ["related_resource_id"], name: "index_resource_related_resources_on_related_resource_id", using: :btree
   add_index "resource_related_resources", ["resource_id"], name: "index_resource_related_resources_on_resource_id", using: :btree
 
+  create_table "resource_requirements", force: :cascade do |t|
+    t.integer  "resource_id",    null: false
+    t.integer  "requirement_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "resource_requirements", ["resource_id"], name: "index_resource_requirements_on_resource_id", using: :btree
+
   create_table "resource_resource_types", force: :cascade do |t|
     t.integer  "resource_id"
     t.integer  "resource_type_id"
@@ -216,15 +233,16 @@ ActiveRecord::Schema.define(version: 20160229141346) do
   add_index "resource_resource_types", ["resource_type_id"], name: "index_resource_resource_types_on_resource_type_id", using: :btree
 
   create_table "resource_slugs", force: :cascade do |t|
-    t.integer  "resource_id",            null: false
-    t.integer  "resource_collection_id"
-    t.string   "value",                  null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer "resource_id",                  null: false
+    t.integer "curriculum_id"
+    t.boolean "canonical",     default: true, null: false
+    t.string  "value",                        null: false
   end
 
-  add_index "resource_slugs", ["resource_collection_id"], name: "index_resource_slugs_on_resource_collection_id", using: :btree
-  add_index "resource_slugs", ["resource_id", "resource_collection_id"], name: "index_resource_slugs_on_resource_id_and_resource_collection_id", unique: true, using: :btree
+  add_index "resource_slugs", ["canonical"], name: "index_resource_slugs_on_canonical", using: :btree
+  add_index "resource_slugs", ["curriculum_id"], name: "index_resource_slugs_on_curriculum_id", using: :btree
+  add_index "resource_slugs", ["resource_id", "curriculum_id"], name: "resource_slugs_cur_canonical_unique", unique: true, where: "canonical", using: :btree
+  add_index "resource_slugs", ["resource_id"], name: "index_resource_slugs_on_resource_id", using: :btree
   add_index "resource_slugs", ["value"], name: "index_resource_slugs_on_value", unique: true, using: :btree
 
   create_table "resource_subjects", force: :cascade do |t|
@@ -313,6 +331,7 @@ ActiveRecord::Schema.define(version: 20160229141346) do
 
   add_foreign_key "curriculums", "curriculum_types"
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
+  add_foreign_key "curriculums", "curriculums", column: "seed_id"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"
   add_foreign_key "resource_alignments", "alignments"
@@ -331,7 +350,7 @@ ActiveRecord::Schema.define(version: 20160229141346) do
   add_foreign_key "resource_related_resources", "resources", column: "related_resource_id"
   add_foreign_key "resource_resource_types", "resource_types"
   add_foreign_key "resource_resource_types", "resources"
-  add_foreign_key "resource_slugs", "resource_collections"
+  add_foreign_key "resource_slugs", "curriculums"
   add_foreign_key "resource_slugs", "resources"
   add_foreign_key "resource_subjects", "resources"
   add_foreign_key "resource_subjects", "subjects"

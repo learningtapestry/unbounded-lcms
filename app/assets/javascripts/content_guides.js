@@ -1,4 +1,4 @@
-window.initializeGoogleDoc = function() {
+window.initializeContentGuide = function() {
   var originalLeave = $.fn.popover.Constructor.prototype.leave;
 
   $.fn.popover.Constructor.prototype.leave = function(obj) {
@@ -21,12 +21,12 @@ window.initializeGoogleDoc = function() {
     }
   };
 
-  var $googleDoc = $('.googleDoc');
+  var $contengGuide = $('.contengGuide');
 
-  if ($googleDoc.length > 0) {
-    $('.googleDoc__nav').sticky({ bottomSpacing: $('body').height() - $googleDoc.height() - $googleDoc.offset().top });
+  if ($contengGuide.length > 0) {
+    $('.contengGuide__nav').sticky({ bottomSpacing: $('body').height() - $contengGuide.height() - $contengGuide.offset().top });
 
-    $('.googleDoc__keyword').popover({
+    $('.contengGuide__keyword').popover({
       content: function() {
         return $(this).data('description');
       },
@@ -36,8 +36,8 @@ window.initializeGoogleDoc = function() {
       trigger: 'hover'
     });
 
-    $('.googleDoc__task__toggler').click(function() {
-      $('.googleDoc__task__hidden', $(this).parent()).toggle();
+    $('.contengGuide__task__toggler').click(function() {
+      $('.contengGuide__task__hidden', $(this).parent()).toggle();
       return false;
     });
 

@@ -1,8 +1,8 @@
-class GoogleDocPdfPresenter < GoogleDocPresenter
-  FOOTNOTES_CLASS = 'googleDoc__footnotes'
+class ContentGuidePdfPresenter < ContentGuidePresenter
+  FOOTNOTES_CLASS = 'contengGuide__footnotes'
 
-  def initialize(google_doc, host, view_context)
-    super(google_doc, host, view_context, wrap_keywords: false)
+  def initialize(content_guide, host, view_context)
+    super(content_guide, host, view_context, wrap_keywords: false)
   end
 
   private

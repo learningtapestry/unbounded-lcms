@@ -1,6 +1,6 @@
 require 'google/apis/drive_v3'
 
-class GoogleDoc < ActiveRecord::Base
+class ContentGuide < ActiveRecord::Base
   before_save :process_content
 
   class << self
@@ -30,7 +30,7 @@ class GoogleDoc < ActiveRecord::Base
   def download_images(doc)
     doc.css('img').each do |img|
       url = img[:src]
-      image = GoogleDocImage.create_with(remote_file_url: url).find_or_create_by!(original_url: url)
+      image = ContentGuideImage.create_with(remote_file_url: url).find_or_create_by!(original_url: url)
       img[:src] = image.file.url
     end
     doc

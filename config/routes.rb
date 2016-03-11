@@ -29,16 +29,16 @@ Rails.application.routes.draw do
     get 'google_oauth2_callback' => 'google_oauth2#callback'
     resources :collection_types
     resources :collections
-    resource :curriculum_export, only: %i(new create)
-    resources :google_doc_definitions, only: %i(index new) do
+    resources :content_guide_definitions, only: %i(index new) do
       get :import, on: :collection
     end
-    resources :google_docs, only: %i(index new) do
+    resources :content_guides, only: %i(index new) do
       collection do
         get :dangling_links
         get :import
       end
     end
+    resource :curriculum_export, only: %i(new create)
     resource :resource_bulk_edits, only: [:new, :create]
     resources :resource_children, only: :create
     resources :resources, except: :show
@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :google_docs, only: :show
+  resources :content_guides, only: :show
 
   resources :pages, only: :show
 end

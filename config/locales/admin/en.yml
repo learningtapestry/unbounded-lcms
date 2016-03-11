@@ -40,7 +40,7 @@ en:
     curriculum_exports:
       new:
         page_title: Export Resources
-    google_doc_definitions:
+    content_guide_definitions:
       import:
         success: Glossary imported successfully.
       index:
@@ -49,7 +49,7 @@ en:
       new:
         page_title: Import Glossary
         submit: Import
-    google_docs:
+    content_guides:
       dangling_links:
         page_title: Dangling Links
       import:
@@ -57,10 +57,10 @@ en:
       index:
         dangling_links: Dangling Links
         glossary: Glossary
-        import_google_doc: Import Google Doc
-        page_title: Google Docs
+        import_content_guide: Import Content Guide
+        page_title: Content Guides
       new:
-        page_title: Import Google Doc
+        page_title: Import Content Guide
         submit: Import
     resource_bulk_edits:
       create:
@@ -162,7 +162,7 @@ en:
       index:
         collection_types: Collection Types
         collections: Collections
-        google_docs: Google Docs
+        content_guides: Content Guides
         page_title: Admin
         pages: Pages
         resources: Resources

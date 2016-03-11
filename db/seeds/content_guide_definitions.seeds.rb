@@ -10,5 +10,5 @@ standards = [
 ]
 
 standards.each do |hash|
-  GoogleDocStandard.create_with(description: hash[:description]).find_or_create_by!(name: hash[:name])
+  ContentGuideStandard.create_with(description: hash[:description]).find_or_create_by!(name: hash[:name])
 end

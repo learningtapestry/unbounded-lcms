@@ -1,12 +1,12 @@
 <div class=nc-content>
   <h2 class=text-center><%= t('.page_title') %></h2>
 
-  <% @google_docs.each do |google_doc| %>
-    <% if (dangling_links = google_doc.dangling_links).any? %>
+  <% @content_guides.each do |content_guide| %>
+    <% if (dangling_links = content_guide.dangling_links).any? %>
       <h4>
-        <%= link_to google_doc.name, google_doc %>
+        <%= link_to content_guide.name, content_guide %>
         /
-        <%= link_to GoogleDoc.human_attribute_name(:original_url), google_doc.original_url %>
+        <%= link_to ContentGuide.human_attribute_name(:original_url), content_guide.original_url %>
       </h4>
       <ol>
         <% dangling_links.each do |dangling_link| %>
