@@ -1,7 +1,7 @@
 class Resource < ActiveRecord::Base
 
   acts_as_taggable_on :content_sources,
-    :file_types,
+    :download_types,
     :grades,
     :resource_types,
     :tags,
@@ -132,6 +132,29 @@ class Resource < ActiveRecord::Base
 
   def math?
     subject == 'math'
+  end
+
+  # Tags
+
+  def update_download_types
+    self.download_type_list = resource_downloads.map do |resource_download|
+      download = resource_download.download
+      case download.content_type
+      when 'application/zip'
+        'zip'
+      when 'application/pdf'
+        'pdf'
+      when 'application/vnd.ms-excel',
+           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        'excel'
+      when 'application/vnd.ms-powerpoint',
+           'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        'powerpoint'
+      when 'application/msword',
+           'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        'doc'
+      end
+    end.uniq.compact
   end
 
 end
