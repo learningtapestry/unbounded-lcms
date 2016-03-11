@@ -4,7 +4,7 @@ class ContentGuidesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @content_guide = ContentGuidePresenter.new(content_guide, request.base_url, view_context)
+        @content_guide = ContentGuidePresenter.new(content_guide, request.base_url, view_context, wrap_keywords: true)
       end
 
       format.pdf do
