@@ -121,3 +121,6 @@ unbounded_unit_1_3_1:
 unbounded_with_canonical_url:
   engageny_title: Test
   engageny_url: https://www.engageny.org/content/unbounded_is_parent
+
+tag_bag:
+  title: Tags

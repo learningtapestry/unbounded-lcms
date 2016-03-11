@@ -21,8 +21,8 @@ class ExploreCurriculumController < ApplicationController
       @curriculums = Curriculum.trees
         .grades
         .with_resources
-        .where_subject(Subject.from_names(subject_params))
-        .where_grade(Grade.from_names(grade_params))
+        .where_subject(subject_params)
+        .where_grade(grade_params)
 
       @props = ActiveModel::ArraySerializer.new(@curriculums,
         each_serializer: CurriculumSerializer,

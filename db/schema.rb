@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310185952) do
+ActiveRecord::Schema.define(version: 20160311141017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,12 +57,6 @@ ActiveRecord::Schema.define(version: 20160310185952) do
     t.string   "description"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-  end
-
-  create_table "grades", force: :cascade do |t|
-    t.string   "grade"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "pages", force: :cascade do |t|
@@ -128,16 +122,6 @@ ActiveRecord::Schema.define(version: 20160310185952) do
   add_index "resource_downloads", ["download_id"], name: "index_resource_downloads_on_download_id", using: :btree
   add_index "resource_downloads", ["resource_id"], name: "index_resource_downloads_on_resource_id", using: :btree
 
-  create_table "resource_grades", force: :cascade do |t|
-    t.integer  "resource_id"
-    t.integer  "grade_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "resource_grades", ["grade_id"], name: "index_resource_grades_on_grade_id", using: :btree
-  add_index "resource_grades", ["resource_id"], name: "index_resource_grades_on_resource_id", using: :btree
-
   create_table "resource_reading_assignments", force: :cascade do |t|
     t.integer "resource_id", null: false
     t.string  "title",       null: false
@@ -167,16 +151,6 @@ ActiveRecord::Schema.define(version: 20160310185952) do
 
   add_index "resource_requirements", ["resource_id"], name: "index_resource_requirements_on_resource_id", using: :btree
 
-  create_table "resource_resource_types", force: :cascade do |t|
-    t.integer  "resource_id"
-    t.integer  "resource_type_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "resource_resource_types", ["resource_id"], name: "index_resource_resource_types_on_resource_id", using: :btree
-  add_index "resource_resource_types", ["resource_type_id"], name: "index_resource_resource_types_on_resource_type_id", using: :btree
-
   create_table "resource_slugs", force: :cascade do |t|
     t.integer "resource_id",                  null: false
     t.integer "curriculum_id"
@@ -199,31 +173,6 @@ ActiveRecord::Schema.define(version: 20160310185952) do
 
   add_index "resource_standards", ["resource_id"], name: "index_resource_standards_on_resource_id", using: :btree
   add_index "resource_standards", ["standard_id"], name: "index_resource_standards_on_standard_id", using: :btree
-
-  create_table "resource_subjects", force: :cascade do |t|
-    t.integer  "resource_id"
-    t.integer  "subject_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "resource_subjects", ["resource_id"], name: "index_resource_subjects_on_resource_id", using: :btree
-  add_index "resource_subjects", ["subject_id"], name: "index_resource_subjects_on_subject_id", using: :btree
-
-  create_table "resource_topics", force: :cascade do |t|
-    t.integer  "resource_id"
-    t.integer  "topic_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  create_table "resource_types", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "resource_types", ["name"], name: "index_resource_types_on_name", using: :btree
 
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at"
@@ -289,21 +238,25 @@ ActiveRecord::Schema.define(version: 20160310185952) do
   add_index "standards", ["standard_domain_id"], name: "index_standards_on_standard_domain_id", using: :btree
   add_index "standards", ["subject"], name: "index_standards_on_subject", using: :btree
 
-  create_table "subjects", force: :cascade do |t|
-    t.string   "name"
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       limit: 128
     t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
-  add_index "subjects", ["name"], name: "index_subjects_on_name", using: :btree
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
 
-  create_table "topics", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "tags", force: :cascade do |t|
+    t.string  "name"
+    t.integer "taggings_count", default: 0
   end
 
-  add_index "topics", ["name"], name: "index_topics_on_name", using: :btree
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -338,19 +291,13 @@ ActiveRecord::Schema.define(version: 20160310185952) do
   add_foreign_key "resource_downloads", "download_categories"
   add_foreign_key "resource_downloads", "downloads"
   add_foreign_key "resource_downloads", "resources"
-  add_foreign_key "resource_grades", "grades"
-  add_foreign_key "resource_grades", "resources"
   add_foreign_key "resource_reading_assignments", "resources"
   add_foreign_key "resource_related_resources", "resources"
   add_foreign_key "resource_related_resources", "resources", column: "related_resource_id"
-  add_foreign_key "resource_resource_types", "resource_types"
-  add_foreign_key "resource_resource_types", "resources"
   add_foreign_key "resource_slugs", "curriculums"
   add_foreign_key "resource_slugs", "resources"
   add_foreign_key "resource_standards", "resources"
   add_foreign_key "resource_standards", "standards"
-  add_foreign_key "resource_subjects", "resources"
-  add_foreign_key "resource_subjects", "subjects"
   add_foreign_key "standard_links", "standards", column: "standard_begin_id"
   add_foreign_key "standard_links", "standards", column: "standard_end_id"
   add_foreign_key "standards", "standard_clusters"

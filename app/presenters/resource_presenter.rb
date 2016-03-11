@@ -1,6 +1,6 @@
 class ResourcePresenter < SimpleDelegator
   def tags
-    subjects.order(name: :asc).pluck(:name).join(', ')
+    super.sort.join(', ')
   end
 
   def teaser_text

@@ -9,17 +9,17 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     @standard2     = standards(:mp2)
     @description    = Faker::Lorem.sentence(10)
     @easol_resource  = resources(:easol)
-    @grade1         = grades(:grade1)
-    @grade2         = grades(:grade2)
+    @grade1         = 'grade 1'
+    @grade2         = 'grade 2'
     @other_resource  = resources(:no_organization)
-    @resource_type1 = resource_types(:video)
-    @resource_type2 = resource_types(:textbook)
-    @subject1       = subjects(:math)
-    @subject2       = subjects(:physics)
+    @resource_type1 = 'resource type 1'
+    @resource_type2 = 'resource type 2'
+    @tag1       = 'tag 1'
+    @tag2       = 'tag 2'
     @subtitle       = Faker::Lorem.sentence
     @title          = Faker::Lorem.sentence
-    @topic1         = topics(:stem)
-    @topic2         = topics(:video_library)
+    @topic1         = 'topic 1'
+    @topic2         = 'topic 2'
 
     login_as @admin
   end
@@ -35,14 +35,14 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     fill_in 'Subtitle',    with: @subtitle
     fill_in 'Description', with: @description
     check 'Hidden'
-    select @grade1.grade,         from: 'Grades'
-    select @grade2.grade,         from: 'Grades'
-    select @subject1.name,        from: 'Subjects'
-    select @subject2.name,        from: 'Subjects'
-    select @topic1.name,          from: 'Topics'
-    select @topic2.name,          from: 'Topics'
-    select @resource_type1.name,  from: 'Resource types'
-    select @resource_type2.name,  from: 'Resource types'
+    select @grade1,         from: 'Grade list'
+    select @grade2,         from: 'Grade list'
+    select @tag1,        from: 'Tag list'
+    select @tag2,        from: 'Tag list'
+    select @topic1,          from: 'Topic list'
+    select @topic2,          from: 'Topic list'
+    select @resource_type1,  from: 'Resource type list'
+    select @resource_type2,  from: 'Resource type list'
     select @standard1.name,      from: 'Standards'
     select @standard2.name,      from: 'Standards'
     select @easol_resource.title,  from: 'Related materials'
@@ -58,11 +58,11 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     assert_equal resource.title,        @title
     assert_same_elements resource.additional_resources, [@other_resource]
     assert_same_elements resource.standards,          [@standard1, @standard2]
-    assert_same_elements resource.grades,              [@grade1, @grade2]
+    assert_same_elements resource.grade_list,              [@grade1, @grade2]
     assert_same_elements resource.related_resources,    [@easol_resource]
-    assert_same_elements resource.resource_types,      [@resource_type1, @resource_type2]
-    assert_same_elements resource.subjects,            [@subject1, @subject2]
-    assert_same_elements resource.topics,              [@topic1, @topic2]
+    assert_same_elements resource.resource_type_list,      [@resource_type1, @resource_type2]
+    assert_same_elements resource.tag_list,            [@tag1, @tag2]
+    assert_same_elements resource.topic_list,              [@topic1, @topic2]
   end
 
   def test_edit_unbounded_resource
@@ -73,14 +73,14 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     fill_in 'Subtitle',    with: @subtitle
     fill_in 'Description', with: @description
     uncheck 'Hidden'
-    resource.grades.each { |grade| unselect grade.grade, from: 'Grades' }
-    select @grade2.grade, from: 'Grades'
-    resource.subjects.each { |subject| unselect subject.name, from: 'Subjects' }
-    select @subject2.name, from: 'Subjects'
-    resource.topics.each { |topic| unselect topic.name, from: 'Topics' }
-    select @topic2.name, from: 'Topics'
-    resource.resource_types.each { |resource_type| unselect resource_type.name, from: 'Resource types' }
-    select @resource_type2.name, from: 'Resource types'
+    resource.grade_list.each { |grade| unselect grade, from: 'Grade list' }
+    select @grade2, from: 'Grade list'
+    resource.tag_list.each { |subject| unselect subject, from: 'Tag list' }
+    select @tag2, from: 'Tag list'
+    resource.topic_list.each { |topic| unselect topic, from: 'Topic list' }
+    select @topic2, from: 'Topic list'
+    resource.resource_type_list.each { |resource_type| unselect resource_type, from: 'Resource type list' }
+    select @resource_type2, from: 'Resource type list'
     resource.standards.each { |standard| unselect standard.name, from: 'Standards' }
     select @standard2.name, from: 'Standards'
     unselect @easol_resource.title, from: 'Related materials'
@@ -98,11 +98,11 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     assert_equal resource.title,       @title
     assert_same_elements resource.additional_resources, [@easol_resource]
     assert_same_elements resource.standards,          [@standard2]
-    assert_same_elements resource.grades,              [@grade2]
+    assert_same_elements resource.grade_list,              [@grade2]
     assert_same_elements resource.related_resources,    [@other_resource]
-    assert_same_elements resource.resource_types,      [@resource_type2]
-    assert_same_elements resource.subjects,            [@subject2]
-    assert_same_elements resource.topics,              [@topic2]
+    assert_same_elements resource.resource_type_list,      [@resource_type2]
+    assert_same_elements resource.tag_list,            [@tag2]
+    assert_same_elements resource.topic_list,              [@topic2]
   end
 
   def test_delete_unbounded_resource

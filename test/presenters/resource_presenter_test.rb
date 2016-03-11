@@ -3,7 +3,6 @@ require 'test_helper'
 class ResourcePresenterTest < ActiveSupport::TestCase
   setup do
     curriculums(:math_map).create_tree
-    @subject = subjects(:math)
     @resource = resources(:math_lesson_1)
     @curriculum = Curriculum.trees
       .joins(:resource_item)
@@ -18,7 +17,9 @@ class ResourcePresenterTest < ActiveSupport::TestCase
   end
 
   test 'tags' do
-    @resource.subjects << Subject.new(name: 'TagX')
-    assert_equal 'math, TagX', @presenter.tags
+    @resource.tag_list.add('TagX')
+    @resource.save!
+    @resource.reload
+    assert_equal 'TagX', @presenter.tags
   end
 end
