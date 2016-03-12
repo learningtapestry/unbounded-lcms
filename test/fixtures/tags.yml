@@ -1,0 +1,23 @@
+grade_1:
+  name: grade 1
+
+grade_2:
+  name: grade 2
+
+topic_1:
+  name: topic 1
+
+topic_2:
+  name: topic 2
+
+tag_1:
+  name: tag 1
+
+tag_2:
+  name: tag 2
+
+resource_type_1:
+  name: resource type 1
+
+resource_type_2:
+  name: resource type 2

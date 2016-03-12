@@ -5,7 +5,7 @@ class Admin::ResourcesController < Admin::AdminController
     @q = Resource.ransack(params[:q])
     @resources = @q.result.
                    order(id: :desc).
-                   includes(:standards, :grades, :resource_types, :subjects).
+                   includes(:standards, :taggings).
                    paginate(page: params[:page], per_page: 15)
   end
 
@@ -55,12 +55,12 @@ class Admin::ResourcesController < Admin::AdminController
                 :title,
                 additional_resource_ids: [],
                 standard_ids: [],
-                grade_ids: [],
                 resource_downloads_attributes: [:_destroy, :id, :download_category_id, { download_attributes: [:description, :file, :filename_cache, :id, :title] }],
                 related_resource_ids: [],
-                resource_type_ids: [],
-                subject_ids: [],
-                topic_ids: []
+                grade_list: [],
+                topic_list: [],
+                tag_list: [],
+                resource_type_list: []
               )
     end
 end

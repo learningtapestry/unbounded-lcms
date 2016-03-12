@@ -1,32 +1,23 @@
 class Resource < ActiveRecord::Base
 
-  # Additonal resources
+  acts_as_taggable_on :content_sources,
+    :download_types,
+    :grades,
+    :resource_types,
+    :tags,
+    :topics
+
+  # Additional resources
   has_many :resource_additional_resources, dependent: :destroy
   has_many :additional_resources, through: :resource_additional_resources
-
-  # Subjects.
-  has_many :resource_subjects, dependent: :destroy
-  has_many :subjects, through: :resource_subjects
-
-  # Topics.
-  has_many :resource_topics, dependent: :destroy
-  has_many :topics, through: :resource_topics
 
   # Standards.
   has_many :resource_standards, dependent: :destroy
   has_many :standards, through: :resource_standards
 
-  # Resource types.
-  has_many :resource_resource_types, dependent: :destroy
-  has_many :resource_types, through: :resource_resource_types
-
   # Downloads.
   has_many :resource_downloads, dependent: :destroy
   has_many :downloads, through: :resource_downloads
-
-  # Grades.
-  has_many :resource_grades, dependent: :destroy
-  has_many :grades, through: :resource_grades
 
   # Curriculums.
   has_many :curriculums, as: :item
@@ -59,20 +50,16 @@ class Resource < ActiveRecord::Base
     subjects = Array.wrap(subjects)
     return where(nil) unless subjects.any?
 
-    joins(:subjects)
-    .where(
-      'subjects.id' => Array.wrap(subjects).map(&:id)
-    )
+    where(subject: subjects)
   }
 
   scope :where_grade, ->(grades) {
     grades = Array.wrap(grades)
     return where(nil) unless grades.any?
 
-    joins(:grades)
-    .where(
-      'grades.id' => Array.wrap(grades).map(&:id)
-    )
+    joins(taggings: [:tag])
+    .where(taggings: { context: 'grades' })
+    .where(tags: { name: grades })
   }
 
   scope :asc, -> { order(created_at: :asc) }
@@ -95,33 +82,19 @@ class Resource < ActiveRecord::Base
             resource.resource_standards.find_or_create_by!(standard_id: standard_id)
           end
 
-          # Grades
-          resource.resource_grades.where(grade_id: before.grade_ids).where.not(grade_id: after.grade_ids).destroy_all
-          (after.grade_ids - before.grade_ids).each do |grade_id|
-            resource.resource_grades.find_or_create_by!(grade_id: grade_id)
-          end
+          resource.grades_list = sample.grades_list
+          resource.tags_list = sample.tags_list
+          resource.resource_types_list = sample.resource_types_list
 
-          # Resource types
-          resource.resource_resource_types.where(resource_type_id: before.resource_type_ids).where.not(resource_type_id: after.resource_type_ids).destroy_all
-          (after.resource_type_ids - before.resource_type_ids).each do |resource_type_id|
-            resource.resource_resource_types.find_or_create_by!(resource_type_id: resource_type_id)
-          end
-
-          # Subjects
-          resource.resource_subjects.where(subject_id: before.subject_ids).where.not(subject_id: after.subject_ids).destroy_all
-          (after.subject_ids - before.subject_ids).each do |subject_id|
-            resource.resource_subjects.find_or_create_by!(subject_id: subject_id)
-          end
+          resource.save!
+          resource
         end
       end
     end
 
     def init_for_bulk_edit(resources)
       resource = new
-      resource.standard_ids     = resources.map(&:standard_ids).inject { |memo, ids| memo &= ids }
-      resource.grade_ids         = resources.map(&:grade_ids).inject { |memo, ids| memo &= ids }
-      resource.resource_type_ids = resources.map(&:resource_type_ids).inject { |memo, ids| memo &= ids }
-      resource.subject_ids       = resources.map(&:subject_ids).inject { |memo, ids| memo &= ids }
+      resource.standard_ids = resources.map(&:standard_ids).inject { |memo, ids| memo &= ids }
       resource
     end
   end
@@ -159,6 +132,29 @@ class Resource < ActiveRecord::Base
 
   def math?
     subject == 'math'
+  end
+
+  # Tags
+
+  def update_download_types
+    self.download_type_list = resource_downloads.map do |resource_download|
+      download = resource_download.download
+      case download.content_type
+      when 'application/zip'
+        'zip'
+      when 'application/pdf'
+        'pdf'
+      when 'application/vnd.ms-excel',
+           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        'excel'
+      when 'application/vnd.ms-powerpoint',
+           'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        'powerpoint'
+      when 'application/msword',
+           'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        'doc'
+      end
+    end.uniq.compact
   end
 
 end

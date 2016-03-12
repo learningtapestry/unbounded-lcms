@@ -74,8 +74,8 @@ class Curriculum < ActiveRecord::Base
     return where(nil) unless subjects.any?
 
     with_resources
-    .joins(resource_item: [:subjects])
-    .where(subjects: { id: Array.wrap(subjects).map(&:id) })
+    .joins(:resource_item)
+    .where(resources: { subject: subjects })
   }
 
   scope :where_grade, ->(grades) {
@@ -83,8 +83,9 @@ class Curriculum < ActiveRecord::Base
     return where(nil) unless grades.any?
 
     with_resources
-    .joins(resource_item: [:grades])
-    .where(grades: { id: Array.wrap(grades).map(&:id) })
+    .joins(resource_item: { taggings: [:tag] })
+    .where(taggings: { context: 'grades' })
+    .where(tags: { name: grades })
   }
 
   scope :seeds, -> { where(seed_id: nil) }
