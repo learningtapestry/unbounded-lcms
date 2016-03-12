@@ -16,9 +16,6 @@ ActiveRecord::Schema.define(version: 20160311141017) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "accounts", force: :cascade do |t|
-  end
-
   create_table "content_guide_definitions", force: :cascade do |t|
     t.string   "keyword",     null: false
     t.string   "description", null: false
