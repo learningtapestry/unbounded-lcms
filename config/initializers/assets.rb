@@ -12,7 +12,6 @@ Rails.application.config.assets.precompile += [
   'admin.css',
   'ckeditor/*',
   'unbounded.css',
-  'unbounded/content_guides.css',
   'main.css',
   'i18n.js',
   'generated/*'

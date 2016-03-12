@@ -121,14 +121,23 @@ class ContentGuidePresenter < SimpleDelegator
     end
   end
 
+  def process_footnote_links
+    doc.css('a[href^="#ftnt"]:not([href^="#ftnt_ref"])').each do |a|
+      footnote = doc.at_css(a[:href]).ancestors('div').first.clone
+      footnote.at_css(a[:href]).remove
+      a['data-tooltip'] = true
+      a[:title] = footnote.to_s
+    end
+  end
+
   def process_task_body(cell, with_break:)
-    body = doc.document.create_element('div', class: 'panel-body')
+    body = doc.document.create_element('div', class: 'c-cg-task__body')
     body.inner_html = cell.inner_html
 
     if (tag = find_custom_tags('task break', body).first)
       if with_break
         if (next_node = tag.next)
-          hidden = doc.document.create_element('div', class: 'contengGuide__task__hidden')
+          hidden = doc.document.create_element('div', class: 'c-cg-task__hidden')
           loop do
             break unless next_node
             current_node = next_node
@@ -137,7 +146,7 @@ class ContentGuidePresenter < SimpleDelegator
             current_node.remove
           end
 
-          toggler = doc.document.create_element('a', class: 'contengGuide__task__toggler', href: '#')
+          toggler = doc.document.create_element('a', class: 'c-cg-task__toggler', href: '#')
           toggler.content = 'Show / Hide'
 
           wrap = doc.document.create_element('div')
@@ -160,19 +169,16 @@ class ContentGuidePresenter < SimpleDelegator
       next unless table
       next unless table.css('tr').size == 3 || table.css('td').size == 3
 
-      title = doc.document.create_element('h4', class: 'panel-title')
+      title = doc.document.create_element('h4')
       title.inner_html = table.css('td')[0].inner_html
 
-      heading = doc.document.create_element('div', class: 'panel-heading')
-      heading << title
-
-      footer = doc.document.create_element('div', class: 'panel-footer')
+      footer = doc.document.create_element('div', class: 'c-cg-task__copyright')
       footer.inner_html = table.css('td')[2].inner_html
 
       body = process_task_body(table.css('td')[1], with_break: with_break)
 
-      panel = doc.document.create_element('div', class: 'panel panel-default')
-      panel << heading
+      panel = doc.document.create_element('div', class: 'callout success')
+      panel << title
       panel << body
       panel << footer
 
@@ -208,7 +214,7 @@ class ContentGuidePresenter < SimpleDelegator
 
     keywords.each do |keyword, value|
       value.gsub!('"', '&quot;')
-      node = %Q(<span class=#{KEYWORD_CLASS} data-description="#{value}">#{keyword}</span>)
+      node = %Q(<span data-tooltip title="#{value}">#{keyword}</span>)
       result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, node) }
     end
 
@@ -223,6 +229,7 @@ class ContentGuidePresenter < SimpleDelegator
     embed_audios
     embed_videos
     process_blockquotes
+    process_footnote_links
     process_tasks
     realign_tables
     replace_guide_links
