@@ -91,7 +91,7 @@
 
   function openPopover($elm, data) {
     data.highlights = Unbounded.highlights.findHighlights($elm.data('resource-id'));
-    data.alignmentsTitle = I18n.t('title.alignments');
+    data.standardsTitle = I18n.t('title.standards');
     data.curriculum_context = $elm.parents('.math').length ? 'math' : 'ela';
     var popover = $elm.data('bs.popover');
     $elm.attr('data-original-title', data.resource_preview.title);

@@ -1,5 +1,5 @@
 <% if @tag.valid? %>
-  window.addTag('<%= @association %>', <%= @tag.id %>, '<%= j @tag.name %>');
+  window.addTag('<%= @association %>', '<%= j @tag.name %>', '<%= j @tag.name %>');
 <% else %>
   window.showTagError('<%= @association %>', '<%= j @tag.errors.full_messages.first %>');
 <% end %>

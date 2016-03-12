@@ -2,7 +2,7 @@ class Filterbar extends React.Component {
   constructor(props) {
     super(props);
 
-    let initialState = {
+    const initialState = {
       subjects: [
         { displayName: 'ELA', name: 'ela', selected: false },
         { displayName: 'MATH', name: 'math', selected: false }
@@ -45,16 +45,11 @@ class Filterbar extends React.Component {
       .value();
     }
 
-    this.state = this.withQuery(initialState);
-  }
-
-  withQuery(state) {
-    state.query = this.createQuery(state);
-    return state;
+    this.state = initialState;
   }
 
   createQuery(state) {
-    let query = {
+    const query = {
       subjects: _.chain(state.subjects)
         .filter((subject) => subject.selected)
         .map(subject => subject.name)
@@ -68,17 +63,17 @@ class Filterbar extends React.Component {
   }
 
   onClickGrade(incoming) {
-    this.setState(this.withQuery({
+    this.setState({
       ...this.state,
       grades: this.state.grades.map(grade => {
         if (incoming.name !== grade.name) return grade;
         return _.merge({}, grade, { selected: !grade.selected })
       })
-    }));
+    });
   }
 
   onClickSubject(incoming) {
-    this.setState(this.withQuery({
+    this.setState({
       ...this.state,
       subjects: this.state.subjects.map(subject => {
         // Only a single subject may be selected at any given time.
@@ -91,13 +86,13 @@ class Filterbar extends React.Component {
         }
         return _.merge({}, subject, { selected: !subject.selected })
       })
-    }));
+    });
   }
 
   componentWillUpdate(nextProps, nextState) {
     if ('onUpdate' in this.props) {
-      if ($.param(this.state.query) !== $.param(nextState.query)) {
-        this.props.onUpdate( nextState );
+      if ($.param(this.state) !== $.param(nextState)) {
+        this.props.onUpdate( this.createQuery(nextState) );
       }
     }
   }

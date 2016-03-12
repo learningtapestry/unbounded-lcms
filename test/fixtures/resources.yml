@@ -3,27 +3,29 @@ easol:
 
 ela_curriculum_root:
   title: ELA Curriculum Map
+  short_title: ela
 
 math_curriculum_root:
   title: Math Curriculum Map
+  short_title: math
 
-math_grade:
-  title: Math Grade
+math_grade_1:
+  title: Math Grade 1
+  short_title: grade 1
 
-math_module:
-  title: Math Module
+math_module_1:
+  title: Math Module 1
+  short_title: module 1
 
-math_unit:
-  title: Math Unit
-
-math_lesson:
-  title: Math Lesson
+math_unit_1:
+  title: Math Unit 1
+  short_title: unit 1
 
 math_lesson_1:
   title: Math Lesson 1
 
-ela_grade:
-  title: ELA Grade
+ela_grade_1:
+  title: ELA Grade 1
 
 no_organization:
   title: Tea
@@ -119,3 +121,6 @@ unbounded_unit_1_3_1:
 unbounded_with_canonical_url:
   engageny_title: Test
   engageny_url: https://www.engageny.org/content/unbounded_is_parent
+
+tag_bag:
+  title: Tags

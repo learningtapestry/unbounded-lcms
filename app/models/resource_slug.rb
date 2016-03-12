@@ -19,17 +19,11 @@ class ResourceSlug < ActiveRecord::Base
   end
 
   def self.clean_up(str)
-    str.strip.gsub(/\s+/, '-').downcase
+    str.strip.gsub(/\s+/, '-').gsub(/,+/, '-').downcase
   end
 
   def reset_value
     if curriculum.present?
-      prefix = if curriculum.resource.ela?
-        'ela'
-      elsif curriculum.resource.math?
-        'math'
-      end
-      
       short_titles = self.class.clean_up(
         curriculum
         .self_and_ancestors
@@ -38,7 +32,7 @@ class ResourceSlug < ActiveRecord::Base
         .join('/')
       )
 
-      self.value = "#{prefix}/#{short_titles}"
+      self.value = short_titles
     end
   end
 end

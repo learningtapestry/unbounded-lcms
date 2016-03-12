@@ -21,7 +21,7 @@ class ExploreCurriculumPage extends React.Component {
   createQuery(state) {
     return {
       format: 'json',
-      ...state.filterbar.query
+      ...state.filterbar
     };
   }
 
@@ -47,15 +47,19 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleClickExpand(parentage) {
-    this.setState({
-      ...this.state,
-      active: parentage
-    });
+    if (parentage[parentage.length-1] === this.state.active[parentage.length-1]) {
+      this.setState({
+        ...this.state,
+        active: parentage
+      });
+    } else {
+      this.handleClickViewDetails(parentage);
+    }
   }
 
   handleClickViewDetails(parentage) {
     const id = _.last(parentage);
-    let cur = this.state.curriculumsIndex[id];
+    const cur = this.state.curriculumsIndex[id];
 
     if (cur && cur.requested) {
       this.setActive(parentage, cur);
@@ -76,7 +80,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleFilterbarUpdate(filterbar) {
-    let newState = Object.assign({}, this.state, { filterbar: filterbar });
+    const newState = Object.assign({}, this.state, { filterbar: filterbar });
     this.setState(newState, () => {
       this.fetch().then(response => {
         this.setState(this.buildStateFromProps(response));
@@ -102,7 +106,7 @@ class ExploreCurriculumPage extends React.Component {
           onUpdate={this.handleFilterbarUpdate.bind(this)}
           {...this.state.filterbar} />
         <ExploreCurriculumHeader totalItems={this.state.curriculums.length} />
-        <div className="o-dsc">
+        <div className="c-ec-cards">
           {curriculums}
         </div>
       </div>

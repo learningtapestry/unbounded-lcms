@@ -8,6 +8,9 @@
   }
 
   @include m(disabled) {
-    &, a { cursor: not-allowed;}
+    &, a {
+      cursor: not-allowed;
+      pointer-events: none !important;
+    }
   }
 }

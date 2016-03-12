@@ -10,20 +10,20 @@
 
   <%= f.input :description, as: :ckeditor, input_html: { rows: 10 } %>
 
-  <%= f.association :grades, as: :select, input_html: { class: 'selectize', id: 'grades_select', multiple: true } %>
+  <%= f.input :grade_list, collection: Tag.where_context('grades').select(:id, :name).distinct(:name), as: :select, value_method: :name, selected: @resource.grades, input_html: { class: 'selectize', id: 'grades_select', multiple: true } %>
   <p><%= link_to t('.create_grade'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'grades' } %>
 
-  <%= f.association :topics, as: :select, input_html: { class: 'selectize', id: 'topics_select', multiple: true } %>
+  <%= f.input :topic_list, collection: Tag.where_context('topics').select(:id, :name).distinct(:name), as: :select, value_method: :name, selected: @resource.topics, input_html: { class: 'selectize', id: 'topics_select', multiple: true } %>
   <p><%= link_to t('.create_topic'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'topics' } %>
 
-  <%= f.association :subjects, as: :select, input_html: { class: 'selectize', id: 'subjects_select', multiple: true } %>
+  <%= f.input :tag_list, collection: Tag.where_context('tags').select(:id, :name).distinct(:name), as: :select, value_method: :name, selected: @resource.tags, input_html: { class: 'selectize', id: 'subjects_select', multiple: true } %>
   <p><%= link_to t('.create_subject'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'subjects' } %>
 
-  <%= f.association :resource_types, as: :select, input_html: { class: 'selectize', id: 'resource_types_select', multiple: true } %>
+  <%= f.input :resource_type_list, collection: Tag.where_context('resource_types').select(:id, :name).distinct(:name), value_method: :name, selected: @resource.resource_types, as: :select, input_html: { class: 'selectize', id: 'resource_types_select', multiple: true } %>
   <p><%= link_to t('.create_resource_type'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'resource_types' } %>
 
-  <%= f.association :alignments, as: :select, input_html: { class: 'selectize', id: 'alignments_select', multiple: true } %>
-  <p><%= link_to t('.create_alignment'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'alignments' } %>
+  <%= f.association :standards, as: :select, input_html: { class: 'selectize', id: 'standards_select', multiple: true } %>
+  <p><%= link_to t('.create_standard'), '#', class: 'btn btn-success btn-sm create-tag', data: { name: 'standards' } %>
 
   <%= f.association :related_resources, as: :select, input_html: { class: 'selectize', multiple: true } %>
 
@@ -55,7 +55,7 @@
 
 <% end %>
 
-<%= render partial: 'modal', locals: { association: :alignments, title: t('.create_alignment') } %>
+<%= render partial: 'modal', locals: { association: :standards, title: t('.create_standard') } %>
 
 <%= render partial: 'modal', locals: { association: :grades, title: t('.create_grade') } %>
 
