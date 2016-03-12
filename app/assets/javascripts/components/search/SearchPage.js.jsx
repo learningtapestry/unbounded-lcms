@@ -38,16 +38,6 @@ class SearchPage extends React.Component {
     this.setState(Object.assign({}, this.state, { current_page: selected + 1 }), this.fetch);
   }
 
-  handleChangePerPage(event) {
-    let newPerPage = event.target.value;
-    this.setState(Object.assign({}, this.state, { per_page: newPerPage }), this.fetch);
-  }
-
-  handleChangeOrder(event) {
-    let newOrder = event.target.value;
-    this.setState(Object.assign({}, this.state, { order: newOrder }), this.fetch);
-  }
-
   handleFilterbarUpdate(filterbar) {
     this.setState(Object.assign({}, this.state, { filterbar: filterbar }), this.fetch);
   }
@@ -61,7 +51,15 @@ class SearchPage extends React.Component {
           withSearch={true}
           {...this.props.filterbar} />
 
-        <h2>TODO: results goes here!!</h2>
+        { ( this.state.resources.length == 0 ) ?
+            <SearchResultsEmpty /> :
+
+            <SearchResults
+              resources={this.state.resources}
+              current_page={this.state.current_page}
+              per_page={this.state.per_page}
+              total_hits={this.state.total_hits} />
+        }
 
         <PaginationBoxView previousLabel={"< Previous"}
                         nextLabel={"Next >"}
