@@ -1,0 +1,8 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+  
+  <%= simple_form_for :content_guide, url: [:import, :admin, :content_guides], html: { method: :get } do |f| %>
+    <%= f.input :url, label: t('ui.url') %>
+    <%= f.button :submit, t('.submit') %>
+  <% end %>
+</div>

@@ -16,6 +16,42 @@ ActiveRecord::Schema.define(version: 20160311141017) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "content_guide_definitions", force: :cascade do |t|
+    t.string   "keyword",     null: false
+    t.string   "description", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "content_guide_definitions", ["keyword"], name: "index_content_guide_definitions_on_keyword", unique: true, using: :btree
+
+  create_table "content_guide_images", force: :cascade do |t|
+    t.string   "file",         null: false
+    t.string   "original_url", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "content_guide_images", ["original_url"], name: "index_content_guide_images_on_original_url", unique: true, using: :btree
+
+  create_table "content_guide_standards", force: :cascade do |t|
+    t.string "description", null: false
+    t.string "name",        null: false
+  end
+
+  add_index "content_guide_standards", ["name"], name: "index_content_guide_standards_on_name", unique: true, using: :btree
+
+  create_table "content_guides", force: :cascade do |t|
+    t.string   "content",          null: false
+    t.string   "file_id",          null: false
+    t.string   "name",             null: false
+    t.string   "original_content", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "content_guides", ["file_id"], name: "index_content_guides_on_file_id", unique: true, using: :btree
+
   create_table "curriculum_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false
     t.integer "descendant_id", null: false

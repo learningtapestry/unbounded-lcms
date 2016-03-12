@@ -1,4 +1,8 @@
 en:
+  content_guides:
+    show:
+      contents: Contents
+      download_as_pdf: Download as PDF
   curriculum:
     index:
       page_title: Curriculum

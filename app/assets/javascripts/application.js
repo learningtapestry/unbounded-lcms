@@ -6,9 +6,11 @@
 //= require react
 //= require react_ujs
 //= require components
+//= require content_guides
 
 function ready() {
-  $(document).foundation();  
+  $(document).foundation();
+  window.initializeContentGuide();
 }
 
 $(document).on('ready', ready);
