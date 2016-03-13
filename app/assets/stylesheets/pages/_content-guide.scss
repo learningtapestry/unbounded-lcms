@@ -39,3 +39,22 @@
     }
   }
 }
+
+.c-cg-task__body {
+  margin-bottom: 1em;
+}
+
+.c-cg-task__copyright {
+  border-top: 1px solid;
+  padding-top: 1em;
+}
+
+.c-cg-task__hidden {
+  display: none;
+  padding-top: 1em;
+}
+
+.c-cg-task__toggler {
+  display: inline-block;
+  margin-top: 1em;
+}

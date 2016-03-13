@@ -5,11 +5,11 @@ Rails.application.routes.draw do
   get '/about' => 'pages#show_slug', slug: 'about'
   get '/tos' => 'pages#show_slug', as: :tos_page, slug: 'tos'
 
+  resources :content_guides, only: :show
   resources :explore_curriculum, only: [:index, :show]
   resources :find_lessons, only: :index
   resources :pages, only: :show
   resources :resources, only: :show
-  resources :google_docs, only: :show
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
@@ -17,8 +17,18 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get '/' => 'welcome#index'
+    get 'google_oauth2_callback' => 'google_oauth2#callback'
     resources :collection_types
     resources :collections
+    resources :content_guide_definitions, only: %i(index new) do
+      get :import, on: :collection
+    end
+    resources :content_guides, only: %i(index new) do
+      collection do
+        get :dangling_links
+        get :import
+      end
+    end
     resource :curriculum_export, only: %i(new create)
     resource :resource_bulk_edits, only: [:new, :create]
     resources :resource_children, only: :create
