@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311141017) do
+ActiveRecord::Schema.define(version: 20160312114149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -265,6 +265,11 @@ ActiveRecord::Schema.define(version: 20160311141017) do
   add_index "standard_links", ["standard_begin_id"], name: "index_standard_links_on_standard_begin_id", using: :btree
   add_index "standard_links", ["standard_end_id"], name: "index_standard_links_on_standard_end_id", using: :btree
 
+  create_table "standard_strands", force: :cascade do |t|
+    t.string "name",    null: false
+    t.string "heading"
+  end
+
   create_table "standards", force: :cascade do |t|
     t.string   "name",                null: false
     t.datetime "created_at"
@@ -273,12 +278,14 @@ ActiveRecord::Schema.define(version: 20160311141017) do
     t.integer  "standard_cluster_id"
     t.integer  "standard_domain_id"
     t.string   "emphasis"
+    t.integer  "standard_strand_id"
   end
 
   add_index "standards", ["emphasis"], name: "index_standards_on_emphasis", using: :btree
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
   add_index "standards", ["standard_cluster_id"], name: "index_standards_on_standard_cluster_id", using: :btree
   add_index "standards", ["standard_domain_id"], name: "index_standards_on_standard_domain_id", using: :btree
+  add_index "standards", ["standard_strand_id"], name: "index_standards_on_standard_strand_id", using: :btree
   add_index "standards", ["subject"], name: "index_standards_on_subject", using: :btree
 
   create_table "taggings", force: :cascade do |t|
@@ -345,4 +352,5 @@ ActiveRecord::Schema.define(version: 20160311141017) do
   add_foreign_key "standard_links", "standards", column: "standard_end_id"
   add_foreign_key "standards", "standard_clusters"
   add_foreign_key "standards", "standard_domains"
+  add_foreign_key "standards", "standard_strands"
 end
