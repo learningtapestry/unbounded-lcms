@@ -114,6 +114,13 @@ ActiveRecord::Schema.define(version: 20160311141017) do
   add_index "resource_additional_resources", ["additional_resource_id"], name: "index_resource_additional_resources_on_additional_resource_id", using: :btree
   add_index "resource_additional_resources", ["resource_id", "additional_resource_id"], name: "index_resource_additional_resources", unique: true, using: :btree
 
+  create_table "resource_backups", force: :cascade do |t|
+    t.string   "comment",    null: false
+    t.string   "dump"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "resource_children", force: :cascade do |t|
     t.integer  "parent_id",              null: false
     t.integer  "child_id",               null: false
