@@ -6,8 +6,4 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:props)
   end
-
-  def test_search_term
-    require 'pry'; binding.pry
-  end
 end

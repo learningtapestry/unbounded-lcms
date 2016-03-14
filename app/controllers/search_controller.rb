@@ -24,7 +24,6 @@ class SearchController < ApplicationController
                  .where_grade(grade_params)
                  .paginate(pagination_params.slice(:page, :per_page))
                  .order('resources.created_at desc')
-      puts @resources
     end
 
     def set_props
