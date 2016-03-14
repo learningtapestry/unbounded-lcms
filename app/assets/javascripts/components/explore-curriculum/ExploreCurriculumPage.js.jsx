@@ -1,8 +1,25 @@
+const ANIMATION_DURATION = 800;
+
 class ExploreCurriculumPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = this.buildStateFromProps(props);
+  }
+
+  getYOffset(activeId) {
+    let yOffset = $('#' + activeId).offset().top;
+    yOffset -= ($(window).scrollTop() < yOffset) ? 0 : 20;
+    return yOffset;
+  }
+
+  scrollToActive(activeOffset=2) {
+    const activeId = this.state.active[Math.max(0, this.state.active.length - activeOffset)];
+    const yOffset = this.getYOffset(activeId);
+    $('html, body').stop(true)
+                   .animate({ scrollTop: yOffset },
+                            ANIMATION_DURATION, 'linear',
+                            () => {window.location.hash = activeId;});
   }
 
   buildStateFromProps(props) {
@@ -25,8 +42,8 @@ class ExploreCurriculumPage extends React.Component {
     };
   }
 
-  fetch() {
-    const query = this.createQuery(this.state);
+  fetch(state) {
+    const query = this.createQuery(state);
     const url = Routes.explore_curriculum_index_path(query);
     return fetch(url).then(r => r.json());
   }
@@ -37,13 +54,17 @@ class ExploreCurriculumPage extends React.Component {
     return fetch(url).then(r => r.json());
   }
 
+  getActive(parentage, cur) {
+    return cur.children.length > 0 ?
+        [...parentage, cur.children[0].id] :
+        [...parentage];
+  }
+
   setActive(parentage, cur) {
     this.setState({
       ...this.state,
-      active: cur.children.length > 0 ?
-        [...parentage, cur.children[0].id] :
-        [...parentage]
-    });
+      active: this.getActive(parentage, cur)
+    }, this.scrollToActive);
   }
 
   handleClickExpand(parentage) {
@@ -51,7 +72,7 @@ class ExploreCurriculumPage extends React.Component {
       this.setState({
         ...this.state,
         active: parentage
-      });
+      }, this.scrollToActive.bind(this, 1));
     } else {
       this.handleClickViewDetails(parentage);
     }
@@ -72,20 +93,17 @@ class ExploreCurriculumPage extends React.Component {
             ...this.state.curriculumsIndex,
             ...this.buildIndex(response.children),
             [response.id]: response
-          }
-        });
-        this.setActive(parentage, response);
+          },
+          active: this.getActive(parentage, response)
+        }, this.scrollToActive);
       });
     }
   }
 
   handleFilterbarUpdate(filterbar) {
     const newState = Object.assign({}, this.state, { filterbar: filterbar });
-    this.setState(newState, () => {
-      this.fetch().then(response => {
-        this.setState(this.buildStateFromProps(response));
-      });
-    });
+    this.fetch(newState)
+        .then(response => { this.setState(this.buildStateFromProps(response)); });
   }
 
   render() {

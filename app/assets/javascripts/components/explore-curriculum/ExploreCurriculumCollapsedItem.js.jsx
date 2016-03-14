@@ -21,9 +21,9 @@ function ExploreCurriculumCollapsedItem(props) {
   );
 
   return (
-    <div className={cssClasses} onClick={props.onClickExpand}>
+    <div id={props.curriculum.id} className={cssClasses}>
       {curriculumMap}
-      <div className="o-cur-card__body o-cur-card__body--short">
+      <div className="o-cur-card__body o-cur-card__body--short" onClick={props.onClickExpand}>
         <strong className="u-text--capitalized">{resource.short_title}</strong>
         <span> {resource.title}</span>
         <span> {resource.text_description}</span>
