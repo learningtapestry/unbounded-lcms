@@ -14,9 +14,9 @@ class SearchController < ApplicationController
 
   protected
     def find_resources
-      qset = search_term.blank? ? Resource.all : Resource.search(search_term).records
-      @resources = qset.where_subject(Subject.from_names(subject_params))
-                       .where_grade(Grade.from_names(grade_params))
+      qset = search_term.blank? ? Resource.all : Resource.search(search_term, limit: 100).records
+      @resources = qset.includes(:curriculums => :curriculum_type).where_subject(subject_params)
+                       .where_grade(grade_params)
                        .paginate(pagination_params.slice(:page, :per_page))
                        .order(created_at: pagination_params[:order])
                        # .where_type(??)  # facets => curriculum | instructions

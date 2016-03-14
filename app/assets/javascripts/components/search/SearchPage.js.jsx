@@ -24,7 +24,7 @@ class SearchPage extends React.Component {
       per_page: this.state.per_page,
       order: this.state.order,
       page: this.state.current_page,
-      ...this.state.filterbar.query,
+      ...this.state.filterbar,
     }
     let url = Routes.search_path(query);
 
