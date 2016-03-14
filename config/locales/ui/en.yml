@@ -71,8 +71,8 @@ en:
     active: Document status
     age_range: Age range
     age_ranges: Age ranges
-    alignment: Alignment
-    alignments: Alignments
+    standard: Standard
+    standards: Standards
     grade: Grade
     grades: Grades
     identity: Identity
@@ -103,6 +103,7 @@ en:
     import: Import
     import_subtitles: 'Import subtitles & descriptions'
     loading: Loading
+    reimport: Re-import
     remove: Remove
     save: Save
     subscribe: Subscribe
@@ -117,6 +118,7 @@ en:
     open_math_unit: Open this Topic
     show_less: Show Less
     show_more: Show More
+    url: URL
     learn_more: Learn More
     view_all_lessons: View All Lessons
     view_all_instructions: View All Instructions

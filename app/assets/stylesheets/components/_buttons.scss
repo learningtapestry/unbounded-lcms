@@ -29,6 +29,7 @@
 .o-ub-btn {
   @extend .o-btn--base;
   min-width: 200px;
+  margin-bottom: $ub-small-margin / 2;
 
   @include m(bordered) {
     @include button-hollow;

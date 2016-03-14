@@ -40,6 +40,28 @@ en:
     curriculum_exports:
       new:
         page_title: Export Resources
+    content_guide_definitions:
+      import:
+        success: Glossary imported successfully.
+      index:
+        import: Import
+        page_title: Glossary
+      new:
+        page_title: Import Glossary
+        submit: Import
+    content_guides:
+      dangling_links:
+        page_title: Dangling Links
+      import:
+        success: "'%{name}' imported successfully."
+      index:
+        dangling_links: Dangling Links
+        glossary: Glossary
+        import_content_guide: Import Content Guide
+        page_title: Content Guides
+      new:
+        page_title: Import Content Guide
+        submit: Import
     resource_bulk_edits:
       create:
         success: "%{count} %{resources_count} updated successfully."
@@ -56,7 +78,7 @@ en:
         page_title: "Edit %{resource}"
       form:
         add_download: Add Downloadable Resource
-        create_alignment: Create Alignment
+        create_standard: Create Standard
         create_grade: Create Grade
         create_resource_type: Create Resource Type
         create_subject: Create Subject
@@ -144,6 +166,7 @@ en:
       index:
         collection_types: Collection Types
         collections: Collections
+        content_guides: Content Guides
         page_title: Admin
         pages: Pages
         resources: Resources

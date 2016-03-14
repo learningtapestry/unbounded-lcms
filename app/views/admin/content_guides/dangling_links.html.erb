@@ -1,0 +1,18 @@
+<div class=nc-content>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <% @content_guides.each do |content_guide| %>
+    <% if (dangling_links = content_guide.dangling_links).any? %>
+      <h4>
+        <%= link_to content_guide.name, content_guide %>
+        /
+        <%= link_to ContentGuide.human_attribute_name(:original_url), content_guide.original_url %>
+      </h4>
+      <ol>
+        <% dangling_links.each do |dangling_link| %>
+          <li><%= link_to dangling_link.text, dangling_link.url %>
+        <% end %>
+      </ol>
+    <% end %>
+  <% end %>
+</div>

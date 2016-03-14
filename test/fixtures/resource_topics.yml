@@ -1,7 +1,0 @@
-unbounded_special_education:
-  resource: unbounded
-  topic: special_education
-
-unbounded_stem:
-  resource: unbounded
-  topic: stem

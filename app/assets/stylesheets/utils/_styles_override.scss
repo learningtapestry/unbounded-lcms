@@ -41,3 +41,8 @@
 @mixin zero-margin-bottom() {
   > *:last-child { margin-bottom: 0 !important; }
 }
+
+.u-html-description {
+  @include inline-styles-override();
+  @include zero-margin-bottom();
+}

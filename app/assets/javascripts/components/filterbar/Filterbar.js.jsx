@@ -2,7 +2,7 @@ class Filterbar extends React.Component {
   constructor(props) {
     super(props);
 
-    let initialState = {
+    const initialState = {
       subjects: [
         { displayName: 'ELA', name: 'ela', selected: false },
         { displayName: 'MATH', name: 'math', selected: false }
@@ -34,7 +34,7 @@ class Filterbar extends React.Component {
     this.initSelectedFilters(initialState, 'grades');
     this.initSelectedFilters(initialState, 'facets');
 
-    this.state = this.withQuery(initialState);
+    this.state = initialState;
   }
 
   initSelectedFilters(initialState, prop) {
@@ -59,7 +59,7 @@ class Filterbar extends React.Component {
   }
 
   createQuery(state) {
-    let query = {
+    const query = {
       subjects   : this.getSelected(state, 'subjects'),
       grades     : this.getSelected(state, 'grades'),
       facets     : this.getSelected(state, 'facets'),
@@ -69,17 +69,17 @@ class Filterbar extends React.Component {
   }
 
   onClickGrade(incoming) {
-    this.setState(this.withQuery({
+    this.setState({
       ...this.state,
       grades: this.state.grades.map(grade => {
         if (incoming.name !== grade.name) return grade;
         return _.merge({}, grade, { selected: !grade.selected })
       })
-    }));
+    });
   }
 
   onClickSubject(incoming) {
-    this.setState(this.withQuery({
+    this.setState({
       ...this.state,
       subjects: this.state.subjects.map(subject => {
         // Only a single subject may be selected at any given time.
@@ -92,31 +92,30 @@ class Filterbar extends React.Component {
         }
         return _.merge({}, subject, { selected: !subject.selected })
       })
-    }));
+    });
   }
 
   onClickFacet(incoming) {
-    this.setState(this.withQuery({
+    this.setState({
       ...this.state,
       facets: this.state.facets.map(facet => {
         if (incoming.name !== facet.name) return facet;
         return _.merge({}, facet, { selected: !facet.selected })
       })
-    }));
+    });
   }
 
   onUpdateSearch(value) {
-    console.log('onUpdateSearch:', value);
-    this.setState(this.withQuery({
+    this.setState({
       ...this.state,
       search_term: value
-    }));
+    });
   }
 
   componentWillUpdate(nextProps, nextState) {
     if ('onUpdate' in this.props) {
-      if ($.param(this.state.query) !== $.param(nextState.query)) {
-        this.props.onUpdate( nextState );
+      if ($.param(this.state) !== $.param(nextState)) {
+        this.props.onUpdate( this.createQuery(nextState) );
       }
     }
   }

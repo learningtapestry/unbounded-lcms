@@ -1,0 +1,94 @@
+<!-- Ref:  (v5)NEW-1577_Annotated_IA_v05  page 21 -->
+<div class="o-page">
+  <div class="o-page__sticky">
+    <div class="o-sticky <%= 'o-sticky--disabled' unless @curriculum.previous_of_type %>">
+      <a href="<%= @curriculum.previous_of_type ? show_with_slug_path(@curriculum.previous_of_type.slug.value) : '#' %>"><i class="fa fa-2x fa-angle-left"></i></a>
+    </div>
+  </div>
+  <div class="o-page__content--collapse">
+    <div class="o-page_wrap--row">
+      <% if @curriculum.parent %>
+        <%= link_to show_with_slug_path(@curriculum.parent.slug.value), class: 'o-btn--dark o-btn--bordered o-btn--expand o-page__section u-margin-bottom--base .u-text--capitalized' do %>
+          <%= t('resources.btn.view', short_title: @curriculum.parent.resource.short_title) + ': ' + @curriculum.parent.resource.title %>
+        <% end %>
+      <% end %>
+      <div class="o-page__section  u-bg--primary">
+        <div class="o-content-title">
+          <%= link_to @curriculum.subject_and_grade_title, '#' %>
+        </div>
+      </div>
+      <div class="o-page__section  u-pd-content u-bg--light">
+        <div class="o-title">
+          <span class="o-title__type"><%= @resource.short_title %></span>
+          <span class="o-title__duration"><%= @resource.time_to_teach %></span>
+        </div>
+        <div class="o-resource-title">
+          <div class="o-resource-title__title">
+            <h2><%= @resource.title %></h2>
+            <div class="u-text--large">
+              <%= @resource.teaser_text %>
+            </div>
+          </div>
+          <div class="o-resource-title__links">
+            <div>
+              <button class="o-ub-btn" data-open="downloads-modal"><%= t('resources.btn.download', title: 'Lesson') %></button>
+            </div>
+            <div>
+              <%= link_to t('resources.btn.related'), '#', class: 'o-ub-btn o-ub-btn--bordered' %>
+            </div>
+          </div>
+        </div>
+        <div><h3>Summary</h3></div>
+        <hr class="u-margin-top--xs"/>
+        <div class="o-resource-summary">
+          <div class="o-resource-summary__map">
+            <strong>Curriculum Map</strong> &ndash; <span class="u-text--capitalized"><%= @curriculum.subject_and_grade_title %></span>
+            <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum } %>
+          </div>
+          <div class="o-resource-summary__content">
+            <div class="o-resource__item o-resource__item--description">
+              <h3>Description</h3>
+              <%= @resource.description.try(:html_safe) %>
+            </div>
+            <div class="o-resource__item">
+              <h3>Downloads</h3>
+              <ul class="o-resource__list o-resource__list--icons">
+                <% @resource.downloads.each do |download| %>
+                  <%= render partial: 'resources/download', locals: { download: download } %>
+                <% end %>
+              </ul>
+            </div>
+            <% unless @resource.requirements.empty? %>
+            <div class="o-resource__item">
+              <h3>Prerequisites</h3>
+              <ul>
+              <% @resource.requirements.each do |req| %>
+                <li>
+                  <a href="<%= show_resource_path req %>"><%= req.title %></a>
+                </li>
+              <% end %>
+              </ul>
+            </div>
+            <% end %>
+            <div class="o-resource__item">
+              <h3>Tags</h3>
+              <div><%= @resource.tags %></div>
+            </div>
+            <% if @resource.engageny_url %>
+            <div class="o-resource__item">
+              <h3>Credits</h3>
+              <%= render partial: 'resources/engageny', locals: { resource: @resource } %>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <%= render partial: 'resources/download_form', locals: { downloads: @resource.downloads, title: 'Lesson' } %>
+    </div>
+  </div>
+  <div class="o-page__sticky">
+    <div class="o-sticky o-sticky--right <%= 'o-sticky--disabled' unless @curriculum.next_of_type %>">
+      <a href="<%= @curriculum.next_of_type ? show_with_slug_path(@curriculum.next_of_type.slug.value) : '#' %>"><i class="fa fa-2x fa-angle-right"></i></a>
+    </div>
+  </div>
+</div>

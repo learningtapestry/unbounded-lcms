@@ -5,18 +5,28 @@ class CurriculumPresenter < SimpleDelegator
   end
 
   def module_width(node)
-    # Find the module with the highest total lesson count.
-    @max_module_lesson_count ||= begin
-      root
-      .children
-      .map { |mod| mod.children.map { |unit| unit.children.size }.sum }
-      .max
-      .to_f
+    # Store the lesson count for each module
+    @lesson_counts ||= begin
+      lesson_counts = {}
+      current_grade.modules.each do |mod|
+        count = mod.lessons.count
+        count = 1 if count == 0
+        lesson_counts[mod.id] = count
+      end
+      lesson_counts
     end
 
-    node_lesson_count = node.children.map{ |unit| unit.children.size }.sum
-    node_lesson_count = 1 if node_lesson_count == 0
+    # Max lesson count
+    @max_lesson_count ||= @lesson_counts.values.max.to_f
 
-    ((node_lesson_count / @max_module_lesson_count) * 100).round(2)
+    # Translate and scale the values above.
+    # Min width: 70%, max width: 100%
+    30 * (@lesson_counts[node.id]/@max_lesson_count) + 70
+  end
+
+  def subject_and_grade_title
+    subject = resource.subject.try(:titleize)
+    grade = current_grade.resource.grades.first.try(:name)
+    "#{subject} / #{grade}"
   end
 end

@@ -25,9 +25,9 @@
 @import
   'components/buttons',
   'components/cards',
-  'components/curriculum_map',
+  'components/curriculum-map',
+  'components/curriculum-cards',
   'components/download-modal',
-  'components/explore-curriculum',
   'components/filterbar',
   'components/freshdesk',
   'components/titles',
@@ -35,17 +35,19 @@
   'components/resource',
   'components/panel-dsc',
   'components/panel',
-  'components/search';
+  'components/search',
+  'components/sidebar';
 
 @import
   'layout/header',
   'layout/footer',
   'layout/navigation',
   'layout/sticky-navigation',
-  'layout/page',
-  'layout/sidebar';
+  'layout/page';
 
 @import
   'pages/home',
   'pages/about',
+  'pages/explore-curriculum',
+  'pages/content-guide',
   'pages/find-lessons';

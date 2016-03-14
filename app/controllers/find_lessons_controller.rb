@@ -14,17 +14,17 @@ class FindLessonsController < ApplicationController
 
   protected
     def find_lessons
-      @lessons = Resource.lessons
-        .where_subject(Subject.from_names(subject_params))
-        .where_grade(Grade.from_names(grade_params))
+      @lessons = Curriculum.trees.lessons.with_resources
+        .where_subject(subject_params)
+        .where_grade(grade_params)
         .paginate(pagination_params.slice(:page, :per_page))
-        .order(created_at: pagination_params[:order])
+        .order('resources.created_at desc')
     end
 
     def set_props
       @props = serialize_with_pagination(@lessons,
         pagination: pagination_params,
-        each_serializer: LessonSerializer,
+        each_serializer: CurriculumResourceSerializer,
       )
       @props.merge!(filterbar_props)
     end
