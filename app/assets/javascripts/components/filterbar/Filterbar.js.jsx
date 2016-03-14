@@ -155,32 +155,30 @@ class Filterbar extends React.Component {
           </div>
         </div>
         <div className='o-filterbar'>
-          {(() => {
-              if(this.props.withFacets) {
-                return (
-                  <div className='o-filterbar__facets-list'>
-                    {state.facets.map(facet => {
-                      return (
-                        <FilterbarFacet
-                          key={facet.name}
-                          onClick={this.onClickFacet.bind(this, facet)}
-                          displayName={facet.displayName}
-                          selected={facet.selected} />
-                      );
-                    })}
-                  </div>
-                );
-              } else { return false; }
-          })()}
-          {(() => {
-              if(this.props.withSearch) {
-                return (
-                  <FilterbarSearch
-                    searchTerm={this.state.search_term}
-                    onUpdate={this.onUpdateSearch.bind(this)}/>
-                );
-              } else { return false; }
-          })()}
+          {
+            (this.props.withFacets) ?
+              <div className='o-filterbar__facets-list'>
+                {state.facets.map(facet => {
+                  return (
+                    <FilterbarFacet
+                      key={facet.name}
+                      onClick={this.onClickFacet.bind(this, facet)}
+                      displayName={facet.displayName}
+                      selected={facet.selected} />
+                  );
+                })}
+              </div>
+
+              : false
+          }
+          {
+            (this.props.withSearch) ?
+              <FilterbarSearch
+                searchTerm={this.state.search_term}
+                onUpdate={this.onUpdateSearch.bind(this)}/>
+
+              : false
+          }
         </div>
       </div>
     );
