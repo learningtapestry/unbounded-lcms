@@ -26,6 +26,14 @@
     }
   }
 
+  @include m(large) {
+    @include flex-grid-column(12);
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(6);
+    }
+  }
+
   @include m(connect) {
     @include flex-grid-column(12);
 
