@@ -13,7 +13,7 @@ function ExploreCurriculumExpandedItem(props) {
     onClickDetails: props.onClickViewDetails,
     curriculum: props.curriculum
   });
-  
+
   const cssClasses = classNames(
     'o-cur-card',
     `o-cur-card--${props.curriculum.type}`
@@ -22,7 +22,7 @@ function ExploreCurriculumExpandedItem(props) {
   const description = { __html: resource.description };
 
   return (
-    <div className={cssClasses}>
+    <div id={props.curriculum.id} className={cssClasses}>
       {curriculumMap}
       <div className="o-cur-card__body" onClick={props.onClickViewDetails}>
         <div className="o-title">
