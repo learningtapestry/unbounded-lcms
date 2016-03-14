@@ -52,7 +52,7 @@ class SearchPage extends React.Component {
           {...this.props.filterbar} />
 
         { ( this.state.resources.length == 0 ) ?
-            <SearchResultsEmpty /> :
+            <SearchResultsEmpty searchTerm={this.state.filterbar.search_term} /> :
 
             <SearchResults
               resources={this.state.resources}

@@ -22,4 +22,11 @@
     }
   }
 
+  @include e(empty) {
+    padding: $ub-xlarge-padding;
+
+    p  { margin: $ub-xlarge-margin 0; }
+    a  { text-decoration: underline; }
+    ul { margin-left: $ub-xlarge-margin; }
+  }
 }
