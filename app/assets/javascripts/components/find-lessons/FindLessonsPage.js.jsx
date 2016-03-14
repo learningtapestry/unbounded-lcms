@@ -27,7 +27,7 @@ class FindLessonsPage extends React.Component {
       ...this.state.filterbar
     }
     const url = Routes.find_lessons_path(query);
-    
+
     fetch(url).then(r => r.json()).then(response => {
       this.setState(this.buildStateFromProps(response));
     });
@@ -58,7 +58,7 @@ class FindLessonsPage extends React.Component {
         <Filterbar
           onUpdate={this.handleFilterbarUpdate.bind(this)}
           {...this.props.filterbar} />
-        <FindLessonsHeader
+        <SearchResultsHeader
           onChangePerPage={this.handleChangePerPage.bind(this)}
           onChangeOrder={this.handleChangeOrder.bind(this)}
           current_page={this.state.current_page}

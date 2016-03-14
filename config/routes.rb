@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :content_guides, only: :show
   resources :explore_curriculum, only: [:index, :show]
+  resources :enhance_instruction, only: :index
   resources :find_lessons, only: :index
   resources :pages, only: :show
   resources :resources, only: :show

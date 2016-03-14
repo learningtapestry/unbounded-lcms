@@ -35,7 +35,9 @@
   'components/resource',
   'components/panel-dsc',
   'components/panel',
-  'components/sidebar';
+  'components/search-header',
+  'components/sidebar',
+  'components/simple-tab';
 
 @import
   'layout/header',
@@ -48,5 +50,6 @@
   'pages/home',
   'pages/about',
   'pages/explore-curriculum',
+  'pages/enhance-instruction',
   'pages/content-guide',
   'pages/find-lessons';

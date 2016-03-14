@@ -1,0 +1,36 @@
+.o-tab {
+  @include e(navigation) {
+    border-bottom: 1px solid $ub-txt;
+    display: flex;
+
+    @each $breakpoint, $value in $grid-column-responsive-gutter {
+      $margin: rem-calc($value) / 2;
+
+      @include breakpoint($breakpoint) {
+        margin-left: $margin;
+        margin-right: $margin;
+      }
+    }
+  }
+
+  @include e(panel) {
+  }
+}
+
+.o-tab-menu {
+  list-style-type: none;
+  margin-left: 0;
+  margin-bottom: 0;
+
+  @include e(item) {
+    float: left;
+    padding-bottom: $ub-xs-padding;
+    & + & { margin-left: $ub-small-padding; }
+    > a:hover { font-weight: bold; }
+
+    @include m(active) {
+      font-weight: bold;
+      border-bottom: 4px solid $ub-txt;
+    }
+  }
+}
