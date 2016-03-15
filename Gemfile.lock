@@ -260,6 +260,8 @@ GEM
       shellany (~> 0.0)
     oj (2.12.12)
     oj_mimic_json (1.0.1)
+    order_as_specified (0.1.0)
+      activerecord (~> 4.0)
     orm_adapter (0.5.0)
     os (0.9.6)
     pg (0.18.2)
@@ -455,6 +457,7 @@ DEPENDENCIES
   nested_form
   oj (~> 2.12.12)
   oj_mimic_json (~> 1.0.1)
+  order_as_specified (~> 0.1.0)
   pg (~> 0.18.2)
   poltergeist
   rack-livereload (~> 0.3.16)
@@ -483,3 +486,6 @@ DEPENDENCIES
   wicked_pdf (~> 0.6)
   will_paginate (~> 3.0.7)
   will_paginate-bootstrap
+
+BUNDLED WITH
+   1.11.2

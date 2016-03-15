@@ -22,42 +22,43 @@ class Filterbar extends React.Component {
         { displayName: '10', mathDisplayName: 'GE', name: '10', selected: false },
         { displayName: '11', mathDisplayName: 'A2', name: '11', selected: false },
         { displayName: '12', mathDisplayName: 'PC', name: '12', selected: false }
-      ]
+      ],
+      facets: [
+        { displayName: 'CURRICULUM', name: 'curriculum', selected: false },
+        { displayName: 'INSTRUCTION', name: 'instruction', selected: false }
+      ],
+      search_term: this.props.search_term
     };
 
-    if ('subjects' in this.props) {
-      _
-      .chain(initialState.subjects)
-      .filter(s => _.includes(this.props.subjects, s.name))
-      .forEach(s => {
-        s.selected = true;
-      })
-      .value();
-    }
-
-    if ('grades' in this.props) {
-      _
-      .chain(initialState.grades)
-      .filter(g => _.includes(this.props.grades, g.name))
-      .forEach(g => {
-        g.selected = true;
-      })
-      .value();
-    }
+    this.initSelectedFilters(initialState, 'subjects');
+    this.initSelectedFilters(initialState, 'grades');
+    this.initSelectedFilters(initialState, 'facets');
 
     this.state = initialState;
   }
 
+  initSelectedFilters(initialState, prop) {
+    if (prop in this.props) {
+      _.chain(initialState[prop])
+       .filter(s => _.includes(this.props[prop], s.name))
+       .forEach(s => { s.selected = true; })
+       .value();
+    }
+  }
+
+  getSelected(state, prop) {
+    return _.chain(state[prop])
+            .filter((obj) => obj.selected)
+            .map(obj => obj.name)
+            .value();
+  }
+
   createQuery(state) {
     const query = {
-      subjects: _.chain(state.subjects)
-        .filter((subject) => subject.selected)
-        .map(subject => subject.name)
-        .value(),
-      grades: _.chain(state.grades)
-        .filter((grade) => grade.selected)
-        .map(grade => grade.name)
-        .value()
+      subjects   : this.getSelected(state, 'subjects'),
+      grades     : this.getSelected(state, 'grades'),
+      facets     : this.getSelected(state, 'facets'),
+      search_term: state.search_term
     };
     return query;
   }
@@ -89,6 +90,23 @@ class Filterbar extends React.Component {
     });
   }
 
+  onClickFacet(incoming) {
+    this.setState({
+      ...this.state,
+      facets: this.state.facets.map(facet => {
+        if (incoming.name !== facet.name) return facet;
+        return _.merge({}, facet, { selected: !facet.selected })
+      })
+    });
+  }
+
+  onUpdateSearch(value) {
+    this.setState({
+      ...this.state,
+      search_term: value
+    });
+  }
+
   componentWillUpdate(nextProps, nextState) {
     if ('onUpdate' in this.props) {
       if ($.param(this.state) !== $.param(nextState)) {
@@ -105,28 +123,56 @@ class Filterbar extends React.Component {
       'displayName';
 
     return (
-      <div className='o-filterbar'>
-        <div className='o-filterbar__subjects-list'>
-          {state.subjects.map(subject => {
-            return (
-              <FilterbarSubject
-                key={subject.name}
-                onClick={this.onClickSubject.bind(this, subject)}
-                displayName={subject.displayName}
-                selected={subject.selected} />
-            );
-          })}
+      <div>
+        <div className='o-filterbar'>
+          <div className='o-filterbar__subjects-list'>
+            {state.subjects.map(subject => {
+              return (
+                <FilterbarSubject
+                  key={subject.name}
+                  onClick={this.onClickSubject.bind(this, subject)}
+                  displayName={subject.displayName}
+                  selected={subject.selected} />
+              );
+            })}
+          </div>
+          <div className='o-filterbar__grades-list'>
+            {state.grades.map(grade => {
+              return (
+                <FilterbarGrade
+                  key={grade.name}
+                  onClick={this.onClickGrade.bind(this, grade)}
+                  displayName={grade[gradeName]}
+                  selected={grade.selected} />
+              );
+            })}
+          </div>
         </div>
-        <div className='o-filterbar__grades-list'>
-          {state.grades.map(grade => {
-            return (
-              <FilterbarGrade
-                key={grade.name}
-                onClick={this.onClickGrade.bind(this, grade)}
-                displayName={grade[gradeName]}
-                selected={grade.selected} />
-            );
-          })}
+        <div className='o-filterbar'>
+          {
+            (this.props.withFacets) ?
+              <div className='o-filterbar__facets-list'>
+                {state.facets.map(facet => {
+                  return (
+                    <FilterbarFacet
+                      key={facet.name}
+                      onClick={this.onClickFacet.bind(this, facet)}
+                      displayName={facet.displayName}
+                      selected={facet.selected} />
+                  );
+                })}
+              </div>
+
+              : false
+          }
+          {
+            (this.props.withSearch) ?
+              <FilterbarSearch
+                searchTerm={this.state.search_term}
+                onUpdate={this.onUpdateSearch.bind(this)}/>
+
+              : false
+          }
         </div>
       </div>
     );
