@@ -1,0 +1,13 @@
+.o-related-instruction {
+  background-color: $ub-dark-bg;
+  padding: $ub-base-padding;
+
+  @include e(title) {
+    text-align: center;
+  }
+
+  @include e(teaser) {
+    margin-bottom: $ub-base-margin;
+  }
+
+}
