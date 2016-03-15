@@ -1,0 +1,32 @@
+.o-search-results {
+
+  @include e(list) {
+    list-style: none;
+
+  }
+
+  @include e(item) {
+    border-top: solid 1px $ub-secondary;
+    padding: $ub-base-padding 0;
+
+    @include m(type) {
+      @extend .u-text--small;
+      color: $ub-primary;
+      text-transform: uppercase;
+    }
+
+    @include m(title) {
+      @extend .u-text--large;
+      @extend .u-margin-bottom--small;
+      font-weight: bold;
+    }
+  }
+
+  @include e(empty) {
+    padding: $ub-xlarge-padding;
+
+    p  { margin: $ub-xlarge-margin 0; }
+    a  { text-decoration: underline; }
+    ul { margin-left: $ub-xlarge-margin; }
+  }
+}

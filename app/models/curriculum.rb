@@ -38,6 +38,8 @@
 # See: https://github.com/mceachen/closure_tree#accessing-data
 #
 class Curriculum < ActiveRecord::Base
+  extend OrderAsSpecified
+
   acts_as_tree order: 'position', dependent: :destroy
 
   belongs_to :parent, class_name: 'Curriculum', foreign_key: 'parent_id'
@@ -167,7 +169,7 @@ class Curriculum < ActiveRecord::Base
       parent = parent.parent
     end
 
-    parent   
+    parent
   end
 
   def first_of_type(_type = current_level)
@@ -285,8 +287,8 @@ class Curriculum < ActiveRecord::Base
     # Otherwise - if the seed_leaf node is itself a tree - recurse through
     # the seed_leaf node.
     if seed_leaf.item_is_curriculum?
-      recurse_from = seed_leaf.item 
-    else 
+      recurse_from = seed_leaf.item
+    else
       recurse_from = seed_leaf
     end
 

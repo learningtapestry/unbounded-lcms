@@ -21,7 +21,7 @@
   display: flex;
   margin: $ub-small-margin 0;
   justify-content: space-between;
-  
+
   @include flex-grid-column(100%);
 
   @include e(subjects-list) {
@@ -35,6 +35,40 @@
     @include e(grade) {
       @include o-filterbar-selectable;
       padding: 1em 1.5em;
+    }
+  }
+
+  @include e(facets-list) {
+    @include e(facet) {
+      @include o-filterbar-selectable;
+      padding: 1em 2.4em;
+    }
+  }
+
+  .o-filterbar__search {
+    display: inline-block;
+    width: 65%;
+    height: 2.8em;
+    background-color: $button-background;
+    position: relative;
+    padding: 0 1em;
+
+    .o-filterbar__search-input {
+      background-color: $button-background;
+      border: none;
+      color: $ub-whitesmoke;
+      font-weight: bold;
+      border-bottom: solid 1px #fff;
+      box-shadow: none;
+
+      &:focus { box-shadow: none; }
+    }
+    .o-filterbar__search-icon {
+      display: inline-block;
+      position: absolute;
+      right: 1em;
+      bottom: 1em;
+      color: #fff;
     }
   }
 }
