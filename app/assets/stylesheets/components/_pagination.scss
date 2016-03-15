@@ -12,6 +12,10 @@
       font-weight: bold;
     }
 
+    @include m(middle) {
+      text-align: center;
+    }
+
     @include m(prev) {
       font-weight: bold;
     }

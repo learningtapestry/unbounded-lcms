@@ -34,6 +34,25 @@ $margins-align: (top, bottom);
   }
 }
 
+$paddings: (
+  'zero': 0,
+  'xs': $ub-small-margin * .7,
+  'small': $ub-small-margin,
+  'base': $ub-base-margin,
+  'large': $ub-large-margin,
+  'xlarge': $ub-xlarge-margin
+);
+$paddings-align: (top, bottom);
+
+@each $padding-type, $padding-value in $paddings {
+  @each $align in $paddings-align {
+    .u-padding-#{$align}--#{$padding-type} {
+      padding-#{$align}: $padding-value;
+    }
+  }
+}
+
+
 $bg: (
   light: $ub-white,
   base: $ub-panel-bg,

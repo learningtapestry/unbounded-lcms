@@ -2,9 +2,10 @@
   @include flex-grid-column();
 
   @include e(children) {
-    margin-left: $ub-xlarge-margin;
     margin-bottom: 0;
+    margin-left: $ub-xlarge-margin;
     margin-top: 0;
+    transition: all .8s cubic-bezier(0, 1, .5, 1);
 
     @include m(expanded) {
       margin-bottom: $ub-large-margin;
