@@ -43,7 +43,7 @@ gem 'will_paginate', '~> 3.0.7', require: ['will_paginate', 'will_paginate/activ
 gem 'will_paginate-bootstrap'
 gem 'truncate_html', '~> 0.9.3'
 gem 'foundation-rails', '6.1.2'
-gem 'order_as_specified'
+gem 'order_as_specified', '~> 0.1.0'
 
 group :development, :test do
   gem 'byebug'

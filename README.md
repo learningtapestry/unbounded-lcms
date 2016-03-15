@@ -43,7 +43,7 @@ rake test
 run the following task to setup your index and import the data into ES:
 
 ```bash
-rake environment elasticsearch:import:all
+rake es:load
 ```
 
 ## React front-end

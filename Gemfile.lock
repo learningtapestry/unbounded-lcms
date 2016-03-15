@@ -457,7 +457,7 @@ DEPENDENCIES
   nested_form
   oj (~> 2.12.12)
   oj_mimic_json (~> 1.0.1)
-  order_as_specified
+  order_as_specified (~> 0.1.0)
   pg (~> 0.18.2)
   poltergeist
   rack-livereload (~> 0.3.16)

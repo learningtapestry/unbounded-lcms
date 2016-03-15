@@ -53,11 +53,6 @@ class Filterbar extends React.Component {
             .value();
   }
 
-  withQuery(state) {
-    state.query = this.createQuery(state);
-    return state;
-  }
-
   createQuery(state) {
     const query = {
       subjects   : this.getSelected(state, 'subjects'),
