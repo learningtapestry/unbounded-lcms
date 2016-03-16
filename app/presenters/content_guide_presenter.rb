@@ -122,11 +122,14 @@ class ContentGuidePresenter < SimpleDelegator
   end
 
   def process_footnote_links
-    doc.css('a[href^="#ftnt"]:not([href^="#ftnt_ref"])').each do |a|
+    doc.css('a[href^="#ftnt"]:not([href^="#ftnt_ref"])').each_with_index do |a, i|
+      id = "content_guide_footnote_#{i}"
       footnote = doc.at_css(a[:href]).ancestors('div').first.clone
       footnote.at_css(a[:href]).remove
-      a['data-tooltip'] = true
-      a[:title] = footnote.to_s
+      a['data-toggle'] = id
+      dropdown = doc.document.create_element('div', class: 'dropdown-pane', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-pane' => true, id: id)
+      dropdown.inner_html = footnote.inner_html
+      a.next = dropdown
     end
   end
 
@@ -208,14 +211,16 @@ class ContentGuidePresenter < SimpleDelegator
 
     keywords = ContentGuideDefinition.all.map { |d| [d.keyword, d.description] }
 
-    ContentGuideStandard.all.each do |standard|
-      keywords << [standard.name, standard.description]
+    ContentGuideStandard.where.not(statement_notation: nil).each do |standard|
+      keywords << [standard.statement_notation, standard.description]
     end
 
-    keywords.each do |keyword, value|
-      value.gsub!('"', '&quot;')
-      node = %Q(<span data-tooltip title="#{value}">#{keyword}</span>)
-      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, node) }
+    keywords.each_with_index do |pair, index|
+      keyword, value = pair
+      id = "content_guide_keyworrd_#{index}"
+      toggler = %Q(<span data-toggle=#{id}>#{keyword}</span>)
+      dropdown = "<div class=dropdown-pane data-dropdown data-hover=true data-hover-pane=true id=#{id}>#{value}</div>"
+      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, toggler + dropdown) }
     end
 
     result
