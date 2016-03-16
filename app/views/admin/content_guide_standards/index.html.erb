@@ -1,0 +1,28 @@
+<div class=o-page>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <table class=table>
+    <tr>
+      <th><%= ContentGuideStandard.human_attribute_name :id %>
+      <th><%= ContentGuideStandard.human_attribute_name :grade %>
+      <th><%= ContentGuideStandard.human_attribute_name :subject %>
+      <th><%= ContentGuideStandard.human_attribute_name :standard_id %>
+      <th><%= ContentGuideStandard.human_attribute_name :asn_identifier %>
+      <th><%= ContentGuideStandard.human_attribute_name :statement_notation %>
+      <th><%= ContentGuideStandard.human_attribute_name :alt_statement_notation %>
+      <th><%= ContentGuideStandard.human_attribute_name :description %>  
+    </tr>
+
+    <% @standards.each do |standard| %>
+      <tr>
+        <td><%= standard.id %>
+        <td><%= standard.grade %>
+        <td><%= standard.subject %>
+        <td><%= standard.standard_id %>
+        <td><%= standard.asn_identifier %>
+        <td><%= standard.statement_notation %>
+        <td><%= standard.alt_statement_notation %>
+        <td><%= standard.description %>  
+    <% end %>
+  </table>
+</div>
