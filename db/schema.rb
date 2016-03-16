@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160312114149) do
+ActiveRecord::Schema.define(version: 20160316122250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,11 +35,18 @@ ActiveRecord::Schema.define(version: 20160312114149) do
   add_index "content_guide_images", ["original_url"], name: "index_content_guide_images_on_original_url", unique: true, using: :btree
 
   create_table "content_guide_standards", force: :cascade do |t|
-    t.string "description", null: false
-    t.string "name",        null: false
+    t.string "description",            null: false
+    t.string "statement_notation"
+    t.string "alt_statement_notation"
+    t.string "asn_identifier",         null: false
+    t.string "grade",                  null: false
+    t.string "standard_id",            null: false
+    t.string "subject",                null: false
   end
 
-  add_index "content_guide_standards", ["name"], name: "index_content_guide_standards_on_name", unique: true, using: :btree
+  add_index "content_guide_standards", ["alt_statement_notation"], name: "index_content_guide_standards_on_alt_statement_notation", using: :btree
+  add_index "content_guide_standards", ["standard_id"], name: "index_content_guide_standards_on_standard_id", unique: true, using: :btree
+  add_index "content_guide_standards", ["statement_notation"], name: "index_content_guide_standards_on_statement_notation", using: :btree
 
   create_table "content_guides", force: :cascade do |t|
     t.string   "content",          null: false
