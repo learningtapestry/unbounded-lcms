@@ -25,9 +25,7 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
   end
 
   def test_new_resource
-    visit '/admin'
-    click_link 'Resources'
-    assert_equal current_path, '/admin/resources'
+    visit '/admin/resources'
     click_link 'Add Resource'
     assert_equal current_path, '/admin/resources/new'
 

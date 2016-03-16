@@ -172,3 +172,13 @@ en:
         resources: Resources
         staff_members: Staff Members
         users: Users
+    nav:
+      curriculums: Curriculums
+      resources: Resources
+      add_resource: Add resource
+      import_resources: Import resources
+      export_resources: Export resources
+      pages: Pages
+      staff_members: Staff members
+      content_guides: Content guides
+      users: Users

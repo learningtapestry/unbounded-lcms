@@ -12,9 +12,7 @@ class PagesTestCase < ActionDispatch::IntegrationTest
   end
 
   def test_new_page
-    visit '/admin'
-    click_link 'Pages'
-    assert_equal current_path, '/admin/pages'
+    visit '/admin/pages'
     click_link 'Add Page'
     assert_equal current_path, '/admin/pages/new'
     click_button 'Save'
@@ -40,9 +38,7 @@ class PagesTestCase < ActionDispatch::IntegrationTest
   end
 
   def test_edit_page
-    visit '/admin'
-    click_link 'Pages'
-    assert_equal current_path, '/admin/pages'
+    visit '/admin/pages'
     within "#page_#{@page.id}" do
       click_link 'Edit'
     end
@@ -58,9 +54,7 @@ class PagesTestCase < ActionDispatch::IntegrationTest
   end
 
   def test_delete_page
-    visit '/admin'
-    click_link 'Pages'
-    assert_equal current_path, '/admin/pages'
+    visit '/admin/pages'
     within "#page_#{@page.id}" do
       click_button 'Delete'
     end    
