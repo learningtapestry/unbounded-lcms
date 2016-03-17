@@ -44,9 +44,9 @@ class RelatedInstruction extends React.Component {
 
         <div className="o-related-instruction__list o-dsc__cards">
           {
-            this.state.related_instruction.map((resource)=> {
+            this.state.related_instruction.map((item)=> {
               {/* TODO implement cards properly */}
-              return <RelatedInstructionItem key={resource.id} item={resource} />;
+              return <RelatedInstructionItem key={item.id} item={item} />;
             })
           }
         </div>
