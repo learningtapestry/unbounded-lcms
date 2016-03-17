@@ -84,7 +84,7 @@
         </div>
       </div>
 
-      <%= react_component('RelatedInstruction', {}, prerender: true) %>
+      <%= react_component('RelatedInstruction', {resource: @resource}, prerender: true) %>
 
       <%= render partial: 'resources/download_form', locals: { downloads: @resource.downloads, title: 'Lesson' } %>
     </div>
