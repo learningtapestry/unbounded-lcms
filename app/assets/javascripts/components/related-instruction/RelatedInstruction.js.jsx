@@ -4,14 +4,15 @@ class RelatedInstruction extends React.Component {
 
     this.state = {
       id: props.resource.id,
-      limit: 4,
-      related_instruction: []
+      related_instruction: [],
+      expanded: false,
     };
   }
 
   fetch() {
     console.log('fetch', this.state)
-    let url = Routes.related_instruction_path(this.state.id, {limit: this.state.limit});
+    const limit = (this.state.expanded) ?  10 : 4;
+    let url = Routes.related_instruction_path(this.state.id, {limit: limit});
 
     fetch(url).then(r => r.json()).then(response => {
       this.setState(Object.assign({}, this.state, {related_instruction: response.resources}));
@@ -20,6 +21,14 @@ class RelatedInstruction extends React.Component {
 
   componentDidMount() {
     this.fetch();
+  }
+
+  handleBtnClick(evt) {
+    this.setState(Object.assign({}, this.state, {expanded: !this.state.expanded}), this.fetch)
+  }
+
+  btnLabel() {
+    return this.state.expanded ? 'Show Less' : 'Show More';
   }
 
   render () {
@@ -42,7 +51,7 @@ class RelatedInstruction extends React.Component {
         </div>
 
         <div className="o-related-instruction__controls">
-          <button>show more</button>
+          <button onClick={this.handleBtnClick.bind(this)}>{this.btnLabel()}</button>
         </div>
       </div>
      );
