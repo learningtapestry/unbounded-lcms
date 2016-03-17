@@ -10,4 +10,25 @@
     margin-bottom: $ub-base-margin;
   }
 
+
+  @include e(actions) {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  @include e(action) {
+    @include button;
+
+    width: 200px;
+    background-color: $ub-whitesmoke;
+    display: inline-block;
+    margin: 0 $ub-base-margin;
+
+    &:hover { color: $ub-whitesmoke; }
+  }
+
+  .o-card {
+    transition: all .8s cubic-bezier(0, 1, .5, 1);
+  }
+
 }

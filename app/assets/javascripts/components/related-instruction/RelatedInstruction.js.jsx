@@ -32,6 +32,7 @@ class RelatedInstruction extends React.Component {
   }
 
   render () {
+    const allInstructionsPath = Routes.enhance_instruction_index_path();
     return (
       <div className="o-related-instruction">
 
@@ -41,17 +42,21 @@ class RelatedInstruction extends React.Component {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
         </p>
 
-        <div className="o-related-instruction__list">
+        <div className="o-related-instruction__list o-dsc__cards">
           {
             this.state.related_instruction.map((resource)=> {
               {/* TODO implement cards properly */}
-              return <div key={resource.id}>{resource.title}</div>
+              return <RelatedInstructionItem key={resource.id} item={resource} />;
             })
           }
         </div>
 
-        <div className="o-related-instruction__controls">
-          <button onClick={this.handleBtnClick.bind(this)}>{this.btnLabel()}</button>
+        <div className="o-related-instruction__actions">
+
+          <button className="o-related-instruction__action o-related-instruction__action--expand"
+                  onClick={this.handleBtnClick.bind(this)}>{this.btnLabel()}</button>
+                <a className="o-related-instruction__action o-related-instruction__action--all"
+                   href={allInstructionsPath}>All Instructions</a>
         </div>
       </div>
      );
