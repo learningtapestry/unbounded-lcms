@@ -122,9 +122,7 @@ class AdminUsersTestCase < ActionDispatch::IntegrationTest
   end
 
   def navigate_to_users
-    visit '/admin'
-    click_link 'Users'
-    assert_equal '/admin/users', current_path
+    visit '/admin/users'
   end
 
   def navigate_to_new_user

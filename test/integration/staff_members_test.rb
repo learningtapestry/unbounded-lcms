@@ -11,9 +11,7 @@ class StaffMembersTestCase < ActionDispatch::IntegrationTest
     @staff_member = StaffMember.create!(name: Faker::Name.name)
 
     login_as @admin
-    visit '/admin'
-    click_link 'Staff Members'
-    assert_equal '/admin/staff_members', current_path
+    visit '/admin/staff_members'
   end
 
   def test_new_staff_member

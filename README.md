@@ -84,3 +84,17 @@ preferred HTTP requests library is HTML5 fetch.
   changes, do not trigger those changes inside the child component. Pass it a
   callback as a prop and have the child component wire the UI interaction with
   the callback. Only handle actual state changes in the parent component.
+
+## CSS development guidelines
+
+We're using the Foundation framework in flex grid mode, and following the `BEM`
+methodology to standardize stylesheet development.
+
+- [7-1](http://sass-guidelin.es/#the-7-1-pattern) pattern for file and folder structure
+- We're using Harry Roberts' style for `BEM`
+- The following namespaces are used:
+  - `o`, for objects that will be used across the app. 
+  - `c`, for components that are specific to a part of the UI and safe to change.
+  - `u`, for utils like text sizes, margins and so on.
+- It's not recommended to use elements of elements in `BEM`
+- It's fine to add Foundation classes to HTML, especially during active development

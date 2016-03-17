@@ -9,10 +9,7 @@ class SubtitlesImportTestCase < ActionDispatch::IntegrationTest
     @too_much_columns   = Rails.root.join('test', 'fixtures', 'spreadsheets', 'too_much_columns.xlsx')
 
     login_as users(:admin)
-    visit '/admin'
-    click_link 'Resources'
-    click_link 'Import subtitles'
-    assert_equal '/admin/subtitles_imports/new', current_path
+    visit '/admin/subtitles_imports/new'
   end
 
   def test_validation
