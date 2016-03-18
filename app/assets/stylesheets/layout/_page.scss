@@ -21,16 +21,19 @@ html, body {
 
 .o-page {
   @include flex-grid-row();
-  margin-bottom: $ub-base-margin;
-  margin-top: $ub-large-margin * 2;
 
-  @include m(with-hero) {
+  @include m(margin-base) {
+    margin-bottom: $ub-base-margin;
+    margin-top: $ub-large-margin * 2;
+  }
+
+  @include m(margin-inverted) {
     margin-bottom: $ub-large-margin * 2;
     margin-top: $ub-base-margin;
   }
 
   @include m(centered) {
-    @include flex-grid-row-align($x: center);
+    @include flex-align($x: center);
   }
 
   @include e(wrap) {
@@ -43,10 +46,6 @@ html, body {
     @include m(row-nest) {
       @include flex-grid-row(nest);
     }
-  }
-
-  @include e(hero) {
-    @include flex-grid-column(12);
   }
 
   @include e(content) {
@@ -74,7 +73,7 @@ html, body {
   }
 
   @include e(section) {
-    @include flex-grid-column(12);
+    @include flex-grid-column(12, 0);
   }
 
 }

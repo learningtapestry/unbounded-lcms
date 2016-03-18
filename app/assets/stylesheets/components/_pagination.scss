@@ -1,6 +1,6 @@
 .o-pagination {
   @include flex-grid-row();
-  @include flex-grid-row-align($x: justify, $y: middle);
+  @include flex-align($x: justify, $y: middle);
   list-style: none;
   text-transform: uppercase;
 

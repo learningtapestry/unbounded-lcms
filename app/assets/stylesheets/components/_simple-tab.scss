@@ -3,7 +3,7 @@
     border-bottom: 1px solid $ub-txt;
     display: flex;
 
-    @each $breakpoint, $value in $grid-column-responsive-gutter {
+    @each $breakpoint, $value in $grid-column-gutter {
       $margin: rem-calc($value) / 2;
 
       @include breakpoint($breakpoint) {

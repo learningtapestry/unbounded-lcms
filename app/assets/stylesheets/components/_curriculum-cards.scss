@@ -12,7 +12,7 @@ $ub-cur-card-margin: 2px;
   }
 
   @include m(short) {
-    @include flex-grid-row-align($y: middle);
+    @include flex-align($y: middle);
     margin-bottom: $ub-cur-card-margin !important;
   }
 
