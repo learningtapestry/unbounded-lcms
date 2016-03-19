@@ -48,4 +48,9 @@ $ub-cur-card-margin: 2px;
       text-align: center;
     }
   }
+
+  @include e(ellipsis) {
+    padding: 0 !important;
+  }
+
 }

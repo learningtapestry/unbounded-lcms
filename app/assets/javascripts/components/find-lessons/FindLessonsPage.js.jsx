@@ -54,37 +54,53 @@ class FindLessonsPage extends React.Component {
 
   render () {
     return (
-      <div className="o-page__wrap--nest">
-        <Filterbar
-          onUpdate={this.handleFilterbarUpdate.bind(this)}
-          {...this.props.filterbar} />
-        <SearchResultsHeader
-          onChangePerPage={this.handleChangePerPage.bind(this)}
-          onChangeOrder={this.handleChangeOrder.bind(this)}
-          current_page={this.state.current_page}
-          per_page={this.state.per_page}
-          num_items={this.state.lessons.length}
-          total_hits={this.state.total_hits}
-          per_page={this.state.per_page}
-          order={this.state.order} />
-        <FindLessonsCards lessons={this.state.lessons} />
-        <PaginationBoxView previousLabel={"< Previous"}
-                        nextLabel={"Next >"}
-                        breakLabel={<li className="break"><a href="">...</a></li>}
-                        pageNum={this.state.total_pages}
-                        initialSelected={this.state.current_page - 1}
-                        forceSelected={this.state.current_page - 1}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        clickCallback={this.handlePageClick.bind(this)}
-                        containerClassName={"o-pagination"}
-                        itemClassName={"o-pagination__item"}
-                        nextClassName={"o-pagination__item--next"}
-                        previousClassName={"o-pagination__item--prev"}
-                        pagesClassName={"o-pagination__item--middle"}
-                        subContainerClassName={"o-pagination__pages"}
-                        activeClassName={"o-pagination__page--active"} />
-       </div>
+      <div>
+        <div className="u-bg--base">
+          <div className="o-page">
+            <div className="o-page__module">
+              <div className="o-filterbar-title">
+                <h2>Find lessons, then download, adapt, and share - they're free!</h2>
+                <div className="o-filterbar-title__subheader">
+                  Filter by subject and grade, or search to reveal curriculum resources.
+                </div>
+              </div>
+              <Filterbar
+                onUpdate={this.handleFilterbarUpdate.bind(this)}
+                {...this.state.filterbar} />
+            </div>
+          </div>
+        </div>
+        <div className="o-page">
+          <div className="o-page__module">
+            <SearchResultsHeader
+              onChangePerPage={this.handleChangePerPage.bind(this)}
+              onChangeOrder={this.handleChangeOrder.bind(this)}
+              current_page={this.state.current_page}
+              per_page={this.state.per_page}
+              num_items={this.state.lessons.length}
+              total_hits={this.state.total_hits}
+              per_page={this.state.per_page}
+              order={this.state.order} />
+            <FindLessonsCards lessons={this.state.lessons} />
+            <PaginationBoxView previousLabel={"< Previous"}
+                            nextLabel={"Next >"}
+                            breakLabel={<li className="break"><a href="">...</a></li>}
+                            pageNum={this.state.total_pages}
+                            initialSelected={this.state.current_page - 1}
+                            forceSelected={this.state.current_page - 1}
+                            marginPagesDisplayed={2}
+                            pageRangeDisplayed={5}
+                            clickCallback={this.handlePageClick.bind(this)}
+                            containerClassName={"o-pagination o-page__wrap--row-nest"}
+                            itemClassName={"o-pagination__item"}
+                            nextClassName={"o-pagination__item--next"}
+                            previousClassName={"o-pagination__item--prev"}
+                            pagesClassName={"o-pagination__item--middle"}
+                            subContainerClassName={"o-pagination__pages"}
+                            activeClassName={"o-pagination__page--active"} />
+           </div>
+         </div>
+      </div>
      );
    }
 }

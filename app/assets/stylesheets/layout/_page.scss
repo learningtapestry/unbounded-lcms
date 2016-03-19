@@ -20,14 +20,14 @@ html, body {
 }
 
 .o-page {
-  @include flex-grid-row();
+  @include flex-grid-row;
 
-  @include m(margin-base) {
+  @include m(margin-to-top) {
     margin-bottom: $ub-base-margin;
     margin-top: $ub-large-margin * 2;
   }
 
-  @include m(margin-inverted) {
+  @include m(margin-to-bottom) {
     margin-bottom: $ub-large-margin * 2;
     margin-top: $ub-base-margin;
   }
@@ -41,7 +41,7 @@ html, body {
       @include grid-row-nest;
     }
     @include m(row) {
-      @include flex-grid-row();
+      @include flex-grid-row;
     }
     @include m(row-nest) {
       @include flex-grid-row(nest);
@@ -73,7 +73,7 @@ html, body {
   }
 
   @include e(section) {
-    @include flex-grid-column(12, 0);
+    @include flex-grid-column(12);
   }
 
 }

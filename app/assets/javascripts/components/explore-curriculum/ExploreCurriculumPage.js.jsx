@@ -119,13 +119,27 @@ class ExploreCurriculumPage extends React.Component {
     );
 
     return (
-      <div className="o-page__wrap--nest">
-        <Filterbar
-          onUpdate={this.handleFilterbarUpdate.bind(this)}
-          {...this.state.filterbar} />
-        <ExploreCurriculumHeader totalItems={this.state.curriculums.length} />
-        <div className="c-ec-cards">
-          {curriculums}
+      <div>
+        <div className="u-bg--base">
+          <div className="o-page">
+            <div className="o-page__module">
+              <div className="o-filterbar-title">
+                <h2>Enhance Instruction with comprehensive content guides and educator videos.</h2>
+                <div className="o-filterbar-title__subheader">
+                  Filter by subject or grade, or search to reveal assets.
+                </div>
+              </div>
+              <Filterbar
+                onUpdate={this.handleFilterbarUpdate.bind(this)}
+                {...this.state.filterbar} />
+            </div>
+          </div>
+        </div>
+        <div className="o-page">
+          <div className="o-page__module">
+            <ExploreCurriculumHeader totalItems={this.state.curriculums.length} />
+            {curriculums}
+          </div>
         </div>
       </div>
     );

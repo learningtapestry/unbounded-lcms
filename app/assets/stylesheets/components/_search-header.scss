@@ -1,5 +1,4 @@
 .o-s-header {
-  @include flex-grid-row();
   @include flex-align($x: justify, $y: middle);
   @extend .u-margin-top--large;
 

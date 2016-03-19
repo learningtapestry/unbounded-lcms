@@ -1,5 +1,4 @@
 .o-pagination {
-  @include flex-grid-row();
   @include flex-align($x: justify, $y: middle);
   list-style: none;
   text-transform: uppercase;
@@ -22,7 +21,7 @@
 
     @include m(disabled) {
       &, a {
-        color: $ub-secondary;
+        color: $medium-gray;
         cursor: not-allowed;
       }
     }

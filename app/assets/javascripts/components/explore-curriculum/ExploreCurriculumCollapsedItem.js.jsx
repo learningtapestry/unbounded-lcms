@@ -1,37 +1,63 @@
-function ExploreCurriculumCollapsedItem(props) {
-  const resource = props.curriculum.resource;
+class ExploreCurriculumCollapsedItem extends React.Component {
+  componentDidMount() {
+    let el = new Foundation.DropdownMenu($(this.refs.dropdown), { 'alignment': 'right' });
+  }
 
-  const curriculumComponent = {
-    'grade': ExploreCurriculumGradeMap,
-    'module': ExploreCurriculumModuleMap,
-    'unit': ExploreCurriculumUnitMap,
-    'lesson': ExploreCurriculumGradeMap
-  }[props.curriculum.type];
+  componentWillUnmount() {
+    $(this.refs.dropdown).foundation('destroy');
+  }
 
-  const curriculumMap = React.createElement(curriculumComponent, {
-    expanded: false,
-    onClickDetails: props.onClickExpand,
-    curriculum: props.curriculum
-  });
+  render() {
+    const resource = this.props.curriculum.resource;
 
-  const cssClasses = classNames(
-    "o-cur-card",
-    "o-cur-card--short",
-    `o-cur-card--${props.curriculum.type}`
-  );
+    const curriculumComponent = {
+      'grade': ExploreCurriculumGradeMap,
+      'module': ExploreCurriculumModuleMap,
+      'unit': ExploreCurriculumUnitMap,
+      'lesson': ExploreCurriculumGradeMap
+    }[this.props.curriculum.type];
 
-  return (
-    <div id={props.curriculum.id} className={cssClasses}>
-      {curriculumMap}
-      <div className="o-cur-card__body o-cur-card__body--short" onClick={props.onClickExpand}>
-        <strong className="u-text--capitalized">{resource.short_title}</strong>
-        <span> {resource.title}</span>
-        <span> {resource.text_description}</span>
+    const curriculumMap = React.createElement(curriculumComponent, {
+      expanded: false,
+      onClickDetails: this.props.onClickExpand,
+      curriculum: this.props.curriculum
+    });
+
+    const cssClasses = classNames(
+      "o-cur-card",
+      "o-cur-card--short",
+      `o-cur-card--${this.props.curriculum.type}`
+    );
+    const dropdownId = `c-ec-dropdown-${resource.id}`;
+
+    return (
+      <div id={this.props.curriculum.id} className={cssClasses}>
+        {curriculumMap}
+        <div className="o-cur-card__body o-cur-card__body--short" onClick={this.props.onClickExpand}>
+          <strong className="u-text--capitalized">{resource.short_title}</strong>
+          <span> {resource.title}</span>
+          <span> {resource.text_description}</span>
+        </div>
+        {/*<div className="o-cur-card__actions" data-toggle={dropdownId}>
+          <i className="fa fa-lg fa-ellipsis-h">
+          </i>
+        </div>
+        <div className="dropdown-pane" id={dropdownId} data-dropdown data-hover="true" data-hover-pane="true">
+          Just some junk that needs to be said. Or not. Your choice.
+        </div>*/}
+        <div className="o-cur-card__actions">
+          <ul className="menu" ref="dropdown">
+            <li>
+              <a href="#" className="o-cur-card__ellipsis"><i className="fa fa-lg fa-ellipsis-h"></i></a>
+              <ul className="menu">
+                <li><a href={resource.path}>View Details</a></li>
+                <li><a href="#">Download Curriculum</a></li>
+                <li><a href="#">Related Instruction</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div className="o-cur-card__actions">
-        <i className="fa fa-lg fa-ellipsis-h" onClick={props.onClickExpand}>
-        </i>
-      </div>
-    </div>
-  );
+    );
+  }
 }
