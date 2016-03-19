@@ -42,7 +42,7 @@ gem 'wicked_pdf', '~> 0.6'
 gem 'will_paginate', '~> 3.0.7', require: ['will_paginate', 'will_paginate/active_record']
 gem 'will_paginate-bootstrap'
 gem 'truncate_html', '~> 0.9.3'
-gem 'foundation-rails', '6.1.2'
+gem 'foundation-rails', '~> 6.2.0'
 gem 'order_as_specified', '~> 0.1.0'
 
 group :development, :test do

@@ -2,15 +2,6 @@
   @include e(navigation) {
     border-bottom: 1px solid $ub-txt;
     display: flex;
-
-    @each $breakpoint, $value in $grid-column-responsive-gutter {
-      $margin: rem-calc($value) / 2;
-
-      @include breakpoint($breakpoint) {
-        margin-left: $margin;
-        margin-right: $margin;
-      }
-    }
   }
 
   @include e(panel) {

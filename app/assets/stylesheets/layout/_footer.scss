@@ -1,33 +1,44 @@
 .c-footer {
+  background-color: $ub-nav-bg;
 
   @include e(wrap) {
     @include flex-grid-row();
-    @include flex-grid-row-align(left, middle);
+    @include flex-align(left, top);
+    padding-bottom: $ub-small-padding;
+    padding-top: $ub-base-padding;
 
-    @each $breakpoint, $footer-height in $ub-footer-height {
-      @include breakpoint($breakpoint) {
-        min-height: $footer-height;
-      }
+    @include breakpoint(medium) {
+      padding-bottom: $ub-base-padding;
+      padding-top: $ub-large-padding;
+    }
+  }
+
+  @include e(logo) {
+    img { width: 160px; }
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(shrink, 0);
     }
 
-    @include breakpoint(large down) {
-      padding-bottom: $ub-base-margin;
-      padding-top: $ub-base-margin;
+    @include breakpoint(medium down) {
+      @include flex-grid-column(shrink);
     }
   }
 
   @include e(item) {
     @include flex-grid-column(12);
 
-    @include breakpoint(large down) {
-      & + & { margin-top: $ub-small-margin; }
+    @include breakpoint(medium down) {
+      margin-top: $ub-small-margin;
     }
 
-    @include breakpoint(large) {
+    @include breakpoint(medium) {
       @include flex-grid-column(shrink);
 
       @include m(full) {
-        @include flex-grid-column();
+        @include flex-grid-column(null, 0);
+        align-self: center;
+        text-align: right;
       }
     }
 
@@ -39,17 +50,27 @@
     color: $ub-whitesmoke;
     li a { padding-left: .5rem; padding-right: .5rem; }
 
-    @include m(right) {
-      @include breakpoint(large) {
-        li { float: right; }
-      }
-    }
-
-    @include breakpoint(large down) {
+    @include breakpoint(medium down) {
       display: inline-flex;
       flex-wrap: wrap;
       li { flex: 0 0 auto; }
-      li a { padding: .1rem 1rem .1rem 0; }
+      li a { padding: .1rem 0; }
+      li.bullet { padding: .1rem .5rem; }
     }
+  }
+}
+
+.t-bullet {
+  &:after { content: '\2022'; color: $ub-nav-link; }
+}
+
+
+.c-footer {
+  background-color: $ub-nav-bg;
+  color: $ub-nav-link;
+
+  @include e(link) {
+    &, a { color: $ub-nav-link; }
+    &:hover, &:focus, a:hover, a:focus { color: $ub-white; text-decoration: none; }
   }
 }

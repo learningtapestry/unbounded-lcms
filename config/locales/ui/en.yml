@@ -40,6 +40,10 @@ en:
     instructions: Enhance Instruction
     news: News
     professional_development: Professional Development
+    about_html: <span>About</span><span>Unbounded</span>
+    curriculum_html: <span>Explore</span><span>Curriculum</span>
+    lessons_html: <span>Find</span><span>Lessons</span>
+    instructions_html: <span>Enhance</span><span>Instruction</span>
     about_dropdown:
       mission: Mission & Vision
       institute: Standards Institute
@@ -67,7 +71,7 @@ en:
       down_link: "Next %{title}"
   title:
     logo: Unbounded Logo
-    subscribe: Get Updates and Stay Connected
+    subscribe: Get updates and stay connected
     active: Document status
     age_range: Age range
     age_ranges: Age ranges
@@ -124,4 +128,5 @@ en:
     view_all_instructions: View All Instructions
     go: Go
     register: Register Now
+    view_topics: View Topics
     questions: Questions?

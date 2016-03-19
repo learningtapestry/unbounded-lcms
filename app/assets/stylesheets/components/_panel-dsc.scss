@@ -2,7 +2,7 @@
   @include m(wrapped) {
     @include flex-grid-row();
     @include flex-grid-column();
-    @include flex-grid-row-align($x: center);
+    @include flex-align($x: center);
   }
 
   @include e(title) {
@@ -26,7 +26,7 @@
 
   @include e(cards) {
     @include flex-grid-row($gutter: $grid-column-gutter);
-    @include flex-grid-row-align($x: spaced);
+    @include flex-align($x: spaced);
     @extend .u-margin-bottom--large;
   }
 
