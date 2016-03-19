@@ -28,7 +28,6 @@ class ExploreCurriculumCollapsedItem extends React.Component {
       "o-cur-card--short",
       `o-cur-card--${this.props.curriculum.type}`
     );
-    const dropdownId = `c-ec-dropdown-${resource.id}`;
 
     return (
       <div id={this.props.curriculum.id} className={cssClasses}>
@@ -38,13 +37,6 @@ class ExploreCurriculumCollapsedItem extends React.Component {
           <span> {resource.title}</span>
           <span> {resource.text_description}</span>
         </div>
-        {/*<div className="o-cur-card__actions" data-toggle={dropdownId}>
-          <i className="fa fa-lg fa-ellipsis-h">
-          </i>
-        </div>
-        <div className="dropdown-pane" id={dropdownId} data-dropdown data-hover="true" data-hover-pane="true">
-          Just some junk that needs to be said. Or not. Your choice.
-        </div>*/}
         <div className="o-cur-card__actions">
           <ul className="menu" ref="dropdown">
             <li>
