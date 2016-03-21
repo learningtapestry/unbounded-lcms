@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316122250) do
+ActiveRecord::Schema.define(version: 20160321131317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,20 +33,6 @@ ActiveRecord::Schema.define(version: 20160316122250) do
   end
 
   add_index "content_guide_images", ["original_url"], name: "index_content_guide_images_on_original_url", unique: true, using: :btree
-
-  create_table "content_guide_standards", force: :cascade do |t|
-    t.string "description",            null: false
-    t.string "statement_notation"
-    t.string "alt_statement_notation"
-    t.string "asn_identifier",         null: false
-    t.string "grade",                  null: false
-    t.string "standard_id",            null: false
-    t.string "subject",                null: false
-  end
-
-  add_index "content_guide_standards", ["alt_statement_notation"], name: "index_content_guide_standards_on_alt_statement_notation", using: :btree
-  add_index "content_guide_standards", ["standard_id"], name: "index_content_guide_standards_on_standard_id", unique: true, using: :btree
-  add_index "content_guide_standards", ["statement_notation"], name: "index_content_guide_standards_on_statement_notation", using: :btree
 
   create_table "content_guides", force: :cascade do |t|
     t.string   "content",          null: false
@@ -278,16 +264,22 @@ ActiveRecord::Schema.define(version: 20160316122250) do
   end
 
   create_table "standards", force: :cascade do |t|
-    t.string   "name",                null: false
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subject",             null: false
+    t.string   "subject",                          null: false
     t.integer  "standard_cluster_id"
     t.integer  "standard_domain_id"
     t.string   "emphasis"
     t.integer  "standard_strand_id"
+    t.string   "alt_name"
+    t.string   "asn_identifier"
+    t.string   "description"
+    t.text     "grades",              default: [], null: false, array: true
+    t.string   "label"
   end
 
+  add_index "standards", ["asn_identifier"], name: "index_standards_on_asn_identifier", unique: true, using: :btree
   add_index "standards", ["emphasis"], name: "index_standards_on_emphasis", using: :btree
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
   add_index "standards", ["standard_cluster_id"], name: "index_standards_on_standard_cluster_id", using: :btree
