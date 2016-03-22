@@ -10,7 +10,6 @@ class RelatedInstruction extends React.Component {
   }
 
   fetch() {
-    console.log('fetch', this.state)
     const limit = (this.state.expanded) ?  10 : 4;
     let url = Routes.related_instruction_path(this.state.id, {limit: limit});
 
@@ -34,7 +33,7 @@ class RelatedInstruction extends React.Component {
   render () {
     const allInstructionsPath = Routes.enhance_instruction_index_path();
     return (
-      <div className="o-related-instruction">
+      <div id="related-instruction" className="o-related-instruction">
 
         <h2 className="o-related-instruction__title">Related Instruction</h2>
 
