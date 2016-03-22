@@ -10,7 +10,6 @@ class RelatedInstruction extends React.Component {
   }
 
   fetch() {
-    console.log('fetch', this.state)
     const limit = (this.state.expanded) ?  10 : 4;
     let url = Routes.related_instruction_path(this.state.id, {limit: limit});
 
@@ -21,6 +20,22 @@ class RelatedInstruction extends React.Component {
 
   componentDidMount() {
     this.fetch();
+  }
+
+  relatedInstructionList() {
+    return $('.o-related-instruction__list');
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.expanded !== nextState.expanded) {
+      this.relatedInstructionList().fadeOut();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.expanded !== prevState.expanded) {
+      this.relatedInstructionList().fadeIn();
+    }
   }
 
   handleBtnClick(evt) {
@@ -34,7 +49,7 @@ class RelatedInstruction extends React.Component {
   render () {
     const allInstructionsPath = Routes.enhance_instruction_index_path();
     return (
-      <div className="o-related-instruction">
+      <div id="related-instruction" className="o-related-instruction">
 
         <h2 className="o-related-instruction__title">Related Instruction</h2>
 
