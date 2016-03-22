@@ -22,6 +22,22 @@ class RelatedInstruction extends React.Component {
     this.fetch();
   }
 
+  relatedInstructionList() {
+    return $('.o-related-instruction__list');
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.expanded !== nextState.expanded) {
+      this.relatedInstructionList().fadeOut();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.expanded !== prevState.expanded) {
+      this.relatedInstructionList().fadeIn();
+    }
+  }
+
   handleBtnClick(evt) {
     this.setState(Object.assign({}, this.state, {expanded: !this.state.expanded}), this.fetch)
   }
