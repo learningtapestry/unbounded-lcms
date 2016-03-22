@@ -10,8 +10,8 @@ class ResourcesController < ApplicationController
   def related_instruction
     # TODO mock only data
     limit = params.fetch(:limit, 10).to_i
-    @related_instruction = Resource.lessons[0...limit]
-    render json: @related_instruction.map {|ri| ResourcePresenter.new(ri)}
+    @related_instruction = Curriculum.trees.with_resources.lessons[0...limit]
+    render json: @related_instruction.map {|ri| CurriculumResourceSerializer.new(ri)}
   end
 
   protected
