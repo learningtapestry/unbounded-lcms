@@ -1,0 +1,33 @@
+.o-connect {
+  h2 {
+    color: $white;
+    font-size: $global-font-size;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  color: $ub-nav-link;
+
+  @include flex-grid-column(12, 0);
+  padding-bottom: $ub-xlarge-padding;
+  padding-top: $ub-xlarge-padding;
+
+  @include breakpoint(large) {
+    @include flex-grid-column(4, 0);
+  }
+
+  @include breakpoint(medium only) {
+    @include flex-grid-column(6, 0);
+  }
+
+  @include e(list) {
+    @include menu-simple;
+    margin: 0;
+    a {
+      color: $ub-nav-link;
+      .fa-inverse { color: $ub-primary; }
+      &:hover, &:focus {
+        color: scale-color($ub-nav-link, $lightness: -20%);
+      }
+    }
+  }
+}

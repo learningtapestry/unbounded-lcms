@@ -1,0 +1,40 @@
+.o-subscribe {
+  background-color: $ub-nav-link;
+}
+
+.o-subscribe-form {
+  $ub-subscribe-form-bg: lighten($ub-primary, 20%);
+
+  @include e(wrap) {
+    @include flex-grid-row(collapse);
+    @include flex-align($y: middle);
+  }
+
+  @include e(label) {
+    @include flex-grid-column(4, 0);
+    color: $white;
+    font-size: $lead-font-size;
+    font-weight: bold;
+  }
+  
+  @include e(email) {
+    @include flex-grid-column(8, 0);
+    margin-bottom: 0;
+    input {
+      padding: 1.5rem 1rem;
+      &, &:focus {
+        background-color: $ub-subscribe-form-bg;
+        border-color: $ub-subscribe-form-bg;
+        box-shadow: none;
+        color: $white;
+      }
+    }
+  }
+  @include e(submit) {
+    display: flex !important;
+    button {
+      @include button($background: $ub-subscribe-form-bg, $background-hover: auto, $color: $ub-whitesmoke);
+      margin: 0;
+    }
+  }
+}

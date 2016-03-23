@@ -35,4 +35,10 @@
     @include button-hollow;
     @include button-hollow-style($ub-btn-base);
   }
+
+  @include m(connect) {
+    @include button($background: $ub-nav-link, $background-hover: auto, $color: $ub-primary);
+    font-weight: bold;
+    margin-bottom: 0;
+  }
 }

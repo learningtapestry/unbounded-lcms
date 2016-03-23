@@ -1,5 +1,4 @@
 .c-ec-cards {
-  @include flex-grid-column();
 
   @include e(children) {
     margin-bottom: 0;

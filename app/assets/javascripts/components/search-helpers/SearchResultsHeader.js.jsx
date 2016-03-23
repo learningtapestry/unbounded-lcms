@@ -3,7 +3,7 @@ function SearchResultsHeader(props) {
   const endNum = startNum + props.num_items - 1;
 
   return (
-    <div className="o-s-header">
+    <div className="o-s-header o-page__wrap--row-nest">
       <div className="o-s-header__item">
         <p>Showing {startNum}&mdash;{endNum} of {props.total_hits}</p>
       </div>

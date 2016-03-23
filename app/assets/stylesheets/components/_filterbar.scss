@@ -17,12 +17,23 @@
   }
 }
 
-.o-filterbar {
-  display: flex;
-  margin: $ub-small-margin 0;
-  justify-content: space-between;
+.o-filterbar-title {
+  padding-bottom: $ub-base-padding;
+  padding-top: $ub-xlarge-padding;
+  text-align: center;
 
-  @include flex-grid-column(100%);
+  h1, h2 { color: $ub-primary; }
+
+  @include e(subheader) {
+    font-size: $small-font-size;
+    font-style: italic;
+  }
+}
+
+.o-filterbar {
+  @include flex();
+  justify-content: space-between;
+  margin: $ub-small-margin 0;
 
   @include e(subjects-list) {
     @include e(subject) {

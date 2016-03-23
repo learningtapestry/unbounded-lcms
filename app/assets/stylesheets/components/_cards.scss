@@ -11,7 +11,6 @@
   }
 
   @include e(button) {
-    text-align: center;
   }
 
   @include m(base) {
@@ -28,21 +27,11 @@
 
   @include m(large) {
     @include flex-grid-column(12);
+    @extend .u-margin-bottom--small;
 
     @include breakpoint(medium) {
       @include flex-grid-column(6);
     }
   }
 
-  @include m(connect) {
-    @include flex-grid-column(12);
-
-    @include breakpoint(large) {
-      @include flex-grid-column(4);
-    }
-
-    @include breakpoint(medium only) {
-      @include flex-grid-column(6);
-    }
-  }
 }

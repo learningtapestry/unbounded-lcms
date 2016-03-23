@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :pages, only: :show
   resources :resources, only: :show
 
+  get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
+
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
   }

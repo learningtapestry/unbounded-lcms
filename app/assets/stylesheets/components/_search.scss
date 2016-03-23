@@ -2,7 +2,7 @@
 
   @include e(list) {
     list-style: none;
-
+    margin-left: 0;
   }
 
   @include e(item) {
