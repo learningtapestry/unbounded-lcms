@@ -1,36 +1,38 @@
 <header class="c-header">
-  <nav class="o-top-bar">
-    <div class="o-top-bar__item c-header-title">
-      <%= link_to root_path, class: 'c-header-title__logo c-header__link' do %>
-        <%= image_tag('logo.svg') %>
-      <% end %>
-      <span class="c-header-title__h-menu" data-responsive-toggle="navbar">
-        <span class="menu-icon" data-toggle></span>
-      </span>
-    </div>
-    <div class="o-top-bar__wrapper" id="navbar">
-      <div class="o-top-bar__item">
-        <ul class="c-header__menu">
-          <%= nav_link t('nav.curriculum_html'), explore_curriculum_index_path, class: 'c-header__link' %>
-          <%= nav_link t('nav.lessons_html'), find_lessons_path, class: 'c-header__link' %>
-          <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: 'c-header__link' %>
-          <%= nav_link t('nav.about_html'), about_path, class: 'c-header__link' %>
-        </ul>
+  <div class="o-page__wrap--row-column">
+    <nav class="o-top-bar">
+      <div class="o-top-bar__item c-header-title">
+        <%= link_to root_path, class: 'c-header-title__logo c-header__link' do %>
+          <%= image_tag('logo.svg') %>
+        <% end %>
+        <span class="c-header-title__h-menu" data-responsive-toggle="navbar">
+          <span class="menu-icon" data-toggle></span>
+        </span>
       </div>
-      <div class="o-top-bar__item">
-        <ul class="c-header__menu">
-          <li class="c-header__link">
-            <%= link_to search_path do %>
-              <i class="fa fa-lg fa-search"></i>
-            <% end %>
-          </li>
-          <li class="c-header__link c-header__link--light">
-            <%= link_to '#' do %>
-              <i class="fa fa-lg fa-share-alt"></i>
-            <% end %>
-          </li>
-        </ul>
+      <div class="o-top-bar__wrapper" id="navbar">
+        <div class="o-top-bar__item">
+          <ul class="c-header__menu">
+            <%= nav_link t('nav.curriculum_html'), explore_curriculum_index_path, class: 'c-header__link' %>
+            <%= nav_link t('nav.lessons_html'), find_lessons_path, class: 'c-header__link' %>
+            <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: 'c-header__link' %>
+            <%= nav_link t('nav.about_html'), about_path, class: 'c-header__link' %>
+          </ul>
+        </div>
+        <div class="o-top-bar__item">
+          <ul class="c-header__menu">
+            <li class="c-header__link">
+              <%= link_to search_path do %>
+                <i class="fa fa-lg fa-search"></i>
+              <% end %>
+            </li>
+            <li class="c-header__link c-header__link--light">
+              <%= link_to '#' do %>
+                <i class="fa fa-lg fa-share-alt"></i>
+              <% end %>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>    
+  </div>
 </header>

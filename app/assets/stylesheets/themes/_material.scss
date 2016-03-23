@@ -1,0 +1,8 @@
+$ub-material-radius: 2px;
+$ub-material-card-margin: 2px;
+
+%material-card {
+  box-shadow: 0 $ub-material-card-margin $ub-material-card-margin rgba(0, 0, 0, .12);
+  margin-bottom: $ub-material-card-margin;
+  border-radius: $ub-material-radius;
+}
