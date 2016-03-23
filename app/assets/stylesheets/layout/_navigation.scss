@@ -54,8 +54,8 @@
 }
 
 .o-top-bar {
-  @include flex-grid-row;
   @include top-bar-container;
+  flex: 1 1 0px;
 
   @include e(item) {
     flex: 0 0 auto;

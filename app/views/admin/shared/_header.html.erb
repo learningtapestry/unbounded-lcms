@@ -1,56 +1,58 @@
 <header class="c-header">
-  <nav class="o-top-bar">
-    <div class="o-top-bar__item c-header-title">
-      <%= link_to root_path, class: 'c-header-title__logo c-header__link' do %>
-        <%= image_tag('logo.svg') %>
-      <% end %>
-      <span class="c-header-title__h-menu" data-responsive-toggle="navbar">
-        <span class="menu-icon" data-toggle></span>
-      </span>
-    </div>
-    <div class="o-top-bar__wrapper" id="navbar">
-      <div class="o-top-bar__item c-header__menu">
-        <ul class="dropdown menu" data-dropdown-menu>
-          <li class="dropdown c-header__link">
-            <%= link_to t('admin.nav.content_guides'), :admin_content_guides %>
-            <ul class="menu vertical">
-              <%= nav_link t('admin.nav.content_guides'), :admin_content_guides %>
-            </ul>
-          </li>
-
-          <li class="dropdown c-header__link">
-            <%= link_to t('admin.nav.curriculums'), about_path %>
-            <ul class="menu vertical">
-              <%= nav_link t('admin.nav.curriculums'), about_path %>
-            </ul>
-          </li>
-
-          <li class="dropdown c-header__link">
-            <%= link_to t('admin.nav.pages'), :admin_pages %>
-            <ul class="menu vertical">
-              <%= nav_link t('admin.nav.pages'), :admin_pages %>
-              <%= nav_link t('admin.nav.staff_members'), :admin_staff_members %>
-            </ul>
-          </li>
-
-          <li class="dropdown c-header__link">
-            <%= link_to t('admin.nav.resources'), :admin_resources %>
-            <ul class="menu vertical">
-              <%= nav_link t('admin.nav.resources'), :admin_resources %>
-              <%= nav_link t('admin.nav.add_resource'), :new_admin_resource %>
-              <%= nav_link t('admin.nav.import_resources'), :new_admin_subtitles_import %>
-              <%= nav_link t('admin.nav.export_resources'), :new_admin_curriculum_export %>
-            </ul>
-          </li>
-
-          <li class="dropdown c-header__link">
-            <%= link_to t('admin.nav.users'), :admin_users %>
-            <ul class="menu vertical">
-              <%= nav_link t('admin.nav.users'), :admin_users %>
-            </ul>
-          </li>
-        </ul>
+  <div class="o-page__wrap--row-column">
+    <nav class="o-top-bar">
+      <div class="o-top-bar__item c-header-title">
+        <%= link_to root_path, class: 'c-header-title__logo c-header__link' do %>
+          <%= image_tag('logo.svg') %>
+        <% end %>
+        <span class="c-header-title__h-menu" data-responsive-toggle="navbar">
+          <span class="menu-icon" data-toggle></span>
+        </span>
       </div>
-    </div>
-  </nav>
+      <div class="o-top-bar__wrapper" id="navbar">
+        <div class="o-top-bar__item c-header__menu">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li class="dropdown c-header__link">
+              <%= link_to t('admin.nav.content_guides'), :admin_content_guides %>
+              <ul class="menu vertical">
+                <%= nav_link t('admin.nav.content_guides'), :admin_content_guides %>
+              </ul>
+            </li>
+
+            <li class="dropdown c-header__link">
+              <%= link_to t('admin.nav.curriculums'), about_path %>
+              <ul class="menu vertical">
+                <%= nav_link t('admin.nav.curriculums'), about_path %>
+              </ul>
+            </li>
+
+            <li class="dropdown c-header__link">
+              <%= link_to t('admin.nav.pages'), :admin_pages %>
+              <ul class="menu vertical">
+                <%= nav_link t('admin.nav.pages'), :admin_pages %>
+                <%= nav_link t('admin.nav.staff_members'), :admin_staff_members %>
+              </ul>
+            </li>
+
+            <li class="dropdown c-header__link">
+              <%= link_to t('admin.nav.resources'), :admin_resources %>
+              <ul class="menu vertical">
+                <%= nav_link t('admin.nav.resources'), :admin_resources %>
+                <%= nav_link t('admin.nav.add_resource'), :new_admin_resource %>
+                <%= nav_link t('admin.nav.import_resources'), :new_admin_subtitles_import %>
+                <%= nav_link t('admin.nav.export_resources'), :new_admin_curriculum_export %>
+              </ul>
+            </li>
+
+            <li class="dropdown c-header__link">
+              <%= link_to t('admin.nav.users'), :admin_users %>
+              <ul class="menu vertical">
+                <%= nav_link t('admin.nav.users'), :admin_users %>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
 </header>

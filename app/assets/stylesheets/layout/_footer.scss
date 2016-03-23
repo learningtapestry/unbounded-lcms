@@ -1,8 +1,12 @@
 .c-footer {
   background-color: $ub-nav-bg;
+  @each $breakpoint, $footer-height in $ub-footer-height {
+    @include breakpoint($breakpoint) {
+      min-height: $footer-height;
+    }
+  }
 
   @include e(wrap) {
-    @include flex-grid-row();
     @include flex-align(left, top);
     padding-bottom: $ub-small-padding;
     padding-top: $ub-base-padding;

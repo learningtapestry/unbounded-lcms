@@ -47,14 +47,13 @@
   }
 
   @include e(logo) {
-    padding-left: 1em;
-    padding-right: 1em;
+    @include breakpoint($topbar-unstack-breakpoint) {
+      padding-left: 1em;
+      padding-right: 1em;
+    }
   }
 
   @include e(h-menu) {
-    padding-left: 1em;
-    padding-right: 1em;
-
     @include breakpoint($topbar-unstack-breakpoint) {
       display: none;
     }
