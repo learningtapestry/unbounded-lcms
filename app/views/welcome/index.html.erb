@@ -1,21 +1,9 @@
-<div class="o-page o-page--with-hero">
-  <div class="o-page__hero c-hp-hero">
+<div class="o-page">
+  <div class="o-page__module c-hp-hero">
     <div class="c-hp-hero__body">
       <h1>Hero Area About UnboundEd Ipsum Bandit Nonmummy</h1>
       <p>Byline or descriptive text lorem ipsum sapereprese venimi, consedi quoditi con re, consedi quoditi con re ministret.</p>
       <%= link_to t('ui.learn_more'), '#', class: 'o-btn--light u-margin-top--large' %>
-    </div>
-  </div>
-  <div class="c-hp-standards">
-    <div class="o-panel">
-      <div class="c-hp-standards__img">
-        <%= image_tag('placeholder') %>
-      </div>
-      <div class="c-hp-standards__body">
-        <h1>Standards Institute</h1>
-        <p>Byline or descriptive text lorem ipsum sapereprese venimi, consedi quoditi conre, consedi quoditi con re ministret.</p>
-        <%= link_to t('ui.learn_more'), '#', class: 'o-btn--dark u-margin-top--base' %>
-      </div>
     </div>
   </div>
   <div class="c-hp-ela">
@@ -82,14 +70,6 @@
       </div>
     </div>
   </div>
-  <div class="c-hp-hr"><hr/></div>
-  <%= render partial: "shared/freshdesk" %>
-  <div class="c-hp-hr"><hr/></div>
-  <div class="o-page__module">
-    <div class="o-dsc">
-      <div class="o-dsc__title">ENHANCE INSTRUCTION BLOCK TITLE</div>
-      <div class="o-dsc__dsc">Display text about lessons lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus.</div>
-      <%= render partial: "shared/contact" %>
-    </div>
-  </div>
 </div>
+<%= render partial: "shared/subscribe" %>
+<%= render partial: "shared/connect" %>

@@ -61,44 +61,58 @@ class EnhanceInstructionPage extends React.Component {
 
   render() {
     return (
-      <div className="o-page__wrap--nest">
-        <Filterbar
-          onUpdate={this.handleFilterbarUpdate.bind(this)}
-            {...this.props.filterbar} />
-        <Tabs tabActive={1} className='c-eh-tab'>
-           <Tabs.Panel title='Content Guides'>
-             <SearchResultsHeader
-               onChangePerPage={this.handleChangePerPage.bind(this)}
-               onChangeOrder={this.handleChangeOrder.bind(this)}
-               current_page={this.state.current_page}
-               per_page={this.state.per_page}
-               num_items={this.state.instructions.length}
-               total_hits={this.state.total_hits}
-               per_page={this.state.per_page}
-               order={this.state.order} />
-             <EnhanceInstructionCards instructions={this.state.instructions} />
-             <PaginationBoxView previousLabel={"< Previous"}
-                             nextLabel={"Next >"}
-                             breakLabel={<li className="break"><a href="">...</a></li>}
-                             pageNum={this.state.total_pages}
-                             initialSelected={this.state.current_page - 1}
-                             forceSelected={this.state.current_page - 1}
-                             marginPagesDisplayed={2}
-                             pageRangeDisplayed={5}
-                             clickCallback={this.handlePageClick.bind(this)}
-                             containerClassName={"o-pagination"}
-                             itemClassName={"o-pagination__item"}
-                             nextClassName={"o-pagination__item--next"}
-                             previousClassName={"o-pagination__item--prev"}
-                             pagesClassName={"o-pagination__item--middle"}
-                             subContainerClassName={"o-pagination__pages"}
-                             activeClassName={"o-pagination__page--active"} />
-           </Tabs.Panel>
-           <Tabs.Panel title='Videos'>
-             <div className="o-page__section u-margin-top--base"><h3>Under Construction</h3></div>
-           </Tabs.Panel>
-        </Tabs>
+      <div>
+        <div className="u-bg--base">
+          <div className="o-page">
+            <div className="o-page__module">
+              <div className="o-filterbar-title">
+                <h2>Enhance Instruction with comprehensive content guides and educator videos.</h2>
+                <div className="o-filterbar-title__subheader">
+                  Filter by subject or grade, or search to reveal assets.
+                </div>
+              </div>
+              <Filterbar
+                onUpdate={this.handleFilterbarUpdate.bind(this)}
+                {...this.state.filterbar} />
+            </div>
+          </div>
+        </div>
+        <div className="o-page">
+          <Tabs tabActive={1} className='c-eh-tab o-page__module'>
+             <Tabs.Panel title='Content Guides'>
+               <SearchResultsHeader
+                 onChangePerPage={this.handleChangePerPage.bind(this)}
+                 onChangeOrder={this.handleChangeOrder.bind(this)}
+                 current_page={this.state.current_page}
+                 per_page={this.state.per_page}
+                 num_items={this.state.instructions.length}
+                 total_hits={this.state.total_hits}
+                 per_page={this.state.per_page}
+                 order={this.state.order} />
+               <EnhanceInstructionCards instructions={this.state.instructions} />
+               <PaginationBoxView previousLabel={"< Previous"}
+                               nextLabel={"Next >"}
+                               breakLabel={<li className="break"><a href="">...</a></li>}
+                               pageNum={this.state.total_pages}
+                               initialSelected={this.state.current_page - 1}
+                               forceSelected={this.state.current_page - 1}
+                               marginPagesDisplayed={2}
+                               pageRangeDisplayed={5}
+                               clickCallback={this.handlePageClick.bind(this)}
+                               containerClassName={"o-pagination o-page__wrap--row-nest"}
+                               itemClassName={"o-pagination__item"}
+                               nextClassName={"o-pagination__item--next"}
+                               previousClassName={"o-pagination__item--prev"}
+                               pagesClassName={"o-pagination__item--middle"}
+                               subContainerClassName={"o-pagination__pages"}
+                               activeClassName={"o-pagination__page--active"} />
+             </Tabs.Panel>
+             <Tabs.Panel title='Videos'>
+               <div className="o-page__section u-margin-top--base"><h3>Under Construction</h3></div>
+             </Tabs.Panel>
+          </Tabs>
        </div>
+     </div>
     );
   }
 }

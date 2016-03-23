@@ -34,7 +34,7 @@ function ExploreCurriculumExpandedItem(props) {
       </div>
       <div className="o-cur-card__actions">
         <div>
-          <button className="o-ub-btn" onClick={props.onClickViewDetails}>View Details</button>
+          <a className="o-ub-btn" href={resource.path}>View Details</a>
         </div>
         <div>
           <button className="o-ub-btn o-ub-btn--bordered">Download Curriculum</button>

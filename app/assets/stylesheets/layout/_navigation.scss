@@ -1,9 +1,78 @@
-.c-navbar {
-  background-color: $ub-nav-bg;
-  color: $ub-whitesmoke;
+@mixin top-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
 
-  @include e(link) {
-    &, a { color: $ub-whitesmoke; }
-    &:hover, &:focus, a:hover, a:focus { color: $ub-white; text-decoration: none; }
+  &,
+  ul {
+    background-color: $topbar-background;
   }
+
+  // Check if $topbar-background is differnt from $topbar-background-submenu
+  @if ($topbar-background != $topbar-submenu-background) {
+    ul ul {
+      background-color: $topbar-submenu-background;
+    }
+  }
+
+  // Restrain width of inputs by default to make them easier to arrange
+  input {
+    width: $topbar-input-width;
+    margin-#{$global-right}: 1rem;
+  }
+
+  // The above styles shouldn't apply to input group fields
+  .input-group-field {
+    width: 100%;
+    margin-#{$global-right}: 0;
+  }
+
+  // scss-lint:disable QualifyingElement
+  input.button {
+    width: auto;
+  }
+}
+
+/// Makes sections of a top bar stack on top of each other.
+@mixin top-bar-stacked {
+  flex-wrap: wrap;
+
+  @include e(item) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/// Undoes the CSS applied by the `top-bar-stacked()` mixin.
+@mixin top-bar-unstack {
+  flex-wrap: nowrap;
+
+  @include e(item) {
+    flex: 0 0 auto;
+  }
+}
+
+.o-top-bar {
+  @include flex-grid-row;
+  @include top-bar-container;
+
+  @include e(item) {
+    flex: 0 0 auto;
+  }
+
+  // Stack on small screens by default
+  @include breakpoint($topbar-unstack-breakpoint down) {
+    @include top-bar-stacked;
+  }
+
+  @include e(wrapper) {
+    @include breakpoint($topbar-unstack-breakpoint up) {
+      @include top-bar-container;
+      flex-wrap: wrap;
+      display: flex !important;
+      flex: 1 1 0px;
+    }
+  }
+
 }

@@ -1,26 +1,62 @@
 .c-header {
-  @include flex-grid-row;
+  background-color: rgba($ub-primary, .6);
 
-  @include e(top-bar) {
+  @include e(menu) {
+    @include menu-base;
+    @include menu-direction(vertical);
+
+    @include breakpoint($topbar-unstack-breakpoint) {
+      @include menu-direction(horizontal);
+    }
+  }
+
+  @include e(link) {
+    &, a { color: $ub-nav-link; }
+    &:hover, &:focus, a:hover, a:focus, &.active a { color: $ub-white; text-decoration: none; }
+    &.active { background-color: darken($ub-nav-bg, 5%); }
+    a {
+      span:last-child:before { content: '\00a0'; }
+      @include breakpoint($topbar-unstack-breakpoint) {
+        display: block;
+        padding: 1em 1.5em !important;
+        span:first-child { font-size: $small-font-size; }
+        span:last-child {
+          font-weight: bold;
+          &:before { content: '\A'; white-space: pre; }
+        }
+      }
+    }
+
+    @include m(light) {
+      @include breakpoint($topbar-unstack-breakpoint) {
+        background-color: rgba($ub-primary, .8);
+        height: 64px;
+        a {
+          align-items: center !important;
+          display: flex !important;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+.c-header-title {
+  @include breakpoint($topbar-unstack-breakpoint down) {
     @include top-bar-container;
-    @include flex-grid-column;
   }
 
   @include e(logo) {
-    display: table-cell;
-    padding-left: 0;
-
-    @include breakpoint(medium down) {
-      display: block;
-      float: left;
-    }
+    padding-left: 1em;
+    padding-right: 1em;
   }
 
   @include e(h-menu) {
-    @include breakpoint(medium down) {
-      float: right;
-      padding-top: .5rem;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    @include breakpoint($topbar-unstack-breakpoint) {
+      display: none;
     }
   }
-
 }

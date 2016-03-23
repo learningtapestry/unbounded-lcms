@@ -2,6 +2,7 @@
 //= require ./routes
 //= require jquery
 //= require jquery_ujs
+//= require jquery/smoothscrolling
 //= require foundation
 //= require react
 //= require react_ujs
@@ -10,6 +11,7 @@
 
 function ready() {
   $(document).foundation();
+  $(document).smoothscrolling();
   window.initializeContentGuide();
 }
 

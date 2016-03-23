@@ -29,7 +29,6 @@
   'components/curriculum-cards',
   'components/download-modal',
   'components/filterbar',
-  'components/freshdesk',
   'components/titles',
   'components/pagination',
   'components/resource',
@@ -38,6 +37,7 @@
   'components/search',
   'components/search-header',
   'components/sidebar',
+  'components/related-instruction',
   'components/simple-tab';
 
 @import
@@ -45,7 +45,9 @@
   'layout/footer',
   'layout/navigation',
   'layout/sticky-navigation',
-  'layout/page';
+  'layout/page',
+  'layout/subscribe',
+  'layout/connect';
 
 @import
   'pages/home',

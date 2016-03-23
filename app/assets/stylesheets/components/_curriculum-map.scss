@@ -24,7 +24,7 @@
   @include e(module) {
     @extend .u-text--small;
     background-color: $bg-base;
-    color: $ub-white;
+    color: $white;
     font-weight: bold;
     min-height: $module-height;
     padding: $module-padding;
@@ -44,7 +44,7 @@
 
   @include e(units) {
     @include flex-grid-row();
-    @include flex-grid-row-align($x: left, $y: top);
+    @include flex-align($x: left, $y: top);
     margin-left: 0;
     width: $units-row;
   }

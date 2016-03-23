@@ -1,6 +1,6 @@
 function FindLessonsCards(props) {
   return (
-    <div className="o-dsc__cards">
+    <div className="o-page__wrap--row-nest">
       {props.lessons.map(lesson => {
         const key = `${lesson.id}_${lesson.curriculum_id}`;
         return (<LessonCard key={key} lesson={lesson} type='base' />);

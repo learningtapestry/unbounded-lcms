@@ -44,40 +44,55 @@ class SearchPage extends React.Component {
 
   render () {
     return (
-      <div className="o-page__wrap--nest">
-        <Filterbar
-          onUpdate={this.handleFilterbarUpdate.bind(this)}
-          withFacets={true}
-          withSearch={true}
-          {...this.props.filterbar} />
+      <div>
+        <div className="u-bg--base">
+          <div className="o-page">
+            <div className="o-page__module">
+              <div className="o-filterbar-title">
+                <h2>Search results.</h2>
+                <div className="o-filterbar-title__subheader">
+                  Filter by subject or grade, or search to reveal assets.
+                </div>
+              </div>
+              <Filterbar
+                onUpdate={this.handleFilterbarUpdate.bind(this)}
+                withFacets={true}
+                withSearch={true}
+                {...this.state.filterbar} />
+            </div>
+          </div>
+        </div>
+        <div className="o-page">
+          <div className="o-page__module">
+          { ( this.state.resources.length == 0 ) ?
+              <SearchResultsEmpty searchTerm={this.state.filterbar.search_term} /> :
 
-        { ( this.state.resources.length == 0 ) ?
-            <SearchResultsEmpty searchTerm={this.state.filterbar.search_term} /> :
+              <SearchResults
+                resources={this.state.resources}
+                current_page={this.state.current_page}
+                per_page={this.state.per_page}
+                total_hits={this.state.total_hits} />
+          }
 
-            <SearchResults
-              resources={this.state.resources}
-              current_page={this.state.current_page}
-              per_page={this.state.per_page}
-              total_hits={this.state.total_hits} />
-        }
-
-        <PaginationBoxView previousLabel={"< Previous"}
-                        nextLabel={"Next >"}
-                        breakLabel={<li className="break"><a href="">...</a></li>}
-                        pageNum={this.state.total_pages}
-                        initialSelected={this.state.current_page - 1}
-                        forceSelected={this.state.current_page - 1}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        clickCallback={this.handlePageClick.bind(this)}
-                        containerClassName={"o-pagination"}
-                        itemClassName={"o-pagination__item"}
-                        nextClassName={"o-pagination__item--next"}
-                        previousClassName={"o-pagination__item--prev"}
-                        pagesClassName={"o-pagination__item--middle"}
-                        subContainerClassName={"o-pagination__pages"}
-                        activeClassName={"o-pagination__page--active"} />
-       </div>
+          <PaginationBoxView previousLabel={"< Previous"}
+                          nextLabel={"Next >"}
+                          breakLabel={<li className="break"><a href="">...</a></li>}
+                          pageNum={this.state.total_pages}
+                          initialSelected={this.state.current_page - 1}
+                          forceSelected={this.state.current_page - 1}
+                          marginPagesDisplayed={2}
+                          pageRangeDisplayed={5}
+                          clickCallback={this.handlePageClick.bind(this)}
+                          containerClassName={"o-pagination o-page__wrap--row-nest"}
+                          itemClassName={"o-pagination__item"}
+                          nextClassName={"o-pagination__item--next"}
+                          previousClassName={"o-pagination__item--prev"}
+                          pagesClassName={"o-pagination__item--middle"}
+                          subContainerClassName={"o-pagination__pages"}
+                          activeClassName={"o-pagination__page--active"} />
+        </div>
+      </div>
+    </div>
      );
    }
 }
