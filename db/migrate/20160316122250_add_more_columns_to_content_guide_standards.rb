@@ -10,7 +10,7 @@ class AddMoreColumnsToContentGuideStandards < ActiveRecord::Migration
     change_column :content_guide_standards, :statement_notation, :string, null: true
 
     add_index :content_guide_standards, :alt_statement_notation
-    add_index :content_guide_standards, :standard_id, unique: true
+    add_index :content_guide_standards, :standard_id
 
     remove_index :content_guide_standards, column: :statement_notation
     add_index :content_guide_standards, :statement_notation
