@@ -1,3 +1,6 @@
-@import 'unbounded/admin/collections';
-@import 'unbounded/admin/content_guides';
-@import 'unbounded/admin/resources';
+@import 'main';
+
+.c-admin {
+  .menu { .active > a { background: inherit; } }
+  .menu > li > a { line-height: inherit; }
+}

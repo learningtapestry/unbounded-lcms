@@ -7,9 +7,14 @@ module ApplicationHelper
     end.html_safe
   end
 
+  def active_class(link_path, cls = '')
+    class_prefix = current_page?(link_path) ? 'active' : ''
+    "#{class_prefix} #{cls}"
+  end
+
   def nav_link(link_text, link_path, attrs = {})
-    class_name = current_page?(link_path) ? 'active ' + attrs[:class] : attrs[:class]
-    content_tag(:li, attrs.merge(class: class_name)) { link_to link_text, link_path }
+    cls = active_class(link_path, attrs[:class])
+    content_tag(:li, attrs.merge(class: cls)) { link_to link_text, link_path }
   end
 
   def page_title
