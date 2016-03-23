@@ -211,12 +211,14 @@ class ContentGuidePresenter < SimpleDelegator
 
     keywords = ContentGuideDefinition.all.map { |d| [d.keyword, d.description] }
 
-    ContentGuideStandard.where.not(statement_notation: nil).each do |standard|
-      keywords << [standard.statement_notation, standard.description]
+    Standard.where.not(name: [nil, '']).each do |standard|
+      keywords << [standard.name.upcase, standard.description]
     end
 
     keywords.each_with_index do |pair, index|
       keyword, value = pair
+      next unless value.present?
+
       id = "content_guide_keyworrd_#{index}"
       toggler = %Q(<span data-toggle=#{id}>#{keyword}</span>)
       dropdown = "<div class=dropdown-pane data-dropdown data-hover=true data-hover-pane=true id=#{id}>#{value}</div>"
