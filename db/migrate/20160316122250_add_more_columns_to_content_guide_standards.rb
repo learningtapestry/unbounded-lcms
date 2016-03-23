@@ -1,0 +1,18 @@
+class AddMoreColumnsToContentGuideStandards < ActiveRecord::Migration
+  def change
+    add_column :content_guide_standards, :alt_statement_notation, :string
+    add_column :content_guide_standards, :asn_identifier, :string, null: false
+    add_column :content_guide_standards, :grade, :string, null: false
+    add_column :content_guide_standards, :standard_id, :string, null: false
+    add_column :content_guide_standards, :subject, :string, null: false
+
+    rename_column :content_guide_standards, :name, :statement_notation
+    change_column :content_guide_standards, :statement_notation, :string, null: true
+
+    add_index :content_guide_standards, :alt_statement_notation
+    add_index :content_guide_standards, :standard_id, unique: true
+
+    remove_index :content_guide_standards, column: :statement_notation
+    add_index :content_guide_standards, :statement_notation
+  end
+end

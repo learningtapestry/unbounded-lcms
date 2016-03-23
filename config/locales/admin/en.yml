@@ -49,6 +49,9 @@ en:
       new:
         page_title: Import Glossary
         submit: Import
+    content_guide_standards:
+      index:
+        page_title: Content Guide Standards
     content_guides:
       dangling_links:
         page_title: Dangling Links
@@ -59,6 +62,7 @@ en:
         glossary: Glossary
         import_content_guide: Import Content Guide
         page_title: Content Guides
+        standards: Standards
       new:
         page_title: Import Content Guide
         submit: Import
