@@ -4,3 +4,7 @@
   .menu { .active > a { background: inherit; } }
   .menu > li > a { line-height: inherit; }
 }
+
+.o-page {
+  display: block;
+}
