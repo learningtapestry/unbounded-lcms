@@ -44,8 +44,13 @@ class SearchPage extends React.Component {
   }
 
   updateUrl(filters) {
-    const encodedQuery = '?' + $.param(filters);
-    window.history.replaceState(null, null, encodedQuery)
+    const validFilters = _.reduce(filters, (res, v, k) => {
+      if (v && v.length > 0) res[k] = v;
+      return res;
+    }, {});
+
+    const encodedQuery = '?' + $.param(validFilters);
+    window.history.replaceState(null, null, encodedQuery);
   }
 
   render () {
