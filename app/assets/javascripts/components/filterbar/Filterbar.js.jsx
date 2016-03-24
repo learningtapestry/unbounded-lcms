@@ -124,7 +124,11 @@ class Filterbar extends React.Component {
     }, {});
 
     const encodedQuery = '?' + $.param(validFilters);
-    window.history.replaceState(null, null, encodedQuery);
+
+    // Make pushState play nice with Turbolinks.
+    // Ref https://github.com/turbolinks/turbolinks-classic/issues/363
+    const historyState = { turbolinks: true, url: encodedQuery };
+    window.history.pushState(historyState, null, encodedQuery);
   }
 
   render() {
