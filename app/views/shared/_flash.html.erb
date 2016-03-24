@@ -1,9 +1,11 @@
 <% flash.to_hash.slice('alert', 'notice').each do |name, message| %>
   <% if message.present? %>
-    <% klass = name == 'alert' ? 'danger' : 'success' %>
-    <div class='alert alert-<%= klass %>'>
-      <%= button_tag '×', class: 'close', data: { dismiss: 'alert' }, type: 'button' %>
+    <% klass = name == 'alert' ? 'alert' : 'success' %>
+    <div class='callout <%= klass %>' data-closable>
       <%= message %>
+      <button aria-label='Dismiss alert' class=close-button data-close type=button>
+        <span aria-hidden=true>×</span>
+      </button>
     </div>
   <% end %>
 <% end %>
