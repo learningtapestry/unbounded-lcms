@@ -1,6 +1,9 @@
 .o-card {
   display: flex;
   @extend .u-margin-bottom--small;
+  > div {
+    @extend %material-card;  
+  }
 
   @include e(title) {
     @extend .u-margin-bottom--small;

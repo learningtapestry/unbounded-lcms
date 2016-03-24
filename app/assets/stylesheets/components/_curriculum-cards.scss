@@ -2,10 +2,10 @@ $ub-cur-card-margin: 2px;
 
 .o-cur-card {
   @extend .u-wrap--light;
+  @extend %material-card;
   @include flex-grid-row();
-  box-shadow: 0 $ub-cur-card-margin $ub-cur-card-margin rgba(0, 0, 0, .12);
   cursor: pointer;
-  margin-bottom: $ub-cur-card-margin;
+
 
   @include m(grade) {
     margin-bottom: $ub-xlarge-margin;
@@ -13,7 +13,8 @@ $ub-cur-card-margin: 2px;
 
   @include m(short) {
     @include flex-align($y: middle);
-    margin-bottom: $ub-cur-card-margin !important;
+    //margin-bottom: $ub-cur-card-margin !important;
+    border-radius: 0;
   }
 
   @include e(map) {
