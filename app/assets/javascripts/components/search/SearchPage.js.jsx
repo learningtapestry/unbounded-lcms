@@ -40,6 +40,12 @@ class SearchPage extends React.Component {
 
   handleFilterbarUpdate(filterbar) {
     this.setState(Object.assign({}, this.state, { filterbar: filterbar }), this.fetch);
+    this.updateUrl(filterbar);
+  }
+
+  updateUrl(filters) {
+    const encodedQuery = '?' + $.param(filters);
+    window.history.replaceState(null, null, encodedQuery)
   }
 
   render () {
