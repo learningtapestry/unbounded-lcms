@@ -110,9 +110,21 @@ class Filterbar extends React.Component {
   componentWillUpdate(nextProps, nextState) {
     if ('onUpdate' in this.props) {
       if ($.param(this.state) !== $.param(nextState)) {
-        this.props.onUpdate( this.createQuery(nextState) );
+        const filterbar = this.createQuery(nextState);
+        this.props.onUpdate( filterbar );
+        this.updateUrl( filterbar );
       }
     }
+  }
+
+  updateUrl(filters) {
+    const validFilters = _.reduce(filters, (res, v, k) => {
+      if (v && v.length > 0) res[k] = v;
+      return res;
+    }, {});
+
+    const encodedQuery = '?' + $.param(validFilters);
+    window.history.replaceState(null, null, encodedQuery);
   }
 
   render() {
