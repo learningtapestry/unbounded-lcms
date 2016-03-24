@@ -21,6 +21,7 @@ html, body {
 
 .o-page {
   @include flex-grid-row;
+  @include flex-grid-column;
 
   @include m(margin-to-top) {
     margin-bottom: $ub-base-margin;
@@ -45,6 +46,10 @@ html, body {
     }
     @include m(row-nest) {
       @include flex-grid-row(nest);
+    }
+    @include m(row-column) {
+      @include flex-grid-row;
+      @include flex-grid-column;
     }
   }
 
