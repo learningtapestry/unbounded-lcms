@@ -1,52 +1,44 @@
-<div class=o-page>
-  <div class=clearfix>
-    <div class=pull-right>
-      <%= link_to t('.new_resource'), :new_admin_resource, class: 'btn btn-success', 'data-no-turbolink' => '' %>
-      <%= link_to t('ui.import_subtitles'), :new_admin_subtitles_import, class: 'btn btn-success' %>
-      <%= link_to t('ui.export_resources'), :new_admin_curriculum_export, class: 'btn btn-success' %>
-    </div>
-  </div>
+<% page_title %>
 
-  <h2 class=text-center><%= t('.page_title') %></h2>
+<h2 class=text-center><%= t('.page_title') %></h2>
 
-  <%= render 'search_form' %>
+<%= render 'search_form' %>
 
-  <p class=text-right><%= page_entries_info @resources %>
+<p class=text-right><%= page_entries_info @resources %>
 
-  <%= form_tag :new_admin_resource_bulk_edits, method: :get do %>
-    <table class=table>
+<%= form_tag :new_admin_resource_bulk_edits, method: :get do %>
+  <table class=table>
+    <tr>
+      <th><%= check_box_tag nil, nil, false, class: 'resource-list-select-all' %>
+      <th>ID
+      <th><%= t('.resource') %>
+      <th><%= t('.grade_levels') %>
+      <th><%= t('.standards') %>
+      <th><%= t('.resource_types') %>
+      <th><%= t('.subjects') %>
+      <th><%= t('.status') %>
+      <th>
+    </tr>
+
+    <% @resources.each do |resource| %>
       <tr>
-        <th><%= check_box_tag nil, nil, false, class: 'resource-list-select-all' %>
-        <th>ID
-        <th><%= t('.resource') %>
-        <th><%= t('.grade_levels') %>
-        <th><%= t('.standards') %>
-        <th><%= t('.resource_types') %>
-        <th><%= t('.subjects') %>
-        <th><%= t('.status') %>
+        <% check_box_id = "ids_#{resource.id}" %>
+        <td><%= check_box_tag 'ids[]', resource.id, false, class: 'resource-checkbox', id: check_box_id %>
+        <td><%= label_tag check_box_id, resource.id, class: 'resource-id-label' %>
+        <td><%= link_to resource.title, [:edit, :admin, resource] %>
+        <td class=resource-tag-col><%= resource.grade_list.join(', ') %>
+        <td class=resource-tag-col><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
+        <td class=resource-tag-col><%= resource.resource_type_list.join(', ') %>
+        <td class=resource-tag-col><%= resource.tag_list.join(', ') %>
+        <td><%= resource_status(resource) %>
+        <td><%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>  
       </tr>
+    <% end %>
+  </table>
 
-      <% @resources.each do |resource| %>
-        <tr>
-          <% check_box_id = "ids_#{resource.id}" %>
-          <td><%= check_box_tag 'ids[]', resource.id, false, class: 'resource-checkbox', id: check_box_id %>
-          <td><%= label_tag check_box_id, resource.id, class: 'resource-id-label' %>
-          <td><%= resource.title %> <%= link_to t('ui.edit'), edit_admin_resource_path(resource), class: 'btn btn-default', 'data-no-turbolink' => '' %>
-          <td class=resource-tag-col><%= resource.grade_list.join(', ') %>
-          <td class=resource-tag-col><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
-          <td class=resource-tag-col><%= resource.resource_type_list.join(', ') %>
-          <td class=resource-tag-col><%= resource.tag_list.join(', ') %>
-          <td><%= resource_status(resource) %>
-        </tr>
-      <% end %>
-    </table>
+  <%= submit_tag 'Edit Selected', class: 'button', name: nil %>
+<% end %>
 
-    <%= submit_tag 'Edit Selected', class: 'btn btn-default', name: nil %>
-  <% end %>
-
-  <div class=row>
-    <div class='col-sm-12 text-center'>
-      <%= will_paginate @resources, renderer: BootstrapPagination::Rails %>
-    </div>
-  </div>
+<div class=text-center>
+  <%= will_paginate @resources, renderer: BootstrapPagination::Rails %>
 </div>
