@@ -8,9 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>document.querySelector('html').className = 'js';</script>
     <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'i18n' %>
-    <%= javascript_include_tag 'generated/translations' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
   <body>
@@ -25,6 +22,8 @@
       </div>
     </div>
     <%= render partial: "shared/footer" %>
+
+    <%= javascript_include_tag 'admin/application', 'data-turbolinks-track' => true %>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
