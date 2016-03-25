@@ -56,6 +56,7 @@ group :development do
   gem 'safe_attributes', '~> 1.0.10'
   gem 'spring'
   gem 'web-console', '~> 2.0'
+  gem 'rack-mini-profiler', '~> 0.9.9.2', require: false
 end
 
 group :test do
