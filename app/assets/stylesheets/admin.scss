@@ -1,9 +1,14 @@
 @import 'main';
 @import 'admin/resources';
+@import 'selectize';
 
 .c-admin {
   .menu { .active > a { background: inherit; } }
   .menu > li > a { line-height: inherit; }
+}
+
+.is-dropdown-submenu {
+  z-index: 2;
 }
 
 .o-page {
