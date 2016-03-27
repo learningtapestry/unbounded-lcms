@@ -39,6 +39,8 @@ class Resource < ActiveRecord::Base
   has_many :resource_slugs, dependent: :destroy
   alias_attribute :slugs, :resource_slugs
 
+  validates :title, presence: true
+
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
   scope :lessons, -> {
