@@ -14,3 +14,27 @@
 .o-page {
   display: block;
 }
+
+.simple_form {
+  small.error {
+    color: #ec5840;
+    display: block;
+    font-weight: bold;
+    margin: -.5rem 0 1rem;
+  }
+
+  .input.error {
+    input {
+      border-color: #ec5840;
+    }
+
+    label {
+      color: #ec5840;
+      font-weight: bold;
+    }
+  }
+
+  .input .selectize-control {
+    margin-bottom: 1rem;
+  }
+}
