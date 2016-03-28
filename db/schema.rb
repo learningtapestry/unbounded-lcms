@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160328134753) do
+ActiveRecord::Schema.define(version: 20160328151806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,8 +225,10 @@ ActiveRecord::Schema.define(version: 20160328134753) do
     t.integer  "time_to_teach"
     t.string   "subject"
     t.boolean  "ell_appropriate", default: false, null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
 
   create_table "settings", force: :cascade do |t|
