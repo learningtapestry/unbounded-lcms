@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160406124444) do
+ActiveRecord::Schema.define(version: 20160406192357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,6 +249,12 @@ ActiveRecord::Schema.define(version: 20160406124444) do
   end
 
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
+
+  create_table "settings", force: :cascade do |t|
+    t.boolean  "editing_enabled", default: true, null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
 
   create_table "staff_members", force: :cascade do |t|
     t.string   "bio",        limit: 4096
