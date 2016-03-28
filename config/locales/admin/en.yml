@@ -81,6 +81,7 @@ en:
       edit:
         page_title: "Edit %{resource}"
       form:
+        add_child_resources: Add Child Resources
         add_download: Add Downloadable Resource
         create_standard: Create Standard
         create_grade: Create Grade
