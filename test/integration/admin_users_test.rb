@@ -17,7 +17,7 @@ class AdminUsersTestCase < ActionDispatch::IntegrationTest
 
     click_button 'Save'
 
-    assert_equal "can't be blank", page.find('.help-block').text
+    assert_equal "can't be blank", page.find('.input.error .error').text
   end
 
   def test_new_user
@@ -42,7 +42,7 @@ class AdminUsersTestCase < ActionDispatch::IntegrationTest
 
     @unbounded_user.reload
     assert_equal "/admin/users/#{@unbounded_user.id}", current_path
-    assert_equal "can't be blank", page.find('.help-block').text
+    assert_equal "can't be blank", page.find('.input.error .error').text
     assert_equal 'unbounded@unbounded.org', @unbounded_user.email
   end
 
@@ -55,7 +55,7 @@ class AdminUsersTestCase < ActionDispatch::IntegrationTest
 
     @unbounded_user.reload
     assert_equal "/admin/users/#{@unbounded_user.id}/edit", current_path
-    assert page.find('.alert-success').text.include? 'saved successfully'
+    assert page.find('.callout.success').text.include? 'saved successfully'
     assert_equal 'joe@unbounded.org', @unbounded_user.email
     assert_equal 'Joe Jonah', @unbounded_user.name
   end
@@ -68,7 +68,7 @@ class AdminUsersTestCase < ActionDispatch::IntegrationTest
     end
 
     assert_equal '/admin/users', current_path
-    assert page.find('.alert-success').text.include? 'deleted successfully'
+    assert page.find('.callout.success').text.include? 'deleted successfully'
     assert_nil User.find_by_id(@unbounded_user.id)
   end
 
@@ -81,7 +81,7 @@ class AdminUsersTestCase < ActionDispatch::IntegrationTest
 
     @unbounded_user.reload
     assert_equal '/admin/users', current_path
-    assert page.find('.alert-success').text.include? 'will receive a password reset'
+    assert page.find('.callout.success').text.include? 'will receive a password reset'
     assert_not_nil @unbounded_user.reset_password_token
     assert_password_reset_email @unbounded_user
   end
@@ -96,7 +96,7 @@ class AdminUsersTestCase < ActionDispatch::IntegrationTest
     fill_in 'Email', with: @unbounded_user.email
     click_button 'Send me reset password instructions'
     assert_equal '/users/sign_in', current_path
-    assert_equal '× You will receive an email with instructions on how to reset your password in a few minutes.', find('.alert-success').text
+    assert_equal 'You will receive an email with instructions on how to reset your password in a few minutes. ×', find('.callout.success').text
     assert_password_reset_email @unbounded_user
 
     email = last_email_sent
@@ -108,7 +108,7 @@ class AdminUsersTestCase < ActionDispatch::IntegrationTest
     click_button 'Change my password'
 
     assert_equal '/', current_path
-    assert_equal '× Your password has been changed successfully. You are now signed in.', find('.alert-success').text
+    assert_equal 'Your password has been changed successfully. You are now signed in. ×', find('.callout.success').text
     assert @unbounded_user.reload.valid_password?(password)
   end
 

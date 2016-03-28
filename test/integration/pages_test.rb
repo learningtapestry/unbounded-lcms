@@ -16,8 +16,8 @@ class PagesTestCase < ActionDispatch::IntegrationTest
     click_link 'Add Page'
     assert_equal current_path, '/admin/pages/new'
     click_button 'Save'
-    assert_equal find('.form-group.page_title.has-error .help-block').text, "can't be blank"
-    assert_equal find('.form-group.page_body.has-error .help-block').text, "can't be blank"
+    assert_equal find('.input.page_title.error .error').text, "can't be blank"
+    assert_equal find('.input.page_body.error .error').text, "can't be blank"
 
     fill_in 'Title', with: @title
     fill_in 'Body',  with: @body
@@ -27,7 +27,7 @@ class PagesTestCase < ActionDispatch::IntegrationTest
     assert_equal page.body,  @body
     assert_equal page.title, @title
     assert_equal current_path, "/pages/#{page.id}"
-    assert_equal find('.alert.alert-success').text, '× Page created successfully.'
+    assert_equal find('.callout.success').text, 'Page created successfully. ×'
   end
 
   def test_show_page
@@ -50,7 +50,7 @@ class PagesTestCase < ActionDispatch::IntegrationTest
     assert_equal @page.body,  @body
     assert_equal @page.title, @title
     assert_equal current_path, "/pages/#{@page.id}"
-    assert_equal find('.alert.alert-success').text, '× Page updated successfully.'
+    assert_equal find('.callout.success').text, 'Page updated successfully. ×'
   end
 
   def test_delete_page
@@ -60,6 +60,6 @@ class PagesTestCase < ActionDispatch::IntegrationTest
     end    
     assert_nil Page.find_by_id(@page.id)
     assert_equal current_path, '/admin/pages'
-    assert_equal find('.alert.alert-success').text, '× Page deleted successfully.'
+    assert_equal find('.callout.success').text, 'Page deleted successfully. ×'
   end
 end
