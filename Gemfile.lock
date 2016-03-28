@@ -197,6 +197,7 @@ GEM
       guard-compat (~> 1.2)
       minitest (>= 3.0)
     hashie (3.4.2)
+    hiredis (0.6.0)
     htmlentities (4.3.4)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -337,6 +338,10 @@ GEM
       execjs
       rails (>= 3.2)
       tilt
+    readthis (1.2.0)
+      connection_pool (~> 2.1)
+      redis (~> 3.0)
+    redis (3.2.2)
     representable (2.3.0)
       uber (~> 0.0.7)
     responders (2.1.0)
@@ -467,6 +472,7 @@ DEPENDENCIES
   guard
   guard-livereload (~> 2.5, >= 2.5.2)
   guard-minitest
+  hiredis
   i18n-js (~> 2.1.2)
   jbuilder (~> 2.0)
   jquery-rails
@@ -489,6 +495,7 @@ DEPENDENCIES
   rails-assets-lodash (~> 3.9.3)!
   ransack (~> 1.7.0)
   react-rails (~> 1.6)
+  readthis
   rest-client (~> 1.8)
   roo (~> 2.2)
   rubytree (~> 0.9.6)
