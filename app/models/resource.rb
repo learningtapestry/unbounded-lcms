@@ -1,6 +1,8 @@
 class Resource < ActiveRecord::Base
   include Search::ResourcesSearch
 
+  acts_as_paranoid
+
   acts_as_taggable_on :content_sources,
     :download_types,
     :grades,
