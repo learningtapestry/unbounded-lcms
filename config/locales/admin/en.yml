@@ -66,6 +66,8 @@ en:
       new:
         page_title: Import Content Guide
         submit: Import
+    common:
+      editing_disabled: Resource editing is disabled. Turn editing on in order to edit resources.
     resource_bulk_edits:
       create:
         success: "%{count} %{resources_count} updated successfully."
@@ -89,6 +91,8 @@ en:
         create_subject: Create Subject
         create_topic: Create Topic
       index:
+        disable_editing: Disable Resource Editing
+        enable_editing: Enable Resource Editing
         grade_levels: Grade Levels
         new_resource: Add Resource
         page_title: Content Administration
@@ -123,6 +127,10 @@ en:
         page_title: New Page
       update:
         success: Page updated successfully.
+    settings:
+      toggle_editing_enabled:
+        disabled: Resource editing disabled.
+        enabled: Resource editing enabled.
     staff_members:
       create:
         success: Staff Member created successfully.
