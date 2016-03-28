@@ -24,10 +24,12 @@
     </div>
   <% end %>
 
-  <%= f.button :submit, t('ui.save'), name: nil %>
+  <% if Settings.editing_enabled? %>
+    <%= f.button :submit, t('ui.save'), name: nil %>
 
-  <% if @resource.persisted? %>
-    <%= link_to t('ui.delete'), admin_resource_path(@resource), class: 'button alert', data: { confirm: t('ui.are_you_sure') }, method: :delete %>
+    <% if @resource.persisted? %>
+      <%= link_to t('ui.delete'), admin_resource_path(@resource), class: 'button alert', data: { confirm: t('ui.are_you_sure') }, method: :delete %>
+    <% end %>
   <% end %>
 
 <% end %>
