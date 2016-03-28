@@ -24,10 +24,25 @@ class Admin::ResourcesController < Admin::AdminController
   end
 
   def edit
+    @child_resources_hash = {}
   end
 
   def update
+    @child_resources_hash = {}
+
+    children_params = params.delete(:children) || []
+    children_params.each do |curriculum_id, params|
+      curriculum = @resource.curriculums.find_by_id(curriculum_id)
+      next unless curriculum
+
+      @child_resources_hash[curriculum] = Resource.new(resource_params(params))
+    end
+
     if @resource.update_attributes(resource_params)
+      @child_resources_hash.each do |curriculum, resource|
+        Curriculum.create(curriculum_type: curriculum.curriculum_type, item: resource, parent: curriculum) if resource.save
+      end
+
       redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
       render :edit
@@ -44,8 +59,9 @@ class Admin::ResourcesController < Admin::AdminController
       @resource = Resource.find(params[:id])
     end
 
-    def resource_params
-      params.
+    def resource_params(ps = nil)
+      ps ||= params 
+      ps.
         require(:resource).
         permit(
                 :description,
