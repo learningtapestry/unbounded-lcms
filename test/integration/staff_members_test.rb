@@ -18,7 +18,7 @@ class StaffMembersTestCase < ActionDispatch::IntegrationTest
     click_link 'Add Staff Member'
     assert_equal '/admin/staff_members/new', current_path
     click_button 'Save'
-    assert_equal find('.form-group.staff_member_name.has-error .help-block').text, "can't be blank"
+    assert_equal find('.input.staff_member_name.error .error').text, "can't be blank"
 
     fill_in 'Name',     with: @name
     fill_in 'Position', with: @position
@@ -31,7 +31,7 @@ class StaffMembersTestCase < ActionDispatch::IntegrationTest
     assert_equal @position, staff_member.position
 
     assert_equal '/admin/staff_members', current_path
-    assert_equal '× Staff Member created successfully.', find('.alert.alert-success').text
+    assert_equal 'Staff Member created successfully. ×', find('.callout.success').text
   end
 
   def test_edit_staff_member
@@ -52,7 +52,7 @@ class StaffMembersTestCase < ActionDispatch::IntegrationTest
     assert_equal @position, @staff_member.position
 
     assert_equal '/admin/staff_members', current_path
-    assert_equal '× Staff Member updated successfully.', find('.alert.alert-success').text
+    assert_equal 'Staff Member updated successfully. ×', find('.callout.success').text
   end
 
   def test_delete_staff_member
@@ -65,6 +65,6 @@ class StaffMembersTestCase < ActionDispatch::IntegrationTest
     end
 
     assert_equal '/admin/staff_members', current_path
-    assert_equal '× Staff Member deleted successfully.', find('.alert.alert-success').text    
+    assert_equal 'Staff Member deleted successfully. ×', find('.callout.success').text
   end
 end
