@@ -28,5 +28,12 @@ module Content
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
 
     config.react.addons = true
+
+    redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
+    config.cache_store = :readthis_store, {
+      expires_in: 1.hour.to_i,
+      namespace: 'unbounded',
+      redis: { url: redis_url, driver: :hiredis }
+    }
   end
 end

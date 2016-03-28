@@ -45,6 +45,8 @@ gem 'will_paginate-bootstrap'
 gem 'truncate_html', '~> 0.9.3'
 gem 'foundation-rails', '~> 6.2.0'
 gem 'order_as_specified', '~> 0.1.0'
+gem 'readthis'
+gem 'hiredis'
 
 group :development, :test do
   gem 'byebug'
