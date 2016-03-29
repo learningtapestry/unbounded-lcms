@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321131317) do
+ActiveRecord::Schema.define(version: 20160329171237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,24 @@ ActiveRecord::Schema.define(version: 20160321131317) do
     t.string   "slug",       null: false
   end
 
+  create_table "reading_assignment_authors", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reading_assignment_authors", ["name"], name: "index_reading_assignment_authors_on_name", unique: true, using: :btree
+
+  create_table "reading_assignment_texts", force: :cascade do |t|
+    t.string   "name",                         null: false
+    t.integer  "reading_assignment_author_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reading_assignment_texts", ["name"], name: "index_reading_assignment_texts_on_name", using: :btree
+  add_index "reading_assignment_texts", ["reading_assignment_author_id"], name: "index_reading_assignment_texts_on_reading_assignment_author_id", using: :btree
+
   create_table "resource_additional_resources", force: :cascade do |t|
     t.integer  "resource_id",            null: false
     t.integer  "additional_resource_id", null: false
@@ -159,12 +177,11 @@ ActiveRecord::Schema.define(version: 20160321131317) do
   add_index "resource_downloads", ["resource_id"], name: "index_resource_downloads_on_resource_id", using: :btree
 
   create_table "resource_reading_assignments", force: :cascade do |t|
-    t.integer "resource_id", null: false
-    t.string  "title",       null: false
-    t.string  "text_type",   null: false
-    t.string  "author",      null: false
+    t.integer "resource_id",                null: false
+    t.integer "reading_assignment_text_id", null: false
   end
 
+  add_index "resource_reading_assignments", ["reading_assignment_text_id"], name: "idx_res_rea_asg_rea_asg_txt", using: :btree
   add_index "resource_reading_assignments", ["resource_id"], name: "index_resource_reading_assignments_on_resource_id", using: :btree
 
   create_table "resource_related_resources", force: :cascade do |t|
@@ -330,6 +347,7 @@ ActiveRecord::Schema.define(version: 20160321131317) do
   add_foreign_key "curriculums", "curriculum_types"
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
   add_foreign_key "curriculums", "curriculums", column: "seed_id"
+  add_foreign_key "reading_assignment_texts", "reading_assignment_authors"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"
   add_foreign_key "resource_children", "resource_collections"
@@ -340,6 +358,7 @@ ActiveRecord::Schema.define(version: 20160321131317) do
   add_foreign_key "resource_downloads", "download_categories"
   add_foreign_key "resource_downloads", "downloads"
   add_foreign_key "resource_downloads", "resources"
+  add_foreign_key "resource_reading_assignments", "reading_assignment_texts", name: "fk_res_rea_asg_rea_asg_txt"
   add_foreign_key "resource_reading_assignments", "resources"
   add_foreign_key "resource_related_resources", "resources"
   add_foreign_key "resource_related_resources", "resources", column: "related_resource_id"
