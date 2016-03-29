@@ -14,7 +14,8 @@ Rails.application.config.assets.precompile += [
   'unbounded.css',
   'main.css',
   'i18n.js',
-  'generated/*'
+  'generated/*',
+  'server_rendering.js'
 ]
 
 Rails.application.config.assets.paths << "#{Rails.root}/public/javascripts"
