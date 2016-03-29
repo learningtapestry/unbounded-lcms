@@ -34,9 +34,11 @@ class FindLessonsController < ApplicationController
     end
 
     def params_cache_key
-      pagination_key = pagination_params.sort.flatten.join(':')
-      grade_key = grade_params.sort.flatten.join(':')
-      subject_key = subject_params.sort.flatten.join(':')
-      "subject::#{subject_key}/grade::#{grade_key}/pagination::#{pagination_key}"
+      @params_cache_key ||= begin
+        pagination_key = pagination_params.sort.flatten.join(':')
+        grade_key = grade_params.sort.flatten.join(':')
+        subject_key = subject_params.sort.flatten.join(':')
+        "subject::#{subject_key}/grade::#{grade_key}/pagination::#{pagination_key}"
+      end
     end
 end

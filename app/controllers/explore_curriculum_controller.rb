@@ -40,9 +40,11 @@ class ExploreCurriculumController < ApplicationController
   end
 
   def params_cache_key
-    grade_key = grade_params.sort.flatten.join(':')
-    subject_key = subject_params.sort.flatten.join(':')
-    "subject::#{subject_key}/grade::#{grade_key}"
+    @params_cache_key ||= begin
+      grade_key = grade_params.sort.flatten.join(':')
+      subject_key = subject_params.sort.flatten.join(':')
+      "subject::#{subject_key}/grade::#{grade_key}"
+    end
   end
 
 end
