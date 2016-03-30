@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329171237) do
+ActiveRecord::Schema.define(version: 20160330215435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -254,16 +254,6 @@ ActiveRecord::Schema.define(version: 20160329171237) do
     t.datetime "updated_at",              null: false
   end
 
-  create_table "standard_clusters", force: :cascade do |t|
-    t.string "name",    null: false
-    t.string "heading"
-  end
-
-  create_table "standard_domains", force: :cascade do |t|
-    t.string "name",    null: false
-    t.string "heading"
-  end
-
   create_table "standard_links", force: :cascade do |t|
     t.integer "standard_begin_id", null: false
     t.integer "standard_end_id",   null: false
@@ -284,23 +274,19 @@ ActiveRecord::Schema.define(version: 20160329171237) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subject",                          null: false
-    t.integer  "standard_cluster_id"
-    t.integer  "standard_domain_id"
+    t.string   "subject",                         null: false
     t.string   "emphasis"
     t.integer  "standard_strand_id"
     t.string   "alt_name"
     t.string   "asn_identifier"
     t.string   "description"
-    t.text     "grades",              default: [], null: false, array: true
+    t.text     "grades",             default: [], null: false, array: true
     t.string   "label"
   end
 
   add_index "standards", ["asn_identifier"], name: "index_standards_on_asn_identifier", unique: true, using: :btree
   add_index "standards", ["emphasis"], name: "index_standards_on_emphasis", using: :btree
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
-  add_index "standards", ["standard_cluster_id"], name: "index_standards_on_standard_cluster_id", using: :btree
-  add_index "standards", ["standard_domain_id"], name: "index_standards_on_standard_domain_id", using: :btree
   add_index "standards", ["standard_strand_id"], name: "index_standards_on_standard_strand_id", using: :btree
   add_index "standards", ["subject"], name: "index_standards_on_subject", using: :btree
 
@@ -368,7 +354,5 @@ ActiveRecord::Schema.define(version: 20160329171237) do
   add_foreign_key "resource_standards", "standards"
   add_foreign_key "standard_links", "standards", column: "standard_begin_id"
   add_foreign_key "standard_links", "standards", column: "standard_end_id"
-  add_foreign_key "standards", "standard_clusters"
-  add_foreign_key "standards", "standard_domains"
   add_foreign_key "standards", "standard_strands"
 end
