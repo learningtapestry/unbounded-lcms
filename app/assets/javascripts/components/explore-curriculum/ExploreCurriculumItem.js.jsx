@@ -9,13 +9,33 @@ class ExploreCurriculumItem extends React.Component {
     return `downloads-modal-${resource.id}`
   }
 
+  download(download) {
+    const cls = `fa fa-lg file-${download.icon}`;
+    return (
+      <li>
+        <i className={cls}></i>
+        <span>
+          <a href={download.url} className="resource-attachment" target="_blank">{download.title}</a>
+        </span>
+      </li>
+    );
+  }
+
   modal() {
+    const resource = this.curriculum().resource;
     return (
       <div className="o-download-modal" id={this.modalId()} data-reveal>
         <button className="close-button" data-close aria-label="Close modal" type="button">
           <span aria-hidden="true">&times;</span>
         </button>
-        downloads for resource {this.curriculum().resource.title}
+        <h2>Download {_.capitalize(resource.type.name)}</h2>
+        { (resource.downloads && resource.downloads.length > 0) ?
+            <ul className="o-resource__list o-resource__list--icons">
+              { _.map(resource.downloads, item => this.download(item)) }
+            </ul>
+
+            : <div className="c-downloads-list__empty">No downloads for this resource</div>
+        }
       </div>
     );
   }
