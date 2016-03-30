@@ -52,7 +52,7 @@ class Standard < ActiveRecord::Base
           standard.asn_identifier = asn_identifier
           standard.description = data['description']
           standard.grades << grade unless standard.grades.include?(grade)
-          standard.label = data['statementLabel']
+          standard.label = data['statementLabel'].try(:downcase)
           standard.name = name
           standard.subject = subject
 
