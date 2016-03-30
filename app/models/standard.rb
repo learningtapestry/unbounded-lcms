@@ -4,8 +4,6 @@ class Standard < ActiveRecord::Base
   belongs_to :standard_domain
   belongs_to :standard_strand
 
-  default_scope { order(:name) }
-
   scope :by_grade, ->(grade) {
     self.by_grades([grade])
   }
