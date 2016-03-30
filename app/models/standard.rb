@@ -46,7 +46,16 @@ class Standard < ActiveRecord::Base
           
           standard = name.present? ? find_or_initialize_by(name: name) : find_or_initialize_by(asn_identifier: asn_identifier)
 
-          standard.alt_name = data['altStatementNotation'].try(:downcase)
+          if alt_name = data['altStatementNotation'].try(:downcase)
+            standard.alt_names << alt_name unless standard.alt_names.include?(alt_name)
+
+            short_name = standard.name
+              .gsub('ccss.ela-literacy.', '')
+              .gsub('ccss.math.content.', '')
+
+            standard.alt_names << short_name unless standard.alt_names.include?(short_name)
+          end
+
           standard.asn_identifier = asn_identifier
           standard.description = data['description']
           standard.grades << grade unless standard.grades.include?(grade)

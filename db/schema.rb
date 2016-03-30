@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330215435) do
+ActiveRecord::Schema.define(version: 20160330231857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -277,11 +277,11 @@ ActiveRecord::Schema.define(version: 20160330215435) do
     t.string   "subject",                         null: false
     t.string   "emphasis"
     t.integer  "standard_strand_id"
-    t.string   "alt_name"
     t.string   "asn_identifier"
     t.string   "description"
     t.text     "grades",             default: [], null: false, array: true
     t.string   "label"
+    t.text     "alt_names",          default: [], null: false, array: true
   end
 
   add_index "standards", ["asn_identifier"], name: "index_standards_on_asn_identifier", unique: true, using: :btree
