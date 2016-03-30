@@ -38,7 +38,7 @@ class Standard < ActiveRecord::Base
         standard_set_data = JSON(RestClient.get("#{api_url}/standard_sets/#{standard_set_id}", auth_header))['data']
 
         grade = standard_set_data['title'].downcase
-        subject = standard_set_data['subject']
+        subject = standard_set_data['subject'] == 'Common Core English/Language Arts' ? 'ela' : 'math'
 
         standard_set_data['standards'].select do |_, data|
           asn_identifier = data['asnIdentifier'].downcase
