@@ -88,7 +88,7 @@
 
       <%= react_component('RelatedInstruction', {resource: @resource}, prerender: true) %>
 
-      <%= render partial: 'resources/download_form', locals: { downloads: @resource.downloads, title: 'Lesson' } %>
+      <%= render partial: 'resources/download_form', locals: { downloads: @resource.downloads, title: @curriculum.type_name } %>
     </div>
   </div>
   <div class="o-page__sticky">
