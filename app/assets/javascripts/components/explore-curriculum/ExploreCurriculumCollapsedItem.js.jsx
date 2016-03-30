@@ -29,6 +29,9 @@ class ExploreCurriculumCollapsedItem extends React.Component {
       `o-cur-card--${this.props.curriculum.type}`
     );
 
+    const resourceType = resource.type.name == 'grade' ? 'curriculum' : resource.type.name;
+    const downloadBtnLabel = `Download ${_.capitalize(resourceType)}`;
+
     return (
       <div id={this.props.curriculum.id} className={cssClasses}>
         {curriculumMap}
@@ -43,7 +46,7 @@ class ExploreCurriculumCollapsedItem extends React.Component {
               <a href="#" className="o-cur-card__ellipsis"><i className="fa fa-lg fa-ellipsis-h"></i></a>
               <ul className="menu">
                 <li><a href={resource.path}>View Details</a></li>
-                <li><a href="#">Download Curriculum</a></li>
+                <li><a href="#">{downloadBtnLabel}</a></li>
                 <li><a href="#">Related Instruction</a></li>
               </ul>
             </li>
