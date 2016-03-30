@@ -31,7 +31,9 @@
           </div>
           <div class="o-resource-title__links">
             <div>
-              <button class="o-ub-btn" data-open="downloads-modal"><%= t('resources.btn.download', title: 'Lesson') %></button>
+              <!--button class="o-ub-btn" data-open="downloads-modal"><%= t('resources.btn.download', title: @curriculum.type_name) %></button-->
+              <a class="o-ub-btn" href="#resource-downloads-list"><%= t('resources.btn.download', title: @curriculum.type_name) %></a>
+
             </div>
             <div>
               <%= link_to t('resources.btn.related'), '#related-instruction', class: 'o-ub-btn o-ub-btn--bordered' %>
@@ -50,7 +52,7 @@
               <h3>Description</h3>
               <%= @resource.description.try(:html_safe) %>
             </div>
-            <div class="o-resource__item">
+            <div id="resource-downloads-list" class="o-resource__item">
               <h3>Downloads</h3>
               <ul class="o-resource__list o-resource__list--icons">
                 <% @resource.downloads.each do |download| %>
@@ -86,7 +88,7 @@
 
       <%= react_component('RelatedInstruction', {resource: @resource}, prerender: true) %>
 
-      <%= render partial: 'resources/download_form', locals: { downloads: @resource.downloads, title: 'Lesson' } %>
+      <%= render partial: 'resources/download_form', locals: { downloads: @resource.downloads, title: @curriculum.type_name } %>
     </div>
   </div>
   <div class="o-page__sticky">

@@ -13,7 +13,8 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     :text_description,
     :time_to_teach,
     :type,
-    :path
+    :path,
+    :downloads
 
   def id
     object.resource.id
@@ -55,4 +56,19 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     show_resource_path(object.resource, object)
   end
 
+  def downloads
+    object.resource.downloads.map do |download|
+      {
+        icon: h.file_icon(h.attachment_content_type(download)),
+        title: download.title,
+        url: h.attachment_url(download),
+      }
+    end
+  end
+
+  protected
+
+    def h
+      ApplicationController.helpers
+    end
 end
