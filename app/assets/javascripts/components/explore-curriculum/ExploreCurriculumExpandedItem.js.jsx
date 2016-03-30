@@ -21,6 +21,9 @@ function ExploreCurriculumExpandedItem(props) {
 
   const description = { __html: resource.description };
 
+  const resourceType = resource.type.name == 'grade' ? 'curriculum' : resource.type.name;
+  const downloadBtnLabel = `Download ${_.capitalize(resourceType)}`;
+
   return (
     <div id={props.curriculum.id} className={cssClasses}>
       {curriculumMap}
@@ -37,7 +40,7 @@ function ExploreCurriculumExpandedItem(props) {
           <a className="o-ub-btn" href={resource.path}>View Details</a>
         </div>
         <div>
-          <button className="o-ub-btn o-ub-btn--bordered">Download Curriculum</button>
+          <button className="o-ub-btn o-ub-btn--bordered">{downloadBtnLabel}</button>
         </div>
         <div>
           <button className="o-ub-btn o-ub-btn--bordered">Related Instruction</button>
