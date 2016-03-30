@@ -29,4 +29,8 @@ class CurriculumPresenter < SimpleDelegator
     grade = current_grade.resource.grades.first.try(:name)
     "#{subject} / #{grade}"
   end
+
+  def type_name
+    curriculum_type.name.capitalize
+  end
 end

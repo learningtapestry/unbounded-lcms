@@ -1,7 +1,6 @@
 class ResourcesController < ApplicationController
   def show
     find_resource_and_curriculum
-
     if params[:id].present? && slug = @curriculum.slug
       return redirect_to show_with_slug_path(slug.value), status: 301
     end
