@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       get :import, on: :collection
     end
     resources :content_guide_standards, only: :index
-    resources :content_guides, only: %i(index new) do
+    resources :content_guides, only: %i(index new destroy) do
       collection do
         get :dangling_links
         get :import

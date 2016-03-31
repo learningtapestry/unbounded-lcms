@@ -11,6 +11,12 @@ module Admin
     def new
     end
 
+    def destroy
+      content_guide = ContentGuide.find(params[:id])
+      content_guide.destroy
+      redirect_to :admin_content_guides, notice: t('.success', name: content_guide.name)
+    end
+
     # GET /content_guides/dangling_links
     def dangling_links
       @content_guides = ContentGuide.all.map { |d| ContentGuidePresenter.new(d, request.base_url, view_context) }
