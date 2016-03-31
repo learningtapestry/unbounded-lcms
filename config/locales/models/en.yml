@@ -11,8 +11,6 @@ en:
     models:
       resource: Resource
     attributes:
-      content_guide:
-        original_url: Original document
       grade:
         grade: Name
       resource:

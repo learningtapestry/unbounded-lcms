@@ -12,13 +12,22 @@ class ContentGuide < ActiveRecord::Base
       service = Google::Apis::DriveV3::DriveService.new
       service.authorization = credentials
 
-      file = service.get_file(file_id)
+      file = service.get_file(file_id, fields: 'lastModifyingUser,modifiedTime,name,version')
       content = service.export_file(file_id, 'text/html').encode('ASCII-8BIT').force_encoding('UTF-8')
 
       doc = find_or_initialize_by(file_id: file_id)
-      doc.update!(name: file.name, original_content: content)
+      doc.update!(name: file.name,
+                  last_modified_at: file.modified_time,
+                  last_modifying_user_email: file.last_modifying_user.email_address,
+                  last_modifying_user_name: file.last_modifying_user.display_name,
+                  original_content: content,
+                  version: file.version)
       doc
     end
+  end
+
+  def modified_by
+    "#{last_modifying_user_name} <#{last_modifying_user_email}>"
   end
 
   def original_url

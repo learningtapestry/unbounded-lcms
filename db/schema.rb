@@ -35,12 +35,16 @@ ActiveRecord::Schema.define(version: 20160413110219) do
   add_index "content_guide_images", ["original_url"], name: "index_content_guide_images_on_original_url", unique: true, using: :btree
 
   create_table "content_guides", force: :cascade do |t|
-    t.string   "content",          null: false
-    t.string   "file_id",          null: false
-    t.string   "name",             null: false
-    t.string   "original_content", null: false
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.string   "content",                   null: false
+    t.string   "file_id",                   null: false
+    t.string   "name",                      null: false
+    t.string   "original_content",          null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.datetime "last_modified_at"
+    t.string   "last_modifying_user_email"
+    t.string   "last_modifying_user_name"
+    t.integer  "version"
   end
 
   add_index "content_guides", ["file_id"], name: "index_content_guides_on_file_id", unique: true, using: :btree
