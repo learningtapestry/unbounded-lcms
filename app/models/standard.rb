@@ -46,14 +46,10 @@ class Standard < ActiveRecord::Base
           
           standard = name.present? ? find_or_initialize_by(name: name) : find_or_initialize_by(asn_identifier: asn_identifier)
 
+          standard.generate_alt_names
+
           if alt_name = data['altStatementNotation'].try(:downcase)
             standard.alt_names << alt_name unless standard.alt_names.include?(alt_name)
-
-            short_name = standard.name
-              .gsub('ccss.ela-literacy.', '')
-              .gsub('ccss.math.content.', '')
-
-            standard.alt_names << short_name unless standard.alt_names.include?(short_name)
           end
 
           standard.asn_identifier = asn_identifier
@@ -67,5 +63,28 @@ class Standard < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def generate_alt_names
+    return unless name
+
+    alt_names = []
+
+    # ccss.ela-literacy.1.2 -> 1.2
+    short_name = name
+      .gsub('ccss.ela-literacy.', '')
+      .gsub('ccss.math.content.', '')
+
+    # 6.rp.a.3a -> 6.rp.a.3.a
+    letters_expand = short_name.gsub(/\.([1-9])([a-z])$/, '.\1.\2')
+
+    # 6.rp.a.3 -> 6rpa3
+    clean_name = short_name.gsub(/[\.-]/, '')
+
+    alt_names << short_name
+    alt_names << clean_name
+    alt_names << letters_expand
+
+    self.alt_names = (self.alt_names + alt_names).uniq
   end
 end
