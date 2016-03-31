@@ -137,6 +137,18 @@ class ContentGuidePresenter < SimpleDelegator
     end
   end
 
+  def process_standards
+    find_custom_tags('standards').each do |tag|
+      table = next_element_with_name(tag, 'table')
+      tag.remove
+      return unless table
+
+      table.css('[data-toggle]').each do |dropdown|
+        dropdown.delete('data-toggle')
+      end
+    end
+  end
+
   def process_task_body(cell, with_break:)
     body = doc.document.create_element('div', class: 'c-cg-task__body')
     body.inner_html = cell.inner_html
@@ -263,6 +275,7 @@ class ContentGuidePresenter < SimpleDelegator
     embed_videos
     process_blockquotes
     process_footnote_links
+    process_standards
     process_tasks
     realign_tables
     replace_guide_links
