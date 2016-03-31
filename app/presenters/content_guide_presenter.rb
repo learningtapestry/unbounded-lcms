@@ -209,20 +209,30 @@ class ContentGuidePresenter < SimpleDelegator
   def wrap_keywords(content)
     result = content.dup
 
-    keywords = ContentGuideDefinition.all.map { |d| [d.keyword, d.description] }
-
+    keywords = {}
+    ContentGuideDefinition.find_each { |d| keywords[d.keyword] = d.description }
     Standard.where.not(name: [nil, '']).each do |standard|
-      keywords << [standard.name.upcase, standard.description]
+      keywords[standard.name.upcase] = standard.description
+      standard.alt_names.each do |alt_name|
+        keywords[alt_name.upcase] = standard.description
+      end
     end
 
-    keywords.each_with_index do |pair, index|
-      keyword, value = pair
+    keywords.each_with_index do |(keyword, value), idx|
       next unless value.present?
 
-      id = "content_guide_keyworrd_#{index}"
-      toggler = %Q(<span data-toggle=#{id}>#{keyword}</span>)
-      dropdown = "<div class=dropdown-pane data-dropdown data-hover=true data-hover-pane=true id=#{id}>#{value}</div>"
-      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, toggler + dropdown) }
+      id = "content_guide_keyword_#{idx}"
+      dropdown = %Q(
+        <span data-toggle=#{id}>#{keyword}</span>
+        <div class=dropdown-pane
+          data-dropdown
+          data-hover=true
+          data-hover-pane=true
+          id=#{id}>
+          #{value}
+        </div>
+      )
+      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, dropdown) }
     end
 
     result
