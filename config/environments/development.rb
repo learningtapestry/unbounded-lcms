@@ -45,4 +45,6 @@ Rails.application.configure do
   if ENV['ENABLE_LIVERELOAD']
     config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
   end
+
+  config.cache_store = :null_store
 end
