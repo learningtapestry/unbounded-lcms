@@ -25,7 +25,9 @@
         <td><%= link_to content_guide.name, content_guide %>
         <td><%= link_to content_guide.original_url, content_guide.original_url, class: 'contengGuides__originalDocLink' %>
         <td class=text-nowrap><%= l content_guide.updated_at, format: :short %>
-        <td><%= link_to t('ui.reimport'), import_admin_content_guides_path(content_guide: { url: content_guide.original_url }), class: 'btn btn-default', 'data-no-turbolink' => true %>
+        <td class=text-nowrap>
+          <%= link_to t('ui.reimport'), import_admin_content_guides_path(content_guide: { url: content_guide.original_url }), class: 'button', 'data-no-turbolink' => true %>
+          <%= link_to t('ui.delete'), [:admin, content_guide], class: 'button alert', data: { confirm: t('ui.are_you_sure') }, method: :delete %>
       </tr>
     <% end %>
   </table>

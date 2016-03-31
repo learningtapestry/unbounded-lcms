@@ -55,6 +55,8 @@ en:
     content_guides:
       dangling_links:
         page_title: Dangling Links
+      destroy:
+        success: "'%{name}' deleted successfully."
       import:
         success: "'%{name}' imported successfully."
       index:
