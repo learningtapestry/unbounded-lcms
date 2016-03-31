@@ -1,5 +1,5 @@
 module Admin
-  class ContentGuidesDefinitionsController < AdminController
+  class ContentGuideDefinitionsController < AdminController
     include GoogleAuth
 
     before_action :obtain_google_credentials, only: :import
