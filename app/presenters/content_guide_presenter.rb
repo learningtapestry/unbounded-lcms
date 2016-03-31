@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class ContentGuidePresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
 
@@ -219,21 +221,23 @@ class ContentGuidePresenter < SimpleDelegator
       end
     end
 
-    keywords.each_with_index do |(keyword, value), idx|
+    keywords.each do |keyword, value|
       next unless value.present?
 
-      id = "content_guide_keyword_#{idx}"
-      dropdown = %Q(
-        <span data-toggle=#{id}>#{keyword}</span>
-        <div class=dropdown-pane
-          data-dropdown
-          data-hover=true
-          data-hover-pane=true
-          id=#{id}>
-          #{value}
-        </div>
-      )
-      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, dropdown) }
+      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
+        id = "cg-k_#{SecureRandom.hex(4)}"
+        dropdown = %Q(
+          <span data-toggle=#{id}>#{keyword}</span>
+          <div class=dropdown-pane
+            data-dropdown
+            data-hover=true
+            data-hover-pane=true
+            id=#{id}>
+            #{value}
+          </div>
+        )
+        m.gsub!(keyword, dropdown)
+      end
     end
 
     result
