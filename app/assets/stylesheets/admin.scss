@@ -2,9 +2,22 @@
 @import 'admin/resources';
 @import 'selectize';
 
+.button {
+  white-space: nowrap;
+}
+
 .c-admin {
   .menu { .active > a { background: inherit; } }
-  .menu > li > a { line-height: inherit; }
+  .menu > li > a {
+    line-height: inherit;
+    white-space: nowrap;
+  }
+}
+
+.c-cg_list__url {
+  display: inline-block;
+  max-width: 25em;
+  word-wrap: break-word;
 }
 
 .is-dropdown-submenu {
@@ -37,4 +50,8 @@
   .input .selectize-control {
     margin-bottom: 1rem;
   }
+}
+
+.text-nowrap {
+  white-space: nowrap;
 }

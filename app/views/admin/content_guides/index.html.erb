@@ -1,13 +1,4 @@
 <div class="o-page">
-  <div class=clearfix>
-    <div class=pull-right>
-      <%= link_to t('.dangling_links'), :dangling_links_admin_content_guides, class: 'btn btn-success' %>
-      <%= link_to t('.glossary'), :admin_content_guide_definitions, class: 'btn btn-success' %>
-      <%= link_to t('.standards'), :admin_content_guide_standards, class: 'btn btn-success' %>
-      <%= link_to t('.import_content_guide'), :new_admin_content_guide, class: 'btn btn-success' %>
-    </div>
-  </div>
-
   <h2 class=text-center><%= t('.page_title') %></h2>
 
   <table class=table>
@@ -23,7 +14,7 @@
       <tr>
         <td><%= content_guide.id %>
         <td><%= link_to content_guide.name, content_guide %>
-        <td><%= link_to content_guide.original_url, content_guide.original_url, class: 'contengGuides__originalDocLink' %>
+        <td><%= link_to content_guide.original_url, content_guide.original_url, class: 'c-cg_list__url' %>
         <td class=text-nowrap><%= l content_guide.updated_at, format: :short %>
         <td class=text-nowrap>
           <%= link_to t('ui.reimport'), import_admin_content_guides_path(content_guide: { url: content_guide.original_url }), class: 'button', 'data-no-turbolink' => true %>

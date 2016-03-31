@@ -60,11 +60,7 @@ en:
       import:
         success: "'%{name}' imported successfully."
       index:
-        dangling_links: Dangling Links
-        glossary: Glossary
-        import_content_guide: Import Content Guide
         page_title: Content Guides
-        standards: Standards
       new:
         page_title: Import Content Guide
         submit: Import
@@ -197,3 +193,6 @@ en:
       staff_members: Staff members
       content_guides: Content guides
       users: Users
+      find_dangling_links: Find Dangling Links
+      glossary: Glossary
+      import_content_guide: Import Content Guide

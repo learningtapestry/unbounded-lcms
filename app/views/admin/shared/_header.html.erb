@@ -15,7 +15,9 @@
             <li class="dropdown c-header__link">
               <%= link_to t('admin.nav.content_guides'), :admin_content_guides %>
               <ul class="menu vertical">
-                <%= nav_link t('admin.nav.content_guides'), :admin_content_guides %>
+                <%= nav_link t('admin.nav.import_content_guide'), :new_admin_content_guide %>
+                <%= nav_link t('admin.nav.glossary'), :admin_content_guide_definitions %>
+                <%= nav_link t('admin.nav.find_dangling_links'), :dangling_links_admin_content_guides %>
               </ul>
             </li>
 
