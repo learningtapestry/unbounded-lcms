@@ -60,6 +60,7 @@ en:
       import:
         success: "'%{name}' imported successfully."
       index:
+        original_document: Original document
         page_title: Content Guides
       new:
         page_title: Import Content Guide
