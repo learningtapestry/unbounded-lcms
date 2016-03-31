@@ -243,17 +243,24 @@ class ContentGuidePresenter < SimpleDelegator
 
   def doc
     @doc ||= begin
-      html = @wrap_keywords ? wrap_keywords(content) : content
-      @doc = Nokogiri::HTML.fragment(html)
-      embed_audios
-      embed_videos
-      process_blockquotes
-      process_footnote_links
-      process_tasks
-      realign_tables
-      replace_guide_links
+      @doc = Nokogiri::HTML.fragment(process_content)
+      process_doc
       @doc
     end
+  end
+
+  def process_content
+    @wrap_keywords ? wrap_keywords(content) : content
+  end
+
+  def process_doc
+    embed_audios
+    embed_videos
+    process_blockquotes
+    process_footnote_links
+    process_tasks
+    realign_tables
+    replace_guide_links
   end
 
   def cache(key)
