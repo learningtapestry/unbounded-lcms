@@ -59,6 +59,7 @@ group :development do
   gem 'spring'
   gem 'web-console', '~> 2.0'
   gem 'rack-mini-profiler', '~> 0.9.9.2', require: false
+  gem 'quiet_assets', '~> 1.1'
 end
 
 group :test do
