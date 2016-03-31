@@ -27,8 +27,11 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
 
   protected
 
-  def init_doc
-    @doc = Nokogiri::HTML.fragment(content)
+  def process_content
+    content
+  end
+
+  def process_doc
     mark_footnotes
     process_blockquotes
     process_tasks(with_break: false)
