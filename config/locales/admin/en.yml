@@ -44,7 +44,6 @@ en:
       import:
         success: Glossary imported successfully.
       index:
-        import: Import
         page_title: Glossary
       new:
         page_title: Import Glossary
@@ -197,3 +196,4 @@ en:
       find_dangling_links: Find Dangling Links
       glossary: Glossary
       import_content_guide: Import Content Guide
+      import_glossary: Import Glossary
