@@ -39,7 +39,8 @@ class ContentGuidePresenter < SimpleDelegator
           text = h.text.chomp.strip
 
           h[:id] = id
-          
+          h['data-magellan-target'] = id
+        
           Heading.new(id, level, text)
         end
 
