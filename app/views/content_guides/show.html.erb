@@ -1,31 +1,34 @@
 <% set_page_title @content_guide.name %>
 
-<div class="o-page o-page--margin-to-bottom o-page--cg">
-  <div class="o-page__module">
-    <%= link_to t('content_guide_page.back_to_hub'), '#', class: 'o-btn--dark o-btn--bordered o-btn--expand o-page__section u-margin-bottom--base .u-text--capitalized'%>
-  </div>
-  <div class="o-page__module c-ch-hero">
-    <div class="o-page__wrap--row">
-      <div class="c-cg-hero__img"></div>
-      <div class="c-cg-hero__body">
-        <div>ELA Grade 4 Curriculum Guide</div>
-        <h1><%= @content_guide.name %></h1>
-        <h2>Teaser text lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus aut dolessite paribus aut.</h2>
-        <div class="u-margin-top--small">
-          <%= link_to t('resources.btn.download', title: 'Guide'), url_for(format: 'pdf'), class: 'o-ub-btn' %>
-          <%= link_to t('content_guide_page.related'), '#', class: 'o-ub-btn o-ub-btn--bordered' %>
+<% cache("content_guides/views/index/html/#{@params_cache_key}") do %>
+  <div class="o-page o-page--margin-to-bottom o-page--cg">
+    <div class="o-page__module">
+      <%= link_to t('content_guide_page.back_to_hub'), '#', class: 'o-btn--dark o-btn--bordered o-btn--expand o-page__section u-margin-bottom--base .u-text--capitalized'%>
+    </div>
+    <div class="o-page__module c-ch-hero">
+      <div class="o-page__wrap--row">
+        <div class="c-cg-hero__img"></div>
+        <div class="c-cg-hero__body">
+          <div>ELA Grade 4 Curriculum Guide</div>
+          <h1><%= @content_guide.name %></h1>
+          <h2>Teaser text lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus aut dolessite paribus aut.</h2>
+          <div class="u-margin-top--small">
+            <%= link_to t('resources.btn.download', title: 'Guide'), url_for(format: 'pdf'), class: 'o-ub-btn' %>
+            <%= link_to t('content_guide_page.related'), '#', class: 'o-ub-btn o-ub-btn--bordered' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="o-page__module u-bg--light c-ch-content">
+      <div class="o-page__wrap--row">
+        <div class="c-ch-content__sidebar">
+          <%= render partial: 'nav', locals: { headings: @content_guide.headings } %>
+        </div>
+        <div id="c-ch-content" class="c-ch-content__body">
+          <%= @content_guide.html %>
         </div>
       </div>
     </div>
   </div>
-  <div class="o-page__module u-bg--light c-ch-content">
-    <div class="o-page__wrap--row">
-      <div class="c-ch-content__sidebar">
-        <%= render partial: 'nav', locals: { headings: @content_guide.headings } %>
-      </div>
-      <div id="c-ch-content" class="c-ch-content__body">
-        <%= @content_guide.html %>
-      </div>
-    </div>
-  </div>
-</div>
+<% end %>
+

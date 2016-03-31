@@ -6,7 +6,7 @@ class ContentGuidePresenter < SimpleDelegator
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
 
-  attr_reader :doc, :host, :view_context
+  attr_reader :host, :view_context
 
   def initialize(content_guide, host, view_context, wrap_keywords: false)
     super(content_guide)
@@ -15,11 +15,10 @@ class ContentGuidePresenter < SimpleDelegator
     @host = host
     @view_context = view_context
     @wrap_keywords = wrap_keywords
-    init_doc
   end
 
   def dangling_links
-    @dangling_links ||= begin
+    cache('dangling_links') do
       doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
         file_id = ContentGuide.file_id_from_url(a[:href])
         next unless file_id.present?
@@ -30,24 +29,26 @@ class ContentGuidePresenter < SimpleDelegator
   end
 
   def headings
-    headings =
-      doc.css('h1, h2, h3').each_with_index.map do |h, i|
-        id = "heading_#{i}"
-        level = h.name[/\d/].to_i
-        text = h.text.chomp.strip
+    cache('headings') do
+      headings =
+        doc.css('h1, h2, h3').each_with_index.map do |h, i|
+          id = "heading_#{i}"
+          level = h.name[/\d/].to_i
+          text = h.text.chomp.strip
 
-        h[:id] = id
-        
-        Heading.new(id, level, text)
-      end
+          h[:id] = id
+          
+          Heading.new(id, level, text)
+        end
 
-    min_level = headings.map(&:level).minmax.first
-    headings.each { |h| h.level -= min_level }
-    headings
+      min_level = headings.map(&:level).minmax.first
+      headings.each { |h| h.level -= min_level }
+      headings
+    end
   end
 
   def html
-    doc.to_s.html_safe
+    cache('html') { doc.to_s.html_safe }
   end
 
   private
@@ -240,15 +241,22 @@ class ContentGuidePresenter < SimpleDelegator
 
   protected
 
-  def init_doc
-    html = @wrap_keywords ? wrap_keywords(content) : content
-    @doc = Nokogiri::HTML.fragment(html)
-    embed_audios
-    embed_videos
-    process_blockquotes
-    process_footnote_links
-    process_tasks
-    realign_tables
-    replace_guide_links
+  def doc
+    @doc ||= begin
+      html = @wrap_keywords ? wrap_keywords(content) : content
+      @doc = Nokogiri::HTML.fragment(html)
+      embed_audios
+      embed_videos
+      process_blockquotes
+      process_footnote_links
+      process_tasks
+      realign_tables
+      replace_guide_links
+      @doc
+    end
+  end
+
+  def cache(key)
+    Rails.cache.fetch("content_guides/presented/#{id}/#{key}") { yield }
   end
 end
