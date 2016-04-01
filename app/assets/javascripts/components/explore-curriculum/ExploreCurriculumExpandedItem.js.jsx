@@ -34,7 +34,7 @@ class ExploreCurriculumExpandedItem extends React.Component {
         <div className="o-cur-card__body" onClick={props.onClickViewDetails}>
           <div className="o-title">
             <span className="o-title__type">{resource.short_title}</span>
-            <span className="o-title__duration">{resource.time_to_teach} min</span>
+            <span className="o-title__duration"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
           <h2>{resource.title}</h2>
           <div className="u-html-description" dangerouslySetInnerHTML={description}></div>

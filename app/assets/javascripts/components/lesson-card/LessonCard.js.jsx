@@ -8,7 +8,7 @@ function LessonCard(props) {
       <div className={cssClasses}>
         <div className="o-card__header o-title">
           <span className="o-title__type">{props.lesson.short_title}</span>
-          <span className="o-title__duration">{props.lesson.time_to_teach} min</span>
+          <span className="o-title__duration"><TimeToTeach duration={props.lesson.time_to_teach} /></span>
         </div>
         <h2>{props.lesson.title}</h2>
         <div className="o-card__dsc" dangerouslySetInnerHTML={markup} />
