@@ -42,5 +42,9 @@ Rails.application.configure do
 
   config.action_controller.action_on_unpermitted_parameters = :raise
 
-  config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
+  if ENV['ENABLE_LIVERELOAD']
+    config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
+  end
+
+  config.cache_store = :null_store
 end

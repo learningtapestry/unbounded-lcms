@@ -6,7 +6,7 @@ function RelatedInstructionItem(props) {
       <div className="u-wrap--light">
         <div className="o-card__header o-title">
           <span className="o-title__type">{props.item.short_title}</span>
-          <span className="o-title__duration">{props.item.time_to_teach} min</span>
+          <span className="o-title__duration"><TimeToTeach duration={props.item.time_to_teach} /></span>
         </div>
         <h2>{props.item.title}</h2>
         <div className="o-card__dsc" dangerouslySetInnerHTML={markup} />

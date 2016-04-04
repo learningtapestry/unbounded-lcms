@@ -14,6 +14,7 @@ front-end.
 * `node v5.6.0`
 * `PostgreSQL 9.4`
 * `ElasticSearch >=2.2.0`
+* `Redis`
 
 ## Project setup
 
@@ -93,7 +94,7 @@ methodology to standardize stylesheet development.
 - [7-1](http://sass-guidelin.es/#the-7-1-pattern) pattern for file and folder structure
 - We're using Harry Roberts' style for `BEM`
 - The following namespaces are used:
-  - `o`, for objects that will be used across the app. 
+  - `o`, for objects that will be used across the app.
   - `c`, for components that are specific to a part of the UI and safe to change.
   - `u`, for utils like text sizes, margins and so on.
 - It's not recommended to use elements of elements in `BEM`
