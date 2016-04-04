@@ -46,6 +46,8 @@ gem 'will_paginate-bootstrap'
 gem 'truncate_html', '~> 0.9.3'
 gem 'foundation-rails', '~> 6.2.0'
 gem 'order_as_specified', '~> 0.1.0'
+gem 'readthis'
+gem 'hiredis'
 
 group :development, :test do
   gem 'byebug'
@@ -57,6 +59,8 @@ group :development do
   gem 'safe_attributes', '~> 1.0.10'
   gem 'spring'
   gem 'web-console', '~> 2.0'
+  gem 'rack-mini-profiler', '~> 0.9.9.2', require: false
+  gem 'quiet_assets', '~> 1.1'
 end
 
 group :test do

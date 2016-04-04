@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class ContentGuidePresenter < SimpleDelegator
   include Rails.application.routes.url_helpers
 
@@ -6,7 +8,7 @@ class ContentGuidePresenter < SimpleDelegator
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
 
-  attr_reader :doc, :host, :view_context
+  attr_reader :host, :view_context
 
   def initialize(content_guide, host, view_context, wrap_keywords: false)
     super(content_guide)
@@ -15,11 +17,10 @@ class ContentGuidePresenter < SimpleDelegator
     @host = host
     @view_context = view_context
     @wrap_keywords = wrap_keywords
-    init_doc
   end
 
   def dangling_links
-    @dangling_links ||= begin
+    cache('dangling_links') do
       doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
         file_id = ContentGuide.file_id_from_url(a[:href])
         next unless file_id.present?
@@ -30,24 +31,26 @@ class ContentGuidePresenter < SimpleDelegator
   end
 
   def headings
-    headings =
-      doc.css('h1, h2, h3').each_with_index.map do |h, i|
-        id = "heading_#{i}"
-        level = h.name[/\d/].to_i
-        text = h.text.chomp.strip
+    cache('headings') do
+      headings =
+        doc.css('h1, h2, h3').each_with_index.map do |h, i|
+          id = "heading_#{i}"
+          level = h.name[/\d/].to_i
+          text = h.text.chomp.strip
 
-        h[:id] = id
-        
-        Heading.new(id, level, text)
-      end
+          h[:id] = id
+          
+          Heading.new(id, level, text)
+        end
 
-    min_level = headings.map(&:level).minmax.first
-    headings.each { |h| h.level -= min_level }
-    headings
+      min_level = headings.map(&:level).minmax.first
+      headings.each { |h| h.level -= min_level }
+      headings
+    end
   end
 
   def html
-    doc.to_s.html_safe
+    cache('html') { doc.to_s.html_safe }
   end
 
   private
@@ -209,20 +212,32 @@ class ContentGuidePresenter < SimpleDelegator
   def wrap_keywords(content)
     result = content.dup
 
-    keywords = ContentGuideDefinition.all.map { |d| [d.keyword, d.description] }
-
+    keywords = {}
+    ContentGuideDefinition.find_each { |d| keywords[d.keyword] = d.description }
     Standard.where.not(name: [nil, '']).each do |standard|
-      keywords << [standard.name.upcase, standard.description]
+      keywords[standard.name.upcase] = standard.description
+      standard.alt_names.each do |alt_name|
+        keywords[alt_name.upcase] = standard.description
+      end
     end
 
-    keywords.each_with_index do |pair, index|
-      keyword, value = pair
+    keywords.each do |keyword, value|
       next unless value.present?
 
-      id = "content_guide_keyworrd_#{index}"
-      toggler = %Q(<span data-toggle=#{id}>#{keyword}</span>)
-      dropdown = "<div class=dropdown-pane data-dropdown data-hover=true data-hover-pane=true id=#{id}>#{value}</div>"
-      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) { |m| m.gsub!(keyword, toggler + dropdown) }
+      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
+        id = "cg-k_#{SecureRandom.hex(4)}"
+        dropdown = %Q(
+          <span data-toggle=#{id}>#{keyword}</span>
+          <div class=dropdown-pane
+            data-dropdown
+            data-hover=true
+            data-hover-pane=true
+            id=#{id}>
+            #{value}
+          </div>
+        )
+        m.gsub!(keyword, dropdown)
+      end
     end
 
     result
@@ -230,9 +245,19 @@ class ContentGuidePresenter < SimpleDelegator
 
   protected
 
-  def init_doc
-    html = @wrap_keywords ? wrap_keywords(content) : content
-    @doc = Nokogiri::HTML.fragment(html)
+  def doc
+    @doc ||= begin
+      @doc = Nokogiri::HTML.fragment(process_content)
+      process_doc
+      @doc
+    end
+  end
+
+  def process_content
+    @wrap_keywords ? wrap_keywords(content) : content
+  end
+
+  def process_doc
     embed_audios
     embed_videos
     process_blockquotes
@@ -240,5 +265,9 @@ class ContentGuidePresenter < SimpleDelegator
     process_tasks
     realign_tables
     replace_guide_links
+  end
+
+  def cache(key)
+    Rails.cache.fetch("content_guides/presented/#{id}/#{key}") { yield }
   end
 end

@@ -1,14 +1,16 @@
-<%= react_component('ExploreCurriculumPage', @props, prerender: true) %>
-<div class="o-page">
-  <div class="o-page__module u-wrap--base o-page__module--margin-top">
-    <div class="o-dsc o-dsc--wrapped">
-      <div class="o-page__content">
-        <div class="o-dsc__title">ABOUT THE CURRICULUM</div>
-        <div class="o-dsc__dsc">Display text about curriculum lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus.</div>
-        <div class="o-dsc__txt">
-          Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat haruptat ovitate adi doloribus eum iur dam enti dentus voles adi doloribus eum iur dam enti dentus voles earuntis.Additional text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat haruptat ovitate adi doloribus eum iur dam enti dentus voles adi doloribus eum iur dam enti dentus voles earuntis.
+<% cache("explore_curriculums/views/index/#{@params_cache_key}") do %>
+  <%= react_component('ExploreCurriculumPage', @props, prerender: true) %>
+  <div class="o-page">
+    <div class="o-page__module u-wrap--base o-page__module--margin-top">
+      <div class="o-dsc o-dsc--wrapped">
+        <div class="o-page__content">
+          <div class="o-dsc__title">ABOUT THE CURRICULUM</div>
+          <div class="o-dsc__dsc">Display text about curriculum lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus.</div>
+          <div class="o-dsc__txt">
+            Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat haruptat ovitate adi doloribus eum iur dam enti dentus voles adi doloribus eum iur dam enti dentus voles earuntis.Additional text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat haruptat ovitate adi doloribus eum iur dam enti dentus voles adi doloribus eum iur dam enti dentus voles earuntis.
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>
