@@ -1,12 +1,4 @@
 class ExploreCurriculumCollapsedItem extends React.Component {
-  componentDidMount() {
-    let el = new Foundation.DropdownMenu($(this.refs.dropdown), { 'alignment': 'right' });
-  }
-
-  componentWillUnmount() {
-    $(this.refs.dropdown).foundation('destroy');
-  }
-
   render() {
     const resource = this.props.curriculum.resource;
 
@@ -19,7 +11,7 @@ class ExploreCurriculumCollapsedItem extends React.Component {
 
     const curriculumMap = React.createElement(curriculumComponent, {
       expanded: false,
-      onClickDetails: this.props.onClickExpand,
+      onClickDetails: this.props.onClickElement,
       curriculum: this.props.curriculum
     });
 
@@ -36,7 +28,7 @@ class ExploreCurriculumCollapsedItem extends React.Component {
     return (
       <div id={this.props.curriculum.id} className={cssClasses}>
         {curriculumMap}
-        <div className="o-cur-card__body o-cur-card__body--short" onClick={this.props.onClickExpand}>
+        <div className="o-cur-card__body o-cur-card__body--short" onClick={this.props.onClickElement}>
           <strong className="u-text--capitalized">{resource.short_title}</strong>
           <span> {resource.title}</span>
           <span> {resource.text_description}</span>
