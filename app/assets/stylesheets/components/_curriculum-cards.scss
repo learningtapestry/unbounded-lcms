@@ -6,22 +6,11 @@ $ub-cur-card-margin: 2px;
   @include flex-grid-row();
   cursor: pointer;
 
-
-  @include m(grade) {
-    margin-bottom: $ub-xlarge-margin;
-  }
-
-  @include m(short) {
-    @include flex-align($y: middle);
-    //margin-bottom: $ub-cur-card-margin !important;
-    border-radius: 0;
-  }
-
   @include e(map) {
     @include flex-grid-column(shrink);
     display: flex;
-    justify-content: space-between;
     flex-flow: column wrap;
+    justify-content: space-between;
 
     @include breakpoint(medium down) {
       @include flex-grid-column(12);
@@ -48,10 +37,40 @@ $ub-cur-card-margin: 2px;
       margin-top: $ub-small-margin;
       text-align: center;
     }
+    @include m(short) {
+      @include flex-align-self(middle);
+    }
+  }
+
+  @include e(menu) {
+    @include menu-base;
+    @include menu-direction(vertical);
+
+    @include m(medium) {
+      li > a {
+        @include flex-align(center, middle);
+        margin-bottom: $ub-small-margin / 2;
+      }
+    }
   }
 
   @include e(ellipsis) {
     padding: 0 !important;
+  }
+
+  @include m(grade) {
+    margin-bottom: $ub-xlarge-margin;
+  }
+
+  @include m(show-medium)  { display: inherit;  }
+  @include m(show-short) { display: none; }
+
+  @include m(short) {
+    @extend %map-transition;
+    border-radius: 0;
+
+    .o-cur-card--show-medium { display: none; }
+    .o-cur-card--show-short { display: inherit; }
   }
 
 }
