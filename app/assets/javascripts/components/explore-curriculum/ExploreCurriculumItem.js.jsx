@@ -1,5 +1,4 @@
 class ExploreCurriculumItem extends React.Component {
-
   curriculum() {
     return this.props.index[this.props.id];
   }
@@ -55,13 +54,11 @@ class ExploreCurriculumItem extends React.Component {
     const shouldItemExpand = props.active.length === 1 ||
       _.some(activeParent.children, c => c.id === props.id);
 
-    const item = shouldItemExpand ?
-      <ExploreCurriculumExpandedItem
+    const item =
+      <ExploreCurriculumCardItem
         curriculum={curriculum}
-        onClickViewDetails={props.onClickViewDetails.bind(this, props.parentage)} /> :
-      <ExploreCurriculumCollapsedItem
-        curriculum={curriculum}
-        onClickExpand={props.onClickExpand.bind(this, props.parentage)} />;
+        onClickElement={ shouldItemExpand ? props.onClickViewDetails.bind(this, props.parentage) : props.onClickExpand.bind(this, props.parentage)}
+        shouldItemExpand={shouldItemExpand}/>;
 
     // Children should be rendered if the item is a parent in the active branch.
     const shouldRenderChildren = props.active.length > 1 &&
@@ -89,11 +86,11 @@ class ExploreCurriculumItem extends React.Component {
     return (
       <div>
         {item}
+        {/*TODO: add React.addons.CSSTransitionGroup for animation*/}
         <div className={cssClasses}>
-          {children}
+            {children}
         </div>
         {this.modal()}
-      </div>
-    );
-  }
+      );
+   }
 }
