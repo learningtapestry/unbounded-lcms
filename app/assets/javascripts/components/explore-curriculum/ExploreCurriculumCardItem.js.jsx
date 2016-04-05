@@ -42,6 +42,9 @@ class ExploreCurriculumCardItem extends React.Component {
 
     const description = { __html: resource.description };
     const hash = resource.path.replace(/^\//, '');
+    const resourceType = resource.type.name == 'grade' ? 'curriculum' : resource.type.name;
+    const downloadBtnLabel = `Download ${_.capitalize(resourceType)}`;
+    const downloadModalId = `downloads-modal-${resource.id}`
 
     return (
       <div id={this.props.curriculum.id} name={hash} className={cssClasses} onClick={this.props.onClickElement} data-magellanhash-target>
@@ -49,7 +52,7 @@ class ExploreCurriculumCardItem extends React.Component {
         <div className={cssCardClasses}>
           <div className="o-title u-margin-bottom--zero">
             <span className="o-title__type">{resource.short_title}</span>
-            <span className="o-title__duration o-cur-card--show-full">{resource.time_to_teach} min</span>
+            <span className="o-title__duration o-cur-card--show-full"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
           <h2>{resource.title}</h2>
           <div className="u-html-description o-cur-card--show-medium" dangerouslySetInnerHTML={description}></div>
@@ -57,7 +60,7 @@ class ExploreCurriculumCardItem extends React.Component {
         <div className={cssActionClasses}>
           <ul className="o-cur-card__menu o-cur-card__menu--medium o-cur-card--show-medium">
             <li><a className="o-ub-btn" href={resource.path}>View Details</a></li>
-            <li><a className="o-ub-btn o-ub-btn--bordered">Download Curriculum</a></li>
+            <li><a className="o-ub-btn o-ub-btn--bordered" href="#" data-open={downloadModalId}>{downloadBtnLabel}</a></li>
             <li><a className="o-ub-btn o-ub-btn--bordered">Related Instruction</a></li>
           </ul>
           <ul className="o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short" ref="dropdown">
@@ -65,7 +68,7 @@ class ExploreCurriculumCardItem extends React.Component {
               <a href="#" className="o-cur-card__ellipsis"><i className="fa fa-lg fa-ellipsis-h"></i></a>
               <ul className="menu">
                 <li><a href={resource.path}>View Details</a></li>
-                <li><a href="#">Download Curriculum</a></li>
+                <li><a href="#"data-open={downloadModalId}>{downloadBtnLabel}</a></li>
                 <li><a href="#">Related Instruction</a></li>
               </ul>
             </li>
