@@ -39,6 +39,9 @@ Rails.application.routes.draw do
     resources :resource_children, only: :create
     resources :resources, except: :show
     resources :pages, except: :show
+    resources :settings, only: [] do
+      patch :toggle_editing_enabled, on: :collection
+    end
     resources :staff_members, except: :show
     resources :subtitles_imports, only: [:index, :new, :create]
     resources :tags, only: :create

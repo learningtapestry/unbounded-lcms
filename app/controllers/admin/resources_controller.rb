@@ -28,6 +28,11 @@ class Admin::ResourcesController < Admin::AdminController
   end
 
   def update
+    unless Settings.editing_enabled?
+      redirect_to :admin_resources, alert: t('admin.common.editing_disabled')
+      return
+    end
+
     @child_resources_hash = {}
 
     children_params = params.delete(:children) || []
