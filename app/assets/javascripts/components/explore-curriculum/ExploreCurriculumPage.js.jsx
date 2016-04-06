@@ -1,4 +1,5 @@
-const ANIMATION_DURATION = 500;
+const ANIMATION_DURATION = 400;
+const EXPANDED_POSTFIX = '--expanded';
 
 class ExploreCurriculumPage extends React.Component {
   constructor(props) {
@@ -8,13 +9,14 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   isExpanded(id) {
-    return _.lastIndexOf(this.state.active, id, this.state.active.length - 2) != -1;
+    const activeLength = this.state.active.length;
+    return activeLength > 1 && _.lastIndexOf(this.state.active, id, activeLength - 2) != -1;
   }
 
   updateUrl($active) {
     let hash = $active ? $active[0].getAttribute('name') : null;
     if ($active && this.isExpanded(parseInt($active[0].id))) {
-      hash += "--expanded";
+      hash += EXPANDED_POSTFIX;
     }
     if (window.history) {
       const newUrl = window.history.state.url.replace(/#.+/, '') + (hash ? `#${hash}` : '');
@@ -28,9 +30,14 @@ class ExploreCurriculumPage extends React.Component {
   componentDidMount() {
     new Foundation.MaggelanHash($(this.refs.curriculumList),
                                 { deepLinking: true,
-                                  updateUrl: this.updateUrl.bind(this)
+                                  updateUrl: this.updateUrl.bind(this),
+                                  threshold: 20,
+                                  animationDuration: ANIMATION_DURATION,
+                                  onScrollFinished: this.onScrollFinished.bind(this)
                                 });
-    $(this.refs.curriculumList).foundation('reflow');
+    const activePath = _.trim(window.location.hash, EXPANDED_POSTFIX);
+    const activeId = window.location.hash ? `[name="${activePath.slice(1)}"]` : null;
+    this.scrollToActive(activeId);
   }
 
   componentWillUnmount() {
@@ -39,11 +46,20 @@ class ExploreCurriculumPage extends React.Component {
     }
   }
 
+  onScrollFinished(el) {
+    _.delay(() => { const yOffset = $(el).offset().top;
+                    if (Math.abs($(document).scrollTop() - yOffset) > 50) {
+                      $('html, body').scrollTop(yOffset);
+                    }
+                    $(this.refs.curriculumList).foundation('mutexScrollUnlock');
+                    $(this.refs.curriculumList).foundation('reflow');
+                  }, ANIMATION_DURATION / 4);
+  }
+
   scrollToActive(el) {
-    if ($(el).length) {
+    if (el && $(el).length) {
+      $(this.refs.curriculumList).foundation('mutexScrollLock');
       $(this.refs.curriculumList).foundation('scrollToLoc', el);
-      $('html, body').promise()
-                     .done( () => { $(this.refs.curriculumList).foundation('reflow'); });
     }
     else {
       this.updateUrl(null);
@@ -96,6 +112,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleClickExpand(parentage, e) {
+    if (e.target.nodeName === "A") return;
     e.preventDefault();
     const currentTarget = `#${e.currentTarget.id}`;
     if (parentage[parentage.length-1] === this.state.active[parentage.length-1]) {
@@ -109,6 +126,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleClickViewDetails(parentage, e) {
+    if (e.target.nodeName === "A") return;
     e.preventDefault();
     const currentTarget = `#${e.currentTarget.id}`;
     const id = _.last(parentage);
