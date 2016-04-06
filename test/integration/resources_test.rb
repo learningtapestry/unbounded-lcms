@@ -25,9 +25,7 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
   end
 
   def test_new_resource
-    visit '/admin/resources'
-    click_link 'Add Resource'
-    assert_equal current_path, '/admin/resources/new'
+    visit '/admin/resources/new'
 
     fill_in 'Title',       with: @title
     fill_in 'Subtitle',    with: @subtitle
@@ -110,6 +108,6 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
 
     assert_nil Resource.find_by_id(resource.id)
     assert_equal current_path, '/admin/resources'
-    assert_equal page.find('.alert.alert-success').text, "× Resource ##{resource.id} was deleted successfully."
+    assert_equal page.find('.callout.success').text, "Resource ##{resource.id} was deleted successfully. ×"
   end
 end

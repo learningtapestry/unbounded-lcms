@@ -1,6 +1,40 @@
 @import 'main';
+@import 'admin/resources';
+@import 'selectize';
 
 .c-admin {
   .menu { .active > a { background: inherit; } }
   .menu > li > a { line-height: inherit; }
+}
+
+.is-dropdown-submenu {
+  z-index: 2;
+}
+
+.o-page {
+  display: block;
+}
+
+.simple_form {
+  small.error {
+    color: #ec5840;
+    display: block;
+    font-weight: bold;
+    margin: -.5rem 0 1rem;
+  }
+
+  .input.error {
+    input {
+      border-color: #ec5840;
+    }
+
+    label {
+      color: #ec5840;
+      font-weight: bold;
+    }
+  }
+
+  .input .selectize-control {
+    margin-bottom: 1rem;
+  }
 }

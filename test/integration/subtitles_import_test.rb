@@ -15,22 +15,22 @@ class SubtitlesImportTestCase < ActionDispatch::IntegrationTest
   def test_validation
     click_button 'Import'
     assert_equal '/admin/subtitles_imports', current_path
-    assert_equal "can't be blank", page.find('.form-group.subtitles_importer_file.has-error .help-block').text
+    assert_equal "can't be blank", page.find('.input.subtitles_importer_file.error .error').text
 
     attach_file 'File', @not_spreadsheet
     click_button 'Import'
     assert_equal '/admin/subtitles_imports', current_path
-    assert_equal 'has incorrect type', page.find('.form-group.subtitles_importer_file.has-error .help-block').text
+    assert_equal 'has incorrect type', page.find('.input.subtitles_importer_file.error .error').text
 
     attach_file 'File', @not_enough_columns
     click_button 'Import'
     assert_equal '/admin/subtitles_imports', current_path
-    assert_equal 'incorrect format: 4 columns instead of 5', page.find('.form-group.subtitles_importer_file.has-error .help-block').text
+    assert_equal 'incorrect format: 4 columns instead of 5', page.find('.input.subtitles_importer_file.error .error').text
 
     attach_file 'File', @too_much_columns
     click_button 'Import'
     assert_equal '/admin/subtitles_imports', current_path
-    assert has_no_selector?('.form-group.subtitles_importer_file.has-error .help-block')
+    assert has_no_selector?('.input.subtitles_importer_file.error .error')
   end
 
   def test_results_page
@@ -62,20 +62,20 @@ class SubtitlesImportTestCase < ActionDispatch::IntegrationTest
   private
     def test_import(file)
       # ID 1 has EMPTY subtitle in the DB and NON-EMPTY subtitle in the file
-      resource1 = Resource.find_or_create_by!(id: 1)
+      resource1 = Resource.find_or_create_by!(id: 1, title: Faker::Lorem.sentence)
       resource1.update_column(:subtitle, nil)
       # ID 1 has NON-EMPTY description in the DB and NON-EMPTY description in the file
       resource1.update_column(:description, Faker::Lorem.paragraph)
 
       # ID 2 has NON-EMPTY subtitle in the DB and EMPTY subtitle in the file
-      resource2 = Resource.find_or_create_by!(id: 2)
+      resource2 = Resource.find_or_create_by!(id: 2, title: Faker::Lorem.sentence)
       subtitle2 = Faker::Lorem.sentence
       resource2.update_column(:subtitle, subtitle2)
       # ID 2 has EMPTY description in the DB and NON-EMPTY description in the file
       resource2.update_column(:description, nil)
 
       # ID 3 has NON-EMPTY subtitle in the DB and NON-EMPTY subtitle in the file
-      resource3 = Resource.find_or_create_by!(id: 3)
+      resource3 = Resource.find_or_create_by!(id: 3, title: Faker::Lorem.sentence)
       resource3.update_column(:subtitle, Faker::Lorem.sentence)
       # ID 3 has NON-EMPTY description in the DB and EMPTY description in the file
       description3 = Faker::Lorem.paragraph
@@ -85,7 +85,7 @@ class SubtitlesImportTestCase < ActionDispatch::IntegrationTest
       Resource.where(id: 4).delete_all
 
       # ID 5 has EMPTY both description and sutitles in the file
-      resource5 = Resource.find_or_create_by!(id: 5)
+      resource5 = Resource.find_or_create_by!(id: 5, title: Faker::Lorem.sentence)
       subtitle5 = Faker::Lorem.sentence
       resource5.update_column(:subtitle, subtitle5)
       description5 = Faker::Lorem.paragraph
