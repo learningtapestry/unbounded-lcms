@@ -14,7 +14,16 @@
       <% end %>
       <div class="o-page__section  u-bg--primary">
         <div class="o-content-title">
-          <%= link_to @curriculum.subject_and_grade_title, '#' %>
+          <%
+            @curriculum.self_and_ancestors.reverse.each_with_index do |ancestor|
+              is_last = ancestor.id == @curriculum.id
+              piece = is_last ?
+                @curriculum.resource.short_title :
+                ancestor.breadcrumb_piece
+          %>
+            <%= link_to piece, show_with_slug_path(ancestor.slug.value) %>
+            <%= ' / ' if !is_last %>
+          <% end %>
         </div>
       </div>
       <div class="o-page__section  u-pd-content u-bg--light">
