@@ -71,9 +71,11 @@ class Admin::ResourcesController < Admin::AdminController
         permit(
                 :description,
                 :hidden,
+                :resource_type,
                 :short_title,
                 :subtitle,
                 :title,
+                :url,
                 additional_resource_ids: [],
                 standard_ids: [],
                 resource_downloads_attributes: [:_destroy, :id, :download_category_id, { download_attributes: [:description, :file, :filename_cache, :id, :title] }],

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330231857) do
+ActiveRecord::Schema.define(version: 20160406102647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -243,10 +243,13 @@ ActiveRecord::Schema.define(version: 20160330231857) do
     t.string   "subject"
     t.boolean  "ell_appropriate", default: false, null: false
     t.datetime "deleted_at"
+    t.integer  "resource_type",   default: 1,     null: false
+    t.string   "url"
   end
 
   add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
+  add_index "resources", ["resource_type"], name: "index_resources_on_resource_type", using: :btree
 
   create_table "settings", force: :cascade do |t|
     t.boolean  "editing_enabled", default: true, null: false

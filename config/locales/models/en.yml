@@ -20,6 +20,7 @@ en:
         resource_downloads: Downloadable resources
         related_resources: Related materials
         status: Status
+        url: URL
       resource_child:
         child_id: Resource
       resource_collection:

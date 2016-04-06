@@ -17,10 +17,16 @@
 
 .resource-search-title {
   flex-grow: 1;
-  padding-right: 1%;
+  padding: 0 1%;
 }
 
 .resource-search-wrap {
+  flex-basis: 0;
+  flex-grow: 1;
   vertical-align: top !important;
-  width: 24% !important;
+  padding-right: 1%;
+
+  &:last-child {
+    padding: 0;
+  }
 }
