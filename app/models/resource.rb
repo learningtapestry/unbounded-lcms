@@ -1,6 +1,8 @@
 class Resource < ActiveRecord::Base
   include Search::ResourcesSearch
 
+  enum resource_type: { podcast: 2, resource: 1, video: 3 }
+
   acts_as_paranoid
 
   acts_as_taggable_on :content_sources,
@@ -42,6 +44,7 @@ class Resource < ActiveRecord::Base
   alias_attribute :slugs, :resource_slugs
 
   validates :title, presence: true
+  validates :url, presence: true, url: true, unless: :resource?
 
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
