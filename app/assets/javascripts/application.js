@@ -11,10 +11,16 @@
 //= require content_guides
 
 function ready() {
-  $(document).not('.o-cur-card__menu').foundation();
+  $(document).foundation();
   $(document).smoothscrolling();
   window.initializeContentGuide();
 }
 
+function readyTurbolinks() {
+  ready();
+  // initialize foundation event listeners (they are initializing on window.load)
+  Foundation.IHearYou();
+}
+
 $(document).on('ready', ready);
-$(document).on('page:load', ready);
+$(document).on('page:load', readyTurbolinks);

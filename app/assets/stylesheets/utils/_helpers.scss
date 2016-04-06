@@ -79,3 +79,10 @@ $bg: (
   padding-bottom: $ub-large-padding;
   padding-top: $ub-base-padding;
 }
+
+.u-link--disabled {
+  &, a {
+    color: $medium-gray;
+    cursor: not-allowed;
+  }
+}

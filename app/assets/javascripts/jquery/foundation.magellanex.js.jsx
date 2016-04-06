@@ -39,7 +39,9 @@ class MaggelanHash {
     });
     this.$active = $();
     this.scrollPos = parseInt(window.pageYOffset, 10);
+    this.isScrolling = false;
 
+    this.calcPoints();
     this._events();
   }
 
@@ -76,17 +78,6 @@ class MaggelanHash {
           duration: _this.options.animationDuration,
           easing:   _this.options.animationEasing
         };
-    // $(window).one('load', function(){
-    //   if(_this.options.deepLinking){
-    //     if(location.hash) {
-    //       //_this.scrollToLoc(location.hash);
-    //       // TODO after backend will support hashes
-    //       //_this.updateUrl(null);
-    //     }
-    //   }
-    //   _this.calcPoints();
-    //   _this._updateActive();
-    // });
 
     this.$element.on({
       'resizeme.zf.trigger': this.reflow.bind(this),
@@ -101,18 +92,30 @@ class MaggelanHash {
    */
   scrollToLoc(loc) {
     var scrollPos = Math.round($(loc).offset().top - this.options.threshold / 2 - this.options.barOffset);
-    $('html, body').stop(true).animate({ scrollTop: scrollPos }, this.options.animationDuration, this.options.animationEasing);
+    $('html, body').stop(true)
+                   .animate({ scrollTop: scrollPos }, this.options.animationDuration, this.options.animationEasing)
+                   .promise().always(() => { this.options.onScrollFinished(loc); });
   }
+
+  mutexScrollLock() {
+    this.isScrolling = true;
+  }
+
+  mutexScrollUnlock() {
+    this.isScrolling = false;
+  }
+
+  mutexScrollLocked() { return this.isScrolling; }
 
   /**
    * Calls necessary functions to update MaggelanHash upon DOM change
    * @function
    */
   reflow() {
+    if (this.mutexScrollLocked()) return;
     this.$targets = $('[data-magellanhash-target]');
     this.calcPoints();
     this._updateActive();
-    console.log('reflow: ' + this.$targets.length);
   }
 
   /**
@@ -122,6 +125,8 @@ class MaggelanHash {
    * @fires MaggelanHash#update
    */
   _updateActive(/*evt, elem, scrollPos*/) {
+    if (this.mutexScrollLocked()) return;
+
     var winPos = /*scrollPos ||*/ parseInt(window.pageYOffset, 10),
         curIdx;
 
@@ -155,7 +160,7 @@ class MaggelanHash {
      * Fires when magellanhash is finished updating to the new active element.
      * @event MaggelanHash#update
      */
-    this.$element.trigger('update.zf.magellanhash', [this.$active]);
+    //this.$element.trigger('update.zf.magellanhash', [this.$active]);
   }
 
   /**
@@ -215,6 +220,7 @@ MaggelanHash.defaults = {
    * @example
    */
   updateUrl: null,
+  onScrollFinished: null,
   /**
    * Number of pixels to offset the scroll of the page on item click if using a sticky nav bar.
    * @option
