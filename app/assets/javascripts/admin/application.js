@@ -6,6 +6,11 @@
 //= require sifter
 //= require selectize
 //= require turbolinks
+//= require react
+//= require react_ujs
+//= require ../routes
+//= require ../components
+//= require ./components
 
 $(function() {
   $(document).foundation();
