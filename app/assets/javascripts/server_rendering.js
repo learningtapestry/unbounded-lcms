@@ -1,5 +1,6 @@
 //= require react-server
 //= require components
+//= require admin/components
 
 /*
   Fixes server rendering in production.
