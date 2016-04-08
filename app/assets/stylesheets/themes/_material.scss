@@ -6,3 +6,7 @@ $ub-material-card-margin: 2px;
   margin-bottom: $ub-material-card-margin;
   border-radius: $ub-material-radius;
 }
+
+%map-transition {
+  transition: all .4s ease;
+}
