@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Foundation plugin
+ * Based on foundation Maggelan plugin
+ * for changing hash while scrolling
+ */
 !function($) {
 
 /**
@@ -78,7 +83,7 @@ class MaggelanHash {
           duration: _this.options.animationDuration,
           easing:   _this.options.animationEasing
         };
-        
+
     this.$element.on({
       'resizeme.zf.trigger': this.reflow.bind(this),
       'scrollme.zf.trigger': this._updateActive.bind(this)
@@ -96,7 +101,7 @@ class MaggelanHash {
                    .animate({ scrollTop: scrollPos }, this.options.animationDuration, this.options.animationEasing)
                    .promise().always(() => { this.options.onScrollFinished(loc); });
   }
-
+  
   mutexScrollLock() {
     this.isScrolling = true;
   }

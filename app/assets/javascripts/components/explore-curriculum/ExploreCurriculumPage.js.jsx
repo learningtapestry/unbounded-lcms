@@ -1,11 +1,10 @@
-const ANIMATION_DURATION = 400;
-const EXPANDED_POSTFIX = '--expanded';
-
 class ExploreCurriculumPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = this.buildStateFromProps(props);
+    this.ANIMATION_DURATION = 400;
+    this.EXPANDED_POSTFIX = '--expanded';
   }
 
   isExpanded(id) {
@@ -16,7 +15,7 @@ class ExploreCurriculumPage extends React.Component {
   updateUrl($active) {
     let hash = $active ? $active[0].getAttribute('name') : null;
     if ($active && this.isExpanded(parseInt($active[0].id))) {
-      hash += EXPANDED_POSTFIX;
+      hash += this.EXPANDED_POSTFIX;
     }
     if (window.history) {
       const newUrl = window.history.state.url.replace(/#.+/, '') + (hash ? `#${hash}` : '');
@@ -32,10 +31,10 @@ class ExploreCurriculumPage extends React.Component {
                                 { deepLinking: true,
                                   updateUrl: this.updateUrl.bind(this),
                                   threshold: 20,
-                                  animationDuration: ANIMATION_DURATION,
+                                  animationDuration: this.ANIMATION_DURATION,
                                   onScrollFinished: this.onScrollFinished.bind(this)
                                 });
-    const activePath = _.trim(window.location.hash, EXPANDED_POSTFIX);
+    const activePath = _.trim(window.location.hash, this.EXPANDED_POSTFIX);
     const activeId = window.location.hash ? `[name="${activePath.slice(1)}"]` : null;
     this.scrollToActive(activeId);
   }
@@ -53,7 +52,7 @@ class ExploreCurriculumPage extends React.Component {
                     }
                     $(this.refs.curriculumList).foundation('mutexScrollUnlock');
                     $(this.refs.curriculumList).foundation('reflow');
-                  }, ANIMATION_DURATION / 4);
+                  }, this.ANIMATION_DURATION / 4);
   }
 
   scrollToActive(el) {

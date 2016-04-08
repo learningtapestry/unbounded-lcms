@@ -54,6 +54,7 @@ class ExploreCurriculumCardItem extends React.Component {
     const hash = resource.path.replace(/^\//, '');
     const resourceType = resource.type.name == 'grade' ? 'curriculum' : resource.type.name;
     const downloadBtnLabel = `Download ${_.capitalize(resourceType)}`;
+    const downloadModalId = `downloads-modal-${resource.id}`;
 
     return (
       <div id={this.props.curriculum.id} name={hash} onClick={this.props.onClickElement} className={cssClasses} data-magellanhash-target>
@@ -69,7 +70,7 @@ class ExploreCurriculumCardItem extends React.Component {
         <div className={cssActionClasses}>
           <ul className="o-cur-card__menu o-cur-card__menu--medium o-cur-card--show-medium">
             <li><a className="o-ub-btn" href={resource.path}>View Details</a></li>
-            <li><a className={cssDownloadBtnClasses} onClick={this.props.onDownloads}>{downloadBtnLabel}</a></li>
+            <li><a className={cssDownloadBtnClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>
             <li><a className="o-ub-btn o-ub-btn--bordered o-ub-btn--disabled">Related Instruction</a></li>
           </ul>
           <ul className="o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short" ref="dropdown">
@@ -77,7 +78,7 @@ class ExploreCurriculumCardItem extends React.Component {
               <a href="#" className="o-cur-card__ellipsis"><i className="fa fa-lg fa-ellipsis-h"></i></a>
               <ul className="menu">
                 <li><a href={resource.path}>View Details</a></li>
-                <li><a className={cssDownloadLinkClasses}  onClick={this.props.onDownloads}>{downloadBtnLabel}</a></li>
+                <li><a className={cssDownloadLinkClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>
                 <li><a className="u-link--disabled" href="#">Related Instruction</a></li>
               </ul>
             </li>
