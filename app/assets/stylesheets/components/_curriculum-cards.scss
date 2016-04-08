@@ -46,6 +46,8 @@ $ub-cur-card-margin: 2px;
     @include menu-base;
     @include menu-direction(vertical);
 
+    li > a { z-index: $reveal-zindex - 1; }
+
     @include m(medium) {
       li > a {
         @include flex-align(center, middle);
