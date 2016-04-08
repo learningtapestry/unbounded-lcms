@@ -79,7 +79,7 @@ class ExploreCurriculumCardItem extends React.Component {
               <ul className="menu">
                 <li><a href={resource.path}>View Details</a></li>
                 <li><a className={cssDownloadLinkClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>
-                <li><a className="u-link--disabled" href="#">Related Instruction</a></li>
+                <li><a className="u-link--disabled">Related Instruction</a></li>
               </ul>
             </li>
           </ul>
