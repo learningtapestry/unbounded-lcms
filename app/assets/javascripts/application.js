@@ -12,12 +12,8 @@
 //= require components
 //= require content_guides
 
-$(function () {
-  function initialize() {
-    $(document).initFoundation();
-    $(document).smoothscrolling();
-    window.initializeContentGuide();
-  }
-
-  ready(initialize);
-})
+ready(function() {
+  $(document).initFoundation();
+  $(document).smoothscrolling();
+  window.initializeContentGuide();
+});
