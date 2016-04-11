@@ -58,10 +58,10 @@ class Filterbar extends React.Component {
 
   createQuery(state) {
     const query = {
-      subjects   : this.getSelected(state, 'subjects'),
-      grades     : this.getSelected(state, 'grades'),
-      facets     : this.getSelected(state, 'facets'),
-      search_term: state.search_term
+      s: this.getSelected(state, 'subjects'),
+      g: this.getSelected(state, 'grades'),
+      f: this.getSelected(state, 'facets'),
+      q: state.search_term
     };
     return query;
   }
@@ -130,7 +130,9 @@ class Filterbar extends React.Component {
       return res;
     }, {});
 
-    const encodedQuery = '?' + $.param(validFilters);
+    const query = serializeQuery(validFilters);
+    const encodedQuery = query ? '?' + serializeQuery(validFilters) :
+      window.location.pathname;
 
     // Make pushState play nice with Turbolinks.
     // Ref https://github.com/turbolinks/turbolinks-classic/issues/363
