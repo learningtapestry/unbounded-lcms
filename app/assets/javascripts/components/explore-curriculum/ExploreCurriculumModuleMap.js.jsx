@@ -1,6 +1,6 @@
 function ExploreCurriculumModuleMap(props) {
   const mapClass = classNames({
-    'o-cur-card__map': true,
+    'o-cur-card__map': true,    
     'o-cur-card__map--medium': props.expanded,
     'o-cur-card__map--short': !props.expanded
   });
@@ -12,6 +12,7 @@ function ExploreCurriculumModuleMap(props) {
   });
 
   const bemClass = _.partial(convertToBEM, mainClass);
+  const colorCodeClass = `cs-bg--${props.colorCode}`;
 
   const details = props.expanded ?
     <div className="o-ch-map__details">
@@ -23,7 +24,7 @@ function ExploreCurriculumModuleMap(props) {
 
     for (let j = 0; j < size; j++) {
       lessons.push((
-        <div key={j} className={bemClass('lesson')}></div>
+        <div key={j} className={classNames(bemClass('lesson'), colorCodeClass)}></div>
       ));
     }
 
@@ -38,7 +39,7 @@ function ExploreCurriculumModuleMap(props) {
     <div className={mapClass}>
       <div className={mainClass}>
         <div className={bemClass('module-wrap')}>
-          <div className={bemClass('module')}></div>
+          <div className={classNames(bemClass('module'), colorCodeClass)}></div>
         </div>
         <div className={bemClass('units-wrap')}>
           <div className={bemClass('units')}>

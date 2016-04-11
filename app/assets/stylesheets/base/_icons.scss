@@ -1,3 +1,117 @@
+@font-face {
+  font-family: 'ubicons';
+  src:  font-font-url('icons/ubicons.eot?av3fvp');
+  src:  font-url('icons/ubicons.eot?av3fvp#iefix') format('embedded-opentype'),
+    font-url('icons/ubicons.ttf?av3fvp') format('truetype'),
+    font-url('icons/ubicons.woff?av3fvp') format('woff'),
+    font-url('icons/ubicons.svg?av3fvp#ubicons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^='ub-'], [class*=' ub-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'ubicons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ub-angle-left:before {
+  content: '\e900';
+}
+.ub-cc-by:before {
+  content: '\e901';
+}
+.ub-cc-nc:before {
+  content: '\e902';
+}
+.ub-cc-nd:before {
+  content: '\e903';
+}
+.ub-cc-pd:before {
+  content: '\e904';
+}
+.ub-cc-remix:before {
+  content: '\e905';
+}
+.ub-cc-sa:before {
+  content: '\e906';
+}
+.ub-cc-share:before {
+  content: '\e907';
+}
+.ub-cc-stamp:before {
+  content: '\e908';
+}
+.ub-cc-zero:before {
+  content: '\e909';
+}
+.ub-close:before {
+  content: '\e90a';
+}
+.ub-angle-down:before {
+  content: '\e90b';
+}
+.ub-facebook:before {
+  content: '\e90c';
+}
+.ub-angle-right:before {
+  content: '\e90d';
+}
+.ub-arrow-right:before {
+  content: '\e90e';
+}
+.ub-file-image:before {
+  content: '\e90f';
+}
+.ub-search:before {
+  content: '\e910';
+}
+.ub-file-media:before {
+  content: '\e911';
+}
+.ub-file-pdf:before {
+  content: '\e912';
+}
+.ub-pinterest:before {
+  content: '\e913';
+}
+.ub-ellipsis:before {
+  content: '\e914';
+}
+.ub-share:before {
+  content: '\e915';
+}
+.ub-arrow-share:before {
+  content: '\e916';
+}
+.ub-spreadsheet:before {
+  content: '\e917';
+}
+.ub-file-text:before {
+  content: '\e918';
+}
+.ub-twitter:before {
+  content: '\e919';
+}
+.ub-vimeo:before {
+  content: '\e91a';
+}
+.ub-youtube:before {
+  content: '\e91b';
+}
+.ub-file-zip:before {
+  content: '\e91c';
+}
+
 .file-pdf:before {
   @extend .fa;
   content: $fa-var-file-pdf-o;

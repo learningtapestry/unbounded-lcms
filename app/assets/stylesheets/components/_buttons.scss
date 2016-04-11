@@ -1,3 +1,9 @@
+%ub-btn-font {
+  font-family: $header-font-family;
+  font-size: $small-font-size;
+  font-weight: bold;
+}
+
 .o-btn {
   @include m(light) {
     @extend .button;
@@ -6,7 +12,7 @@
   }
 
   @include m(base) {
-    @include button($background: $ub-btn-base, $color: $ub-txt);
+    @include button($background: $ub-btn-base, $color: $ub-white);
     font-weight: bold;
   }
 
@@ -45,4 +51,5 @@
   @include m(disabled) {
     @include button-disabled;
   }
+
 }

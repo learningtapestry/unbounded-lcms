@@ -1,15 +1,22 @@
 .o-title {
   @extend .u-text--small;
   font-weight: bold;
-  margin-bottom: $ub-small-margin;
+  //margin-bottom: $ub-small-margin;
   text-transform: uppercase;
 
-  @include e(title) {
-    float: left;
+  @include e(type) {
+    font-family: $ub-serif;
   }
 
   @include e(duration) {
     float: right;
+    font-weight: normal;
+  }
+
+  @each $code, $color in $ub-colorcodes {
+    @include m(#{$code}) {
+      background-color: $color;
+    }
   }
 }
 
