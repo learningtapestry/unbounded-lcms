@@ -14,20 +14,14 @@
   @include e(module) {
     @extend .u-text--small;
     @extend %map-transition;
-    background-color: $bg-base;
     color: $white;
+    font-family: $ub-serif;
     font-weight: bold;
     text-transform: uppercase;
   }
 
-  @include e(item) {
-    @include m(active) {
-      background-color: $bg-active !important;
-    }
-  }
-
   @include e(units-wrap) {
-    @extend %map-transition;
+    //@extend %map-transition;
     @include flex-grid-column();
   }
 
@@ -47,7 +41,6 @@
 
   @include e(lesson) {
     @extend %map-transition;
-    background-color: $bg-base;
   }
 
 }

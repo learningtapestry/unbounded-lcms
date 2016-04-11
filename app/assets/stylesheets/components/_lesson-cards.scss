@@ -1,0 +1,66 @@
+$lesson-dsc-short-lines: 4;
+$lesson-dsc-full-lines: 7;
+$lesson-dsc-full-font-size: $small-font-size;
+$lesson-dsc-full-line-height: 1.2;
+$lesson-card-height: 182px;
+
+.o-lesson-card {
+  @include flex();
+  @include margin-bottom-gutter();
+
+  @include m(base) {
+    @include flex-grid-column(12);
+
+    @include breakpoint(large) {
+      @include flex-grid-column(2.4);
+    }
+
+    @include breakpoint(medium only) {
+      @include flex-grid-column(4);
+    }
+  }
+
+  @include e(header) {
+    padding: $ub-base-padding / 2 $ub-base-padding;
+  }
+
+  @include e(duration) {
+    @extend .u-text--small;
+    font-weight: normal;
+    padding-top: $ub-small-padding;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  @include e(content) {
+    padding: $ub-base-padding;
+    min-height: $lesson-card-height;
+
+    @include m(base) {
+      color: $ub-txt;
+    }
+
+    @include m(hover) {
+      border-top: $ub-whitesmoke solid 1px;
+      color: $ub-white;
+      display: none;
+    }
+  }
+
+  @include e(dsc) {
+    @include m(short) {
+      @include clamp($lesson-dsc-short-lines);
+    }
+
+    @include m(full) {
+      @include clamp($lesson-dsc-full-lines);
+      font-size: $lesson-dsc-full-font-size;
+    }
+  }
+
+  &:hover, &:focus {
+    .o-lesson-card__content--base { display: none; }
+    .o-lesson-card__content--hover { display: inherit;}
+  }
+
+}

@@ -1,10 +1,33 @@
 $ub-cur-card-margin: 2px;
 
+@each $code, $color in $ub-colorcodes {
+  .o-cur-card-hover--#{$code} {
+    &:hover, &:focus {
+      background-color: $color !important;
+      .o-cur-card__actions {
+        [class^='o-ub-btn'] {
+          @include button-style($background: $ub-white, $background-hover: auto, $color: $color);
+        }
+        [class*=' o-ub-btn--bordered'] {
+          @include button-hollow;
+          @include button-hollow-style($ub-white);
+        }
+      }
+    }
+  }
+}
+
 .o-cur-card {
   @extend .u-wrap--light;
   @extend %material-card;
   @include flex-grid-row();
   cursor: pointer;
+
+  &:hover, &:focus {
+    color: $ub-white !important;
+    [class^='cs-bg'], [class*=' cs-bg'] { background-color: $ub-white !important; }
+    .o-cur-card__ellipsis { color: $ub-white; }
+  }
 
   @include e(map) {
     @include flex-grid-column(shrink);
@@ -20,23 +43,30 @@ $ub-cur-card-margin: 2px;
 
   @include e(body) {
     @include flex-grid-column();
-    @include inline-styles-override();
+    //@include inline-styles-override();
     @include zero-margin-bottom();
+  }
 
+  @include e(dsc) {
     @include m(short) {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      //overflow: hidden;
+      //text-overflow: ellipsis;
+      //white-space: nowrap;
+    }
+    @include m(full) {
+      //@include clamp(3);
     }
   }
 
   @include e(actions) {
     @include flex-grid-column(shrink);
+
     @include breakpoint(medium down) {
       @include flex-grid-column(12);
       margin-top: $ub-small-margin;
       text-align: center;
     }
+
     @include m(short) {
       @include flex-align-self(middle);
     }
@@ -58,13 +88,14 @@ $ub-cur-card-margin: 2px;
 
   @include e(ellipsis) {
     padding: 0 !important;
+    color: $ub-txt;
   }
 
   @include m(grade) {
     margin-bottom: $ub-xlarge-margin;
   }
 
-  @include m(show-medium)  { display: inherit;  }
+  @include m(show-medium)  { display: inherit; }
   @include m(show-short) { display: none; }
 
   @include m(short) {

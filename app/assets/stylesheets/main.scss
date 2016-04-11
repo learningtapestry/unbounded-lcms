@@ -3,7 +3,8 @@
 @import
   'utils/variables',
   'utils/mixins',
-  'utils/placeholders';
+  'utils/placeholders',
+  'base/colors';
 
 @import
   'themes/settings',
@@ -16,7 +17,8 @@
 
 @import
   'utils/styles_override',
-  'utils/helpers';
+  'utils/helpers',
+  'utils/colorcodes';
 
 @import
   'base/fonts',
@@ -26,6 +28,7 @@
 @import
   'components/buttons',
   'components/cards',
+  'components/lesson-cards',
   'components/curriculum-map',
   'components/curriculum-cards',
   'components/download-modal',

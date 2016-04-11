@@ -10,23 +10,25 @@ function SearchResultsHeader(props) {
       <div className="o-s-header__item">
         <div className="o-s-select">
           {
-            (props.onChangePerPage) ?
-              <div className="o-s-select__item">
-                <select value={props.per_page} onChange={props.onChangePerPage}>
-                  <option value="12">Show 12</option>
-                  <option value="24">Show 24</option>
-                </select>
-              </div>
-
-            : false
-          }
-
-          {
             (props.onChangeOrder) ?
               <div className="o-s-select__item">
                 <select value={props.order} onChange={props.onChangeOrder}>
                   <option value="asc">Sort by asc</option>
                   <option value="desc">Sort by desc</option>
+                </select>
+              </div>
+
+            : false
+          }
+          
+          {
+            (props.onChangePerPage) ?
+              <div className="o-s-select__item">
+                <select value={props.per_page} onChange={props.onChangePerPage}>
+                  <option value="20">20 per page</option>
+                  <option value="50">50 per page</option>
+                  <option value="100">100 per page</option>
+                  <option value="100">200 per page</option>
                 </select>
               </div>
 

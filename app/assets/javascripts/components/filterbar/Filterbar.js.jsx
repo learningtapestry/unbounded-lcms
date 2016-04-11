@@ -2,7 +2,7 @@ class Filterbar extends React.Component {
   constructor(props) {
     super(props);
 
-    const initialState = {
+    this.emptyState = {
       subjects: [
         { displayName: 'ELA', name: 'ela', selected: false },
         { displayName: 'MATH', name: 'math', selected: false }
@@ -27,8 +27,11 @@ class Filterbar extends React.Component {
         { displayName: 'CURRICULUM', name: 'curriculum', selected: false },
         { displayName: 'INSTRUCTION', name: 'instruction', selected: false }
       ],
-      search_term: this.props.search_term
+      search_term: null
     };
+
+    let initialState = _.cloneDeep(this.emptyState);
+    initialState.search_term = this.props.search_term;
 
     this.initSelectedFilters(initialState, 'subjects');
     this.initSelectedFilters(initialState, 'grades');
@@ -61,6 +64,10 @@ class Filterbar extends React.Component {
       search_term: state.search_term
     };
     return query;
+  }
+
+  onClickClear() {
+    this.setState(this.emptyState);
   }
 
   onClickGrade(incoming) {
@@ -138,30 +145,41 @@ class Filterbar extends React.Component {
       'mathDisplayName' :
       'displayName';
 
+    const subjectSelected =  _.find(state.subjects, 'selected');
+    const subjectName = subjectSelected ? subjectSelected.name : 'default';
+    const gradeSelected = _.find(state.grades, 'selected');
+
     return (
       <div>
         <div className='o-filterbar'>
-          <div className='o-filterbar__subjects-list'>
+          <div className='o-filterbar__list'>
             {state.subjects.map(subject => {
               return (
                 <FilterbarSubject
                   key={subject.name}
+                  colorCode={colorCodeCss(subject.name)}
                   onClick={this.onClickSubject.bind(this, subject)}
                   displayName={subject.displayName}
-                  selected={subject.selected} />
+                  selected={subject.selected || !subjectSelected} />
               );
             })}
           </div>
-          <div className='o-filterbar__grades-list'>
+          <div className='o-filterbar__list'>
             {state.grades.map(grade => {
               return (
                 <FilterbarGrade
                   key={grade.name}
+                  colorCode={colorCodeCss(subjectName, grade.name)}
                   onClick={this.onClickGrade.bind(this, grade)}
                   displayName={grade[gradeName]}
-                  selected={grade.selected} />
+                  selected={grade.selected || !gradeSelected} />
               );
             })}
+          </div>
+          <div className='o-filterbar__list hide-for-small-only'>
+             <div className='o-filterbar__item--clear o-filterbar__item--square' onClick={this.onClickClear.bind(this)}>
+               <i className="ub-close fa-2x"></i>
+             </div>
           </div>
         </div>
         <div className='o-filterbar'>

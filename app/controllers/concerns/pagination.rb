@@ -4,7 +4,7 @@ module Pagination
   included do
     def pagination_params
       @pagination_params ||= begin
-        default_params = { page: 1, per_page: 12, order: :asc }
+        default_params = { page: 1, per_page: 20, order: :asc }
         expected_params = params.slice(:page, :per_page, :order).symbolize_keys
         pagination = default_params.merge(expected_params)
 

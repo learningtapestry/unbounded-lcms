@@ -6,6 +6,7 @@ class ExploreCurriculumItem extends React.Component {
   render() {
     const props = this.props;
     const curriculum = this.curriculum();
+    const colorCode = colorCodeCss(curriculum.resource.subject, curriculum.resource.grade);
 
     // An item should expand if its parent is the last parent in the active branch.
     // Collapsed Grade -> Collapsed Mod -> Expanded Unit 1, Unit 2, Unit 3
@@ -17,7 +18,8 @@ class ExploreCurriculumItem extends React.Component {
       <ExploreCurriculumCardItem
         curriculum={curriculum}
         onClickElement={ shouldItemExpand ? props.onClickViewDetails.bind(this, props.parentage) : props.onClickExpand.bind(this, props.parentage)}
-        shouldItemExpand={shouldItemExpand}/>;
+        shouldItemExpand={shouldItemExpand}
+        colorCode={colorCode} />;
 
     // Children should be rendered if the item is a parent in the active branch.
     const shouldRenderChildren = props.active.length > 1 &&
@@ -31,7 +33,7 @@ class ExploreCurriculumItem extends React.Component {
     const children = shouldRenderChildren ?
       curriculum.children.map(c => (
         c.type === 'lesson' ?
-          <LessonCard key={c.resource.id} lesson={c.resource} type="light" /> :
+          <LessonCard key={c.resource.id} lesson={c.resource} type='light' colorCode={colorCode} /> :
           <ExploreCurriculumItem
             key={c.id}
             id={c.id}
