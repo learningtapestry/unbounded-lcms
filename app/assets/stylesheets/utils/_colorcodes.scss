@@ -1,0 +1,15 @@
+.cs-bg {
+  @each $code, $color in $ub-colorcodes {
+    @include m(#{$code}) {
+      background-color: $color;
+    }
+  }
+}
+
+.cs-txt {
+  @each $code, $color in $ub-colorcodes {
+    @include m(#{$code}) {
+      color: $color;
+    }
+  }
+}

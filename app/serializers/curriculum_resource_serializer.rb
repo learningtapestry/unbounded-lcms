@@ -14,7 +14,9 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     :time_to_teach,
     :type,
     :path,
-    :downloads
+    :downloads,
+    :subject,
+    :grade
 
   def id
     object.resource.id
@@ -33,7 +35,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def teaser
-    object.resource.teaser
+    Nokogiri::HTML(object.resource.teaser).text if object.resource.teaser
   end
 
   def description
@@ -41,7 +43,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def text_description
-    truncate_html(object.resource.text_description, length: 200)
+    truncate_html(object.resource.text_description, length: 240)
   end
 
   def time_to_teach
@@ -50,6 +52,14 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
 
   def type
     object.curriculum_type
+  end
+
+  def subject
+    object.resource.subject
+  end
+
+  def grade
+    object.resource.grade_type
   end
 
   def path

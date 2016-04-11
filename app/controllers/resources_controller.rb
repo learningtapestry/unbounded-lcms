@@ -25,6 +25,7 @@ class ResourcesController < ApplicationController
       end
 
       @resource = ResourcePresenter.new(resource)
+      @color_code = @resource.subject + '-' + @resource.grade_type
       @curriculum = CurriculumPresenter.new(curriculum)
     end
 end

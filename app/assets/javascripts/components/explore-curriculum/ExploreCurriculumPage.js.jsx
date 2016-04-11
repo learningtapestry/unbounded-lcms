@@ -18,7 +18,7 @@ class ExploreCurriculumPage extends React.Component {
       hash += this.EXPANDED_POSTFIX;
     }
     if (window.history) {
-      const newUrl = window.history.state.url.replace(/#.+/, '') + (hash ? `#${hash}` : '');
+      const newUrl = window.location.href.replace(/#.+/, '') + (hash ? `#${hash}` : '');
       const historyState = { turbolinks: true, url: newUrl };
       window.history.replaceState(historyState, null, newUrl);
     } else{
@@ -47,7 +47,7 @@ class ExploreCurriculumPage extends React.Component {
 
   onScrollFinished(el) {
     _.delay(() => { const yOffset = $(el).offset().top;
-                    if (Math.abs($(document).scrollTop() - yOffset) > 50) {
+                    if (Math.abs($(document).scrollTop() - yOffset) > 25) {
                       $('html, body').scrollTop(yOffset);
                     }
                     $(this.refs.curriculumList).foundation('mutexScrollUnlock');
@@ -173,9 +173,9 @@ class ExploreCurriculumPage extends React.Component {
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
-                <h2>Enhance Instruction with comprehensive content guides and educator videos.</h2>
+                <h2>Explore curriculum, then download or share anything yout want &mdash; it's free!</h2>
                 <div className="o-filterbar-title__subheader">
-                  Filter by subject or grade, or search to reveal assets.
+                  Filter by subject or grade, or search to reveal curriculum resources.
                 </div>
               </div>
               <Filterbar
@@ -184,7 +184,7 @@ class ExploreCurriculumPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page">
+        <div className="o-page u-margin-bottom--xlarge">
           <div className="o-page__module" ref="curriculumList">
             <ExploreCurriculumHeader totalItems={this.state.curriculums.length} />
             {curriculums}

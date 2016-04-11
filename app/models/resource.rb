@@ -103,8 +103,9 @@ class Resource < ActiveRecord::Base
   end
 
   def text_description
-    doc = Nokogiri::HTML(description)
-    doc.xpath('//p/text()').text
+    # doc = Nokogiri::HTML(description)
+    # doc.xpath('//p/text()').text
+    Nokogiri::HTML(description).text
   rescue
     nil
   end
@@ -135,6 +136,16 @@ class Resource < ActiveRecord::Base
 
   def math?
     subject == 'math'
+  end
+
+  def grade_type
+    grades.each do |g|
+      grade = g.name.downcase
+      return 'k' if grade == 'kindergarten'
+      return 'pk' if grade == 'prekindergarten'
+      return grade[/\d+/] if grade[/\d+/]
+    end
+    'base'
   end
 
   # Tags

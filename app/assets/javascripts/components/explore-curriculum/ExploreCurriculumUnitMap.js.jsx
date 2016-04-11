@@ -12,6 +12,7 @@ function ExploreCurriculumUnitMap(props) {
   });
 
   const bemClass = _.partial(convertToBEM, mainClass);
+  const colorCodeClass = `cs-bg--${props.colorCode}`;
 
   const details = props.expanded ?
     <div className="o-ch-map__details">
@@ -22,7 +23,7 @@ function ExploreCurriculumUnitMap(props) {
 
   for (let i = 0; i < props.curriculum.lesson_count; i++) {
     lessons.push((
-      <div key={i} className={bemClass('lesson')}></div>
+      <div key={i} className={classNames(bemClass('lesson'), colorCodeClass)}></div>
     ));
   }
 
