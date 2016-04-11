@@ -30,8 +30,8 @@ Rails.application.routes.draw do
     resources :content_guide_standards, only: :index
     resources :content_guides, only: %i(index new destroy) do
       collection do
-        get :dangling_links
         get :import
+        get :links_validation
       end
     end
     resource :curriculum_export, only: %i(new create)

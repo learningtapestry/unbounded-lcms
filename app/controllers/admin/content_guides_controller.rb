@@ -17,11 +17,6 @@ module Admin
       redirect_to :admin_content_guides, notice: t('.success', name: content_guide.name)
     end
 
-    # GET /content_guides/dangling_links
-    def dangling_links
-      @content_guides = ContentGuide.all.map { |d| ContentGuidePresenter.new(d, request.base_url, view_context) }
-    end
-
     # GET /content_guides/import
     def import
       file_id = ContentGuide.file_id_from_url(params[:content_guide][:url])
@@ -30,6 +25,11 @@ module Admin
       content_guide = ContentGuide.import(file_id, google_credentials)
 
       redirect_to :admin_content_guides, notice: t('.success', name: content_guide.name)
+    end
+
+    # GET /content_guides/links_validation
+    def links_validation
+      @content_guides = ContentGuide.all.map { |d| ContentGuidePresenter.new(d, request.base_url, view_context) }
     end
   end
 end

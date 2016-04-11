@@ -52,8 +52,6 @@ en:
       index:
         page_title: Content Guide Standards
     content_guides:
-      dangling_links:
-        page_title: Dangling Links
       destroy:
         success: "'%{name}' deleted successfully."
       import:
@@ -61,6 +59,8 @@ en:
       index:
         original_document: Original document
         page_title: Content Guides
+      links_validation:
+        page_title: Links Validation
       new:
         page_title: Import Content Guide
         submit: Import
@@ -193,7 +193,7 @@ en:
       staff_members: Staff members
       content_guides: Content guides
       users: Users
-      find_dangling_links: Find Dangling Links
+      validate_links: Validate Links
       glossary: Glossary
       import_content_guide: Import Content Guide
       import_glossary: Import Glossary
