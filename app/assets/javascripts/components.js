@@ -3,4 +3,5 @@
 //= require fetch
 //= require classnames
 //= require lodash
+//= require_tree ./components/utils
 //= require_tree ./components
