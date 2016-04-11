@@ -77,7 +77,7 @@ class EnhanceInstructionPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page">
+        <div className="o-page u-margin-bottom--xlarge">
           <Tabs tabActive={1} className='c-eh-tab o-page__module'>
              <Tabs.Panel title='Content Guides'>
                <SearchResultsHeader

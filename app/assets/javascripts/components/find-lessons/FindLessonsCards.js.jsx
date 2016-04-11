@@ -3,7 +3,8 @@ function FindLessonsCards(props) {
     <div className="o-page__wrap--row-nest">
       {props.lessons.map(lesson => {
         const key = `${lesson.id}_${lesson.curriculum_id}`;
-        return (<LessonCard key={key} lesson={lesson} type='base' />);
+        return (<LessonCard key={key} lesson={lesson} type='light'
+                            colorCode={colorCodeCss(lesson.subject, lesson.grade)} />);
       })}
     </div>
   );

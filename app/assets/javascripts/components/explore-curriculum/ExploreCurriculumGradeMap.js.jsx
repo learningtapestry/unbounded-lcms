@@ -28,7 +28,7 @@ function ExploreCurriculumGradeMap(props) {
     const styles = { width: `${scale(size)}%` };
     return (
       <div key={i} className={bemClass('module-wrap')}>
-        <div className={bemClass('module')} style={styles}></div>
+        <div className={classNames(bemClass('module'), `cs-bg--${props.colorCode}`)} style={styles}></div>
       </div>
     );
   });

@@ -19,6 +19,10 @@
     @include flex-grid-column(6, 0);
   }
 
+  @include e(dsc) {
+    padding-right: $ub-base-padding;
+  }
+
   @include e(list) {
     @include menu-simple;
     margin: 0;
