@@ -50,7 +50,7 @@ class ExploreCurriculumPage extends React.Component {
                                   onScrollFinished: this.onScrollFinished.bind(this)
                                 });
 
-    if (this.state.active.length > 0) {
+    if (this.scrollImmediately) {
       const lastActive = _.last(this.state.active);
       this.scrollToActive(document.getElementById(lastActive));
     }
@@ -83,7 +83,15 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   buildStateFromProps(props) {
-    const active = props.active ? props.active : [props.results[0].id];
+    let active;
+
+    if (props.active) {
+      active = props.active;
+      this.scrollImmediately = true;
+    } else {
+      active = [props.results[0].id];
+    }
+
     return {
       curriculums: props.results,
       curriculumsIndex: this.buildIndex(props.results),
