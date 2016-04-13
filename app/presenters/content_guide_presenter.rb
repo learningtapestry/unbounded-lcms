@@ -147,6 +147,19 @@ class ContentGuidePresenter < SimpleDelegator
     end
   end
 
+  def process_pullquotes
+    find_custom_tags('pullquote') do |tag|
+      table = next_element_with_name(tag, 'table')
+      tag.remove
+      return unless table && table.css('td').size == 1
+
+      pullquote = doc.document.create_element('div')
+      pullquote[:class] = 'c-cg-pullquote callout secondary'
+      pullquote.inner_html = table.at_css('td').inner_html
+      table.replace(pullquote)
+    end
+  end
+
   def process_standards
     find_custom_tags('standards').each do |tag|
       table = next_element_with_name(tag, 'table')
@@ -286,6 +299,7 @@ class ContentGuidePresenter < SimpleDelegator
     process_blockquotes
     process_broken_images
     process_footnote_links
+    process_pullquotes
     process_standards
     process_tasks
     realign_tables
