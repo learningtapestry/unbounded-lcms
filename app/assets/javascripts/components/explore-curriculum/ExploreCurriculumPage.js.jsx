@@ -19,14 +19,11 @@ class ExploreCurriculumPage extends React.Component {
     });
 
     if ($active) {
-      const slug = $active[0].getAttribute('name');
+      query.push('p=' + $active[0].getAttribute('name'));
 
-      const checkSlug = new RegExp(`p=${RegExp.escape(slug)}&?`);
-      if (checkSlug.test(location.search)) {
-        return;
+      if (this.state.active[this.state.active.length-2] == $active[0].id) {
+        query.push('e=1');
       }
-
-      query.push('p=' + slug);
     }
 
     if (window.history) {
@@ -51,8 +48,11 @@ class ExploreCurriculumPage extends React.Component {
                                 });
 
     if (this.scrollImmediately) {
-      const lastActive = _.last(this.state.active);
-      this.scrollToActive(document.getElementById(lastActive));
+      let elm = document.getElementById(this.state.active[this.state.active.length-1]);
+      if (!elm) {
+        elm = document.getElementById(this.state.active[this.state.active.length-2]);
+      }
+      this.scrollToActive(elm);
     }
   }
 
@@ -103,7 +103,6 @@ class ExploreCurriculumPage extends React.Component {
   buildIndex(curriculums, zip = {}) {
     _.forEach(curriculums, curriculum => {
       zip[curriculum.id] = curriculum;
-      console.log(curriculum);
 
       if (curriculum.children.length) {
         this.buildIndex(curriculum.children, zip);
