@@ -16,7 +16,8 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     :path,
     :downloads,
     :subject,
-    :grade
+    :grade,
+    :breadcrumb_title
 
   def id
     object.resource.id
