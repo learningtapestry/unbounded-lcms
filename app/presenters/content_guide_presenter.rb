@@ -19,6 +19,10 @@ class ContentGuidePresenter < SimpleDelegator
     @wrap_keywords = wrap_keywords
   end
 
+  def broken_images
+    @broken_images ||= doc.css('[src*="google.com"]')
+  end
+
   def dangling_links
     cache('dangling_links') do
       doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
@@ -122,6 +126,12 @@ class ContentGuidePresenter < SimpleDelegator
       blockquote = doc.document.create_element('blockquote')
       blockquote.inner_html = table.at_css('td').inner_html
       table.replace(blockquote)
+    end
+  end
+
+  def process_broken_images
+    broken_images.each do |img|
+      img[:style] = 'border: 5px solid #f00'
     end
   end
 
@@ -274,6 +284,7 @@ class ContentGuidePresenter < SimpleDelegator
     embed_audios
     embed_videos
     process_blockquotes
+    process_broken_images
     process_footnote_links
     process_standards
     process_tasks
