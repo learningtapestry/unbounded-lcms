@@ -46,16 +46,20 @@ class ExploreCurriculumController < ApplicationController
           hrchy = [:grade, :module, :unit]
           depth = hrchy.find_index(target_curriculum.current_level) + 1
           active_branch = target_curriculum.self_and_ancestor_ids.reverse[1..-1]
-          if target_curriculum.children.size > 0
+          if params[:e].present?
             depth += 1
-            active_branch << target_curriculum.children.first.id
+
+            if target_curriculum.children.size > 0
+              active_branch << target_curriculum.children.first.id
+            end
           end
 
           {
             active: active_branch,
             results: @curriculums.map do |c|
               CurriculumSerializer.new(c,
-                depth: c.id == parent_curriculum.id ? depth : 0
+                depth: c.id == parent_curriculum.id ? depth : 0,
+                depth_branch: active_branch
               ).as_json
             end
           }
