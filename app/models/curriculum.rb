@@ -434,6 +434,16 @@ class Curriculum < ActiveRecord::Base
     self.breadcrumb_short_title = short_pieces.join(' / ')
   end
 
+  def grade_color_code
+    current_grade.resource.grades.each do |g|
+      grade = g.name.downcase
+      return 'k' if grade == 'kindergarten'
+      return 'pk' if grade == 'prekindergarten'
+      return grade[/\d+/] if grade[/\d+/]
+    end
+    'base'
+  end
+
   # Drawing (for debugging)
   def self._draw_node_recursively(node, depth, stop_at)
     padding = '  '*depth

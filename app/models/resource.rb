@@ -138,19 +138,6 @@ class Resource < ActiveRecord::Base
     subject == 'math'
   end
 
-  def grade_type
-    if short_title.downcase.start_with?('skills strand')
-      return 'base'
-    end
-    grades.each do |g|
-      grade = g.name.downcase
-      return 'k' if grade == 'kindergarten'
-      return 'pk' if grade == 'prekindergarten'
-      return grade[/\d+/] if grade[/\d+/]
-    end
-    'base'
-  end
-
   # Tags
 
   def update_download_types

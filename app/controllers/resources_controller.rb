@@ -25,8 +25,7 @@ class ResourcesController < ApplicationController
       end
 
       @resource = ResourcePresenter.new(resource)
-      @color_code = (@resource.subject.present? && @resource.grade_type.present?) ?
-                     @resource.subject + '-' + @resource.grade_type : 'base'
+      @color_code = curriculum.try(:grade_color_code) || 'base'
       @curriculum = CurriculumPresenter.new(curriculum)
     end
 end

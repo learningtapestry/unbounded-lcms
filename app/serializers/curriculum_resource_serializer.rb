@@ -60,7 +60,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def grade
-    object.resource.grade_type
+    object.grade_color_code
   end
 
   def path
