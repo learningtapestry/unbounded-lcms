@@ -4,25 +4,40 @@ class ExploreCurriculumPage extends React.Component {
 
     this.state = this.buildStateFromProps(props);
     this.ANIMATION_DURATION = 400;
-    this.EXPANDED_POSTFIX = '--expanded';
-  }
-
-  isExpanded(id) {
-    const activeLength = this.state.active.length;
-    return activeLength > 1 && _.lastIndexOf(this.state.active, id, activeLength - 2) != -1;
   }
 
   updateUrl($active) {
-    let hash = $active ? $active[0].getAttribute('name') : null;
-    if ($active && this.isExpanded(parseInt($active[0].id))) {
-      hash += this.EXPANDED_POSTFIX;
+    if (!$active && !/p=/.test(location.search)) {
+      return;
     }
+
+    let query = [];
+
+    const queryStringArr = window.location.search.slice(1).split('&');
+    query = _.filter(queryStringArr, function(piece) {
+      return !(piece.startsWith('e=') || piece.startsWith('p='));
+    });
+
+    if ($active) {
+      const slug = $active[0].getAttribute('name');
+
+      const checkSlug = new RegExp(`p=${RegExp.escape(slug)}&?`);
+      if (checkSlug.test(location.search)) {
+        return;
+      }
+
+      query.push('p=' + slug);
+    }
+
     if (window.history) {
-      const newUrl = window.location.href.replace(/#.+/, '') + (hash ? `#${hash}` : '');
+      const prefix = window.location.pathname;
+      const queryString = query.length ? '?' + query.join('&') : '';
+      let newUrl = prefix + queryString;
+      if (newUrl[newUrl.length-1] == '?') {
+        newUrl = newUrl.slice(0, -1);
+      }
       const historyState = { turbolinks: true, url: newUrl };
       window.history.replaceState(historyState, null, newUrl);
-    } else{
-      window.location.hash = hash;
     }
   }
 
@@ -34,9 +49,11 @@ class ExploreCurriculumPage extends React.Component {
                                   animationDuration: this.ANIMATION_DURATION,
                                   onScrollFinished: this.onScrollFinished.bind(this)
                                 });
-    const activePath = _.trim(window.location.hash, this.EXPANDED_POSTFIX);
-    const activeId = window.location.hash ? `[name="${activePath.slice(1)}"]` : null;
-    this.scrollToActive(activeId);
+
+    if (this.state.active.length > 0) {
+      const lastActive = _.last(this.state.active);
+      this.scrollToActive(document.getElementById(lastActive));
+    }
   }
 
   componentWillUnmount() {
@@ -66,22 +83,39 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   buildStateFromProps(props) {
+    const active = props.active ? props.active : [props.results[0].id];
     return {
       curriculums: props.results,
       curriculumsIndex: this.buildIndex(props.results),
       filterbar: props.filterbar,
-      active: [props.results[0].id]
+      active: active
     };
   }
 
-  buildIndex(curriculums) {
-    return _.zipObject(_.pluck(curriculums, 'id'), curriculums);
+  buildIndex(curriculums, zip = {}) {
+    _.forEach(curriculums, curriculum => {
+      zip[curriculum.id] = curriculum;
+      console.log(curriculum);
+
+      if (curriculum.children.length) {
+        this.buildIndex(curriculum.children, zip);
+      }
+    });
+
+    return zip;
   }
 
   createQuery(state) {
+    let filterbarQuery = {};
+    _.forEach(state.filterbar, (val, k) => {
+      if (!_.isArray(val)) return;
+      if (val.length === 0) return;
+      filterbarQuery[k] = val.join(',');
+    });
+
     return {
       format: 'json',
-      ...state.filterbar
+      ...filterbarQuery
     };
   }
 
@@ -130,19 +164,21 @@ class ExploreCurriculumPage extends React.Component {
     const currentTarget = `#${e.currentTarget.id}`;
     const id = _.last(parentage);
     const cur = this.state.curriculumsIndex[id];
+    const hasCached = cur &&
+      (cur.requested ||
+        (cur.children.length &&
+          this.state.curriculumsIndex[cur.children[0].id]));
 
-    if (cur && cur.requested) {
+    if (hasCached) {
       this.setActive(parentage, cur, currentTarget);
     } else {
       this.fetchOne(id).then(response => {
         response.requested = true;
+        const newIndex = { ...this.state.curriculumsIndex };
+        this.buildIndex([response], newIndex);
         this.setState({
           ...this.state,
-          curriculumsIndex: {
-            ...this.state.curriculumsIndex,
-            ...this.buildIndex(response.children),
-            [response.id]: response
-          },
+          curriculumsIndex: newIndex,
           active: this.getActive(parentage, response)
         }, this.scrollToActive.bind(this, currentTarget));
       });

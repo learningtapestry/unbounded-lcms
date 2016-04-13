@@ -51,13 +51,12 @@ class ExploreCurriculumCardItem extends React.Component {
     );
 
     const description = { __html: resource.description };
-    const hash = resource.path.replace(/^\//, '');
     const resourceType = resource.type.name == 'grade' ? 'curriculum' : resource.type.name;
     const downloadBtnLabel = `Download ${_.capitalize(resourceType)}`;
     const downloadModalId = `downloads-modal-${resource.id}`;
 
     return (
-      <div id={props.curriculum.id} name={hash} onClick={props.onClickElement} className={cssClasses} data-magellanhash-target>
+      <div id={props.curriculum.id} name={resource.path} onClick={props.onClickElement} className={cssClasses} data-magellanhash-target>
         {curriculumMap}
         <div className="o-cur-card__body">
           <div className="o-title">
