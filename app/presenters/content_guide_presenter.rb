@@ -117,7 +117,7 @@ class ContentGuidePresenter < SimpleDelegator
   end
 
   def process_blockquotes
-    find_custom_tags('blockquotes') do |tag|
+    find_custom_tags('blockquote') do |tag|
       table = next_element_with_name(tag, 'table')
       tag.remove
       return unless table
