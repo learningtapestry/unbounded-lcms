@@ -47,7 +47,7 @@
 
 $global-font-size: 100%;
 $global-width: rem-calc(1230);
-$global-lineheight: 1.5;
+$global-lineheight: 1.4;
 $foundation-palette: (
   primary: $ub-primary,
   secondary: $ub-secondary,
@@ -62,7 +62,7 @@ $black: #0a0a0a;
 $white: $ub-white;
 $body-background: $ub-page-bg;
 $body-font-color: $ub-txt;
-$body-font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$body-font-family: $ub-sanserif;
 $body-antialiased: true;
 $global-margin: $ub-base-margin;
 $global-padding: $ub-base-padding;
@@ -102,8 +102,8 @@ $block-grid-max: 8;
 // 4. Base Typography
 // ------------------
 
-$header-font-family: $body-font-family;
-$header-font-weight: $global-weight-bold;
+$header-font-family: $ub-serif;
+$header-font-weight: $global-weight-normal;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-sizes: (
@@ -125,7 +125,7 @@ $header-sizes: (
   ),
 );
 $header-color: inherit;
-$header-lineheight: 1.4;
+$header-lineheight: 1.2;
 $header-margin-bottom: 0.5rem;
 $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;

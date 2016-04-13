@@ -33,7 +33,7 @@ class PagesTestCase < ActionDispatch::IntegrationTest
   def test_show_page
     logout
     visit "/pages/#{@page.id}"
-    assert_equal find('h2').text,         @page.title
+    assert_equal first(:h2, 'h2').text, @page.title
     assert_equal find('.page-body').text, @page.body
   end
 
@@ -57,7 +57,7 @@ class PagesTestCase < ActionDispatch::IntegrationTest
     visit '/admin/pages'
     within "#page_#{@page.id}" do
       click_button 'Delete'
-    end    
+    end
     assert_nil Page.find_by_id(@page.id)
     assert_equal current_path, '/admin/pages'
     assert_equal find('.callout.success').text, 'Page deleted successfully. ×'

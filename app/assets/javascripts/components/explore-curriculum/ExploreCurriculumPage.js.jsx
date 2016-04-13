@@ -1,44 +1,136 @@
-const ANIMATION_DURATION = 800;
-
 class ExploreCurriculumPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = this.buildStateFromProps(props);
+    this.ANIMATION_DURATION = 400;
   }
 
-  getYOffset(activeId) {
-    let yOffset = $('#' + activeId).offset().top;
-    yOffset -= ($(window).scrollTop() < yOffset) ? 0 : 20;
-    return yOffset;
+  updateUrl($active) {
+    if (!$active && !/p=/.test(location.search)) {
+      return;
+    }
+
+    let query = [];
+
+    const queryStringArr = window.location.search.slice(1).split('&');
+    query = _.filter(queryStringArr, function(piece) {
+      return !(piece.startsWith('e=') || piece.startsWith('p='));
+    });
+
+    if ($active) {
+      query.push('p=' + $active[0].getAttribute('name'));
+
+      if (this.state.active[this.state.active.length-2] == $active[0].id) {
+        query.push('e=1');
+      }
+    }
+
+    if (window.history) {
+      const prefix = window.location.pathname;
+      const queryString = query.length ? '?' + query.join('&') : '';
+      let newUrl = prefix + queryString;
+      if (newUrl[newUrl.length-1] == '?') {
+        newUrl = newUrl.slice(0, -1);
+      }
+      const historyState = { turbolinks: true, url: newUrl };
+      window.history.replaceState(historyState, null, newUrl);
+    }
   }
 
-  scrollToActive(activeOffset=2) {
-    const activeId = this.state.active[Math.max(0, this.state.active.length - activeOffset)];
-    const yOffset = this.getYOffset(activeId);
-    $('html, body').stop(true)
-                   .animate({ scrollTop: yOffset },
-                            ANIMATION_DURATION, 'linear',
-                            () => {window.location.hash = activeId;});
+  componentDidMount() {
+    new Foundation.MaggelanHash($(this.refs.curriculumList),
+                                { deepLinking: true,
+                                  updateUrl: this.updateUrl.bind(this),
+                                  threshold: 20,
+                                  animationDuration: this.ANIMATION_DURATION,
+                                  onScrollFinished: this.onScrollFinished.bind(this)
+                                });
+    let elm;
+    if (this.scrollImmediately === 'item') {
+      elm = document.getElementById(this.state.active[this.state.active.length-1]);
+      if (!elm) {
+        elm = document.getElementById(this.state.active[this.state.active.length-2]);
+      }
+      this.scrollToActive(elm);
+    } else if (this.scrollImmediately === 'expanded') {
+      elm = document.getElementById(this.state.active[this.state.active.length-2]);
+      this.scrollToActive(elm);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.refs.curriculumList) {
+      $(this.refs.curriculumList).foundation('destroy');
+    }
+  }
+
+  onScrollFinished(el) {
+    _.delay(() => { const yOffset = $(el).offset().top;
+                    if (Math.abs($(document).scrollTop() - yOffset) > 25) {
+                      $('html, body').scrollTop(yOffset);
+                    }
+                    $(this.refs.curriculumList).foundation('mutexScrollUnlock');
+                    $(this.refs.curriculumList).foundation('reflow');
+                  }, this.ANIMATION_DURATION / 4);
+  }
+
+  scrollToActive(el) {
+    if (el && $(el).length) {
+      $(this.refs.curriculumList).foundation('mutexScrollLock');
+      $(this.refs.curriculumList).foundation('scrollToLoc', el);
+    }
+    else {
+      this.updateUrl(null);
+    }
   }
 
   buildStateFromProps(props) {
+    let active;
+
+    if (props.active) {
+      active = props.active;
+
+      if (props.expanded) {
+        this.scrollImmediately = 'expanded';
+      } else {
+        this.scrollImmediately = 'item';
+      }
+    } else {
+      active = [props.results[0].id];
+    }
+
     return {
       curriculums: props.results,
       curriculumsIndex: this.buildIndex(props.results),
       filterbar: props.filterbar,
-      active: [props.results[0].id]
+      active: active
     };
   }
 
-  buildIndex(curriculums) {
-    return _.zipObject(_.pluck(curriculums, 'id'), curriculums);
+  buildIndex(curriculums, zip = {}) {
+    _.forEach(curriculums, curriculum => {
+      zip[curriculum.id] = curriculum;
+
+      if (curriculum.children.length) {
+        this.buildIndex(curriculum.children, zip);
+      }
+    });
+
+    return zip;
   }
 
   createQuery(state) {
+    let filterbarQuery = {};
+    _.forEach(state.filterbar, (val, k) => {
+      if (!_.isArray(val)) return;
+      if (val.length === 0) return;
+      filterbarQuery[k] = val.join(',');
+    });
+
     return {
       format: 'json',
-      ...state.filterbar
+      ...filterbarQuery
     };
   }
 
@@ -60,42 +152,50 @@ class ExploreCurriculumPage extends React.Component {
         [...parentage];
   }
 
-  setActive(parentage, cur) {
+  setActive(parentage, cur, el) {
     this.setState({
       ...this.state,
       active: this.getActive(parentage, cur)
-    }, this.scrollToActive);
+    }, this.scrollToActive.bind(this, el));
   }
 
-  handleClickExpand(parentage) {
+  handleClickExpand(parentage, e) {
+    if (e.target.nodeName === "A") return;
+    e.preventDefault();
+    const currentTarget = `#${e.currentTarget.id}`;
     if (parentage[parentage.length-1] === this.state.active[parentage.length-1]) {
       this.setState({
         ...this.state,
         active: parentage
-      }, this.scrollToActive.bind(this, 1));
+      }, this.scrollToActive.bind(this, currentTarget));
     } else {
-      this.handleClickViewDetails(parentage);
+      this.handleClickViewDetails(parentage, e);
     }
   }
 
-  handleClickViewDetails(parentage) {
+  handleClickViewDetails(parentage, e) {
+    if (e.target.nodeName === "A") return;
+    e.preventDefault();
+    const currentTarget = `#${e.currentTarget.id}`;
     const id = _.last(parentage);
     const cur = this.state.curriculumsIndex[id];
+    const hasCached = cur &&
+      (cur.requested ||
+        (cur.children.length &&
+          this.state.curriculumsIndex[cur.children[0].id]));
 
-    if (cur && cur.requested) {
-      this.setActive(parentage, cur);
+    if (hasCached) {
+      this.setActive(parentage, cur, currentTarget);
     } else {
       this.fetchOne(id).then(response => {
         response.requested = true;
+        const newIndex = { ...this.state.curriculumsIndex };
+        this.buildIndex([response], newIndex);
         this.setState({
           ...this.state,
-          curriculumsIndex: {
-            ...this.state.curriculumsIndex,
-            ...this.buildIndex(response.children),
-            [response.id]: response
-          },
+          curriculumsIndex: newIndex,
           active: this.getActive(parentage, response)
-        }, this.scrollToActive);
+        }, this.scrollToActive.bind(this, currentTarget));
       });
     }
   }
@@ -124,9 +224,9 @@ class ExploreCurriculumPage extends React.Component {
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
-                <h2>Enhance Instruction with comprehensive content guides and educator videos.</h2>
+                <h2>Explore curriculum, then download or share anything yout want &mdash; it's free!</h2>
                 <div className="o-filterbar-title__subheader">
-                  Filter by subject or grade, or search to reveal assets.
+                  Filter by subject or grade, or search to reveal curriculum resources.
                 </div>
               </div>
               <Filterbar
@@ -135,8 +235,8 @@ class ExploreCurriculumPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page">
-          <div className="o-page__module">
+        <div className="o-page u-margin-bottom--xlarge">
+          <div className="o-page__module" ref="curriculumList">
             <ExploreCurriculumHeader totalItems={this.state.curriculums.length} />
             {curriculums}
           </div>

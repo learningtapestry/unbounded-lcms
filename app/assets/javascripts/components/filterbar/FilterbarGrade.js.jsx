@@ -1,7 +1,10 @@
 function FilterbarGrade(props, context) {
-  const className = props.selected ?
-    'o-filterbar__grades-list__grade o-filterbar__grades-list__grade--selected' :
-    'o-filterbar__grades-list__grade';
+  const className = classNames(
+    'o-filterbar__item',
+    'o-filterbar__item--square',
+    `o-filterbar__item--${props.colorCode}`,
+    {'o-filterbar__item--deselected': !props.selected }
+  );
 
   return (
     <div className={className} onClick={props.onClick}>

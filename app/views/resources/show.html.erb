@@ -12,14 +12,23 @@
           <%= t('resources.btn.view', short_title: @curriculum.parent.resource.short_title) + ': ' + @curriculum.parent.resource.title %>
         <% end %>
       <% end %>
-      <div class="o-page__section  u-bg--primary">
+      <div class="o-page__section cs-bg--<%= @color_code %>">
         <div class="o-content-title">
-          <%= link_to @curriculum.subject_and_grade_title, '#' %>
+          <%
+            @curriculum.self_and_ancestors.reverse.each_with_index do |ancestor|
+              is_last = ancestor.id == @curriculum.id
+              piece = is_last ?
+                @curriculum.resource.short_title :
+                ancestor.breadcrumb_piece
+          %>
+            <%= link_to piece, show_with_slug_path(ancestor.slug.value) %>
+            <%= ' / ' if !is_last %>
+          <% end %>
         </div>
       </div>
       <div class="o-page__section  u-pd-content u-bg--light">
-        <div class="o-title">
-          <span class="o-title__type"><%= @resource.short_title %></span>
+        <div class="o-title u-margin-bottom--small">
+          <span class="o-title__type cs-txt--<%= @color_code %>"><%= @resource.short_title %></span>
           <span class="o-title__duration"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span>
         </div>
         <div class="o-resource-title">
@@ -45,7 +54,7 @@
         <div class="o-resource-summary">
           <div class="o-resource-summary__map">
             <strong>Curriculum Map</strong> &ndash; <span class="u-text--capitalized"><%= @curriculum.subject_and_grade_title %></span>
-            <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum } %>
+            <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum, color_code: @color_code } %>
           </div>
           <div class="o-resource-summary__content">
             <div class="o-resource__item o-resource__item--description">

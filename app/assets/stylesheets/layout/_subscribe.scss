@@ -1,9 +1,9 @@
 .o-subscribe {
-  background-color: $ub-nav-link;
+  background-color: map-get($ub-green, forty);;
 }
 
 .o-subscribe-form {
-  $ub-subscribe-form-bg: lighten($ub-primary, 20%);
+  $ub-subscribe-form-bg: map-get($ub-green, sixty);
 
   @include e(wrap) {
     @include flex-grid-row(collapse);
@@ -12,11 +12,13 @@
 
   @include e(label) {
     @include flex-grid-column(4, 0);
-    color: $white;
+    @include flex-align-self(center);
+    color: map-get($ub-mignight, base);
+    font-family: $ub-serif;
     font-size: $lead-font-size;
     font-weight: bold;
   }
-  
+
   @include e(email) {
     @include flex-grid-column(8, 0);
     margin-bottom: 0;
@@ -26,14 +28,14 @@
         background-color: $ub-subscribe-form-bg;
         border-color: $ub-subscribe-form-bg;
         box-shadow: none;
-        color: $white;
+        color: $ub-txt;
       }
     }
   }
   @include e(submit) {
     display: flex !important;
     button {
-      @include button($background: $ub-subscribe-form-bg, $background-hover: auto, $color: $ub-whitesmoke);
+      @include button($background: $ub-subscribe-form-bg, $background-hover: auto, $color: $ub-txt);
       margin: 0;
     }
   }
