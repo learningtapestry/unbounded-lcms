@@ -47,6 +47,7 @@ class ExploreCurriculumController < ApplicationController
           depth = hrchy.find_index(target_curriculum.current_level) + 1
           active_branch = target_curriculum.self_and_ancestor_ids.reverse[1..-1]
           if target_curriculum.children.size > 0
+            depth += 1
             active_branch << target_curriculum.children.first.id
           end
 
