@@ -3,7 +3,7 @@ module Filterbar
 
   included do
     def grade_params
-      names = split_params(params[:g]) & [
+      names = split_params(params[:grades]) & [
         'pk', 'k', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
       ]
 
@@ -23,11 +23,11 @@ module Filterbar
     end
 
     def subject_params
-      split_params(params[:s]) & ['ela', 'math']
+      split_params(params[:subjects]) & ['ela', 'math']
     end
 
     def facets_params
-      split_params(params[:f]) & [
+      split_params(params[:facets]) & [
         'curriculum', 'instructions'
       ]
     end
@@ -35,7 +35,6 @@ module Filterbar
     def search_term
       params[:search_term]
     end
-
 
     def filterbar_props
       {
@@ -52,6 +51,8 @@ module Filterbar
 
     def split_params(p)
       return [] if p.blank?
+      return p if p.kind_of?(Array)
+
       p.gsub!(/\s+/, '')
       p.split(',')
     end

@@ -121,16 +121,9 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   createQuery(state) {
-    let filterbarQuery = {};
-    _.forEach(state.filterbar, (val, k) => {
-      if (!_.isArray(val)) return;
-      if (val.length === 0) return;
-      filterbarQuery[k] = val.join(',');
-    });
-
     return {
       format: 'json',
-      ...filterbarQuery
+      ...state.filterbar
     };
   }
 

@@ -65,7 +65,7 @@ class ExploreCurriculumController < ApplicationController
             end
           }
           props[:expanded] = true if expanded
-          props
+          props.merge!(filterbar_props)
         else
           ActiveModel::ArraySerializer.new(@curriculums,
             each_serializer: CurriculumSerializer,

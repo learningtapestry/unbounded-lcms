@@ -1,5 +1,4 @@
 //= require turbolinks
-//= require components/utils/serializequery
 //= require ./routes
 //= require jquery
 //= require jquery_ujs
