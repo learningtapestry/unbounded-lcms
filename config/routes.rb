@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     resources :content_guide_definitions, only: %i(index new) do
       get :import, on: :collection
     end
-    resources :content_guides, only: %i(index new destroy) do
+    resources :content_guides, except: :create do
       collection do
         get :import
         get :links_validation

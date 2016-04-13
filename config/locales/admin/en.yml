@@ -54,6 +54,8 @@ en:
     content_guides:
       destroy:
         success: "'%{name}' deleted successfully."
+      edit:
+        page_title: Edit Content Guide
       import:
         success: "'%{name}' imported successfully."
       index:
@@ -64,6 +66,8 @@ en:
       new:
         page_title: Import Content Guide
         submit: Import
+      update:
+        success: "'%{name}' updated successfully."
     common:
       editing_disabled: Resource editing is disabled. Turn editing on in order to edit resources.
     resource_bulk_edits:
