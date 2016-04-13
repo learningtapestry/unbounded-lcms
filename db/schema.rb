@@ -45,6 +45,14 @@ ActiveRecord::Schema.define(version: 20160413110219) do
     t.string   "last_modifying_user_email"
     t.string   "last_modifying_user_name"
     t.integer  "version"
+    t.string   "big_photo"
+    t.date     "date"
+    t.string   "description"
+    t.string   "grade"
+    t.string   "small_photo"
+    t.string   "subject"
+    t.string   "teaser"
+    t.string   "title"
   end
 
   add_index "content_guides", ["file_id"], name: "index_content_guides_on_file_id", unique: true, using: :btree
