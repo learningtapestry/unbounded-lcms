@@ -139,6 +139,9 @@ class Resource < ActiveRecord::Base
   end
 
   def grade_type
+    if short_title.downcase.start_with?('skills strand')
+      return 'base'
+    end
     grades.each do |g|
       grade = g.name.downcase
       return 'k' if grade == 'kindergarten'
