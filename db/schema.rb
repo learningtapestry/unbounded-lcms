@@ -81,12 +81,16 @@ ActiveRecord::Schema.define(version: 20160413142940) do
   end
 
   create_table "curriculums", force: :cascade do |t|
-    t.integer "curriculum_type_id", null: false
+    t.integer "curriculum_type_id",     null: false
     t.integer "parent_id"
     t.integer "position"
-    t.integer "item_id",            null: false
-    t.string  "item_type",          null: false
+    t.integer "item_id",                null: false
+    t.string  "item_type",              null: false
     t.integer "seed_id"
+    t.string  "breadcrumb_title"
+    t.string  "breadcrumb_short_title"
+    t.string  "breadcrumb_piece"
+    t.string  "breadcrumb_short_piece"
   end
 
   add_index "curriculums", ["curriculum_type_id"], name: "index_curriculums_on_curriculum_type_id", using: :btree

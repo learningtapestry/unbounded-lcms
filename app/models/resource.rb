@@ -112,8 +112,9 @@ class Resource < ActiveRecord::Base
   end
 
   def text_description
-    doc = Nokogiri::HTML(description)
-    doc.xpath('//p/text()').text
+    # doc = Nokogiri::HTML(description)
+    # doc.xpath('//p/text()').text
+    Nokogiri::HTML(description).text
   rescue
     nil
   end

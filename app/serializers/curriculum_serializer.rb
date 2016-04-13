@@ -14,20 +14,20 @@ class CurriculumSerializer < ActiveModel::Serializer
   def initialize(object, options = {})
     super(object, options)
     @depth = options[:depth] || 0
+    @depth_branch = options[:depth_branch]
   end
 
   def children
-    if @depth > 0
-      kids = if object.item_is_curriculum?
-        object.curriculum_item.children
-      else
-        object.children
-      end
+    return [] if @depth == 0
+    return [] if @depth_branch && !(@depth_branch.include?(object.id))
 
-      kids.map { |c| CurriculumSerializer.new(c, depth: @depth - 1).as_json }
+    kids = if object.item_is_curriculum?
+      object.curriculum_item.children
     else
-      []
+      object.children
     end
+
+    kids.map { |c| CurriculumSerializer.new(c, depth: @depth - 1).as_json }
   end
 
   def lesson_count

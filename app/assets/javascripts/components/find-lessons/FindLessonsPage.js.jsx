@@ -18,13 +18,13 @@ class FindLessonsPage extends React.Component {
     };
   }
 
-  fetch() {
+  fetch(newState) {
     const query = {
       format: 'json',
-      per_page: this.state.per_page,
-      order: this.state.order,
-      page: this.state.current_page,
-      ...this.state.filterbar
+      per_page: newState.per_page,
+      order: newState.order,
+      page: newState.current_page,
+      ...newState.filterbar
     }
     const url = Routes.find_lessons_path(query);
 
@@ -35,21 +35,25 @@ class FindLessonsPage extends React.Component {
 
   handlePageClick(data) {
     const selected = data.selected;
-    this.setState(Object.assign({}, this.state, { current_page: selected + 1 }), this.fetch);
+    const newState = Object.assign({}, this.state, { current_page: selected + 1 });
+    this.fetch(newState);
   }
 
   handleChangePerPage(event) {
     const newPerPage = event.target.value;
-    this.setState(Object.assign({}, this.state, { per_page: newPerPage }), this.fetch);
+    const newState = Object.assign({}, this.state, { per_page: newPerPage });
+    this.fetch(newState);
   }
 
   handleChangeOrder(event) {
     const newOrder = event.target.value;
-    this.setState(Object.assign({}, this.state, { order: newOrder }), this.fetch);
+    const newState = Object.assign({}, this.state, { order: newOrder });
+    this.fetch(newState);
   }
 
   handleFilterbarUpdate(filterbar) {
-    this.setState(Object.assign({}, this.state, { filterbar: filterbar }), this.fetch);
+    const newState = Object.assign({}, this.state, { filterbar: filterbar });
+    this.fetch(newState);
   }
 
   render () {
@@ -59,7 +63,7 @@ class FindLessonsPage extends React.Component {
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
-                <h2>Find lessons, then download, adapt, and share - they're free!</h2>
+                <h2>Find lessons, then download, adapt, and share &mdash; they're free!</h2>
                 <div className="o-filterbar-title__subheader">
                   Filter by subject and grade, or search to reveal curriculum resources.
                 </div>
@@ -70,7 +74,7 @@ class FindLessonsPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page">
+        <div className="o-page u-margin-bottom--xlarge">
           <div className="o-page__module">
             <SearchResultsHeader
               onChangePerPage={this.handleChangePerPage.bind(this)}

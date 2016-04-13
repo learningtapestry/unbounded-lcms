@@ -1,17 +1,21 @@
 function LessonCard(props) {
-  const markup = { __html: props.lesson.teaser };
   const url = props.lesson.path;
-  const cssClasses = `u-wrap--${props.type}`;
 
   return (
-    <a className="o-card o-card--base" href={url}>
-      <div className={cssClasses}>
-        <div className="o-card__header o-title">
-          <span className="o-title__type">{props.lesson.short_title}</span>
-          <span className="o-title__duration"><TimeToTeach duration={props.lesson.time_to_teach} /></span>
+    <a className="o-lesson-card o-lesson-card--base" href={url}>
+      <div className={`cs-bg--${props.colorCode}`}>
+        <div className="o-lesson-card__header o-title cs-txt--white">
+          <span className="o-title__type">{props.lesson.breadcrumb_title}</span>
         </div>
-        <h2>{props.lesson.title}</h2>
-        <div className="o-card__dsc" dangerouslySetInnerHTML={markup} />
+        <div className="o-lesson-card__content o-lesson-card__content--base cs-bg--white">
+          <h3 className="o-lesson-card__dsc--short">{props.lesson.title}</h3>
+          <div className="o-lesson-card__duration">
+            <TimeToTeach duration={props.lesson.time_to_teach} />
+          </div>
+        </div>
+        <div className="o-lesson-card__content o-lesson-card__content--hover">
+          <div className="o-lesson-card__dsc--full">{props.lesson.teaser}</div>
+        </div>
       </div>
     </a>
   );

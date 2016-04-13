@@ -1,8 +1,17 @@
 function ExploreCurriculumGradeMap(props) {
-  const mainClass = classNames({
-    'o-ch-map': props.expanded,
-    'o-ch-short-map': !props.expanded
+  const mapClass = classNames({
+    'o-cur-card__map': true,
+    'o-cur-card__map--medium': props.expanded,
+    'o-cur-card__map--short': !props.expanded
   });
+
+  const mainClass = classNames({
+    'o-ch-map': true,
+    'o-ch-map--medium': props.expanded,
+    'o-ch-map--short': !props.expanded
+  });
+
+  //const detailsClass = classNames()
 
   const details = props.expanded ?
     <div className="o-ch-map__details">
@@ -13,18 +22,19 @@ function ExploreCurriculumGradeMap(props) {
         max = Math.max(...props.curriculum.module_sizes);
 
   const scale = _.curry(scaleNumber)(70, 100, min, max);
+  const bemClass = _.partial(convertToBEM, mainClass);
 
   const grades = props.curriculum.module_sizes.map((size, i) => {
     const styles = { width: `${scale(size)}%` };
     return (
-      <div key={i} className={`${mainClass}__module-wrap`}>
-        <div className={`${mainClass}__module`} style={styles}></div>
+      <div key={i} className={bemClass('module-wrap')}>
+        <div className={classNames(bemClass('module'), `cs-bg--${props.colorCode}`)} style={styles}></div>
       </div>
     );
   });
 
   return (
-    <div className="o-cur-card__map" onClick={props.onClickDetails}>
+    <div className={mapClass}>
       <div className={mainClass}>
         {grades}
       </div>

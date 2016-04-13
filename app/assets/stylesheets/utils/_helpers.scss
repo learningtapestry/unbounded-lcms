@@ -29,7 +29,7 @@ $margins-align: (top, bottom);
 @each $margin-type, $margin-value in $margins {
   @each $align in $margins-align {
     .u-margin-#{$align}--#{$margin-type} {
-      margin-#{$align}: $margin-value;
+      margin-#{$align}: $margin-value !important;
     }
   }
 }
@@ -47,11 +47,10 @@ $paddings-align: (top, bottom);
 @each $padding-type, $padding-value in $paddings {
   @each $align in $paddings-align {
     .u-padding-#{$align}--#{$padding-type} {
-      padding-#{$align}: $padding-value;
+      padding-#{$align}: $padding-value !important;
     }
   }
 }
-
 
 $bg: (
   light: $ub-white,
@@ -78,4 +77,11 @@ $bg: (
 .u-pd-content {
   padding-bottom: $ub-large-padding;
   padding-top: $ub-base-padding;
+}
+
+.u-link--disabled {
+  &, a {
+    color: $medium-gray;
+    cursor: not-allowed;
+  }
 }

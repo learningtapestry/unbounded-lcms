@@ -331,6 +331,119 @@ class Curriculum < ActiveRecord::Base
     slugs.where(canonical: true).first
   end
 
+  # Breadcrumbs
+
+  def self.breadcrumb_abbrv
+    {
+      ela: {
+        short: 'EL',
+        long: 'ELA'
+      },
+      math: {
+        short: 'MA',
+        long: 'Math'
+      },
+      grade: {
+        short: 'G',
+        long: 'G'
+      },
+      module: {
+        short: 'M',
+        long: 'M'
+      },
+      writing_module: {
+        short: 'WM',
+        long: 'WM'
+      },
+      core_proficiencies_module: {
+        short: 'CP',
+        long: 'CP'
+      },
+      extension_module: {
+        short: 'EM',
+        long: 'EM'
+      },
+      unit: {
+        short: 'U',
+        long: 'U'
+      },
+      topic: {
+        short: 'T',
+        long: 'T'
+      },
+      lesson: {
+        short: 'L',
+        long: 'L'
+      }
+    }
+  end
+
+  def generate_breadcrumb_pieces
+    subject = resource.subject.to_sym
+
+    abbrv_type = case current_level
+      when :map then subject
+      when :grade then :grade
+      when :module
+        short_title = resource.short_title.downcase.strip
+        if short_title.start_with?('writing')
+          :writing_module
+        elsif short_title.start_with?('core proficiencies')
+          :core_proficiencies_module
+        elsif short_title.start_with?('extension')
+          :extension_module
+        else
+          :module
+        end
+      when :unit then (subject == :ela ? :unit : :topic)
+      when :lesson then :lesson
+      end
+
+    pos = if [
+      subject,
+      :writing_module,
+      :core_proficiencies_module,
+      :extension_module
+    ].include?(abbrv_type)
+      ''
+    elsif subject == :math && abbrv_type == :topic
+      (position + 65).chr
+    elsif abbrv_type == :grade
+      resource.grade_list.first.downcase.gsub('grade ', '')
+    else
+      position + 1
+    end
+    abbrv = self.class.breadcrumb_abbrv[abbrv_type]
+    self.breadcrumb_short_piece = "#{abbrv[:short]}#{pos}"
+    self.breadcrumb_piece = "#{abbrv[:long]}#{pos}"
+  end
+
+  def generate_breadcrumb_titles
+    pieces = []
+    short_pieces = []
+    ancestors = self_and_ancestors.reverse
+    ancestors.each_with_index do |ancestor, idx|
+      short_pieces << ancestor.breadcrumb_short_piece
+      if (idx+1 == ancestors.size) # Last node
+        pieces << (ancestor.resource.short_title || ancestor.breadcrumb_piece)
+      else
+        pieces << ancestor.breadcrumb_piece
+      end
+    end
+    self.breadcrumb_title = pieces.join(' / ')
+    self.breadcrumb_short_title = short_pieces.join(' / ')
+  end
+
+  def grade_color_code
+    current_grade.resource.grades.each do |g|
+      grade = g.name.downcase
+      return 'k' if grade == 'kindergarten'
+      return 'pk' if grade == 'prekindergarten'
+      return grade[/\d+/] if grade[/\d+/]
+    end
+    'base'
+  end
+
   # Drawing (for debugging)
   def self._draw_node_recursively(node, depth, stop_at)
     padding = '  '*depth

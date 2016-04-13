@@ -1,10 +1,18 @@
 function ExploreCurriculumUnitMap(props) {
-  const mainClass = classNames({
-    'o-ch-unit-map': props.expanded,
-    'o-ch-short-unit-map': !props.expanded
+  const mapClass = classNames({
+    'o-cur-card__map': true,
+    'o-cur-card__map--medium': props.expanded,
+    'o-cur-card__map--short': !props.expanded
   });
 
-  const cssPrefix = cls => `${mainClass}__${cls}`;
+  const mainClass = classNames({
+    'o-ch-unit-map': true,
+    'o-ch-unit-map--medium': props.expanded,
+    'o-ch-unit-map--short': !props.expanded
+  });
+
+  const bemClass = _.partial(convertToBEM, mainClass);
+  const colorCodeClass = `cs-bg--${props.colorCode}`;
 
   const details = props.expanded ?
     <div className="o-ch-map__details">
@@ -15,16 +23,16 @@ function ExploreCurriculumUnitMap(props) {
 
   for (let i = 0; i < props.curriculum.lesson_count; i++) {
     lessons.push((
-      <div key={i} className={cssPrefix('lesson')}></div>
+      <div key={i} className={classNames(bemClass('lesson'), colorCodeClass)}></div>
     ));
   }
 
   return (
-    <div className="o-cur-card__map" onClick={props.onClickDetails}>
+    <div className={mapClass}>
       <div className={mainClass}>
-        <div className={cssPrefix('units-wrap')}>
-          <div className={cssPrefix('units')}>
-            <div className={cssPrefix('unit')}>
+        <div className={bemClass('units-wrap')}>
+          <div className={bemClass('units')}>
+            <div className={bemClass('unit')}>
               {lessons}
             </div>
           </div>

@@ -1,7 +1,7 @@
 @mixin o-filterbar-selectable {
   @include button;
 
-  color: $ub-whitesmoke;
+  color: $white;
   margin: 0 $ub-tiny-margin;
 
   &:hover {
@@ -25,27 +25,55 @@
   h1, h2 { color: $ub-primary; }
 
   @include e(subheader) {
-    font-size: $small-font-size;
     font-style: italic;
   }
 }
 
 .o-filterbar {
   @include flex();
-  justify-content: space-between;
+  @include flex-align($x: justify);
   margin: $ub-small-margin 0;
 
-  @include e(subjects-list) {
-    @include e(subject) {
-      @include o-filterbar-selectable;
-      padding: 1em 2.4em;
+  @include e(list) {
+    @include button-group($child-selector: 'div');
+    margin-bottom: $ub-base-margin;
+
+    @include breakpoint(medium down) {
+      @include flex-align($y: top);
+      flex-wrap: wrap;
+    }
+
+    @include breakpoint(small only) {
+      flex-direction: column;
+      flex-wrap: wrap;
     }
   }
 
-  @include e(grades-list) {
-    @include e(grade) {
-      @include o-filterbar-selectable;
-      padding: 1em 1.5em;
+  @include e(item) {
+    @extend %ub-btn-font;
+    padding: $ub-base-padding $ub-base-padding / 2 !important;
+
+    @each $code, $color in $ub-colorcodes {
+      @include m(#{$code}) {
+        @include button($background: $color, $background-hover: auto, $color: $ub-white);
+      }
+    }
+
+    @include m(deselected) {
+      opacity: .35;
+    }
+
+    @include m(clear) {
+      font-weight: bold;
+      padding: $ub-base-padding / 2 0 !important;
+    }
+
+    @include m(rectangle) {
+      width: 110px;
+    }
+
+    @include m(square) {
+      width: 58px;
     }
   }
 
