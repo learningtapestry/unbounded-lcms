@@ -1,15 +1,19 @@
 mp1:
   name: CCSS.Math.Practice.MP1
   subject: math
+  type: CommonCoreStandard
 
 mp2:
   name: CCSS.Math.Practice.MP2
   subject: math
+  type: CommonCoreStandard
 
 mp3:
   name: CCSS.Math.Practice.MP3
   subject: math
+  type: CommonCoreStandard
 
 mp4:
   name: CCSS.Math.Practice.MP4
   subject: math
+  type: CommonCoreStandard

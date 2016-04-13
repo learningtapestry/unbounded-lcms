@@ -20,7 +20,9 @@
 
 <%= f.input :resource_type_list, collection: Tag.where_context('resource_types').select(:id, :name).distinct(:name), value_method: :name, selected: resource.resource_types, as: :select, input_html: { class: 'selectize', id: 'resource_types_select', multiple: true } %>
 
-<%= f.association :standards, as: :select, input_html: { class: 'selectize', id: 'standards_select', multiple: true } %>
+<%= f.association :common_core_standards, as: :select, input_html: { class: 'selectize', id: 'common_core_standards_select', multiple: true } %>
+
+<%= f.association :unbounded_standards, as: :select, input_html: { class: 'selectize', id: 'unbounded_standards_select', multiple: true } %>
 
 <%= f.association :related_resources, as: :select, input_html: { class: 'selectize', multiple: true } %>
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160406102647) do
+ActiveRecord::Schema.define(version: 20160413110219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -293,6 +293,7 @@ ActiveRecord::Schema.define(version: 20160406102647) do
     t.text     "grades",             default: [], null: false, array: true
     t.string   "label"
     t.text     "alt_names",          default: [], null: false, array: true
+    t.string   "type"
   end
 
   add_index "standards", ["asn_identifier"], name: "index_standards_on_asn_identifier", unique: true, using: :btree
@@ -300,6 +301,7 @@ ActiveRecord::Schema.define(version: 20160406102647) do
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
   add_index "standards", ["standard_strand_id"], name: "index_standards_on_standard_strand_id", using: :btree
   add_index "standards", ["subject"], name: "index_standards_on_subject", using: :btree
+  add_index "standards", ["type"], name: "index_standards_on_type", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"

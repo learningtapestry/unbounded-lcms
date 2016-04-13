@@ -19,6 +19,8 @@ class Resource < ActiveRecord::Base
   # Standards.
   has_many :resource_standards, dependent: :destroy
   has_many :standards, through: :resource_standards
+  has_many :common_core_standards, ->{ where(type: 'CommonCoreStandard') }, source: :standard, through: :resource_standards
+  has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :resource_standards
 
   # Downloads.
   has_many :resource_downloads, dependent: :destroy
