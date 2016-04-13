@@ -46,12 +46,15 @@ class ExploreCurriculumPage extends React.Component {
                                   animationDuration: this.ANIMATION_DURATION,
                                   onScrollFinished: this.onScrollFinished.bind(this)
                                 });
-
-    if (this.scrollImmediately) {
-      let elm = document.getElementById(this.state.active[this.state.active.length-1]);
+    let elm;
+    if (this.scrollImmediately === 'item') {
+      elm = document.getElementById(this.state.active[this.state.active.length-1]);
       if (!elm) {
         elm = document.getElementById(this.state.active[this.state.active.length-2]);
       }
+      this.scrollToActive(elm);
+    } else if (this.scrollImmediately === 'expanded') {
+      elm = document.getElementById(this.state.active[this.state.active.length-2]);
       this.scrollToActive(elm);
     }
   }
@@ -87,7 +90,12 @@ class ExploreCurriculumPage extends React.Component {
 
     if (props.active) {
       active = props.active;
-      this.scrollImmediately = true;
+
+      if (props.expanded) {
+        this.scrollImmediately = 'expanded';
+      } else {
+        this.scrollImmediately = 'item';
+      }
     } else {
       active = [props.results[0].id];
     }
