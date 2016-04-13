@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160413110219) do
+ActiveRecord::Schema.define(version: 20160413142940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 20160413110219) do
   end
 
   add_index "content_guide_images", ["original_url"], name: "index_content_guide_images_on_original_url", unique: true, using: :btree
+
+  create_table "content_guide_standards", force: :cascade do |t|
+    t.integer  "content_guide_id", null: false
+    t.integer  "standard_id",      null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "content_guide_standards", ["content_guide_id", "standard_id"], name: "index_content_guide_standards", unique: true, using: :btree
+  add_index "content_guide_standards", ["standard_id"], name: "index_content_guide_standards_on_standard_id", using: :btree
 
   create_table "content_guides", force: :cascade do |t|
     t.string   "content",                   null: false
@@ -355,6 +365,8 @@ ActiveRecord::Schema.define(version: 20160413110219) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "content_guide_standards", "content_guides", on_delete: :cascade
+  add_foreign_key "content_guide_standards", "standards"
   add_foreign_key "curriculums", "curriculum_types"
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
   add_foreign_key "curriculums", "curriculums", column: "seed_id"
