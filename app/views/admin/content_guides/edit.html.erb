@@ -8,12 +8,15 @@
   <% end %>
 
   <%= simple_form_for [:admin, @content_guide] do |f| %>
+    <%= f.input :update_metadata, as: :hidden %>
     <%= f.input :title %>
     <%= f.input :teaser %>
     <%= f.input :subject %>
     <%= f.input :grade %>
     <%= f.input :date %>
     <%= f.input :description, as: :text %>
+    <%= f.association :common_core_standards, as: :select, input_html: { class: 'selectize', multiple: true } %>
+    <%= f.association :unbounded_standards, as: :select, input_html: { class: 'selectize', multiple: true } %>
 
     <%= f.button :submit, t('ui.save') %>
     <%= link_to t('ui.delete'), [:admin, @content_guide], class: 'button alert', data: { confirm: t('ui.are_you_sure') }, method: :delete %>

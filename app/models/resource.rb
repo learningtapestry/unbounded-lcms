@@ -45,6 +45,8 @@ class Resource < ActiveRecord::Base
   has_many :resource_slugs, dependent: :destroy
   alias_attribute :slugs, :resource_slugs
 
+  has_many :content_guides, through: :unbounded_standards
+
   validates :title, presence: true
   validates :url, presence: true, url: true, unless: :resource?
 

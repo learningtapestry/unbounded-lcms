@@ -1,9 +1,17 @@
 require 'google/apis/drive_v3'
 
 class ContentGuide < ActiveRecord::Base
+  attr_accessor :update_metadata
+
+  has_many :content_guide_standards
+  has_many :common_core_standards, ->{ where(type: 'CommonCoreStandard') }, source: :standard, through: :content_guide_standards
+  has_many :resources, through: :unbounded_standards
+  has_many :standards, through: :content_guide_standards
+  has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
+
   validates :date, :description, :grade, :subject, :teaser, :title, presence: true, if: :validate_metadata?
 
-  before_create :process_content
+  before_save :process_content, unless: :update_metadata
 
   mount_uploader :big_photo, ContentGuidePhotoUploader
   mount_uploader :small_photo, ContentGuidePhotoUploader
@@ -46,6 +54,24 @@ class ContentGuide < ActiveRecord::Base
 
   private
 
+  def assign_common_core_standards(value)
+    names = split_standards(value)
+    self.common_core_standards = CommonCoreStandard.where(name: names)
+  end
+
+  def assign_unbounded_standards(value)
+    names = split_standards(value)
+
+    unbounded_standards.where.not(name: names).each do |standard|
+      content_guide_standards.find_by_standard_id(standard.id).delete
+    end
+
+    names.each do |name|
+      standard = UnboundedStandard.create_with(subject: '').find_or_create_by(name: name)
+      unbounded_standards << standard if standard && !unbounded_standards.include?(standard)
+    end
+  end
+
   def download_images(doc)
     doc.css('img').each do |img|
       url = img[:src]
@@ -83,8 +109,8 @@ class ContentGuide < ActiveRecord::Base
     table.css('tr').each do |tr|
       key, value = tr.css('td').map(&:content).map(&:strip)
       case key
-      when 'ccss' then
-      when 'related_instruction_tags' then
+      when 'ccss' then assign_common_core_standards(value)
+      when 'related_instruction_tags' then assign_unbounded_standards(value)
       when 'big_photo', 'small_photo' then send("remote_#{key}_url=", value)
       else send("#{key}=", value)
       end
@@ -92,6 +118,10 @@ class ContentGuide < ActiveRecord::Base
 
     table.remove
     doc
+  end
+
+  def split_standards(value)
+    value.split(',').map(&:strip).map(&:downcase)
   end
 
   def validate_metadata?

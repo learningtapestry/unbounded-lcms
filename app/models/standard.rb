@@ -1,5 +1,8 @@
 class Standard < ActiveRecord::Base
+  has_many :content_guide_standards
+  has_many :content_guides, through: :content_guide_standards
   has_many :resource_standards
+  has_many :resources, through: :resource_standards
 
   scope :by_grade, ->(grade) {
     self.by_grades([grade])

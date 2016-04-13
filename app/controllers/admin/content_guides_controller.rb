@@ -17,7 +17,7 @@ module Admin
     end
 
     def update
-      content_guide_params = params.require(:content_guide).permit(:date, :description, :grade, :subject, :teaser, :title)
+      content_guide_params = params.require(:content_guide).permit(:date, :description, :grade, :subject, :teaser, :title, :update_metadata, common_core_standard_ids: [], unbounded_standard_ids: [])
 
       if @content_guide.update(content_guide_params)
         redirect_to :admin_content_guides, notice: t('.success', name: @content_guide.name)
