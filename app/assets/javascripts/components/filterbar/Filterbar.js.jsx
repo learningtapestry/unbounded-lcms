@@ -58,10 +58,10 @@ class Filterbar extends React.Component {
 
   createQuery(state) {
     const query = {
-      s: this.getSelected(state, 'subjects'),
-      g: this.getSelected(state, 'grades'),
-      f: this.getSelected(state, 'facets'),
-      q: state.search_term
+      subjects: this.getSelected(state, 'subjects'),
+      grades: this.getSelected(state, 'grades'),
+      facets: this.getSelected(state, 'facets'),
+      search_term: state.search_term
     };
     return query;
   }
@@ -124,20 +124,27 @@ class Filterbar extends React.Component {
     }
   }
 
-  updateUrl(filters) {
-    const validFilters = _.reduce(filters, (res, v, k) => {
-      if (v && v.length > 0) res[k] = v;
-      return res;
-    }, {});
-
-    const query = serializeQuery(validFilters);
-    const encodedQuery = query ? '?' + serializeQuery(validFilters) :
-      window.location.pathname;
+  updateUrl(newState) {
+    let query = [];
+    _.forEach(newState, (val, k) => {
+      if (val) {
+        let urlVal = val;
+        if (_.isArray(val)) {
+          if (val.length) {
+            query.push(k+'='+val.join(','));
+          }
+        } else {
+          query.push(k+'='+val);
+        }
+      }
+    });
+    query = query.join('&');
+    query = query ? '?' + query : window.location.pathname;
 
     // Make pushState play nice with Turbolinks.
     // Ref https://github.com/turbolinks/turbolinks-classic/issues/363
-    const historyState = { turbolinks: true, url: encodedQuery };
-    window.history.pushState(historyState, null, encodedQuery);
+    const historyState = { turbolinks: true, url: query };
+    window.history.pushState(historyState, null, query);
   }
 
   render() {
