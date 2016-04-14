@@ -3,8 +3,6 @@ class Resource < ActiveRecord::Base
 
   enum resource_type: { podcast: 2, resource: 1, video: 3 }
 
-  acts_as_paranoid
-
   acts_as_taggable_on :content_sources,
     :download_types,
     :grades,
