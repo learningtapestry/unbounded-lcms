@@ -12,7 +12,7 @@
 
   @include e(label) {
     @include flex-grid-column(4, 0);
-    @include flex-align-self(center);
+    @include flex-align-self(middle);
     color: map-get($ub-mignight, base);
     font-family: $ub-serif;
     font-size: $lead-font-size;

@@ -8,4 +8,8 @@ module ResourceHelper
       resource_path(resource)
     end
   end
+
+  def type_name(curriculum)
+    curriculum.curriculum_type.name.capitalize
+  end
 end
