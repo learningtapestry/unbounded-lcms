@@ -3,6 +3,7 @@ module Admin
     include GoogleAuth
 
     before_action :obtain_google_credentials, only: :import
+    before_action :load_content_guide, only: %i(edit update)
 
     def index
       @content_guides = ContentGuide.order(updated_at: :desc)
@@ -11,9 +12,24 @@ module Admin
     def new
     end
 
-    # GET /content_guides/dangling_links
-    def dangling_links
-      @content_guides = ContentGuide.all.map { |d| ContentGuidePresenter.new(d, request.base_url, view_context) }
+    def edit
+      @content_guide.validate_metadata
+    end
+
+    def update
+      content_guide_params = params.require(:content_guide).permit(:date, :description, :grade, :subject, :teaser, :title, :update_metadata, common_core_standard_ids: [], unbounded_standard_ids: [])
+
+      if @content_guide.update(content_guide_params)
+        redirect_to :admin_content_guides, notice: t('.success', name: @content_guide.name)
+      else
+        render :edit
+      end
+    end
+
+    def destroy
+      content_guide = ContentGuide.find(params[:id])
+      content_guide.destroy
+      redirect_to :admin_content_guides, notice: t('.success', name: content_guide.name)
     end
 
     # GET /content_guides/import
@@ -23,7 +39,18 @@ module Admin
 
       content_guide = ContentGuide.import(file_id, google_credentials)
 
-      redirect_to :admin_content_guides, notice: t('.success', name: content_guide.name)
+      redirect_to [:edit, :admin, content_guide], notice: t('.success', name: content_guide.name)
+    end
+
+    # GET /content_guides/links_validation
+    def links_validation
+      @content_guides = ContentGuide.all.map { |d| ContentGuidePresenter.new(d, request.base_url, view_context) }
+    end
+
+    private
+
+    def load_content_guide
+      @content_guide = ContentGuide.find(params[:id])
     end
   end
 end

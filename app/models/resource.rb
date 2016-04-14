@@ -1,6 +1,8 @@
 class Resource < ActiveRecord::Base
   include Search::ResourcesSearch
 
+  enum resource_type: { podcast: 2, resource: 1, video: 3 }
+
   acts_as_taggable_on :content_sources,
     :download_types,
     :grades,
@@ -15,6 +17,8 @@ class Resource < ActiveRecord::Base
   # Standards.
   has_many :resource_standards, dependent: :destroy
   has_many :standards, through: :resource_standards
+  has_many :common_core_standards, ->{ where(type: 'CommonCoreStandard') }, source: :standard, through: :resource_standards
+  has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :resource_standards
 
   # Downloads.
   has_many :resource_downloads, dependent: :destroy
@@ -39,7 +43,10 @@ class Resource < ActiveRecord::Base
   has_many :resource_slugs, dependent: :destroy
   alias_attribute :slugs, :resource_slugs
 
+  has_many :content_guides, through: :unbounded_standards
+
   validates :title, presence: true
+  validates :url, presence: true, url: true, unless: :resource?
 
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 

@@ -25,6 +25,11 @@
           <%= render partial: 'nav', locals: { headings: @content_guide.headings } %>
         </div>
         <div id="c-ch-content" class="c-ch-content__body">
+          <% if @content_guide.broken_images.any? %>
+            <div class='callout warning'>
+              <p><%= t('.broken_images') %>
+            </div>
+          <% end %>
           <%= @content_guide.html %>
         </div>
       </div>
