@@ -11,8 +11,6 @@ en:
     models:
       resource: Resource
     attributes:
-      content_guide:
-        original_url: Original document
       grade:
         grade: Name
       resource:
@@ -20,6 +18,7 @@ en:
         resource_downloads: Downloadable resources
         related_resources: Related materials
         status: Status
+        url: URL
       resource_child:
         child_id: Resource
       resource_collection:

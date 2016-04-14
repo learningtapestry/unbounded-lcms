@@ -4,9 +4,13 @@
 
 <%= f.input :subtitle %>
 
+<%= f.input :resource_type, as: :select, collection: Resource.resource_types, value_method: :first %>
+
 <%= f.input :hidden %>
 
 <%= f.input :description, as: :ckeditor, input_html: { rows: 10 } %>
+
+<%= f.input :url %>
 
 <%= f.input :grade_list, collection: Tag.where_context('grades').select(:id, :name).distinct(:name), as: :select, value_method: :name, selected: resource.grades, input_html: { class: 'selectize', id: 'grades_select', multiple: true } %>
 
@@ -16,7 +20,9 @@
 
 <%= f.input :resource_type_list, collection: Tag.where_context('resource_types').select(:id, :name).distinct(:name), value_method: :name, selected: resource.resource_types, as: :select, input_html: { class: 'selectize', id: 'resource_types_select', multiple: true } %>
 
-<%= f.association :standards, as: :select, input_html: { class: 'selectize', id: 'standards_select', multiple: true } %>
+<%= f.association :common_core_standards, as: :select, input_html: { class: 'selectize', id: 'common_core_standards_select', multiple: true } %>
+
+<%= f.association :unbounded_standards, as: :select, input_html: { class: 'selectize', id: 'unbounded_standards_select', multiple: true } %>
 
 <%= f.association :related_resources, as: :select, input_html: { class: 'selectize', multiple: true } %>
 

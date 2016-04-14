@@ -44,7 +44,6 @@ en:
       import:
         success: Glossary imported successfully.
       index:
-        import: Import
         page_title: Glossary
       new:
         page_title: Import Glossary
@@ -53,19 +52,22 @@ en:
       index:
         page_title: Content Guide Standards
     content_guides:
-      dangling_links:
-        page_title: Dangling Links
+      destroy:
+        success: "'%{name}' deleted successfully."
+      edit:
+        page_title: Edit Content Guide
       import:
         success: "'%{name}' imported successfully."
       index:
-        dangling_links: Dangling Links
-        glossary: Glossary
-        import_content_guide: Import Content Guide
+        original_document: Original document
         page_title: Content Guides
-        standards: Standards
+      links_validation:
+        page_title: Links Validation
       new:
         page_title: Import Content Guide
         submit: Import
+      update:
+        success: "'%{name}' updated successfully."
     common:
       editing_disabled: Resource editing is disabled. Turn editing on in order to edit resources.
     resource_bulk_edits:
@@ -195,3 +197,7 @@ en:
       staff_members: Staff members
       content_guides: Content guides
       users: Users
+      validate_links: Validate Links
+      glossary: Glossary
+      import_content_guide: Import Content Guide
+      import_glossary: Import Glossary

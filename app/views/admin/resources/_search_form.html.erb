@@ -5,12 +5,11 @@
 
     <%= f.input :resource_standards_standard_id_in, as: :select, collection: Standard.all, input_html: { class: 'selectize resource-search-select', multiple: true }, label: t('.standards'), required: false, wrapper_html: { class: 'resource-search-wrap' } %>
 
-    <%= f.input :resource_types_name_in, as: :select, collection: Tag.where_context('resource_types').select(:id, :name).distinct(:name), input_html: { class: 'selectize resource-search-select', multiple: true }, label: t('.resource_types'), value_method: :name, required: false, wrapper_html: { class: 'resource-search-wrap' } %>
-
     <%= f.input :tags_name_in, as: :select, collection: Tag.where_context('tags').select(:id, :name).distinct(:name), input_html: { class: 'selectize resource-search-select', multiple: true }, label: t('.subjects'), value_method: :name, required: false, wrapper_html: { class: 'resource-search-wrap' } %>
   </div>
 
   <div class='row align-bottom align-justify'>
+    <%= f.input :resource_type_eq, as: :select, label: Resource.human_attribute_name(:resource_type), required: false, wrapper_html: { class: 'resource-search-type' }, collection: Resource.resource_types %>
     <%= f.input :title_cont, label: t('.title'), required: false, wrapper_html: { class: 'resource-search-title' }  %>
     <%= f.button :submit, t('ui.search'), class: 'resource-search-button', name: nil %>
   </div>

@@ -19,6 +19,10 @@ class ContentGuidePresenter < SimpleDelegator
     @wrap_keywords = wrap_keywords
   end
 
+  def broken_images
+    @broken_images ||= doc.css('[src*="google.com"]')
+  end
+
   def dangling_links
     cache('dangling_links') do
       doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
@@ -39,7 +43,8 @@ class ContentGuidePresenter < SimpleDelegator
           text = h.text.chomp.strip
 
           h[:id] = id
-          
+          h['data-magellan-target'] = id
+        
           Heading.new(id, level, text)
         end
 
@@ -112,7 +117,7 @@ class ContentGuidePresenter < SimpleDelegator
   end
 
   def process_blockquotes
-    find_custom_tags('blockquotes') do |tag|
+    find_custom_tags('blockquote') do |tag|
       table = next_element_with_name(tag, 'table')
       tag.remove
       return unless table
@@ -121,6 +126,12 @@ class ContentGuidePresenter < SimpleDelegator
       blockquote = doc.document.create_element('blockquote')
       blockquote.inner_html = table.at_css('td').inner_html
       table.replace(blockquote)
+    end
+  end
+
+  def process_broken_images
+    broken_images.each do |img|
+      img[:style] = 'border: 5px solid #f00'
     end
   end
 
@@ -133,6 +144,31 @@ class ContentGuidePresenter < SimpleDelegator
       dropdown = doc.document.create_element('div', class: 'dropdown-pane', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-pane' => true, id: id)
       dropdown.inner_html = footnote.inner_html
       a.next = dropdown
+    end
+  end
+
+  def process_pullquotes
+    find_custom_tags('pullquote') do |tag|
+      table = next_element_with_name(tag, 'table')
+      tag.remove
+      return unless table && table.css('td').size == 1
+
+      pullquote = doc.document.create_element('div')
+      pullquote[:class] = 'c-cg-pullquote callout secondary'
+      pullquote.inner_html = table.at_css('td').inner_html
+      table.replace(pullquote)
+    end
+  end
+
+  def process_standards
+    find_custom_tags('standards').each do |tag|
+      table = next_element_with_name(tag, 'table')
+      tag.remove
+      return unless table
+
+      table.css('[data-toggle]').each do |dropdown|
+        dropdown.delete('data-toggle')
+      end
     end
   end
 
@@ -261,7 +297,10 @@ class ContentGuidePresenter < SimpleDelegator
     embed_audios
     embed_videos
     process_blockquotes
+    process_broken_images
     process_footnote_links
+    process_pullquotes
+    process_standards
     process_tasks
     realign_tables
     replace_guide_links

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160406192357) do
+ActiveRecord::Schema.define(version: 20160413142940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,13 +34,35 @@ ActiveRecord::Schema.define(version: 20160406192357) do
 
   add_index "content_guide_images", ["original_url"], name: "index_content_guide_images_on_original_url", unique: true, using: :btree
 
-  create_table "content_guides", force: :cascade do |t|
-    t.string   "content",          null: false
-    t.string   "file_id",          null: false
-    t.string   "name",             null: false
-    t.string   "original_content", null: false
+  create_table "content_guide_standards", force: :cascade do |t|
+    t.integer  "content_guide_id", null: false
+    t.integer  "standard_id",      null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+  end
+
+  add_index "content_guide_standards", ["content_guide_id", "standard_id"], name: "index_content_guide_standards", unique: true, using: :btree
+  add_index "content_guide_standards", ["standard_id"], name: "index_content_guide_standards_on_standard_id", using: :btree
+
+  create_table "content_guides", force: :cascade do |t|
+    t.string   "content",                   null: false
+    t.string   "file_id",                   null: false
+    t.string   "name",                      null: false
+    t.string   "original_content",          null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.datetime "last_modified_at"
+    t.string   "last_modifying_user_email"
+    t.string   "last_modifying_user_name"
+    t.integer  "version"
+    t.string   "big_photo"
+    t.date     "date"
+    t.string   "description"
+    t.string   "grade"
+    t.string   "small_photo"
+    t.string   "subject"
+    t.string   "teaser"
+    t.string   "title"
   end
 
   add_index "content_guides", ["file_id"], name: "index_content_guides_on_file_id", unique: true, using: :btree
@@ -246,9 +268,14 @@ ActiveRecord::Schema.define(version: 20160406192357) do
     t.integer  "time_to_teach"
     t.string   "subject"
     t.boolean  "ell_appropriate", default: false, null: false
+    t.datetime "deleted_at"
+    t.integer  "resource_type",   default: 1,     null: false
+    t.string   "url"
   end
 
+  add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
+  add_index "resources", ["resource_type"], name: "index_resources_on_resource_type", using: :btree
 
   create_table "settings", force: :cascade do |t|
     t.boolean  "editing_enabled", default: true, null: false
@@ -292,6 +319,7 @@ ActiveRecord::Schema.define(version: 20160406192357) do
     t.text     "grades",             default: [], null: false, array: true
     t.string   "label"
     t.text     "alt_names",          default: [], null: false, array: true
+    t.string   "type"
   end
 
   add_index "standards", ["asn_identifier"], name: "index_standards_on_asn_identifier", unique: true, using: :btree
@@ -299,6 +327,7 @@ ActiveRecord::Schema.define(version: 20160406192357) do
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
   add_index "standards", ["standard_strand_id"], name: "index_standards_on_standard_strand_id", using: :btree
   add_index "standards", ["subject"], name: "index_standards_on_subject", using: :btree
+  add_index "standards", ["type"], name: "index_standards_on_type", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
@@ -340,6 +369,8 @@ ActiveRecord::Schema.define(version: 20160406192357) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "content_guide_standards", "content_guides", on_delete: :cascade
+  add_foreign_key "content_guide_standards", "standards"
   add_foreign_key "curriculums", "curriculum_types"
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
   add_foreign_key "curriculums", "curriculums", column: "seed_id"

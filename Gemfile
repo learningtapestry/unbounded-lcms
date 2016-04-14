@@ -47,6 +47,7 @@ gem 'foundation-rails', '~> 6.2.0'
 gem 'order_as_specified', '~> 0.1.0'
 gem 'readthis'
 gem 'hiredis'
+gem 'validate_url', '~> 1.0'
 
 group :development, :test do
   gem 'byebug'

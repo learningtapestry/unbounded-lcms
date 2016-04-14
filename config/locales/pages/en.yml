@@ -1,6 +1,7 @@
 en:
   content_guides:
     show:
+      broken_images: Some images failed to import.
       contents: Contents
       download_as_pdf: Download as PDF
   curriculum:

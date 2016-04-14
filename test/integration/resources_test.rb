@@ -5,8 +5,8 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     super
 
     @admin          = users(:admin)
-    @standard1     = standards(:mp1)
-    @standard2     = standards(:mp2)
+    @standard1     = common_core_standards(:mp1)
+    @standard2     = common_core_standards(:mp2)
     @description    = Faker::Lorem.sentence(10)
     @easol_resource  = resources(:easol)
     @grade1         = 'grade 1'
@@ -39,8 +39,8 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     select @topic2,          from: 'Topic list'
     select @resource_type1,  from: 'Resource type list'
     select @resource_type2,  from: 'Resource type list'
-    select @standard1.name,      from: 'Standards'
-    select @standard2.name,      from: 'Standards'
+    select @standard1.name,      from: 'Common core standards'
+    select @standard2.name,      from: 'Common core standards'
     select @easol_resource.title,  from: 'Related materials'
     select @other_resource.title, from: 'Additional materials'
     within '#resource_form' do
@@ -77,8 +77,8 @@ class ResourcesTestCase < ActionDispatch::IntegrationTest
     select @topic2, from: 'Topic list'
     resource.resource_type_list.each { |resource_type| unselect resource_type, from: 'Resource type list' }
     select @resource_type2, from: 'Resource type list'
-    resource.standards.each { |standard| unselect standard.name, from: 'Standards' }
-    select @standard2.name, from: 'Standards'
+    resource.standards.each { |standard| unselect standard.name, from: 'Common core standards' }
+    select @standard2.name, from: 'Common core standards'
     unselect @easol_resource.title, from: 'Related materials'
     select @other_resource.title, from: 'Related materials'
     unselect @other_resource.title, from: 'Additional materials'
