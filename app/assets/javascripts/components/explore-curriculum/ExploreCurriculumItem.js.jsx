@@ -33,7 +33,7 @@ class ExploreCurriculumItem extends React.Component {
     const children = shouldRenderChildren ?
       curriculum.children.map(c => (
         c.type === 'lesson' ?
-          <LessonCard key={c.resource.id} lesson={c.resource} type='light' colorCode={colorCode} /> :
+          <LessonCard key={c.resource.id} lesson={c.resource} with_breadcrumb={false} colorCode={colorCode} /> :
           <ExploreCurriculumItem
             key={c.id}
             id={c.id}

@@ -1,0 +1,22 @@
+<% if !curriculum.lesson? %>
+  <h3><%= t('resources.title.children', type: curriculum.type_name) %></h3>
+  <%= 'No children items.' if curriculum.children.blank? %>
+  <ul class="o-resource__list o-resource__list--icons">
+    <% curriculum.children.each do |item| %>
+      <li>
+        <i class="fa fa-square"></i>
+        <span>
+          <%= link_to show_with_slug_path(item.slug.value) do %>
+            <span class="u-text--capitalized"><%= item.resource.short_title + ': ' %></span>
+            <%= item.resource.title %>
+          <% end%>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+<% if !curriculum.grade? && curriculum.parent %>
+  <%= link_to show_with_slug_path(curriculum.parent.slug.value), class: 'o-ub-btn o-ub-btn--yellow u-margin-top--base u-margin-bottom--base u-text--capitalized' do %>
+    <%= t('resources.btn.explore', short_title: curriculum.parent.resource.short_title) %>
+  <% end %>
+<% end %>

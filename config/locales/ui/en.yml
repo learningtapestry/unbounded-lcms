@@ -55,6 +55,11 @@ en:
       view: "View %{short_title}"
       download: "Download %{title}"
       related: "Related Instructions"
+      back: "Back to Curriculum Map"
+      arrow: "%{dir} %{type} in Series"
+      explore: "Explore %{short_title}"
+    title:
+      children: "In This %{type}"
     nav:
       next_lesson: Next LESSON
       next_module: Next MODULE

@@ -8,5 +8,13 @@ $ub-material-card-margin: 2px;
 }
 
 %map-transition {
-  transition: all .4s ease;
+  transition-duration: .4s;
+  transition-property: width, height, min-height, padding;
+  transition-timing-function: ease;
+}
+
+%btn-transition {
+  transition-duration: .4s;
+  transition-property: min-width;
+  transition-timing-function: ease-out;
 }

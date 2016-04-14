@@ -20,3 +20,9 @@ $ub-xlarge-padding: $ub-base-padding * 2;
 $ub-small-padding: $ub-base-padding * .75;
 $ub-xs-padding: $ub-small-padding * .7;
 $ub-tiny-padding: $ub-base-padding * .06;
+
+// Base element sizes
+$curriculum-map-width: (
+  base: 245px,
+  medium: 220px
+);
