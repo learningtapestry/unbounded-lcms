@@ -12,6 +12,8 @@ $text-sizes: (
   }
 }
 
+.u-color--base { color: $ub-txt !important; }
+
 .u-text--capitalized {
   text-transform: capitalize;
 }
@@ -85,4 +87,11 @@ $bg: (
     color: $medium-gray;
     cursor: not-allowed;
   }
+}
+
+.u-hr-small {
+  @include clearfix;
+  border-bottom: 4px solid map-get($ub-yellow, base);
+  margin-bottom: $ub-small-margin;
+  width: 80px;
 }
