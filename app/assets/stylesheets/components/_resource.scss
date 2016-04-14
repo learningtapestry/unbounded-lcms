@@ -14,7 +14,7 @@
 
   @include e(map) {
     @include flex-grid-column(shrink);
-    width: map-get($curriculum-map-width, base) + 15px;
+    width: map-get($curriculum-map-width, base) + 20px;
   }
 
   @include e(content) {

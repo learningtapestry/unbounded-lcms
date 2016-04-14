@@ -20,7 +20,7 @@
   <div class="o-page__module">
     <div class="o-page__wrap--row">
       <div class="o-page__module">
-        <%= link_to explore_curriculum_index_path, class: 'o-ub-btn o-ub-btn--base' do %>
+        <%= link_to CGI.unescape(explore_curriculum_index_path(p: @curriculum.slug.value, e: 1)), class: 'o-ub-btn o-ub-btn--base' do %>
           <i class="fa-lg ub-arrow-left"></i> <%= t('resources.btn.back') %>
         <% end %>
       </div>
@@ -102,7 +102,7 @@
             <% end %>
           </div>
         </div>
-        <div class="o-resource-summary u-pd-content u-bg--pink">
+        <div class="o-resource-summary u-pd-content u-bg--tooltip">
           <div class="o-resource-summary__map"></div>
           <div class="o-resource-summary__content">
             <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum } %>
