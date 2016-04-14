@@ -1,72 +1,61 @@
-<div class="o-page">
-  <div class="o-page__module c-hp-hero">
-    <div class="c-hp-hero__body">
-      <h1>Hero Area About UnboundEd Ipsum Bandit Nonmummy</h1>
-      <p>Byline or descriptive text lorem ipsum sapereprese venimi, consedi quoditi con re, consedi quoditi con re ministret.</p>
-      <%= link_to t('ui.learn_more'), '#', class: 'o-btn--light u-margin-top--large' %>
-    </div>
-  </div>
-  <div class="c-hp-ela">
-    <div class="o-panel o-panel--bottom c-hp-ela__panel">
-      <h2>Explore ELA Curriculum</h2>
-      <p>Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis</p>
-    </div>
-  </div>
-  <div class="c-hp-math">
-    <div class="o-panel o-panel--bottom c-hp-math__panel">
-      <h2>Explore Math Curriculum</h2>
-      <p>Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis</p>
-    </div>
-  </div>
-  <div class="c-hp-hr"><hr/></div>
-  <div class="o-page__module">
-    <div class="o-dsc">
-      <div class="o-dsc__title">FIND LESSONS BLOCK TITLE</div>
-      <div class="o-dsc__dsc">Display text about lessons lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus.</div>
-      <div class="o-dsc__cards">
-        <% 4.times do |i| %>
-          <div class="o-card o-card--base">
-            <div class="u-wrap--base">
-              <div class="o-card__header o-title">
-                <span class="o-title__type">LESSON</span>
-                <span class="o-title__duration">60 min</span>
-              </div>
-              <h2>Lesson Title Lorem Ipsum Dolor Amque</h2>
-              <div class="o-card__dsc">
-                Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis.
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </div>
-      <div class="o-dsc__button">
-        <%= link_to t('ui.view_all_lessons'), '#', class: 'o-btn--light' %>
+<div class="c-hp">
+  <div class="o-page">
+    <div class="o-page__module c-hp-hero">
+      <div class="o-panel c-hp-hero__body">
+        <h1>All students and teachers deserve an opportunity to thrive</h1>
+        <p>Byline or descriptive text lorem ipsum sapereprese venimi, consedi quoditi con re, consedi quoditi con re ministret.</p>
+        <%= link_to t('ui.learn_more'), '#', class: 'o-ub-btn o-ub-btn--yellow' %>
       </div>
     </div>
-  </div>
-  <div class="c-hp-hr"><hr/></div>
-  <div class="o-page__module">
-    <div class="o-dsc">
-      <div class="o-dsc__title">ENHANCE INSTRUCTION BLOCK TITLE</div>
-      <div class="o-dsc__dsc">Display text about lessons lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus ma dolessite paribus.</div>
-      <div class="o-dsc__cards">
-        <% 4.times do |i| %>
-          <div class="o-card o-card--base">
-            <div class="u-wrap--light">
-              <div class="o-card__header o-title">
-                <span class="o-title__type">CONTENT GUIDE</span>
-                <span class="o-title__duration">60 min</span>
-              </div>
-              <h2>Guide Title Lorem Ipsum Dolor Amque Illionem</h2>
-              <div class="o-card__dsc">
-                Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis.
-              </div>
-            </div>
-          </div>
-        <% end %>
+    <div class="o-page__module c-hp-register">
+      <div class="o-page__wrap--row c-hp-register__wrap">
+        <div class="c-hp-register__item">
+          <strong>Standards</strong> Institute</br>
+          Boston, February 15-19, 2016
+        </div>
+        <div class="c-hp-register__text">
+          Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis.
+        </div>
+        <div class="c-hp-register__item">
+          <%= link_to 'Register', '#', class: 'o-ub-btn o-ub-btn--bordered-white' %>
+        </div>
       </div>
-      <div class="o-dsc__button">
-        <%= link_to t('ui.view_all_instructions'), '#', class: 'o-btn--light' %>
+    </div>
+    <div class="c-hp-panel">
+      <div class="o-panel c-hp-panel__body c-hp-panel__body--ela">
+        <h2>ELA Curriculum</h2>
+        <div class="u-hr-small"></div>
+        <p>Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis</p>
+        <%= link_to 'Explore ELA', explore_curriculum_index_path(s: 'ela'), class: 'o-ub-btn o-ub-btn--bordered-yellow' %>
+      </div>
+    </div>
+    <div class="c-hp-panel">
+      <div class="o-panel c-hp-panel__body c-hp-panel__body--math">
+        <h2>Math Curriculum</h2>
+        <div class="u-hr-small"></div>
+        <p>Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis</p>
+        <%= link_to 'Explore Math', explore_curriculum_index_path(s: 'math'), class: 'o-ub-btn o-ub-btn--bordered-yellow' %>
+      </div>
+    </div>
+    <div class="o-page__module c-hp-media u-bg--light">
+      <div class="c-hp-media__img">
+      </div>
+      <div class="c-hp-media__body">
+        <h2>Find Lessons</h2>
+        <div class="u-hr-small"></div>
+        <p>Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis</p>
+        <%= link_to 'Find Lessons', find_lessons_path, class: 'o-ub-btn o-ub-btn--yellow' %>
+      </div>
+    </div>
+    <div class="o-page__module c-hp-media u-bg--light">
+      <div class="c-hp-media__body">
+        <h2>Enchance Instruction</h2>
+        <div class="u-hr-small"></div>
+        <p>Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis</p>
+        <%= link_to 'Content Guides', enhance_instruction_index_path, class: 'o-ub-btn o-ub-btn--yellow u-margin-bottom--zero' %>
+        <%= link_to 'Videos', enhance_instruction_index_path, class: 'o-ub-btn o-ub-btn--bordered-yellow u-margin-bottom--zero u-color--base' %>
+      </div>
+      <div class="c-hp-media__img">
       </div>
     </div>
   </div>

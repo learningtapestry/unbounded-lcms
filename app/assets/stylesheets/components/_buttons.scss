@@ -53,9 +53,18 @@
   }
 
   @each $type, $color in $ub-buttons {
-    $btn-color: if($type == 'base', $ub-txt, $ub-white);    
+    $btn-color: if($type == 'base', $ub-txt, $ub-white);
     @include m(#{$type}) {
       @include button($background: $color, $background-hover: auto, $color: $btn-color);
+    }
+  }
+
+  @each $type, $color in $ub-buttons {
+    $btn-color: if($type == 'base', $ub-txt, $ub-white);
+    @include m(bordered-#{$type}) {
+      @include button-hollow;
+      @include button-hollow-style($color);
+      color: $ub-white;
     }
   }
 
