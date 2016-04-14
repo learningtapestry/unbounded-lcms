@@ -6,8 +6,8 @@ $sticky-btn-margin: $sticky-width - $sticky-btn-width;
 
 .o-sticky {
   position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 60%;
+  transform: translateY(-60%);
 
   &:hover, &:focus {
     .o-sticky__txt {
@@ -45,7 +45,7 @@ $sticky-btn-margin: $sticky-width - $sticky-btn-width;
     padding: 0 $ub-xs-padding;
 
     > div {
-      @include flex-grid-row-align($y: middle);
+      @include flex-align($y: middle);
       flex-wrap: nowrap;
       height: 100%;
     }
