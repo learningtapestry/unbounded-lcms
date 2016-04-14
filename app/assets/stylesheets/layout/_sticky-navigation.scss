@@ -1,10 +1,32 @@
+$sticky-width: 60px;
+$sticky-height: 60px;
+$sticky-btn-width: 50px;
+$sticky-txt-width: 180px;
+$sticky-btn-margin: $sticky-width - $sticky-btn-width;
+
 .o-sticky {
   position: fixed;
   top: 50%;
+  transform: translateY(-50%);
+
+  &:hover, &:focus {
+    .o-sticky__txt {
+      display: block;
+    }
+  }
 
   @include m(right) {
-    width: 3%;
+    margin-left: $sticky-btn-margin;
     text-align: right;
+
+    &:hover, &:focus {
+      margin-left: $sticky-btn-margin - $sticky-txt-width;
+    }
+  }
+
+  @include m(left) {
+    margin-left: -$sticky-width;
+    text-align: left;
   }
 
   @include m(disabled) {
@@ -13,4 +35,32 @@
       pointer-events: none !important;
     }
   }
+
+  @include e(btn) {
+    @include button($background: $ub-panel-bg, $background-hover: $ub-white, $color: $ub-txt);
+    @include button-expand;
+    border: 1px solid darken($ub-panel-bg, 5%);
+    height: $sticky-btn-width;
+    min-width: $sticky-btn-width;
+    padding: 0 $ub-xs-padding;
+
+    > div {
+      @include flex-grid-row-align($y: middle);
+      flex-wrap: nowrap;
+      height: 100%;
+    }
+
+  }
+
+  @include e(icon) {
+    @include flex-grid-column(shrink, 0);
+  }
+
+  @include e(txt) {
+    @include flex-grid-column(shrink, 0);
+    display: none;
+    text-align: left;
+    width: $sticky-txt-width;
+  }
+
 }
