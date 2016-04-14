@@ -35,12 +35,12 @@
   -webkit-box-orient: vertical;
 }
 
-@mixin margin-bottom-gutter($gutter: $grid-column-gutter) {
+@mixin add-gutter($type: margin, $subtype: bottom, $x: 1, $gutter: $grid-column-gutter) {
   @each $breakpoint, $value in $gutter {
     $margin: rem-calc($value);
 
     @include breakpoint($breakpoint) {
-      margin-bottom: $margin;
+      #{$type}-#{$subtype}: $margin * $x;
     }
   }
 }

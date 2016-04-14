@@ -6,7 +6,7 @@ $lesson-card-height: 194px;
 
 .o-lesson-card {
   @include flex();
-  @include margin-bottom-gutter();
+  @include add-gutter();
 
   @include m(base) {
     @include flex-grid-column(12);
