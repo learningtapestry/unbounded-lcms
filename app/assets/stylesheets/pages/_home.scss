@@ -1,47 +1,90 @@
+.c-hp {
+  background: image-url('homepage_bg.jpg');
+  background-repeat: no-repeat;
+  padding-bottom: $ub-large-margin * 2;
+}
+
 .c-hp-hero {
-  @extend %u-ph-img--light;
-  background-color: $ub-hero-bg;
+  margin-top: $ub-xlarge-margin * 2;
+  margin-bottom: $ub-xlarge-margin * 2;
 
   @include e(body) {
-    float: right;
-    padding: $global-padding * 2;
-    width: grid-column(12);
+    @include grid-column-offset(4);
+    @include flex-grid-column(8);
+    background-color: rgba($ub-white, .45);
 
-    @include breakpoint(large) {
-      width: grid-column(5);
-    }
+    h1 { color: $ub-primary; }
 
     @include breakpoint(medium) {
-      width: grid-column(8);
+      @include grid-column-offset(6);
+      @include flex-grid-column(6);
     }
   }
 }
 
-.c-hp-standards {
+.c-hp-register {
+  @include add-gutter;
+  background-color: rgba(map-get($ub-mignight, base), .7);
+  color: $ub-white;
+  padding: $ub-xlarge-padding 0;
+
+  @include e(wrap) {
+    @include flex-align($x: spaced, $y: middle);
+  }
+
+  @include e(item) {
+    @include flex-grid-column(shrink);
+  }
+
+  @include e(text) {
+    @include flex-grid-column();
+    border-left: 1px solid $ub-whitesmoke;
+  }
+
+}
+
+.c-hp-media {
   @include media-object-container;
+  @include add-gutter;
 
   @include e(img) {
     @include media-object-section;
+    background-image: image-url('professional_development');
+    background-size: cover;
     width: grid-column(4);
-    img { height: 100%; width: 100%; }
   }
 
   @include e(body) {
     @include media-object-section;
+    padding: $ub-base-padding 0;
     padding-left: $ub-large-padding;
     width: grid-column(8);
   }
 }
 
-.c-hp-ela, .c-hp-math {
-  @include flex-grid-column(12);
+.c-hp-panel {
+  @include flex-grid-column(12, 0);
+  @include add-gutter;
 
   @include breakpoint(medium) {
-    @include flex-grid-column(6);
+    @include flex-grid-column(6, 0);
   }
 
-  @include e(panel) {
-    @extend %u-ph-img--light;
+  @include e(body) {
+    @include add-gutter($type: padding, $subtype: right, $x: .5);
+    @include add-gutter($type: padding, $subtype: left, $x: .5);
+    padding: $ub-base-padding 0;
+
+    h2, & { color: $ub-white; }
+
+    @include m(ela) {
+      @include add-gutter($type: margin, $subtype: right, $x: .5);
+      background-color: rgba(map-get($ub-colorcodes, ela-base), .7);
+    }
+    @include m(math) {
+      @include add-gutter($type: margin, $subtype: left, $x: .5);
+      background-color: rgba(map-get($ub-colorcodes, math-base), .7);
+    }
   }
 }
 

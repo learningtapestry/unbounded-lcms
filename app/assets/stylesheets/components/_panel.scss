@@ -1,7 +1,5 @@
 .o-panel {
-  background-color: $ub-panel-bg;
-  margin-top: $ub-base-margin;
-  padding: $ub-large-padding;
+  padding: $ub-base-padding 0;
 
   @include m(bottom) {
     padding-top: $ub-xlarge-padding * 2;
