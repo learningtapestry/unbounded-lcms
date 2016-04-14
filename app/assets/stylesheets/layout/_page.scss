@@ -62,10 +62,6 @@ html, body {
   }
 
   @include e(sticky) {
-    @include flex-grid-column(1, 0);
-    $tmp-column-width: percentage(.5 / $grid-column-count);
-    flex: 0 0 $tmp-column-width;
-    max-width: $tmp-column-width;
     position: relative;
   }
 

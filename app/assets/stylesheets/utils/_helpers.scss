@@ -56,7 +56,8 @@ $bg: (
   light: $ub-white,
   base: $ub-panel-bg,
   dark: $ub-hero-bg,
-  primary: $ub-primary
+  primary: $ub-primary,
+  tooltip: darken($ub-tooltip, 5%)
 );
 
 @each $bg-type, $bg-color in $bg {
@@ -76,7 +77,7 @@ $bg: (
 
 .u-pd-content {
   padding-bottom: $ub-large-padding;
-  padding-top: $ub-base-padding;
+  padding-top: $ub-large-padding;
 }
 
 .u-link--disabled {

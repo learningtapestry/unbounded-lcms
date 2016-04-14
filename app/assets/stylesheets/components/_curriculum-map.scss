@@ -2,7 +2,7 @@
   font-style: italic;
 }
 
-@mixin curriculum-map-base ($bg-active: $ub-primary, $bg-base: $ub-panel-bg) {
+@mixin curriculum-map-base {
   @include flex-grid-row(nest);
   flex-direction: column;
 
@@ -48,7 +48,7 @@
 @mixin curriculum-map-layout($lesson-size: 10px, $lesson-margin: 4px, $lessons-in-row: 4,
                       $units-in-row: 3, $units-margin: 0, $module-height: 15px,
                       $module-margin: $ub-xs-padding, $module-padding: $ub-tiny-padding $ub-xs-padding,
-                      $width: 245px) {
+                      $width: map-get($curriculum-map-width, base)) {
 
   $width-for-padding: 15px;
   $unit-padding: ($width - $width-for-padding - (($lesson-size + $lesson-margin) * $lessons-in-row) * $units-in-row) / $units-in-row;
@@ -89,19 +89,19 @@
 
 .o-c-map {
   @extend .u-margin-top--small;
-  @include curriculum-map-base();
+  @include curriculum-map-base;
   @include curriculum-map-layout($lesson-size: 12px);
 }
 
 .o-ch-map {
-  @include curriculum-map-base($bg-base: $ub-primary);
+  @include curriculum-map-base;
 
   @include e(details) {
     @extend %map-transition;
   }
 
   @include m(medium) {
-    @include curriculum-map-layout($width: 220px, $module-padding: 8px);
+    @include curriculum-map-layout($width: map-get($curriculum-map-width, medium), $module-padding: 8px);
 
     @include e(details) {
       @include curriculum-details;
@@ -122,7 +122,7 @@
 }
 
 .o-ch-unit-map {
-  @include curriculum-map-base($bg-base: $ub-primary);
+  @include curriculum-map-base;
 
   @include e(details) {
     @extend %map-transition;

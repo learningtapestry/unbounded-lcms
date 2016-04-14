@@ -1,17 +1,29 @@
 <!-- Ref:  (v5)NEW-1577_Annotated_IA_v05  page 21 -->
-<div class="o-page o-page--margin-to-top">
+<div class="o-page o-page--margin-to-bottom">
   <div class="o-page__sticky">
-    <div class="o-sticky <%= 'o-sticky--disabled' unless @curriculum.previous_of_type %>">
-      <a href="<%= @curriculum.previous_of_type ? show_with_slug_path(@curriculum.previous_of_type.slug.value) : '#' %>"><i class="fa fa-2x fa-angle-left"></i></a>
+    <div class="o-sticky o-sticky--left <%= 'o-sticky--disabled' unless @curriculum.previous_of_type %>">
+      <a class="o-sticky__btn" href="<%= @curriculum.previous_of_type ? show_with_slug_path(@curriculum.previous_of_type.slug.value) : '#' %>">
+        <div class="o-page__wrap--row">
+          <div class="o-sticky__icon">
+            <i class="fa-2x ub-angle-left"></i>
+          </div>
+          <% if  @curriculum.previous_of_type %>
+            <div class="o-sticky__txt">
+              <small><%= t('resources.btn.arrow', dir: 'Previous', type: type_name(@curriculum.previous_of_type)) %></small></br>
+              <strong><%= @curriculum.previous_of_type.resource.title %></strong>
+            </div>
+          <% end %>
+        </div>
+      </a>
     </div>
   </div>
-  <div class="o-page__content--collapse">
-    <div class="o-page_wrap--row">
-      <% if @curriculum.parent %>
-        <%= link_to show_with_slug_path(@curriculum.parent.slug.value), class: 'o-btn--dark o-btn--bordered o-btn--expand o-page__section u-margin-bottom--base .u-text--capitalized' do %>
-          <%= t('resources.btn.view', short_title: @curriculum.parent.resource.short_title) + ': ' + @curriculum.parent.resource.title %>
+  <div class="o-page__module">
+    <div class="o-page__wrap--row">
+      <div class="o-page__module">
+        <%= link_to CGI.unescape(explore_curriculum_index_path(p: @curriculum.slug.value, e: 1)), class: 'o-ub-btn o-ub-btn--base' do %>
+          <i class="fa-lg ub-arrow-left"></i> <%= t('resources.btn.back') %>
         <% end %>
-      <% end %>
+      </div>
       <div class="o-page__section cs-bg--<%= @color_code %>">
         <div class="o-content-title">
           <%
@@ -26,13 +38,13 @@
           <% end %>
         </div>
       </div>
-      <div class="o-page__section  u-pd-content u-bg--light">
-        <div class="o-title u-margin-bottom--small">
-          <span class="o-title__type cs-txt--<%= @color_code %>"><%= @resource.short_title %></span>
-          <span class="o-title__duration"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span>
-        </div>
+      <div class="o-page__section u-padding-top--large u-bg--light">
         <div class="o-resource-title">
           <div class="o-resource-title__title">
+            <div class="o-title">
+              <span class="o-title__type cs-txt--<%= @color_code %>"><%= @resource.short_title %></span>
+              <span class="o-title__duration"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span>
+            </div>
             <h2><%= @resource.title %></h2>
             <div class="u-text--large">
               <%= @resource.teaser_text %>
@@ -42,16 +54,13 @@
             <div>
               <!--button class="o-ub-btn" data-open="downloads-modal"><%= t('resources.btn.download', title: @curriculum.type_name) %></button-->
               <a class="o-ub-btn" href="#resource-downloads-list"><%= t('resources.btn.download', title: @curriculum.type_name) %></a>
-
             </div>
             <div>
               <%= link_to t('resources.btn.related'), '#related-instruction', class: 'o-ub-btn o-ub-btn--bordered' %>
             </div>
           </div>
         </div>
-        <div><h3>Summary</h3></div>
-        <hr class="u-margin-top--xs"/>
-        <div class="o-resource-summary">
+        <div class="o-resource-summary u-pd-content">
           <div class="o-resource-summary__map">
             <strong>Curriculum Map</strong> &ndash; <span class="u-text--capitalized"><%= @curriculum.subject_and_grade_title %></span>
             <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum, color_code: @color_code } %>
@@ -93,6 +102,12 @@
             <% end %>
           </div>
         </div>
+        <div class="o-resource-summary u-pd-content u-bg--tooltip">
+          <div class="o-resource-summary__map"></div>
+          <div class="o-resource-summary__content">
+            <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum } %>
+          </div>
+        </div>
       </div>
 
       <%= react_component('RelatedInstruction', {resource: @resource}, prerender: true) %>
@@ -102,7 +117,19 @@
   </div>
   <div class="o-page__sticky">
     <div class="o-sticky o-sticky--right <%= 'o-sticky--disabled' unless @curriculum.next_of_type %>">
-      <a href="<%= @curriculum.next_of_type ? show_with_slug_path(@curriculum.next_of_type.slug.value) : '#' %>"><i class="fa fa-2x fa-angle-right"></i></a>
+      <a class="o-sticky__btn" href="<%= @curriculum.next_of_type ? show_with_slug_path(@curriculum.next_of_type.slug.value) : '#' %>">
+        <div class="o-page__wrap--row">
+          <% if  @curriculum.next_of_type %>
+            <div class="o-sticky__txt">
+              <small><%= t('resources.btn.arrow', dir: 'Next', type: type_name(@curriculum.next_of_type)) %></small></br>
+              <strong><%= @curriculum.next_of_type.resource.title %></strong>
+            </div>
+          <% end %>
+          <div class="o-sticky__icon">
+            <i class="fa-2x ub-angle-right"></i>
+          </div>
+        </div>
+      </a>
     </div>
   </div>
 </div>

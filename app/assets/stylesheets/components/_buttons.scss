@@ -52,4 +52,11 @@
     @include button-disabled;
   }
 
+  @each $type, $color in $ub-buttons {
+    $btn-color: if($type == 'base', $ub-txt, $ub-white);    
+    @include m(#{$type}) {
+      @include button($background: $color, $background-hover: auto, $color: $btn-color);
+    }
+  }
+
 }
