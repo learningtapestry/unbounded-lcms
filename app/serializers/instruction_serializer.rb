@@ -7,16 +7,11 @@ class InstructionSerializer < ActiveModel::Serializer
   end
 
   def img
-    object.small_photo.path
+    object.small_photo.try(:path)
   end
 
   def path
-    # h.content_guide_path(object)
-    '#'
+    content_guide_path(object)
   end
 
-  protected
-    def h
-      ApplicationController.helpers
-    end
 end
