@@ -27,6 +27,7 @@ class ExploreCurriculumController < ApplicationController
           .with_resources
           .where_subject(subject_params)
           .where_grade(grade_params)
+          .order('resources.subject', :position)
       end
     end
 
