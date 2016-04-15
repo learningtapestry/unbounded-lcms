@@ -42,12 +42,12 @@ class EnhanceInstructionController < ApplicationController
       pagination: pagination_params,
       each_serializer: InstructionSerializer
     )
-    videos_props = serialize_with_pagination(find_videos,
+    videos = serialize_with_pagination(find_videos,
       pagination: pagination_params,
       each_serializer: VideoInstructionSerializer
-    )
+    )[:results]
     @props.merge!(filterbar_props)
-    @props.merge!(videos: videos_props)
+    @props.merge!(videos: videos)
   end
 
 end

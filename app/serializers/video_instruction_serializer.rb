@@ -1,9 +1,13 @@
 class VideoInstructionSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :id, :title, :teaser, :img, :path
+  attributes :id, :title, :short_title, :teaser, :img, :path
 
   def short_title
-    "short title Video"
+    object.short_title || default_short_title
+  end
+
+  def default_short_title
+    "#{object.subject.titleize} #{object.grades.first.try(:name).try(:titleize)} Video"
   end
 
   def img
