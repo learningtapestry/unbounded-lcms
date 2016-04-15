@@ -51,7 +51,7 @@ class ExploreCurriculumItem extends React.Component {
         <div className={cssClasses}>
             {children}
         </div>
-        <DownloadModal {...curriculum.resource} />
+        <DownloadModal resource={curriculum.resource} colorCode={colorCode} />
       </div>
       );
    }
