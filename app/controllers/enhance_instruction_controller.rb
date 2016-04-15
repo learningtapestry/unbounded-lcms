@@ -23,7 +23,14 @@ class EnhanceInstructionController < ApplicationController
   end
 
   def find_videos
-    Resource.where(resource_type: accepted_resource_types)
+    queryset = Resource.where(nil)
+
+    unless search_term.blank?
+      search_ids = Resource.search(search_term, limit: 100).results.map {|r| r.id.to_i }
+      queryset = queryset.where(id: search_ids).order_as_specified(id: search_ids)
+    end
+
+    queryset.where(resource_type: accepted_resource_types)
             .where_subject(subject_params)
             .where_grade(grade_params)
             .paginate(pagination_params.slice(:page, :per_page))

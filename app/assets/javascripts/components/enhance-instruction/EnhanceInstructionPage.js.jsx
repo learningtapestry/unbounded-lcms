@@ -74,6 +74,7 @@ class EnhanceInstructionPage extends React.Component {
               </div>
               <Filterbar
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
+                withSearch={true}
                 {...this.state.filterbar} />
             </div>
           </div>
