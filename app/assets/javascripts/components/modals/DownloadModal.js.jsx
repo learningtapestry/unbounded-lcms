@@ -17,10 +17,12 @@ class DownloadModal extends React.Component {
   }
 
   modalContentData() {
-    const resource = this.props;
-    return `<h2>Download ${_.capitalize(resource.type.name)}</h2>
+    const resource = this.props.resource;
+    return `<div class="o-download-modal__title cs-bg--${this.props.colorCode}">
+              Download ${_.capitalize(resource.type.name)}
+            </div>
             <div class="o-download-modal__content">
-              <ul class="o-resource__list o-resource__list--icons">
+              <ul class="o-resource__list o-resource__list--icons o-resource__list--${resource.subject}-base">
                 ${ _.map(resource.downloads, item => this.download(item)).join('\n') }
               </ul>
             </div>
@@ -34,7 +36,7 @@ class DownloadModal extends React.Component {
   }
 
   render() {
-    const resource = this.props;
+    const resource = this.props.resource;
     const modalId = `downloads-modal-${resource.id}`;
 
     return (resource.downloads && resource.downloads.length > 0) ?
