@@ -1,16 +1,31 @@
 .o-download-modal {
   @include reveal-overlay;
   @include reveal-modal-base;
-  @include reveal-modal-width(35%);
+  @include reveal-modal-width(45%);
   margin-left: auto;
   margin-right: auto;
   overflow-y: auto;
   position: relative;
   top: 30vh;
 
+  .close-button { color: $ub-white; }
+
   @include e(content) {
-    max-height: 40vh;
+    @include add-column-padding;
+    max-height: 50vh;
     overflow-y: auto;
+    padding-bottom: $ub-base-padding;
+    padding-top: $ub-base-padding;
+  }
+
+  @include e(title) {
+    @include add-column-padding;
+    color: $ub-white;
+    font-family: $ub-serif;
+    font-size: $lead-font-size;
+    font-weight: bold;
+    padding-bottom: $ub-xs-padding;
+    padding-top: $ub-xs-padding;
   }
 }
 
