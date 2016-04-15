@@ -2,10 +2,14 @@ module Filterbar
   extend ActiveSupport::Concern
 
   included do
-    def grade_params
-      names = split_params(params[:grades]) & [
+    def untranslated_grade_params
+      split_params(params[:grades]) & [
         'pk', 'k', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'
       ]
+    end
+
+    def grade_params
+      names = untranslated_grade_params
 
       names.map! do |name|
         name = name.to_s
@@ -40,7 +44,7 @@ module Filterbar
       {
         filterbar: {
           subjects: subject_params,
-          grades: grade_params,
+          grades: untranslated_grade_params,
           facets: facets_params,
           search_term: search_term
         }

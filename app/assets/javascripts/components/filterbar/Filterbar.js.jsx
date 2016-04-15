@@ -8,20 +8,20 @@ class Filterbar extends React.Component {
         { displayName: 'MATH', name: 'math', selected: false }
       ],
       grades: [
-        { displayName: 'PK', mathDisplayName: 'PK', name: 'pk', altName: 'prekindergarten', selected: false },
-        { displayName: 'K', mathDisplayName: 'K', name: 'k', altName: 'kindergarten', selected: false },
-        { displayName: '1', mathDisplayName: '1', name: '1', altName: 'grade 1', selected: false },
-        { displayName: '2', mathDisplayName: '2', name: '2', altName: 'grade 2', selected: false },
-        { displayName: '3', mathDisplayName: '3', name: '3', altName: 'grade 3', selected: false },
-        { displayName: '4', mathDisplayName: '4', name: '4', altName: 'grade 4', selected: false },
-        { displayName: '5', mathDisplayName: '5', name: '5', altName: 'grade 5', selected: false },
-        { displayName: '6', mathDisplayName: '6', name: '6', altName: 'grade 6', selected: false },
-        { displayName: '7', mathDisplayName: '7', name: '7', altName: 'grade 7', selected: false },
-        { displayName: '8', mathDisplayName: '8', name: '8', altName: 'grade 8', selected: false },
-        { displayName: '9', mathDisplayName: 'A1', name: '9', altName: 'grade 9', selected: false },
-        { displayName: '10', mathDisplayName: 'GE', name: '10', altName: 'grade 10', selected: false },
-        { displayName: '11', mathDisplayName: 'A2', name: '11', altName: 'grade 11', selected: false },
-        { displayName: '12', mathDisplayName: 'PC', name: '12', altName: 'grade 12', selected: false }
+        { displayName: 'PK', mathDisplayName: 'PK', name: 'pk', selected: false },
+        { displayName: 'K', mathDisplayName: 'K', name: 'k', selected: false },
+        { displayName: '1', mathDisplayName: '1', name: '1', selected: false },
+        { displayName: '2', mathDisplayName: '2', name: '2', selected: false },
+        { displayName: '3', mathDisplayName: '3', name: '3', selected: false },
+        { displayName: '4', mathDisplayName: '4', name: '4', selected: false },
+        { displayName: '5', mathDisplayName: '5', name: '5', selected: false },
+        { displayName: '6', mathDisplayName: '6', name: '6', selected: false },
+        { displayName: '7', mathDisplayName: '7', name: '7', selected: false },
+        { displayName: '8', mathDisplayName: '8', name: '8', selected: false },
+        { displayName: '9', mathDisplayName: 'A1', name: '9', selected: false },
+        { displayName: '10', mathDisplayName: 'GE', name: '10', selected: false },
+        { displayName: '11', mathDisplayName: 'A2', name: '11', selected: false },
+        { displayName: '12', mathDisplayName: 'PC', name: '12', selected: false }
       ],
       facets: [
         { displayName: 'CURRICULUM', name: 'curriculum', selected: false },
@@ -43,7 +43,7 @@ class Filterbar extends React.Component {
   initSelectedFilters(initialState, prop) {
     if (prop in this.props) {
       _.chain(initialState[prop])
-       .filter(s => _.includes(this.props[prop], s.name) || _.includes(this.props[prop], s.altName))
+       .filter(s => _.includes(this.props[prop], s.name))
        .forEach(s => { s.selected = true; })
        .value();
     }
