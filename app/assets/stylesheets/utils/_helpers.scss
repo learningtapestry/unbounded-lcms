@@ -59,7 +59,7 @@ $bg: (
   base: $ub-panel-bg,
   dark: $ub-hero-bg,
   primary: $ub-primary,
-  tooltip: darken($ub-tooltip, 5%)
+  tooltip: darken($ub-tooltip, 1%)
 );
 
 @each $bg-type, $bg-color in $bg {

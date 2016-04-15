@@ -1,4 +1,3 @@
-<!-- Ref:  (v5)NEW-1577_Annotated_IA_v05  page 21 -->
 <div class="o-page o-page--margin-to-bottom">
   <div class="o-page__sticky">
     <div class="o-sticky o-sticky--left <%= 'o-sticky--disabled' unless @curriculum.previous_of_type %>">
@@ -20,11 +19,11 @@
   <div class="o-page__module">
     <div class="o-page__wrap--row">
       <div class="o-page__module">
-        <%= link_to CGI.unescape(explore_curriculum_index_path(p: @curriculum.slug.value, e: 1)), class: 'o-ub-btn o-ub-btn--base' do %>
+        <%= link_to back_to_curriculum_path(@curriculum), class: 'o-ub-btn o-ub-btn--base' do %>
           <i class="fa-lg ub-arrow-left"></i> <%= t('resources.btn.back') %>
         <% end %>
       </div>
-      <div class="o-page__section cs-bg--<%= @color_code %>">
+      <div class="o-page__section cs-bg--<%= color_code(@resource, @grade_color_code) %>">
         <div class="o-content-title">
           <%
             @curriculum.self_and_ancestors.reverse.each_with_index do |ancestor|
@@ -42,7 +41,7 @@
         <div class="o-resource-title">
           <div class="o-resource-title__title">
             <div class="o-title">
-              <span class="o-title__type cs-txt--<%= @color_code %>"><%= @resource.short_title %></span>
+              <span class="o-title__type cs-txt--<%= color_code(@resource, @grade_color_code) %>"><%= @resource.short_title %></span>
               <span class="o-title__duration"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span>
             </div>
             <h2><%= @resource.title %></h2>
@@ -63,7 +62,7 @@
         <div class="o-resource-summary u-pd-content">
           <div class="o-resource-summary__map">
             <strong>Curriculum Map</strong> &ndash; <span class="u-text--capitalized"><%= @curriculum.subject_and_grade_title %></span>
-            <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum, color_code: @color_code } %>
+            <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum, color_code: color_code(@resource, @grade_color_code) } %>
           </div>
           <div class="o-resource-summary__content">
             <div class="o-resource__item o-resource__item--description">
@@ -72,7 +71,7 @@
             </div>
             <div id="resource-downloads-list" class="o-resource__item">
               <h3>Downloads</h3>
-              <ul class="o-resource__list o-resource__list--icons">
+              <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code(@resource) %>">
                 <% @resource.downloads.each do |download| %>
                   <%= render partial: 'resources/download', locals: { download: download } %>
                 <% end %>
@@ -81,10 +80,11 @@
             <% unless @resource.requirements.empty? %>
             <div class="o-resource__item">
               <h3>Prerequisites</h3>
-              <ul>
+              <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code(@resource) %>">
               <% @resource.requirements.each do |req| %>
                 <li>
-                  <a href="<%= show_resource_path req %>"><%= req.title %></a>
+                  <i class="fa fa-square"></i>
+                  <span><a href="<%= show_resource_path req %>"><%= req.title %></a></span>
                 </li>
               <% end %>
               </ul>
