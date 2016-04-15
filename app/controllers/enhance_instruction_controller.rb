@@ -22,13 +22,32 @@ class EnhanceInstructionController < ApplicationController
                 .paginate(pagination_params.slice(:page, :per_page))
   end
 
+  def find_videos
+    Resource.where(resource_type: accepted_resource_types)
+            .where_subject(subject_params)
+            .where_grade(grade_params)
+            .paginate(pagination_params.slice(:page, :per_page))
+  end
+
+  def accepted_resource_types
+    [
+      Resource.resource_types[:video],
+      Resource.resource_types[:podcast]
+    ]
+  end
+
   def set_index_props
-    @instructions = find_instructions.paginate(pagination_params.slice(:page, :per_page))
+    @instructions = find_instructions
     @props = serialize_with_pagination(@instructions,
       pagination: pagination_params,
       each_serializer: InstructionSerializer
     )
+    videos_props = serialize_with_pagination(find_videos,
+      pagination: pagination_params,
+      each_serializer: VideoInstructionSerializer
+    )
     @props.merge!(filterbar_props)
+    @props.merge!(videos: videos_props)
   end
 
 end
