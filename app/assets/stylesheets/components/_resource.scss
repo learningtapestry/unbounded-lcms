@@ -40,6 +40,13 @@
     @include m(icons) {
       @include menu-icons($position: left);
     }
+
+    @each $code, $color in $ub-colorcodes {
+      @include m(#{$code}) {
+        li, a { color: $color; }
+        a:hover, a:focus { color: scale-color($color, $lightness: -20%); }
+      }
+    }
   }
 
   @include e(cc) {
