@@ -1,4 +1,6 @@
 class VideoInstructionSerializer < ActiveModel::Serializer
+  include ResourceHelper
+
   self.root = false
   attributes :id, :title, :short_title, :teaser, :img, :path
 
@@ -11,10 +13,10 @@ class VideoInstructionSerializer < ActiveModel::Serializer
   end
 
   def img
-    "#"
+    "#" # TODO fix-me when we add photos/images to Resources
   end
 
   def path
-    "#"
+    show_resource_path(object)
   end
 end

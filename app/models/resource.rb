@@ -1,4 +1,6 @@
 class Resource < ActiveRecord::Base
+  extend OrderAsSpecified
+
   include Search::ResourcesSearch
 
   enum resource_type: { podcast: 2, resource: 1, video: 3 }
