@@ -1,7 +1,7 @@
 <% if !curriculum.lesson? %>
   <h3><%= t('resources.title.children', type: curriculum.type_name) %></h3>
   <%= 'No children items.' if curriculum.children.blank? %>
-  <ul class="o-resource__list o-resource__list--icons">
+  <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code(curriculum.resource) %>">
     <% curriculum.children.each do |item| %>
       <li>
         <i class="fa fa-square"></i>
