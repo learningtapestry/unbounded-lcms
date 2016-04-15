@@ -27,7 +27,12 @@ class CurriculumSerializer < ActiveModel::Serializer
       object.children
     end
 
-    kids.map { |c| CurriculumSerializer.new(c, depth: @depth - 1).as_json }
+    kids.map do |c| 
+      CurriculumSerializer.new(c,
+        depth: @depth - 1,
+        depth_branch: @depth_branch
+      ).as_json
+    end
   end
 
   def lesson_count
