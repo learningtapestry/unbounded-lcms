@@ -74,9 +74,9 @@ class SearchPage extends React.Component {
                 total_hits={this.state.total_hits} />
           }
 
-          <PaginationBoxView previousLabel={"< Previous"}
-                          nextLabel={"Next >"}
-                          breakLabel={<li className="break"><a href="">...</a></li>}
+          <PaginationBoxView previousLabel={<i className="fa-2x ub-angle-left"></i>}
+                          nextLabel={<i className="fa-2x ub-angle-right"></i>}
+                          breakLabel={<li className="o-pagination__break">...</li>}
                           pageNum={this.state.total_pages}
                           initialSelected={this.state.current_page - 1}
                           forceSelected={this.state.current_page - 1}
