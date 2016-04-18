@@ -8,6 +8,7 @@ class EnhanceInstructionPage extends React.Component {
   buildStateFromProps(props) {
     return {
       instructions: props.results,
+      videos: props.videos,
       per_page: props.pagination.per_page,
       order: props.pagination.order,
       current_page: props.pagination.current_page,
@@ -73,6 +74,7 @@ class EnhanceInstructionPage extends React.Component {
               </div>
               <Filterbar
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
+                withSearch={true}
                 {...this.state.filterbar} />
             </div>
           </div>
@@ -108,7 +110,12 @@ class EnhanceInstructionPage extends React.Component {
                                activeClassName={"o-pagination__page--active"} />
              </Tabs.Panel>
              <Tabs.Panel title='Videos'>
-               <div className="o-page__section u-margin-top--base"><h3>Under Construction</h3></div>
+               <div className="o-page__section u-margin-top--base">
+                 <h3>Under Construction</h3>
+                 <ul>
+                   { this.state.videos.map(video => <li key={video.id}>{video.short_title} :: {video.title}</li>) }
+                 </ul>
+               </div>
              </Tabs.Panel>
           </Tabs>
        </div>

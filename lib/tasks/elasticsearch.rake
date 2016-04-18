@@ -2,7 +2,7 @@ namespace :es do
 
   desc 'Load index'
   task load: :environment do
-    models = [ Resource ]
+    models = [ Resource, ContentGuide]
 
     models.each do |model|
       puts "Loading Index for: #{model.name}"

@@ -1,6 +1,9 @@
 require 'google/apis/drive_v3'
 
 class ContentGuide < ActiveRecord::Base
+  extend OrderAsSpecified
+  include Search::ResourcesSearch
+
   attr_accessor :update_metadata
 
   has_many :content_guide_standards
@@ -15,6 +18,16 @@ class ContentGuide < ActiveRecord::Base
 
   mount_uploader :big_photo, ContentGuidePhotoUploader
   mount_uploader :small_photo, ContentGuidePhotoUploader
+
+  scope :where_subject, ->(subjects) {
+    subjects = Array.wrap(subjects)
+    if subjects.any? then where(subject: subjects) else where(nil) end
+  }
+
+  scope :where_grade, ->(grades) {
+    grades = Array.wrap(grades)
+    if grades.any? then where(grade: grades) else where(nil) end
+  }
 
   class << self
     def file_id_from_url(url)

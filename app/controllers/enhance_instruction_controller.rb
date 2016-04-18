@@ -1,20 +1,5 @@
 require 'will_paginate/array'
 
-class Instruction
-  include ActiveModel::Serialization
-
-  attr_accessor :id, :title, :short_title, :img, :path
-
-  def initialize(attributes = {})
-    assign_attributes(attributes)
-  end
-
-  def assign_attributes(values)
-    values.each do |k, v|
-      send("#{k}=", v)
-    end
-  end
-end
 
 class EnhanceInstructionController < ApplicationController
   include Filterbar
@@ -31,24 +16,53 @@ class EnhanceInstructionController < ApplicationController
 
   private
 
-  def dummy_instructions
-    instructions = []
-    50.times do |i|
-      instructions << Instruction.new(id: i,
-                                      path: '#',
-                                      short_title: "ST #{i} Content Guide",
-                                      title: "Full Title for #{i} Content Guide")
+  def find_instructions
+    queryset = build_search_queryset_for_model ContentGuide
+
+    queryset.where_subject(subject_params)
+            .where_grade(grade_params)
+            .paginate(pagination_params.slice(:page, :per_page))
+  end
+
+  def find_videos
+    queryset = build_search_queryset_for_model Resource
+
+    queryset.where(resource_type: accepted_resource_types)
+            .where_subject(subject_params)
+            .where_grade(grade_params)
+            .paginate(pagination_params.slice(:page, :per_page))
+  end
+
+  def build_search_queryset_for_model(model)
+    queryset = model.where(nil)
+
+    unless search_term.blank?
+      search_ids = model.search(search_term, limit: 100).results.map {|r| r.id.to_i }
+      queryset = queryset.where(id: search_ids).order_as_specified(id: search_ids)
     end
-    instructions
+
+    queryset
+  end
+
+  def accepted_resource_types
+    [
+      Resource.resource_types[:video],
+      Resource.resource_types[:podcast]
+    ]
   end
 
   def set_index_props
-    @instructions = dummy_instructions.paginate(pagination_params.slice(:page, :per_page))
+    @instructions = find_instructions
     @props = serialize_with_pagination(@instructions,
       pagination: pagination_params,
       each_serializer: InstructionSerializer
     )
+    videos = serialize_with_pagination(find_videos,
+      pagination: pagination_params,
+      each_serializer: VideoInstructionSerializer
+    )[:results]
     @props.merge!(filterbar_props)
+    @props.merge!(videos: videos)
   end
 
 end

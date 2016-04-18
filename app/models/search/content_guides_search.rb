@@ -1,7 +1,7 @@
 require 'elasticsearch/model'
 
 module Search
-  module ResourcesSearch
+  module ContentGuidesSearch
     def self.included(base)
       base.class_eval do
 
@@ -11,9 +11,10 @@ module Search
         settings index: Search::index_settings do
           mappings dynamic: 'false' do
             indexes :title,       **Search::ngrams_multi_field(:title)
-            indexes :short_title, **Search::ngrams_multi_field(:short_title)
-            indexes :subtitle,    **Search::ngrams_multi_field(:subtitle)
+            indexes :name,        **Search::ngrams_multi_field(:short_title)
+            indexes :teaser,      **Search::ngrams_multi_field(:subtitle)
             indexes :description, **Search::ngrams_multi_field(:description)
+            # indexes :content,     **Search::ngrams_multi_field(:description)
           end
         end
 
@@ -28,17 +29,20 @@ module Search
               query: {
                 bool: {
                   should: [
-                    { match: { 'title.full'    => {query: term, type: 'phrase', boost: 5} } },
-                    { match: { 'title.partial' => {query: term, boost: 5} } },
+                    { match: { 'title.full'     => {query: term, type: 'phrase', boost: 5} } },
+                    { match: { 'title.partial'  => {query: term, boost: 5} } },
 
-                    { match: { 'subtitle.full'    => {query: term, type: 'phrase', boost: 2} } },
-                    { match: { 'subtitle.partial' => {query: term, boost: 2} } },
+                    { match: { 'name.full'      => {query: term, type: 'phrase', boost: 1} } },
+                    { match: { 'name.partial'   => {query: term, boost: 1} } },
 
-                    { match: { 'short_title.full'    => {query: term, type: 'phrase', boost: 2} } },
-                    { match: { 'short_title.partial' => {query: term, boost: 2} } },
+                    { match: { 'teaser.full'    => {query: term, type: 'phrase', boost: 2} } },
+                    { match: { 'teaser.partial' => {query: term, boost: 2} } },
 
                     { match: { 'description.full'    => {query: term, type: 'phrase', boost: 1} } },
                     { match: { 'description.partial' => {query: term, boost: 1} } },
+
+                    # { match: { 'content.full'    => {query: term, type: 'phrase', boost: 1} } },
+                    # { match: { 'content.partial' => {query: term, boost: 1} } },
                   ]
                 }
               },
