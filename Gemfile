@@ -39,7 +39,7 @@ gem 'seedbank', '~> 0.3'
 gem 'simple_form'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
-gem 'wicked_pdf', '~> 0.6'
+gem 'wicked_pdf', '~> 1.0'
 gem 'will_paginate', '~> 3.0.7', require: ['will_paginate', 'will_paginate/active_record']
 gem 'will_paginate-bootstrap'
 gem 'truncate_html', '~> 0.9.3'
@@ -61,6 +61,7 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'rack-mini-profiler', '~> 0.9.9.2', require: false
   gem 'quiet_assets', '~> 1.1'
+  gem 'puma', '~> 3.4'
 end
 
 group :test do

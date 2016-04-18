@@ -120,8 +120,7 @@ class ContentGuidePresenter < SimpleDelegator
     find_custom_tags('blockquote') do |tag|
       table = next_element_with_name(tag, 'table')
       tag.remove
-      return unless table
-      return unless table.css('td').size == 1
+      return unless table && table.css('td').size != 1
 
       blockquote = doc.document.create_element('blockquote')
       blockquote.inner_html = table.at_css('td').inner_html
