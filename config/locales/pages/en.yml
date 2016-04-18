@@ -4,6 +4,7 @@ en:
       broken_images: Some images failed to import.
       contents: Contents
       download_as_pdf: Download as PDF
+      page: page
   curriculum:
     index:
       page_title: Curriculum
