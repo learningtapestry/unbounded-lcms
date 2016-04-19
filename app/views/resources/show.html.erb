@@ -102,12 +102,14 @@
             <% end %>
           </div>
         </div>
-        <div class="o-resource-summary u-pd-content u-bg--tooltip">
-          <div class="o-resource-summary__map"></div>
-          <div class="o-resource-summary__content">
-            <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum } %>
+        <% if !@curriculum.lesson? %>
+          <div class="o-resource-summary u-pd-content u-bg--tooltip">
+            <div class="o-resource-summary__map"></div>
+            <div class="o-resource-summary__content">
+              <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum } %>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
 
       <%= react_component('RelatedInstruction', {resource: @resource}, prerender: true) %>
