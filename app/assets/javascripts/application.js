@@ -11,9 +11,11 @@
 //= require react_ujs
 //= require components
 //= require content_guides
+//= require about_people
 
 ready(function() {
   $(document).initFoundation();
   $(document).smoothscrolling();
   window.initializeContentGuide();
+  window.initializeAboutPeople();
 });
