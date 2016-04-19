@@ -11,11 +11,16 @@
       </div>
       <div class="o-top-bar__wrapper" id="navbar">
         <div class="o-top-bar__item">
-          <ul class="c-header__menu">
+          <ul class="c-header__menu" data-dropdown-menu>
             <%= nav_link t('nav.curriculum_html'), explore_curriculum_index_path, class: 'c-header__link' %>
             <%= nav_link t('nav.lessons_html'), find_lessons_path, class: 'c-header__link' %>
             <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: 'c-header__link' %>
-            <%= nav_link t('nav.about_html'), about_path, class: 'c-header__link' %>
+            <li class="menu c-header__link">
+               <%= link_to t('nav.about_html'), about_path %>
+               <ul class="menu vertical c-header__submenu">
+                 <%= nav_link t('nav.about_dropdown.people'), about_people_path, class: 'c-header__submenu-link' %>
+                </ul>
+            </li>
           </ul>
         </div>
         <div class="o-top-bar__item">

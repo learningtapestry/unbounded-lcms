@@ -3,6 +3,7 @@ about_body = <<-HTML
 HTML
 
 Page.create_with(body: about_body, title: 'About').find_or_create_by(slug: 'about')
+Page.create_with(body: about_body, title: 'Our People').find_or_create_by(slug: 'about_people')
 
 pd_body = <<-HTML
 Professional Development

@@ -1,0 +1,26 @@
+<% set_page_title @page.title %>
+
+<div class="o-page u-margin-top--xlarge u-margin-bottom--xlarge">
+  <div class="o-page__module c-stp-header">
+    <div class="c-stp-header__title">ABOUT UNBOUNDED</div>
+    <div class="u-hr-small"></div>
+    <h1>Our People</h1>
+    <p>Teaser text lorem ipsum liquatur, aut rem ad qui quam, quat haruptat ovitate adi doloribus eum iur dam enti dentus voles earuntis</p>
+  </div>
+  <div class="o-page__module o-tab u-margin-top--base">
+    <nav class="o-tab__navigation">
+      <ul class="tabs o-tab-menu" data-tabs id="st-tabs">
+        <li class="tabs-title is-active o-tab-menu__item"><a href="#st-tab-staff" aria-selected="true">Staff</a></li>
+        <li class="tabs-title o-tab-menu__item"><a href="#st-tab-board">Board</a></li>
+      </ul>
+    </nav>
+    <div class="tabs-content u-margin-top--xlarge" data-tabs-content="st-tabs">
+      <div class="o-tab__panel tabs-panel is-active" id="st-tab-staff">
+        <%= render partial: 'about_people_staff', locals: {bios: 11, type: 's'} %>
+      </div>
+      <div class="o-tab__panel tabs-panel" id="st-tab-board">
+        <%= render partial: 'about_people_staff', locals: {bios: 5, type: 'b'} %>
+      </div>
+    </div>
+  </div>
+</div>

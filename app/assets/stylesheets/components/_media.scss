@@ -1,0 +1,27 @@
+.o-media {
+  @include media-object-container;
+  @include add-gutter;
+
+  @include e(img) {
+    @include media-object-section;
+    background-image: image-url('professional_development');
+    background-size: cover;
+    width: grid-column(4);
+  }
+
+  @include e(body) {
+    @include media-object-section;
+    padding: $ub-base-padding 0;
+    padding-left: $ub-large-padding;
+    width: grid-column(8);
+
+    @include m(no-left) {
+      padding-left: 0;
+    }
+
+    @include m(no-right) {
+      padding-right: 0;
+    }
+
+  }
+}

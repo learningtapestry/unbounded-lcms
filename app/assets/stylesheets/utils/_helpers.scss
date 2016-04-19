@@ -18,6 +18,8 @@ $text-sizes: (
   text-transform: capitalize;
 }
 
+.u-show { display: block !important; }
+
 $margins: (
   'zero': 0,
   'xs': $ub-small-margin * .7,
@@ -50,6 +52,17 @@ $paddings-align: (top, bottom);
   @each $align in $paddings-align {
     .u-padding-#{$align}--#{$padding-type} {
       padding-#{$align}: $padding-value !important;
+    }
+  }
+}
+
+$align-directions: (top, bottom, left, right);
+$align-types: (padding, margin);
+
+@each $align-dir in $align-directions {
+  @each $align-type in $align-types {
+    .u-#{$align-type}-#{$align-dir}--gutter {
+      @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir});
     }
   }
 }
@@ -93,5 +106,9 @@ $bg: (
   @include clearfix;
   border-bottom: 4px solid map-get($ub-yellow, base);
   margin-bottom: $ub-small-margin;
-  width: 80px;
+  width: 60px;
+}
+
+.u-hr-small--green {
+  border-bottom: 4px solid map-get($ub-green, base);
 }
