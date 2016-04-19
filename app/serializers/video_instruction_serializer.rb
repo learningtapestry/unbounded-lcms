@@ -20,7 +20,7 @@ class VideoInstructionSerializer < ActiveModel::Serializer
     show_resource_path(object)
   end
 
-  def type
+  def instruction_type
     :video
   end
 end
