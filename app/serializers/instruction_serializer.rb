@@ -14,7 +14,7 @@ class InstructionSerializer < ActiveModel::Serializer
     content_guide_path(object)
   end
 
-  def type
+  def instruction_type
     :instruction
   end
 

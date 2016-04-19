@@ -5,7 +5,7 @@ class RelatedInstruction extends React.Component {
     this.state = {
       id: props.resource.id,
       resource: props.resource,
-      type: props.type || 'Resource',
+      resourceType: props.resource_type || 'Resource',
       related_instruction: [],
       expanded: false,
       hasMore: false,
@@ -76,7 +76,7 @@ class RelatedInstruction extends React.Component {
         {
           (this.state.related_instruction.length == 0) ?
             <p className="o-related-instruction__empty">
-              This {_.capitalize(this.state.type)} doesn&prime;t have any related instructions. To see all visit <a href={allInstructionsPath}>Enhance Instruction</a>
+              This {_.capitalize(this.state.resourceType)} doesn&prime;t have any related instructions. To see all visit <a href={allInstructionsPath}>Enhance Instruction</a>
             </p>
           : false
         }
