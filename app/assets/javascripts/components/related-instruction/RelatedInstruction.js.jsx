@@ -10,8 +10,7 @@ class RelatedInstruction extends React.Component {
   }
 
   fetch() {
-    const limit = (this.state.expanded) ?  10 : 4;
-    let url = Routes.related_instruction_path(this.state.id, {limit: limit});
+    let url = Routes.related_instruction_path(this.state.id, {expanded: this.state.expanded});
 
     fetch(url).then(r => r.json()).then(response => {
       this.setState(Object.assign({}, this.state, {related_instruction: response.resources}));
