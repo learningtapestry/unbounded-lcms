@@ -1,0 +1,29 @@
+<div class="c-stp-staff o-page__wrap--row">
+<% bios.times do |i| %>
+  <div class="c-stp-staff__item">
+    <div class="c-stp-staff__intro" data-toggle="c-stp-staff-<%= "#{type}_#{i}" %>">
+      <div class="c-stp-media">
+        <div class="c-stp-media__img">
+          <%= image_tag 'head.svg' %>
+        </div>
+        <div class="c-stp-media__body">
+          <h3>First Name Last Name</h3>
+          <h4>Job Title</h4>
+          <h4>Department</h4>
+        </div>
+      </div>
+    </div>
+    <div class="c-stp-staff__dsc" id="c-stp-staff-<%= "#{type}_#{i}" %>" data-toggler="u-show">
+      <h5>Bio Heading Lorem Impsum</h5>
+      <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br />
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br />
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </div>
+      <button class="close-button" aria-label="Dismiss alert" type="button" data-toggle="c-stp-staff-<%= i %>">
+        <span aria-hidden="true"><i class="ub-close"></i></span>
+      </button>
+    </div>
+  </div>
+<% end %>
+</div>

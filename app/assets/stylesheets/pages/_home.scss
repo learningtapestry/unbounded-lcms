@@ -43,25 +43,6 @@
 
 }
 
-.c-hp-media {
-  @include media-object-container;
-  @include add-gutter;
-
-  @include e(img) {
-    @include media-object-section;
-    background-image: image-url('professional_development');
-    background-size: cover;
-    width: grid-column(4);
-  }
-
-  @include e(body) {
-    @include media-object-section;
-    padding: $ub-base-padding 0;
-    padding-left: $ub-large-padding;
-    width: grid-column(8);
-  }
-}
-
 .c-hp-panel {
   @include flex-grid-column(12, 0);
   @include add-gutter;
