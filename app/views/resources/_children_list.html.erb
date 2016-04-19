@@ -15,8 +15,3 @@
     <% end %>
   </ul>
 <% end %>
-<% if !curriculum.grade? && curriculum.parent %>
-  <%= link_to show_with_slug_path(curriculum.parent.slug.value), class: 'o-ub-btn o-ub-btn--yellow u-margin-top--base u-margin-bottom--base u-text--capitalized' do %>
-    <%= t('resources.btn.explore', short_title: curriculum.parent.resource.short_title) %>
-  <% end %>
-<% end %>
