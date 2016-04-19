@@ -56,7 +56,9 @@ class ContentGuide < ActiveRecord::Base
 
   def assign_common_core_standards(value)
     names = split_standards(value)
-    self.common_core_standards = CommonCoreStandard.where(name: names)
+    name_node = Standard.where(name: names).where_values.reduce(:and)
+    alt_names_node = Standard.where.overlap(alt_names: names).where_values.reduce(:and)
+    self.common_core_standards = CommonCoreStandard.where(name_node.or(alt_names_node))
   end
 
   def assign_unbounded_standards(value)
