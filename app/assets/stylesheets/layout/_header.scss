@@ -10,6 +10,23 @@
     }
   }
 
+  @include e(submenu) {
+    // @include menu-base;
+    // @include menu-direction(vertical);
+    background-color: $ub-white !important;
+    //max-width: 200px;
+    //width: auto;
+  }
+
+  @include e(submenu-link) {
+    font-family: $ub-serif;
+    a, &.active a { color: $ub-primary !important; }
+    &.active a, a:hover, a:focus {
+      background-color: $ub-panel-bg;
+      color: $ub-primary !important;
+    }
+  }
+
   @include e(link) {
     &, a { color: $ub-nav-link; }
     &:hover, &:focus, a:hover, a:focus, &.active a { color: $ub-white; text-decoration: none; }
