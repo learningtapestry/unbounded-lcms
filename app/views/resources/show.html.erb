@@ -112,7 +112,7 @@
         <% end %>
       </div>
 
-      <%= react_component('RelatedInstruction', {resource: @resource}, prerender: true) %>
+      <%= react_component('RelatedInstruction', {resource: @resource, type: @curriculum.curriculum_type.name}, prerender: true) %>
 
       <%= render partial: 'resources/download_form', locals: { downloads: @resource.downloads, title: @curriculum.type_name } %>
     </div>

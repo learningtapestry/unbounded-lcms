@@ -8,8 +8,10 @@ class ResourcesController < ApplicationController
 
   def related_instruction
     @resource = Resource.find params[:id]
-    @related_instructions = find_related_instructions
-    render json: @related_instructions.map {|ri| CurriculumResourceSerializer.new(ri)}
+    @has_more = false
+    @instructions = find_related_instructions
+
+    render json: {instructions: @instructions, has_more: @has_more}
   end
 
   protected
@@ -46,6 +48,7 @@ class ResourcesController < ApplicationController
           instructions = guides[0...2]
 
         elsif guides.size == 1  # show 1 guide and 2 videos
+
           instructions = guides[0...1] + videos[0...2]
 
         else  # show 4 videos
@@ -53,27 +56,36 @@ class ResourcesController < ApplicationController
 
         end
       end
+      @has_more = true if (videos + guides).size > instructions.size
       instructions.map { |inst|
-        inst.is_a?(ContentGuide) ? InstructionSerializer.new(inst) : InstructionVideoSerializer.new(inst)
+        inst.is_a?(ContentGuide) ? InstructionSerializer.new(inst) : VideoInstructionSerializer.new(inst)
       }
     end
 
     def find_related_videos
-      related = @resource.standards.flat_map { |st|
-        qset = st.resources.where(resource_type: accepted_resource_types)
-        qset = qset.limit(4) unless expanded?  # limit each part
-        qset
-      }.uniq
-      expanded? ? related : related[0...4]  # limit total
+      find_related_through_standards(limit: 4) do |standard|
+        standard.resources.where(resource_type: accepted_resource_types).distinct
+      end
     end
 
     def find_related_guides
-      related = @resource.standards.flat_map { |st|
-        qset = st.content_guides
-        qset = qset.limit(2) unless expanded? # limit each part
+      find_related_through_standards(limit: 2) do |standard|
+        standard.content_guides
+      end
+    end
+
+    def find_related_through_standards(limit:, &block)
+      related = @resource.standards.flat_map { |standard|
+        qset = yield standard
+        qset = qset.limit(limit) unless expanded? # limit each part
         qset
       }.uniq
-      expanded? ? related : related[0...2]  # limit total
+      if expanded?
+        related
+      else
+        @has_more = true if related.count > limit
+        related[0...limit]  # limit total
+      end
     end
 
     def accepted_resource_types

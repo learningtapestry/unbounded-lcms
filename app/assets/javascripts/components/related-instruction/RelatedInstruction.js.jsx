@@ -4,8 +4,12 @@ class RelatedInstruction extends React.Component {
 
     this.state = {
       id: props.resource.id,
+      resource: props.resource,
+      type: props.type || 'Resource',
       related_instruction: [],
       expanded: false,
+      hasMore: false,
+      firstFetch: true,
     };
   }
 
@@ -13,7 +17,12 @@ class RelatedInstruction extends React.Component {
     let url = Routes.related_instruction_path(this.state.id, {expanded: this.state.expanded});
 
     fetch(url).then(r => r.json()).then(response => {
-      this.setState(Object.assign({}, this.state, {related_instruction: response.resources}));
+      var newState = {related_instruction: response.instructions};
+      if (this.state.firstFetch) {
+        newState.firstFetch = false;
+        newState.hasMore = response.has_more;
+      }
+      this.setState(Object.assign({}, this.state, newState));
     });
   }
 
@@ -64,13 +73,22 @@ class RelatedInstruction extends React.Component {
             })
           }
         </div>
+        {
+          (this.state.related_instruction.length == 0) ?
+            <p className="o-related-instruction__empty">
+              This {_.capitalize(this.state.type)} doesn&prime;t have any related instructions. To see all visit <a href={allInstructionsPath}>Enhance Instruction</a>
+            </p>
+          : false
+        }
 
         <div className="o-related-instruction__actions">
-
-          <button className="o-related-instruction__action o-related-instruction__action--expand"
-                  onClick={this.handleBtnClick.bind(this)}>{this.btnLabel()}</button>
-                <a className="o-related-instruction__action o-related-instruction__action--all"
-                   href={allInstructionsPath}>All Instructions</a>
+          { this.state.hasMore ?
+            <button className="o-related-instruction__action o-related-instruction__action--expand"
+              onClick={this.handleBtnClick.bind(this)}>{this.btnLabel()}</button>
+            : false
+          }
+          <a className="o-related-instruction__action o-related-instruction__action--all"
+             href={allInstructionsPath}>All Instructions</a>
         </div>
       </div>
      );
