@@ -1,0 +1,6 @@
+<% if url = @content_guide.send(attr).url %>
+  <div class=input>
+    <label><%= ContentGuide.human_attribute_name(attr) %></label>
+    <%= image_tag url, style: 'margin-bottom: 1rem' %>
+  </div>
+<% end %>
