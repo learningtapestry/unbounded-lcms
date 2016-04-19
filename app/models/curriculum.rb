@@ -93,8 +93,8 @@ class Curriculum < ActiveRecord::Base
   scope :seeds, -> { where(seed_id: nil) }
   scope :trees, -> { where.not(seed_id: nil) }
 
-  scope :ela, -> { where_subject(Subject.ela) }
-  scope :math, -> { where_subject(Subject.math) }
+  scope :ela, -> { where_subject('ela') }
+  scope :math, -> { where_subject('math') }
 
   scope :maps, -> { where(curriculum_type: CurriculumType.map) }
   scope :grades, -> { where(curriculum_type: CurriculumType.grade) }
