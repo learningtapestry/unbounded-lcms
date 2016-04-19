@@ -2,7 +2,7 @@ class VideoInstructionSerializer < ActiveModel::Serializer
   include ResourceHelper
 
   self.root = false
-  attributes :id, :title, :short_title, :teaser, :img, :path
+  attributes :id, :title, :short_title, :subtitle, :teaser, :img, :path
 
   def short_title
     object.short_title || default_short_title
@@ -18,5 +18,9 @@ class VideoInstructionSerializer < ActiveModel::Serializer
 
   def path
     show_resource_path(object)
+  end
+
+  def type
+    :video
   end
 end
