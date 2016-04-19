@@ -57,9 +57,13 @@ class CommonCoreStandard < Standard
     # 6.rp.a.3 -> 6rpa3
     clean_name = short_name.gsub(/[\.-]/, '')
 
+    # 6-rp.a.3 -> 6.rp.a.3
+    dot_name = short_name.gsub(/[-]/, '.')
+
     alt_names << short_name
     alt_names << clean_name
     alt_names << letters_expand
+    alt_names << dot_name
 
     self.alt_names = (self.alt_names + alt_names).uniq
   end
