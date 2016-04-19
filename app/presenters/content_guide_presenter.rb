@@ -137,12 +137,12 @@ class ContentGuidePresenter < SimpleDelegator
   def process_footnote_links
     doc.css('a[href^="#ftnt"]:not([href^="#ftnt_ref"])').each_with_index do |a, i|
       id = "content_guide_footnote_#{i}"
-      footnote = doc.at_css(a[:href]).ancestors('div').first.clone
-      footnote.at_css(a[:href]).remove
+      footnote = doc.at_css(a[:href]).ancestors('div').first
       a['data-toggle'] = id
-      dropdown = doc.document.create_element('div', class: 'dropdown-pane', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-pane' => true, id: id)
-      dropdown.inner_html = footnote.inner_html
-      a.next = dropdown
+      dropdown = doc.document.create_element('span', class: 'dropdown-pane c-cg-dropdown', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-pane' => true, id: id)
+      dropdown.inner_html = footnote.at_css('p').inner_html
+      dropdown.at_css(a[:href]).remove
+      a.parent.next = dropdown
     end
   end
 
@@ -263,13 +263,13 @@ class ContentGuidePresenter < SimpleDelegator
         id = "cg-k_#{SecureRandom.hex(4)}"
         dropdown = %Q(
           <span data-toggle=#{id}>#{keyword}</span>
-          <div class=dropdown-pane
+          <span class='dropdown-pane c-cg-dropdown'
             data-dropdown
             data-hover=true
             data-hover-pane=true
             id=#{id}>
             #{value}
-          </div>
+          </span>
         )
         m.gsub!(keyword, dropdown)
       end
