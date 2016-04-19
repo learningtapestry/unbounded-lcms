@@ -7,13 +7,15 @@ class ResourcesController < ApplicationController
   end
 
   def related_instruction
-    # TODO mock only data
-    limit = params.fetch(:limit, 10).to_i
-    @related_instruction = Curriculum.trees.with_resources.lessons[0...limit]
-    render json: @related_instruction.map {|ri| CurriculumResourceSerializer.new(ri)}
+    @resource = Resource.find params[:id]
+    @has_more = false
+    @instructions = find_related_instructions
+
+    render json: {instructions: @instructions, has_more: @has_more}
   end
 
   protected
+
     def find_resource_and_curriculum
       if params[:slug].present?
         slug = ResourceSlug.find_by_value!(params[:slug])
@@ -27,5 +29,69 @@ class ResourcesController < ApplicationController
       @resource = ResourcePresenter.new(resource)
       @grade_color_code = curriculum.grade_color_code
       @curriculum = CurriculumPresenter.new(curriculum)
+    end
+
+    def expanded?
+      params[:expanded] == 'true'
+    end
+
+    def find_related_instructions
+      videos = find_related_videos
+      guides = find_related_guides
+
+      instructions = []
+      if expanded?
+        instructions = guides + videos
+
+      else
+        if guides.size > 1  # show 2 guides
+          instructions = guides[0...2]
+
+        elsif guides.size == 1  # show 1 guide and 2 videos
+
+          instructions = guides[0...1] + videos[0...2]
+
+        else  # show 4 videos
+          instructions = videos[0...4]
+
+        end
+      end
+      @has_more = true if (videos + guides).size > instructions.size
+      instructions.map { |inst|
+        inst.is_a?(ContentGuide) ? InstructionSerializer.new(inst) : VideoInstructionSerializer.new(inst)
+      }
+    end
+
+    def find_related_videos
+      find_related_through_standards(limit: 4) do |standard|
+        standard.resources.where(resource_type: accepted_resource_types).distinct
+      end
+    end
+
+    def find_related_guides
+      find_related_through_standards(limit: 2) do |standard|
+        standard.content_guides
+      end
+    end
+
+    def find_related_through_standards(limit:, &block)
+      related = @resource.standards.flat_map { |standard|
+        qset = yield standard
+        qset = qset.limit(limit) unless expanded? # limit each part
+        qset
+      }.uniq
+      if expanded?
+        related
+      else
+        @has_more = true if related.count > limit
+        related[0...limit]  # limit total
+      end
+    end
+
+    def accepted_resource_types
+      [
+        Resource.resource_types[:video],
+        Resource.resource_types[:podcast]
+      ]
     end
 end
