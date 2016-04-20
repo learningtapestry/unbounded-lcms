@@ -40,6 +40,31 @@
   }
 }
 
+.c-cg-annotation {
+  background-color: #fff2cc;
+}
+
+.c-cg-annotationBox {
+  background-color: #fff;
+  padding: 1rem;
+}
+
+.c-cg-annotationList {
+  margin: 1rem 1rem 0;
+}
+
+.c-cg-annotationList__number {
+  background: #ffbf00;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-block;
+  font-weight: bold;
+  height: 2rem;
+  padding: 0.25rem;
+  text-align: center;
+  width: 2rem;
+}
+
 .c-cg-dropdown {
   font-weight: normal;
   font-size: 1rem;
