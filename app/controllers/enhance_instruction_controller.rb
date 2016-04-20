@@ -27,7 +27,7 @@ class EnhanceInstructionController < ApplicationController
   def find_videos
     queryset = build_search_queryset_for_model Resource
 
-    queryset.where(resource_type: accepted_resource_types)
+    queryset.media
             .where_subject(subject_params)
             .where_grade(grade_params)
             .paginate(pagination_params.slice(:page, :per_page))
@@ -42,13 +42,6 @@ class EnhanceInstructionController < ApplicationController
     end
 
     queryset
-  end
-
-  def accepted_resource_types
-    [
-      Resource.resource_types[:video],
-      Resource.resource_types[:podcast]
-    ]
   end
 
   def set_index_props
