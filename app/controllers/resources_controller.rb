@@ -14,6 +14,13 @@ class ResourcesController < ApplicationController
     render json: {instructions: @instructions, has_more: @has_more}
   end
 
+  def media
+    find_resource_and_curriculum
+    unless ['video', 'podcast'].include? @resource.resource_type
+      return redirect_to resource_path(@resource)
+    end
+  end
+
   protected
 
     def find_resource_and_curriculum
@@ -27,7 +34,7 @@ class ResourcesController < ApplicationController
       end
 
       @resource = ResourcePresenter.new(resource)
-      @grade_color_code = curriculum.grade_color_code
+      @grade_color_code = curriculum.try(:grade_color_code)
       @curriculum = CurriculumPresenter.new(curriculum)
     end
 
@@ -64,7 +71,7 @@ class ResourcesController < ApplicationController
 
     def find_related_videos
       find_related_through_standards(limit: 4) do |standard|
-        standard.resources.where(resource_type: accepted_resource_types).distinct
+        standard.resources.media.distinct
       end
     end
 
@@ -86,12 +93,5 @@ class ResourcesController < ApplicationController
         @has_more = true if related.count > limit
         related[0...limit]  # limit total
       end
-    end
-
-    def accepted_resource_types
-      [
-        Resource.resource_types[:video],
-        Resource.resource_types[:podcast]
-      ]
     end
 end
