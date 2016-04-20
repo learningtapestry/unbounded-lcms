@@ -1,6 +1,4 @@
 class ResourcesController < ApplicationController
-  before_action :find_resource, only: [:related_instruction, :media]
-
   def show
     find_resource_and_curriculum
     if params[:id].present? && slug = @curriculum.slug
@@ -9,6 +7,7 @@ class ResourcesController < ApplicationController
   end
 
   def related_instruction
+    @resource = Resource.find params[:id]
     @has_more = false
     @instructions = find_related_instructions
 
@@ -16,13 +15,13 @@ class ResourcesController < ApplicationController
   end
 
   def media
+    find_resource_and_curriculum
+    unless ['video', 'podcast'].include? @resource.resource_type
+      return redirect_to resource_path(@resource)
+    end
   end
 
   protected
-
-    def find_resource
-      @resource = Resource.find params[:id]
-    end
 
     def find_resource_and_curriculum
       if params[:slug].present?
@@ -35,7 +34,7 @@ class ResourcesController < ApplicationController
       end
 
       @resource = ResourcePresenter.new(resource)
-      @grade_color_code = curriculum.grade_color_code
+      @grade_color_code = curriculum.try(:grade_color_code)
       @curriculum = CurriculumPresenter.new(curriculum)
     end
 
