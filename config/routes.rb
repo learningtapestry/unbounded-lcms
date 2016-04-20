@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :resources, only: :show
 
   get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
+  get '/media/:id' => 'resources#media', as: :media
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'

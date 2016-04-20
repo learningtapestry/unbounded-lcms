@@ -76,6 +76,10 @@ class Resource < ActiveRecord::Base
   scope :asc, -> { order(created_at: :asc) }
   scope :desc, -> { order(created_at: :desc) }
 
+  scope :videos, -> { where(resource_type: self.resource_types[:video]) }
+  scope :podcasts, -> { where(resource_type: self.resource_types[:podcast]) }
+  scope :media, -> { where(resource_type: [self.resource_types[:video], self.resource_types[:podcast]])}
+
   class << self
     def by_title(title)
       where(title: title)
