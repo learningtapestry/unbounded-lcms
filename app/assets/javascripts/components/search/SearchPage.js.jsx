@@ -62,7 +62,7 @@ class SearchPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page">
+        <div className="o-page u-margin-bottom--large">
           <div className="o-page__module">
           { ( this.state.resources.length == 0 ) ?
               <SearchResultsEmpty searchTerm={this.state.filterbar.search_term} /> :

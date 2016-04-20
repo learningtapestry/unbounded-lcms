@@ -2,8 +2,10 @@
   background-color: rgba($ub-primary, .6);
 
   @include e(menu) {
-    @include breakpoint($topbar-unstack-breakpoint down) {
-      @include menu-direction(vertical);
+    @include menu-direction(vertical);
+
+    @include breakpoint($topbar-unstack-breakpoint) {
+      @include menu-direction(horizontal);
     }
   }
 

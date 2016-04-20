@@ -12,10 +12,6 @@ class ResourcePresenterTest < ActiveSupport::TestCase
     @presenter = ResourcePresenter.new @resource
   end
 
-  test 'teaser_text' do
-    assert @presenter.teaser_text.length < @resource.description.length
-  end
-
   test 'tags' do
     @resource.tag_list.add('TagX')
     @resource.save!

@@ -22,10 +22,6 @@ class LessonPresenter < SimpleDelegator
     "#{subject.try(:name).try(:titleize)} / #{grade.try(:name)}"
   end
 
-  def teaser_text
-    description ? h.truncate_html(description, length: 150).html_safe : ''
-  end
-
   def tags
     subjects.map(&:name).join(', ')
   end
