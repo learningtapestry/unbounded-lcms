@@ -9,8 +9,6 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     :title,
     :short_title,
     :teaser,
-    :description,
-    :text_description,
     :time_to_teach,
     :type,
     :path,
@@ -36,15 +34,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def teaser
-    Nokogiri::HTML(object.resource.teaser).text if object.resource.teaser
-  end
-
-  def description
-    truncate_html(object.resource.description, length: 200) if object.resource.description
-  end
-
-  def text_description
-    truncate_html(object.resource.text_description, length: 240)
+    object.resource.teaser
   end
 
   def time_to_teach

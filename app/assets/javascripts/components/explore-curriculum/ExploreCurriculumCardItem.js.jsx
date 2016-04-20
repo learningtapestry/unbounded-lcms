@@ -50,7 +50,6 @@ class ExploreCurriculumCardItem extends React.Component {
       {"u-link--disabled": !hasDownloads }
     );
 
-    const description = { __html: resource.description };
     const resourceType = resource.type.name == 'grade' ? 'curriculum' : resource.type.name;
     const downloadBtnLabel = `Download ${_.capitalize(resourceType)}`;
     const downloadModalId = `downloads-modal-${resource.id}`;
@@ -64,7 +63,7 @@ class ExploreCurriculumCardItem extends React.Component {
             <span className="o-title__duration o-cur-card--show-medium"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
           <h3 className="o-cur-card__dsc--short">{resource.title}</h3>
-          <div className="o-cur-card--show-medium o-cur-card__dsc--full">{resource.text_description}</div>
+          <div className="o-cur-card--show-medium o-cur-card__dsc--full">{resource.teaser}</div>
         </div>
         <div className={cssActionClasses}>
           <ul className="o-cur-card__menu o-cur-card__menu--medium o-cur-card--show-medium">

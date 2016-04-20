@@ -62,12 +62,14 @@
   }
 
   // Stack on small screens by default
-  @include breakpoint($topbar-unstack-breakpoint down) {
-    @include top-bar-stacked;
+  @include top-bar-stacked;
+
+  @include breakpoint($topbar-unstack-breakpoint) {
+    @include top-bar-unstack;
   }
 
   @include e(wrapper) {
-    @include breakpoint($topbar-unstack-breakpoint up) {
+    @include breakpoint($topbar-unstack-breakpoint) {
       @include top-bar-container;
       flex-wrap: wrap;
       display: flex !important;
@@ -75,4 +77,18 @@
     }
   }
 
+}
+
+.no-js {
+  @include breakpoint($topbar-unstack-breakpoint down) {
+    .o-top-bar {
+      display: none;
+    }
+  }
+
+  @include breakpoint($topbar-unstack-breakpoint) {
+    .c-header-title__h-menu {
+      display: none;
+    }
+  }
 }
