@@ -1,4 +1,6 @@
 class ResourcesController < ApplicationController
+  before_action :find_resource, only: [:related_instruction, :media]
+
   def show
     find_resource_and_curriculum
     if params[:id].present? && slug = @curriculum.slug
@@ -7,14 +9,20 @@ class ResourcesController < ApplicationController
   end
 
   def related_instruction
-    @resource = Resource.find params[:id]
     @has_more = false
     @instructions = find_related_instructions
 
     render json: {instructions: @instructions, has_more: @has_more}
   end
 
+  def media
+  end
+
   protected
+
+    def find_resource
+      @resource = Resource.find params[:id]
+    end
 
     def find_resource_and_curriculum
       if params[:slug].present?
@@ -64,7 +72,7 @@ class ResourcesController < ApplicationController
 
     def find_related_videos
       find_related_through_standards(limit: 4) do |standard|
-        standard.resources.where(resource_type: accepted_resource_types).distinct
+        standard.resources.media.distinct
       end
     end
 
@@ -86,12 +94,5 @@ class ResourcesController < ApplicationController
         @has_more = true if related.count > limit
         related[0...limit]  # limit total
       end
-    end
-
-    def accepted_resource_types
-      [
-        Resource.resource_types[:video],
-        Resource.resource_types[:podcast]
-      ]
     end
 end
