@@ -9,7 +9,8 @@ function SearchResults(props) {
 
       <ul className='o-search-results__list'>
         {props.resources.map((resource) => {
-          return <SearchResult key={resource.id} resource={resource} />
+          const key = `${resource.id}_${resource.curriculum_id}`;
+          return <SearchResult key={key} resource={resource} />
         })}
       </ul>
     </div>
