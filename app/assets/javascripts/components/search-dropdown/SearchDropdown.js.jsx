@@ -35,7 +35,7 @@ class SearchDropdown extends React.Component {
     const searchTerm = nextProps.filterbar.search_term;
     const searchHasChanged = searchTerm !== this.props.filterbar.search_term;
     const searchExists = _.isString(searchTerm);
-    const searchIsEmpty = searchExists && searchTerm.trim() === '';
+    const searchIsEmpty = !searchExists || searchTerm.trim() === '';
 
     if (searchHasChanged && (!searchExists || searchIsEmpty)) {
       let newState = this.emptyState();
