@@ -194,9 +194,19 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleFilterbarUpdate(filterbar) {
+    const newFilterbar = _.omit(filterbar, 'search_term');
+    const oldFilterbar = _.omit(this.state.filterbar, 'search_term');
+    const onlyChangedSearchTerm = $.param(newFilterbar) === $.param(oldFilterbar);
+
     const newState = Object.assign({}, this.state, { filterbar: filterbar });
-    this.fetch(newState)
-        .then(response => { this.setState(this.buildStateFromProps(response)); });
+
+    if (onlyChangedSearchTerm) {
+      this.setState(newState);
+    } else {
+      this.fetch(newState).then(response => { 
+        this.setState(this.buildStateFromProps(response));
+      });
+    }
   }
 
   render() {
@@ -224,6 +234,8 @@ class ExploreCurriculumPage extends React.Component {
               </div>
               <Filterbar
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
+                withSearch={true}
+                withDropdown={true}
                 {...this.state.filterbar} />
             </div>
           </div>
