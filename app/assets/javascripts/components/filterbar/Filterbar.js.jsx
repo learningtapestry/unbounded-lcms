@@ -38,6 +38,7 @@ class Filterbar extends React.Component {
     this.initSelectedFilters(initialState, 'facets');
 
     this.state = initialState;
+    this.searchBus = new EventEmitter();
   }
 
   initSelectedFilters(initialState, prop) {
@@ -127,6 +128,10 @@ class Filterbar extends React.Component {
   updateUrl(newState) {
     let query = [];
     _.forEach(newState, (val, k) => {
+      if (this.props.withDropdown && k === 'search_term') {
+        return;
+      }
+      
       if (val) {
         let urlVal = val;
         if (_.isArray(val)) {
@@ -157,6 +162,8 @@ class Filterbar extends React.Component {
     const subjectSelected =  _.find(state.subjects, 'selected');
     const subjectName = subjectSelected ? subjectSelected.name : 'default';
     const gradeSelected = _.find(state.grades, 'selected');
+
+    const conciseState = this.createQuery(this.state);
 
     return (
       <div>
@@ -208,14 +215,26 @@ class Filterbar extends React.Component {
 
               : false
           }
-          {
-            (this.props.withSearch) ?
-              <FilterbarSearch
-                searchTerm={this.state.search_term}
-                onUpdate={this.onUpdateSearch.bind(this)}/>
+          <div className="o-filterbar__search" ref={r => this.searchContainer = r}>
+            {
+              (this.props.withSearch) ?
+                <FilterbarSearch
+                  searchTerm={this.state.search_term}
+                  searchBus={this.searchBus}
+                  onUpdate={this.onUpdateSearch.bind(this)}/>
 
-              : false
-          }
+                : false
+            }
+            {
+              (this.props.withDropdown) ?
+                <SearchDropdown
+                  searchContainer={() => this.searchContainer}
+                  searchBus={this.searchBus}
+                  filterbar={conciseState} />
+                  
+                : false
+            }
+          </div>
         </div>
       </div>
     );
