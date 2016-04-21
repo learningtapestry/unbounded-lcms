@@ -13,7 +13,8 @@ class SearchDropdown extends React.Component {
       num_items: 0,
       total_hits: 0,
       visible: false,
-      selected: null
+      selected: null,
+      isSearching: false
     };
   }
 
@@ -123,6 +124,8 @@ class SearchDropdown extends React.Component {
   }
 
   fetch(props = this.props) {
+    this.setState({ ...this.state, isSearching: true });
+
     let query = {
       format: 'json',
       per_page: this.perPage,
@@ -144,6 +147,8 @@ class SearchDropdown extends React.Component {
           resources={this.state.resources}
           num_items={this.state.num_items}
           total_hits={this.state.total_hits}
+          search_term={this.props.filterbar.search_term}
+          isSearching={this.state.isSearching}
           selected={this.state.selected} />
       </div>
       : null;
