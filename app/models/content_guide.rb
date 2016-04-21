@@ -3,6 +3,8 @@ require 'google/apis/drive_v3'
 class ContentGuide < ActiveRecord::Base
   attr_accessor :update_metadata
 
+  acts_as_taggable_on :grades
+
   has_many :content_guide_standards
   has_many :common_core_standards, ->{ where(type: 'CommonCoreStandard') }, source: :standard, through: :content_guide_standards
   has_many :resources, through: :unbounded_standards
@@ -114,6 +116,7 @@ class ContentGuide < ActiveRecord::Base
       when 'ccss' then assign_common_core_standards(value)
       when 'related_instruction_tags' then assign_unbounded_standards(value)
       when 'big_photo', 'small_photo' then send("remote_#{key}_url=", value)
+      when 'grade', 'grades' then self.grade_list = value
       else send("#{key}=", value)
       end
     end

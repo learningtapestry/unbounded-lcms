@@ -6,7 +6,7 @@
     <%= f.input :title %>
     <%= f.input :teaser %>
     <%= f.input :subject %>
-    <%= f.input :grade %>
+    <%= f.input :grade_list, collection: Tag.select(:id, :name).distinct(:name).where_context('grades'), as: :select, value_method: :name, selected: @content_guide.grades, input_html: { class: 'selectize', multiple: true } %>
     <%= f.input :date %>
     <%= f.input :description, as: :text %>
     <%= f.association :common_core_standards, as: :select, input_html: { class: 'selectize', multiple: true } %>
