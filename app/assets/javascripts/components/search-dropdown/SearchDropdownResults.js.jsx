@@ -1,5 +1,10 @@
 function SearchDropdownResults(props) {
   if (props.resources.length == 0) {
+    if (props.isSearching) {
+      return <div>Searching...</div>;
+    } else if (props.search_term && props.search_term.length > 0) {
+      return <div>Nothing found.</div>;
+    }
     return <div>Enter terms to start searching.</div>;
   }
 
