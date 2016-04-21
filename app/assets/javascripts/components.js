@@ -1,5 +1,6 @@
 //= require ./routes
 //= require es6-promise
+//= require eventemitter3
 //= require fetch
 //= require classnames
 //= require lodash

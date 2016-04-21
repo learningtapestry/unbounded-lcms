@@ -1,0 +1,19 @@
+.o-search-dropdown {
+  position: absolute;
+  background-color: #fffbf0;
+  margin-top: -0.5rem;
+  margin-left: -1em;
+  width: 100%;
+}
+
+.o-search-dropdown-result {
+  display: block;
+  font-size: 1.2em;
+  padding: 1em;
+}
+
+.o-search-dropdown-result:hover,
+.o-search-dropdown-result__selected {
+  background-color: #fb8d32;
+  color: #fff;
+}
