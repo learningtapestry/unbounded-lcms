@@ -1,22 +1,20 @@
 <div class=o-page>
   <h2 class=text-center><%= t('.page_title') %></h2>
 
-  <% if photo = @content_guide.big_photo %>
-    <div class='callout text-center'>
-      <%= image_tag photo.url %>
-    </div>
-  <% end %>
-
   <%= simple_form_for [:admin, @content_guide] do |f| %>
     <%= f.input :update_metadata, as: :hidden %>
     <%= f.input :title %>
     <%= f.input :teaser %>
     <%= f.input :subject %>
-    <%= f.input :grade %>
+    <%= f.input :grade_list, collection: Tag.select(:id, :name).distinct(:name).where_context('grades'), as: :select, value_method: :name, selected: @content_guide.grades, input_html: { class: 'selectize', multiple: true } %>
     <%= f.input :date %>
     <%= f.input :description, as: :text %>
     <%= f.association :common_core_standards, as: :select, input_html: { class: 'selectize', multiple: true } %>
     <%= f.association :unbounded_standards, as: :select, input_html: { class: 'selectize', multiple: true } %>
+
+    <%= render partial: 'photo', locals: { attr: :big_photo }%>
+
+    <%= render partial: 'photo', locals: { attr: :small_photo }%>
 
     <%= f.button :submit, t('ui.save') %>
     <%= link_to t('ui.delete'), [:admin, @content_guide], class: 'button alert', data: { confirm: t('ui.are_you_sure') }, method: :delete %>

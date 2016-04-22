@@ -1,0 +1,40 @@
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: rgba(255, 128, 0, 0.2);
+  }
+
+  h1 {
+    margin: 3rem 0;
+  }
+
+  .cover-content {
+    padding: 0 1rem;
+  }
+
+  .cover-image {
+    background: #0cf;
+    background-size: cover;
+    height: 500px;
+    margin: 0;
+  }
+</style>
+
+
+<div class=cover-image style='background-image: <%= cover_image_url %>'></div>
+
+<div class=cover-content>
+  <p>
+    <%= content_guide.grade %>
+    <%= content_guide.subject %>
+  </p>
+
+  <h1><%= content_guide.title %></h1>
+
+  <h2><%= content_guide.teaser %></h2>
+</div>

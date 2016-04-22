@@ -4,7 +4,8 @@ window.initializeContentGuide = function() {
   if ($contengGuide.length > 0) {
     $('.c-cg-task__toggler').click(function() {
       $('.c-cg-task__hidden', $(this).parent()).toggle();
-      return false;
+      $('.c-cg-task__toggler__hide', $(this)).toggle();
+      $('.c-cg-task__toggler__show', $(this)).toggle();
     });
-  }  
+  }
 }
