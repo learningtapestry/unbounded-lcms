@@ -298,19 +298,22 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
-  def realign_tables
-    doc.css('table').each do |table|
-      style = table[:style].gsub(/margin-(left|right):[^;]+;?/, '') rescue nil
-      table[:style] = "margin-left:auto;margin-right:auto;#{style}"
-    end
-  end
-
   def replace_guide_links
     doc.css('a[href*="docs.google.com/document/d/"]').each do |a|
       file_id = ContentGuide.file_id_from_url(a[:href])
       if (content_guide = ContentGuide.find_by_file_id(file_id))
         a.content = content_guide.name if a.text == a[:href]
         a[:href] = content_guide_url(content_guide)
+      end
+    end
+  end
+
+  def reset_table_styles
+    doc.css('table').each do |table|
+      table[:class] = 'c-cg-table'
+      table.remove_attribute('style')
+      table.css('[style]').each do |node|
+        node.remove_attribute('style')
       end
     end
   end
@@ -373,8 +376,8 @@ class ContentGuidePresenter < BasePresenter
     process_pullquotes
     process_standards
     process_tasks
-    realign_tables
     replace_guide_links
+    reset_table_styles
   end
 
   def cache(key)

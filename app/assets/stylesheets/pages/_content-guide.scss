@@ -76,6 +76,34 @@
   width: 50%;
 }
 
+.c-cg-table {
+  p {
+    margin: 0;
+  }
+
+  tbody {
+    border: none;
+  }
+
+  td {
+    font-size: 1.125rem;
+    padding: .875rem .25rem;
+  }
+
+  tr {
+    background: #fff !important;
+    border-bottom: 1px solid #cacaca;
+
+    &:first-child td {
+      font-weight: bold;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }  
+}
+
 .c-cg-task {
   background: #fee8de;
 }
