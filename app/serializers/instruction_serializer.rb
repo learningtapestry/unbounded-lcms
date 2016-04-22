@@ -4,9 +4,7 @@ class InstructionSerializer < ActiveModel::Serializer
 
   def short_title
     subject_title = object.subject.try(:titleize) || ''
-    grade_title = object.grade.try(:titleize) || ''
-
-    "#{subject_title} #{grade_title} Content Guide".strip
+    "#{subject_title} Content Guide".strip
   end
 
   def img
