@@ -1,9 +1,9 @@
 require 'securerandom'
 
-class ContentGuidePresenter < SimpleDelegator
+class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
 
-  KEYWORD_CLASS = 'contengGuide__keyword'
+  ANNOTATION_COLOR = '#ffff00'
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
@@ -99,10 +99,9 @@ class ContentGuidePresenter < SimpleDelegator
   def find_custom_tags(tag_name, node = nil, &block)
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*bold/
-        if span.content == "<#{tag_name}>"
-          tag = span.parent
-          yield tag if block
-          tag
+        if span.content.downcase =~ /<#{tag_name}>/
+          yield span if block
+          span
         end
       end
     end.compact
@@ -116,12 +115,74 @@ class ContentGuidePresenter < SimpleDelegator
     end
   end
 
+  def process_annotation_boxes
+    find_custom_tags('annotation').map { |tag| tag.ancestors('table').first }.compact.uniq.each do |table, index|
+      next unless table && table.css('tr').size == 1 && table.css('td').size == 1
+
+      annotation_dropdowns = process_annotations(table)
+
+      annotation_box = doc.document.create_element('div', class: 'c-cg-annotationBox')
+      annotation_box.inner_html = table.at_css('td').inner_html
+
+      annotation_list = doc.document.create_element('div', class: 'c-cg-annotationList')
+      annotation_dropdowns.each_with_index do |dropdown, index|
+        number = doc.document.create_element('span', class: 'c-cg-annotationList__number')
+        number.content = index + 1
+
+        content = doc.document.create_element('span')
+        content.inner_html = dropdown.inner_html
+
+        list_item = doc.document.create_element('p')
+        list_item << number
+        list_item << content
+
+        annotation_list << list_item
+      end
+
+      table.replace(annotation_box)
+      annotation_box.next = annotation_list
+    end
+  end
+
+  def process_annotations(table)
+    background_color_regex = /background-color:\s*#ffff00;?\s*/
+
+    find_custom_tags('annotation', table).each_with_index.map do |tag, index|
+      id = "annotation_#{SecureRandom.hex(4)}"
+
+      annotation = doc.document.create_element('span', class: 'c-cg-annotation', 'data-toggle' => id)
+      prev_element = tag.previous
+      loop do
+        break unless prev_element && prev_element[:style] =~ background_color_regex
+
+        current_element = prev_element
+        prev_element = current_element.previous
+        current_element[:style] = current_element[:style].gsub(background_color_regex, '')
+        annotation << current_element
+      end
+
+      dropdown = doc.document.create_element('span', class: 'dropdown-pane', id: id, 'data-dropdown' => nil, 'data-hover' => true, 'data-hover-pane' => true)
+      next_element = tag.next
+      loop do
+        break unless next_element && next_element[:style] =~ background_color_regex
+
+        current_element = next_element
+        next_element = current_element.next
+        current_element[:style] = current_element[:style].gsub(background_color_regex, '')
+        dropdown << current_element
+      end
+
+      tag.replace(annotation)
+      annotation.next = dropdown
+      dropdown
+    end
+  end
+
   def process_blockquotes
     find_custom_tags('blockquote') do |tag|
-      table = next_element_with_name(tag, 'table')
+      table = next_element_with_name(tag.parent, 'table')
       tag.remove
-      return unless table
-      return unless table.css('td').size == 1
+      return unless table && table.css('td').size != 1
 
       blockquote = doc.document.create_element('blockquote')
       blockquote.inner_html = table.at_css('td').inner_html
@@ -138,18 +199,18 @@ class ContentGuidePresenter < SimpleDelegator
   def process_footnote_links
     doc.css('a[href^="#ftnt"]:not([href^="#ftnt_ref"])').each_with_index do |a, i|
       id = "content_guide_footnote_#{i}"
-      footnote = doc.at_css(a[:href]).ancestors('div').first.clone
-      footnote.at_css(a[:href]).remove
+      footnote = doc.at_css(a[:href]).ancestors('div').first
       a['data-toggle'] = id
-      dropdown = doc.document.create_element('div', class: 'dropdown-pane', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-pane' => true, id: id)
-      dropdown.inner_html = footnote.inner_html
-      a.next = dropdown
+      dropdown = doc.document.create_element('span', class: 'dropdown-pane c-cg-dropdown', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-pane' => true, id: id)
+      dropdown.inner_html = footnote.at_css('p').inner_html
+      dropdown.at_css(a[:href]).remove
+      a.parent.next = dropdown
     end
   end
 
   def process_pullquotes
     find_custom_tags('pullquote') do |tag|
-      table = next_element_with_name(tag, 'table')
+      table = next_element_with_name(tag.parent, 'table')
       tag.remove
       return unless table && table.css('td').size == 1
 
@@ -162,7 +223,7 @@ class ContentGuidePresenter < SimpleDelegator
 
   def process_standards
     find_custom_tags('standards').each do |tag|
-      table = next_element_with_name(tag, 'table')
+      table = next_element_with_name(tag.parent, 'table')
       tag.remove
       return unless table
 
@@ -172,11 +233,14 @@ class ContentGuidePresenter < SimpleDelegator
     end
   end
 
-  def process_task_body(cell, with_break:)
+  def process_task_body(table, with_break:)
     body = doc.document.create_element('div', class: 'c-cg-task__body')
-    body.inner_html = cell.inner_html
+    body.inner_html = table.css('td')[1].inner_html
+
+    parts = [body]
 
     if (tag = find_custom_tags('task break', body).first)
+      tag = tag.parent
       if with_break
         if (next_node = tag.next)
           hidden = doc.document.create_element('div', class: 'c-cg-task__hidden')
@@ -187,51 +251,50 @@ class ContentGuidePresenter < SimpleDelegator
             hidden << current_node.dup
             current_node.remove
           end
-
-          toggler = doc.document.create_element('a', class: 'c-cg-task__toggler', href: '#')
-          toggler.content = 'Show / Hide'
-
-          wrap = doc.document.create_element('div')
-          wrap << toggler
-          wrap << hidden
-          body << wrap
+          body << hidden
         end
+
+        hide_task = doc.document.create_element('span', class: 'c-cg-task__toggler__hide')
+        hide_task.content = t('.hide_task')
+
+        show_task = doc.document.create_element('span', class: 'c-cg-task__toggler__show')
+        show_task.content = t('.show_task')
+
+        toggler = doc.document.create_element('div', class: 'c-cg-task__toggler')
+        toggler << hide_task
+        toggler << show_task
+
+        parts << toggler
       end
 
       tag.remove
     end
-  
-    body
+
+    copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
+    copyright.content = table.css('td')[2].content
+    body << copyright
+
+    parts
   end
 
   def process_tasks(with_break: true)
     find_custom_tags('task') do |tag|
-      table = next_element_with_name(tag, 'table')
+      table = next_element_with_name(tag.parent, 'table')
       tag.remove
       next unless table
-      next unless table.css('tr').size == 3 || table.css('td').size == 3
+      next unless table.xpath('tbody/tr').size == 3 || table.css('tbody/tr/td').size == 3
 
-      title = doc.document.create_element('h4')
-      title.inner_html = table.css('td')[0].inner_html
+      title = doc.document.create_element('h4', class: 'c-cg-task__title')
+      title.content = table.css('td')[0].content
 
-      footer = doc.document.create_element('div', class: 'c-cg-task__copyright')
-      footer.inner_html = table.css('td')[2].inner_html
+      body, toggler = process_task_body(table, with_break: with_break)
 
-      body = process_task_body(table.css('td')[1], with_break: with_break)
+      task = doc.document.create_element('div', class: 'c-cg-task')
+      task << title
+      task << body
+      task << toggler if toggler
 
-      panel = doc.document.create_element('div', class: 'callout success')
-      panel << title
-      panel << body
-      panel << footer
-
-      table.replace(panel)
-    end
-  end
-
-  def realign_tables
-    doc.css('table').each do |table|
-      style = table[:style].gsub(/margin-(left|right):[^;]+;?/, '') rescue nil
-      table[:style] = "margin-left:auto;margin-right:auto;#{style}"
+      table.replace(task)
     end
   end
 
@@ -241,6 +304,16 @@ class ContentGuidePresenter < SimpleDelegator
       if (content_guide = ContentGuide.find_by_file_id(file_id))
         a.content = content_guide.name if a.text == a[:href]
         a[:href] = content_guide_url(content_guide)
+      end
+    end
+  end
+
+  def reset_table_styles
+    doc.css('table').each do |table|
+      table[:class] = 'c-cg-table'
+      table.remove_attribute('style')
+      table.css('[style]').each do |node|
+        node.remove_attribute('style')
       end
     end
   end
@@ -264,13 +337,13 @@ class ContentGuidePresenter < SimpleDelegator
         id = "cg-k_#{SecureRandom.hex(4)}"
         dropdown = %Q(
           <span data-toggle=#{id}>#{keyword}</span>
-          <div class=dropdown-pane
+          <span class='dropdown-pane c-cg-dropdown'
             data-dropdown
             data-hover=true
             data-hover-pane=true
             id=#{id}>
             #{value}
-          </div>
+          </span>
         )
         m.gsub!(keyword, dropdown)
       end
@@ -296,14 +369,15 @@ class ContentGuidePresenter < SimpleDelegator
   def process_doc
     embed_audios
     embed_videos
+    process_annotation_boxes
     process_blockquotes
     process_broken_images
     process_footnote_links
     process_pullquotes
     process_standards
     process_tasks
-    realign_tables
     replace_guide_links
+    reset_table_styles
   end
 
   def cache(key)

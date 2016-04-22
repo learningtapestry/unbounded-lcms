@@ -30,17 +30,25 @@ class ContentGuidesController < ApplicationController
     end
 
     def render_pdf
+      cover_image_url =
+        if (path = @content_guide.big_photo.url)
+          "url(#{request.protocol}#{request.host_with_port}#{path})"
+        else
+          'none'
+        end
+
       render pdf: @content_guide.name,
+             cover: render_to_string(partial: 'cover', locals: { content_guide: @content_guide, cover_image_url: cover_image_url }),
              disposition: 'attachment',
-             margin: {
-               top: 15
+             footer: {
+               right: "[#{t('.page')}]"
              },
              header: {
                left: @content_guide.name,
                spacing: 5
              },
-             footer: {
-               right: '[page]'
+             margin: {
+               top: 15
              }
     end
 end

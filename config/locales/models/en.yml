@@ -11,8 +11,8 @@ en:
     models:
       resource: Resource
     attributes:
-      grade:
-        grade: Name
+      content_guide:
+        grade_list: Grades
       resource:
         additional_resources: Additional materials
         resource_downloads: Downloadable resources
