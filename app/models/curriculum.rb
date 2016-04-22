@@ -337,43 +337,73 @@ class Curriculum < ActiveRecord::Base
     {
       ela: {
         short: 'EL',
-        long: 'ELA'
+        long: 'ELA',
+        has_position: false
       },
       math: {
         short: 'MA',
-        long: 'Math'
+        long: 'Math',
+        has_position: false
       },
       grade: {
         short: 'G',
-        long: 'G'
+        long: 'G',
+        has_position: true
+      },
+      pk: {
+        short: 'PK',
+        long: 'PK',
+        has_position: false
+      },
+      k: {
+        short: 'K',
+        long: 'K',
+        has_position: false
+      },
+      ll_module: {
+        short: 'LL',
+        long: 'LL',
+        has_position: false
+      },
+      ss_module: {
+        short: 'Skills',
+        long: 'Skills',
+        has_position: false
       },
       module: {
         short: 'M',
-        long: 'M'
+        long: 'M',
+        has_position: true
       },
       writing_module: {
         short: 'WM',
-        long: 'WM'
+        long: 'WM',
+        has_position: false
       },
       core_proficiencies_module: {
         short: 'CP',
-        long: 'CP'
+        long: 'CP',
+        has_position: false
       },
       extension_module: {
         short: 'EM',
-        long: 'EM'
+        long: 'EM',
+        has_position: false
       },
       unit: {
         short: 'U',
-        long: 'U'
+        long: 'U',
+        has_position: true
       },
       topic: {
         short: 'T',
-        long: 'T'
+        long: 'T',
+        has_position: true
       },
       lesson: {
         short: 'L',
-        long: 'L'
+        long: 'L',
+        has_position: true
       }
     }
   end
@@ -383,15 +413,27 @@ class Curriculum < ActiveRecord::Base
 
     abbrv_type = case current_level
       when :map then subject
-      when :grade then :grade
+      when :grade
+        grade_title = resource.grade_list.first.downcase.strip
+        if grade_title.start_with?('prekindergarten')
+          :pk
+        elsif grade_title.start_with?('kindergarten')
+          :k
+        else
+          :grade
+        end
       when :module
         short_title = resource.short_title.downcase.strip
-        if short_title.start_with?('writing')
+        if short_title.include?('writing')
           :writing_module
-        elsif short_title.start_with?('core proficiencies')
+        elsif short_title.include?('core proficiencies')
           :core_proficiencies_module
-        elsif short_title.start_with?('extension')
+        elsif short_title.include?('extension')
           :extension_module
+        elsif short_title.include?('skills')
+          :ss_module
+        elsif short_title.include?('learning')
+          :ll_module
         else
           :module
         end
@@ -399,21 +441,18 @@ class Curriculum < ActiveRecord::Base
       when :lesson then :lesson
       end
 
-    pos = if [
-      subject,
-      :writing_module,
-      :core_proficiencies_module,
-      :extension_module
-    ].include?(abbrv_type)
-      ''
-    elsif subject == :math && abbrv_type == :topic
-      (position + 65).chr
-    elsif abbrv_type == :grade
-      resource.grade_list.first.downcase.gsub('grade ', '')
-    else
-      position + 1
-    end
     abbrv = self.class.breadcrumb_abbrv[abbrv_type]
+    pos = begin
+      if !(abbrv[:has_position])
+        ''
+      elsif subject == :math && abbrv_type == :topic
+        (position + 65).chr
+      elsif abbrv_type == :grade
+        resource.grade_list.first.downcase.gsub('grade ', '')
+      else
+        position + 1
+      end
+    end
     self.breadcrumb_short_piece = "#{abbrv[:short]}#{pos}"
     self.breadcrumb_piece = "#{abbrv[:long]}#{pos}"
   end
