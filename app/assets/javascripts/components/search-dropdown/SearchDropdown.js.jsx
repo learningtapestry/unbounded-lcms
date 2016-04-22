@@ -151,7 +151,7 @@ class SearchDropdown extends React.Component {
           isSearching={this.state.isSearching}
           selected={this.state.selected} />
       </div>
-      : null;
+      : <div className="hide"></div>;
 
     return results;
   }
