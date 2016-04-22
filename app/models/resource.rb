@@ -64,13 +64,17 @@ class Resource < ActiveRecord::Base
     where(subject: subjects)
   }
 
-  scope :where_grade, ->(grades) {
-    grades = Array.wrap(grades)
-    return where(nil) unless grades.any?
+  scope :where_tag, ->(context, value) {
+    value = Array.wrap(value)
+    return where(nil) unless value.any?
 
     joins(taggings: [:tag])
-    .where(taggings: { context: 'grades' })
-    .where(tags: { name: grades })
+    .where(taggings: { context: context })
+    .where(tags: { name: value })
+  }
+
+  scope :where_grade, ->(grades) {
+    where_tag('grades', grades)
   }
 
   scope :asc, -> { order(created_at: :asc) }
