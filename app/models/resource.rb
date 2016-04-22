@@ -154,6 +154,14 @@ class Resource < ActiveRecord::Base
     subject == 'math'
   end
 
+  def generate_content_sources
+    unless self.content_source_list.any?
+      content_source = engageny_url.present? ? 'engageny' : 'unbounded'
+      self.content_source_list.add(content_source)
+    end
+    self.content_source_list
+  end
+
   # Tags
 
   def update_download_types
