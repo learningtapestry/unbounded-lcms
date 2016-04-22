@@ -254,10 +254,6 @@ class ContentGuidePresenter < BasePresenter
           body << hidden
         end
 
-        copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
-        copyright.content = table.css('td')[2].content
-        body << copyright
-
         hide_task = doc.document.create_element('span', class: 'c-cg-task__toggler__hide')
         hide_task.content = t('.hide_task')
 
@@ -274,6 +270,10 @@ class ContentGuidePresenter < BasePresenter
       tag.remove
     end
 
+    copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
+    copyright.content = table.css('td')[2].content
+    body << copyright
+
     parts
   end
 
@@ -282,7 +282,7 @@ class ContentGuidePresenter < BasePresenter
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
       next unless table
-      next unless table.css('tr').size == 3 || table.css('td').size == 3
+      next unless table.xpath('tbody/tr').size == 3 || table.css('tbody/tr/td').size == 3
 
       title = doc.document.create_element('h4', class: 'c-cg-task__title')
       title.content = table.css('td')[0].content
