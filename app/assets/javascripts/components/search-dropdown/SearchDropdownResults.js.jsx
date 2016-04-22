@@ -1,12 +1,13 @@
 function SearchDropdownResults(props) {
+  const resultCls = 'o-search-dropdown-result';
+
   if (props.resources.length == 0) {
-    const cls = 'o-search-dropdown-result';
     if (props.isSearching) {
-      return <div className={cls}>Searching...</div>;
+      return <div className={resultCls}>Searching...</div>;
     } else if (props.search_term && props.search_term.length > 0) {
-      return <div className={cls}>Nothing found.</div>;
+      return <div className={resultCls}>Nothing found.</div>;
     }
-    return <div className={cls}>Enter terms to start searching.</div>;
+    return <div className={resultCls}>Enter terms to start searching.</div>;
   }
 
   const results = props.resources.map((resource, idx) => {
@@ -17,5 +18,17 @@ function SearchDropdownResults(props) {
       selected={props.selected === idx} />;
   });
 
-  return <div>{results}</div>;
+  const showMore = (
+    <a className={resultCls}
+      href={Routes.search_path({ search_term: props.search_term })}>
+      Show more results...
+    </a>
+  );
+
+  return (
+    <div>
+      {results}
+      {showMore}
+    </div>
+  );
 }
