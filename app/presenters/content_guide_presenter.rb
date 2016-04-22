@@ -1,6 +1,6 @@
 require 'securerandom'
 
-class ContentGuidePresenter < SimpleDelegator
+class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
 
   ANNOTATION_COLOR = '#ffff00'
@@ -233,9 +233,11 @@ class ContentGuidePresenter < SimpleDelegator
     end
   end
 
-  def process_task_body(cell, with_break:)
+  def process_task_body(table, with_break:)
     body = doc.document.create_element('div', class: 'c-cg-task__body')
-    body.inner_html = cell.inner_html
+    body.inner_html = table.css('td')[1].inner_html
+
+    parts = [body]
 
     if (tag = find_custom_tags('task break', body).first)
       tag = tag.parent
@@ -249,21 +251,30 @@ class ContentGuidePresenter < SimpleDelegator
             hidden << current_node.dup
             current_node.remove
           end
-
-          toggler = doc.document.create_element('a', class: 'c-cg-task__toggler', href: '#')
-          toggler.content = 'Show / Hide'
-
-          wrap = doc.document.create_element('div')
-          wrap << toggler
-          wrap << hidden
-          body << wrap
+          body << hidden
         end
+
+        copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
+        copyright.content = table.css('td')[2].content
+        body << copyright
+
+        hide_task = doc.document.create_element('span', class: 'c-cg-task__toggler__hide')
+        hide_task.content = t('.hide_task')
+
+        show_task = doc.document.create_element('span', class: 'c-cg-task__toggler__show')
+        show_task.content = t('.show_task')
+
+        toggler = doc.document.create_element('div', class: 'c-cg-task__toggler')
+        toggler << hide_task
+        toggler << show_task
+
+        parts << toggler
       end
 
       tag.remove
     end
-  
-    body
+
+    parts
   end
 
   def process_tasks(with_break: true)
@@ -273,20 +284,17 @@ class ContentGuidePresenter < SimpleDelegator
       next unless table
       next unless table.css('tr').size == 3 || table.css('td').size == 3
 
-      title = doc.document.create_element('h4')
-      title.inner_html = table.css('td')[0].inner_html
+      title = doc.document.create_element('h4', class: 'c-cg-task__title')
+      title.content = table.css('td')[0].content
 
-      footer = doc.document.create_element('div', class: 'c-cg-task__copyright')
-      footer.inner_html = table.css('td')[2].inner_html
+      body, toggler = process_task_body(table, with_break: with_break)
 
-      body = process_task_body(table.css('td')[1], with_break: with_break)
+      task = doc.document.create_element('div', class: 'c-cg-task')
+      task << title
+      task << body
+      task << toggler if toggler
 
-      panel = doc.document.create_element('div', class: 'callout success')
-      panel << title
-      panel << body
-      panel << footer
-
-      table.replace(panel)
+      table.replace(task)
     end
   end
 
