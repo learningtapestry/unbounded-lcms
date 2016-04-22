@@ -3,7 +3,10 @@ class InstructionSerializer < ActiveModel::Serializer
   attributes :id, :title, :short_title, :teaser, :img, :path
 
   def short_title
-    "#{object.subject.titleize} #{object.grade.titleize} Content Guide"
+    subject_title = object.subject.try(:titleize) || ''
+    grade_title = object.grade.try(:titleize) || ''
+
+    "#{subject_title} #{grade_title} Content Guide".strip
   end
 
   def img
