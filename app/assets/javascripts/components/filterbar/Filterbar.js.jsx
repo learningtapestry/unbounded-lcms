@@ -165,6 +165,24 @@ class Filterbar extends React.Component {
 
     const conciseState = this.createQuery(this.state);
 
+    let filterbarSearch = null;
+
+    if (this.props.withSearch) {
+      filterbarSearch = (
+        <div className="o-filterbar__search" ref={r => this.searchContainer = r}>
+          <FilterbarSearch
+            searchTerm={this.state.search_term}
+            searchBus={this.searchBus}
+            onUpdate={this.onUpdateSearch.bind(this)}/>
+          {(this.props.withDropdown) ?
+            <SearchDropdown
+              searchContainer={() => this.searchContainer}
+              searchBus={this.searchBus}
+              filterbar={conciseState} /> : null}
+        </div>
+      );
+    }
+
     return (
       <div>
         <div className='o-filterbar'>
@@ -215,26 +233,7 @@ class Filterbar extends React.Component {
 
               : false
           }
-          <div className="o-filterbar__search" ref={r => this.searchContainer = r}>
-            {
-              (this.props.withSearch) ?
-                <FilterbarSearch
-                  searchTerm={this.state.search_term}
-                  searchBus={this.searchBus}
-                  onUpdate={this.onUpdateSearch.bind(this)}/>
-
-                : false
-            }
-            {
-              (this.props.withDropdown) ?
-                <SearchDropdown
-                  searchContainer={() => this.searchContainer}
-                  searchBus={this.searchBus}
-                  filterbar={conciseState} />
-                  
-                : false
-            }
-          </div>
+          {filterbarSearch}
         </div>
       </div>
     );
