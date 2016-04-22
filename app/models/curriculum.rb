@@ -435,11 +435,13 @@ class Curriculum < ActiveRecord::Base
   end
 
   def grade_color_code
-    current_grade.resource.grades.each do |g|
-      grade = g.name.downcase
-      return 'k' if grade == 'kindergarten'
-      return 'pk' if grade == 'prekindergarten'
-      return grade[/\d+/] if grade[/\d+/]
+    if current_grade.try(:resource).try(:grades)
+      current_grade.resource.grades.each do |g|
+        grade = g.name.downcase
+        return 'k' if grade == 'kindergarten'
+        return 'pk' if grade == 'prekindergarten'
+        return grade[/\d+/] if grade[/\d+/]
+      end
     end
     'base'
   end
