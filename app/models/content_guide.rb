@@ -57,14 +57,26 @@ class ContentGuide < ActiveRecord::Base
   private
 
   def assign_common_core_standards(value)
-    names = split_standards(value)
+    names = split_list(value)
     name_node = Standard.where(name: names).where_values.reduce(:and)
     alt_names_node = Standard.where.overlap(alt_names: names).where_values.reduce(:and)
     self.common_core_standards = CommonCoreStandard.where(name_node.or(alt_names_node))
   end
 
+  def assign_grades(value)
+    grades = split_list(value)
+    grades.map! do |grade|
+      case grade
+      when 'k' then 'kindergarten'
+      when 'pk' then 'prekindergarten'
+      else "grade #{grade}"
+      end
+    end
+    self.grade_list = grades
+  end
+
   def assign_unbounded_standards(value)
-    names = split_standards(value)
+    names = split_list(value)
 
     unbounded_standards.where.not(name: names).each do |standard|
       content_guide_standards.find_by_standard_id(standard.id).delete
@@ -116,7 +128,7 @@ class ContentGuide < ActiveRecord::Base
       when 'ccss' then assign_common_core_standards(value)
       when 'related_instruction_tags' then assign_unbounded_standards(value)
       when 'big_photo', 'small_photo' then send("remote_#{key}_url=", value)
-      when 'grade', 'grades' then self.grade_list = value
+      when 'grade', 'grades' then assign_grades(value)
       else send("#{key}=", value)
       end
     end
@@ -125,7 +137,7 @@ class ContentGuide < ActiveRecord::Base
     doc
   end
 
-  def split_standards(value)
+  def split_list(value)
     value.split(',').map(&:strip).map(&:downcase)
   end
 
