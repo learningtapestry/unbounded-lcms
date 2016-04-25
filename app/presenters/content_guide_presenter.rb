@@ -182,9 +182,9 @@ class ContentGuidePresenter < BasePresenter
     find_custom_tags('blockquote') do |tag|
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
-      return unless table && table.css('td').size != 1
+      return unless table && table.css('td').size == 1
 
-      blockquote = doc.document.create_element('blockquote')
+      blockquote = doc.document.create_element('div', class: 'c-cg-blockquote')
       blockquote.inner_html = table.at_css('td').inner_html
       table.replace(blockquote)
     end
