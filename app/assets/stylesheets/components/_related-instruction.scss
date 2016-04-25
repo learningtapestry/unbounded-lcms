@@ -1,30 +1,28 @@
 .o-related-instruction {
-  background-color: $ub-dark-bg;
-  padding: $ub-base-padding;
-
   @include e(title) {
     text-align: center;
   }
 
   @include e(teaser) {
+    @include grid-column-position(center);
     margin-bottom: $ub-base-margin;
+    text-align: center;
+    width: 80%;
   }
 
-
   @include e(actions) {
-    margin: 0 auto;
+    @include menu-base;
+    @include menu-simple;
+    @include menu-direction(horizontal);
+    justify-content: center;
+  }
+
+  @include e(empty) {
     text-align: center;
   }
 
-  @include e(action) {
-    @include button;
-
-    width: 200px;
-    background-color: $ub-whitesmoke;
-    display: inline-block;
-    margin: 0 $ub-base-margin;
-    color: $ub-txt;
-
-    &:hover { color: $ub-whitesmoke; }
+  @include e(list) {
+    @include m(expanded) { width: 100%; }
   }
+
 }

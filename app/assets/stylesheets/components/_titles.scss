@@ -1,8 +1,6 @@
 .o-title {
   @extend .u-text--small;
   font-weight: bold;
-  //margin-bottom: $ub-small-margin;
-  text-transform: uppercase;
 
   @include e(type) {
     font-family: $ub-serif;

@@ -35,6 +35,12 @@
   -webkit-box-orient: vertical;
 }
 
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @mixin add-gutter($type: margin, $subtype: bottom, $x: 1, $gutter: $grid-column-gutter) {
   @each $breakpoint, $value in $gutter {
     $margin: rem-calc($value);
