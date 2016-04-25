@@ -97,9 +97,20 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def find_custom_tags(tag_name, node = nil, &block)
+    tag_name = "<#{tag_name}>"
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*bold/
-        if span.content.downcase =~ /<#{tag_name}>/
+        content = span.content
+        if content.downcase =~ /#{tag_name}/
+          before, after =
+            span.content.split(tag_name).map do |content|
+              new_span = doc.document.create_element('span', style: span[:style])
+              new_span.content = content
+              new_span
+            end
+          span.before(before) if before
+          span.after(after) if after
+
           yield span if block
           span
         end
