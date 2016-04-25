@@ -1,6 +1,3 @@
-require 'will_paginate/array'
-
-
 class EnhanceInstructionController < ApplicationController
   include Filterbar
   include Pagination
@@ -45,17 +42,20 @@ class EnhanceInstructionController < ApplicationController
   end
 
   def set_index_props
-    @instructions = find_instructions
-    @props = serialize_with_pagination(@instructions,
-      pagination: pagination_params,
-      each_serializer: InstructionSerializer
-    )
-    videos = serialize_with_pagination(find_videos,
-      pagination: pagination_params,
-      each_serializer: VideoInstructionSerializer
-    )[:results]
+    active_tab = (params[:tab] || 0).to_i
+    if active_tab == 0
+      @props = serialize_with_pagination(find_instructions,
+        pagination: pagination_params,
+        each_serializer: InstructionSerializer
+      )
+    else
+      @props = serialize_with_pagination(find_videos,
+        pagination: pagination_params,
+        each_serializer: VideoInstructionSerializer
+      )
+    end
     @props.merge!(filterbar_props)
-    @props.merge!(videos: videos)
+    @props.merge!(tab: active_tab)
   end
 
 end

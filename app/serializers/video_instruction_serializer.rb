@@ -2,25 +2,22 @@ class VideoInstructionSerializer < ActiveModel::Serializer
   include ResourceHelper
 
   self.root = false
-  attributes :id, :title, :short_title, :subtitle, :teaser, :img, :path
+  attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type
 
-  def short_title
-    object.short_title || default_short_title
-  end
-
-  def default_short_title
-    "#{object.subject.titleize} #{object.grades.first.try(:name).try(:titleize)} Video"
+  def subject
+    object.try(:subject).downcase || 'default'
   end
 
   def img
-    "#" # TODO fix-me when we add photos/images to Resources
+    # TODO fix-me when we add photos/images to Resources
+    ActionController::Base.helpers.image_path('placeholder_white_bg.svg')
   end
 
   def path
-    show_resource_path(object)
+    media_path(object.id)
   end
 
   def instruction_type
-    :video
+    object.video? ? :video : :podcast
   end
 end

@@ -40,7 +40,7 @@
       <div class="o-page__section u-padding-top--large u-bg--light">
         <div class="o-resource-title">
           <div class="o-resource-title__title">
-            <div class="o-title">
+            <div class="o-title u-text--uppercase">
               <span class="o-title__type cs-txt--<%= color_code(@resource, @grade_color_code) %>"><%= @resource.short_title %></span>
               <span class="o-title__duration"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span>
             </div>
@@ -103,7 +103,7 @@
           </div>
         </div>
         <% if !@curriculum.lesson? %>
-          <div class="o-resource-summary u-pd-content u-bg--tooltip">
+          <div class="o-resource-summary u-pd-content--xlarge u-bg--tooltip">
             <div class="o-resource-summary__map"></div>
             <div class="o-resource-summary__content">
               <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum } %>
@@ -111,10 +111,6 @@
           </div>
         <% end %>
       </div>
-
-      <%= react_component('RelatedInstruction', {resource: @resource, resource_type: @curriculum.curriculum_type.name}, prerender: true) %>
-
-      <%= render partial: 'resources/download_form', locals: { downloads: @resource.downloads, title: @curriculum.type_name } %>
     </div>
   </div>
   <div class="o-page__sticky">
@@ -133,5 +129,15 @@
         </div>
       </a>
     </div>
+  </div>
+</div>
+<div id="related-instruction" class="u-bg--light">
+  <div class="o-page">
+     <%= react_component('RelatedInstruction',
+                        { id: @resource.id,
+                          resource_type: @curriculum.curriculum_type.name,
+                          has_more: @has_more,
+                          instructions: @instructions },
+                          prerender: true) %>
   </div>
 </div>

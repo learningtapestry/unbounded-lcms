@@ -1,0 +1,81 @@
+$instruction-card-height: 220px;
+$guide-img-width: $instruction-card-height;
+$media-img-height: 110px;
+
+@mixin media-instruction {
+  @include flex-grid-column(6);
+  flex-direction: column;
+
+  @include breakpoint(medium) {
+    @include flex-grid-column(3);
+  }
+
+  @include e(wrap) {
+    flex-direction: column;
+  }
+
+  @include e(img) {
+    img {
+      height: $media-img-height;
+      width: 100%;
+    }
+  }
+
+  @include e(title) {
+    @include clamp(3);
+  }
+}
+
+.o-instruction-card {
+  @include media-object-container;
+  @include add-gutter;
+  cursor: pointer;
+  h3 { margin-bottom: 0; }
+
+  @include e(img) {
+    flex: 0 0 auto;
+  }
+
+  @include e(body) {
+    min-width: 0;
+    padding: $ub-large-padding $ub-base-padding;
+  }
+
+  @include e(teaser) {
+    @extend .u-text--small;
+    @include ellipsis;
+    font-family: $ub-serif;
+    font-weight: bold;
+  }
+
+  @include e(wrap) {
+    @extend %material-card;
+    @include flex;
+    min-height: $instruction-card-height;
+    width: 100%;
+  }
+
+  @include m(instruction) {
+    @include flex-grid-column(12);
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(6);
+    }
+
+    @include e(img) {
+      img {
+        height: 100%;
+        width: $guide-img-width;
+      }
+    }
+  }
+
+  @include m(video) {
+    @include media-instruction;
+  }
+
+  @include m(podcast) {
+    @include media-instruction;
+  }
+
+}

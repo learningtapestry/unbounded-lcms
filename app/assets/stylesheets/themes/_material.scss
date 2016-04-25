@@ -18,3 +18,13 @@ $ub-material-card-margin: 2px;
   transition-property: min-width;
   transition-timing-function: ease-out;
 }
+
+// fadeIn transition
+.m-fadeIn-enter {
+  opacity: .01;
+}
+
+.m-fadeIn-enter.m-fadeIn-enter-active {
+  opacity: 1;
+  transition: opacity 400ms ease-in;
+}
