@@ -2,7 +2,7 @@ $lesson-dsc-short-lines: 4;
 $lesson-dsc-full-lines: 7;
 $lesson-dsc-full-font-size: $small-font-size;
 $lesson-dsc-full-line-height: 1.2;
-$lesson-card-height: 194px;
+$lesson-card-height: 180px;
 
 .o-lesson-card {
   @include flex();
@@ -20,21 +20,28 @@ $lesson-card-height: 194px;
     }
   }
 
+  @include e(wrap) {
+    width: 100%;
+  }
+
   @include e(header) {
     padding: $ub-base-padding / 2 $ub-base-padding;
   }
 
   @include e(duration) {
     @extend .u-text--small;
+    @include flex;
+    align-self: flex-end;
     font-weight: normal;
-    padding-top: $ub-small-padding;
-    text-align: right;
     text-transform: uppercase;
   }
 
   @include e(content) {
-    padding: $ub-base-padding;
+    @include flex;
+    flex-direction: column;
+    justify-content: space-between;
     min-height: $lesson-card-height;
+    padding: $ub-base-padding;
 
     @include m(base) {
       color: $ub-txt;
