@@ -1,11 +1,6 @@
 class InstructionSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :id, :title, :short_title, :subject, :teaser, :img, :path, :instruction_type
-
-  def short_title
-    subject_title = object.subject.try(:titleize) || ''
-    "#{subject_title} Content Guide".strip
-  end
+  attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type
 
   def subject
     object.try(:subject).downcase || 'default'
