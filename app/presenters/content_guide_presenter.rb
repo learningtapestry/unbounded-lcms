@@ -3,7 +3,7 @@ require 'securerandom'
 class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
 
-  ANNOTATION_COLOR = '#ffff00'
+  ANNOTATION_COLOR = '#fff2cc'
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
@@ -97,9 +97,22 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def find_custom_tags(tag_name, node = nil, &block)
+    tag_name = "<#{tag_name}>"
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*bold/
-        if span.content.downcase =~ /<#{tag_name}>/
+        content = span.content
+        if content.downcase =~ /#{tag_name}/
+          before, after =
+            span.content.split(tag_name).map do |content|
+              new_span = doc.document.create_element('span', style: span[:style])
+              new_span.content = content
+              new_span
+            end
+
+          span.after(after) if after
+          span.before(before) if before
+          span.content = tag_name
+
           yield span if block
           span
         end
@@ -116,8 +129,8 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def process_annotation_boxes
-    find_custom_tags('annotation').map { |tag| tag.ancestors('table').first }.compact.uniq.each do |table, index|
-      next unless table && table.css('tr').size == 1 && table.css('td').size == 1
+    find_custom_tags('annotation').map { |tag| tag.ancestors('table').first }.compact.uniq.each do |table|
+      next unless table && table.xpath('tbody/tr/td').size == 1
 
       annotation_dropdowns = process_annotations(table)
 
@@ -145,9 +158,9 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def process_annotations(table)
-    background_color_regex = /background-color:\s*#ffff00;?\s*/
+    background_color_regex = /background-color:\s*#{ANNOTATION_COLOR};?\s*/
 
-    find_custom_tags('annotation', table).each_with_index.map do |tag, index|
+    find_custom_tags('annotation', table).map do |tag|
       id = "annotation_#{SecureRandom.hex(4)}"
 
       annotation = doc.document.create_element('span', class: 'c-cg-annotation', 'data-toggle' => id)
@@ -182,9 +195,9 @@ class ContentGuidePresenter < BasePresenter
     find_custom_tags('blockquote') do |tag|
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
-      return unless table && table.css('td').size != 1
+      return unless table && table.css('td').size == 1
 
-      blockquote = doc.document.create_element('blockquote')
+      blockquote = doc.document.create_element('div', class: 'c-cg-blockquote')
       blockquote.inner_html = table.at_css('td').inner_html
       table.replace(blockquote)
     end
@@ -235,7 +248,7 @@ class ContentGuidePresenter < BasePresenter
 
   def process_task_body(table, with_break:)
     body = doc.document.create_element('div', class: 'c-cg-task__body')
-    body.inner_html = table.css('td')[1].inner_html
+    body.inner_html = table.xpath('tbody/tr/td')[1].inner_html
 
     parts = [body]
 
@@ -271,7 +284,7 @@ class ContentGuidePresenter < BasePresenter
     end
 
     copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
-    copyright.content = table.css('td')[2].content
+    copyright.content = table.xpath('tbody/tr/td')[2].content
     body << copyright
 
     parts
@@ -285,7 +298,7 @@ class ContentGuidePresenter < BasePresenter
       next unless table.xpath('tbody/tr').size == 3 || table.css('tbody/tr/td').size == 3
 
       title = doc.document.create_element('h4', class: 'c-cg-task__title')
-      title.content = table.css('td')[0].content
+      title.content = table.xpath('tbody/tr/td')[0].content
 
       body, toggler = process_task_body(table, with_break: with_break)
 
@@ -310,9 +323,11 @@ class ContentGuidePresenter < BasePresenter
 
   def reset_table_styles
     doc.css('table').each do |table|
+      next if table.xpath('tbody/tr/td').size == 1
+
       table[:class] = 'c-cg-table'
       table.remove_attribute('style')
-      table.css('[style]').each do |node|
+      table.css('tr, td').each do |node|
         node.remove_attribute('style')
       end
     end
