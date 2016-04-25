@@ -310,9 +310,11 @@ class ContentGuidePresenter < BasePresenter
 
   def reset_table_styles
     doc.css('table').each do |table|
+      next if table.xpath('tbody/tr/td').size == 1
+
       table[:class] = 'c-cg-table'
       table.remove_attribute('style')
-      table.css('[style]').each do |node|
+      table.css('tr, td').each do |node|
         node.remove_attribute('style')
       end
     end
