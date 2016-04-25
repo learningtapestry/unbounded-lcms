@@ -5,7 +5,7 @@ class VideoInstructionSerializer < ActiveModel::Serializer
   attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type
 
   def subject
-    object.try(:subject).downcase || 'default'
+    object.subject.try(:downcase) || 'default'
   end
 
   def img
