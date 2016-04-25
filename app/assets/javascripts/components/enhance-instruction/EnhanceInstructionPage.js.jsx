@@ -2,29 +2,44 @@ class EnhanceInstructionPage extends React.Component {
   constructor(props) {
     super(props);
 
+    let initTab = () => { return { current_page: 1, total_pages: 1,
+                                   num_items: 0, total_hits: 0,
+                                   items: []}; };
+    this.state = { tabs: _.times(2, initTab) };
     this.state = this.buildStateFromProps(props);
   }
 
   buildStateFromProps(props) {
     return {
-      instructions: props.results,
-      videos: props.videos,
+      items: props.results,
       per_page: props.pagination.per_page,
       order: props.pagination.order,
+      filterbar: props.filterbar,
+      activeTab: props.tab,
+      tabs: this.updateTabs(props)
+    };
+  }
+
+  updateTabs(props) {
+    this.state.tabs[props.tab] = {
       current_page: props.pagination.current_page,
       total_pages: props.pagination.total_pages,
       num_items: props.pagination.num_items,
       total_hits: props.pagination.total_hits,
-      filterbar: props.filterbar
+      items: props.results,
     };
+    return this.state.tabs;
   }
 
   createQuery(newState) {
+    const tab = newState.activeTab;
+    const current_page =  newState.current_page || newState.tabs[tab].current_page
     return {
       format: 'json',
       per_page: newState.per_page,
       order: newState.order,
-      page: newState.current_page,
+      page: current_page,
+      tab: tab,
       ...newState.filterbar
     };
   }
@@ -60,7 +75,49 @@ class EnhanceInstructionPage extends React.Component {
     this.fetch(newState);
   }
 
+  handleTabChange(idxTab) {
+    if (idxTab != (this.state.activeTab + 1)) {
+      const newState = Object.assign({}, this.state, { activeTab: idxTab - 1, current_page: 1 });
+      this.fetch(newState);
+    }
+  }
+
+  renderTab(title, idx) {
+    const tabData = this.state.tabs[idx];
+    return  (
+      <Tabs.Panel title={title}>
+        <SearchResultsHeader
+          onChangePerPage={this.handleChangePerPage.bind(this)}
+          onChangeOrder={this.handleChangeOrder.bind(this)}
+          current_page={tabData.current_page}
+          per_page={this.state.per_page}
+          num_items={tabData.items.length}
+          total_hits={tabData.total_hits}
+          per_page={this.state.per_page}
+          order={this.state.order} />
+        <EnhanceInstructionCards items={tabData.items} />
+        <PaginationBoxView previousLabel={<i className="fa-2x ub-angle-left"></i>}
+                        nextLabel={<i className="fa-2x ub-angle-right"></i>}
+                        breakLabel={<li className="o-pagination__break">...</li>}
+                        pageNum={tabData.total_pages}
+                        initialSelected={tabData.current_page - 1}
+                        forceSelected={tabData.current_page - 1}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        clickCallback={this.handlePageClick.bind(this)}
+                        containerClassName={"o-pagination o-page__wrap--row-nest"}
+                        itemClassName={"o-pagination__item"}
+                        nextClassName={"o-pagination__item--next"}
+                        previousClassName={"o-pagination__item--prev"}
+                        pagesClassName={"o-pagination__item--middle"}
+                        subContainerClassName={"o-pagination__pages"}
+                        activeClassName={"o-pagination__page--active"} />
+      </Tabs.Panel>);
+  }
+
   render() {
+    const tabGuides = this.renderTab('Content Guides', 0);
+    const tabResources = this.renderTab('Resources', 1);
     return (
       <div>
         <div className="u-bg--base">
@@ -74,49 +131,15 @@ class EnhanceInstructionPage extends React.Component {
               </div>
               <Filterbar
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
-                withSearch={true}
+                withSearch={false}
                 {...this.state.filterbar} />
             </div>
           </div>
         </div>
         <div className="o-page u-margin-bottom--xlarge">
-          <Tabs tabActive={1} className='c-eh-tab o-page__module'>
-             <Tabs.Panel title='Content Guides'>
-               <SearchResultsHeader
-                 onChangePerPage={this.handleChangePerPage.bind(this)}
-                 onChangeOrder={this.handleChangeOrder.bind(this)}
-                 current_page={this.state.current_page}
-                 per_page={this.state.per_page}
-                 num_items={this.state.instructions.length}
-                 total_hits={this.state.total_hits}
-                 per_page={this.state.per_page}
-                 order={this.state.order} />
-               <EnhanceInstructionCards instructions={this.state.instructions} />
-               <PaginationBoxView previousLabel={<i className="fa-2x ub-angle-left"></i>}
-                               nextLabel={<i className="fa-2x ub-angle-right"></i>}
-                               breakLabel={<li className="o-pagination__break">...</li>}
-                               pageNum={this.state.total_pages}
-                               initialSelected={this.state.current_page - 1}
-                               forceSelected={this.state.current_page - 1}
-                               marginPagesDisplayed={2}
-                               pageRangeDisplayed={5}
-                               clickCallback={this.handlePageClick.bind(this)}
-                               containerClassName={"o-pagination o-page__wrap--row-nest"}
-                               itemClassName={"o-pagination__item"}
-                               nextClassName={"o-pagination__item--next"}
-                               previousClassName={"o-pagination__item--prev"}
-                               pagesClassName={"o-pagination__item--middle"}
-                               subContainerClassName={"o-pagination__pages"}
-                               activeClassName={"o-pagination__page--active"} />
-             </Tabs.Panel>
-             <Tabs.Panel title='Videos'>
-               <div className="o-page__section u-margin-top--base">
-                 <h3>Under Construction</h3>
-                 <ul>
-                   { this.state.videos.map(video => <li key={video.id}>{video.short_title} :: {video.title}</li>) }
-                 </ul>
-               </div>
-             </Tabs.Panel>
+          <Tabs tabActive={this.state.activeTab + 1} onBeforeChange={this.handleTabChange.bind(this)} className='c-eh-tab o-page__module'>
+             {tabGuides}
+             {tabResources}
           </Tabs>
        </div>
      </div>

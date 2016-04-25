@@ -1,13 +1,13 @@
 $sticky-width: 60px;
 $sticky-height: 60px;
 $sticky-btn-width: 50px;
-$sticky-txt-width: 180px;
+$sticky-txt-width: 280px;
 $sticky-btn-margin: $sticky-width - $sticky-btn-width;
 
 .o-sticky {
   position: fixed;
-  top: 60%;
-  transform: translateY(-60%);
+  top: 50%;
+  transform: translateY(-50%);
 
   &:hover, &:focus {
     .o-sticky__txt {

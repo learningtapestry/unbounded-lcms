@@ -64,7 +64,15 @@
     @include m(bordered-#{$type}) {
       @include button-hollow;
       @include button-hollow-style($color);
-      color: $ub-white;
+      color: $btn-color;
+    }
+  }
+
+  @each $type, $color in $ub-buttons {
+    @include m(2bordered-#{$type}) {
+      @include button-hollow;
+      @include button-hollow-style($color);
+      color: $color;
     }
   }
 

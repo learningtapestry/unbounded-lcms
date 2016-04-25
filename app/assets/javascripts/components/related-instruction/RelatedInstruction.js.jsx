@@ -3,93 +3,73 @@ class RelatedInstruction extends React.Component {
     super(props);
 
     this.state = {
-      id: props.resource.id,
-      resource: props.resource,
+      id: props.id,
       resourceType: props.resource_type || 'Resource',
-      related_instruction: [],
+      instructions: props.instructions,
+      expandedInstructions: [],
       expanded: false,
-      hasMore: false,
-      firstFetch: true,
+      hasMore: props.has_more,
     };
   }
 
   fetch() {
-    let url = Routes.related_instruction_path(this.state.id, {expanded: this.state.expanded});
+    let url = Routes.related_instruction_path(this.state.id, {expanded: !this.state.expanded});
 
     fetch(url).then(r => r.json()).then(response => {
-      var newState = {related_instruction: response.instructions};
-      if (this.state.firstFetch) {
-        newState.firstFetch = false;
-        newState.hasMore = response.has_more;
-      }
+      let sum = 0;
+      let sliceIdx = _.findIndex(response.instructions,
+                                 item => { sum += item.instruction_type === 'instruction' ? 2 : 1;
+                                           return sum > 4; }
+                                );
+      if (sliceIdx == -1) sliceIdx = response.instructions.length;
+      const newState = { instructions:  _.take(response.instructions, sliceIdx),
+                         expandedInstructions:  _.slice(response.instructions, sliceIdx),
+                         hasMore: false,
+                         expanded: true
+                       };
       this.setState(Object.assign({}, this.state, newState));
     });
   }
 
-  componentDidMount() {
-    this.fetch();
-  }
-
-  relatedInstructionList() {
-    return $('.o-related-instruction__list');
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.expanded !== nextState.expanded) {
-      this.relatedInstructionList().fadeOut();
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.expanded !== prevState.expanded) {
-      this.relatedInstructionList().fadeIn();
-    }
-  }
-
   handleBtnClick(evt) {
-    this.setState(Object.assign({}, this.state, {expanded: !this.state.expanded}), this.fetch)
-  }
-
-  btnLabel() {
-    return this.state.expanded ? 'Show Less' : 'Show More';
+    this.fetch();
   }
 
   render () {
     const allInstructionsPath = Routes.enhance_instruction_index_path();
+    const instructions = this.state.instructions.map(
+        item => <InstructionCard key={item.id} item={item} />
+    );
+    const expandedInstructions = this.state.expandedInstructions.map(
+        item => <InstructionCard key={item.id} item={item} />
+    );
+    const actions = (this.state.instructions.length == 0) ?
+      <p className="o-related-instruction__empty lead">
+        This {_.capitalize(this.state.resourceType)} doesn&rsquo;t have any related instructions. To see all visit <a href={allInstructionsPath}>Enhance Instruction</a>.
+      </p> :
+      <ul className="o-related-instruction__actions">
+        { this.state.hasMore ?
+          <li><a className="o-ub-btn o-ub-btn--yellow u-margin-bottom--zero" onClick={this.handleBtnClick.bind(this)}>More Instruction</a></li>
+          : false
+        }
+        <li><a className="o-ub-btn o-ub-btn--2bordered-gray u-margin-bottom--zero" href={allInstructionsPath}>All Instructions</a></li>
+      </ul>;
+
     return (
-      <div id="related-instruction" className="o-related-instruction">
-
+      <div className="o-related-instruction o-page__module u-pd-content--xlarge">
         <h2 className="o-related-instruction__title">Related Instruction</h2>
-
         <p className="o-related-instruction__teaser">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
         </p>
-
-        <div className="o-related-instruction__list o-dsc__cards">
-          {
-            this.state.related_instruction.map((item)=> {
-              {/* TODO implement cards properly */}
-              return <RelatedInstructionItem key={item.id} item={item} />;
-            })
-          }
+        <div className="o-related-instruction__list o-page__wrap--row-nest">
+          {instructions}
         </div>
-        {
-          (this.state.related_instruction.length == 0) ?
-            <p className="o-related-instruction__empty">
-              This {_.capitalize(this.state.resourceType)} doesn&prime;t have any related instructions. To see all visit <a href={allInstructionsPath}>Enhance Instruction</a>
-            </p>
-          : false
-        }
-
-        <div className="o-related-instruction__actions">
-          { this.state.hasMore ?
-            <button className="o-related-instruction__action o-related-instruction__action--expand"
-              onClick={this.handleBtnClick.bind(this)}>{this.btnLabel()}</button>
-            : false
-          }
-          <a className="o-related-instruction__action o-related-instruction__action--all"
-             href={allInstructionsPath}>All Instructions</a>
+        <div className="o-related-instruction__list">
+          <React.addons.CSSTransitionGroup transitionName="m-fadeIn" transitionEnterTimeout={400} transitionLeaveTimeout={0} component="div" className="o-page__wrap--row-nest">
+            {expandedInstructions}
+          </React.addons.CSSTransitionGroup>
         </div>
+        {actions}
       </div>
      );
    }

@@ -5,7 +5,7 @@ function LessonCard(props) {
   return (
     <a className="o-lesson-card o-lesson-card--base" href={url}>
       <div className={`cs-bg--${props.colorCode}`}>
-        <div className="o-lesson-card__header o-title cs-txt--white">
+        <div className="o-lesson-card__header o-title cs-txt--white u-text--uppercase">
           <span className="o-title__type">{title}</span>
         </div>
         <div className="o-lesson-card__content o-lesson-card__content--base cs-bg--white">

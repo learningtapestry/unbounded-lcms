@@ -97,7 +97,7 @@ class ExploreCurriculumPage extends React.Component {
         this.scrollImmediately = 'item';
       }
     } else {
-      active = [props.results[0].id];
+      active = props.results.length ? [props.results[0].id] : null;
     }
 
     return {

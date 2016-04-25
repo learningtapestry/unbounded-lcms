@@ -13,3 +13,15 @@
     }
   }
 }
+
+.cs-link-bg {
+  @each $code, $color in $ub-colorcodes {
+    @include m(#{$code}) {
+      &, &:hover, &:focus {
+        background: none;
+        color: $ub-white;
+        > div { background-color: $color; }
+      }
+    }
+  }
+}

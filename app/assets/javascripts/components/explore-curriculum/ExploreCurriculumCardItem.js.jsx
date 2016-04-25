@@ -30,7 +30,6 @@ class ExploreCurriculumCardItem extends React.Component {
 
     const cssClasses = classNames(
       "o-cur-card",
-      //'o-cur-card--hover': true,
       `o-cur-card-hover--${props.colorCode}`,
       { "o-cur-card--short": !props.shouldItemExpand },
       `o-cur-card--${props.curriculum.type}`
@@ -58,7 +57,7 @@ class ExploreCurriculumCardItem extends React.Component {
       <div id={props.curriculum.id} name={resource.path} onClick={props.onClickElement} className={cssClasses} data-magellanhash-target>
         {curriculumMap}
         <div className="o-cur-card__body">
-          <div className="o-title">
+          <div className="o-title u-text--uppercase">
             <span className={`o-title__type u-txt--${colorCode}`}>{resource.short_title}</span>
             <span className="o-title__duration o-cur-card--show-medium"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
