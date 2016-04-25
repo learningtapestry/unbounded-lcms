@@ -11,8 +11,6 @@ function ExploreCurriculumGradeMap(props) {
     'o-ch-map--short': !props.expanded
   });
 
-  //const detailsClass = classNames()
-
   const details = props.expanded ?
     <div className="o-ch-map__details">
       <span>Show Modules</span>

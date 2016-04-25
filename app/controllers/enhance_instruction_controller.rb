@@ -1,6 +1,3 @@
-require 'will_paginate/array'
-
-
 class EnhanceInstructionController < ApplicationController
   include Filterbar
   include Pagination

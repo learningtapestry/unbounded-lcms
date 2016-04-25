@@ -8,10 +8,9 @@ class ResourcesController < ApplicationController
 
   def related_instruction
     @resource = Resource.find params[:id]
-    @has_more = false
     @instructions = find_related_instructions
 
-    render json: {instructions: @instructions, has_more: @has_more}
+    render json: {instructions: @instructions}
   end
 
   def media
@@ -36,6 +35,7 @@ class ResourcesController < ApplicationController
       @resource = ResourcePresenter.new(resource)
       @grade_color_code = curriculum.try(:grade_color_code)
       @curriculum = CurriculumPresenter.new(curriculum)
+      @instructions = find_related_instructions
     end
 
     def expanded?
