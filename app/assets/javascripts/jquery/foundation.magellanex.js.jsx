@@ -4,6 +4,7 @@
  * Foundation plugin
  * Based on foundation Maggelan plugin
  * for changing hash while scrolling
+ * Each method contatin DIFFERENCE with original Maggelan in description
  */
 !function($) {
 
@@ -15,6 +16,7 @@
 class MaggelanHash {
   /**
    * Creates a new instance of MaggelanHash.
+   * DIFFERENCE: same as original Maggelan
    * @class
    * @fires MaggelanHash#init
    * @param {Object} element - jQuery object to add the trigger to.
@@ -31,6 +33,7 @@ class MaggelanHash {
 
   /**
    * Initializes the MaggelanHash plugin and calls functions to get equalizer functioning on load.
+   * DIFFERENCE: no need in $links array with a to change style on scrolling
    * @private
    */
   _init() {
@@ -53,6 +56,7 @@ class MaggelanHash {
   /**
    * Calculates an array of pixel values that are the demarcation lines between locations on the page.
    * Can be invoked if new elements are added or the size of a location changes.
+   * DIFFERENCE: same as original Maggelan
    * @function
    */
   calcPoints() {
@@ -74,6 +78,7 @@ class MaggelanHash {
 
   /**
    * Initializes events for MaggelanHash.
+   * DIFFERENCE: no scroll to loc on window load, this should be handeled by plugin user
    * @private
    */
   _events() {
@@ -92,16 +97,29 @@ class MaggelanHash {
 
   /**
    * Function to scroll to a given location on the page.
+   * DIFFERENCE: callback on finish + recalculating on each step
    * @param {String} loc - a properly formatted jQuery id selector. Example: '#foo'
    * @function
    */
   scrollToLoc(loc) {
-    var scrollPos = Math.round($(loc).offset().top - this.options.threshold / 2 - this.options.barOffset);
+    let $loc = $(loc);
+    let optOffset = this.options.threshold / 2 + this.options.barOffset;
+    let scrollPos = Math.round($loc.offset().top - optOffset);
     $('html, body').stop(true)
-                   .animate({ scrollTop: scrollPos }, this.options.animationDuration, this.options.animationEasing)
-                   .promise().always(() => { this.options.onScrollFinished(loc); });
+                   .animate({ scrollTop: scrollPos },
+                            { duration: this.options.animationDuration,
+                              easing: this.options.animationEasing,
+                              step: (now, fx) => {
+                                fx.end = Math.round($loc.offset().top - optOffset);
+                              }
+                            })
+                   .promise()
+                   .always(() => { this.options.onScrollFinished(loc); });
   }
-  
+
+  /*
+   * DIFFERENCE: Kind of mutex functions to lock chaging hash on scrolling
+   */
   mutexScrollLock() {
     this.isScrolling = true;
   }
@@ -114,6 +132,7 @@ class MaggelanHash {
 
   /**
    * Calls necessary functions to update MaggelanHash upon DOM change
+   * DIFFERENCE: recalculating
    * @function
    */
   reflow() {
@@ -125,6 +144,7 @@ class MaggelanHash {
 
   /**
    * Updates the visibility of an active location link, and updates the url hash for the page, if deepLinking enabled.
+   * DIFFERENCE: deepLinking calls callback to handle history changes
    * @private
    * @function
    * @fires MaggelanHash#update
@@ -163,6 +183,7 @@ class MaggelanHash {
 
     /**
      * Fires when magellanhash is finished updating to the new active element.
+     * DIFFERENCE: no need in this
      * @event MaggelanHash#update
      */
     //this.$element.trigger('update.zf.magellanhash', [this.$active]);
@@ -170,16 +191,12 @@ class MaggelanHash {
 
   /**
    * Destroys an instance of MaggelanHash and resets the url of the window.
+   * DIFFERENCE: removed url update
    * @function
    */
   destroy() {
     this.$element.off('.zf.trigger .zf.magellanhash')
         .find(`.${this.options.activeClass}`).removeClass(this.options.activeClass);
-
-    // if(this.options.deepLinking){
-    //   var hash = this.$active[0].getAttribute('href');
-    //   window.location.hash.replace(hash, '');
-    // }
 
     Foundation.unregisterPlugin(this);
   }
@@ -187,6 +204,7 @@ class MaggelanHash {
 
 /**
  * Default settings for plugin
+ * DIFFERENCE: updateUrl and onScrollFinished callbacks
  */
 MaggelanHash.defaults = {
   /**
@@ -225,6 +243,11 @@ MaggelanHash.defaults = {
    * @example
    */
   updateUrl: null,
+  /**
+   * Callback to function on scroll finished
+   * @option
+   * @example
+   */
   onScrollFinished: null,
   /**
    * Number of pixels to offset the scroll of the page on item click if using a sticky nav bar.

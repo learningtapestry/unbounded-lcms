@@ -4,7 +4,7 @@ function LessonCard(props) {
 
   return (
     <a className="o-lesson-card o-lesson-card--base" href={url}>
-      <div className={`cs-bg--${props.colorCode}`}>
+      <div className={classNames('o-lesson-card__wrap', `cs-bg--${props.colorCode}`)}>
         <div className="o-lesson-card__header o-title cs-txt--white u-text--uppercase">
           <span className="o-title__type">{title}</span>
         </div>

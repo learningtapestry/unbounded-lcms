@@ -67,6 +67,7 @@ class ExploreCurriculumPage extends React.Component {
 
   onScrollFinished(el) {
     _.delay(() => { const yOffset = $(el).offset().top;
+                    // fix animation sync, will get inside in very rare cases
                     if (Math.abs($(document).scrollTop() - yOffset) > 25) {
                       $('html, body').scrollTop(yOffset);
                     }
@@ -83,6 +84,10 @@ class ExploreCurriculumPage extends React.Component {
     else {
       this.updateUrl(null);
     }
+  }
+
+  reflow() {
+    $(this.refs.curriculumList).foundation('reflow');
   }
 
   buildStateFromProps(props) {
@@ -203,8 +208,9 @@ class ExploreCurriculumPage extends React.Component {
     if (onlyChangedSearchTerm) {
       this.setState(newState);
     } else {
-      this.fetch(newState).then(response => { 
-        this.setState(this.buildStateFromProps(response));
+      this.fetch(newState).then(response => {
+        this.setState(this.buildStateFromProps(response),
+                      this.reflow.bind(this));
       });
     }
   }
