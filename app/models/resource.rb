@@ -154,10 +154,6 @@ class Resource < ActiveRecord::Base
     subject == 'math'
   end
 
-  def video?
-    resource_types.pluck(:name).include?(:video)
-  end
-
   def generate_content_sources
     unless self.content_source_list.any?
       content_source = engageny_url.present? ? 'engageny' : 'unbounded'

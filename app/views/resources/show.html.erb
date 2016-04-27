@@ -23,8 +23,8 @@
           <i class="fa-lg ub-arrow-left"></i> <%= t('resources.btn.back') %>
         <% end %>
       </div>
-      <div class="o-page__section cs-bg--<%= color_code(@resource, @grade_color_code) %>">
-        <div class="o-content-title">
+      <div class="o-page__section cs-bg--<%= @resource.color_code(@grade_color_code) %>">
+        <div class="o-content-title u-text--uppercase">
           <%
             @curriculum.self_and_ancestors.reverse.each_with_index do |ancestor|
               is_last = ancestor.id == @curriculum.id
@@ -41,7 +41,7 @@
         <div class="o-resource-title">
           <div class="o-resource-title__title">
             <div class="o-title u-text--uppercase">
-              <span class="o-title__type cs-txt--<%= color_code(@resource, @grade_color_code) %>"><%= @resource.short_title %></span>
+              <span class="o-title__type cs-txt--<%= @resource.color_code(@grade_color_code) %>"><%= @resource.short_title %></span>
               <span class="o-title__duration"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span>
             </div>
             <h2><%= @resource.title %></h2>
@@ -62,7 +62,7 @@
         <div class="o-resource-summary u-pd-content">
           <div class="o-resource-summary__map">
             <strong>Curriculum Map</strong> &ndash; <span class="u-text--capitalized"><%= @curriculum.subject_and_grade_title %></span>
-            <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum, color_code: color_code(@resource, @grade_color_code) } %>
+            <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum, color_code: @resource.color_code(@grade_color_code) } %>
           </div>
           <div class="o-resource-summary__content">
             <div class="o-resource__item o-resource__item--description">
@@ -71,7 +71,7 @@
             </div>
             <div id="resource-downloads-list" class="o-resource__item">
               <h3>Downloads</h3>
-              <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code(@resource) %>">
+              <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= @resource.color_code %>">
                 <% @resource.downloads.each do |download| %>
                   <%= render partial: 'resources/download', locals: { download: download } %>
                 <% end %>
@@ -80,7 +80,7 @@
             <% unless @resource.requirements.empty? %>
             <div class="o-resource__item">
               <h3>Prerequisites</h3>
-              <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code(@resource) %>">
+              <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= @resource.color_code %>">
               <% @resource.requirements.each do |req| %>
                 <li>
                   <i class="fa fa-square"></i>
@@ -106,7 +106,7 @@
           <div class="o-resource-summary u-pd-content--xlarge u-bg--tooltip">
             <div class="o-resource-summary__map"></div>
             <div class="o-resource-summary__content">
-              <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum } %>
+              <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum, color_code: @resource.color_code } %>
             </div>
           </div>
         <% end %>
