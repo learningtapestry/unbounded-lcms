@@ -16,7 +16,7 @@ class SearchController < ApplicationController
     def find_resources
       qset = Curriculum.trees.with_resources.includes(:resource_item, :curriculum_type)
       unless search_term.blank?
-        resource_ids = Resource.search(search_term, limit: 100).results.map {|r| r.id.to_i }
+        resource_ids = Resource.search(search_term, limit: 100).results.map {|r| r.model_id.to_i }
         qset = qset.where(item_id: resource_ids).order_as_specified(item_id: resource_ids)
       end
 

@@ -37,7 +37,7 @@ class EnhanceInstructionController < ApplicationController
     queryset = model.where(nil)
 
     unless search_term.blank?
-      search_ids = model.search(search_term, limit: 100).results.map {|r| r.id.to_i }
+      search_ids = model.search(search_term, limit: 100).results.map {|r| r.model_id.to_i }
       queryset = queryset.where(id: search_ids).order_as_specified(id: search_ids)
     end
 
