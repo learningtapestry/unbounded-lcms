@@ -387,6 +387,7 @@ GEM
     roo (2.2.0)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
+    ruby-progressbar (1.8.0)
     rubytree (0.9.6)
       json (~> 1.8)
       structured_warnings (~> 0.2)
@@ -544,6 +545,7 @@ DEPENDENCIES
   readthis
   rest-client (~> 1.8)
   roo (~> 2.2)
+  ruby-progressbar (~> 1.7, >= 1.7.5)
   rubytree (~> 0.9.6)
   safe_attributes (~> 1.0.10)
   sass-rails (~> 5.0)
