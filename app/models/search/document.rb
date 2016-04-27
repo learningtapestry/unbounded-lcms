@@ -2,18 +2,12 @@ module Search
   class Document
     include Virtus.model
 
-    attribute :doc_type
+    attribute :id, String
+    attribute :model_type, String
+    attribute :model_id, Integer
     attribute :title, String
     attribute :description, String
     attribute :misc, String
-
-    def self.repository
-      @@repository ||= ::Search::Repository.new
-    end
-
-    def repository
-      self.class.repository
-    end
 
     def self.build_from(model)
       if model.is_a?(Resource)
@@ -25,6 +19,14 @@ module Search
       else
         raise "Unsupported Type for Search : #{model.class.name}"
       end
+    end
+
+    def self.repository
+      @repository ||= ::Search::Repository.new
+    end
+
+    def repository
+      self.class.repository
     end
 
     def index!
@@ -39,7 +41,9 @@ module Search
 
       def self.attrs_from_resource(model)
         {
-          doc_type: :resource,
+          id: "resource_#{model.id}",
+          model_type: :resource,
+          model_id: model.id,
           title: model.title,
           description: model.description,
           misc: [model.short_title, model.subtitle, model.teaser].compact,
@@ -48,7 +52,9 @@ module Search
 
       def self.attrs_from_content_guide(model)
         {
-          doc_type: :content_guide,
+          id: "content_guide_#{model.id}",
+          model_type: :content_guide,
+          model_id: model.id,
           title: model.title,
           description: model.description,
           misc: [model.name, model.teaser, model.content].compact,
