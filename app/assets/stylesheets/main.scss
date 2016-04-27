@@ -28,24 +28,25 @@
 @import
   'components/buttons',
   'components/cards',
-  'components/lesson-cards',
-  'components/instruction-cards',
-  'components/curriculum-map',
   'components/curriculum-cards',
+  'components/curriculum-map',
   'components/download-modal',
+  'components/instruction-cards',
   'components/filterbar',
-  'components/titles',
+  'components/lesson-cards',
   'components/media',
+  'components/media-resources',
   'components/pagination',
-  'components/resource',
-  'components/panel-dsc',
   'components/panel',
+  'components/panel-dsc',
+  'components/related-instruction',
+  'components/resource',
   'components/search',
   'components/search-dropdown',
   'components/search-header',
   'components/sidebar',
-  'components/related-instruction',
-  'components/simple-tab';
+  'components/simple-tab',
+  'components/titles';
 
 @import
   'layout/header',
