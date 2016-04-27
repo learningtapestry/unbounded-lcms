@@ -50,6 +50,9 @@ en:
       people: People & Partners
       careers: Careers
       contact: Contact
+  instructions:
+    btn:
+      back: "Back to Instruction"
   resources:
     btn:
       view: "View %{short_title}"

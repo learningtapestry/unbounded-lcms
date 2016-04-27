@@ -14,10 +14,11 @@ class ResourcesController < ApplicationController
   end
 
   def media
-    find_resource_and_curriculum
-    unless ['video', 'podcast'].include? @resource.resource_type
-      return redirect_to resource_path(@resource)
+    resource = Resource.find(params[:id])
+    unless ['video', 'podcast'].include? resource.resource_type
+      return redirect_to resource_path(resource)
     end
+    @resource = MediaPresenter.new(resource)
   end
 
   protected
