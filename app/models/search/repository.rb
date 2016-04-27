@@ -47,7 +47,8 @@ module Search
 
     settings index: ::Search.index_settings do
       mappings dynamic: 'false' do
-        indexes :doc_type,    type: 'string', index: 'not_analyzed'
+        indexes :model_type,  type: 'string', index: 'not_analyzed'
+        indexes :model_id,    type: 'string', index: 'not_analyzed'
         indexes :title,       **::Search.ngrams_multi_field(:title)
         indexes :description, **::Search.ngrams_multi_field(:description)
         indexes :misc,        **::Search.ngrams_multi_field(:description)
@@ -61,7 +62,7 @@ module Search
       else
         limit = options.fetch(:limit, 10)
         page = options.fetch(:page, 1)
-        doc_type = options.delete(:doc_type)
+        model_type = options.delete(:model_type)
         query = {
           query: {
             bool: {
@@ -80,9 +81,13 @@ module Search
           size: limit,
           from: (page - 1) * limit
         }
-        query[:query][:bool][:must] = [{ match: { doc_type: doc_type } }] if doc_type
+        query[:query][:bool][:must] = [{ match: { model_type: model_type } }] if model_type
         query
       end
+    end
+
+    def index_exists?
+      client.indices.exists? index: index
     end
   end
 end
