@@ -18,6 +18,6 @@ class VideoInstructionSerializer < ActiveModel::Serializer
   end
 
   def instruction_type
-    object.video? ? :video : :podcast
+    object.resource_type
   end
 end

@@ -1,5 +1,55 @@
-<h1>Media details page</h1>
-
-<%= @resource %>
-
-<%= @curriculum %>
+<div class="o-page o-page--margin-to-bottom">
+  <div class="o-page__module">
+    <%= link_to enhance_instruction_index_path(tab: 1), class: 'o-ub-btn o-ub-btn--base' do %>
+      <i class="fa-lg ub-arrow-left"></i> <%= t('instructions.btn.back') %>
+    <% end %>
+  </div>
+  <div class="o-page__section cs-bg--<%= @resource.color_code %>">
+    <div class="o-content-title">
+      <%= @resource.media_title %>
+    </div>
+  </div>
+  <div class="o-page__section u-padding-top--large u-bg--light">
+    <div class="o-resource-title">
+      <div class="o-resource-title__title">
+        <!--div class="o-title u-text--uppercase">
+          <span class="o-title__duration"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span>
+        </div-->
+        <h2><%= @resource.title %></h2>
+        <div class="u-text--large">
+          <%= @resource.teaser %>
+        </div>
+      </div>
+    </div>
+    <div class="o-resource-summary u-pd-content">
+      <div class="o-resource-summary__map"></div>
+      <div class="o-resource-summary__content">
+        <div class="o-resource__item">
+          <div class="o-media-<%= @resource.resource_type %>">
+            <%= embed_media(@resource) %>
+          </div>
+        </div>
+        <div class="o-resource__item o-resource__item--description">
+          <h3>Description</h3>
+          <%= @resource.description.try(:html_safe) %>
+        </div>
+        <div class="o-resource__item">
+          <h3>Tags</h3>
+          <div><%= @resource.tags %></div>
+        </div>
+        <% if @resource.engageny_url %>
+        <div class="o-resource__item">
+          <h3>Credits</h3>
+          <%= render partial: 'resources/engageny', locals: { resource: @resource } %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="o-resource-summary u-pd-content--xlarge u-bg--tooltip">
+      <div class="o-resource-summary__map"></div>
+      <div class="o-resource-summary__content">
+        <h3>Related Content Guides</h3>
+      </div>
+    </div>
+  </div>
+</div>
