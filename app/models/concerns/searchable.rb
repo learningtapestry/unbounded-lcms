@@ -23,13 +23,10 @@ module Searchable
       rescue Faraday::ConnectionFailed; end
     end
 
-    # Points to proper index. If the instance has a repository, then starts
-    # the index for that specific repo
     def search_repo
-      @@search_index ||= Search::Repository.new
+      @@search_repo ||= Search::Repository.new
     end
 
-    # search
     def self.search(term, options={})
       Search::Document.search term, options.merge!(model_type: self.name.underscore)
     end
