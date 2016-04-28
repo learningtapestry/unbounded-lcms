@@ -2,7 +2,7 @@ class SearchController < ApplicationController
   include Filterbar
   include Pagination
 
-  before_action :find_resources
+  before_action :find_documents
   before_action :set_props
 
   def index
@@ -13,23 +13,22 @@ class SearchController < ApplicationController
   end
 
   protected
-    def find_resources
-      qset = Curriculum.trees.with_resources.includes(:resource_item, :curriculum_type)
-      unless search_term.blank?
-        resource_ids = Resource.search(search_term, limit: 100).results.map {|r| r.id.to_i }
-        qset = qset.where(item_id: resource_ids).order_as_specified(item_id: resource_ids)
-      end
 
-      @resources = qset.where_subject(subject_params)
-                 .where_grade(grade_params)
-                 .paginate(pagination_params.slice(:page, :per_page))
-                 .order('resources.created_at desc')
+    def find_documents
+      options = pagination_params.slice(:page, :per_page)
+
+      # handle filters
+      options.merge!(model_type: facets_params.first) if facets_params.size == 1
+      options.merge!(subject: subject_params.first) if subject_params.present?
+      options.merge!(grade: grade_params) if grade_params.present?
+
+      @documents = Search::Document.search(search_term, options).paginate(options)
     end
 
     def set_props
-      @props = serialize_with_pagination(@resources,
+      @props = serialize_with_pagination(@documents,
         pagination: pagination_params,
-        each_serializer: CurriculumResourceSerializer
+        each_serializer: SearchDocumentSerializer
       )
       @props.merge!(filterbar_props)
     end

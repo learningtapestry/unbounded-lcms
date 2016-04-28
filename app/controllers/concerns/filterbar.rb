@@ -31,9 +31,11 @@ module Filterbar
     end
 
     def facets_params
-      split_params(params[:facets]) & [
-        'curriculum', 'instructions'
+      names = split_params(params[:facets]) & [
+        'curriculum', 'instruction'
       ]
+      model_types = {'curriculum' => 'resource', 'instruction' => 'content_guide'}
+      names.map! { |name| model_types[name] }
     end
 
     def search_term

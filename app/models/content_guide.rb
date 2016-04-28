@@ -2,7 +2,7 @@ require 'google/apis/drive_v3'
 
 class ContentGuide < ActiveRecord::Base
   extend OrderAsSpecified
-  include Search::ResourcesSearch
+  include Searchable
 
   attr_accessor :update_metadata
 
