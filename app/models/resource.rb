@@ -1,6 +1,6 @@
 class Resource < ActiveRecord::Base
   extend OrderAsSpecified
-  include Search::ResourcesSearch
+  include Searchable
 
   enum resource_type: { podcast: 2, resource: 1, video: 3 }
 
@@ -183,6 +183,16 @@ class Resource < ActiveRecord::Base
         'doc'
       end
     end.uniq.compact
+  end
+
+  def is_media?
+    ['video', 'podcast'].include? resource_type
+  end
+
+  alias :do_not_skip_indexing? :should_index?
+  def should_index?
+    # index only videos and podcast (other resources are indexed via Curriculum)
+    do_not_skip_indexing? && is_media?
   end
 
 end

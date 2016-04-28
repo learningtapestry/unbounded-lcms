@@ -14,6 +14,7 @@ gem 'dotenv-rails', '~> 2.0.2', groups: [:development, :integration, :test]
 gem 'edge', '~> 0.4.2', require: 'edge'
 gem 'elasticsearch-dsl', '~> 0.1.1'
 gem 'elasticsearch-model', '~> 0.1.7'
+gem 'elasticsearch-persistence', '~> 0.1.7'
 gem 'elasticsearch-rails', '~> 0.1.7'
 gem 'font-awesome-sass', '~> 4.4.0'
 gem 'foreman', '~> 0.78.0'
@@ -49,6 +50,8 @@ gem 'order_as_specified', '~> 0.1.0'
 gem 'readthis'
 gem 'hiredis'
 gem 'validate_url', '~> 1.0'
+gem 'virtus', '~> 1.0.5'
+gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
 
 group :development, :test do
   gem 'byebug'
