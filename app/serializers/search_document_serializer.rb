@@ -8,7 +8,7 @@ class SearchDocumentSerializer < ActiveModel::Serializer
   end
 
   def type_name
-    model_type == 'content_guide' ? 'Content Guide' : '? Resource ?'
+    object.resource_type.titleize
   end
 
 end

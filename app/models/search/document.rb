@@ -9,6 +9,9 @@ module Search
     attribute :teaser, String
     attribute :description, String
     attribute :misc, String
+    attribute :resource_type, String
+    attribute :grade, String
+    attribute :subject, String
 
     def self.build_from(model)
       if model.is_a?(Resource)
@@ -66,6 +69,9 @@ module Search
           teaser: model.teaser,
           description: model.description,
           misc: [model.short_title, model.subtitle, model.teaser].compact,
+          resource_type: model.curriculums.first.curriculum_type.name,
+          # grade: "",
+          # subject: "",
         }
       end
 
@@ -78,6 +84,9 @@ module Search
           teaser: model.teaser,
           description: model.description,
           misc: [model.name, model.teaser, model.content].compact,
+          resource_type: 'content_guide',
+          # grade: "",
+          # subject: "",
         }
       end
   end
