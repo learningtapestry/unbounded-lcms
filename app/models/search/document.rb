@@ -46,16 +46,18 @@ module Search
     end
 
     def self.search(term, options={})
-      repository.search repository.build_query(term, options)
-    end
-
-    def self.all(options={})
       return repository.empty_response unless repository.index_exists?
 
-      limit = options.fetch(:limit, 10)
-      page = options.fetch(:page, 1)
+      if term.present?
+        query = repository.build_query(term, options)
 
-      repository.search({ query: { match_all: {} }, size: limit, from: page })
+      else
+        query = repository.build_query('', options)
+        query[:query][:bool].delete(:should)
+        query[:query][:bool][:must] << { match_all: {} }
+      end
+
+      repository.search query
     end
 
     # this is necessary for the ActiveModel::ArraySerializer#as_json method to work

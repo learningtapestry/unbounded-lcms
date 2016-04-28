@@ -36,12 +36,11 @@ class SearchController < ApplicationController
 
     def find_documents
       options = pagination_params.slice(:page, :per_page)
-      if search_term.blank?
-        documents = Search::Document.all(options)
-      else
-        documents = Search::Document.search(search_term, options)
-      end
-      @documents = documents.paginate(options)
+
+      # handle model_type facets
+      options.merge!(model_type: facets_params.first) if facets_params.size == 1
+
+      @documents = Search::Document.search(search_term, options).paginate(options)
     end
 
     def set_props
