@@ -42,6 +42,8 @@ module Search
     end
 
     def self.all(options={})
+      return [] unless repository.index_exists?
+
       limit = options.fetch(:limit, 10)
       page = options.fetch(:page, 1)
 

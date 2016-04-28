@@ -37,11 +37,11 @@ class SearchController < ApplicationController
     def find_documents
       options = pagination_params.slice(:page, :per_page)
       if search_term.blank?
-        res = Search::Document.all(options)
+        documents = Search::Document.all(options)
       else
-        res = Search::Document.search(search_term, options)
+        documents = Search::Document.search(search_term, options)
       end
-      @documents = paginate_es_response(res, options)
+      @documents = documents.paginate(options)
     end
 
     def set_props
