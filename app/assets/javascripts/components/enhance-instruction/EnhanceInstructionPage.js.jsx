@@ -124,9 +124,9 @@ class EnhanceInstructionPage extends React.Component {
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
-                <h2>Enhance Instruction with comprehensive content guides and educator videos.</h2>
+                <h2>Enhance Instruction</h2>
                 <div className="o-filterbar-title__subheader">
-                  Filter by subject or grade, or search to reveal assets.
+                  Search our free professional learning resources for teaching guides, videos and podcasts that focus on the application of content related to the standards in the classroom. Download, adapt, share.
                 </div>
               </div>
               <Filterbar
