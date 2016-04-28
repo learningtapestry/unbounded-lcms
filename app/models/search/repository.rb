@@ -50,6 +50,7 @@ module Search
         indexes :model_type,  type: 'string', index: 'not_analyzed'
         indexes :model_id,    type: 'string', index: 'not_analyzed'
         indexes :title,       **::Search.ngrams_multi_field(:title)
+        indexes :teaser,      **::Search.ngrams_multi_field(:teaser)
         indexes :description, **::Search.ngrams_multi_field(:description)
         indexes :misc,        **::Search.ngrams_multi_field(:description)
       end
@@ -67,14 +68,14 @@ module Search
           query: {
             bool: {
               should: [
-                { match: { 'title.full'          => {query: term, type: 'phrase', boost: 10} } },
-                { match: { 'title.partial'       => {query: term, boost: 10} } },
+                { match: { 'title.full'     => {query: term, type: 'phrase', boost: 10} } },
+                { match: { 'title.partial'  => {query: term, boost: 10} } },
 
-                { match: { 'description.full'    => {query: term, type: 'phrase', boost: 1} } },
-                { match: { 'description.partial' => {query: term, boost: 1} } },
+                { match: { 'teaser.full'    => {query: term, type: 'phrase', boost: 1} } },
+                { match: { 'teaser.partial' => {query: term, boost: 1} } },
 
-                { match: { 'misc.full'           => {query: term, type: 'phrase', boost: 1} } },
-                { match: { 'misc.partial'        => {query: term, boost: 1} } },
+                # { match: { 'description.full'     => {query: term, type: 'phrase', boost: 1} } },
+                # { match: { 'description.partial'  => {query: term, boost: 1} } },
               ]
             }
           },

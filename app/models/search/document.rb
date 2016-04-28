@@ -6,6 +6,7 @@ module Search
     attribute :model_type, String
     attribute :model_id, Integer
     attribute :title, String
+    attribute :teaser, String
     attribute :description, String
     attribute :misc, String
 
@@ -37,6 +38,23 @@ module Search
       repository.search repository.build_query(term, options)
     end
 
+    def self.all(options={})
+      limit = options.fetch(:limit, 10)
+      page = options.fetch(:page, 1)
+
+      repository.search({ query: { match_all: {} }, size: limit, from: page })
+    end
+
+    # this is necessary for the ActiveModel::ArraySerializer#as_json method to work
+    # (used on the concerns/pagination => #serialize_with_pagination)
+    def read_attribute_for_serialization(key)
+      if key == :id || key == 'id'
+        attributes.fetch(key) { id }
+      else
+        attributes[key]
+      end
+    end
+
     private
 
       def self.attrs_from_resource(model)
@@ -45,6 +63,7 @@ module Search
           model_type: :resource,
           model_id: model.id,
           title: model.title,
+          teaser: model.teaser,
           description: model.description,
           misc: [model.short_title, model.subtitle, model.teaser].compact,
         }
@@ -56,6 +75,7 @@ module Search
           model_type: :content_guide,
           model_id: model.id,
           title: model.title,
+          teaser: model.teaser,
           description: model.description,
           misc: [model.name, model.teaser, model.content].compact,
         }

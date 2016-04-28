@@ -33,5 +33,20 @@ module Pagination
       options[:each_serializer] = each_serializer
       ActiveModel::ArraySerializer.new(resources, options).as_json
     end
+
+    def paginate_es_response(res, options)
+      pagination_attrs = {
+        total_pages:   (res.total.to_f / options[:per_page]).ceil,
+        current_page:  options[:page],
+        per_page:      options[:per_page],
+        total_entries: res.total,
+      }
+      res.instance_variable_set :@_pagination_attrs, pagination_attrs
+      def res.total_pages;   @_pagination_attrs[:total_pages]   end
+      def res.current_page;  @_pagination_attrs[:current_page]  end
+      def res.per_page;      @_pagination_attrs[:per_page]      end
+      def res.total_entries; @_pagination_attrs[:total_entries] end
+      res
+    end
   end
 end
