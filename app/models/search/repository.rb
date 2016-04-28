@@ -90,5 +90,9 @@ module Search
     def index_exists?
       client.indices.exists? index: index
     end
+
+    def empty_response
+      Elasticsearch::Persistence::Repository::Response::Results.new(self, {hits: {total: 0, max_score: nil, hits:[]}})
+    end
   end
 end
