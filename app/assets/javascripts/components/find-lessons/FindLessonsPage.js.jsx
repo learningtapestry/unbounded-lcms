@@ -63,9 +63,9 @@ class FindLessonsPage extends React.Component {
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
-                <h2>Find lessons, then download, adapt, and share &mdash; they're free!</h2>
+                <h2>Find lessons</h2>
                 <div className="o-filterbar-title__subheader">
-                  Filter by subject and grade, or search to reveal curriculum resources.
+                  Search our free collection for specific lessons or topics within a grade. Download, adapt, share.
                 </div>
               </div>
               <Filterbar

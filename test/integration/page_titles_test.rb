@@ -91,7 +91,7 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
 
   private
     def assert_page_title(value)
-      message = "Expected page title to be '#{value}', actually is '#{page.title}'"
-      assert value == page.title, message
+      message = "Expected page title to include '#{value}', actually is '#{page.title}'"
+      assert page.title.include?(value), message
     end
 end
