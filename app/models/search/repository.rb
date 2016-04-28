@@ -76,13 +76,14 @@ module Search
 
                 # { match: { 'description.full'     => {query: term, type: 'phrase', boost: 1} } },
                 # { match: { 'description.partial'  => {query: term, boost: 1} } },
-              ]
+              ],
+              must: []
             }
           },
           size: limit,
           from: (page - 1) * limit
         }
-        query[:query][:bool][:must] = [{ match: { model_type: model_type } }] if model_type
+        query[:query][:bool][:must] << { match: { model_type: model_type } } if model_type
         query
       end
     end
