@@ -6,8 +6,8 @@ module Searchable
   included do
     attr_accessor :skip_indexing
 
-    after_commit :index_document, on: [:create, :update], unless: :skip_indexing?
-    after_commit :delete_document, on: :destroy, unless: :skip_indexing?
+    after_commit :index_document, on: [:create, :update], if: :should_index?
+    after_commit :delete_document, on: :destroy, if: :should_index?
 
     def index_document
       begin
@@ -31,8 +31,8 @@ module Searchable
       Search::Document.search term, options.merge!(model_type: self.name.underscore)
     end
 
-    def skip_indexing?
-      !!skip_indexing || !search_repo.index_exists?
+    def should_index?
+      !skip_indexing && search_repo.index_exists?
     end
 
   end

@@ -39,6 +39,7 @@
 #
 class Curriculum < ActiveRecord::Base
   extend OrderAsSpecified
+  include Searchable
 
   acts_as_tree order: 'position', dependent: :destroy
 
@@ -508,4 +509,9 @@ class Curriculum < ActiveRecord::Base
     nil
   end
 
+  alias :do_not_skip_indexing? :should_index?
+  def should_index?
+    # index only Curriculum.trees.where_resources
+    do_not_skip_indexing? && seed_id.present? && resource_item.present?
+  end
 end

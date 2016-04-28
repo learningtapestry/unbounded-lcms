@@ -41,6 +41,10 @@ module Search
       repository.save self
     end
 
+    def delete!
+      repository.delete self
+    end
+
     def self.search(term, options={})
       repository.search repository.build_query(term, options)
     end

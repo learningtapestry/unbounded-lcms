@@ -185,4 +185,14 @@ class Resource < ActiveRecord::Base
     end.uniq.compact
   end
 
+  def is_media?
+    ['video', 'podcast'].include? resource_type
+  end
+
+  alias :do_not_skip_indexing? :should_index?
+  def should_index?
+    # index only videos and podcast (other resources are indexed via Curriculum)
+    do_not_skip_indexing? && is_media?
+  end
+
 end
