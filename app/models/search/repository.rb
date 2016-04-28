@@ -53,6 +53,9 @@ module Search
         indexes :teaser,      **::Search.ngrams_multi_field(:teaser)
         indexes :description, **::Search.ngrams_multi_field(:description)
         indexes :misc,        **::Search.ngrams_multi_field(:description)
+        indexes :doc_type,    type: 'string', index: 'not_analyzed'
+        indexes :grade,       type: 'string', index: 'not_analyzed'
+        indexes :subject,     type: 'string', index: 'not_analyzed'
       end
     end
 
@@ -63,7 +66,8 @@ module Search
       else
         limit = options.fetch(:limit, 10)
         page = options.fetch(:page, 1)
-        model_type = options.delete(:model_type)
+        model_type = options[:model_type]
+
         query = {
           query: {
             bool: {
@@ -83,7 +87,12 @@ module Search
           size: limit,
           from: (page - 1) * limit
         }
-        query[:query][:bool][:must] << { match: { model_type: model_type } } if model_type
+
+        # filters
+        [:model_type, :subject].each do |filter|
+          query[:query][:bool][:must] << { match: { filter => options[filter] } } if options[filter]
+        end
+
         query
       end
     end
