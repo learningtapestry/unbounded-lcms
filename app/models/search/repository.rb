@@ -98,7 +98,11 @@ module Search
     end
 
     def index_exists?
-      client.indices.exists? index: index
+      begin
+        client.indices.exists? index: index
+      rescue Faraday::ConnectionFailed;
+        false
+      end
     end
 
     def empty_response
