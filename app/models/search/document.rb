@@ -88,8 +88,8 @@ module Search
           description: model.description,
           misc: [model.short_title, model.subtitle, model.teaser].compact,
           doc_type: doc_type,
+          subject: model.subject,
           # grade: "",
-          # subject: "",
         }
       end
 
@@ -103,8 +103,8 @@ module Search
           description: model.description,
           misc: [model.name, model.teaser, model.content].compact,
           doc_type: 'content_guide',
+          subject: model.subject,
           # grade: "",
-          # subject: "",
         }
       end
   end
