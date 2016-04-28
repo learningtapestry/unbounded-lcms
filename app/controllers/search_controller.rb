@@ -20,6 +20,7 @@ class SearchController < ApplicationController
       # handle filters
       options.merge!(model_type: facets_params.first) if facets_params.size == 1
       options.merge!(subject: subject_params.first) if subject_params.present?
+      options.merge!(grade: grade_params) if grade_params.present?
 
       @documents = Search::Document.search(search_term, options).paginate(options)
     end
