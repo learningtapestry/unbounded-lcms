@@ -2,26 +2,30 @@ namespace :es do
 
   desc 'Load index'
   task load: :environment do
-    models = [ Resource, ContentGuide ]
-
-    repo = Search::Repository.new
     repo.create_index!
 
+    index_model 'Resources', Curriculum.trees.with_resources.includes(:resource_item)
+    index_model 'Media    ', Resource.media
+    index_model 'Guide    ', ContentGuide.where(nil)
+  end
 
-    models.each do |model|
-      is_resource = model == Resource
-      qset = is_resource ? Curriculum.trees.with_resources.includes(:resource_item) : model
-      pbar = ProgressBar.create title: "Indexing #{model.name}", total: qset.count()
+  def repo
+    @repo ||= Search::Repository.new
+  end
 
-      qset.find_in_batches do |group|
-        group = group.map(&:resource_item) if is_resource
+  def build_progressbar(name, qset)
+    ProgressBar.create title: "Indexing #{name}", total: qset.count()
+  end
 
-        group.each do |item|
-          Search::Document.build_from(item).index!
-          pbar.increment
-        end
+  def index_model(name, qset)
+    pbar = build_progressbar name, qset
+
+    qset.find_in_batches do |group|
+      group.each do |item|
+        Search::Document.build_from(item).index!
+        pbar.increment
       end
-      pbar.finish
     end
+    pbar.finish
   end
 end

@@ -9,13 +9,17 @@ module Search
     attribute :teaser, String
     attribute :description, String
     attribute :misc, String
-    attribute :resource_type, String
+    attribute :doc_type, String
     attribute :grade, String
     attribute :subject, String
 
     def self.build_from(model)
+
       if model.is_a?(Resource)
         self.new **attrs_from_resource(model)
+
+      elsif model.is_a?(Curriculum)
+        self.new **attrs_from_resource(model.resource_item)
 
       elsif model.is_a?(ContentGuide)
         self.new **attrs_from_content_guide(model)
@@ -63,6 +67,12 @@ module Search
     private
 
       def self.attrs_from_resource(model)
+        if model.resource_type == 'resource'
+          doc_type = model.curriculums.first.curriculum_type.name
+        else
+          doc_type = model.resource_type
+        end
+
         {
           id: "resource_#{model.id}",
           model_type: :resource,
@@ -71,7 +81,7 @@ module Search
           teaser: model.teaser,
           description: model.description,
           misc: [model.short_title, model.subtitle, model.teaser].compact,
-          resource_type: model.curriculums.first.curriculum_type.name,
+          doc_type: doc_type,
           # grade: "",
           # subject: "",
         }
@@ -86,7 +96,7 @@ module Search
           teaser: model.teaser,
           description: model.description,
           misc: [model.name, model.teaser, model.content].compact,
-          resource_type: 'content_guide',
+          doc_type: 'content_guide',
           # grade: "",
           # subject: "",
         }

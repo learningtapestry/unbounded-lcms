@@ -8,7 +8,7 @@ class SearchDocumentSerializer < ActiveModel::Serializer
   end
 
   def type_name
-    object.resource_type.titleize
+    object.doc_type.titleize
   end
 
 end
