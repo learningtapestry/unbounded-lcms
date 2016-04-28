@@ -44,26 +44,29 @@
 }
 
 .c-hp-panel {
-  @include flex-grid-column(12, 0);
+  @include flex;
+  @include flex-grid-column(12);
   @include add-gutter;
 
   @include breakpoint(medium) {
-    @include flex-grid-column(6, 0);
+    @include flex-grid-column(6);
   }
 
   @include e(body) {
+    @include flex;
     @include add-gutter($type: padding, $subtype: right, $x: .5);
     @include add-gutter($type: padding, $subtype: left, $x: .5);
+    flex-direction: column;
     padding: $ub-base-padding 0;
 
     h2, & { color: $ub-white; }
+    p { flex: 1 1 0px; }
+    a.o-ub-btn { max-width: 200px; }
 
     @include m(ela) {
-      @include add-gutter($type: margin, $subtype: right, $x: .5);
       background-color: rgba(map-get($ub-colorcodes, ela-base), .7);
     }
     @include m(math) {
-      @include add-gutter($type: margin, $subtype: left, $x: .5);
       background-color: rgba(map-get($ub-colorcodes, math-base), .7);
     }
   }

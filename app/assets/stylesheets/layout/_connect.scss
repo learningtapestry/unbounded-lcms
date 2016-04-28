@@ -8,6 +8,8 @@
   color: $ub-nav-link;
 
   @include flex-grid-column(12, 0);
+  @include flex;
+  flex-direction: column;
   padding-bottom: $ub-xlarge-padding;
   padding-top: $ub-xlarge-padding;
 
@@ -20,6 +22,7 @@
   }
 
   @include e(dsc) {
+    flex: 1 1 0px;
     padding-right: $ub-base-padding;
   }
 

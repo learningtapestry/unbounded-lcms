@@ -45,7 +45,7 @@ class RelatedInstruction extends React.Component {
     );
     const actions = (this.state.instructions.length == 0) ?
       <p className="o-related-instruction__empty lead">
-        This {_.capitalize(this.state.resourceType)} doesn&rsquo;t have any related instructions. To see all visit <a href={allInstructionsPath}>Enhance Instruction</a>.
+        There are no related guides or videos. To see all our guides, please visit the Enhance Instruction section <a href={allInstructionsPath}>here</a>.
       </p> :
       <ul className="o-related-instruction__actions">
         { this.state.hasMore ?

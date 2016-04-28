@@ -233,9 +233,9 @@ class ExploreCurriculumPage extends React.Component {
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
-                <h2>Explore curriculum, then download or share anything yout want &mdash; it's free!</h2>
+                <h2>Explore curriculum</h2>
                 <div className="o-filterbar-title__subheader">
-                  Filter by subject or grade, or search to reveal curriculum resources.
+                  Search our free collection, or filter by subject or grade. Download, adapt, share.
                 </div>
               </div>
               <Filterbar
