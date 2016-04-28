@@ -55,7 +55,7 @@ module Search
         indexes :misc,        **::Search.ngrams_multi_field(:description)
         indexes :doc_type,    type: 'string', index: 'not_analyzed'
         indexes :grade,       type: 'string', index: 'not_analyzed'
-        indexes :subject,     type: 'string', index: 'not_analyzed'
+        indexes :subject,     type: 'string'
       end
     end
 
@@ -81,7 +81,7 @@ module Search
                 # { match: { 'description.full'     => {query: term, type: 'phrase', boost: 1} } },
                 # { match: { 'description.partial'  => {query: term, boost: 1} } },
               ],
-              must: []
+              filter: []
             }
           },
           size: limit,
@@ -89,8 +89,8 @@ module Search
         }
 
         # filters
-        [:model_type, :subject].each do |filter|
-          query[:query][:bool][:must] << { match: { filter => options[filter] } } if options[filter]
+        [:model_type, :subject, :grade].each do |filter|
+          query[:query][:bool][:filter] << { match: { filter => {query: options[filter]} } } if options[filter]
         end
 
         query

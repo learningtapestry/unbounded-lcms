@@ -54,7 +54,7 @@ module Search
       else
         query = repository.build_query('', options)
         query[:query][:bool].delete(:should)
-        query[:query][:bool][:must] << { match_all: {} }
+        query[:query][:bool][:must] = { match_all: {} }
       end
 
       repository.search query
@@ -89,7 +89,7 @@ module Search
           misc: [model.short_title, model.subtitle, model.teaser].compact,
           doc_type: doc_type,
           subject: model.subject,
-          # grade: "",
+          grade: model.grade_list,
         }
       end
 
@@ -104,7 +104,7 @@ module Search
           misc: [model.name, model.teaser, model.content].compact,
           doc_type: 'content_guide',
           subject: model.subject,
-          # grade: "",
+          grade: model.grade_list,
         }
       end
   end
