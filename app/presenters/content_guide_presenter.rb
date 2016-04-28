@@ -227,9 +227,10 @@ class ContentGuidePresenter < BasePresenter
       tag.remove
       return unless table && table.css('td').size == 1
 
-      pullquote = doc.document.create_element('div')
-      pullquote[:class] = 'c-cg-pullquote callout secondary'
-      pullquote.inner_html = table.at_css('td').inner_html
+      cell = table.at_css('td')
+      width_style = (cell[:style] || '')[/(^|[^-])width:[^;]+;?/]
+      pullquote = doc.document.create_element('div', class: 'c-cg-pullquote', style: width_style)
+      pullquote.content = cell.content
       table.replace(pullquote)
     end
   end

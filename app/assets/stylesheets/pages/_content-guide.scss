@@ -77,9 +77,13 @@
 }
 
 .c-cg-pullquote {
+  border-left: .123rem solid #f75b28;
+  color: #f96924;
   float: right;
-  margin: 0 0 1rem 1rem;
-  width: 50%;
+  font-size: 1.4rem;
+  font-style: italic;
+  margin: 3.25rem 0 1rem 3.25rem;
+  padding-left: 1.125rem;
 }
 
 .c-cg-table {
