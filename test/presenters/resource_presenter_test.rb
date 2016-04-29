@@ -11,11 +11,4 @@ class ResourcePresenterTest < ActiveSupport::TestCase
     @resource.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit.'
     @presenter = ResourcePresenter.new @resource
   end
-
-  test 'tags' do
-    @resource.tag_list.add('TagX')
-    @resource.save!
-    @resource.reload
-    assert_equal 'TagX', @presenter.tags
-  end
 end
