@@ -75,6 +75,11 @@ class ContentGuide < ActiveRecord::Base
     self.grade_list = grades
   end
 
+  def assign_subject(value)
+    subject = value.strip.downcase
+    self.subject = subject if %w(ela math).include?(subject)
+  end
+
   def assign_unbounded_standards(value)
     names = split_list(value)
 
@@ -129,6 +134,7 @@ class ContentGuide < ActiveRecord::Base
       when 'related_instruction_tags' then assign_unbounded_standards(value)
       when 'big_photo', 'small_photo' then send("remote_#{key}_url=", value)
       when 'grade', 'grades' then assign_grades(value)
+      when 'subject' then assign_subject(value)
       else send("#{key}=", value)
       end
     end

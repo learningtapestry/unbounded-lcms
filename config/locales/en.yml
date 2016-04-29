@@ -31,3 +31,6 @@ en:
   resource_types:
     video: Video
     resource: Resource
+  subjects:
+    ela: ELA
+    math: Math
