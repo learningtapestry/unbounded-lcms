@@ -49,7 +49,7 @@ class SearchPage extends React.Component {
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
-                <h2>Search results.</h2>
+                <h2>Search results</h2>
                 <div className="o-filterbar-title__subheader">
                   Filter by subject or grade, or search to reveal assets.
                 </div>

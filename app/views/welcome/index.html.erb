@@ -2,9 +2,9 @@
   <div class="o-page">
     <div class="o-page__module c-hp-hero">
       <div class="o-panel c-hp-hero__body">
-        <h1>Supporting educators in their work to meet high standards.  </h1>
+        <h1>Supporting educators in their work to meet high standards</h1>
         <p>We provide free, standards-aligned resources and immersive training for teachers and school leaders.</p>
-        <%= link_to t('ui.learn_more'), '#  ', class: 'o-ub-btn o-ub-btn--yellow u-margin-bottom--xs' %>
+        <%= link_to t('ui.learn_more'), about_path, class: 'o-ub-btn o-ub-btn--yellow u-margin-bottom--xs' %>
       </div>
     </div>
     <div class="o-page__module c-hp-register">
@@ -28,7 +28,7 @@
             <h2>ELA Curriculum</h2>
             <div class="u-hr-small"></div>
             <p>Browse our collection of free, standards-aligned resources in English Language Arts, which are categorized by grade, from PreK-12. These online materials are based on the critically acclaimed EngageNY content have been reviewed and sequenced by our ELA experts.</p>
-            <%= link_to 'Explore ELA', explore_curriculum_index_path(s: 'ela'), class: 'o-ub-btn o-ub-btn--bordered-yellow' %>
+            <%= link_to 'Explore ELA', explore_curriculum_index_path(subjects: 'ela'), class: 'o-ub-btn o-ub-btn--bordered-yellow' %>
           </div>
         </div>
         <div class="c-hp-panel">
@@ -36,7 +36,7 @@
             <h2>Math Curriculum</h2>
             <div class="u-hr-small"></div>
             <p>Our comprehensive collection of free, standards-aligned math resources for grades PreK-12 have been reviewed and sequenced by our math experts, and are based on the critically acclaimed EngageNY content.</p>
-            <%= link_to 'Explore Math', explore_curriculum_index_path(s: 'math'), class: 'o-ub-btn o-ub-btn--bordered-yellow' %>
+            <%= link_to 'Explore Math', explore_curriculum_index_path(subjects: 'math'), class: 'o-ub-btn o-ub-btn--bordered-yellow' %>
           </div>
         </div>
       </div>
@@ -53,11 +53,11 @@
     </div>
     <div class="o-page__module o-media u-bg--light">
       <div class="o-media__body">
-        <h2>Enchance Instruction</h2>
+        <h2>Enhance Instruction</h2>
         <div class="u-hr-small"></div>
         <p>Our professional learning resources include teaching guides, videos, and podcasts that build educators' knowledge of content related to the standards and their application in the classroom.</p>
         <%= link_to 'Content Guides', enhance_instruction_index_path, class: 'o-ub-btn o-ub-btn--yellow u-margin-bottom--zero' %>
-        <%= link_to 'Videos', enhance_instruction_index_path, class: 'o-ub-btn o-ub-btn--bordered-yellow u-margin-bottom--zero u-color--base' %>
+        <%= link_to 'Videos', enhance_instruction_index_path(tab: 1), class: 'o-ub-btn o-ub-btn--bordered-yellow u-margin-bottom--zero u-color--base' %>
       </div>
       <div class="o-media__img">
       </div>

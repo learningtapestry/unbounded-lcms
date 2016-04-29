@@ -21,6 +21,8 @@ $lesson-card-height: 180px;
   }
 
   @include e(wrap) {
+    @include flex;
+    flex-direction: column;
     width: 100%;
   }
 
@@ -38,6 +40,7 @@ $lesson-card-height: 180px;
 
   @include e(content) {
     @include flex;
+    flex: 1 1 0;
     flex-direction: column;
     justify-content: space-between;
     min-height: $lesson-card-height;

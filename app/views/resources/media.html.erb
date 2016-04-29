@@ -35,7 +35,7 @@
         </div>
         <div class="o-resource__item">
           <h3>Tags</h3>
-          <div><%= @resource.tags %></div>
+          <%= render partial: 'resources/tags', locals: { resource: @resource } %>
         </div>
         <% if @resource.engageny_url %>
         <div class="o-resource__item">
