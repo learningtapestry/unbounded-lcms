@@ -1,5 +1,16 @@
 namespace :es do
 
+  desc 'Reset Index'
+  task reset_index: :environment do
+    if repo.index_exists?
+      puts "Deleting Index: #{repo.index}"
+      repo.delete_index!
+    end
+    
+    puts "Creating Index: #{repo.index}"
+    repo.create_index!
+  end
+
   desc 'Load index'
   task load: :environment do
     repo.create_index!
