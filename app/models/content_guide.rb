@@ -12,11 +12,14 @@ class ContentGuide < ActiveRecord::Base
   has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
 
   validates :date, :description, :grade, :subject, :teaser, :title, presence: true, if: :validate_metadata?
+  validate :presence_of_task_without_break
 
   before_save :process_content, unless: :update_metadata
 
   mount_uploader :big_photo, ContentGuidePhotoUploader
   mount_uploader :small_photo, ContentGuidePhotoUploader
+
+  delegate :tasks_without_break, to: :presenter
 
   class << self
     def file_id_from_url(url)
@@ -31,7 +34,7 @@ class ContentGuide < ActiveRecord::Base
       content = service.export_file(file_id, 'text/html').encode('ASCII-8BIT').force_encoding('UTF-8')
 
       cg = find_or_initialize_by(file_id: file_id)
-      cg.update!(name: file.name,
+      cg.update(name: file.name,
                   last_modified_at: file.modified_time,
                   last_modifying_user_email: file.last_modifying_user.email_address,
                   last_modifying_user_name: file.last_modifying_user.display_name,
@@ -111,6 +114,14 @@ class ContentGuide < ActiveRecord::Base
       a[:target] = '_blank'
     end
     doc
+  end
+
+  def presence_of_task_without_break
+    errors.add(:base, :invalid) if tasks_without_break.any?
+  end
+
+  def presenter
+    @presenter ||= ContentGuidePresenter.new(self)
   end
 
   def process_content

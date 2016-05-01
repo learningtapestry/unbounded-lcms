@@ -8,12 +8,13 @@ class ContentGuidePresenter < BasePresenter
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
 
-  attr_reader :host, :view_context
+  attr_reader :doc, :host, :view_context
 
-  def initialize(content_guide, host, view_context, wrap_keywords: false)
+  def initialize(content_guide, host = nil, view_context = nil, wrap_keywords: false)
     super(content_guide)
 
     default_url_options[:host] = host
+    @doc = Nokogiri::HTML.fragment(process_content)
     @host = host
     @view_context = view_context
     @wrap_keywords = wrap_keywords
@@ -55,7 +56,21 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def html
-    cache('html') { doc.to_s.html_safe }
+    cache('html') do
+      process_doc
+      doc.to_s.html_safe
+    end
+  end
+
+  def tasks_without_break
+    @tasks_without_break ||= begin
+      find_custom_tags('task').map do |tag| 
+        next_element_with_name(tag.parent, 'table')
+      end.compact.select do |table|
+        find_custom_tags('task break', table).empty? &&
+          find_custom_tags('no task break', table).empty?
+      end
+    end
   end
 
   private
@@ -372,14 +387,6 @@ class ContentGuidePresenter < BasePresenter
   end
 
   protected
-
-  def doc
-    @doc ||= begin
-      @doc = Nokogiri::HTML.fragment(process_content)
-      process_doc
-      @doc
-    end
-  end
 
   def process_content
     @wrap_keywords ? wrap_keywords(content) : content
