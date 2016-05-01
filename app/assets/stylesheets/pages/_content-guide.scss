@@ -38,6 +38,11 @@
       @include flex-grid-column(9);
     }
   }
+
+  & * {
+    font-family: PFCentroSansPro, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    line-height: 1.5 !important;
+  }
 }
 
 .c-cg-annotation {
