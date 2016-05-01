@@ -62,6 +62,10 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def podcast_links
+    doc.css('a[href*="soundcloud.com"]')
+  end
+
   def tasks_without_break
     @tasks_without_break ||= begin
       find_custom_tags('task').map do |tag| 
@@ -73,12 +77,16 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def video_links
+    doc.css('a[href*="youtube.com/watch?"]')
+  end
+
   private
 
   def embed_audios
     urls_hash = {}
 
-    doc.css('a[href*="soundcloud.com"]').each_with_index do |a, index|
+    podcast_links.each_with_index do |a, index|
       url = a[:href]
       id = "sc_container_#{index}"
       urls_hash[id] = url
@@ -101,7 +109,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def embed_videos
-    doc.css('a[href*="youtube.com/watch?"]').each do |a|
+    video_links.each do |a|
       url = URI(a[:href])
       params = Rack::Utils.parse_query(url.query)
       video_id = params['v']
