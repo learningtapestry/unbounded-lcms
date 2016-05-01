@@ -76,6 +76,18 @@
   font-size: 1rem;
 }
 
+.c-cg-grade {
+  text-transform: capitalize;
+
+  &::after {
+    content: ', ';
+  }
+
+  &:last-child::after {
+    content: ''
+  }
+}
+
 .c-cg-pullquote {
   border-left: .123rem solid #f75b28;
   color: #f96924;
@@ -152,8 +164,4 @@
 
 .c-cg-task__toggler__hide {
   display: none;
-}
-
-.width-auto {
-  width: auto !important;
 }
