@@ -4,6 +4,7 @@ class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
 
   ANNOTATION_COLOR = '#fff2cc'
+  BODY_WIDTH = 825
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
@@ -252,7 +253,9 @@ class ContentGuidePresenter < BasePresenter
 
       cell = table.at_css('td')
       width_style = (cell[:style] || '')[/(^|[^-])width:[^;]+;?/]
-      pullquote = doc.document.create_element('div', class: 'c-cg-pullquote', style: width_style)
+      width = width_style[/\d+/].to_i
+      width = 33 if width == 0
+      pullquote = doc.document.create_element('div', class: 'c-cg-pullquote', style: "width: #{width * 100.0 / BODY_WIDTH}%")
       pullquote.content = cell.content
       table.replace(pullquote)
     end
@@ -378,7 +381,7 @@ class ContentGuidePresenter < BasePresenter
       result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
         id = "cg-k_#{SecureRandom.hex(4)}"
         dropdown = %Q(
-          <span data-toggle=#{id}>#{keyword}</span>
+          <span class=has-tip data-toggle=#{id}>#{keyword}</span>
           <span class='dropdown-pane c-cg-dropdown'
             data-dropdown
             data-hover=true
