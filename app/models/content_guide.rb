@@ -12,7 +12,8 @@ class ContentGuide < ActiveRecord::Base
   has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
 
   validates :date, :description, :grade, :subject, :teaser, :title, presence: true, if: :validate_metadata?
-  validate :presence_of_task_without_break
+  validate :media_exists
+  validate :tasks_have_break
 
   before_save :process_content, unless: :update_metadata
 
@@ -46,6 +47,22 @@ class ContentGuide < ActiveRecord::Base
 
   def modified_by
     "#{last_modifying_user_name} <#{last_modifying_user_email}>" if last_modifying_user_name.present?
+  end
+
+  def non_existent_podcasts
+    @non_existent_podcasts ||= begin
+      presenter.podcast_links.map { |a| a[:href] }.select do |url|
+        !Resource.find_podcast_by_url(url)
+      end
+    end
+  end
+
+  def non_existent_videos
+    @non_existent_videos ||= begin
+      presenter.video_links.map { |a| a[:href] }.select do |url|
+        !Resource.find_video_by_url(url)
+      end
+    end
   end
 
   def original_url
@@ -116,8 +133,10 @@ class ContentGuide < ActiveRecord::Base
     doc
   end
 
-  def presence_of_task_without_break
-    errors.add(:base, :invalid) if tasks_without_break.any?
+  def media_exists
+    if non_existent_podcasts.any? || non_existent_videos.any?
+      errors.add(:base, :invalid)
+    end
   end
 
   def presenter
@@ -156,6 +175,10 @@ class ContentGuide < ActiveRecord::Base
 
   def split_list(value)
     value.split(',').map(&:strip).map(&:downcase)
+  end
+
+  def tasks_have_break
+    errors.add(:base, :invalid) if tasks_without_break.any?
   end
 
   def validate_metadata?
