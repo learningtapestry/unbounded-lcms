@@ -57,7 +57,9 @@ en:
       edit:
         page_title: Edit Content Guide
       import:
+        page_title: "Errors when importing '%{name}'"
         success: "'%{name}' imported successfully."
+        tasks_without_break_error: The following tasks have neither <no task break> nor <task break> tags
       index:
         original_document: Original document
         page_title: Content Guides

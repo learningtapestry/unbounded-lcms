@@ -1,0 +1,26 @@
+<% page_title = t('.page_title', name: @content_guide.name) %>
+
+<% set_page_title page_title %>
+
+<div class="o-page">
+  <h2 class=text-center><%= page_title %></h2>
+
+  <div>
+    <ui class=accordion data-accordion>
+      <% if (tasks = @content_guide.tasks_without_break).any? %>
+        <li class='accordion-item is-active' data-accordion-item>
+          <%= link_to '#', class: 'accordion-title' do %>
+            <h3><%= t('.tasks_without_break_error') %></h3>
+          <% end %>
+
+          <div class=accordion-content data-tab-content>
+            <ol>
+              <% tasks.each do |task| %>
+                <li><%= task.to_s.html_safe %>
+              <% end %>
+            </ol>
+          </div>
+      <% end %>
+    </ul>
+  </div>
+</div>
