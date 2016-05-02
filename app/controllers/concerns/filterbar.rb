@@ -32,10 +32,10 @@ module Filterbar
 
     def facets_params
       names = split_params(params[:facets]) & [
-        'curriculum', 'instruction'
+        'curriculum', 'module', 'unit', 'lesson', 'content_guide', 'video', 'resource'
       ]
-      model_types = {'curriculum' => 'resource', 'instruction' => 'content_guide'}
-      names.map! { |name| model_types[name] }
+      doc_type_translations = {'curriculum' => ['module', 'unit', 'lesson'], 'resource' => ['podcast']}
+      names.map! { |name| doc_type_translations.fetch(name, name) }.flatten.uniq
     end
 
     def search_term
