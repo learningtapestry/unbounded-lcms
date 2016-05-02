@@ -15,10 +15,10 @@ class ContentGuidePresenter < BasePresenter
     super(content_guide)
 
     default_url_options[:host] = host
-    @doc = Nokogiri::HTML.fragment(process_content)
     @host = host
     @view_context = view_context
     @wrap_keywords = wrap_keywords
+    @doc = Nokogiri::HTML.fragment(process_content)
   end
 
   def broken_images
@@ -238,7 +238,7 @@ class ContentGuidePresenter < BasePresenter
       id = "content_guide_footnote_#{i}"
       footnote = doc.at_css(a[:href]).ancestors('div').first
       a['data-toggle'] = id
-      dropdown = doc.document.create_element('span', class: 'dropdown-pane c-cg-dropdown', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-pane' => true, id: id)
+      dropdown = doc.document.create_element('span', class: 'dropdown-pane c-cg-dropdown', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-delay' => 0, 'data-hover-pane' => true, id: id)
       dropdown.inner_html = footnote.at_css('p').inner_html
       dropdown.at_css(a[:href]).remove
       a.parent.next = dropdown
@@ -368,8 +368,8 @@ class ContentGuidePresenter < BasePresenter
 
     keywords = {}
     ContentGuideDefinition.find_each { |d| keywords[d.keyword] = d.description }
-    Standard.where.not(name: [nil, '']).each do |standard|
-      keywords[standard.name.upcase] = standard.description
+    Standard.all.each do |standard|
+      keywords[standard.name.upcase] = standard.description if standard.name.present?
       standard.alt_names.each do |alt_name|
         keywords[alt_name.upcase] = standard.description
       end
@@ -385,11 +385,13 @@ class ContentGuidePresenter < BasePresenter
           <span class='dropdown-pane c-cg-dropdown'
             data-dropdown
             data-hover=true
+            data-hover-delay=0
             data-hover-pane=true
             id=#{id}>
             #{value}
           </span>
         )
+
         m.gsub!(keyword, dropdown)
       end
     end
