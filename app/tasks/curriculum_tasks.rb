@@ -5,6 +5,10 @@ class CurriculumTasks
       Curriculum.trees.find_each { |c| c.generate_breadcrumb_titles ; c.save! }
     end
 
+    def generate_hierarchical_positions
+      Curriculum.trees.find_each { |c| c.generate_hierarchical_position ; c.save! }
+    end
+
     def sync_reading_assignments
       Curriculum.transaction do
         [:units, :modules, :grades].each do |level|
