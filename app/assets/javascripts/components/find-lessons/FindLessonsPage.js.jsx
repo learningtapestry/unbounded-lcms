@@ -69,6 +69,7 @@ class FindLessonsPage extends React.Component {
                 </div>
               </div>
               <Filterbar
+                withSearch={true}
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
                 {...this.state.filterbar} />
             </div>

@@ -15,8 +15,10 @@ class ContentGuide < ActiveRecord::Base
   has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
 
   validates :date, :description, :grade, :subject, :teaser, :title, presence: true, if: :validate_metadata?
+  validate :media_exist
+  validate :tasks_have_break
 
-  before_save :process_content, unless: :update_metadata
+  before_validation :process_content, unless: :update_metadata
 
   mount_uploader :big_photo, ContentGuidePhotoUploader
   mount_uploader :small_photo, ContentGuidePhotoUploader
@@ -31,6 +33,8 @@ class ContentGuide < ActiveRecord::Base
     if grades.any? then where(grade: grades) else where(nil) end
   }
 
+  delegate :tasks_without_break, to: :presenter
+
   class << self
     def file_id_from_url(url)
       url.scan(/\/d\/([^\/]+)\//).first.first rescue nil
@@ -44,7 +48,7 @@ class ContentGuide < ActiveRecord::Base
       content = service.export_file(file_id, 'text/html').encode('ASCII-8BIT').force_encoding('UTF-8')
 
       cg = find_or_initialize_by(file_id: file_id)
-      cg.update!(name: file.name,
+      cg.update(name: file.name,
                   last_modified_at: file.modified_time,
                   last_modifying_user_email: file.last_modifying_user.email_address,
                   last_modifying_user_name: file.last_modifying_user.display_name,
@@ -56,6 +60,22 @@ class ContentGuide < ActiveRecord::Base
 
   def modified_by
     "#{last_modifying_user_name} <#{last_modifying_user_email}>" if last_modifying_user_name.present?
+  end
+
+  def non_existent_podcasts
+    @non_existent_podcasts ||= begin
+      presenter.podcast_links.map { |a| a[:href] }.select do |url|
+        !Resource.find_podcast_by_url(url)
+      end
+    end
+  end
+
+  def non_existent_videos
+    @non_existent_videos ||= begin
+      presenter.video_links.map { |a| a[:href] }.select do |url|
+        !Resource.find_video_by_url(url)
+      end
+    end
   end
 
   def original_url
@@ -86,6 +106,11 @@ class ContentGuide < ActiveRecord::Base
       end
     end
     self.grade_list = grades
+  end
+
+  def assign_subject(value)
+    subject = value.strip.downcase
+    self.subject = subject if %w(ela math).include?(subject)
   end
 
   def assign_unbounded_standards(value)
@@ -121,6 +146,16 @@ class ContentGuide < ActiveRecord::Base
     doc
   end
 
+  def media_exist
+    if non_existent_podcasts.any? || non_existent_videos.any?
+      errors.add(:base, :invalid)
+    end
+  end
+
+  def presenter
+    @presenter ||= ContentGuidePresenter.new(self)
+  end
+
   def process_content
     doc = Nokogiri::HTML(original_content)
     body_str = doc.xpath('/html/body/*').to_s
@@ -142,6 +177,7 @@ class ContentGuide < ActiveRecord::Base
       when 'related_instruction_tags' then assign_unbounded_standards(value)
       when 'big_photo', 'small_photo' then send("remote_#{key}_url=", value)
       when 'grade', 'grades' then assign_grades(value)
+      when 'subject' then assign_subject(value)
       else send("#{key}=", value)
       end
     end
@@ -152,6 +188,10 @@ class ContentGuide < ActiveRecord::Base
 
   def split_list(value)
     value.split(',').map(&:strip).map(&:downcase)
+  end
+
+  def tasks_have_break
+    errors.add(:base, :invalid) if tasks_without_break.any?
   end
 
   def validate_metadata?

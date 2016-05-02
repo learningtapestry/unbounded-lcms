@@ -37,9 +37,10 @@ module Admin
       file_id = ContentGuide.file_id_from_url(params[:content_guide][:url])
       redirect_to :new_admin_content_guides if file_id.blank?
 
-      content_guide = ContentGuide.import(file_id, google_credentials)
-
-      redirect_to [:edit, :admin, content_guide], notice: t('.success', name: content_guide.name)
+      @content_guide = ContentGuide.import(file_id, google_credentials)
+      if @content_guide.errors.empty?
+        redirect_to [:edit, :admin, @content_guide], notice: t('.success', name: @content_guide.name)
+      end
     end
 
     # GET /content_guides/links_validation
