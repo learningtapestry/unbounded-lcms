@@ -31,6 +31,7 @@ class Resource < ActiveRecord::Base
   # Reading assignments.
   has_many :resource_reading_assignments, dependent: :destroy
   alias_attribute :reading_assignments, :resource_reading_assignments
+  has_many :reading_assignment_texts, through: :resource_reading_assignments
 
   # Related resources.
   has_many :resource_related_resources, dependent: :destroy

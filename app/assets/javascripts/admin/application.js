@@ -11,6 +11,7 @@
 //= require ../routes
 //= require ../components
 //= require ./components
+//= require_tree ./editor
 
 $(function() {
   $(document).foundation();

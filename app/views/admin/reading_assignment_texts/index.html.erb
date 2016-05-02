@@ -1,0 +1,31 @@
+<div class=o-page>
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <p><%= link_to t('.new_reading_assignment_text'), :new_admin_reading_assignment_text, class: 'button primary', 'data-no-turbolink' => '' %></p>
+
+  <p class=text-right><%= page_entries_info @reading_assignment_texts %>
+
+  <div class=row>
+    <div class="col-md-12">
+      <table class=table>
+        <tr>
+          <th><%= t('.name') %>
+          <th><%= t('ui.actions') %></th>
+        </tr>
+
+        <% @reading_assignment_texts.each do |reading_assignment_text| %>
+          <tr id="reading_assignment_text_<%= reading_assignment_text.id %>">
+            <td><%= link_to reading_assignment_text.name, edit_admin_reading_assignment_text_path(reading_assignment_text) %>
+            <td><%= button_to t('ui.delete'), admin_reading_assignment_text_path(reading_assignment_text), class: 'button danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+
+  <div class=row>
+    <div class='col-sm-12 text-center'>
+      <%= will_paginate @reading_assignment_texts, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+</div>
