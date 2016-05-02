@@ -24,8 +24,13 @@ class Filterbar extends React.Component {
         { displayName: '12', mathDisplayName: 'PC', name: '12', selected: false }
       ],
       facets: [
-        { displayName: 'CURRICULUM', name: 'curriculum', selected: false },
-        { displayName: 'INSTRUCTION', name: 'instruction', selected: false }
+        { displayName: 'Curriculum', name: 'curriculum', selected: false },
+        { displayName: 'Modules', name: 'module', selected: false },
+        { displayName: 'Units', name: 'unit', selected: false },
+        { displayName: 'Lessons', name: 'lesson', selected: false },
+        { displayName: 'Content Guides', name: 'content_guide', selected: false },
+        { displayName: 'Videos', name: 'video', selected: false },
+        { displayName: 'Resources', name: 'resource', selected: false },
       ],
       search_term: null
     };
@@ -131,7 +136,7 @@ class Filterbar extends React.Component {
       if (this.props.withDropdown && k === 'search_term') {
         return;
       }
-      
+
       if (val) {
         let urlVal = val;
         if (_.isArray(val)) {
