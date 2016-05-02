@@ -31,6 +31,7 @@ class Resource < ActiveRecord::Base
   # Reading assignments.
   has_many :resource_reading_assignments, dependent: :destroy
   alias_attribute :reading_assignments, :resource_reading_assignments
+  has_many :reading_assignment_texts, through: :resource_reading_assignments
 
   # Related resources.
   has_many :resource_related_resources, dependent: :destroy
@@ -109,6 +110,17 @@ class Resource < ActiveRecord::Base
           resource
         end
       end
+    end
+
+    def find_podcast_by_url(url)
+      podcast.where(url: url).first
+    end
+
+    def find_video_by_url(url)
+      uri = URI(url)
+      query_params = Rack::Utils.parse_query(uri.query)
+      id = query_params['v']
+      video.where("url ~ 'youtube\.com.+v=#{id}(&|$)'").first
     end
 
     def init_for_bulk_edit(resources)
