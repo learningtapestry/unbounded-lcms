@@ -18,7 +18,7 @@ class ContentGuide < ActiveRecord::Base
   validate :media_exist
   validate :tasks_have_break
 
-  before_save :process_content, unless: :update_metadata
+  before_validation :process_content, unless: :update_metadata
 
   mount_uploader :big_photo, ContentGuidePhotoUploader
   mount_uploader :small_photo, ContentGuidePhotoUploader
