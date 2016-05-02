@@ -15,11 +15,17 @@ class FindLessonsController < ApplicationController
   protected
     def find_lessons
       @lessons = Rails.cache.fetch("find_lessons/#{params_cache_key}") do
-        Curriculum.trees.lessons.with_resources
-          .where_subject(subject_params)
-          .where_grade(grade_params)
-          .paginate(pagination_params.slice(:page, :per_page))
-          .order('resources.created_at desc')
+        queryset = Curriculum.trees.lessons.with_resources
+
+        unless search_term.blank?
+          search_ids = Search::Document.search(search_term, model_type: :resource, limit: 100).results.map {|r| r.model_id.to_i }
+          queryset = queryset.where(item_id: search_ids).order_as_specified(item_id: search_ids)
+        end
+
+        queryset.where_subject(subject_params)
+                .where_grade(grade_params)
+                .paginate(pagination_params.slice(:page, :per_page))
+                .order('resources.created_at desc')
       end
     end
 
@@ -38,7 +44,7 @@ class FindLessonsController < ApplicationController
         pagination_key = pagination_params.sort.flatten.join(':')
         grade_key = grade_params.sort.flatten.join(':')
         subject_key = subject_params.sort.flatten.join(':')
-        "subject::#{subject_key}/grade::#{grade_key}/pagination::#{pagination_key}"
+        "subject::#{subject_key}/grade::#{grade_key}/search::#{search_term}/pagination::#{pagination_key}"
       end
     end
 end
