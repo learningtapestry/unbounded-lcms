@@ -15,7 +15,7 @@
       <tr>
         <td><%= link_to content_guide.name, content_guide %>
         <td><%= content_guide.title %>
-        <td><%= content_guide.subject %>
+        <td><%= t(content_guide.subject, scope: :subjects) if content_guide.subject %>
         <td><%= content_guide.modified_by %>
         <td><%= content_guide.version %>
         <td class=text-nowrap>

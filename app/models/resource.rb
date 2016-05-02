@@ -111,6 +111,17 @@ class Resource < ActiveRecord::Base
       end
     end
 
+    def find_podcast_by_url(url)
+      podcast.where(url: url).first
+    end
+
+    def find_video_by_url(url)
+      uri = URI(url)
+      query_params = Rack::Utils.parse_query(uri.query)
+      id = query_params['v']
+      video.where("url ~ 'youtube\.com.+v=#{id}(&|$)'").first
+    end
+
     def init_for_bulk_edit(resources)
       resource = new
       resource.standard_ids = resources.map(&:standard_ids).inject { |memo, ids| memo &= ids }

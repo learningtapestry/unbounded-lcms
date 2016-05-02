@@ -57,7 +57,11 @@ en:
       edit:
         page_title: Edit Content Guide
       import:
+        non_existent_podcasts_error: "The following podcasts don't exist"
+        non_existent_videos_error: "The following videos don't exist"
+        page_title: "Errors when importing '%{name}'"
         success: "'%{name}' imported successfully."
+        tasks_without_break_error: The following tasks have neither <no task break> nor <task break> tags
       index:
         original_document: Original document
         page_title: Content Guides
