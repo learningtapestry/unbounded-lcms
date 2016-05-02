@@ -486,6 +486,15 @@ class Curriculum < ActiveRecord::Base
     'base'
   end
 
+  def generate_hierarchical_position
+    positions = {}.with_indifferent_access
+    self_and_ancestors.each { |curr| positions[curr.curriculum_type.name] = curr.position }
+
+    self.hierarchical_position =  [:grade, :module, :unit, :lesson].map { |level|
+      positions.fetch(level, 0).to_s.rjust(2, '0')
+    }.join(' ')
+  end
+
   # Drawing (for debugging)
   def self._draw_node_recursively(node, depth, stop_at)
     padding = '  '*depth
