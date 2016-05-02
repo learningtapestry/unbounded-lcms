@@ -78,8 +78,6 @@ class FindLessonsPage extends React.Component {
         <div className="o-page u-margin-bottom--xlarge">
           <div className="o-page__module">
             <SearchResultsHeader
-              onChangePerPage={this.handleChangePerPage.bind(this)}
-              onChangeOrder={this.handleChangeOrder.bind(this)}
               current_page={this.state.current_page}
               per_page={this.state.per_page}
               num_items={this.state.lessons.length}
