@@ -30,7 +30,7 @@ class Filterbar extends React.Component {
         { displayName: 'Lessons', name: 'lesson', selected: false },
         { displayName: 'Content Guides', name: 'content_guide', selected: false },
         { displayName: 'Videos', name: 'video', selected: false },
-        { displayName: 'Resources', name: 'resource', selected: false },
+        { displayName: 'Podcast', name: 'podcast', selected: false },
       ],
       search_term: null
     };
