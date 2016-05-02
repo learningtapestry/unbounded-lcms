@@ -4,16 +4,18 @@ class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
 
   ANNOTATION_COLOR = '#fff2cc'
+  BODY_WIDTH = 825
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
 
-  attr_reader :host, :view_context
+  attr_reader :doc, :host, :view_context
 
-  def initialize(content_guide, host, view_context, wrap_keywords: false)
+  def initialize(content_guide, host = nil, view_context = nil, wrap_keywords: false)
     super(content_guide)
 
     default_url_options[:host] = host
+    @doc = Nokogiri::HTML.fragment(process_content)
     @host = host
     @view_context = view_context
     @wrap_keywords = wrap_keywords
@@ -55,7 +57,29 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def html
-    cache('html') { doc.to_s.html_safe }
+    cache('html') do
+      process_doc
+      doc.to_s.html_safe
+    end
+  end
+
+  def podcast_links
+    doc.css('a[href*="soundcloud.com"]')
+  end
+
+  def tasks_without_break
+    @tasks_without_break ||= begin
+      find_custom_tags('task').map do |tag| 
+        next_element_with_name(tag.parent, 'table')
+      end.compact.select do |table|
+        find_custom_tags('task break', table).empty? &&
+          find_custom_tags('no task break', table).empty?
+      end
+    end
+  end
+
+  def video_links
+    doc.css('a[href*="youtube.com/watch?"]')
   end
 
   private
@@ -63,7 +87,7 @@ class ContentGuidePresenter < BasePresenter
   def embed_audios
     urls_hash = {}
 
-    doc.css('a[href*="soundcloud.com"]').each_with_index do |a, index|
+    podcast_links.each_with_index do |a, index|
       url = a[:href]
       id = "sc_container_#{index}"
       urls_hash[id] = url
@@ -86,7 +110,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def embed_videos
-    doc.css('a[href*="youtube.com/watch?"]').each do |a|
+    video_links.each do |a|
       url = URI(a[:href])
       params = Rack::Utils.parse_query(url.query)
       video_id = params['v']
@@ -227,9 +251,12 @@ class ContentGuidePresenter < BasePresenter
       tag.remove
       return unless table && table.css('td').size == 1
 
-      pullquote = doc.document.create_element('div')
-      pullquote[:class] = 'c-cg-pullquote callout secondary'
-      pullquote.inner_html = table.at_css('td').inner_html
+      cell = table.at_css('td')
+      width_style = (cell[:style] || '')[/(^|[^-])width:[^;]+;?/]
+      width = width_style[/\d+/].to_i
+      width = 33 if width == 0
+      pullquote = doc.document.create_element('div', class: 'c-cg-pullquote', style: "width: #{width * 100.0 / BODY_WIDTH}%")
+      pullquote.content = cell.content
       table.replace(pullquote)
     end
   end
@@ -323,11 +350,14 @@ class ContentGuidePresenter < BasePresenter
 
   def reset_table_styles
     doc.css('table').each do |table|
-      next if table.xpath('tbody/tr/td').size == 1
+      if table.xpath('tbody/tr/td').size == 1
+        table[:class] = 'width-auto'
+        next
+      end
 
       table[:class] = 'c-cg-table'
       table.remove_attribute('style')
-      table.css('tr, td').each do |node|
+      table.xpath('tbody/tr | tbody/tr/td').each do |node|
         node.remove_attribute('style')
       end
     end
@@ -351,7 +381,7 @@ class ContentGuidePresenter < BasePresenter
       result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
         id = "cg-k_#{SecureRandom.hex(4)}"
         dropdown = %Q(
-          <span data-toggle=#{id}>#{keyword}</span>
+          <span class=has-tip data-toggle=#{id}>#{keyword}</span>
           <span class='dropdown-pane c-cg-dropdown'
             data-dropdown
             data-hover=true
@@ -368,14 +398,6 @@ class ContentGuidePresenter < BasePresenter
   end
 
   protected
-
-  def doc
-    @doc ||= begin
-      @doc = Nokogiri::HTML.fragment(process_content)
-      process_doc
-      @doc
-    end
-  end
 
   def process_content
     @wrap_keywords ? wrap_keywords(content) : content
