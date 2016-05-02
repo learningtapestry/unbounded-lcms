@@ -24,7 +24,7 @@ class Filterbar extends React.Component {
         { displayName: '12', mathDisplayName: 'PC', name: '12', selected: false }
       ],
       facets: [
-        { displayName: 'Curriculum', name: 'curriculum', selected: false },
+        { displayName: 'Grades', name: 'grade', selected: false },
         { displayName: 'Modules', name: 'module', selected: false },
         { displayName: 'Units', name: 'unit', selected: false },
         { displayName: 'Lessons', name: 'lesson', selected: false },
