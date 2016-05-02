@@ -19,7 +19,7 @@ class FindLessonsController < ApplicationController
           .where_subject(subject_params)
           .where_grade(grade_params)
           .paginate(pagination_params.slice(:page, :per_page))
-          .order('resources.created_at desc')
+          .order('resources.subject', :hierarchical_position)
       end
     end
 
