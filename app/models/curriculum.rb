@@ -412,6 +412,8 @@ class Curriculum < ActiveRecord::Base
   end
 
   def generate_breadcrumb_pieces
+    return unless resource && resource.subject
+
     subject = resource.subject.to_sym
 
     abbrv_type = case current_level
