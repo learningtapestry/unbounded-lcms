@@ -4,7 +4,6 @@ class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
 
   ANNOTATION_COLOR = '#fff2cc'
-  BODY_WIDTH = 825
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
@@ -121,13 +120,16 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def find_custom_tags(tag_name, node = nil, &block)
-    tag_name = "<#{tag_name}>"
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*bold/
         content = span.content
-        if content.downcase =~ /#{tag_name}/
+        tag_regex = /<#{tag_name}(:[^>]*)?>/i
+
+        if content =~ tag_regex
+          tag_def = content[tag_regex]
           before, after =
-            span.content.split(tag_name).map do |content|
+            content.split(tag_def).map do |content|
+              next unless content.present?
               new_span = doc.document.create_element('span', style: span[:style])
               new_span.content = content
               new_span
@@ -135,7 +137,10 @@ class ContentGuidePresenter < BasePresenter
 
           span.after(after) if after
           span.before(before) if before
-          span.content = tag_name
+          span.content = tag_def
+
+          _, tag_value = tag_def.split(':')
+          span['data-value'] = tag_value.strip.gsub('>', '') rescue nil
 
           yield span if block
           span
@@ -245,6 +250,20 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def process_icons
+    find_custom_tags('icon').each do |tag|
+      icon_type = tag['data-value']
+      div = doc.document.create_element('div', class: "c-cg-icon c-cg-icon--#{icon_type}")
+      tag.replace(div)
+    end
+
+    find_custom_tags('icon-small').each do |tag|
+      icon_type = tag['data-value']
+      span = doc.document.create_element('span', class: "c-cg-icon-small c-cg-icon--#{icon_type}")
+      tag.replace(span)
+    end
+  end
+
   def process_pullquotes
     find_custom_tags('pullquote') do |tag|
       table = next_element_with_name(tag.parent, 'table')
@@ -252,10 +271,7 @@ class ContentGuidePresenter < BasePresenter
       return unless table && table.css('td').size == 1
 
       cell = table.at_css('td')
-      width_style = (cell[:style] || '')[/(^|[^-])width:[^;]+;?/]
-      width = width_style[/\d+/].to_i
-      width = 33 if width == 0
-      pullquote = doc.document.create_element('div', class: 'c-cg-pullquote', style: "width: #{width * 100.0 / BODY_WIDTH}%")
+      pullquote = doc.document.create_element('div', class: 'c-cg-pullquote')
       pullquote.content = cell.content
       table.replace(pullquote)
     end
@@ -351,7 +367,7 @@ class ContentGuidePresenter < BasePresenter
   def reset_table_styles
     doc.css('table').each do |table|
       if table.xpath('tbody/tr/td').size == 1
-        table[:class] = 'width-auto'
+        table[:class] = 'c-cg-single-cell-table'
         next
       end
 
@@ -412,6 +428,7 @@ class ContentGuidePresenter < BasePresenter
     process_blockquotes
     process_broken_images
     process_footnote_links
+    process_icons
     process_pullquotes
     process_standards
     process_tasks
