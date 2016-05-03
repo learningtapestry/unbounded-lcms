@@ -96,6 +96,33 @@
   }
 }
 
+.c-cg-icon {
+  background-size: contain;
+  float: left;
+  height: 80px;
+  margin: 0 1rem 1rem 0;
+  width: 80px;
+}
+
+.c-cg-icon-small {
+  background-size: contain;
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+}
+
+.c-cg-icon--complexity {
+  background-image: asset-url('cg_icon_complexity.png');
+}
+
+.c-cg-icon--instruction {
+  background-image: asset-url('cg_icon_instruction.png');
+}
+
+.c-cg-icon--volume {
+  background-image: asset-url('cg_icon_volume.png');
+}
+
 .c-cg-pullquote {
   border-left: .123rem solid #f75b28;
   color: #f96924;

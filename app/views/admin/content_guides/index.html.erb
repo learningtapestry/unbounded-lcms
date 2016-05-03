@@ -20,7 +20,7 @@
         <td><%= content_guide.version %>
         <td class=text-nowrap>
           <%= link_to t('ui.edit'), [:edit, :admin, content_guide], class: 'button' %>
-          <%= link_to t('.original_document'), content_guide.original_url, class: 'button' %>
+          <%= link_to t('.original_document'), content_guide.original_url, class: 'button', target: '_blank' %>
           <%= link_to t('ui.reimport'), import_admin_content_guides_path(content_guide: { url: content_guide.original_url }), class: 'button', 'data-no-turbolink' => true %>
       </tr>
     <% end %>
