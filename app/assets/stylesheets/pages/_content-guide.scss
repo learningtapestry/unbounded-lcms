@@ -83,6 +83,31 @@
   padding: 1rem;
 }
 
+.c-cg-standard::before {
+  background-size: contain;
+  content: ' ';
+  display: inline-block;
+  height: 1rem;
+  margin-right: .2rem;
+  width: 1rem;
+}
+
+.c-cg-standard--a::before {
+  background-image: asset-url('st_icon_a.svg');
+}
+
+.c-cg-standard--m::before {
+  background-image: asset-url('st_icon_m.svg');
+}
+
+.c-cg-standard--plus::before {
+  background-image: asset-url('st_icon_plus.svg');
+}
+
+.c-cg-standard--s::before {
+  background-image: asset-url('st_icon_s.svg');
+}
+
 .c-cg-grade {
   text-transform: capitalize;
 
