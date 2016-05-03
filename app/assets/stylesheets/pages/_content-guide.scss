@@ -72,7 +72,6 @@
 
 .c-cg-blockquote {
   border-left: .625rem solid #fdd2bd;
-  margin: 2.625rem 0;
   padding-left: 1.5rem;
 }
 
@@ -131,9 +130,20 @@
   font-style: italic;
   margin: 3.25rem 0 1rem 3.25rem;
   padding-left: 1.125rem;
+  width: 50%;
+}
+
+.c-cg-single-cell-table {
+  width: auto !important;
+
+  tbody {
+    border: 0 !important;
+  }
 }
 
 .c-cg-table {
+  vertical-align: top;
+
   p {
     margin: 0;
   }
@@ -209,8 +219,4 @@
 
 .c-cg-task__toggler__hide {
   display: none;
-}
-
-.width-auto {
-  width: auto !important;
 }

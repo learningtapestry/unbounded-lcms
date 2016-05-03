@@ -4,7 +4,6 @@ class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
 
   ANNOTATION_COLOR = '#fff2cc'
-  BODY_WIDTH = 825
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:id, :level, :text)
@@ -272,10 +271,7 @@ class ContentGuidePresenter < BasePresenter
       return unless table && table.css('td').size == 1
 
       cell = table.at_css('td')
-      width_style = (cell[:style] || '')[/(^|[^-])width:[^;]+;?/]
-      width = width_style[/\d+/].to_i
-      width = 33 if width == 0
-      pullquote = doc.document.create_element('div', class: 'c-cg-pullquote', style: "width: #{width * 100.0 / BODY_WIDTH}%")
+      pullquote = doc.document.create_element('div', class: 'c-cg-pullquote')
       pullquote.content = cell.content
       table.replace(pullquote)
     end
@@ -371,7 +367,7 @@ class ContentGuidePresenter < BasePresenter
   def reset_table_styles
     doc.css('table').each do |table|
       if table.xpath('tbody/tr/td').size == 1
-        table[:class] = 'width-auto'
+        table[:class] = 'c-cg-single-cell-table'
         next
       end
 
