@@ -384,11 +384,11 @@ class ContentGuidePresenter < BasePresenter
     result = content.dup
 
     keywords = {}
-    ContentGuideDefinition.find_each { |d| keywords[d.keyword] = d.description }
+    ContentGuideDefinition.find_each { |d| keywords[d.keyword] = { description: d.description } }
     Standard.all.each do |standard|
-      keywords[standard.name.upcase] = standard.description if standard.name.present?
+      keywords[standard.name.upcase] = { description: standard.description, emphasis: standard.emphasis } if standard.name.present?
       standard.alt_names.each do |alt_name|
-        keywords[alt_name.upcase] = standard.description
+        keywords[alt_name.upcase] = { description: standard.description, emphasis: standard.emphasis }
       end
     end
 
@@ -397,15 +397,19 @@ class ContentGuidePresenter < BasePresenter
 
       result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
         id = "cg-k_#{SecureRandom.hex(4)}"
+        klass = 'has-tip'
+        if (emphasis = value[:emphasis])
+          klass += " c-cg-standard c-cg-standard--#{emphasis}"
+        end
         dropdown = %Q(
-          <span class=has-tip data-toggle=#{id}>#{keyword}</span>
+          <span class='#{klass}' data-toggle=#{id}>#{keyword}</span>
           <span class='dropdown-pane c-cg-dropdown'
             data-dropdown
             data-hover=true
             data-hover-delay=0
             data-hover-pane=true
             id=#{id}>
-            #{value}
+            #{value[:description]}
           </span>
         )
 
