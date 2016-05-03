@@ -16,7 +16,6 @@ class ContentGuide < ActiveRecord::Base
 
   validates :date, :description, :grade, :subject, :teaser, :title, presence: true, if: :validate_metadata?
   validate :media_exist
-  validate :tasks_have_break
 
   before_validation :process_content, unless: :update_metadata
 
