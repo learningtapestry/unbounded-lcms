@@ -121,13 +121,16 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def find_custom_tags(tag_name, node = nil, &block)
-    tag_name = "<#{tag_name}>"
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*bold/
         content = span.content
-        if content.downcase =~ /#{tag_name}/
+        tag_regex = /<#{tag_name}(:[^>]*)?>/i
+
+        if content =~ tag_regex
+          tag_def = content[tag_regex]
           before, after =
-            span.content.split(tag_name).map do |content|
+            content.split(tag_def).map do |content|
+              next unless content.present?
               new_span = doc.document.create_element('span', style: span[:style])
               new_span.content = content
               new_span
@@ -135,7 +138,10 @@ class ContentGuidePresenter < BasePresenter
 
           span.after(after) if after
           span.before(before) if before
-          span.content = tag_name
+          span.content = tag_def
+
+          _, tag_value = tag_def.split(':')
+          span['data-value'] = tag_value.strip.gsub('>', '') rescue nil
 
           yield span if block
           span
@@ -242,6 +248,20 @@ class ContentGuidePresenter < BasePresenter
       dropdown.inner_html = footnote.at_css('p').inner_html
       dropdown.at_css(a[:href]).remove
       a.parent.next = dropdown
+    end
+  end
+
+  def process_icons
+    find_custom_tags('icon').each do |tag|
+      icon_type = tag['data-value']
+      div = doc.document.create_element('div', class: "c-cg-icon c-cg-icon--#{icon_type}")
+      tag.replace(div)
+    end
+
+    find_custom_tags('icon-small').each do |tag|
+      icon_type = tag['data-value']
+      span = doc.document.create_element('span', class: "c-cg-icon-small c-cg-icon--#{icon_type}")
+      tag.replace(span)
     end
   end
 
@@ -412,6 +432,7 @@ class ContentGuidePresenter < BasePresenter
     process_blockquotes
     process_broken_images
     process_footnote_links
+    process_icons
     process_pullquotes
     process_standards
     process_tasks
