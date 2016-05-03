@@ -158,6 +158,10 @@ class Resource < ActiveRecord::Base
     curriculums.trees.first
   end
 
+  def curriculums_as_parent
+    curriculums.seeds.where(parent_id: nil)
+  end
+
   def ela?
     subject == 'ela'
   end

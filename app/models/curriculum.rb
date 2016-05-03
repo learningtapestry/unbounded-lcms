@@ -130,6 +130,23 @@ class Curriculum < ActiveRecord::Base
     end
   end
 
+  def add_child(new_child_resource)
+    child_curriculum_type = case current_level
+                            when :map then CurriculumType.grade
+                            when :grade then CurriculumType.module
+                            when :module then CurriculumType.unit
+                            when :unit then CurriculumType.lesson
+                            end
+    new_child = self.class.create!(
+      item: new_child_resource,
+      curriculum_type: child_curriculum_type,
+      parent: self,
+      position: children.size,
+      seed: seed
+    )
+    ResourceSlug.create_for_curriculum(new_child)
+  end
+
   # Navigation
 
   def map?; current_level == :map; end
