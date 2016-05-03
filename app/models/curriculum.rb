@@ -103,6 +103,8 @@ class Curriculum < ActiveRecord::Base
   scope :units, -> { where(curriculum_type: CurriculumType.unit) }
   scope :lessons, -> { where(curriculum_type: CurriculumType.lesson) }
 
+  after_save :update_generated_fields
+
   def self.ela_tree
     ela.maps.trees.first
   end
@@ -493,6 +495,20 @@ class Curriculum < ActiveRecord::Base
     self.hierarchical_position =  [:grade, :module, :unit, :lesson].map { |level|
       positions.fetch(level, 0).to_s.rjust(2, '0')
     }.join(' ')
+  end
+
+  def update_generated_fields
+    generate_breadcrumb_pieces
+    generate_breadcrumb_titles
+    generate_hierarchical_position
+
+    attrs = attributes.symbolize_keys.slice(
+      :breadcrumb_piece, :breadcrumb_short_piece,
+      :breadcrumb_title, :breadcrumb_short_title,
+      :hierarchical_position)
+
+    update_columns(**attrs)  # update_columns does not trigger callbacks
+                             # so this wont be recursive
   end
 
   # Drawing (for debugging)
