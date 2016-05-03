@@ -284,6 +284,7 @@ class ContentGuidePresenter < BasePresenter
       return unless table
 
       table.css('[data-toggle]').each do |dropdown|
+        dropdown[:class] = nil
         dropdown.delete('data-toggle')
       end
     end
