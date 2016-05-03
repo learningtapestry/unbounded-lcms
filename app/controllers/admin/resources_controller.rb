@@ -10,13 +10,23 @@ class Admin::ResourcesController < Admin::AdminController
   end
 
   def new
+    @parent_curriculum = if params[:curriculum_id].present?
+      Curriculum.find(params[:curriculum_id])
+    end
     @resource = Resource.new
   end
 
   def create
-    @resource = Resource.new(resource_params)
+    rp = resource_params
+
+    @parent_curriculum = if rp.has_key?(:curriculum_id)
+      Curriculum.find(rp.delete(:curriculum_id))
+    end
+
+    @resource = Resource.new(rp)
 
     if @resource.save
+      @parent_curriculum.add_child(@resource) if @parent_curriculum
       redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
       render :new
@@ -24,23 +34,12 @@ class Admin::ResourcesController < Admin::AdminController
   end
 
   def edit
-    @child_resources_hash = {}
   end
 
   def update
     unless Settings.editing_enabled?
       redirect_to :admin_resources, alert: t('admin.common.editing_disabled')
       return
-    end
-
-    @child_resources_hash = {}
-
-    children_params = params.delete(:children) || []
-    children_params.each do |curriculum_id, params|
-      curriculum = @resource.curriculums.find_by_id(curriculum_id)
-      next unless curriculum
-
-      @child_resources_hash[curriculum] = Resource.new(resource_params(params))
     end
 
     rp = resource_params
@@ -61,10 +60,6 @@ class Admin::ResourcesController < Admin::AdminController
     end
 
     if @resource.update_attributes(rp)
-      @child_resources_hash.each do |curriculum, resource|
-        Curriculum.create(curriculum_type: curriculum.curriculum_type, item: resource, parent: curriculum) if resource.save
-      end
-
       redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
       render :edit
@@ -86,6 +81,7 @@ class Admin::ResourcesController < Admin::AdminController
       ps.
         require(:resource).
         permit(
+                :curriculum_id,
                 :description,
                 :hidden,
                 :resource_type,
