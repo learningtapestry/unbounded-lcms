@@ -64,9 +64,8 @@ module Search
         term
 
       else
-        limit = options.fetch(:per_page, 10)
+        limit = options.fetch(:per_page, 20)
         page = options.fetch(:page, 1)
-        model_type = options[:model_type]
 
         query = {
           query: {
