@@ -9,7 +9,7 @@ class InstructionSerializer < ActiveModel::Serializer
   def img
     # object.small_photo.try(:path)
     # TODO fix-me when we add photos/images to Content Guides
-    ActionController::Base.helpers.image_path('placeholder_white_bg.svg')
+    object.try(:small_photo).try(:url) || ActionController::Base.helpers.image_path('placeholder_white_bg.svg')
   end
 
   def path
