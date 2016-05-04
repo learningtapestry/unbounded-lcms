@@ -87,6 +87,7 @@ class EnhanceInstructionPage extends React.Component {
     return  (
       <Tabs.Panel title={title}>
         <SearchResultsHeader
+          onChangePerPage={this.handleChangePerPage.bind(this)}
           current_page={tabData.current_page}
           per_page={this.state.per_page}
           num_items={tabData.items.length}

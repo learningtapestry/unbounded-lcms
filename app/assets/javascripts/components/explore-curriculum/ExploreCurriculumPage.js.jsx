@@ -240,6 +240,7 @@ class ExploreCurriculumPage extends React.Component {
               </div>
               <Filterbar
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
+                searchLabel='What do you want to teach?'
                 withSearch={true}
                 withDropdown={true}
                 {...this.state.filterbar} />

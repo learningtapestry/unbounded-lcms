@@ -21,20 +21,22 @@ class FilterbarSearch extends React.Component {
     };
 
     return (
-      <div>
-        <input
-          className='o-filterbar__search-input'
-          type='search'
-          placeholder='Enter Terms (e.g: writing, geometry, etc)'
-          value={this.state.value}
-          onKeyUp={pushToBus('keyup')}
-          onFocus={pushToBus('focus')}
-          onBlur={pushToBus('blur')}
-          onChange={e => { pushToBus('change')(e); this.handleChange(e); }}
-          ref={r => this.input = r}
-        />
-        <i className="fa fa-search o-filterbar__search-icon"></i>
-      </div>
-    );
+      <div className="o-page__wrap--row">
+        <div className="o-filterbar-search__label">
+          <span>{this.props.searchLabel}</span>
+        </div>
+        <div className="o-filterbar-search__input">
+          <input className="o-filterbar-search__field" type="search"
+            placeholder='Enter Terms (e.g: writing, geometry, etc)'
+            value={this.state.value}
+            onKeyUp={pushToBus('keyup')}
+            onFocus={pushToBus('focus')}
+            onBlur={pushToBus('blur')}
+            onChange={e => { pushToBus('change')(e); this.handleChange(e); }}
+            ref={r => this.input = r}
+          />
+          <i className="fa-lg ub-search o-filterbar-search__icon"></i>
+        </div>
+      </div>);
   }
 }
