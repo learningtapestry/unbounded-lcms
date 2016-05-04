@@ -24,7 +24,7 @@ class FindLessonsController < ApplicationController
                   .order('resources.subject', :hierarchical_position)
 
         else
-          documents = Search::Document.search(search_term, search_params).paginate(pagination_params)
+          documents = Search::Document.search(search_term, search_params.merge(doc_type: :lesson)).paginate(pagination_params)
           ids = documents.results.map {|r| r.model_id.to_i }
           queryset.where(item_id: ids).order_as_specified(item_id: ids).paginate(pagination_params.slice(:page, :per_page))
         end
