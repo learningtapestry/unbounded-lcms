@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160420145942) do
+ActiveRecord::Schema.define(version: 20160504140849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20160420145942) do
     t.string  "breadcrumb_short_title"
     t.string  "breadcrumb_piece"
     t.string  "breadcrumb_short_piece"
+    t.string  "hierarchical_position"
   end
 
   add_index "curriculums", ["curriculum_type_id"], name: "index_curriculums_on_curriculum_type_id", using: :btree
@@ -270,6 +271,7 @@ ActiveRecord::Schema.define(version: 20160420145942) do
     t.datetime "deleted_at"
     t.integer  "resource_type",   default: 1,     null: false
     t.string   "url"
+    t.string   "image_file"
   end
 
   add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree

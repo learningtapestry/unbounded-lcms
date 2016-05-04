@@ -2,6 +2,8 @@ class Resource < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
 
+  mount_uploader :image_file, ResourceImageUploader
+
   enum resource_type: { podcast: 2, resource: 1, video: 3 }
 
   acts_as_taggable_on :content_sources,
@@ -31,6 +33,7 @@ class Resource < ActiveRecord::Base
   # Reading assignments.
   has_many :resource_reading_assignments, dependent: :destroy
   alias_attribute :reading_assignments, :resource_reading_assignments
+  has_many :reading_assignment_texts, through: :resource_reading_assignments
 
   # Related resources.
   has_many :resource_related_resources, dependent: :destroy
@@ -155,6 +158,10 @@ class Resource < ActiveRecord::Base
 
   def first_tree
     curriculums.trees.first
+  end
+
+  def curriculums_as_parent
+    curriculums.seeds.where(parent_id: nil)
   end
 
   def ela?

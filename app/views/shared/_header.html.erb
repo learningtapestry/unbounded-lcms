@@ -11,16 +11,11 @@
       </div>
       <div class="o-top-bar__wrapper" id="navbar">
         <div class="o-top-bar__item">
-          <ul class="dropdown menu c-header__menu" data-dropdown-menu>
+          <ul class="menu c-header__menu">
             <%= nav_link t('nav.curriculum_html'), explore_curriculum_index_path, class: 'c-header__link' %>
             <%= nav_link t('nav.lessons_html'), find_lessons_path, class: 'c-header__link' %>
             <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: 'c-header__link' %>
-            <li class="c-header__link <%= active_class(about_path) || active_class(about_people_path) %>">
-               <%= link_to t('nav.about_html'), about_path %>
-               <ul class="menu vertical c-header__submenu">
-                 <%= nav_link t('nav.about_dropdown.people'), about_people_path, class: 'c-header__submenu-link' %>
-                </ul>
-            </li>
+            <%= nav_link t('nav.about_html'), about_path, class: "c-header__link #{active_class(about_people_path)}" %>
           </ul>
         </div>
         <div class="o-top-bar__item">
@@ -31,7 +26,7 @@
               <% end %>
             </li>
             <li class="c-header__link c-header__link--light">
-              <%= link_to '#' do %>
+              <%= link_to '' do %>
                 <i class="fa-2x ub-share"></i>
               <% end %>
             </li>

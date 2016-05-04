@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/' => 'welcome#index'
     get 'google_oauth2_callback' => 'google_oauth2#callback'
+    get '/association_picker' => 'association_picker#index'
     resources :collection_types
     resources :collections
     resources :content_guide_definitions, only: %i(index new) do
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
       end
     end
     resource :curriculum_export, only: %i(new create)
+    resources :reading_assignment_texts
     resource :resource_bulk_edits, only: [:new, :create]
     resources :resource_children, only: :create
     get '/resource_picker' => 'resource_picker#index'

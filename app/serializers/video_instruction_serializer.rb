@@ -10,7 +10,7 @@ class VideoInstructionSerializer < ActiveModel::Serializer
 
   def img
     # TODO fix-me when we add photos/images to Resources
-    ActionController::Base.helpers.image_path('placeholder_white_bg.svg')
+    ActionController::Base.helpers.image_path('resource_placeholder.jpg')
   end
 
   def path

@@ -1,0 +1,11 @@
+<% url = @reading_assignment_text.new_record? ? :admin_reading_assignment_texts : admin_reading_assignment_text_path(@reading_assignment_text) %>
+
+<%= simple_form_for @reading_assignment_text, url: url, html: { id: 'reading_assignment_text_form' } do |f| %>
+
+  <%= f.input :name %>
+
+  <%= association_picker_field(f, @reading_assignment_text.author, path: :reading_assignment_authors, name: :reading_assignment_author_id, create_name: :new_reading_assignment_authors, allow_create: true, allow_multiple: false) %>
+
+  <%= f.button :submit, t('ui.save'), name: nil %>
+
+<% end %>
