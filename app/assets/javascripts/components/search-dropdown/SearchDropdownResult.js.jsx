@@ -6,7 +6,7 @@ function SearchDropdownResult(props) {
 
   return (
     <a className={classes} href={props.resource.path}>
-      {props.resource.title}
+      <strong>{props.resource.type_name}:</strong> {props.resource.title}
     </a>
   );
 }
