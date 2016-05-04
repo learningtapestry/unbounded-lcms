@@ -467,14 +467,21 @@ class Curriculum < ActiveRecord::Base
     pos = begin
       if !(abbrv[:has_position])
         ''
+
       elsif subject == :math && abbrv_type == :topic
         (position + 65).chr
+
       elsif abbrv_type == :grade
         resource.grade_list.first.downcase.gsub('grade ', '')
+
+      elsif subject == :math && abbrv_type == :lesson
+        lesson_position_on_the_module
+
       else
         position + 1
       end
     end
+
     self.breadcrumb_short_piece = "#{abbrv[:short]}#{pos}"
     self.breadcrumb_piece = "#{abbrv[:long]}#{pos}"
   end
@@ -514,6 +521,27 @@ class Curriculum < ActiveRecord::Base
     self.hierarchical_position =  [:grade, :module, :unit, :lesson].map { |level|
       positions.fetch(level, 0).to_s.rjust(2, '0')
     }.join(' ')
+  end
+
+  def create_resource_short_title!
+    pos = (resource.subject.to_sym == :math) ? lesson_position_on_the_module : position + 1
+
+    resource.short_title = "lesson #{pos}"
+    resource.save!
+  end
+
+  def lesson_position_on_the_module
+    module_ = parent.parent # first parent is unit, second is module
+
+    # count all lesson for previous units belonging to the same module
+    module_previous_lessons = if module_
+      module_.children.where('position < ?', parent.position).map { |c| c.children.count }.sum
+    else
+      0
+    end
+
+    # position for previous lessons for this module + position on this unit + 1 for 0-based index
+    pos = module_previous_lessons + position + 1
   end
 
   def update_generated_fields
