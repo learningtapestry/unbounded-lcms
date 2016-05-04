@@ -40,6 +40,17 @@ module Filterbar
       params[:search_term]
     end
 
+    def search_params
+      options = pagination_params.slice(:page, :per_page)
+
+      # handle filters
+      options.merge!(doc_type: facets_params) if facets_params.present?
+      options.merge!(subject: subject_params.first) if subject_params.present?
+      options.merge!(grade: grade_params) if grade_params.present?
+
+      options
+    end
+
     def filterbar_props
       {
         filterbar: {
