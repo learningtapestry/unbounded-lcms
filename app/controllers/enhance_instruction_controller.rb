@@ -18,6 +18,7 @@ class EnhanceInstructionController < ApplicationController
 
     queryset.where_subject(subject_params)
             .where_grade(grade_params)
+            .distinct
             .paginate(pagination_params.slice(:page, :per_page))
   end
 
@@ -27,6 +28,7 @@ class EnhanceInstructionController < ApplicationController
     queryset.media
             .where_subject(subject_params)
             .where_grade(grade_params)
+            .distinct
             .paginate(pagination_params.slice(:page, :per_page))
   end
 
