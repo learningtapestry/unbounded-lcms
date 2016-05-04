@@ -72,8 +72,8 @@ module Search
           query: {
             bool: {
               should: [
-                { match: { 'title.full'     => {query: term, type: 'phrase', boost: 10} } },
-                { match: { 'title.partial'  => {query: term, boost: 10} } },
+                { match: { 'title.full'     => {query: term, type: 'phrase', boost: 5} } },
+                { match: { 'title.partial'  => {query: term, boost: 5} } },
 
                 { match: { 'teaser.full'    => {query: term, type: 'phrase', boost: 1} } },
                 { match: { 'teaser.partial' => {query: term, boost: 1} } },
