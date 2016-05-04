@@ -1,0 +1,12 @@
+.st-logo {
+  @include e(standards) {
+    font-family: $ub-serif;
+    font-size: 125%;
+    font-weight: 600;
+  }
+  @include e(institute) {
+    font-family: $ub-serif;
+    font-weight: 200;
+    text-transform: uppercase;
+  }
+}
