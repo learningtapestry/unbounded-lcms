@@ -93,6 +93,7 @@ class Admin::ResourcesController < Admin::AdminController
                 :time_to_teach,
                 :subject,
                 :ell_appropriate,
+                :image_file,
                 additional_resource_ids: [],
                 common_core_standard_ids: [],
                 resource_downloads_attributes: [:_destroy, :id, :download_category_id, { download_attributes: [:description, :file, :filename_cache, :id, :title] }],

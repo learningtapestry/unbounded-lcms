@@ -40,6 +40,13 @@
 
 <%= resource_picker_field(f, resource.additional_resources, path: :additional_resources, name: :additional_resource_ids) %>
 
+<% if f.object.image_file.url %>
+  <%= f.label :current_image %>
+  <img src="<%= f.object.image_file.url %>" />
+<% end %>
+
+<%= f.input :image_file, as: :file %>
+
 <div class=form-group>
   <%= f.label :resource_downloads %>
   <%= f.fields_for :resource_downloads do |resource_download_fields| %>
