@@ -167,8 +167,6 @@
 }
 
 .c-cg-table {
-  vertical-align: top;
-
   p {
     margin: 0;
   }
@@ -181,6 +179,7 @@
     border-left: 1px solid #cacaca;
     font-size: 1.125rem;
     padding: .875rem;
+    vertical-align: top;
 
     &:last-child {
       padding-right: 0;
