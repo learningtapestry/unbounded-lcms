@@ -34,7 +34,7 @@
 
 <%= association_picker_field(f, resource.common_core_standards, path: :common_core_standards, name: :common_core_standard_ids) %>
 
-<%= association_picker_field(f, resource.unbounded_standards, path: :unbounded_standards, name: :unbounded_standard_ids) %>
+<%= association_picker_field(f, resource.unbounded_standards, path: :unbounded_standards, name: :unbounded_standard_ids, create_name: :new_unbounded_standard_names, allow_create: true) %>
 
 <%= resource_picker_field(f, resource.related_resources, path: :related_resources, name: :related_resource_ids) %>
 
