@@ -69,6 +69,7 @@ class FindLessonsPage extends React.Component {
                 </div>
               </div>
               <Filterbar
+                searchLabel='What do you want to teach?'
                 withSearch={true}
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
                 {...this.state.filterbar} />
@@ -78,6 +79,7 @@ class FindLessonsPage extends React.Component {
         <div className="o-page u-margin-bottom--xlarge">
           <div className="o-page__module">
             <SearchResultsHeader
+              onChangePerPage={this.handleChangePerPage.bind(this)}
               current_page={this.state.current_page}
               per_page={this.state.per_page}
               num_items={this.state.lessons.length}
