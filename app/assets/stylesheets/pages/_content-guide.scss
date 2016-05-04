@@ -22,6 +22,11 @@
   }
 }
 
+.c-cg-hero__img {
+  background-position: center center;
+  background-size: cover;
+}
+
 .c-ch-content {
   padding-top: $ub-xlarge-padding;
   padding-bottom: $ub-large-padding;
@@ -42,6 +47,22 @@
   & * {
     font-family: PFCentroSansPro, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     line-height: 1.5 !important;
+  }
+
+  h1, h2, h3, h4 {
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: 1.625rem;
+  }
+
+  h2 {
+    font-size: 1.3125rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
   }
 }
 
@@ -131,8 +152,8 @@
 .c-cg-icon-small {
   background-size: contain;
   display: inline-block;
-  height: 1rem;
-  width: 1rem;
+  height: 40px;
+  width: 40px;
 }
 
 .c-cg-icon--complexity {
@@ -145,6 +166,12 @@
 
 .c-cg-icon--volume {
   background-image: asset-url('cg_icon_volume.png');
+}
+
+.c-cg-media__title {
+  display: block;
+  font-weight: bold;
+  margin-bottom: .5rem;
 }
 
 .c-cg-pullquote {

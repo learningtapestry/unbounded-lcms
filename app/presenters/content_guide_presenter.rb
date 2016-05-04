@@ -88,10 +88,22 @@ class ContentGuidePresenter < BasePresenter
 
     podcast_links.each_with_index do |a, index|
       url = a[:href]
+      resource = Resource.find_podcast_by_url(url)
+      next unless resource
+
       id = "sc_container_#{index}"
       urls_hash[id] = url
+
+      title = doc.document.create_element('a', class: 'c-cg-media__title', href: resource_path(resource), target: '_blank')
+      title.content = resource.title
+
       container = doc.document.create_element('div', id: id)
-      a.replace(container)
+
+      media = doc.document.create_element('div', class: 'c-cg-media')
+      media << title
+      media << container
+
+      a.replace(media)
     end
 
     return if urls_hash.empty?
@@ -111,11 +123,22 @@ class ContentGuidePresenter < BasePresenter
   def embed_videos
     video_links.each do |a|
       url = URI(a[:href])
+      resource = Resource.find_video_by_url(url)
+      next unless resource
+
+      title = doc.document.create_element('a', class: 'c-cg-media__title', href: resource_path(resource), target: '_blank')
+      title.content = resource.title
+
       params = Rack::Utils.parse_query(url.query)
       video_id = params['v']
       src = "https://www.youtube.com/embed/#{video_id}"
       iframe = doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0, height: 315, src: src, width: 560)
-      a.replace(iframe)
+
+      media = doc.document.create_element('div', class: 'c-cg-media')
+      media << title
+      media << iframe
+
+      a.replace(media)
     end
   end
 
