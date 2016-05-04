@@ -56,6 +56,7 @@ class SearchPage extends React.Component {
               </div>
               <Filterbar
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
+                searchLabel='Search the site'
                 withFacets={true}
                 withSearch={true}
                 {...this.state.filterbar} />
