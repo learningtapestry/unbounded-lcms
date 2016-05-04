@@ -50,6 +50,7 @@
   }
 
   h1, h2, h3, h4 {
+    clear: both;
     font-weight: bold;
   }
 
@@ -93,6 +94,7 @@
 
 .c-cg-blockquote {
   border-left: .625rem solid #fdd2bd;
+  clear: both;
   padding-left: 1.5rem;
 }
 
@@ -235,6 +237,7 @@
 
 .c-cg-task {
   background: #fee8de;
+  clear: both;
 }
 
 .c-cg-task__body {
