@@ -9,22 +9,28 @@ class ResourcePicker extends React.Component {
     };
   }
 
+  get jqmodal() {
+    return $(this.modal);
+  }
+
   componentDidMount() {
-    new Foundation.Reveal(this.modal);
-    this.modal.on('open.zf.reveal', () => this.modal.css({top: '15px'}));
+    new Foundation.Reveal(this.jqmodal);
+    this.jqmodal.on('open.zf.reveal', () => this.jqmodal.css({top: '15px'}));
+    this.jqmodal.on('closed.zf.reveal', () => {
+      ReactDOM.unmountComponentAtNode(this.modal);
+    });
   }
 
   onClickSelect() {
     const picker = React.createElement(ResourcePickerWindow, {
       onSelectResource: this.selectResource.bind(this),
     }, null);
-    ReactDOM.render(picker, this.modal[0]);
-    this.modal.foundation('open');
+    ReactDOM.render(picker, this.modal);
+    this.jqmodal.foundation('open');
   }
 
   selectResource(resource) {
-    ReactDOM.unmountComponentAtNode(this.modal[0]);
-    this.modal.foundation('close');
+    this.jqmodal.foundation('close');
 
     this.setState({
       ...this.state,
@@ -61,7 +67,7 @@ class ResourcePicker extends React.Component {
         </div>
         <div
           className="o-assocpicker-modal reveal"
-          ref={m => this.modal = $(m)}>
+          ref={m => this.modal = m}>
         </div>
       </div>
     );

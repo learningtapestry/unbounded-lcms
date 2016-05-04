@@ -7,9 +7,16 @@ class AssociationPicker extends React.Component {
     };
   }
 
+  get jqmodal() {
+    return $(this.modal);
+  }
+
   componentDidMount() {
-    new Foundation.Reveal(this.modal);
-    this.modal.on('open.zf.reveal', () => this.modal.css({top: '15px'}));
+    new Foundation.Reveal(this.jqmodal);
+    this.jqmodal.on('open.zf.reveal', () => this.jqmodal.css({top: '15px'}));
+    this.jqmodal.on('closed.zf.reveal', () => {
+      ReactDOM.unmountComponentAtNode(this.modal);
+    });
   }
 
   onClickSelect() {
@@ -18,13 +25,12 @@ class AssociationPicker extends React.Component {
       association: this.props.association,
       allowCreate: this.props.allow_create
     }, null);
-    ReactDOM.render(picker, this.modal[0]);
-    this.modal.foundation('open');
+    ReactDOM.render(picker, this.modal);
+    this.jqmodal.foundation('open');
   }
 
   selectItem(item) {
-    ReactDOM.unmountComponentAtNode(this.modal[0]);
-    this.modal.foundation('close');
+    this.jqmodal.foundation('close');
 
     const newItems = this.props.allow_multiple ?
       [...this.state.items, item] :
@@ -72,7 +78,7 @@ class AssociationPicker extends React.Component {
         </div>
         <div
           className="o-assocpicker-modal reveal"
-          ref={m => this.modal = $(m)}>
+          ref={m => this.modal = m}>
         </div>
       </div>
     );
