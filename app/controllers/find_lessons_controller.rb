@@ -18,7 +18,7 @@ class FindLessonsController < ApplicationController
         queryset = Curriculum.trees.lessons.with_resources
 
         unless search_term.blank?
-          search_ids = Search::Document.search(search_term, doc_type: :lesson).results.map {|r| r.model_id.to_i }
+          search_ids = Search::Document.search(search_term, doc_type: :lesson, limit: pagination_params[:per_page], per_page: pagination_params[:per_page]).results.map {|r| r.model_id.to_i }
           queryset = queryset.where(item_id: search_ids).order_as_specified(item_id: search_ids)
         end
 
