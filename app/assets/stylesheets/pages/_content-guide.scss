@@ -168,6 +168,12 @@
   background-image: asset-url('cg_icon_volume.png');
 }
 
+.c-cg-media__title {
+  display: block;
+  font-weight: bold;
+  margin-bottom: .5rem;
+}
+
 .c-cg-pullquote {
   border-left: .123rem solid #f75b28;
   color: #f96924;
