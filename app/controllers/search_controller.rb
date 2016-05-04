@@ -15,14 +15,7 @@ class SearchController < ApplicationController
   protected
 
     def find_documents
-      options = pagination_params.slice(:page, :per_page)
-
-      # handle filters
-      options.merge!(model_type: facets_params.first) if facets_params.size == 1
-      options.merge!(subject: subject_params.first) if subject_params.present?
-      options.merge!(grade: grade_params) if grade_params.present?
-
-      @documents = Search::Document.search(search_term, options).paginate(options)
+      @documents = Search::Document.search(search_term, search_params).paginate(pagination_params)
     end
 
     def set_props

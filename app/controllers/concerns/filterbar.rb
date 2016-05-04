@@ -31,15 +31,24 @@ module Filterbar
     end
 
     def facets_params
-      names = split_params(params[:facets]) & [
-        'curriculum', 'instruction'
+      split_params(params[:facets]) & [
+        'grade', 'module', 'unit', 'lesson', 'content_guide', 'video', 'podcast'
       ]
-      model_types = {'curriculum' => 'resource', 'instruction' => 'content_guide'}
-      names.map! { |name| model_types[name] }
     end
 
     def search_term
       params[:search_term]
+    end
+
+    def search_params
+      options = pagination_params.slice(:page, :per_page)
+
+      # handle filters
+      options.merge!(doc_type: facets_params) if facets_params.present?
+      options.merge!(subject: subject_params.first) if subject_params.present?
+      options.merge!(grade: grade_params) if grade_params.present?
+
+      options
     end
 
     def filterbar_props

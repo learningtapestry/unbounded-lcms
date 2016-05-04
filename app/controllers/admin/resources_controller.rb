@@ -10,13 +10,23 @@ class Admin::ResourcesController < Admin::AdminController
   end
 
   def new
+    @parent_curriculum = if params[:curriculum_id].present?
+      Curriculum.find(params[:curriculum_id])
+    end
     @resource = Resource.new
   end
 
   def create
-    @resource = Resource.new(resource_params)
+    rp = resource_params
+
+    @parent_curriculum = if rp.has_key?(:curriculum_id)
+      Curriculum.find(rp.delete(:curriculum_id))
+    end
+
+    @resource = Resource.new(rp)
 
     if @resource.save
+      @parent_curriculum.add_child(@resource) if @parent_curriculum
       redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
       render :new
@@ -24,7 +34,6 @@ class Admin::ResourcesController < Admin::AdminController
   end
 
   def edit
-    @child_resources_hash = {}
   end
 
   def update
@@ -33,21 +42,24 @@ class Admin::ResourcesController < Admin::AdminController
       return
     end
 
-    @child_resources_hash = {}
+    rp = resource_params
 
-    children_params = params.delete(:children) || []
-    children_params.each do |curriculum_id, params|
-      curriculum = @resource.curriculums.find_by_id(curriculum_id)
-      next unless curriculum
+    tag_creation = [
+      [:new_grade_names, 'grade'],
+      [:new_topic_names, 'topic'],
+      [:new_tag_names, 'tag'],
+      [:new_content_source_names, 'content_source']
+    ]
 
-      @child_resources_hash[curriculum] = Resource.new(resource_params(params))
+    tag_creation.each do |(params_key, basename)|
+      create_params = rp.delete(params_key)
+      Array.wrap(create_params).each do |name|
+        next if name.blank?
+        @resource.send("#{basename}_list").push(name)
+      end
     end
 
-    if @resource.update_attributes(resource_params)
-      @child_resources_hash.each do |curriculum, resource|
-        Curriculum.create(curriculum_type: curriculum.curriculum_type, item: resource, parent: curriculum) if resource.save
-      end
-
+    if @resource.update_attributes(rp)
       redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
       render :edit
@@ -69,22 +81,33 @@ class Admin::ResourcesController < Admin::AdminController
       ps.
         require(:resource).
         permit(
+                :curriculum_id,
                 :description,
                 :hidden,
                 :resource_type,
                 :short_title,
                 :subtitle,
                 :title,
+                :teaser,
                 :url,
+                :time_to_teach,
+                :subject,
+                :ell_appropriate,
+                :image_file,
                 additional_resource_ids: [],
                 common_core_standard_ids: [],
                 resource_downloads_attributes: [:_destroy, :id, :download_category_id, { download_attributes: [:description, :file, :filename_cache, :id, :title] }],
                 related_resource_ids: [],
                 unbounded_standard_ids: [],
-                grade_list: [],
-                topic_list: [],
-                tag_list: [],
-                resource_type_list: []
+                grade_ids: [],
+                topic_ids: [],
+                tag_ids: [],
+                content_source_ids: [],
+                reading_assignment_text_ids: [],
+                new_grade_names: [],
+                new_topic_names: [],
+                new_tag_names: [],
+                new_content_source_names: []
               )
     end
 end

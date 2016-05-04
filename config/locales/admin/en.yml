@@ -181,6 +181,24 @@ en:
         success: "Changes to %{user} were saved successfully."
       new:
         page_title: New user
+    reading_assignment_texts:
+      create:
+        success: "Reading assignment text was created successfully."
+        error:  "Reading assignment text could not be created."
+      index:
+        name: Name
+        new_reading_assignment_text: New reading assignment text
+        page_title: Reading assignments
+      search_form:
+        name: Name
+      destroy:
+        success: "Reading assignment text was deleted successfully."
+      edit:
+        page_title: "Edit reading assignment text"
+      update:
+        success: "Changes to reading assignment text were saved successfully."
+      new:
+        page_title: New reading assignment text      
     welcome:
       index:
         collection_types: Collection Types
@@ -197,6 +215,7 @@ en:
       add_resource: Add resource
       import_resources: Import resources
       export_resources: Export resources
+      reading_assignment_texts: Reading assignments
       pages: Pages
       staff_members: Staff members
       content_guides: Content guides

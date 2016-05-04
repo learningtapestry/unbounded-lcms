@@ -4,26 +4,65 @@
 
 <%= f.input :subtitle %>
 
+<%= f.input :teaser, as: :text %>
+
+<%= f.input :time_to_teach %>
+
+<%= f.input :subject, as: :select, collection: ['ela', 'math'], include_blank: false %>
+
+<%= f.input :ell_appropriate %>
+
 <%= f.input :resource_type, as: :select, collection: Resource.resource_types, value_method: :first %>
 
 <%= f.input :hidden %>
 
 <%= f.input :description, as: :ckeditor, input_html: { rows: 10 } %>
 
+<br>
+
 <%= f.input :url %>
 
-<%= f.input :grade_list, collection: Tag.where_context('grades').select(:id, :name).distinct(:name), as: :select, value_method: :name, selected: resource.grades, input_html: { class: 'selectize', id: 'grades_select', multiple: true } %>
+<%= association_picker_field(f, resource.reading_assignment_texts, path: :reading_assignment_texts, name: :reading_assignment_text_ids, allow_create: false, allow_multiple: true) %>
 
-<%= f.input :topic_list, collection: Tag.where_context('topics').select(:id, :name).distinct(:name), as: :select, value_method: :name, selected: resource.topics, input_html: { class: 'selectize', id: 'topics_select', multiple: true } %>
+<%= association_picker_field(f, resource.content_sources, path: :content_sources, name: :content_source_ids, create_name: :new_content_source_names, allow_create: true, allow_multiple: true) %>
 
-<%= f.input :tag_list, collection: Tag.where_context('tags').select(:id, :name).distinct(:name), as: :select, value_method: :name, selected: resource.tags, input_html: { class: 'selectize', id: 'subjects_select', multiple: true } %>
+<%= association_picker_field(f, resource.grades, path: :grades, name: :grade_ids, create_name: :new_grade_names, allow_create: true) %>
 
-<%= f.input :resource_type_list, collection: Tag.where_context('resource_types').select(:id, :name).distinct(:name), value_method: :name, selected: resource.resource_types, as: :select, input_html: { class: 'selectize', id: 'resource_types_select', multiple: true } %>
+<%= association_picker_field(f, resource.topics, path: :topics, name: :topic_ids, create_name: :new_topic_names, allow_create: true) %>
 
-<%= f.association :common_core_standards, as: :select, input_html: { class: 'selectize', id: 'common_core_standards_select', multiple: true } %>
+<%= association_picker_field(f, resource.tags, path: :tags, name: :tag_ids, create_name: :new_tag_names, allow_create: true) %>
 
-<%= f.association :unbounded_standards, as: :select, input_html: { class: 'selectize', id: 'unbounded_standards_select', multiple: true } %>
+<%= association_picker_field(f, resource.common_core_standards, path: :common_core_standards, name: :common_core_standard_ids) %>
 
-<%= f.association :related_resources, as: :select, input_html: { class: 'selectize', multiple: true } %>
+<%= association_picker_field(f, resource.unbounded_standards, path: :unbounded_standards, name: :unbounded_standard_ids) %>
 
-<%= f.association :additional_resources, as: :select, input_html: { class: 'selectize', multiple: true } %>
+<%= resource_picker_field(f, resource.related_resources, path: :related_resources, name: :related_resource_ids) %>
+
+<%= resource_picker_field(f, resource.additional_resources, path: :additional_resources, name: :additional_resource_ids) %>
+
+<% if f.object.image_file.url %>
+  <%= f.label :current_image %>
+  <img src="<%= f.object.image_file.url %>" />
+<% end %>
+
+<%= f.input :image_file, as: :file %>
+
+<div class=form-group>
+  <%= f.label :resource_downloads %>
+  <%= f.fields_for :resource_downloads do |resource_download_fields| %>
+    <div class=o-adm-download>
+      <%= resource_download_fields.simple_fields_for :download, resource_download_fields.object.try(:download) || Download.new do |download_fields| %>
+        <%= download_fields.input :title %>
+        <% unless download_fields.object.new_record? %>
+          <%= f.label :current_file %>
+          <%= link_to(download_fields.object.file.filename, attachment_url(download_fields.object), target: '_blank', class: 'resource-attachment') %>
+        <% end %>
+        <%= download_fields.input :file, as: :file %>
+        <%= download_fields.input_field :filename_cache, as: :hidden %>
+      <% end %>
+      <%= resource_download_fields.association :download_category, as: :select %>
+      <%= resource_download_fields.link_to_remove t('ui.remove'), class: 'small button' %>
+    </div>
+  <% end %>
+  <p><%= f.link_to_add t('admin.resources.form.add_download'), :resource_downloads, class: 'small button' %></p>
+</div>

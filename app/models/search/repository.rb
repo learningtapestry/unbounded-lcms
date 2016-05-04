@@ -47,13 +47,13 @@ module Search
 
     settings index: ::Search.index_settings do
       mappings dynamic: 'false' do
-        indexes :model_type,  type: 'string', index: 'not_analyzed'
+        indexes :model_type,  type: 'string', index: 'not_analyzed'  # ActiveRecord model => resource | content_guide
         indexes :model_id,    type: 'string', index: 'not_analyzed'
         indexes :title,       **::Search.ngrams_multi_field(:title)
         indexes :teaser,      **::Search.ngrams_multi_field(:teaser)
         indexes :description, **::Search.ngrams_multi_field(:description)
         indexes :misc,        **::Search.ngrams_multi_field(:description)
-        indexes :doc_type,    type: 'string', index: 'not_analyzed'
+        indexes :doc_type,    type: 'string', index: 'not_analyzed'  #  module | unit | lesson | video | etc
         indexes :grade,       type: 'string', index: 'not_analyzed'
         indexes :subject,     type: 'string'
       end
@@ -64,16 +64,15 @@ module Search
         term
 
       else
-        limit = options.fetch(:per_page, 10)
+        limit = options.fetch(:per_page, 20)
         page = options.fetch(:page, 1)
-        model_type = options[:model_type]
 
         query = {
           query: {
             bool: {
               should: [
-                { match: { 'title.full'     => {query: term, type: 'phrase', boost: 10} } },
-                { match: { 'title.partial'  => {query: term, boost: 10} } },
+                { match: { 'title.full'     => {query: term, type: 'phrase', boost: 5} } },
+                { match: { 'title.partial'  => {query: term, boost: 5} } },
 
                 { match: { 'teaser.full'    => {query: term, type: 'phrase', boost: 1} } },
                 { match: { 'teaser.partial' => {query: term, boost: 1} } },
@@ -89,12 +88,23 @@ module Search
         }
 
         # filters
-        [:model_type, :subject, :grade].each do |filter|
-          query[:query][:bool][:filter] << { match: { filter => {query: options[filter]} } } if options[filter]
+        accepted_filters.each do |filter|
+          if options[filter]
+            if options[filter].is_a? Array
+              filter_term = { terms: { filter => options[filter] } }
+            else
+              filter_term = { match: { filter => {query: options[filter]} } }
+            end
+            query[:query][:bool][:filter] << filter_term
+          end
         end
 
         query
       end
+    end
+
+    def accepted_filters
+      [:model_type, :subject, :grade, :doc_type]
     end
 
     def index_exists?

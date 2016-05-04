@@ -103,6 +103,8 @@ class Curriculum < ActiveRecord::Base
   scope :units, -> { where(curriculum_type: CurriculumType.unit) }
   scope :lessons, -> { where(curriculum_type: CurriculumType.lesson) }
 
+  after_save :update_generated_fields
+
   def self.ela_tree
     ela.maps.trees.first
   end
@@ -128,6 +130,23 @@ class Curriculum < ActiveRecord::Base
       ordered.insert(new_position, ordered.delete_at(position))
       ordered.each_with_index { |c,i| c.update_attributes(position: i) }
     end
+  end
+
+  def add_child(new_child_resource)
+    child_curriculum_type = case current_level
+                            when :map then CurriculumType.grade
+                            when :grade then CurriculumType.module
+                            when :module then CurriculumType.unit
+                            when :unit then CurriculumType.lesson
+                            end
+    new_child = self.class.create!(
+      item: new_child_resource,
+      curriculum_type: child_curriculum_type,
+      parent: self,
+      position: children.size,
+      seed: seed
+    )
+    ResourceSlug.create_for_curriculum(new_child)
   end
 
   # Navigation
@@ -410,6 +429,8 @@ class Curriculum < ActiveRecord::Base
   end
 
   def generate_breadcrumb_pieces
+    return unless resource && resource.subject
+
     subject = resource.subject.to_sym
 
     abbrv_type = case current_level
@@ -484,6 +505,29 @@ class Curriculum < ActiveRecord::Base
       end
     end
     'base'
+  end
+
+  def generate_hierarchical_position
+    positions = {}.with_indifferent_access
+    self_and_ancestors.each { |curr| positions[curr.curriculum_type.name] = curr.position }
+
+    self.hierarchical_position =  [:grade, :module, :unit, :lesson].map { |level|
+      positions.fetch(level, 0).to_s.rjust(2, '0')
+    }.join(' ')
+  end
+
+  def update_generated_fields
+    generate_breadcrumb_pieces
+    generate_breadcrumb_titles
+    generate_hierarchical_position
+
+    attrs = attributes.symbolize_keys.slice(
+      :breadcrumb_piece, :breadcrumb_short_piece,
+      :breadcrumb_title, :breadcrumb_short_title,
+      :hierarchical_position)
+
+    update_columns(**attrs)  # update_columns does not trigger callbacks
+                             # so this wont be recursive
   end
 
   # Drawing (for debugging)

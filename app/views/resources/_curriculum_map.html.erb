@@ -12,7 +12,7 @@
             <% mod.children.each do |unit| %>
               <div class="o-c-map__unit">
               <% unit.children.each do |lesson| %>
-                <div class="o-c-map__lesson <%= curriculum.active?(unit) || curriculum.active?(lesson) ? "cs-bg--#{color_code}" : "cs-bg--base" %>"></div>
+                <div class="o-c-map__lesson <%= (curriculum.active?(unit) && curriculum.unit?) || curriculum.active?(lesson) ? "cs-bg--#{color_code}" : "cs-bg--base" %>"></div>
               <% end %>
               </div>
             <% end %>

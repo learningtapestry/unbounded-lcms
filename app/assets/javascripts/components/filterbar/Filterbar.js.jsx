@@ -24,11 +24,18 @@ class Filterbar extends React.Component {
         { displayName: '12', mathDisplayName: 'PC', name: '12', selected: false }
       ],
       facets: [
-        { displayName: 'CURRICULUM', name: 'curriculum', selected: false },
-        { displayName: 'INSTRUCTION', name: 'instruction', selected: false }
+        { displayName: 'Curriculum', name: 'grade', selected: false },
+        { displayName: 'Modules', name: 'module', selected: false },
+        { displayName: 'Units', name: 'unit', selected: false },
+        { displayName: 'Lessons', name: 'lesson', selected: false },
+        { displayName: 'Content Guides', name: 'content_guide', selected: false },
+        { displayName: 'Videos', name: 'video', selected: false },
+        { displayName: 'Podcasts', name: 'podcast', selected: false },
       ],
       search_term: null
     };
+
+    this.FACET_GROUP_IDX = 4;
 
     let initialState = _.cloneDeep(this.emptyState);
     initialState.search_term = this.props.search_term;
@@ -131,7 +138,7 @@ class Filterbar extends React.Component {
       if (this.props.withDropdown && k === 'search_term') {
         return;
       }
-      
+
       if (val) {
         let urlVal = val;
         if (_.isArray(val)) {
@@ -162,6 +169,9 @@ class Filterbar extends React.Component {
     const subjectSelected =  _.find(state.subjects, 'selected');
     const subjectName = subjectSelected ? subjectSelected.name : 'default';
     const gradeSelected = _.find(state.grades, 'selected');
+    const facetSelected = _.find(state.facets, 'selected');
+    let facetGroups = [ { data: _.take(state.facets, this.FACET_GROUP_IDX), selected: facetSelected },
+                        { data: _.slice(state.facets, this.FACET_GROUP_IDX), selected: facetSelected } ];
 
     const conciseState = this.createQuery(this.state);
 
@@ -169,8 +179,9 @@ class Filterbar extends React.Component {
 
     if (this.props.withSearch) {
       filterbarSearch = (
-        <div className="o-filterbar__search" ref={r => this.searchContainer = r}>
+        <div className="o-filterbar-search" ref={r => this.searchContainer = r}>
           <FilterbarSearch
+            searchLabel={this.props.searchLabel}
             searchTerm={this.state.search_term}
             searchBus={this.searchBus}
             onUpdate={this.onUpdateSearch.bind(this)}/>
@@ -181,6 +192,26 @@ class Filterbar extends React.Component {
               filterbar={conciseState} /> : null}
         </div>
       );
+    }
+
+    let filterbarFacets = null;
+    if (this.props.withFacets) {
+      filterbarFacets = (
+        <div className='o-filterbar'>
+          { facetGroups.map( (group, idx) => {
+              return (
+                <div key={idx} className='o-filterbar__list'>
+                  { group.data.map(facet => {
+                      return <FilterbarFacet
+                        key={facet.name}
+                        onClick={this.onClickFacet.bind(this, facet)}
+                        displayName={facet.displayName}
+                        selected={facet.selected || !group.selected } />;
+                    }) }
+                </div>);
+            })
+         }
+       </div>);
     }
 
     return (
@@ -216,25 +247,8 @@ class Filterbar extends React.Component {
              </div>
           </div>
         </div>
-        <div className='o-filterbar'>
-          {
-            (this.props.withFacets) ?
-              <div className='o-filterbar__facets-list'>
-                {state.facets.map(facet => {
-                  return (
-                    <FilterbarFacet
-                      key={facet.name}
-                      onClick={this.onClickFacet.bind(this, facet)}
-                      displayName={facet.displayName}
-                      selected={facet.selected} />
-                  );
-                })}
-              </div>
-
-              : false
-          }
-          {filterbarSearch}
-        </div>
+        {filterbarFacets}
+        {filterbarSearch}
       </div>
     );
   }
