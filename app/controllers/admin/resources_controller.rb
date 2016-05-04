@@ -59,6 +59,14 @@ class Admin::ResourcesController < Admin::AdminController
       end
     end
 
+    new_unbounded_standard_names = rp.delete(:new_unbounded_standard_names)
+    Array.wrap(new_unbounded_standard_names).each do |std_name|
+      std = UnboundedStandard
+        .create_with(subject: @resource.subject)
+        .find_or_create_by!(name: std_name)
+      rp[:unbounded_standard_ids] << std.id
+    end
+
     if @resource.update_attributes(rp)
       redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
@@ -99,6 +107,7 @@ class Admin::ResourcesController < Admin::AdminController
                 resource_downloads_attributes: [:_destroy, :id, :download_category_id, { download_attributes: [:description, :file, :filename_cache, :id, :title] }],
                 related_resource_ids: [],
                 unbounded_standard_ids: [],
+                new_unbounded_standard_names: [],
                 grade_ids: [],
                 topic_ids: [],
                 tag_ids: [],
