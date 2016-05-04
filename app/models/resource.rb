@@ -2,6 +2,8 @@ class Resource < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
 
+  mount_uploader :image_file, ResourceImageUploader
+
   enum resource_type: { podcast: 2, resource: 1, video: 3 }
 
   acts_as_taggable_on :content_sources,
