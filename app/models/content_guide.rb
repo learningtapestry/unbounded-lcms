@@ -14,7 +14,7 @@ class ContentGuide < ActiveRecord::Base
   has_many :standards, through: :content_guide_standards
   has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
 
-  validates :date, :description, :grade, :subject, :teaser, :title, presence: true, if: :validate_metadata?
+  validates :date, :description, :subject, :teaser, :title, presence: true, if: :validate_metadata?
   validate :media_exist
 
   before_validation :process_content, unless: :update_metadata
