@@ -35,7 +35,7 @@ class Filterbar extends React.Component {
       search_term: null
     };
 
-    this.FACET_GROUP_IDX = 3;
+    this.FACET_GROUP_IDX = 4;
 
     let initialState = _.cloneDeep(this.emptyState);
     initialState.search_term = this.props.search_term;
@@ -169,9 +169,9 @@ class Filterbar extends React.Component {
     const subjectSelected =  _.find(state.subjects, 'selected');
     const subjectName = subjectSelected ? subjectSelected.name : 'default';
     const gradeSelected = _.find(state.grades, 'selected');
-    let facetGroups = [ { data: _.take(state.facets, this.FACET_GROUP_IDX), selected: false},
-                        { data: _.slice(state.facets, this.FACET_GROUP_IDX), selected: false} ];
-    _.forEach(facetGroups, group => { group.selected = _.find(group.data, 'selected'); });
+    const facetSelected = _.find(state.facets, 'selected');
+    let facetGroups = [ { data: _.take(state.facets, this.FACET_GROUP_IDX), selected: facetSelected },
+                        { data: _.slice(state.facets, this.FACET_GROUP_IDX), selected: facetSelected } ];
 
     const conciseState = this.createQuery(this.state);
 
