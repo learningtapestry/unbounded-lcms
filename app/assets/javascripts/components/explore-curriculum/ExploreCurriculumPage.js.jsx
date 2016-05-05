@@ -7,35 +7,21 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   updateUrl($active) {
-    if (!$active && !/p=/.test(location.search)) {
-      return;
-    }
+    if ( !$active && !/p=/.test(location.search) ) return;
 
-    let query = [];
-
-    const queryStringArr = window.location.search.slice(1).split('&');
-    query = _.filter(queryStringArr, function(piece) {
-      return !(piece.startsWith('e=') || piece.startsWith('p='));
-    });
+    let query = urlHistory.querystringToJSON();
+    delete query['p'];
+    delete query['e'];
 
     if ($active) {
-      query.push('p=' + $active[0].getAttribute('name'));
+      query['p'] = $active[0].getAttribute('name');
 
-      if (this.state.active[this.state.active.length-2] == $active[0].id) {
-        query.push('e=1');
+      if ( this.state.active[this.state.active.length - 2] == $active[0].id ) {
+        query['e'] = '1';
       }
     }
 
-    if (window.history) {
-      const prefix = window.location.pathname;
-      const queryString = query.length ? '?' + query.join('&') : '';
-      let newUrl = prefix + queryString;
-      if (newUrl[newUrl.length-1] == '?') {
-        newUrl = newUrl.slice(0, -1);
-      }
-      const historyState = { turbolinks: true, url: newUrl };
-      window.history.replaceState(historyState, null, newUrl);
-    }
+    urlHistory.update(query);
   }
 
   componentDidMount() {

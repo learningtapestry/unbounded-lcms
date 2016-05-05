@@ -1,5 +1,4 @@
 urlHistory = (function() {
-
   var state = {
     turbolinks: true,
     url: '',
@@ -24,9 +23,24 @@ urlHistory = (function() {
     window.history.pushState(state, null, query);
   };
 
+  let querystringToJSON = function () {
+    var pairs = location.search.slice(1).split('&');
+
+    var result = {};
+    pairs.forEach(function(pair) {
+      pair = pair.split('=');
+      var val = decodeURIComponent(pair[1] || '');
+      if (val.indexOf(',') > -1 ) val = val.split(',');
+      result[pair[0]] = val;
+    });
+
+    return JSON.parse(JSON.stringify(result));
+  };
+
   return {
     state: state,
     update: update,
+    querystringToJSON: querystringToJSON,
   };
 
 })();
