@@ -1,20 +1,40 @@
 .o-sidebar-nav {
   @include menu-base;
   @include menu-direction(vertical);
-  li a { padding: 0.4rem 1rem; }
 
   @include e(header) {
+    color: #f96924;
     display: inline-block !important;
-    border-bottom: 4px solid $ub-txt;
+    font-size: 1.25rem;
     font-weight: bold;
-    margin: 0.7rem 1rem;
+    margin: 0 0 1rem 1rem;
     padding: 0.4rem 0;
+  }
+
+  @include e(sep) {
+    background: #f96924;
+    border-radius: .1875rem;
+    display: inline-block;
+    height: .375rem;
+    margin: 0 1rem 1.5625rem;
+    width: 3.5rem;
   }
 
   @include e(item) {
     a {
+      color: #959595;
+      font-weight: bold;
+      line-height: 1.2 !important;
+      padding: 0 1rem 1rem !important;
+
       &.active, &:hover, &:focus {
-        font-weight: bold;
+        color: #f96924;
+      }
+    }
+
+    @include m(level0) {
+      a {
+        font-size: 1.125rem;
       }
     }
 
