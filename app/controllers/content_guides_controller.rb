@@ -12,6 +12,16 @@ class ContentGuidesController < ApplicationController
           wrap_keywords: true
         )
       end
+      # else
+      #   format.html do
+      #     @content_guide = ContentGuidePdfPresenter.new(
+      #       content_guide,
+      #       request.base_url,
+      #       view_context
+      #     )
+      #     render 'show.pdf', layout: 'pdf'
+      #   end
+      # end
 
       format.pdf do
         @content_guide = ContentGuidePdfPresenter.new(
@@ -40,6 +50,11 @@ class ContentGuidesController < ApplicationController
       render pdf: @content_guide.name,
              cover: render_to_string(partial: 'cover', locals: { content_guide: @content_guide, cover_image_url: cover_image_url }),
              disposition: 'attachment',
+             show_as_html: params.key?('debug'),
+             page_size: 'Letter',
+             disable_internal_links: false,
+             disable_external_links: false,
+             layout: 'pdf.html',
              footer: {
                right: "[#{t('.page')}]"
              },
