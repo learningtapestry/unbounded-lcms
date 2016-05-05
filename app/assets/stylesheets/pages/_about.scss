@@ -1,11 +1,13 @@
 .c-ap {
-  background: image-url('homepage_bg.jpg');
-  background-repeat: no-repeat;
 }
 
 .c-ap-hero {
-  margin-bottom: $ub-xlarge-margin * 2;
-  margin-top: $ub-xlarge-margin * 3;
+  // margin-bottom: $ub-xlarge-margin * 2;
+  // margin-top: $ub-xlarge-margin * 3;
+  background: image-url('about_hero_bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 300px;
 
   @include e(body) {
     @include grid-column-offset(4);
