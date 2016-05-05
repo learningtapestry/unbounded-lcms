@@ -15,18 +15,21 @@ class FindLessonsController < ApplicationController
   protected
     def find_lessons
       @lessons = Rails.cache.fetch("find_lessons/#{params_cache_key}") do
-        queryset = Curriculum.trees.lessons.with_resources
 
         if search_term.blank?
-          queryset.where_subject(subject_params)
-                  .where_grade(grade_params)
-                  .paginate(pagination_params.slice(:page, :per_page))
-                  .order('resources.subject', :hierarchical_position)
+          @serializer = CurriculumResourceSerializer
+          Curriculum.trees
+                    .lessons
+                    .with_resources
+                    .where_subject(subject_params)
+                    .where_grade(grade_params)
+                    .paginate(pagination_params.slice(:page, :per_page))
+                    .order('resources.subject', :hierarchical_position)
 
         else
-          documents = Search::Document.search(search_term, search_params.merge(doc_type: :lesson)).paginate(pagination_params)
-          ids = documents.results.map {|r| r.model_id.to_i }
-          queryset.where(item_id: ids).order_as_specified(item_id: ids).paginate(pagination_params.slice(:page, :per_page))
+          @serializer = SearchCurriculumResourceSerializer
+          Search::Document.search(search_term, search_params.merge(doc_type: :lesson))
+                          .paginate(pagination_params)
         end
       end
     end
@@ -35,7 +38,7 @@ class FindLessonsController < ApplicationController
       @props = Rails.cache.fetch("find_lessons/props/#{params_cache_key}") do
         serialize_with_pagination(@lessons,
           pagination: pagination_params,
-          each_serializer: CurriculumResourceSerializer,
+          each_serializer: @serializer,
         )
       end
       @props.merge!(filterbar_props)
