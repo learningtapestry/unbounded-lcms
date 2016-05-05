@@ -1,12 +1,22 @@
 class CurriculumTasks
   class << self
     def generate_breadcrumbs
+      generate_resources_short_titles
       Curriculum.trees.find_each { |c| c.generate_breadcrumb_pieces ; c.save! }
       Curriculum.trees.find_each { |c| c.generate_breadcrumb_titles ; c.save! }
     end
 
     def generate_hierarchical_positions
       Curriculum.trees.find_each { |c| c.generate_hierarchical_position ; c.save! }
+    end
+
+    def generate_resources_short_titles
+      Curriculum.trees.with_resources.lessons.find_each { |c| c.create_resource_short_title! }
+    end
+
+    def reset_slugs
+      ResourceSlug.destroy_all
+      Curriculum.trees.with_resources.find_each { |c| ResourceSlug.create_for_curriculum(c) rescue nil }
     end
 
     def sync_reading_assignments
