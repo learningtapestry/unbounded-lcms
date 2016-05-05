@@ -42,6 +42,8 @@
     @include breakpoint(medium) {
       @include flex-grid-column(9);
     }
+
+    padding: 0 2.125rem 0 2.25rem !important;
   }
 
   & * {
@@ -50,7 +52,6 @@
   }
 
   h1, h2, h3, h4 {
-    clear: both;
     font-weight: bold;
   }
 
