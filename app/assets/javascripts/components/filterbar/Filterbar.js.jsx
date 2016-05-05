@@ -127,12 +127,15 @@ class Filterbar extends React.Component {
       if ($.param(this.state) !== $.param(nextState)) {
         const filterbar = this.createQuery(nextState);
         this.props.onUpdate( filterbar );
-
-        urlHistory.update( filterbar, (k, v) => {
-          return this.props.withDropdown && k === 'search_term'
-        });
+        this.updateUrl( filterbar );
       }
     }
+  }
+
+  updateUrl(query) {
+    urlHistory.update( query, (key, val) => {
+      return this.props.withDropdown && key === 'search_term'
+    });
   }
 
   render() {
