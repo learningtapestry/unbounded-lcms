@@ -18,13 +18,13 @@ class SearchPage extends React.Component {
     };
   }
 
-  fetch() {
+  fetch(newState) {
     let query = {
       format: 'json',
-      per_page: this.state.per_page,
-      order: this.state.order,
-      page: this.state.current_page,
-      ...this.state.filterbar,
+      per_page: newState.per_page,
+      order: newState.order,
+      page: newState.current_page,
+      ...newState.filterbar,
     }
     let url = Routes.search_path(query);
 
@@ -35,11 +35,13 @@ class SearchPage extends React.Component {
 
   handlePageClick(data) {
     let selected = data.selected;
-    this.setState(Object.assign({}, this.state, { current_page: selected + 1 }), this.fetch);
+    const newState = Object.assign({}, this.state, { current_page: selected + 1 });
+    this.fetch(newState);
   }
 
   handleFilterbarUpdate(filterbar) {
-    this.setState(Object.assign({}, this.state, { filterbar: filterbar }), this.fetch);
+    const newState = Object.assign({}, this.state, { filterbar: filterbar, current_page: 1  });
+    this.fetch(newState);
   }
 
   render () {
