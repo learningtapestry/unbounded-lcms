@@ -19,6 +19,9 @@
     @include breakpoint(medium) {
       @include flex-grid-column(9);
     }
+
+    background: #f96924;
+    padding: 2.25rem 1.875rem 3.5rem !important;
   }
 }
 
@@ -97,6 +100,16 @@
   border-left: .625rem solid #fdd2bd;
   clear: both;
   padding-left: 1.5rem;
+}
+
+.c-cg-btn-download {
+  background: #fee1d3;
+  color: #f96924;
+}
+
+.c-cg-btn-related {
+  border: 1px solid #f3bba0;
+  color: #f3bba0;
 }
 
 .c-cg-dropdown {
@@ -274,4 +287,16 @@
 
 .c-cg-task__toggler__hide {
   display: none;
+}
+
+.c-cg-teaser {
+  color: #fff;
+  font-size: 1.375rem;
+  margin-bottom: 2rem;
+}
+
+.c-cg-title {
+  color: #fff !important;
+  font-size: 2.125rem !important;
+  margin-bottom: 1.5rem;
 }

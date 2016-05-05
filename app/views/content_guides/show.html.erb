@@ -9,20 +9,11 @@
       <div class="o-page__wrap--row">
         <div class=c-cg-hero__img style="background-image: url('<%= @content_guide.small_photo.url %>')"></div>
         <div class="c-cg-hero__body">
-          <div>
-            <%= t(@content_guide.subject, scope: :subjects) if @content_guide.subject %>
-
-            <% @content_guide.grade_list.each do |grade| %>
-              <span class=c-cg-grade><%= grade %></span>
-            <% end %>
-
-            <%= t('.curriculum_guide') %>
-          </div>
-          <h1><%= @content_guide.title %></h1>
-          <h2><%= @content_guide.teaser %></h2>
+          <h1 class=c-cg-title><%= @content_guide.title %></h1>
+          <h2 class=c-cg-teaser><%= @content_guide.teaser %></h2>
           <div class="u-margin-top--small">
-            <%= link_to t('resources.btn.download', title: 'Guide'), url_for(format: 'pdf'), class: 'o-ub-btn' %>
-            <%= link_to t('content_guide_page.related'), '#', class: 'o-ub-btn o-ub-btn--bordered' %>
+            <%= link_to t('resources.btn.download', title: 'Guide'), url_for(format: 'pdf'), class: 'o-ub-btn c-cg-btn-download' %>
+            <%= link_to t('content_guide_page.related'), '#', class: 'o-ub-btn o-ub-btn--bordered c-cg-btn-related' %>
           </div>
         </div>
       </div>
