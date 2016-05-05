@@ -26,14 +26,15 @@ class EnhanceInstructionPage extends React.Component {
       total_pages: props.pagination.total_pages,
       num_items: props.pagination.num_items,
       total_hits: props.pagination.total_hits,
-      items: props.results,
+      items: props.results
     };
     return this.state.tabs;
   }
 
   createQuery(newState) {
     const tab = newState.activeTab;
-    const current_page =  newState.current_page || newState.tabs[tab].current_page
+    const current_page =  newState.current_page || newState.tabs[tab].current_page;
+
     return {
       format: 'json',
       per_page: newState.per_page,
@@ -60,18 +61,18 @@ class EnhanceInstructionPage extends React.Component {
 
   handleChangePerPage(event) {
     const newPerPage = event.target.value;
-    const newState = Object.assign({}, this.state, { per_page: newPerPage });
+    const newState = Object.assign({}, this.state, { per_page: newPerPage, current_page: 1 });
     this.fetch(newState);
   }
 
   handleChangeOrder(event) {
     const newOrder = event.target.value;
-    const newState = Object.assign({}, this.state, { order: newOrder });
+    const newState = Object.assign({}, this.state, { order: newOrder, current_page: 1 });
     this.fetch(newState);
   }
 
   handleFilterbarUpdate(filterbar) {
-    const newState = Object.assign({}, this.state, { filterbar: filterbar });
+    const newState = Object.assign({}, this.state, { filterbar: filterbar, current_page: 1 });
     this.fetch(newState);
   }
 
