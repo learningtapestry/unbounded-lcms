@@ -1,26 +1,33 @@
 urlHistory = (function() {
-  var state = {
-    turbolinks: true,
-    url: '',
-  };
 
-  let update = function(newState, skipCondition) {
+  let state = {};
+
+  let update = function(newState, skipKey) {
     let query = [];
-    _.forEach(newState, (val, k) => {
-      if (skipCondition && skipCondition(k, val)) { return; }
+    let mergedState = _.extend(state, newState);
+
+    state = {};
+    _.forEach(mergedState, (val, k) => {
+      if (skipKey && skipKey(k, val)) { return; }
 
       if (val) {
         let urlVal = (_.isArray(val) && val.length) ? val.join(',') : val;
-        if (urlVal.length) query.push( k + '=' + urlVal);
+        if (urlVal.length) {
+          query.push( k + '=' + urlVal);
+          state[k] = val;
+        }
       }
     });
     query = query.join('&');
-    query = query ? '?' + query : window.location.pathname;
+    let path = query ? '?' + query : window.location.pathname;
 
+    window.history.pushState(params(path), null, path);
+  };
+
+  let params = function(url) {
     // Make pushState play nice with Turbolinks.
     // Ref https://github.com/turbolinks/turbolinks-classic/issues/363
-    state = _.merge(state, { turbolinks: true, url: query });
-    window.history.pushState(state, null, query);
+    return { turbolinks: true, url: url };
   };
 
   let querystringToJSON = function () {
@@ -37,10 +44,5 @@ urlHistory = (function() {
     return JSON.parse(JSON.stringify(result));
   };
 
-  return {
-    state: state,
-    update: update,
-    querystringToJSON: querystringToJSON,
-  };
-
+  return { state: state, update: update, querystringToJSON: querystringToJSON };
 })();
