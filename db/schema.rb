@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160504140849) do
+ActiveRecord::Schema.define(version: 20160505202814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,37 +157,6 @@ ActiveRecord::Schema.define(version: 20160504140849) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  create_table "resource_children", force: :cascade do |t|
-    t.integer  "parent_id",              null: false
-    t.integer  "child_id",               null: false
-    t.integer  "position",               null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "resource_collection_id", null: false
-  end
-
-  add_index "resource_children", ["child_id"], name: "index_resource_children_on_child_id", using: :btree
-  add_index "resource_children", ["parent_id"], name: "index_resource_children_on_parent_id", using: :btree
-  add_index "resource_children", ["resource_collection_id", "child_id"], name: "index_resource_children_on_resource_collection_id_and_child_id", unique: true, using: :btree
-
-  create_table "resource_collection_types", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "resource_collection_types", ["name"], name: "index_resource_collection_types_on_name", unique: true, using: :btree
-
-  create_table "resource_collections", force: :cascade do |t|
-    t.integer  "resource_id",                 null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.integer  "resource_collection_type_id"
-  end
-
-  add_index "resource_collections", ["resource_collection_type_id"], name: "index_resource_collections_on_resource_collection_type_id", using: :btree
-  add_index "resource_collections", ["resource_id"], name: "index_resource_collections_on_resource_id", using: :btree
 
   create_table "resource_downloads", force: :cascade do |t|
     t.integer  "resource_id"
@@ -378,11 +347,6 @@ ActiveRecord::Schema.define(version: 20160504140849) do
   add_foreign_key "reading_assignment_texts", "reading_assignment_authors"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"
-  add_foreign_key "resource_children", "resource_collections"
-  add_foreign_key "resource_children", "resources", column: "child_id"
-  add_foreign_key "resource_children", "resources", column: "parent_id"
-  add_foreign_key "resource_collections", "resource_collection_types"
-  add_foreign_key "resource_collections", "resources"
   add_foreign_key "resource_downloads", "download_categories"
   add_foreign_key "resource_downloads", "downloads"
   add_foreign_key "resource_downloads", "resources"
