@@ -54,7 +54,7 @@ class Curriculum < ActiveRecord::Base
   belongs_to :curriculum_item, class_name: 'Curriculum',
     foreign_key: 'item_id', foreign_type: 'Curriculum'
 
-  has_many :referrers, class_name: 'Curriculum', as: 'item'
+  has_many :referrers, class_name: 'Curriculum', as: 'item', dependent: :destroy
 
   has_many :resource_slugs, dependent: :destroy
   alias_attribute :slugs, :resource_slugs

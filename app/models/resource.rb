@@ -28,7 +28,7 @@ class Resource < ActiveRecord::Base
   has_many :downloads, through: :resource_downloads
 
   # Curriculums.
-  has_many :curriculums, as: :item
+  has_many :curriculums, as: :item, dependent: :destroy
 
   # Reading assignments.
   has_many :resource_reading_assignments, dependent: :destroy
