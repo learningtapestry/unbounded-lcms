@@ -68,6 +68,7 @@ module Search
         page = options.fetch(:page, 1)
 
         query = {
+          min_score: 0.5,
           query: {
             bool: {
               should: [
