@@ -25,6 +25,12 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     end
   end
 
+  def reset_styles
+    doc.css("[style]").each do |node|
+      node.remove_attribute('style')
+    end
+  end
+
   protected
 
   def process_content
@@ -33,10 +39,15 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
 
   def process_doc
     mark_footnotes
+    process_annotation_boxes
     process_blockquotes
     process_tasks(with_break: false)
-    realign_tables
     replace_guide_links
     replace_image_sources
+    reset_table_styles
+    process_icons
+    process_standards
+    process_pullquotes
+    reset_styles
   end
 end
