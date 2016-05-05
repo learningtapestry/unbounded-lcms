@@ -1,9 +1,9 @@
 .o-subscribe {
-  background-color: map-get($ub-green, forty);;
+  background-color: map-get($ub-green, sixty);
 }
 
 .o-subscribe-form {
-  $ub-subscribe-form-bg: map-get($ub-green, sixty);
+  $ub-subscribe-form-bg: map-get($ub-green, eighty);
 
   @include e(wrap) {
     @include flex-grid-row(collapse);
@@ -21,6 +21,7 @@
 
   @include e(email) {
     @include flex-grid-column(8, 0);
+    @include placeholder($ub-txt);
     margin-bottom: 0;
     input {
       padding: 1.5rem 1rem;
