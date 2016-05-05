@@ -4,9 +4,15 @@
 
   @include e(img) {
     @include media-object-section;
-    background-image: image-url('professional_development');
-    background-size: cover;
+    overflow: hidden;
     width: grid-column(4);
+
+    img { width: 100%;}
+
+    @include m(placeholder) {
+      background-image: image-url('professional_development');
+      background-size: cover;
+    }
   }
 
   @include e(body) {
