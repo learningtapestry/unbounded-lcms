@@ -9,13 +9,9 @@ class ExploreCurriculumPage extends React.Component {
   updateUrl($active) {
     if ( !$active && !/p=/.test(location.search) ) return;
 
-    let query = urlHistory.querystringToJSON();
-    delete query['p'];
-    delete query['e'];
-
+    let query = {p: null, e: null};
     if ($active) {
       query['p'] = $active[0].getAttribute('name');
-
       if ( this.state.active[this.state.active.length - 2] == $active[0].id ) {
         query['e'] = '1';
       }
