@@ -335,10 +335,10 @@ class ContentGuidePresenter < BasePresenter
         end
 
         hide_task = doc.document.create_element('span', class: 'c-cg-task__toggler__hide')
-        hide_task.content = t('.hide_task')
+        hide_task.content = t('ui.hide')
 
         show_task = doc.document.create_element('span', class: 'c-cg-task__toggler__show')
-        show_task.content = t('.show_task')
+        show_task.content = t('ui.show')
 
         toggler = doc.document.create_element('div', class: 'c-cg-task__toggler')
         toggler << hide_task
@@ -351,7 +351,7 @@ class ContentGuidePresenter < BasePresenter
     end
 
     copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
-    copyright.content = table.xpath('tbody/tr/td')[2].content
+    copyright.inner_html = table.xpath('tbody/tr/td')[2].inner_html
     body << copyright
 
     parts
