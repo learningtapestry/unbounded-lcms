@@ -464,7 +464,7 @@ class ContentGuidePresenter < BasePresenter
           </span>
         )
 
-        m.gsub!(keyword, dropdown)
+        m.gsub!(/#{keyword}/i, dropdown)
       end
     end
 
