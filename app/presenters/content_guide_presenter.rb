@@ -17,7 +17,6 @@ class ContentGuidePresenter < BasePresenter
     @host = host
     @view_context = view_context
     @wrap_keywords = wrap_keywords
-    @doc = Nokogiri::HTML.fragment(process_content)
   end
 
   def broken_images
@@ -25,41 +24,35 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def dangling_links
-    cache('dangling_links') do
-      doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
-        file_id = ContentGuide.file_id_from_url(a[:href])
-        next unless file_id.present?
+    doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
+      file_id = ContentGuide.file_id_from_url(a[:href])
+      next unless file_id.present?
 
-        DanglingLink.new(a.text, a[:href]) unless ContentGuide.exists?(file_id: file_id)
-      end.compact
-    end
+      DanglingLink.new(a.text, a[:href]) unless ContentGuide.exists?(file_id: file_id)
+    end.compact
   end
 
   def headings
-    cache('headings') do
-      headings =
-        doc.css('h1, h2, h3').each_with_index.map do |h, i|
-          id = "heading_#{i}"
-          level = h.name[/\d/].to_i
-          text = h.text.chomp.strip
+    headings =
+      doc.css('h1, h2, h3').each_with_index.map do |h, i|
+        id = "heading_#{i}"
+        level = h.name[/\d/].to_i
+        text = h.text.chomp.strip
 
-          h[:id] = id
-          h['data-magellan-target'] = id
-        
-          Heading.new(id, level, text)
-        end
+        h[:id] = id
+        h['data-magellan-target'] = id
+      
+        Heading.new(id, level, text)
+      end
 
-      min_level = headings.map(&:level).minmax.first
-      headings.each { |h| h.level -= min_level }
-      headings
-    end
+    min_level = headings.map(&:level).minmax.first
+    headings.each { |h| h.level -= min_level }
+    headings
   end
 
   def html
-    cache('html') do
-      process_doc
-      doc.to_s.html_safe
-    end
+    process_doc
+    doc.to_s.html_safe
   end
 
   def icons
@@ -109,6 +102,10 @@ class ContentGuidePresenter < BasePresenter
     media << container
 
     media
+  end
+
+  def doc
+    @doc ||= Nokogiri::HTML.fragment(process_content)
   end
 
   def embed_audios
@@ -491,9 +488,5 @@ class ContentGuidePresenter < BasePresenter
     process_tasks
     replace_guide_links
     reset_table_styles
-  end
-
-  def cache(key)
-    Rails.cache.fetch("content_guides/presented/#{id}/#{key}") { yield }
   end
 end
