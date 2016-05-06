@@ -12,6 +12,7 @@ class EnhanceInstructionPage extends React.Component {
   buildStateFromProps(props) {
     return {
       items: props.results,
+      current_page: props.pagination.current_page,
       per_page: props.pagination.per_page,
       order: props.pagination.order,
       filterbar: props.filterbar,
@@ -81,6 +82,10 @@ class EnhanceInstructionPage extends React.Component {
       const newState = Object.assign({}, this.state, { activeTab: idxTab - 1, current_page: 1 });
       this.fetch(newState);
     }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    urlHistory.updatePaginationParams(nextState);
   }
 
   renderTab(title, idx) {
