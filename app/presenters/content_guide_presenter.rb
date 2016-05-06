@@ -62,6 +62,10 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def icons
+    find_custom_tags('icon') + find_custom_tags('icon-small')
+  end
+
   def podcast_links
     doc.css('a[href*="soundcloud.com"]')
   end
@@ -159,7 +163,7 @@ class ContentGuidePresenter < BasePresenter
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*bold/
         content = span.content
-        tag_regex = /<#{tag_name}(:[^>]*)?>/i
+        tag_regex = /<#{tag_name}(:?[^>]*)?>/i
 
         if content =~ tag_regex
           tag_def = content[tag_regex]
