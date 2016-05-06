@@ -239,7 +239,7 @@ class ContentGuidePresenter < BasePresenter
         annotation << current_element
       end
 
-      dropdown = doc.document.create_element('span', class: 'dropdown-pane', id: id, 'data-dropdown' => nil, 'data-hover' => true, 'data-hover-pane' => true)
+      dropdown = doc.document.create_element('span', class: 'c-cg-dropdown dropdown-pane', id: id, 'data-dropdown' => nil, 'data-hover' => true, 'data-hover-pane' => true)
       next_element = tag.next
       loop do
         break unless next_element && next_element[:style] =~ background_color_regex
