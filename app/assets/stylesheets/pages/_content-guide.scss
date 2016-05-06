@@ -145,6 +145,16 @@
   background-image: asset-url('st_icon_s.svg');
 }
 
+.c-cg-footnote {
+  * {
+    font-size: .875rem !important;
+  }
+
+  a[id*=ftnt] {
+    font-weight: bold;
+  }
+}
+
 .c-cg-grade {
   text-transform: capitalize;
 
