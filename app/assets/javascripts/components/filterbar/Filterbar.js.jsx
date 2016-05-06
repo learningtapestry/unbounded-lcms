@@ -132,31 +132,10 @@ class Filterbar extends React.Component {
     }
   }
 
-  updateUrl(newState) {
-    let query = [];
-    _.forEach(newState, (val, k) => {
-      if (this.props.withDropdown && k === 'search_term') {
-        return;
-      }
-
-      if (val) {
-        let urlVal = val;
-        if (_.isArray(val)) {
-          if (val.length) {
-            query.push(k+'='+val.join(','));
-          }
-        } else {
-          query.push(k+'='+val);
-        }
-      }
+  updateUrl(query) {
+    urlHistory.update( query, (key, val) => {
+      return this.props.withDropdown && key === 'search_term'
     });
-    query = query.join('&');
-    query = query ? '?' + query : window.location.pathname;
-
-    // Make pushState play nice with Turbolinks.
-    // Ref https://github.com/turbolinks/turbolinks-classic/issues/363
-    const historyState = { turbolinks: true, url: query };
-    window.history.pushState(historyState, null, query);
   }
 
   render() {
