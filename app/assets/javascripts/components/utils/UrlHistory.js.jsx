@@ -11,7 +11,7 @@ urlHistory = (function() {
       if (skipKey && skipKey(k, val)) { return; }
 
       if (val) {
-        let urlVal = (_.isArray(val) && val.length) ? val.join(',') : val;
+        let urlVal = (_.isArray(val) && val.length) ? val.join(',') : val.toString();
         if (urlVal.length) {
           query.push( k + '=' + urlVal);
           state[k] = val;
@@ -44,5 +44,20 @@ urlHistory = (function() {
     return JSON.parse(JSON.stringify(result));
   };
 
-  return { state: state, update: update, querystringToJSON: querystringToJSON };
+  const updatePaginationParams = function(newState) {
+    var params = {};
+
+    params.page = (newState.current_page == 1) ? null : newState.current_page;
+    params.per_page = (newState.per_page == 20) ? null : newState.per_page;
+    params.tab = newState.activeTab;
+
+    update(params);
+  }
+
+  return {
+    state: state,
+    update: update,
+    updatePaginationParams: updatePaginationParams,
+    querystringToJSON: querystringToJSON
+  };
 })();

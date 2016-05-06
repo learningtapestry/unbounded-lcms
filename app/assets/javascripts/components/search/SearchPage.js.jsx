@@ -44,6 +44,10 @@ class SearchPage extends React.Component {
     this.fetch(newState);
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    urlHistory.updatePaginationParams(nextState);
+  }
+
   render () {
     return (
       <div>
