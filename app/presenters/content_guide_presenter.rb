@@ -83,6 +83,19 @@ class ContentGuidePresenter < BasePresenter
 
   private
 
+  def all_next_elements_with_name(tag, name)
+    nodes = []
+    next_node = tag.next
+
+    loop do
+      break if next_node.nil?
+      nodes << next_node if next_node.name == name
+      next_node = next_node.next
+    end
+
+    nodes
+  end
+
   def create_media_node(resource, container)
     title = doc.document.create_element('a', class: 'c-cg-media__title', href: media_path(resource), target: '_blank')
     title.content = resource.title
@@ -273,6 +286,13 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def process_footnotes
+    hr = doc.at_css('hr')
+    all_next_elements_with_name(hr, 'div').each do |div|
+      div[:class] = 'c-cg-footnote'
+    end
+  end
+
   def process_icons
     find_custom_tags('icon').each do |tag|
       icon_type = tag['data-value']
@@ -456,6 +476,7 @@ class ContentGuidePresenter < BasePresenter
     process_blockquotes
     process_broken_images
     process_footnote_links
+    process_footnotes
     process_icons
     process_pullquotes
     process_standards
