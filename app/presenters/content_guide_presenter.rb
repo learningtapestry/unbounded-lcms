@@ -282,6 +282,11 @@ class ContentGuidePresenter < BasePresenter
       dropdown = doc.document.create_element('span', class: 'dropdown-pane c-cg-dropdown', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-delay' => 0, 'data-hover-pane' => true, id: id)
       dropdown.inner_html = footnote.at_css('p').inner_html
       dropdown.at_css(a[:href]).remove
+      dropdown.css('[data-toggle]').each do |toggler|
+        toggler[:class] = nil
+        toggler[:id] = nil
+        toggler.delete('data-toggle')
+      end
       a.parent.next = dropdown
     end
   end
