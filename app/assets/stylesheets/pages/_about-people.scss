@@ -37,8 +37,8 @@ $staff-img: 120px;
     @include callout($ub-white);
     display: none;
 
-
-    //> p { width: 90%; margin: 0; }
+    > div { padding-right: $ub-large-padding; }
+    //> div { width: 90%; margin: 0; }
 
     .close-button {
       color: map-get($ub-yellow, base);
@@ -65,13 +65,14 @@ $staff-img: 120px;
 
   @include e(body) {
     @include media-object-section;
-    padding: $ub-base-padding 0;
-    padding-left: $ub-xs-padding;
+    flex: 1 1 0;
+    padding: $ub-base-padding $ub-xs-padding;
 
     h3 { color: $ub-primary; }
     h4 {
       color: lighten($ub-txt, 10%);
       font-family: $ub-serif;
+      font-size: $global-font-size;
       font-style: italic;
       margin: 0;
     }

@@ -32,7 +32,7 @@ class Admin::StaffMembersController < Admin::AdminController
 
   def destroy
     @staff_member.destroy
-    redirect_to :admin_staff_members, notice: t('.success') 
+    redirect_to :admin_staff_members, notice: t('.success')
   end
 
   private
@@ -41,6 +41,6 @@ class Admin::StaffMembersController < Admin::AdminController
     end
 
     def staff_member_params
-      params.require(:staff_member).permit(:bio, :name, :position)
+      params.require(:staff_member).permit(:bio, :name, :position, :department, :image_file, :staff_type)
     end
 end
