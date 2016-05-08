@@ -5,38 +5,27 @@
       <div class="o-connect__dsc u-margin-bottom--small">
         Keep up with the latest from Unbounded via:
       </div>
-      <ul class="o-connect__list">
+      <!-- Go to www.addthis.com/dashboard to customize your tools -->
+      <ul class="o-connect__list addthis_toolbox">
         <li>
-          <%= link_to '' do %>
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-            </span>
-          <% end %>
+          <a class="addthis_button_twitter_follow" addthis:userid="<%= ENV['TWITTER_USERNAME'] %>">
+            <i class="ub-twitter"></i>
+          </a>
         </li>
         <li>
-          <%= link_to '' do %>
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-            </span>
-          <% end %>
+          <a class="addthis_button_facebook_follow" addthis:userid="<%= ENV['FB_PAGE'] %>">
+            <i class="ub-facebook"></i>
+          </a>
         </li>
         <li>
-          <%= link_to '' do %>
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-vimeo fa-stack-1x fa-inverse"></i>
-            </span>
-          <% end %>
+          <a class="addthis_button_vimeo_follow" addthis:userid="<%= ENV['VIMEO_CHANNEL'] %>">
+            <i class="ub-vimeo"></i>
+          </a>
         </li>
         <li>
-          <%= link_to '' do %>
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-youtube fa-stack-1x fa-inverse"></i>
-            </span>
-          <% end %>
+          <a class="addthis_button_youtube_follow" addthis:userid="<%= ENV['YOUTUBE_CHANNEL'] %>">
+            <i class="ub-youtube"></i>
+          </a>
         </li>
       </ul>
     </div>
