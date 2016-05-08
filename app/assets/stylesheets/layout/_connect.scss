@@ -29,10 +29,10 @@
   @include e(list) {
     @include menu-simple;
     margin: 0;
+    i { font-size: 2.3rem; }
     a {
       color: $ub-nav-link;
-      .fa-inverse { color: $ub-primary; }
-      &:hover, &:focus {
+      &:hover {
         color: scale-color($ub-nav-link, $lightness: -20%);
       }
     }
