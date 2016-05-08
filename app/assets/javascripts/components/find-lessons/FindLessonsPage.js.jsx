@@ -35,24 +35,24 @@ class FindLessonsPage extends React.Component {
 
   handlePageClick(data) {
     const selected = data.selected;
-    const newState = Object.assign({}, this.state, { current_page: selected + 1 });
+    const newState = _.assign({}, this.state, { current_page: selected + 1 });
     this.fetch(newState);
   }
 
   handleChangePerPage(event) {
     const newPerPage = event.target.value;
-    const newState = Object.assign({}, this.state, { per_page: newPerPage, current_page: 1 });
+    const newState = _.assign({}, this.state, { per_page: newPerPage, current_page: 1 });
     this.fetch(newState);
   }
 
   handleChangeOrder(event) {
     const newOrder = event.target.value;
-    const newState = Object.assign({}, this.state, { order: newOrder, current_page: 1 });
+    const newState = _.assign({}, this.state, { order: newOrder, current_page: 1 });
     this.fetch(newState);
   }
 
   handleFilterbarUpdate(filterbar) {
-    const newState = Object.assign({}, this.state, { filterbar: filterbar, current_page: 1 });
+    const newState = _.assign({}, this.state, { filterbar: filterbar, current_page: 1 });
     this.fetch(newState);
   }
 
