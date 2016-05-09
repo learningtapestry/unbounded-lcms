@@ -14,6 +14,7 @@
 //= require content_guides
 //= require about_people
 //= require social_sharing
+//= require freshdesk
 
 ready(function() {
   $(document).initFoundation();
@@ -21,4 +22,5 @@ ready(function() {
   window.initializeContentGuide();
   window.initializeAboutPeople();
   window.initializeSocialSharing();
+  window.initializeFreshdesk();
 });
