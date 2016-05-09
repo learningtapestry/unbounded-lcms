@@ -185,7 +185,7 @@ class ExploreCurriculumPage extends React.Component {
     const oldFilterbar = _.omit(this.state.filterbar, 'search_term');
     const onlyChangedSearchTerm = $.param(newFilterbar) === $.param(oldFilterbar);
 
-    const newState = Object.assign({}, this.state, { filterbar: filterbar });
+    const newState = _.assign({}, this.state, { filterbar: filterbar });
 
     if (onlyChangedSearchTerm) {
       this.setState(newState);

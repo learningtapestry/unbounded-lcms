@@ -43,9 +43,8 @@ GEM
       activerecord (>= 3.2, < 5)
     addressable (2.4.0)
     arel (6.0.3)
-    autoprefixer-rails (5.2.1.1)
+    autoprefixer-rails (6.3.6)
       execjs
-      json
     aws-sdk-core (2.2.8)
       jmespath (~> 1.0)
     aws-sdk-rails (1.0.0)
@@ -487,6 +486,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.9.3)
   acts-as-taggable-on (~> 3.5)
+  autoprefixer-rails (~> 6.3.6)
   aws-sdk-rails (~> 1.0)
   axlsx (~> 2.1.0.pre)
   bootstrap-sass (~> 3.3.5.1)

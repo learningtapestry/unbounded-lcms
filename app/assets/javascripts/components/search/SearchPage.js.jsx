@@ -35,12 +35,12 @@ class SearchPage extends React.Component {
 
   handlePageClick(data) {
     let selected = data.selected;
-    const newState = Object.assign({}, this.state, { current_page: selected + 1 });
+    const newState = _.assign({}, this.state, { current_page: selected + 1 });
     this.fetch(newState);
   }
 
   handleFilterbarUpdate(filterbar) {
-    const newState = Object.assign({}, this.state, { filterbar: filterbar, current_page: 1  });
+    const newState = _.assign({}, this.state, { filterbar: filterbar, current_page: 1  });
     this.fetch(newState);
   }
 

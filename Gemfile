@@ -52,6 +52,7 @@ gem 'hiredis'
 gem 'validate_url', '~> 1.0'
 gem 'virtus', '~> 1.0.5'
 gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
+gem 'autoprefixer-rails', '~> 6.3.6'
 
 group :development, :test do
   gem 'byebug'
