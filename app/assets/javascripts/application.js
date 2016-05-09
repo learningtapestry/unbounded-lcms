@@ -12,10 +12,12 @@
 //= require components
 //= require content_guides
 //= require about_people
+//= require social_sharing
 
 ready(function() {
   $(document).initFoundation();
   $(document).smoothscrolling();
   window.initializeContentGuide();
   window.initializeAboutPeople();
+  window.initializeSocialSharing();
 });

@@ -31,4 +31,15 @@ module ApplicationHelper
       title
     end
   end
+
+  def page_description
+    content_for(:description) || t('default_title')
+  end
+
+  def set_og_tags(resource, image_url = nil)
+    content_for(:og_title, resource.title)
+    content_for(:og_description, resource.teaser)
+    content_for(:og_image, image_url) if image_url.present?
+  end
+
 end
