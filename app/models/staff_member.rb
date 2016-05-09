@@ -4,5 +4,5 @@ class StaffMember < ActiveRecord::Base
   enum staff_type: { staff: 1, board: 2 }
 
   scope :order_by_name, -> { order(:name) }
-  mount_uploader :image_file, StaffImageUploader
+  #mount_uploader :image_file, StaffImageUploader
 end

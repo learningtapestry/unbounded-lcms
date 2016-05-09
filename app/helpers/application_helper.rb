@@ -19,11 +19,12 @@ module ApplicationHelper
 
   def page_title
     if content_for?(:page_title)
-      content_for(:page_title)
+      page_title = content_for(:page_title)
     else
       controller = controller_path.gsub('/', '.')
-      t("#{controller}.#{action_name}.page_title", default: t('default_title'))
+      page_title = t("#{controller}.#{action_name}.page_title", default: t('default_title'))
     end
+    current_page?(root_path) ? "UnboundEd" : "UnboundEd - #{page_title}"
   end
 
   def set_page_title(title)

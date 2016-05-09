@@ -5,11 +5,7 @@
   <%= f.input :position %>
   <%= f.input :department %>
   <%= f.input :staff_type, as: :select, collection: StaffMember.staff_types, value_method: :first %>
-  <% if f.object.image_file.url %>
-    <%= f.label :current_image %>
-    <img src="<%= f.object.image_file.url %>" />
-  <% end %>
-  <%= f.input :image_file, as: :file %>
+  <%= f.input :image_file %>
   <%= f.input :bio, as: :text, input_html: { rows: 8 } %>
   <%= f.button :submit, t('ui.save'), name: nil %>
 <% end %>
