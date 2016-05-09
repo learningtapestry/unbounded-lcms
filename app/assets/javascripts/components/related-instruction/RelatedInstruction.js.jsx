@@ -27,7 +27,7 @@ class RelatedInstruction extends React.Component {
                          hasMore: false,
                          expanded: true
                        };
-      this.setState(Object.assign({}, this.state, newState));
+      this.setState(_.assign({}, this.state, newState));
     });
   }
 
