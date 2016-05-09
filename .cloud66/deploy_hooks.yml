@@ -24,7 +24,7 @@ production: &production
       target: rails
       execute: true
       sudo: true
-      apply_during: all
+      apply_during: build_only
       run_on: all_servers
 staging:
   <<: *production
