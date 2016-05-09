@@ -18,6 +18,14 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers 
+  first_thing:
+    - source: /.cloud66/install_wkhtmltopdf.sh
+      destination: /tmp/install_wkhtmltopdf.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: build_only
+      run_on: all_servers
 staging:
   <<: *production
 development:
