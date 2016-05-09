@@ -7,10 +7,12 @@ window.initializeFreshDesk = function() {
     "buttonText": "Contact Us",
     "buttonColor": "white",
     "buttonBg": "#009f93",
+    "backgroundImage": "", //??
     "alignment": "4",
-    "offset": "235px",
-    "submitThanks": "Thank you for your feedback",
+    // "offset": "235px",
+    "offset": "-1500px",
     "formHeight": "500px",
+    "submitThanks": "Thank you for your feedback",
     "url": "https://unbounded.freshdesk.com"
   });
 };
