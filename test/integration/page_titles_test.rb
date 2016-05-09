@@ -80,7 +80,7 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
 
   def test_home_page
     visit '/'
-    assert_page_title 'Highschool Curriculum Pilot'
+    assert page.title == 'UnboundEd'
   end
 
   def test_tos_page

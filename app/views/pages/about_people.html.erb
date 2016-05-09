@@ -11,16 +11,16 @@
     <nav class="o-tab__navigation">
       <ul class="tabs o-tab-menu" data-tabs id="st-tabs">
         <li class="tabs-title is-active o-tab-menu__item"><a href="#st-tab-staff" aria-selected="true">Staff</a></li>
-        <li class="tabs-title o-tab-menu__item"><a href="#st-tab-board">Board</a></li>
+        <!-- <li class="tabs-title o-tab-menu__item"><a href="#st-tab-board">Board</a></li> -->
       </ul>
     </nav>
     <div class="tabs-content u-margin-top--xlarge" data-tabs-content="st-tabs">
       <div class="o-tab__panel tabs-panel is-active" id="st-tab-staff">
         <%= render partial: 'about_people_staff', locals: {members: StaffMember.staff.order_by_name, type: 's'} %>
       </div>
-      <div class="o-tab__panel tabs-panel" id="st-tab-board">
+      <!-- <div class="o-tab__panel tabs-panel" id="st-tab-board">
         <%= render partial: 'about_people_staff', locals: {members: StaffMember.board.order_by_name, type: 'b'} %>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

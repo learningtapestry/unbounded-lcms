@@ -4,12 +4,12 @@
     <div class="c-stp-staff__intro" data-toggle="c-stp-staff-<%= "#{type}_#{i}" %>">
       <div class="c-stp-media">
         <div class="c-stp-media__img">
-          <%= image_tag(member.image_file.try(:url) || 'head.svg') %>
+          <%= image_tag(member.image_file.present? ? member.image_file : 'head.svg') %>
         </div>
         <div class="c-stp-media__body">
           <h3><%= member.name %></h3>
           <h4><%= member.position %></h4>
-          <h4><%= member.department %></h4>
+          <!-- <h4><%= member.department %></h4> -->
         </div>
       </div>
     </div>
