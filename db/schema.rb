@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510154445) do
+ActiveRecord::Schema.define(version: 20160510163123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -294,10 +294,12 @@ ActiveRecord::Schema.define(version: 20160510154445) do
     t.text     "alt_names",          default: [], null: false, array: true
     t.string   "type"
     t.integer  "cluster_id"
+    t.integer  "domain_id"
   end
 
   add_index "standards", ["asn_identifier"], name: "index_standards_on_asn_identifier", unique: true, using: :btree
   add_index "standards", ["cluster_id"], name: "index_standards_on_cluster_id", using: :btree
+  add_index "standards", ["domain_id"], name: "index_standards_on_domain_id", using: :btree
   add_index "standards", ["emphasis"], name: "index_standards_on_emphasis", using: :btree
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
   add_index "standards", ["standard_strand_id"], name: "index_standards_on_standard_strand_id", using: :btree
@@ -367,4 +369,5 @@ ActiveRecord::Schema.define(version: 20160510154445) do
   add_foreign_key "standard_links", "standards", column: "standard_end_id"
   add_foreign_key "standards", "standard_strands"
   add_foreign_key "standards", "standards", column: "cluster_id"
+  add_foreign_key "standards", "standards", column: "domain_id"
 end

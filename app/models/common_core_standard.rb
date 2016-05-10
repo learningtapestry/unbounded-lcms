@@ -1,6 +1,7 @@
 class CommonCoreStandard < Standard
   belongs_to :standard_strand
   belongs_to :cluster, class_name: 'CommonCoreStandard'
+  belongs_to :domain, class_name: 'CommonCoreStandard'
 
   def self.where_alt_name(alt_name)
     where('? = ANY(alt_names)', alt_name)
@@ -37,7 +38,7 @@ class CommonCoreStandard < Standard
           standard.description = data['description']
           standard.grades << grade unless standard.grades.include?(grade)
           standard.label = data['statementLabel'].try(:downcase)
-          standard.name = name
+          standard.name = name if name.present?
           standard.subject = subject
 
           standard.save!
