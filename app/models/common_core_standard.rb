@@ -3,6 +3,10 @@ class CommonCoreStandard < Standard
   belongs_to :cluster, class_name: 'CommonCoreStandard'
   belongs_to :domain, class_name: 'CommonCoreStandard'
 
+  scope :clusters, ->{ where(label: 'cluster') }
+  scope :domains, ->{ where(label: 'domain') }
+  scope :standards, ->{ where(label: 'standard') }
+
   def self.where_alt_name(alt_name)
     where('? = ANY(alt_names)', alt_name)
   end
