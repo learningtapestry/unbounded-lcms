@@ -403,6 +403,16 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def remove_comments
+    doc.css('[id^=cmnt]').each do |a|
+      begin
+        a.ancestors('sup').first.remove
+      rescue
+        a.ancestors('div').first.remove
+      end
+    end
+  end
+
   def replace_guide_links
     doc.css('a[href*="docs.google.com/document/d/"]').each do |a|
       file_id = ContentGuide.file_id_from_url(a[:href])
@@ -486,6 +496,7 @@ class ContentGuidePresenter < BasePresenter
     process_pullquotes
     process_standards
     process_tasks
+    remove_comments
     replace_guide_links
     reset_table_styles
   end
