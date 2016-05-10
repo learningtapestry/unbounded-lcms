@@ -56,6 +56,11 @@ module Search
         indexes :doc_type,    type: 'string', index: 'not_analyzed'  #  module | unit | lesson | video | etc
         indexes :grade,       type: 'string', index: 'not_analyzed'
         indexes :subject,     type: 'string'
+        indexes :tags,        type: 'nested', properties: {
+          texts:    {type: 'string'},
+          authors:  {type: 'string'},
+          keywords: {type: 'string'},
+        }
       end
     end
 
@@ -68,15 +73,19 @@ module Search
         page = options.fetch(:page, 1)
 
         query = {
-          min_score: 0.5,
+          min_score: 0.05,
           query: {
             bool: {
               should: [
                 { match: { 'title.full'     => {query: term, type: 'phrase', boost: 5} } },
                 { match: { 'title.partial'  => {query: term, boost: 5} } },
 
-                { match: { 'teaser.full'    => {query: term, type: 'phrase', boost: 1} } },
-                { match: { 'teaser.partial' => {query: term, boost: 1} } },
+                { match: { 'teaser.full'    => {query: term, type: 'phrase', boost: 0.5} } },
+                { match: { 'teaser.partial' => {query: term, boost: 0.5} } },
+
+                { query_string: {query: "tags.authors:#{term}",   boost: 10} },
+                { query_string: {query: "tags.texts:#{term}",     boost: 10} },
+                { query_string: {query: "tags.keywords:#{term}",  boost: 10} },
 
                 # { match: { 'description.full'     => {query: term, type: 'phrase', boost: 1} } },
                 # { match: { 'description.partial'  => {query: term, boost: 1} } },

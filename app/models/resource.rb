@@ -219,8 +219,8 @@ class Resource < ActiveRecord::Base
       resource_type: resource_type,
       ell_appropriate: ell_appropriate,
       ccss_standards: standards.map(&:name).uniq,
-      ccss_domain: nil,  #  TODO
-      ccss_cluster: nil,  #  TODO
+      ccss_domain: nil,  # resource.standards.map { |std| std.domain.try(:name) }.uniq
+      ccss_cluster: nil,  #  resource.standards.map { |std| std.cluster.try(:name) }.uniq
       authors: reading_assignment_texts.map {|t| t.author.try(:name) }.compact.uniq,
       texts: reading_assignment_texts.map(&:name).uniq,
     }
