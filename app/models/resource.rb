@@ -213,4 +213,17 @@ class Resource < ActiveRecord::Base
     do_not_skip_indexing? && is_media?
   end
 
+  def named_tags
+    {
+      resource_type: resource_type,
+      ccss_standards: standards.map(&:name).uniq,
+      ccss_domain: nil,  #  TODO
+      ccss_cluster: nil,  #  TODO
+      texts: reading_assignment_texts.map(&:name).uniq,
+      authors: reading_assignment_texts.map {|t| t.author.try(:name) }.compact.uniq,
+      keywords: (tag_list + topic_list).compact.uniq,
+      ell_appropriate: ell_appropriate,
+    }
+  end
+
 end
