@@ -18,4 +18,10 @@ module ResourceHelper
     CGI.unescape(explore_curriculum_index_path(p: slug, e: 1))
   end
 
+  def tag_cloud(curr)
+    ntags = curr.named_tags
+    ntags[:ell_appropriate] = ntags[:ell_appropriate] ? 'ELL Appropriate' : nil
+    ntags.values.flatten.compact.uniq
+  end
+
 end

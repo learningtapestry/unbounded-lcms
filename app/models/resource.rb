@@ -215,14 +215,14 @@ class Resource < ActiveRecord::Base
 
   def named_tags
     {
+      keywords: (tag_list + topic_list).compact.uniq,
       resource_type: resource_type,
+      ell_appropriate: ell_appropriate,
       ccss_standards: standards.map(&:name).uniq,
       ccss_domain: nil,  #  TODO
       ccss_cluster: nil,  #  TODO
-      texts: reading_assignment_texts.map(&:name).uniq,
       authors: reading_assignment_texts.map {|t| t.author.try(:name) }.compact.uniq,
-      keywords: (tag_list + topic_list).compact.uniq,
-      ell_appropriate: ell_appropriate,
+      texts: reading_assignment_texts.map(&:name).uniq,
     }
   end
 

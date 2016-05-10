@@ -96,7 +96,7 @@
             <% end %>
             <div class="o-resource__item">
               <h3>Tags</h3>
-              <%= render partial: 'resources/tags', locals: { resource: @resource } %>
+              <%= render partial: 'resources/tags', locals: { tags: tag_cloud(@curriculum), color_code: @resource.color_code } %>
             </div>
             <% if @resource.engageny_url %>
             <div class="o-resource__item">
