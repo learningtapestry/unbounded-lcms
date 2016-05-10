@@ -79,6 +79,9 @@
                 <% @resource.downloads.each do |download| %>
                   <%= render partial: 'resources/download', locals: { download: download } %>
                 <% end %>
+                <% if @resource.downloads.empty? %>
+                  <p>There are no downloads for this resource</p>
+                <% end %>
               </ul>
             </div>
             <% unless @resource.requirements.empty? %>
