@@ -33,6 +33,8 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def headings
+    process_doc
+
     headings =
       doc.css('h1, h2, h3').each_with_index.map do |h, i|
         id = "heading_#{i}"
@@ -487,6 +489,8 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def process_doc
+    return if @doc_processed
+
     embed_audios
     embed_videos
     process_annotation_boxes
@@ -501,5 +505,6 @@ class ContentGuidePresenter < BasePresenter
     remove_comments
     replace_guide_links
     reset_table_styles
+    @doc_processed = true
   end
 end
