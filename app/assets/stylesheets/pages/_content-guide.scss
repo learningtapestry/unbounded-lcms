@@ -140,6 +140,10 @@
   font-size: 1rem;
   line-height: 1.2 !important;
   padding: 1rem;
+
+  * {
+    word-wrap: break-word;
+  }
 }
 
 .c-cg-standard::before {
