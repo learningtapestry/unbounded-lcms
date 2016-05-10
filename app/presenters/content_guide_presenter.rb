@@ -454,32 +454,35 @@ class ContentGuidePresenter < BasePresenter
       end
     end
 
+    dropdowns = []
     keywords.each do |keyword, value|
       next unless value.present?
 
       result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
         id = "cg-k_#{SecureRandom.hex(4)}"
-        klass = 'has-tip'
-        if (emphasis = value[:emphasis])
-          klass += " c-cg-standard c-cg-standard--#{emphasis}"
-        end
-        dropdown = %Q(
-          <span class='#{klass}' data-toggle=#{id}>#{keyword}</span>
+
+        dropdowns << %Q(
           <span class='dropdown-pane c-cg-dropdown'
-            data-dropdown
-            data-hover=true
-            data-hover-delay=0
-            data-hover-pane=true
-            id=#{id}>
+                data-dropdown
+                data-hover=true
+                data-hover-delay=0
+                data-hover-pane=true
+                id=#{id}>
             #{value[:description]}
           </span>
         )
 
-        m.gsub!(/#{keyword}/i, dropdown)
+        toggler = "<span class=has-tip data-toggle=#{id}>"
+        if (emphasis = value[:emphasis])
+          toggler << "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
+        end
+        toggler << "#{keyword}</span>"
+
+        m.gsub!(/#{keyword}/i, toggler)
       end
     end
 
-    result
+    result + dropdowns.join
   end
 
   protected

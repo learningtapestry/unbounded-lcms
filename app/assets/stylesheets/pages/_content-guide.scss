@@ -146,28 +146,27 @@
   }
 }
 
-.c-cg-standard::before {
+.c-cg-standard {
   background-size: contain;
-  content: ' ';
   display: inline-block;
   height: 1rem;
   margin-right: .2rem;
   width: 1rem;
 }
 
-.c-cg-standard--a::before {
+.c-cg-standard--a {
   background-image: asset-url('st_icon_a.svg');
 }
 
-.c-cg-standard--m::before {
+.c-cg-standard--m {
   background-image: asset-url('st_icon_m.svg');
 }
 
-.c-cg-standard--plus::before {
+.c-cg-standard--plus {
   background-image: asset-url('st_icon_plus.svg');
 }
 
-.c-cg-standard--s::before {
+.c-cg-standard--s {
   background-image: asset-url('st_icon_s.svg');
 }
 
