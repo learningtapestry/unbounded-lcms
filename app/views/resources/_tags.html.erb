@@ -4,4 +4,7 @@
       <%= link_to tag, search_path(search_term: tag) %><%= ', ' if i != tags.size - 1  %>
     </li>
   <% end %>
+  <% if tags.empty? %>
+    <p>There are no tags for this resource</p>
+  <% end %>
 </ul>
