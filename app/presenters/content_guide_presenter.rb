@@ -375,9 +375,11 @@ class ContentGuidePresenter < BasePresenter
       tag.remove
     end
 
-    copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
-    copyright.inner_html = table.xpath('tbody/tr/td')[2].inner_html
-    body << copyright
+    if (copyright_row = table.xpath('tbody/tr/td')[2]).content.strip.size > 0
+      copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
+      copyright.inner_html = copyright_row.inner_html
+      body << copyright
+    end
 
     parts
   end
