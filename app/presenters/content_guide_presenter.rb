@@ -33,6 +33,8 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def headings
+    process_doc
+
     headings =
       doc.css('h1, h2, h3').each_with_index.map do |h, i|
         id = "heading_#{i}"
@@ -82,7 +84,7 @@ class ContentGuidePresenter < BasePresenter
 
   def all_next_elements_with_name(tag, name)
     nodes = []
-    next_node = tag.next
+    next_node = tag.try(:next)
 
     loop do
       break if next_node.nil?
@@ -205,13 +207,13 @@ class ContentGuidePresenter < BasePresenter
 
       annotation_list = doc.document.create_element('div', class: 'c-cg-annotationList')
       annotation_dropdowns.each_with_index do |dropdown, index|
-        number = doc.document.create_element('span', class: 'c-cg-annotationList__number')
+        number = doc.document.create_element('span', class: 'c-cg-annotationListItem__number')
         number.content = index + 1
 
-        content = doc.document.create_element('span')
+        content = doc.document.create_element('span', class: 'c-cg-annotationListItem__content')
         content.inner_html = dropdown.inner_html
 
-        list_item = doc.document.create_element('p')
+        list_item = doc.document.create_element('p', class: 'c-cg-annotationListItem')
         list_item << number
         list_item << content
 
@@ -240,7 +242,7 @@ class ContentGuidePresenter < BasePresenter
         annotation << current_element
       end
 
-      dropdown = doc.document.create_element('span', class: 'c-cg-dropdown dropdown-pane', id: id, 'data-dropdown' => nil, 'data-hover' => true, 'data-hover-pane' => true)
+      dropdown = doc.document.create_element('span', class: 'c-cg-dropdown dropdown-pane', id: id, 'data-dropdown' => nil, 'data-hover' => true, 'data-hover-delay' => 0, 'data-hover-pane' => true)
       next_element = tag.next
       loop do
         break unless next_element && next_element[:style] =~ background_color_regex
@@ -294,6 +296,8 @@ class ContentGuidePresenter < BasePresenter
 
   def process_footnotes
     hr = doc.at_css('hr')
+    return unless hr
+
     all_next_elements_with_name(hr, 'div').each do |div|
       div[:class] = 'c-cg-footnote'
     end
@@ -326,7 +330,19 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
-  def process_standards
+  def process_superscript_standards
+    superscript_style = /vertical-align:\s*super;?/
+    doc.css('.c-cg-keyword').each do |span|
+      parent = span.parent
+      if parent && ((parent[:style] || '') =~ superscript_style)
+        span.inner_html = "(#{span.inner_html})"
+        parent[:style] = parent[:style].gsub(superscript_style, '')
+        parent.inner_html = " #{parent.inner_html}"
+      end
+    end
+  end
+
+  def process_standards_table
     find_custom_tags('standards').each do |tag|
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
@@ -375,9 +391,11 @@ class ContentGuidePresenter < BasePresenter
       tag.remove
     end
 
-    copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
-    copyright.inner_html = table.xpath('tbody/tr/td')[2].inner_html
-    body << copyright
+    if (copyright_row = table.xpath('tbody/tr/td')[2]).content.strip.size > 0
+      copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
+      copyright.inner_html = copyright_row.inner_html
+      body << copyright
+    end
 
     parts
   end
@@ -400,6 +418,16 @@ class ContentGuidePresenter < BasePresenter
       task << toggler if toggler
 
       table.replace(task)
+    end
+  end
+
+  def remove_comments
+    doc.css('[id^=cmnt]').each do |a|
+      begin
+        a.ancestors('sup').first.remove
+      rescue
+        a.ancestors('div').first.remove
+      end
     end
   end
 
@@ -440,32 +468,35 @@ class ContentGuidePresenter < BasePresenter
       end
     end
 
+    dropdowns = []
     keywords.each do |keyword, value|
       next unless value.present?
 
       result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
         id = "cg-k_#{SecureRandom.hex(4)}"
-        klass = 'has-tip'
-        if (emphasis = value[:emphasis])
-          klass += " c-cg-standard c-cg-standard--#{emphasis}"
-        end
-        dropdown = %Q(
-          <span class='#{klass}' data-toggle=#{id}>#{keyword}</span>
+
+        dropdowns << %Q(
           <span class='dropdown-pane c-cg-dropdown'
-            data-dropdown
-            data-hover=true
-            data-hover-delay=0
-            data-hover-pane=true
-            id=#{id}>
+                data-dropdown
+                data-hover=true
+                data-hover-delay=0
+                data-hover-pane=true
+                id=#{id}>
             #{value[:description]}
           </span>
         )
 
-        m.gsub!(/#{keyword}/i, dropdown)
+        toggler = "<span class='has-tip c-cg-keyword' data-toggle=#{id}>"
+        if (emphasis = value[:emphasis])
+          toggler << "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
+        end
+        toggler << "#{keyword}</span>"
+
+        m.gsub!(/#{keyword}/i, toggler)
       end
     end
 
-    result
+    result + dropdowns.join
   end
 
   protected
@@ -475,6 +506,8 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def process_doc
+    return if @doc_processed
+
     embed_audios
     embed_videos
     process_annotation_boxes
@@ -484,9 +517,12 @@ class ContentGuidePresenter < BasePresenter
     process_footnotes
     process_icons
     process_pullquotes
-    process_standards
+    process_superscript_standards
+    process_standards_table
     process_tasks
+    remove_comments
     replace_guide_links
     reset_table_styles
+    @doc_processed = true
   end
 end

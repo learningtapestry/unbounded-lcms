@@ -23,18 +23,11 @@
   @include e(item) {
     a {
       color: #959595;
-      font-weight: bold;
       line-height: 1.2 !important;
-      padding: 0 1rem 1rem !important;
+      padding: 0 1rem .5rem !important;
 
       &.active, &:hover, &:focus {
         color: #f96924;
-      }
-    }
-
-    @include m(level0) {
-      a {
-        font-size: 1.125rem;
       }
     }
 
