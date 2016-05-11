@@ -11,120 +11,45 @@
   }
 }
 
-h1 {
-  color: map-get($ub-txt-colors, h1);
-  font-family: $ub-serif;
-  font-weight: 500;
-  line-height: 36px;
-}
-
-h2 {
-  color: map-get($ub-txt-colors, h2);
-  font-family: $ub-serif;
-  font-weight: 300;
-  line-height: 28px;
-}
-
-h3 {
-  color: map-get($ub-txt-colors, h3);
-  font-family: $ub-sanserif-condensed;
-  line-height: 28px;
-}
-
-h4 {
-  color: map-get($ub-txt-colors, h1);
-  font-family: $ub-sanserif;
-  font-style: italic;
-  line-height: 26px;
-}
-
-$ub-element-fontsizes: (
-  base: 18px,
-  teaser: 22px,
-  title_type: 16px,
-  title_duration: 14px,
-  breadcrumbs: 14px,
-  button: 14px,
-  hero_header: 40px,
-  hero_text: 21px,
-  media_header: 30px,
-  media_text: 24px,
-  subscribe_header: 27px,
-  subscribe_text: 21px,
-  nav_base: 16px,
-  nav_span: 20px,
-  footer_links: 13px,
-  card_hover: 15px,
-  card_medium_title: 32px,
-  card_short_title: 24px,
-  related_header: 30px,
-  page_header: 32px,
-  search_header: 20px,
-  connect_header: 16px
+$ub-heading-typography: (
+  h1: ('line-height': 36px, 'font-family': $ub-serif, 'font-weight': 500),
+  h2: ('line-height': 28px, 'font-family': $ub-serif, 'font-weight': 300),
+  h3: ('line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 300),
+  h4: ('line-height': 26px, 'font-family': $ub-sanserif, 'font-weight': 300, 'font-style': italic),
 );
 
-$ub-element-lineheights: (
-  base: 24px,
-  teaser: 28px,
-  title_type: 21px,
-  title_duration: 21px,
-  breadcrumbs: 21px,
-  button: 21px,
-  hero_header: 42px,
-  hero_text: 27px,
-  media_header: 30px,
-  media_text: 30px,
-  subscribe_header: 36px,
-  subscribe_text: 24px,
-  nav_base: 20px,
-  nav_span: 20px,
-  footer_links: 19px,
-  card_hover: 18px,
-  card_medium_title: 32px,
-  card_short_title: 28px,
-  related_header: 36px,
-  page_header: 32px,
-  search_header: 20px,
-  connect_header: 30px
+@each $element, $typo in $ub-heading-typography {
+  #{$element} {
+    @include txt-heading-base($element);
+  }
+}
+
+$ub-element-typography: (
+  base: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
+  teaser: ('font-size': 22px, 'line-height': 28px, 'font-family': $ub-sanserif),
+  title_type: ('font-size': 16px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+  title_duration: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-sanserif),
+  breadcrumbs: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+  button: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+  hero_header: ('font-size': 40px, 'line-height': 42px, 'font-family': $ub-serif, 'font-weight': 500),
+  hero_text: ('font-size': 21px, 'line-height': 27px, 'font-family': $ub-sanserif),
+  media_header: ('font-size': 30px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
+  media_text: ('font-size': 24px, 'line-height': 30px, 'font-family': $ub-serif),
+  subscribe_header: ('font-size': 27px, 'line-height': 36px, 'font-family': $ub-serif),
+  subscribe_text: ('font-size': 21px, 'line-height': 24px, 'font-family': $ub-sanserif),
+  nav_base: ('font-size': 16px, 'line-height': 20px, 'font-family': $ub-serif),
+  nav_span: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 600),
+  footer_links: ('font-size': 13px, 'line-height': 19px, 'font-family': $ub-sanserif),
+  card_hover: ('font-size': 15px, 'line-height': 18px, 'font-family': $ub-sanserif),
+  card_medium_title: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-sanserif),
+  card_short_title: ('font-size': 24px, 'line-height': 28px, 'font-family': $ub-sanserif),
+  related_header: ('font-size': 30px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 500),
+  page_header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif),
+  search_header: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-sanserif),
+  connect_header: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600)
 );
 
-$ub-element-fonts: (
-  base: $ub-sanserif,
-  teaser: $ub-sanserif,
-  title_type: $ub-serif,
-  title_duration: $ub-sanserif,
-  breadcrumbs: $ub-serif,
-  button: $ub-serif,
-  hero_header: $ub-serif,
-  hero_text: $ub-sanserif,
-  media_header: $ub-serif,
-  media_text: $ub-serif,
-  subscribe_header: $ub-serif,
-  subscribe_text: $ub-sanserif,
-  nav_base: $ub-serif,
-  nav_span: $ub-serif,
-  footer_links: $ub-sanserif,
-  card_hover: $ub-sanserif,
-  related_header: $ub-serif,
-  page_header: $ub-serif,
-  search_header: $ub-sanserif,
-  connect_header: $ub-serif
-);
-
-$ub-element-fontweights: (
-  button: 600,
-  title_type: 600,
-  breadcrumbs: 600,
-  hero_header: 500,
-  media_header: 600,
-  subscribe_header: 600,
-  nav_span: 600,
-  related_header: 500,
-  page_header: 500,
-  connect_header: 600
-);
-
-@each $element, $font-size in $ub-element-fontsizes {
+@each $element, $typo in $ub-element-typography {
   %txt-#{$element}, .u-txt-#{$element} {
     @include txt-element($element);
   }

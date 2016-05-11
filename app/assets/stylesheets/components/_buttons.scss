@@ -14,6 +14,7 @@
   @include m(base) {
     @include button($background: $ub-btn-base, $color: $ub-white);
     @extend %ub-btn-font;
+    padding: $o-btn-padding;
   }
 
   @include m(dark) {

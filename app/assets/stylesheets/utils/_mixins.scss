@@ -87,6 +87,34 @@
   }
 }
 
+@mixin txt-element($element) {
+  $typo: map-get($ub-element-typography, $element);
+  @each $style, $value in $typo {
+    #{$style}: $value;
+  }
+  @if not map-has-key($typo, 'font-weight') {
+    font-weight: normal;
+  }
+}
+
+@mixin txt-heading-base($element) {
+  $typo: map-get($ub-heading-typography, $element);
+  color: map-get($ub-txt-colors, $element);
+  @each $style, $value in $typo {
+    #{$style}: $value;
+  }
+}
+
+@mixin txt-heading($element) {
+  @include txt-heading-base($element);
+  @each $size, $headers in $header-sizes {
+    @include breakpoint($size) {
+      $font-size: map-get($headers, $element);
+      font-size: rem-calc($font-size);
+    }
+  }
+}
+
 @mixin aspect-ratio($width, $height) {
   position: relative;
 
