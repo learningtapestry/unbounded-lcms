@@ -52,11 +52,17 @@
     line-height: 1.5 !important;
   }
 
+  a {
+    color: #f96924;
+  }
+
   h1, h2, h3, h4 {
     font-weight: bold;
   }
 
   h1 {
+    @include txt-heading(h3);
+
     clear: both;
     font-size: 1.625rem;
 
@@ -66,6 +72,8 @@
   }
 
   h2 {
+    @include txt-heading(h4);
+
     font-size: 1.3125rem;
 
     & + h3 {
@@ -74,6 +82,8 @@
   }
 
   h3 {
+    @include txt-heading(h5);
+
     font-size: 1.125rem;
 
     & + h4 {
@@ -231,8 +241,7 @@
   border-left: .123rem solid #f75b28;
   color: #f96924;
   float: right;
-  font-size: 1.4rem;
-  font-style: italic;
+  font: italic 1.75rem/2 $ub-serif;
   margin: 1.5rem 0 1rem 3.25rem;
   padding-left: 1.125rem;
   width: 50%;
@@ -301,8 +310,7 @@
 }
 
 .c-cg-task__title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font: bold 1.5rem $ub-sanserif-condensed;
   margin: 0;
   padding: 1rem 1rem 0;
 }
@@ -324,7 +332,7 @@
 
 .c-cg-teaser {
   color: #fff;
-  font-size: 1.3125rem;
+  font: 1.3125rem/1.3 $ub-serif;
 }
 
 .c-cg-title {
