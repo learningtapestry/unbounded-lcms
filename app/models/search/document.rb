@@ -12,6 +12,7 @@ module Search
     attribute :doc_type, String
     attribute :grade, String
     attribute :subject, String
+    attribute :breadcrumbs, String
     attribute :tag_authors, Array[String]
     attribute :tag_texts, Array[String]
     attribute :tag_keywords, Array[String]
@@ -23,7 +24,7 @@ module Search
         self.new **attrs_from_resource(model)
 
       elsif model.is_a?(Curriculum)
-        self.new **attrs_from_resource(model.resource_item)
+        self.new **attrs_from_resource(model.resource_item, model)
 
       elsif model.is_a?(ContentGuide)
         self.new **attrs_from_content_guide(model)
@@ -76,9 +77,10 @@ module Search
 
     private
 
-      def self.attrs_from_resource(model)
+      def self.attrs_from_resource(model, curriculum=nil)
+        curriculum ||= model.curriculums.first
         if model.resource_type == 'resource'
-          doc_type = model.curriculums.first.curriculum_type.name
+          doc_type = curriculum.curriculum_type.name
         else
           doc_type = model.resource_type
         end
@@ -95,6 +97,7 @@ module Search
           doc_type: doc_type,
           subject: model.subject,
           grade: model.grade_list,
+          breadcrumbs: curriculum.try(:breadcrumb_title),
           tag_authors: tags[:authors],
           tag_texts: tags[:texts],
           tag_keywords: tags[:keywords],
@@ -114,6 +117,7 @@ module Search
           doc_type: 'content_guide',
           subject: model.subject,
           grade: model.grade_list,
+          breadcrumbs: nil,
           tag_authors: [],
           tag_texts: [],
           tag_keywords: [],
