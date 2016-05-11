@@ -14,7 +14,7 @@
 $ub-heading-typography: (
   h1: ('line-height': 36px, 'font-family': $ub-serif, 'font-weight': 500),
   h2: ('line-height': 28px, 'font-family': $ub-serif, 'font-weight': 300),
-  h3: ('line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 300),
+  h3: ('line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': bold),
   h4: ('line-height': 26px, 'font-family': $ub-sanserif, 'font-weight': 300, 'font-style': italic),
 );
 
@@ -27,30 +27,31 @@ $ub-heading-typography: (
 $ub-element-typography: (
   base: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
   teaser: ('font-size': 22px, 'line-height': 28px, 'font-family': $ub-sanserif),
-  title_type: ('font-size': 16px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
-  title_duration: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-sanserif),
+  title-type: ('font-size': 16px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+  title-duration: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-sanserif),
   breadcrumbs: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
   button: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
-  hero_header: ('font-size': 40px, 'line-height': 42px, 'font-family': $ub-serif, 'font-weight': 500),
-  hero_text: ('font-size': 21px, 'line-height': 27px, 'font-family': $ub-sanserif),
-  media_header: ('font-size': 30px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
-  media_text: ('font-size': 24px, 'line-height': 30px, 'font-family': $ub-serif),
-  subscribe_header: ('font-size': 27px, 'line-height': 36px, 'font-family': $ub-serif),
-  subscribe_text: ('font-size': 21px, 'line-height': 24px, 'font-family': $ub-sanserif),
-  nav_base: ('font-size': 16px, 'line-height': 20px, 'font-family': $ub-serif),
-  nav_span: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 600),
-  footer_links: ('font-size': 13px, 'line-height': 19px, 'font-family': $ub-sanserif),
-  card_hover: ('font-size': 15px, 'line-height': 18px, 'font-family': $ub-sanserif),
-  card_medium_title: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-sanserif),
-  card_short_title: ('font-size': 24px, 'line-height': 28px, 'font-family': $ub-sanserif),
-  related_header: ('font-size': 30px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 500),
-  page_header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif),
-  search_header: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-sanserif),
-  connect_header: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600)
+  hero-header: ('font-size': 40px, 'line-height': 42px, 'font-family': $ub-serif, 'font-weight': 500),
+  hero-text: ('font-size': 21px, 'line-height': 27px, 'font-family': $ub-sanserif),
+  media-header: ('font-size': 30px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
+  media-text: ('font-size': 24px, 'line-height': 30px, 'font-family': $ub-serif),
+  subscribe-header: ('font-size': 27px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 600),
+  subscribe-text: ('font-size': 21px, 'line-height': 24px, 'font-family': $ub-sanserif),
+  nav-base: ('font-size': 16px, 'line-height': 20px, 'font-family': $ub-serif),
+  nav-span: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 600),
+  footer-links: ('font-size': 13px, 'line-height': 19px, 'font-family': $ub-sanserif),
+  card-hover: ('font-size': 15px, 'line-height': 18px, 'font-family': $ub-sanserif),
+  card-medium-title: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-sanserif),
+  card-short-title: ('font-size': 24px, 'line-height': 28px, 'font-family': $ub-sanserif),
+  related-header: ('font-size': 30px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 500),
+  page-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif),
+  search-header: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-sanserif),
+  connect-header: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
+  connect-text: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-serif)
 );
 
 @each $element, $typo in $ub-element-typography {
-  %txt-#{$element}, .u-txt-#{$element} {
+  %txt-#{$element}, .u-txt--#{$element} {
     @include txt-element($element);
   }
 }

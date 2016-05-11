@@ -25,4 +25,7 @@
 .c-ap-cta {
   @include add-gutter($type: margin, $subtype: bottom);
   @include add-gutter($type: margin, $subtype: top);
+
+  h2 { @include txt-element(media-header); }
+  p { @include txt-element(media-text); }
 }
