@@ -207,13 +207,13 @@ class ContentGuidePresenter < BasePresenter
 
       annotation_list = doc.document.create_element('div', class: 'c-cg-annotationList')
       annotation_dropdowns.each_with_index do |dropdown, index|
-        number = doc.document.create_element('span', class: 'c-cg-annotationList__number')
+        number = doc.document.create_element('span', class: 'c-cg-annotationListItem__number')
         number.content = index + 1
 
-        content = doc.document.create_element('span')
+        content = doc.document.create_element('span', class: 'c-cg-annotationListItem__content')
         content.inner_html = dropdown.inner_html
 
-        list_item = doc.document.create_element('p')
+        list_item = doc.document.create_element('p', class: 'c-cg-annotationListItem')
         list_item << number
         list_item << content
 
