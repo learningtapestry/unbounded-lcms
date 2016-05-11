@@ -10,6 +10,12 @@
     }
   }
 
+  @include e(left-menu) {
+    @include breakpoint($topbar-unstack-breakpoint) {
+      > li > a { @include add-column-padding; }
+    }
+  }
+
   @include e(submenu) {
     background-color: $ub-white !important;
     margin-top: 1px;

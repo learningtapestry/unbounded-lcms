@@ -24,13 +24,13 @@ html, body {
   @include flex-grid-column;
 
   @include m(margin-to-top) {
-    margin-bottom: $ub-base-margin;
-    margin-top: $ub-large-margin * 2;
+    @include add-gutter(margin, bottom, 1);
+    @include add-gutter(margin, top, 2);
   }
 
   @include m(margin-to-bottom) {
-    margin-bottom: $ub-large-margin * 2;
-    margin-top: $ub-base-margin;
+    @include add-gutter(margin, bottom, 2);
+    @include add-gutter(margin, top, 1);
   }
 
   @include m(centered) {
@@ -74,7 +74,7 @@ html, body {
   }
 
   @include e(section) {
-    @include flex-grid-column(12);
+    @include flex-grid-column(12, $grid-column-2xgutter);
   }
 
 }
