@@ -1,6 +1,7 @@
 .o-media {
   @include media-object-container;
   @include add-gutter;
+  border-radius: $panel-radius;
 
   @include e(img) {
     @include media-object-section;
@@ -17,9 +18,12 @@
 
   @include e(body) {
     @include media-object-section;
-    padding: $ub-base-padding 0;
-    padding-left: $ub-large-padding;
+    @include add-column-padding;
+    @include add-top-bottom-padding;
     width: grid-column(8);
+
+    h2 { @include txt-element(media_header); }
+    &, p { @include txt-element(media_text); }
 
     @include m(no-left) {
       padding-left: 0;
