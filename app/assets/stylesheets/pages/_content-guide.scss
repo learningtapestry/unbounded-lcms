@@ -45,58 +45,58 @@
     }
 
     padding: 0 2.125rem 0 2.25rem !important;
-  }
 
-  & * {
-    font-family: PFCentroSansPro, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-    line-height: 1.5 !important;
-  }
-
-  a {
-    color: #f96924;
-  }
-
-  h1, h2, h3, h4 {
-    font-weight: bold;
-  }
-
-  h1 {
-    @include txt-heading(h3);
-
-    clear: both;
-    font-size: 1.625rem;
-
-    & + h2 {
-      padding-top: 0 !important;
+    & * {
+      font-family: PFCentroSansPro, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+      line-height: 1.5 !important;
     }
-  }
 
-  h2 {
-    @include txt-heading(h4);
-
-    font-size: 1.3125rem;
-
-    & + h3 {
-      padding-top: 0 !important;
+    a {
+      color: #f96924;
     }
-  }
 
-  h3 {
-    @include txt-heading(h5);
-
-    font-size: 1.125rem;
-
-    & + h4 {
-      padding-top: 0 !important;
+    h1, h2, h3, h4 {
+      font-weight: bold;
     }
-  }
 
-  ul li {
-    text-indent: 0 !important;
-  }
+    h1 {
+      @include txt-heading(h3);
 
-  .has-tip {
-    font-style: normal !important;
+      clear: both;
+      font-size: 1.625rem;
+
+      & + h2 {
+        padding-top: 0 !important;
+      }
+    }
+
+    h2 {
+      @include txt-heading(h4);
+
+      font-size: 1.3125rem;
+
+      & + h3 {
+        padding-top: 0 !important;
+      }
+    }
+
+    h3 {
+      @include txt-heading(h5);
+
+      font-size: 1.125rem;
+
+      & + h4 {
+        padding-top: 0 !important;
+      }
+    }
+
+    ul li {
+      text-indent: 0 !important;
+    }
+
+    .has-tip {
+      font-style: normal !important;
+    }
   }
 }
 
