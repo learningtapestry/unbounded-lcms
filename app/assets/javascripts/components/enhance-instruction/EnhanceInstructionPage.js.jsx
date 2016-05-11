@@ -122,7 +122,7 @@ class EnhanceInstructionPage extends React.Component {
 
   render() {
     const tabGuides = this.renderTab('Content Guides', 0);
-    const tabResources = this.renderTab('Resources', 1);
+    const tabResources = this.renderTab('Videos and Podcasts', 1);
     return (
       <div>
         <div className="u-bg--base">

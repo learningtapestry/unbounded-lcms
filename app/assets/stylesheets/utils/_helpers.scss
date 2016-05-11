@@ -115,7 +115,7 @@ $bg: (
   @include clearfix;
   border-bottom: 4px solid map-get($ub-yellow, base);
   border-radius: 2px;
-  margin-bottom: $ub-small-margin;
+  margin-bottom: $ub-base-margin;
   width: 60px;
 }
 
