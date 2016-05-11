@@ -1,12 +1,11 @@
 .o-media {
-  @include media-object-container;
+  @include flex-grid-row;
   @include add-gutter;
   border-radius: $panel-radius;
 
   @include e(img) {
-    @include media-object-section;
+    @include flex-grid-column(5, 0);
     overflow: hidden;
-    width: grid-column(4);
 
     img { width: 100%;}
 
@@ -17,21 +16,19 @@
   }
 
   @include e(body) {
-    @include media-object-section;
-    @include add-column-padding;
+    @include flex-grid-column(7, $grid-column-2xgutter);
     @include add-top-bottom-padding;
-    width: grid-column(8);
 
-    h2 { @include txt-element(media_header); }
-    &, p { @include txt-element(media_text); }
+    h2 { @include txt-element(media-header); }
+    &, p { @include txt-element(media-text); }
 
-    @include m(no-left) {
-      padding-left: 0;
-    }
-
-    @include m(no-right) {
-      padding-right: 0;
-    }
+    // @include m(no-left) {
+    //   padding-left: 0;
+    // }
+    //
+    // @include m(no-right) {
+    //   padding-right: 0;
+    // }
 
   }
 }

@@ -36,11 +36,11 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
     border-radius: $panel-radius;
 
     h1 {
-      @include txt-element(hero_header);
+      @include txt-element(hero-header);
       color: $ub-primary;
     }
 
-    p { @include txt-element(hero_text); }
+    p { @include txt-element(hero-text); }
 
     @include breakpoint(large) {
       @include grid-column-offset(5);
@@ -51,7 +51,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
 
 .c-hp-register {
   @include add-gutter;
-  @include txt-element(media_text);
+  @include txt-element(media-text);
   background-image: linear-gradient(to right, $c-hp-si-gradient, $c-hp-si-gradient), image-url('hp_si_bg.jpg');
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
@@ -83,20 +83,31 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
     @include flex-grid-column(6);
   }
 
+  @include e(item) {
+    @include flex-grid-column(12, 0);
+  }
+
+  @include e(dsc) {
+    @include txt-element(media-text);
+    color: $ub-white;
+    flex: 1 1 0px;
+  }
+
   @include e(body) {
-    @include flex;
+    @include flex-grid-row;
     @include add-column-padding;
     @include add-top-bottom-padding;
     border-radius: $panel-radius;
+    flex-wrap: nowrap;
     flex-direction: column;
 
     h2 {
-      @include txt-element(media_header);
+      @include txt-element(media-header);
       color: $ub-white;
     }
 
     p {
-      @include txt-element(media_text);
+      @include txt-element(media-text);
       color: $ub-white;
       flex: 1 1 0px;
     }
@@ -116,7 +127,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
 }
 
 .c-hp-media {
-  //height: 220px;
+  max-height: 280px;
 }
 
 .c-hp-hr {
