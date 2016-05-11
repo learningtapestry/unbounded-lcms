@@ -84,7 +84,7 @@ class ContentGuidePresenter < BasePresenter
 
   def all_next_elements_with_name(tag, name)
     nodes = []
-    next_node = tag.next
+    next_node = tag.try(:next)
 
     loop do
       break if next_node.nil?
@@ -296,6 +296,8 @@ class ContentGuidePresenter < BasePresenter
 
   def process_footnotes
     hr = doc.at_css('hr')
+    return unless hr
+
     all_next_elements_with_name(hr, 'div').each do |div|
       div[:class] = 'c-cg-footnote'
     end
