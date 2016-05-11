@@ -1,5 +1,15 @@
 class CommonCoreStandard < Standard
   belongs_to :standard_strand
+  belongs_to :cluster, class_name: 'CommonCoreStandard'
+  belongs_to :domain, class_name: 'CommonCoreStandard'
+
+  scope :clusters, ->{ where(label: 'cluster') }
+  scope :domains, ->{ where(label: 'domain') }
+  scope :standards, ->{ where(label: 'standard') }
+
+  def self.where_alt_name(alt_name)
+    where('? = ANY(alt_names)', alt_name)
+  end
 
   def self.import
     api_url = "#{ENV['COMMON_STANDARDS_PROJECT_API_URL']}/api/v1"
@@ -32,7 +42,7 @@ class CommonCoreStandard < Standard
           standard.description = data['description']
           standard.grades << grade unless standard.grades.include?(grade)
           standard.label = data['statementLabel'].try(:downcase)
-          standard.name = name
+          standard.name = name if name.present?
           standard.subject = subject
 
           standard.save!
