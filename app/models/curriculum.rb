@@ -586,4 +586,8 @@ class Curriculum < ActiveRecord::Base
     # index only Curriculum.trees.where_resources
     do_not_skip_indexing? && seed_id.present? && resource_item.present?
   end
+
+  def named_tags
+    resource.named_tags.merge! resource_type: curriculum_type.try(:name)
+  end
 end

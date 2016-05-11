@@ -12,6 +12,7 @@ module Search
     attribute :doc_type, String
     attribute :grade, String
     attribute :subject, String
+    attribute :tags, Hash
 
     def self.build_from(model)
 
@@ -90,6 +91,7 @@ module Search
           doc_type: doc_type,
           subject: model.subject,
           grade: model.grade_list,
+          tags: model.named_tags,
         }
       end
 
@@ -105,6 +107,7 @@ module Search
           doc_type: 'content_guide',
           subject: model.subject,
           grade: model.grade_list,
+          tags: {},
         }
       end
   end
