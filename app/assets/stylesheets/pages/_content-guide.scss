@@ -45,35 +45,58 @@
     }
 
     padding: 0 2.125rem 0 2.25rem !important;
-  }
 
-  & * {
-    font-family: PFCentroSansPro, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-    line-height: 1.5 !important;
-  }
+    & * {
+      font-family: PFCentroSansPro, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+      line-height: 1.5 !important;
+    }
 
-  h1, h2, h3, h4 {
-    font-weight: bold;
-  }
+    a {
+      color: #f96924;
+    }
 
-  h1 {
-    font-size: 1.625rem;
-  }
+    h1, h2, h3, h4 {
+      font-weight: bold;
+    }
 
-  h2 {
-    font-size: 1.3125rem;
-  }
+    h1 {
+      @include txt-heading(h3);
 
-  h3 {
-    font-size: 1.125rem;
-  }
+      clear: both;
+      font-size: 1.625rem;
 
-  ul li {
-    text-indent: 0 !important;
-  }
+      & + h2 {
+        padding-top: 0 !important;
+      }
+    }
 
-  .has-tip {
-    font-style: normal !important;
+    h2 {
+      @include txt-heading(h4);
+
+      font-size: 1.3125rem;
+
+      & + h3 {
+        padding-top: 0 !important;
+      }
+    }
+
+    h3 {
+      @include txt-heading(h5);
+
+      font-size: 1.125rem;
+
+      & + h4 {
+        padding-top: 0 !important;
+      }
+    }
+
+    ul li {
+      text-indent: 0 !important;
+    }
+
+    .has-tip {
+      font-style: normal !important;
+    }
   }
 }
 
@@ -94,14 +117,24 @@
   }
 }
 
-.c-cg-annotationList__number {
+.c-cg-annotationListItem {
+  display: table-row;
+}
+
+.c-cg-annotationListItem__content {
+  display: table-cell;
+  margin-bottom: 1rem;
+}
+
+.c-cg-annotationListItem__number {
   background: #ffbf00;
   border-radius: 50%;
   color: #fff;
   display: inline-block;
-  font-weight: bold;
+  font: bold 1rem $ub-serif;
   height: 2rem;
-  padding: 0.25rem;
+  margin: 0 .5rem 1rem 0;
+  padding: 0.3rem;
   text-align: center;
   width: 2rem;
 }
@@ -128,30 +161,33 @@
   font-size: 1rem;
   line-height: 1.2 !important;
   padding: 1rem;
+
+  * {
+    word-wrap: break-word;
+  }
 }
 
-.c-cg-standard::before {
+.c-cg-standard {
   background-size: contain;
-  content: ' ';
   display: inline-block;
   height: 1rem;
   margin-right: .2rem;
   width: 1rem;
 }
 
-.c-cg-standard--a::before {
+.c-cg-standard--a {
   background-image: asset-url('st_icon_a.svg');
 }
 
-.c-cg-standard--m::before {
+.c-cg-standard--m {
   background-image: asset-url('st_icon_m.svg');
 }
 
-.c-cg-standard--plus::before {
+.c-cg-standard--plus {
   background-image: asset-url('st_icon_plus.svg');
 }
 
-.c-cg-standard--s::before {
+.c-cg-standard--s {
   background-image: asset-url('st_icon_s.svg');
 }
 
@@ -179,6 +215,7 @@
 
 .c-cg-icon {
   background-size: contain;
+  clear: left;
   float: left;
   height: 80px;
   margin: 0 1rem 1rem 0;
@@ -214,9 +251,8 @@
   border-left: .123rem solid #f75b28;
   color: #f96924;
   float: right;
-  font-size: 1.4rem;
-  font-style: italic;
-  margin: 3.25rem 0 1rem 3.25rem;
+  font: italic 1.75rem/2 $ub-serif;
+  margin: 1.5rem 0 1rem 3.25rem;
   padding-left: 1.125rem;
   width: 50%;
 }
@@ -258,10 +294,6 @@
     background: #fff !important;
     border-bottom: 1px solid #cacaca;
 
-    &:first-child td {
-      font-weight: bold;
-    }
-
     &:last-child {
       border-bottom: none;
     }
@@ -288,8 +320,7 @@
 }
 
 .c-cg-task__title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font: bold 1.5rem $ub-sanserif-condensed;
   margin: 0;
   padding: 1rem 1rem 0;
 }
@@ -301,7 +332,7 @@
   display: block;
   font-size: 0.875rem;
   font-weight: bold;
-  padding: 1.25rem 0;
+  padding: .75rem 0;
   text-align: center;
 }
 
@@ -311,7 +342,7 @@
 
 .c-cg-teaser {
   color: #fff;
-  font-size: 1.3125rem;
+  font: 1.3125rem/1.3 $ub-serif;
 }
 
 .c-cg-title {
