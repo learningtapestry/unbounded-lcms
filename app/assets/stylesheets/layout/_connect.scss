@@ -1,8 +1,7 @@
 .o-connect {
   h2 {
-    color: $white;
-    font-size: $global-font-size;
-    font-weight: bold;
+    @include txt-element(connect-header);
+    color: #ededed;
     text-transform: uppercase;
   }
   color: $ub-nav-link;
@@ -22,6 +21,7 @@
   }
 
   @include e(dsc) {
+    @include txt-element(connect-text);
     flex: 1 1 0px;
     padding-right: $ub-base-padding;
   }
