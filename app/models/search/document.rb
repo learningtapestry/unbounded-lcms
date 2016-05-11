@@ -12,7 +12,10 @@ module Search
     attribute :doc_type, String
     attribute :grade, String
     attribute :subject, String
-    attribute :tags, Hash
+    attribute :tag_authors, Array[String]
+    attribute :tag_texts, Array[String]
+    attribute :tag_keywords, Array[String]
+    attribute :tag_standards, Array[String]
 
     def self.build_from(model)
 
@@ -80,6 +83,7 @@ module Search
           doc_type = model.resource_type
         end
 
+        tags = model.named_tags
         {
           id: "resource_#{model.id}",
           model_type: :resource,
@@ -91,7 +95,10 @@ module Search
           doc_type: doc_type,
           subject: model.subject,
           grade: model.grade_list,
-          tags: model.named_tags,
+          tag_authors: tags[:authors],
+          tag_texts: tags[:texts],
+          tag_keywords: tags[:keywords],
+          tag_standards: tags[:ccss_standards],
         }
       end
 
@@ -107,7 +114,11 @@ module Search
           doc_type: 'content_guide',
           subject: model.subject,
           grade: model.grade_list,
-          tags: {},
+          tag_authors: [],
+          tag_texts: [],
+          tag_keywords: [],
+          tag_standards: [],
+
         }
       end
   end
