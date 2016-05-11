@@ -13,23 +13,23 @@
   @include e(label) {
     @include flex-grid-column(4, 0);
     @include flex-align-self(middle);
+    @include txt-element(subscribe-header);
     color: map-get($ub-mignight, base);
-    font-family: $ub-serif;
-    font-size: $lead-font-size;
-    font-weight: bold;
   }
 
   @include e(email) {
     @include flex-grid-column(8, 0);
-    @include placeholder($ub-txt);
+    @include placeholder($ub-heading-txt);
+    height: $ub-subscribe-height;
     margin-bottom: 0;
     input {
+      @include txt-element(subscribe-text);
       padding: 1.5rem 1rem;
       &, &:focus {
         background-color: $ub-subscribe-form-bg;
         border-color: $ub-subscribe-form-bg;
         box-shadow: none;
-        color: $ub-txt;
+        color: $ub-heading-txt;
       }
     }
   }

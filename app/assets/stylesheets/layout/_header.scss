@@ -6,6 +6,7 @@
 
     @include breakpoint($topbar-unstack-breakpoint) {
       @include menu-direction(horizontal);
+      > li > a { @include add-column-padding; }
     }
   }
 
@@ -42,14 +43,14 @@
       a { background: none; }
     }
     a {
-      @include txt-element(nav_span);
+      @include txt-element(nav-span);
       span:last-child:before { content: '\00a0'; }
       @include breakpoint($topbar-unstack-breakpoint) {
         display: block !important;
         padding-bottom: 1rem !important;
         padding-top: 1rem !important;
         span:first-child {
-          @include txt-element(nav_base);
+          @include txt-element(nav-base);
         }
         span:last-child {
           &:before { content: '\A'; white-space: pre; }

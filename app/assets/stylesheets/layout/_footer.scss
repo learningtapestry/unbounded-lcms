@@ -49,17 +49,18 @@
   }
 
   @include e(list) {
+    $footer-padding: 5px;
     @include menu-base;
     @include menu-direction(horizontal);
     color: $ub-whitesmoke;
-    li a { padding-left: .5rem; padding-right: .5rem; }
+    li a { padding-left: $footer-padding; padding-right: $footer-padding; }
 
     @include breakpoint(medium down) {
       display: inline-flex;
       flex-wrap: wrap;
       li { flex: 0 0 auto; }
       li a { padding: .1rem 0; }
-      li.bullet { padding: .1rem .5rem; }
+      li.bullet { padding: .1rem $footer-padding; }
     }
   }
 }
