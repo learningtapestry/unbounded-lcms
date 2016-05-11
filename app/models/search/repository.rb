@@ -57,9 +57,10 @@ module Search
         indexes :grade,         type: 'string', index: 'not_analyzed'
         indexes :subject,       type: 'string'
         indexes :tag_authors,   **::Search.ngrams_multi_field(:tag_authors)
-        indexes :tag_texts,     **::Search.ngrams_multi_field(:tag_authors)
-        indexes :tag_keywords,  **::Search.ngrams_multi_field(:tag_authors)
-        indexes :tag_standards, type: 'string', index: 'not_analyzed'
+        indexes :tag_texts,     **::Search.ngrams_multi_field(:tag_texts)
+        indexes :tag_keywords,  **::Search.ngrams_multi_field(:tag_keywords)
+        indexes :tag_standards, **::Search.ngrams_multi_field(:tag_standards)
+        # indexes :tag_standards, type: 'string', index: 'not_analyzed'
       end
     end
 
@@ -91,6 +92,7 @@ module Search
                 { match: { 'tag_keywords.full'    => {query: term, type: 'phrase', boost: 2} } },
                 { match: { 'tag_keywords.partial' => {query: term, boost: 1} } },
 
+                { match: { 'tag_standards'         => {query: term, boost: 5} } },
                 { match: { 'tag_standards.full'    => {query: term, type: 'phrase', boost: 3} } },
                 { match: { 'tag_standards.partial' => {query: term, boost: 1} } },
 
