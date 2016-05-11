@@ -52,8 +52,13 @@
 }
 
 @mixin add-column-padding {
-  @include add-gutter(padding, left, .5);
-  @include add-gutter(padding, right, .5);
+  @include add-gutter(padding, left, 1);
+  @include add-gutter(padding, right, 1);
+}
+
+@mixin add-top-bottom-padding {
+  @include add-gutter(padding, bottom, 1);
+  @include add-gutter(padding, top, 1);
 }
 
 @mixin placeholder($color: $ub-txt){
@@ -68,6 +73,45 @@
   }
   :-moz-placeholder { /* Firefox 18- */
     color: $color;
+  }
+}
+
+@mixin txt-element($element) {
+  font-family: map-get($ub-element-fonts, #{$element});
+  font-size: map-get($ub-element-fontsizes, #{$element});
+  line-height: map-get($ub-element-lineheights, #{$element});
+  @if map-has-key($ub-element-fontweights, #{$element}) {
+    font-weight: map-get($ub-element-fontweights, #{$element});
+  } @else {
+    font-weight: normal;
+  }
+}
+
+@mixin txt-element($element) {
+  $typo: map-get($ub-element-typography, $element);
+  @each $style, $value in $typo {
+    #{$style}: $value;
+  }
+  @if not map-has-key($typo, 'font-weight') {
+    font-weight: normal;
+  }
+}
+
+@mixin txt-heading-base($element) {
+  $typo: map-get($ub-heading-typography, $element);
+  color: map-get($ub-txt-colors, $element);
+  @each $style, $value in $typo {
+    #{$style}: $value;
+  }
+}
+
+@mixin txt-heading($element) {
+  @include txt-heading-base($element);
+  @each $size, $headers in $header-sizes {
+    @include breakpoint($size) {
+      $font-size: map-get($headers, $element);
+      font-size: rem-calc($font-size);
+    }
   }
 }
 
