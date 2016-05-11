@@ -23,31 +23,41 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
     $max-width: ($i + 1) * $hp-step + $hp-screen-width - 1px;
     $str: '(min-width: #{$min-width}) and (max-width: #{$max-width})';
     @media screen and #{$str} {
-      margin-bottom: $ub-xlarge-margin * $k;
-      margin-top: $ub-xlarge-margin * $k;
+      margin-bottom: $ub-large-margin * $k;
+      margin-top: $ub-large-margin * $k;
     }
   }
 
   @include e(body) {
     @include grid-column-offset(4);
-    @include flex-grid-column(8);
+    @include flex-grid-column(8, $grid-column-2xgutter);
+    @include add-top-bottom-padding;
     background-color: rgba($ub-white, .45);
+    border-radius: $panel-radius;
 
-    h1 { color: $ub-primary; }
+    h1 {
+      @include txt-element(hero_header);
+      color: $ub-primary;
+    }
+
+    p { @include txt-element(hero_text); }
 
     @include breakpoint(large) {
-      @include grid-column-offset(6);
-      @include flex-grid-column(6);
+      @include grid-column-offset(5);
+      @include flex-grid-column(7, $grid-column-2xgutter);
     }
   }
 }
 
 .c-hp-register {
   @include add-gutter;
+  @include txt-element(media_text);
   background-image: linear-gradient(to right, $c-hp-si-gradient, $c-hp-si-gradient), image-url('hp_si_bg.jpg');
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
+  border-radius: $panel-radius;
   color: $ub-white;
+  min-height: 160px;
   padding: $ub-xlarge-padding 0;
 
   @include e(wrap) {
@@ -55,11 +65,11 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
   }
 
   @include e(item) {
-    @include flex-grid-column(shrink);
+    @include flex-grid-column(shrink, $grid-column-2xgutter);
   }
 
   @include e(text) {
-    @include flex-grid-column();
+    @include flex-grid-column(null, $grid-column-2xgutter);
     border-left: 1px solid $ub-whitesmoke;
   }
 }
@@ -75,13 +85,21 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
 
   @include e(body) {
     @include flex;
-    @include add-gutter($type: padding, $subtype: right, $x: .5);
-    @include add-gutter($type: padding, $subtype: left, $x: .5);
+    @include add-column-padding;
+    @include add-top-bottom-padding;
+    border-radius: $panel-radius;
     flex-direction: column;
-    padding: $ub-base-padding 0;
 
-    h2, & { color: $ub-white; }
-    p { flex: 1 1 0px; }
+    h2 {
+      @include txt-element(media_header);
+      color: $ub-white;
+    }
+
+    p {
+      @include txt-element(media_text);
+      color: $ub-white;
+      flex: 1 1 0px;
+    }
     a.o-ub-btn { max-width: 200px; }
 
     @include m(ela) {
@@ -98,7 +116,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
 }
 
 .c-hp-media {
-  height: 220px;
+  //height: 220px;
 }
 
 .c-hp-hr {

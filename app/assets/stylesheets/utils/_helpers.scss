@@ -32,7 +32,7 @@ $margins: (
   'large': $ub-large-margin,
   'xlarge': $ub-xlarge-margin
 );
-$margins-align: (top, bottom);
+$margins-align: (top, bottom, right, left);
 
 @each $margin-type, $margin-value in $margins {
   @each $align in $margins-align {
@@ -114,6 +114,7 @@ $bg: (
 .u-hr-small {
   @include clearfix;
   border-bottom: 4px solid map-get($ub-yellow, base);
+  border-radius: 2px;
   margin-bottom: $ub-small-margin;
   width: 60px;
 }
