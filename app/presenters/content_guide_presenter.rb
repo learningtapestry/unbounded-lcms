@@ -328,7 +328,19 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
-  def process_standards
+  def process_superscript_standards
+    superscript_style = /vertical-align:\s*super;?/
+    doc.css('.c-cg-keyword').each do |span|
+      parent = span.parent
+      if parent && ((parent[:style] || '') =~ superscript_style)
+        span.inner_html = "(#{span.inner_html})"
+        parent[:style] = parent[:style].gsub(superscript_style, '')
+        parent.inner_html = " #{parent.inner_html}"
+      end
+    end
+  end
+
+  def process_standards_table
     find_custom_tags('standards').each do |tag|
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
@@ -472,7 +484,7 @@ class ContentGuidePresenter < BasePresenter
           </span>
         )
 
-        toggler = "<span class=has-tip data-toggle=#{id}>"
+        toggler = "<span class='has-tip c-cg-keyword' data-toggle=#{id}>"
         if (emphasis = value[:emphasis])
           toggler << "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
         end
@@ -503,7 +515,8 @@ class ContentGuidePresenter < BasePresenter
     process_footnotes
     process_icons
     process_pullquotes
-    process_standards
+    process_superscript_standards
+    process_standards_table
     process_tasks
     remove_comments
     replace_guide_links
