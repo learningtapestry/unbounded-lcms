@@ -69,6 +69,7 @@
   }
 
   @include e(wrapper) {
+    height: $ub-nav-height;
     @include breakpoint($topbar-unstack-breakpoint) {
       @include top-bar-container;
       flex-wrap: wrap;
