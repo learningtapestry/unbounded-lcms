@@ -47,20 +47,19 @@ module Search
 
     settings index: ::Search.index_settings do
       mappings dynamic: 'false' do
-        indexes :model_type,  type: 'string', index: 'not_analyzed'  # ActiveRecord model => resource | content_guide
-        indexes :model_id,    type: 'string', index: 'not_analyzed'
-        indexes :title,       **::Search.ngrams_multi_field(:title)
-        indexes :teaser,      **::Search.ngrams_multi_field(:teaser)
-        indexes :description, **::Search.ngrams_multi_field(:description)
-        indexes :misc,        **::Search.ngrams_multi_field(:description)
-        indexes :doc_type,    type: 'string', index: 'not_analyzed'  #  module | unit | lesson | video | etc
-        indexes :grade,       type: 'string', index: 'not_analyzed'
-        indexes :subject,     type: 'string'
-        indexes :tags,        type: 'nested', properties: {
-          texts:    {type: 'string'},
-          authors:  {type: 'string'},
-          keywords: {type: 'string'},
-        }
+        indexes :model_type,    type: 'string', index: 'not_analyzed'  # ActiveRecord model => resource | content_guide
+        indexes :model_id,      type: 'string', index: 'not_analyzed'
+        indexes :title,         **::Search.ngrams_multi_field(:title)
+        indexes :teaser,        **::Search.ngrams_multi_field(:teaser)
+        indexes :description,   **::Search.ngrams_multi_field(:description)
+        indexes :misc,          **::Search.ngrams_multi_field(:description)
+        indexes :doc_type,      type: 'string', index: 'not_analyzed'  #  module | unit | lesson | video | etc
+        indexes :grade,         type: 'string', index: 'not_analyzed'
+        indexes :subject,       type: 'string'
+        indexes :tag_authors,   **::Search.ngrams_multi_field(:tag_authors)
+        indexes :tag_texts,     **::Search.ngrams_multi_field(:tag_authors)
+        indexes :tag_keywords,  **::Search.ngrams_multi_field(:tag_authors)
+        indexes :tag_standards, type: 'string', index: 'not_analyzed'
       end
     end
 
@@ -73,19 +72,27 @@ module Search
         page = options.fetch(:page, 1)
 
         query = {
-          min_score: 0.05,
+          min_score: 0.5,
           query: {
             bool: {
               should: [
-                { match: { 'title.full'     => {query: term, type: 'phrase', boost: 5} } },
-                { match: { 'title.partial'  => {query: term, boost: 5} } },
+                { match: { 'title.full'     => {query: term, type: 'phrase', boost: 3} } },
+                { match: { 'title.partial'  => {query: term, boost: 2} } },
 
-                { match: { 'teaser.full'    => {query: term, type: 'phrase', boost: 0.5} } },
-                { match: { 'teaser.partial' => {query: term, boost: 0.5} } },
+                { match: { 'teaser.full'    => {query: term, type: 'phrase', boost: 0.2} } },
+                { match: { 'teaser.partial' => {query: term, boost: 0.2} } },
 
-                { query_string: {query: "tags.authors:#{term}",   boost: 10} },
-                { query_string: {query: "tags.texts:#{term}",     boost: 10} },
-                { query_string: {query: "tags.keywords:#{term}",  boost: 10} },
+                { match: { 'tag_authors.full'    => {query: term, type: 'phrase', boost: 3} } },
+                { match: { 'tag_authors.partial' => {query: term, boost: 1} } },
+
+                { match: { 'tag_texts.full'    => {query: term, type: 'phrase', boost: 2} } },
+                { match: { 'tag_texts.partial' => {query: term, boost: 1} } },
+
+                { match: { 'tag_keywords.full'    => {query: term, type: 'phrase', boost: 2} } },
+                { match: { 'tag_keywords.partial' => {query: term, boost: 1} } },
+
+                { match: { 'tag_standards.full'    => {query: term, type: 'phrase', boost: 3} } },
+                { match: { 'tag_standards.partial' => {query: term, boost: 1} } },
 
                 # { match: { 'description.full'     => {query: term, type: 'phrase', boost: 1} } },
                 # { match: { 'description.partial'  => {query: term, boost: 1} } },
