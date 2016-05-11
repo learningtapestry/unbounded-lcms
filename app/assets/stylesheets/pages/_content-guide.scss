@@ -241,6 +241,11 @@
   background-image: asset-url('cg_icon_volume.png');
 }
 
+.c-cg-keyword {
+  cursor: help;
+  font-weight: bold;
+}
+
 .c-cg-media__title {
   display: block;
   font-weight: bold;

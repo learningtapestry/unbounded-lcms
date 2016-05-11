@@ -486,7 +486,7 @@ class ContentGuidePresenter < BasePresenter
           </span>
         )
 
-        toggler = "<span class='has-tip c-cg-keyword' data-toggle=#{id}>"
+        toggler = "<span class=c-cg-keyword data-toggle=#{id}>"
         if (emphasis = value[:emphasis])
           toggler << "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
         end
