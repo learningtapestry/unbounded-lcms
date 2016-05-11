@@ -29,7 +29,7 @@ class CommonCoreStandard < Standard
         standard_set_data['standards'].select do |_, data|
           asn_identifier = data['asnIdentifier'].downcase
           name = data['statementNotation'].try(:downcase)
-          
+
           standard = name.present? ? find_or_initialize_by(name: name) : find_or_initialize_by(asn_identifier: asn_identifier)
 
           standard.generate_alt_names
@@ -70,10 +70,14 @@ class CommonCoreStandard < Standard
     # 6-rp.a.3 -> 6.rp.a.3
     dot_name = short_name.gsub(/[-]/, '.')
 
+    # ccss.ela-literacy.r.1.2 -> ela.r.1.2
+    prefixed_dot_name = "#{subject}.#{dot_name}"
+
     alt_names << short_name
     alt_names << clean_name
     alt_names << letters_expand
     alt_names << dot_name
+    alt_names << prefixed_dot_name
 
     self.alt_names = (self.alt_names + alt_names).uniq
   end
