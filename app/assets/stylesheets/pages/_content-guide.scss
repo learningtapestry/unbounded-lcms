@@ -117,14 +117,24 @@
   }
 }
 
-.c-cg-annotationList__number {
+.c-cg-annotationListItem {
+  display: table-row;
+}
+
+.c-cg-annotationListItem__content {
+  display: table-cell;
+  margin-bottom: 1rem;
+}
+
+.c-cg-annotationListItem__number {
   background: #ffbf00;
   border-radius: 50%;
   color: #fff;
   display: inline-block;
-  font-weight: bold;
+  font: bold 1rem $ub-serif;
   height: 2rem;
-  padding: 0.25rem;
+  margin: 0 .5rem 1rem 0;
+  padding: 0.3rem;
   text-align: center;
   width: 2rem;
 }
