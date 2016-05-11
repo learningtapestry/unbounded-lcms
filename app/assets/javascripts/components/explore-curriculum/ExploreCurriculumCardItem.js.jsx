@@ -66,7 +66,7 @@ class ExploreCurriculumCardItem extends React.Component {
         </div>
         <div className={cssActionClasses}>
           <ul className="o-cur-card__menu o-cur-card__menu--medium o-cur-card--show-medium">
-            <li><a className="o-ub-btn" href={resource.path}>View Details</a></li>
+            <li><a className="o-ub-btn o-ub-btn--yellow" href={resource.path}>View Details</a></li>
             <li><a className={cssDownloadBtnClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>
             <li><a className="o-ub-btn o-ub-btn--bordered o-ub-btn--disabled">Related Instruction</a></li>
           </ul>
