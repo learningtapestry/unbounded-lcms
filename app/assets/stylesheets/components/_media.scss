@@ -21,14 +21,6 @@
 
     h2 { @include txt-element(media-header); }
     &, p { @include txt-element(media-text); }
-
-    // @include m(no-left) {
-    //   padding-left: 0;
-    // }
-    //
-    // @include m(no-right) {
-    //   padding-right: 0;
-    // }
-
+    p { @include add-gutter; }
   }
 }
