@@ -48,12 +48,19 @@ $ub-cur-card-margin: 2px;
   @include e(body) {
     @include flex-grid-column($gutter: $grid-column-2xgutter);
     @include zero-margin-bottom();
+
+    @include m(short) {
+      margin-top: -5px;
+    }
+    @include m(medium) {
+      margin-top: -2px;
+    }
   }
 
   @include e(title) {
     @include m(short) {
     }
-    @include m(full) {
+    @include m(medium) {
     }
   }
 
@@ -65,7 +72,7 @@ $ub-cur-card-margin: 2px;
       //text-overflow: ellipsis;
       //white-space: nowrap;
     }
-    @include m(full) {
+    @include m(medium) {
       //@include clamp(3);
     }
   }

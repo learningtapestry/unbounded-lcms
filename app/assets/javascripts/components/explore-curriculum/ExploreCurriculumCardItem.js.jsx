@@ -35,6 +35,12 @@ class ExploreCurriculumCardItem extends React.Component {
       `o-cur-card--${props.curriculum.type}`
     );
 
+    const cssBodyClasses = classNames(
+      "o-cur-card__body",
+      { "o-cur-card__body--medium": props.shouldItemExpand },
+      { "o-cur-card__body--short": !props.shouldItemExpand }
+    );
+
     const cssActionClasses = classNames(
       "o-cur-card__actions",
       {"o-cur-card__actions--short": !props.shouldItemExpand }
@@ -67,7 +73,7 @@ class ExploreCurriculumCardItem extends React.Component {
     return (
       <div id={props.curriculum.id} name={resource.path} onClick={props.onClickElement} className={cssClasses} data-magellanhash-target>
         {curriculumMap}
-        <div className="o-cur-card__body">
+        <div className={cssBodyClasses}>
           <div className="o-title u-text--uppercase">
             <span className={cssHeaderClasses}>{resource.short_title}</span>
             <span className="o-title__duration o-cur-card--show-medium"><TimeToTeach duration={resource.time_to_teach} /></span>
