@@ -46,11 +46,6 @@
 
     padding: 0 2.125rem 0 2.25rem !important;
 
-    & * {
-      font-family: PFCentroSansPro, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-      line-height: 1.5 !important;
-    }
-
     a {
       color: #f96924 !important;
     }
@@ -63,6 +58,7 @@
       @include txt-heading(h3);
 
       clear: both;
+      padding-top: 1.25rem;
 
       & + h2 {
         padding-top: 0 !important;
@@ -72,6 +68,8 @@
     h2 {
       @include txt-heading(h4);
 
+      padding-top: 1.25rem;
+
       & + h3 {
         padding-top: 0 !important;
       }
@@ -80,6 +78,8 @@
     h3 {
       @include txt-heading(h5);
 
+      padding-top: 1.25rem;
+
       & + h4 {
         padding-top: 0 !important;
       }
@@ -87,14 +87,18 @@
 
     h4 {
       @include txt-heading(h6);
+
+      padding-top: 1.25rem;
+    }
+
+    p, ol, ul {
+      * {
+        font: 1rem/1.5 $ub-sanserif !important;
+      }
     }
 
     ul li {
       text-indent: 0 !important;
-    }
-
-    .has-tip {
-      font-style: normal !important;
     }
   }
 }
@@ -256,7 +260,7 @@
   border-left: .123rem solid #f75b28;
   color: #f96924;
   float: right;
-  font: italic 1rem/2 $ub-serif;
+  font: italic 1.25rem/1.3 $ub-serif;
   margin: 1.5rem 0 1rem 3.25rem;
   padding-left: 1.125rem;
   width: 50%;
