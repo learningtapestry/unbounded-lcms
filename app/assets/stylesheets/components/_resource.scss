@@ -18,7 +18,7 @@
 
   @include e(map) {
     @include flex-grid-column(shrink);
-    width: map-get($curriculum-map-width, base) + 20px;
+    width: map-get($curriculum-map-width, base) + 30px;
 
     @include m(2x) {
       @include flex-grid-column(shrink, $gutter: $grid-column-2xgutter);

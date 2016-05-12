@@ -19,6 +19,7 @@ $lesson-card-height: 185px;
   }
 
   @include e(wrap) {
+    @extend %material-card;
     @include flex;
     flex-direction: column;
     width: 100%;
