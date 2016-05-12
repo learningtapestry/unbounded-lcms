@@ -12,9 +12,17 @@
 .o-resource-summary {
   @include flex-grid-row(nest);
 
+  @include m(2x) {
+    @include flex-grid-row(nest, $gutter: $grid-column-2xgutter);
+  }
+
   @include e(map) {
     @include flex-grid-column(shrink);
     width: map-get($curriculum-map-width, base) + 20px;
+
+    @include m(2x) {
+      @include flex-grid-column(shrink, $gutter: $grid-column-2xgutter);
+    }
   }
 
   @include e(title) {
@@ -26,17 +34,37 @@
 
     @include breakpoint(medium) {
       margin-right: 8%;
+
+      @include m(media) {
+        margin-right: -10%;
+      }
+    }
+
+    @include m(2x) {
+      @include flex-grid-column($gutter: $grid-column-2xgutter);
     }
   }
 }
 
+.o-resource-hr {
+  @include add-gutter($subtype: bottom);
+  @include add-gutter($subtype: top);
+}
+
 .o-resource {
   @include e(item) {
-    @extend .u-margin-bottom--base;
+    @include add-gutter;
 
     @include m(description) {
       @include html-description;
     }
+
+    @include m(credits) {
+      font-size: 80%;
+      h3 { font-size: 21px; }
+      i { padding-right: .2rem; }
+    }
+
   }
 
   @include e(taglist) {
@@ -66,7 +94,6 @@
   }
 
   @include e(cc) {
-
   }
 
 }

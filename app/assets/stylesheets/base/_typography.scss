@@ -43,12 +43,14 @@ $ub-element-typography: (
   card-hover: ('font-size': 15px, 'line-height': 18px, 'font-family': $ub-sanserif),
   card-medium-title: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-sanserif),
   card-short-title: ('font-size': 24px, 'line-height': 28px, 'font-family': $ub-sanserif),
-  related-header: ('font-size': 30px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 500),
+  related-header: ('font-size': 30px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 500, color: #555),
   page-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif),
   search-header: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-sanserif),
   connect-header: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
   connect-text: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-serif),
-  resource-map-header: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-serif)
+  resource-map-header: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-serif, color: #898989),
+  filter-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: $ub-primary1),
+  filter-subheader: ('font-size': 18px, 'line-height': 32px, 'font-family': $ub-serif, 'font-style': italic)
 );
 
 @each $element, $typo in $ub-element-typography {

@@ -1,12 +1,12 @@
 .o-filterbar-title {
-  padding-bottom: $ub-base-padding;
-  padding-top: $ub-xlarge-padding;
+  @include add-gutter(padding, bottom);
+  @include add-gutter(padding, top, 2);
   text-align: center;
 
-  h1, h2 { color: $ub-primary; }
+  h1, h2 { @include txt-element(filter-header); }
 
   @include e(subheader) {
-    font-style: italic;
+    @include txt-element(filter-subheader);
   }
 }
 

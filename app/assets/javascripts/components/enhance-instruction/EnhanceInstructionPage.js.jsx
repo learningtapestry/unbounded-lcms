@@ -125,7 +125,7 @@ class EnhanceInstructionPage extends React.Component {
     const tabResources = this.renderTab('Videos and Podcasts', 1);
     return (
       <div>
-        <div className="u-bg--base">
+        <div className="u-bg--base-gradient">
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">

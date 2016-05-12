@@ -15,9 +15,11 @@ $media-img-height: 110px;
   }
 
   @include e(img) {
+    height: $media-img-height;
+    overflow: hidden;
     img {
-      height: $media-img-height;
       width: 100%;
+      height: auto;
     }
   }
 
@@ -34,6 +36,9 @@ $media-img-height: 110px;
 
   @include e(img) {
     flex: 0 0 auto;
+    overflow: hidden;
+
+    img { height: 100%; }
   }
 
   @include e(body) {
@@ -51,7 +56,7 @@ $media-img-height: 110px;
   @include e(wrap) {
     @extend %material-card;
     @include flex;
-    min-height: $instruction-card-height;
+    height: $instruction-card-height;
     width: 100%;
   }
 
