@@ -58,17 +58,18 @@
               <a class="o-ub-btn o-ub-btn--yellow" href="#resource-downloads-list"><%= t('resources.btn.download', title: @curriculum.type_name) %></a>
             </div>
             <div>
-              <%= link_to t('resources.btn.related'), '#related-instruction', class: 'o-ub-btn o-ub-btn--2bordered-yellow' %>
+              <%= link_to t('resources.btn.related'), '#related-instruction', class: 'o-ub-btn o-ub-btn--2bordered-gray' %>
             </div>
           </div>
         </div>
-        <div class="o-resource-summary u-pd-content">
+        <hr class="o-resource-hr">
+        <div class="o-resource-summary u-padding-bottom--gutter">
           <div class="o-resource-summary__map">
-            <div class='o-resource-summary__title'>
-              <strong>Curriculum Map</strong> &ndash; <span class="u-text--capitalized"><%= @curriculum.subject_and_grade_title %></span>
+            <div class="o-resource-summary__title">
+              <strong><%= @curriculum.subject_and_grade_title %> Curriculum Map</strong>
             </div>
             <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum, color_code: @resource.color_code(@grade_color_code) } %>
-            <%= render partial: 'shared/social_sharing', locals: { resource: @resource } %>
+            <%= render partial: 'shared/social_sharing', locals: { resource: @resource, cl: 'u-margin-top--gutter' } %>
           </div>
           <div class="o-resource-summary__content">
             <div class="o-resource__item o-resource__item--description">
@@ -104,7 +105,7 @@
               <%= render partial: 'resources/tags', locals: { tags: tag_cloud(@curriculum), color_code: @resource.color_code } %>
             </div>
             <% if @resource.engageny_url %>
-            <div class="o-resource__item">
+            <div class="o-resource__item  o-resource__item--credits">
               <h3>Credits</h3>
               <%= render partial: 'resources/engageny', locals: { resource: @resource } %>
             </div>
@@ -112,9 +113,9 @@
           </div>
         </div>
         <% if !@curriculum.lesson? %>
-          <div class="o-resource-summary u-pd-content--xlarge u-bg--tooltip">
-            <div class="o-resource-summary__map"></div>
-            <div class="o-resource-summary__content">
+          <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code %>">
+            <div class="o-resource-summary__map o-resource-summary__map--2x"></div>
+            <div class="o-resource-summary__content--2x">
               <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum, color_code: @resource.color_code } %>
             </div>
           </div>

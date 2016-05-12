@@ -17,9 +17,10 @@
 .o-btn {
   @include button-base;
   @include txt-element(button);
+  //@extend %btn-shadow;
   margin: 0;
-  padding-left: 2.5em;
-  padding-right: 2.5em;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 
   @each $type, $color in $ub-buttons {
     $btn-color: if($type == 'base', $ub-txt, $ub-white);
@@ -53,6 +54,7 @@
 .o-ub-btn {
   @include button-base;
   @include txt-element(button);
+  //@extend %btn-shadow;
   margin-bottom: $ub-small-margin / 2;
   min-width: 200px;
 

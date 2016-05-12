@@ -51,14 +51,14 @@
   }
 }
 
-@mixin add-column-padding {
-  @include add-gutter(padding, left, 1);
-  @include add-gutter(padding, right, 1);
+@mixin add-column-padding($x: 1) {
+  @include add-gutter(padding, left, $x);
+  @include add-gutter(padding, right, $x);
 }
 
-@mixin add-top-bottom-padding {
-  @include add-gutter(padding, bottom, 1);
-  @include add-gutter(padding, top, 1);
+@mixin add-top-bottom-padding($y: 1) {
+  @include add-gutter(padding, bottom, $y);
+  @include add-gutter(padding, top, $y);
 }
 
 @mixin placeholder($color: $ub-txt){

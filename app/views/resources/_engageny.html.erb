@@ -1,14 +1,7 @@
 <% if resource.engageny_url %>
   <!-- "cc-nd", "cc-pd", "cc-zero", "cc-share", "cc-remix" -->
   <% ["cc-stamp", "cc-by", "cc-nc", "cc-sa"].each do |cc_type| %>
-    <i class="fa-lg ub-<%= cc_type %> "
-      <% if cc_type == "cc-stamp" %>
-      title="You are free to:
-Share — copy and redistribute the material in any medium or format
-Adapt — remix, transform, and build upon the material
-The licensor cannot revoke these freedoms as long as you follow the license terms."
-      <% end %>
-    ></i>
+    <i class="fa-lg ub-<%= cc_type %>"></i>
   <% end %>
   <div class="o-resource__cc">From EngageNY.org of the New York State Education Department. <%= resource.engageny_title.strip %>.
     <% if url = resource.engageny_url %>

@@ -2,8 +2,8 @@ $social-btn-color: map-get($ub-colorcodes, base);
 
 .o-social-sharing {
   @include menu-simple;
-  margin: 0;
-  margin-top: $ub-base-margin;
+  margin-bottom: 0;
+  margin-left: 0;
 
   li { margin-right: .35rem; }
   a {
