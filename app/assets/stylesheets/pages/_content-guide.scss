@@ -63,7 +63,6 @@
       @include txt-heading(h3);
 
       clear: both;
-      font-size: 1.625rem;
 
       & + h2 {
         padding-top: 0 !important;
@@ -73,8 +72,6 @@
     h2 {
       @include txt-heading(h4);
 
-      font-size: 1.3125rem;
-
       & + h3 {
         padding-top: 0 !important;
       }
@@ -83,11 +80,13 @@
     h3 {
       @include txt-heading(h5);
 
-      font-size: 1.125rem;
-
       & + h4 {
         padding-top: 0 !important;
       }
+    }
+
+    h4 {
+      @include txt-heading(h6);
     }
 
     ul li {
