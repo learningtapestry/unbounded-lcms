@@ -562,7 +562,7 @@ class Curriculum < ActiveRecord::Base
   def self._draw_node_recursively(node, depth, stop_at)
     padding = '  '*depth
     sep = depth == 0 ? '' : '-> '
-    desc = "#{node.position}. ##{node.id} #{node.resource.title} -> #{node.item_type}, id #{node.item_id}, slug #{node.slug.value}"
+    desc = "#{node.position}. ##{node.id} #{node.resource.title} -> #{node.item_type}, id #{node.item_id}, slug #{node.slug.try(:value)}"
     puts "#{padding}#{sep}#{desc}"
 
     return if stop_at == depth
