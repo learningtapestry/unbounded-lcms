@@ -10,14 +10,14 @@
     <div class="o-page__module c-hp-register">
       <div class="o-page__wrap--row c-hp-register__wrap">
         <div class="c-hp-register__item">
-          Join our next <strong class="st-logo__standards">Standards</strong> <span class="st-logo__institute">Institute</span>.</br>
-          Florida, July 11-15, 2016
+          <div><strong class="st-logo__standards">Standards</strong> <span class="st-logo__institute">Institute</span></div>
+          <div class="text-center">Florida, July 11-15, 2016</div>
         </div>
         <div class="c-hp-register__text">
           An immersive, engaging professional development conference for teachers in math, ELA, and school and district leadership.
         </div>
         <div class="c-hp-register__item">
-          <%= link_to 'Register', 'http://www.standardsinstitutes.org/institute/summer-2016-standards-institute', class: 'o-btn o-btn--register' %>
+          <%= link_to 'Register', 'http://www.standardsinstitutes.org/institute/summer-2016-standards-institute', class: 'o-btn o-btn--register', target: '_blank' %>
         </div>
       </div>
     </div>
@@ -46,8 +46,7 @@
       </div>
     </div>
     <div class="c-hp-media o-page__module o-media u-bg--light">
-      <div class="o-media__img">
-        <%= image_tag 'hp_find_lessons.jpg' %>
+      <div class="o-media__img c-hp-img--fl">
       </div>
       <div class="o-media__body">
         <h2>Find Lessons</h2>
@@ -64,8 +63,7 @@
         <%= link_to 'Content Guides', enhance_instruction_index_path, class: 'o-btn o-btn--yellow u-margin-right--base' %>
         <%= link_to 'Videos', enhance_instruction_index_path(tab: 1), class: 'o-btn o-btn--bordered-yellow u-color--base' %>
       </div>
-      <div class="o-media__img">
-        <%= image_tag 'hp_enhance_instructions.jpg' %>
+      <div class="o-media__img c-hp-img--ei">
       </div>
     </div>
   </div>

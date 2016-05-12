@@ -17,8 +17,10 @@
 .o-btn {
   @include button-base;
   @include txt-element(button);
+  @extend %btn-shadow;
   margin: 0;
-  padding: 1em 2.5em;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 
   @each $type, $color in $ub-buttons {
     $btn-color: if($type == 'base', $ub-txt, $ub-white);
@@ -52,6 +54,7 @@
 .o-ub-btn {
   @include button-base;
   @include txt-element(button);
+  @extend %btn-shadow;
   margin-bottom: $ub-small-margin / 2;
   min-width: 200px;
 
@@ -79,17 +82,13 @@
   @each $type, $color in $ub-buttons {
     $btn-color: if($type == 'base', $ub-txt, $ub-white);
     @include m(bordered-#{$type}) {
-      @include button-hollow;
-      @include button-hollow-style($color);
-      color: $btn-color;
+      @include ub-button-hollow($background: $color, $color: $btn-color);
     }
   }
 
   @each $type, $color in $ub-buttons {
     @include m(2bordered-#{$type}) {
-      @include button-hollow;
-      @include button-hollow-style($color);
-      color: $color;
+      @include ub-button-hollow($background: $color, $color: $color);
     }
   }
 

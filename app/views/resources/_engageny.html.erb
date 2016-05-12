@@ -1,10 +1,11 @@
 <% if resource.engageny_url %>
-  <% ["cc-stamp", "cc-by", "cc-nc", "cc-sa", "cc-nd", "cc-pd", "cc-zero", "cc-share", "cc-remix"].each do |cc_type| %>
-    <i class="fa-lg ub-<%= cc_type %> "></i>
+  <!-- "cc-nd", "cc-pd", "cc-zero", "cc-share", "cc-remix" -->
+  <% ["cc-stamp", "cc-by", "cc-nc", "cc-sa"].each do |cc_type| %>
+    <i class="fa-lg ub-<%= cc_type %>"></i>
   <% end %>
   <div class="o-resource__cc">From EngageNY.org of the New York State Education Department. <%= resource.engageny_title.strip %>.
     <% if url = resource.engageny_url %>
-      Available from <%= url.gsub(/^(https?:\/\/)?(www\.)?/, '') %>;<br>accessed 2015-05-29.
+      Available from <%= url.gsub(/^(https?:\/\/)?(www\.)?/, '') %>; accessed 2015-05-29.
     <% end %>
   </div>
 <% end %>

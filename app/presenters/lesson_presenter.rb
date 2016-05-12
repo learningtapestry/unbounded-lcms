@@ -19,7 +19,7 @@ class LessonPresenter < SimpleDelegator
   end
 
   def subject_and_grade_title
-    "#{subject.try(:name).try(:titleize)} / #{grade.try(:name)}"
+    "#{subject.try(:name).try(:upcase)} / #{grade.try(:name)}"
   end
 
   def tags

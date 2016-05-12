@@ -2,34 +2,35 @@
 <% set_og_tags @resource %>
 
 <div class="o-page o-page--margin-to-bottom">
-  <div class="o-page__module">
+  <div class="o-page__module u-margin-bottom--gutter">
     <%= link_to enhance_instruction_index_path(tab: 1), class: 'o-ub-btn o-ub-btn--base' do %>
       <i class="fa-lg ub-arrow-left"></i> <%= t('instructions.btn.back') %>
     <% end %>
   </div>
   <div class="o-page__section cs-bg--<%= @resource.color_code %>">
-    <div class="o-content-title">
+    <div class="o-content-title u-text--capitalized">
       <%= @resource.media_title %>
     </div>
   </div>
-  <div class="o-page__section u-padding-top--large u-bg--light">
+  <div class="o-page__section u-padding-top--gutter u-bg--light">
     <div class="o-resource-title">
       <div class="o-resource-title__title">
         <!--div class="o-title u-text--uppercase">
           <span class="o-title__duration"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span>
         </div-->
-        <h2><%= @resource.title %></h2>
-        <div class="u-text--large o-social-sharing__teaser">
+        <h1><%= @resource.title %></h1>
+        <div class="u-txt--teaser o-social-sharing__teaser">
           <%= @resource.teaser %>
         </div>
       </div>
     </div>
-    <div class="o-resource-summary u-pd-content">
+    <hr class="o-resource-hr">
+    <div class="o-resource-summary u-padding-bottom--gutter">
       <div class="o-resource-summary__map">
-        <%= render partial: 'shared/social_sharing', locals: { resource: @resource } %>
+        <%= render partial: 'shared/social_sharing', locals: { resource: @resource, cl: '' } %>
       </div>
       <div class="o-resource-summary__content">
-        <div class="o-resource__item">
+        <div class="o-resource__item o-resource-summary__content--media">
           <div class="o-media-<%= @resource.resource_type %>">
             <%= embed_media(@resource) %>
           </div>
@@ -43,16 +44,16 @@
           <%= render partial: 'resources/tags', locals: { tags: tag_cloud(@resource), color_code: @resource.color_code } %>
         </div>
         <% if @resource.engageny_url %>
-        <div class="o-resource__item">
+        <div class="o-resource__item o-resource__item--credits">
           <h3>Credits</h3>
           <%= render partial: 'resources/engageny', locals: { resource: @resource } %>
         </div>
         <% end %>
       </div>
     </div>
-    <div class="o-resource-summary u-pd-content--xlarge u-bg--tooltip">
-      <div class="o-resource-summary__map"></div>
-      <div class="o-resource-summary__content">
+    <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code %>">
+      <div class="o-resource-summary__map o-resource-summary__map--2x"></div>
+      <div class="o-resource-summary__content--2x">
         <h3>Related Content Guides</h3>
       </div>
     </div>

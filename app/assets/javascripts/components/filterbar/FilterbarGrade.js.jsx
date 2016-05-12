@@ -8,7 +8,7 @@ function FilterbarGrade(props, context) {
 
   return (
     <div className={className} onClick={props.onClick}>
-      {props.displayName}
+      <span>{props.displayName}</span>
     </div>
   );
 }

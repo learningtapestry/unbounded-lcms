@@ -36,8 +36,8 @@
 
   @include e(break) {
     display: block;
-    height: 2em;
-    width: 2em;
+    height: 2rem;
+    width: 2rem;
   }
 
   @include e(pages) {
@@ -46,14 +46,14 @@
     list-style: none;
     margin-left: 0;
     li {
-      line-height: 2em;
-      padding: 0 .25em;
+      line-height: 2rem;
+      padding: 0 .25rem;
     }
     li a {
       border-radius: 50%;
       display: block;
-      height: 2em;
-      width: 2em;
+      height: 2rem;
+      width: 2rem;
       &:hover, &:focus {
         background-color: scale-color($ub-panel-bg, $lightness: 25%);
         transition: all .4s ease;
