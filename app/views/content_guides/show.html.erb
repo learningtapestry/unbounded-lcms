@@ -3,7 +3,9 @@
 <% cache @content_guide do %>
   <div class="o-page o-page--margin-to-bottom o-page--cg">
     <div class="o-page__module">
-      <%= link_to t('content_guide_page.back_to_hub'), :enhance_instruction_index, class: 'o-btn--dark o-btn--bordered o-btn--expand o-page__section u-margin-bottom--base .u-text--capitalized'%>
+      <%= link_to :enhance_instruction_index, class: 'o-ub-btn o-ub-btn--base' do %>
+        <i class="fa-lg ub-arrow-left"></i> <%= t('content_guide_page.back_to_hub') %>
+      <% end %>
     </div>
     <div class="o-page__module c-ch-hero">
       <div class="o-page__wrap--row">
