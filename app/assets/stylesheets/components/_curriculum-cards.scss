@@ -29,8 +29,7 @@ $ub-cur-card-margin: 2px;
     color: $ub-white !important;
     [class^='cs-bg'], [class*=' cs-bg'] { background-color: $ub-white !important; }
     .o-title__type, .o-title__type--short,
-    .o-title__duration, .o-cur-card__ellipsis,
-    [class^='u-txt'], [class*=' u-txt'] { color: $ub-white; }
+    .o-title__duration, .o-cur-card__ellipsis, h3 { color: $ub-white; }
   }
 
   @include e(map) {
