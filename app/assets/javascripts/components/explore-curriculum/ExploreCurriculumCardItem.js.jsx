@@ -78,7 +78,7 @@ class ExploreCurriculumCardItem extends React.Component {
             <span className={cssHeaderClasses}>{resource.short_title}</span>
             <span className="o-title__duration o-cur-card--show-medium"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
-          <div className={cssTitleClasses}>{resource.title}</div>
+          <h3 className={cssTitleClasses}>{resource.title}</h3>
           <div className="o-cur-card--show-medium o-cur-card__dsc">{resource.teaser}</div>
         </div>
         <div className={cssActionClasses}>
