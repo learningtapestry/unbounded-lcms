@@ -1,6 +1,6 @@
 module Search
-  def ngrams_multi_field(prop)
-    {
+  def ngrams_multi_field(prop, with_key=false)
+    definition = {
       type: 'multi_field', fields: {
         prop     => {type: 'string'},
         :key     => {type: 'string', analyzer: 'keyword'},
@@ -8,6 +8,8 @@ module Search
         :partial => {type: 'string', analyzer: 'partial_str'}
       }
     }
+    definition[:fields][:key] = {type: 'string', analyzer: 'keyword'} if with_key
+    definition
   end
 
   def index_settings
@@ -60,7 +62,7 @@ module Search
         indexes :tag_authors,   **::Search.ngrams_multi_field(:tag_authors)
         indexes :tag_texts,     **::Search.ngrams_multi_field(:tag_texts)
         indexes :tag_keywords,  **::Search.ngrams_multi_field(:tag_keywords)
-        indexes :tag_standards, **::Search.ngrams_multi_field(:tag_standards)
+        indexes :tag_standards, **::Search.ngrams_multi_field(:tag_standards, with_key: true)
         # indexes :tag_standards, type: 'string', index: 'not_analyzed'
       end
     end
