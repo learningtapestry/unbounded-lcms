@@ -441,6 +441,15 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def reset_heading_styles
+    doc.css('h1, h2, h3, h4').each do |h|
+      h.remove_attribute('style')
+      h.css('*').each do |n|
+        n.remove_attribute('style')
+      end
+    end
+  end
+
   def reset_table_styles
     doc.css('table').each do |table|
       if table.xpath('tbody/tr/td').size == 1
@@ -522,6 +531,7 @@ class ContentGuidePresenter < BasePresenter
     process_tasks
     remove_comments
     replace_guide_links
+    reset_heading_styles
     reset_table_styles
     @doc_processed = true
   end
