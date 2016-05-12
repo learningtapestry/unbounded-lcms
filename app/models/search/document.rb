@@ -8,7 +8,7 @@ module Search
     attribute :title, String
     attribute :teaser, String
     attribute :description, String
-    attribute :misc, String
+    # attribute :misc, String
     attribute :doc_type, String
     attribute :grade, String
     attribute :subject, String
@@ -93,7 +93,7 @@ module Search
           title: model.title,
           teaser: model.teaser,
           description: model.description,
-          misc: [model.short_title, model.subtitle, model.teaser].compact,
+          # misc: [model.short_title, model.subtitle, model.teaser].compact,
           doc_type: doc_type,
           subject: model.subject,
           grade: model.grade_list,
@@ -113,7 +113,7 @@ module Search
           title: model.title,
           teaser: model.teaser,
           description: model.description,
-          misc: [model.name, model.teaser, model.content].compact,
+          # misc: [model.name, model.teaser, model.content].compact,
           doc_type: 'content_guide',
           subject: model.subject,
           grade: model.grade_list,
