@@ -80,7 +80,7 @@ class FindLessonsPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page u-margin-bottom--xlarge">
+        <div className="o-page o-page--margin-bottom">
           <div className="o-page__module">
             <SearchResultsHeader
               onChangePerPage={this.handleChangePerPage.bind(this)}

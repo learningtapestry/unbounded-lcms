@@ -1,6 +1,10 @@
 .o-title {
   @include e(type) {
     @include txt-element(title-type);
+
+    @include m(short) {
+      @include txt-element(title-type-short);
+    }
   }
 
   @include e(duration) {
