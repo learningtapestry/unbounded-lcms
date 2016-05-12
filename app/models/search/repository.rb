@@ -55,7 +55,7 @@ module Search
         indexes :title,         **::Search.ngrams_multi_field(:title)
         indexes :teaser,        **::Search.ngrams_multi_field(:teaser)
         indexes :description,   **::Search.ngrams_multi_field(:description)
-        indexes :misc,          **::Search.ngrams_multi_field(:description)
+        # indexes :misc,          **::Search.ngrams_multi_field(:description)
         indexes :doc_type,      type: 'string', index: 'not_analyzed'  #  module | unit | lesson | video | etc
         indexes :grade,         type: 'string', index: 'not_analyzed'
         indexes :subject,       type: 'string'
