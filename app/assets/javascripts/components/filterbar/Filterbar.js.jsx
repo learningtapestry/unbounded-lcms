@@ -221,8 +221,8 @@ class Filterbar extends React.Component {
             })}
           </div>
           <div className='o-filterbar__list hide-for-small-only'>
-             <div className='o-filterbar__item--clear o-filterbar__item--square' onClick={this.onClickClear.bind(this)}>
-               <i className="ub-close fa-2x"></i>
+             <div className='o-filterbar__item o-filterbar__item--clear o-filterbar__item--square' onClick={this.onClickClear.bind(this)}>
+               <span><i className="ub-close fa-2x"></i></span>
              </div>
           </div>
         </div>
