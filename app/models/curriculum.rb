@@ -400,6 +400,11 @@ class Curriculum < ActiveRecord::Base
         long: 'WM',
         has_position: false
       },
+      literary_module: {
+        short: 'LC',
+        long: 'LC',
+        has_position: false
+      },
       core_proficiencies_module: {
         short: 'CP',
         long: 'CP',
@@ -456,6 +461,8 @@ class Curriculum < ActiveRecord::Base
           :ss_module
         elsif short_title.include?('learning')
           :ll_module
+        elsif short_title.include?('literary criticism')
+          :literary_module
         else
           :module
         end
@@ -524,6 +531,8 @@ class Curriculum < ActiveRecord::Base
   end
 
   def create_resource_short_title!
+    return unless current_level == :lesson
+
     pos = (resource.subject.to_sym == :math) ? lesson_position_on_the_module : position + 1
 
     resource.short_title = "lesson #{pos}"
