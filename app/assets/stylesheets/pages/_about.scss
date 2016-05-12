@@ -29,3 +29,21 @@
   h2 { @include txt-element(media-header); }
   p { @include txt-element(media-text); }
 }
+
+.c-ap-img--si {
+  background-image: image-url('about_standards_institute.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+}
+
+.c-ap-img--hwa {
+  background-image: image-url('about_who_we_are.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+}
+
+.c-ap-img--op {
+  background-image: image-url('about_partners.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+}
