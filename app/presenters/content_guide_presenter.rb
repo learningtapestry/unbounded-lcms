@@ -471,9 +471,14 @@ class ContentGuidePresenter < BasePresenter
     keywords = {}
     ContentGuideDefinition.find_each { |d| keywords[d.keyword] = { description: d.description } }
     Standard.all.each do |standard|
-      keywords[standard.name.upcase] = { description: standard.description, emphasis: standard.emphasis } if standard.name.present?
+      if standard.name.present? && standard.name.scan('.').size > 1
+        keywords[standard.name.upcase] = { description: standard.description, emphasis: standard.emphasis }
+      end
+
       standard.alt_names.each do |alt_name|
-        keywords[alt_name.upcase] = { description: standard.description, emphasis: standard.emphasis }
+        if alt_name.scan('.').size > 1
+          keywords[alt_name.upcase] = { description: standard.description, emphasis: standard.emphasis }
+        end
       end
     end
 
@@ -481,7 +486,7 @@ class ContentGuidePresenter < BasePresenter
     keywords.each do |keyword, value|
       next unless value.present?
 
-      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
+      result.gsub!(/(>|\(|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
         id = "cg-k_#{SecureRandom.hex(4)}"
 
         dropdowns << %Q(
