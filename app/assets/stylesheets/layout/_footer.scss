@@ -1,5 +1,5 @@
 .c-footer {
-  background-color: $ub-nav-bg;
+  background-color: $ub-footer-bg;
   @each $breakpoint, $footer-height in $ub-footer-height {
     @include breakpoint($breakpoint) {
       min-height: $footer-height;
@@ -71,7 +71,7 @@
 
 
 .c-footer {
-  background-color: $ub-nav-bg;
+  background-color: $ub-footer-bg;
   color: $ub-nav-link;
 
   @include e(link) {

@@ -40,7 +40,9 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
       color: $ub-primary;
     }
 
-    p { @include txt-element(hero-text); }
+    p {
+      @include txt-element(hero-text);
+    }
 
     @include breakpoint(large) {
       @include grid-column-offset(5);
@@ -57,11 +59,10 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
   background-size: cover;
   border-radius: $panel-radius;
   color: $ub-white;
-  min-height: 160px;
-  padding: $ub-xlarge-padding 0;
 
   @include e(wrap) {
-    @include flex-align($x: spaced, $y: middle);
+    @include flex-align($y: center);
+    height: 160px;
   }
 
   @include e(item) {
@@ -78,28 +79,20 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
   @include flex;
   @include flex-grid-column(12);
   @include add-gutter;
+  flex-shrink: 1;
 
   @include breakpoint(medium) {
     @include flex-grid-column(6);
-  }
-
-  @include e(item) {
-    @include flex-grid-column(12, 0);
-  }
-
-  @include e(dsc) {
-    @include txt-element(media-text);
-    color: $ub-white;
-    flex: 1 1 0px;
+    flex-shrink: 1;
   }
 
   @include e(body) {
-    @include flex-grid-row;
+    @include flex;
     @include add-column-padding;
     @include add-top-bottom-padding;
     border-radius: $panel-radius;
-    flex-wrap: nowrap;
     flex-direction: column;
+    width: 100%;
 
     h2 {
       @include txt-element(media-header);
@@ -108,10 +101,10 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
 
     p {
       @include txt-element(media-text);
+      @include add-gutter;
       color: $ub-white;
       flex: 1 1 0px;
     }
-    a.o-ub-btn { max-width: 200px; }
 
     @include m(ela) {
       background-image: linear-gradient(to right, $c-hp-ela-gradient, $c-hp-ela-gradient), image-url('hp_ela_bg.jpg');
@@ -127,7 +120,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
 }
 
 .c-hp-media {
-  max-height: 280px;
+  max-height: 290px;
 }
 
 .c-hp-hr {
@@ -136,4 +129,16 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
     margin-bottom: $ub-large-margin;
     margin-top: $ub-xlarge-margin;
   }
+}
+
+.c-hp-img--fl {
+  background-image: image-url('hp_find_lessons.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+}
+
+.c-hp-img--ei {
+  background-image: image-url('hp_enhance_instructions.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
 }

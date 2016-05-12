@@ -7,6 +7,6 @@ function FilterbarSubject(props) {
   );
 
   return (
-    <div className={className} onClick={props.onClick}>{props.displayName}</div>
+    <div className={className} onClick={props.onClick}><span>{props.displayName}</span></div>
   );
 }

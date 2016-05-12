@@ -1,5 +1,7 @@
 .o-related-instruction {
   @include e(title) {
+    @include txt-element(related-header);
+    margin-bottom: $ub-small-margin;
     text-align: center;
   }
 

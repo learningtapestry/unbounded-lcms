@@ -122,10 +122,10 @@ class EnhanceInstructionPage extends React.Component {
 
   render() {
     const tabGuides = this.renderTab('Content Guides', 0);
-    const tabResources = this.renderTab('Resources', 1);
+    const tabResources = this.renderTab('Videos and Podcasts', 1);
     return (
       <div>
-        <div className="u-bg--base">
+        <div className="u-bg--base-gradient">
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
@@ -141,7 +141,7 @@ class EnhanceInstructionPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page u-margin-bottom--xlarge">
+        <div className="o-page o-page--margin-bottom">
           <Tabs tabActive={this.state.activeTab + 1} onBeforeChange={this.handleTabChange.bind(this)} className='c-eh-tab o-page__module'>
              {tabGuides}
              {tabResources}

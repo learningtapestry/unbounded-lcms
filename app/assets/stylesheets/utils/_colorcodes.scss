@@ -6,6 +6,14 @@
   }
 }
 
+.cs-tint-bg {
+  @each $code, $color in $ub-colorcodes {
+    @include m(#{$code}) {
+      background-color: scale-color($color, $lightness: 90%);
+    }
+  }
+}
+
 .cs-txt {
   @each $code, $color in $ub-colorcodes {
     @include m(#{$code}) {

@@ -18,19 +18,23 @@ $ub-cur-card-margin: 2px;
 }
 
 .o-cur-card {
-  @extend .u-wrap--light;
+  @extend .u-bg--light;
   @extend %material-card;
-  @include flex-grid-row();
+  @include flex-grid-row;
+  @include add-top-bottom-padding;
+  @include add-column-padding;
   cursor: pointer;
 
   &:hover, &:focus {
     color: $ub-white !important;
     [class^='cs-bg'], [class*=' cs-bg'] { background-color: $ub-white !important; }
-    .o-cur-card__ellipsis { color: $ub-white; }
+    .o-title__type, .o-title__type--short,
+    .o-title__duration, .o-cur-card__ellipsis,
+    [class^='u-txt'], [class*=' u-txt'] { color: $ub-white; }
   }
 
   @include e(map) {
-    @include flex-grid-column(shrink);
+    @include flex-grid-column(shrink, 0);
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
@@ -42,24 +46,39 @@ $ub-cur-card-margin: 2px;
   }
 
   @include e(body) {
-    @include flex-grid-column();
-    //@include inline-styles-override();
+    @include flex-grid-column($gutter: $grid-column-2xgutter);
     @include zero-margin-bottom();
+
+    @include m(short) {
+      margin-top: -5px;
+    }
+    @include m(medium) {
+      margin-top: -2px;
+    }
+  }
+
+  @include e(title) {
+    @include m(short) {
+    }
+    @include m(medium) {
+    }
   }
 
   @include e(dsc) {
+    @include txt-element(base);
+    padding-top: $ub-small-padding;
     @include m(short) {
       //overflow: hidden;
       //text-overflow: ellipsis;
       //white-space: nowrap;
     }
-    @include m(full) {
+    @include m(medium) {
       //@include clamp(3);
     }
   }
 
   @include e(actions) {
-    @include flex-grid-column(shrink);
+    @include flex-grid-column(shrink, 0);
 
     @include breakpoint(medium down) {
       @include flex-grid-column(12);
@@ -88,6 +107,7 @@ $ub-cur-card-margin: 2px;
 
   @include e(ellipsis) {
     padding: 0 !important;
+    padding-right: 10px !important;
     color: $ub-txt;
   }
 
@@ -100,7 +120,9 @@ $ub-cur-card-margin: 2px;
 
   @include m(short) {
     @extend %map-transition;
-    border-radius: 0;
+    @include add-top-bottom-padding(.5);
+    @include add-column-padding(.5);
+    //border-radius: 0;
 
     .o-cur-card--show-medium { display: none; }
     .o-cur-card--show-short { display: inherit; }
