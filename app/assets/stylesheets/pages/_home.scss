@@ -105,7 +105,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
       color: $ub-white;
       flex: 1 1 0px;
     }
-  
+
     @include m(ela) {
       background-image: linear-gradient(to right, $c-hp-ela-gradient, $c-hp-ela-gradient), image-url('hp_ela_bg.jpg');
       background-repeat: no-repeat, no-repeat;
@@ -129,4 +129,16 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
     margin-bottom: $ub-large-margin;
     margin-top: $ub-xlarge-margin;
   }
+}
+
+.c-hp-img--fl {
+  background-image: image-url('hp_find_lessons.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+}
+
+.c-hp-img--ei {
+  background-image: image-url('hp_enhance_instructions.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
 }
