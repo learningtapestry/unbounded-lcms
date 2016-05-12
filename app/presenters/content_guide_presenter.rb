@@ -162,7 +162,7 @@ class ContentGuidePresenter < BasePresenter
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*bold/
         content = span.content
-        tag_regex = /<#{tag_name}(:?[^>]*)?>/i
+        tag_regex = /<#{tag_name}(:?[^->]*)?>/i
 
         if content =~ tag_regex
           tag_def = content[tag_regex]
@@ -306,8 +306,8 @@ class ContentGuidePresenter < BasePresenter
   def process_icons
     find_custom_tags('icon').each do |tag|
       icon_type = tag['data-value']
-      div = doc.document.create_element('div', class: "c-cg-icon c-cg-icon--#{icon_type}")
-      tag.replace(div)
+      span = doc.document.create_element('span', class: "c-cg-icon c-cg-icon--#{icon_type}")
+      tag.replace(span)
     end
 
     find_custom_tags('icon-small').each do |tag|
