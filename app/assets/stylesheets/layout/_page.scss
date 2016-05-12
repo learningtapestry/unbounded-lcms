@@ -33,6 +33,10 @@ html, body {
     @include add-gutter(margin, top, 1);
   }
 
+  @include m(margin-bottom) {
+    @include add-gutter(margin, bottom, 2);
+  }
+
   @include m(centered) {
     @include flex-align($x: center);
   }

@@ -229,7 +229,7 @@ class ExploreCurriculumPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page u-margin-bottom--xlarge">
+        <div className="o-page o-page--margin-bottom">
           <div className="o-page__module" ref="curriculumList">
             <ExploreCurriculumHeader totalItems={this.state.curriculums.length} />
             {curriculums}
