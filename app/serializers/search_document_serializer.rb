@@ -8,7 +8,7 @@ class SearchDocumentSerializer < ActiveModel::Serializer
   end
 
   def type_name
-    object.breadcrumbs || obj.doc_type.titleize
+    object.breadcrumbs || object.doc_type.titleize
   end
 
 end
