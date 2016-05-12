@@ -37,7 +37,11 @@ class Resource < ActiveRecord::Base
 
   # Related resources.
   has_many :resource_related_resources, dependent: :destroy
-  has_many :related_resources, through: :resource_related_resources
+  has_many :related_resources, through: :resource_related_resources, class_name: 'Resource'
+  has_many :resource_related_resources_as_related,
+    class_name: 'ResourceRelatedResource',
+    foreign_key: 'related_resource_id',
+    dependent: :destroy
 
   # Requirements
   has_many :resource_requirements, dependent: :destroy
