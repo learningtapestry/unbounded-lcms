@@ -333,11 +333,13 @@ class ContentGuidePresenter < BasePresenter
   def process_superscript_standards
     superscript_style = /vertical-align:\s*super;?/
     doc.css('.c-cg-keyword').each do |span|
-      parent = span.parent
-      if parent && ((parent[:style] || '') =~ superscript_style)
+      superscript_ancestor = span.ancestors.find do |node|
+        (node[:style] || '') =~ superscript_style
+      end
+      if superscript_ancestor
         span.inner_html = "(#{span.inner_html})"
-        parent[:style] = parent[:style].gsub(superscript_style, '')
-        parent.inner_html = " #{parent.inner_html}"
+        superscript_ancestor[:style] = superscript_ancestor[:style].gsub(superscript_style, '')
+        superscript_ancestor.inner_html = " #{superscript_ancestor.inner_html}"
       end
     end
   end
