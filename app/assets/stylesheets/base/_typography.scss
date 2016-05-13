@@ -60,7 +60,8 @@ $ub-element-typography: (
   cg-card-teaser: ('font-size': 15px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
   cg-card-title: ('font-size': 30px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500),
   media-card-title: ('font-size': 22px, 'line-height': 24px, 'font-family': $ub-serif, 'font-weight': 500),
-  tab-title: ('font-size': 20px, 'line-height': 24px, 'font-family': $ub-serif, 'font-weight': 600)
+  tab-title: ('font-size': 20px, 'line-height': 24px, 'font-family': $ub-serif, 'font-weight': 600),
+  engageny: ('font-size': 14px, 'line-height': 18px, 'font-family': $ub-sanserif),
 );
 
 @each $element, $typo in $ub-element-typography {
