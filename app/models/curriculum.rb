@@ -446,6 +446,7 @@ class Curriculum < ActiveRecord::Base
     return unless resource && resource.subject
 
     subject = resource.subject.to_sym
+    short_title = resource.short_title.downcase.strip
 
     abbrv_type = case current_level
       when :map then subject
@@ -459,7 +460,6 @@ class Curriculum < ActiveRecord::Base
           :grade
         end
       when :module
-        short_title = resource.short_title.downcase.strip
         if short_title.include?('writing')
           :writing_module
         elsif short_title.include?('core proficiencies')
@@ -489,6 +489,9 @@ class Curriculum < ActiveRecord::Base
 
       elsif abbrv_type == :grade
         resource.grade_list.first.downcase.gsub('grade ', '')
+
+      elsif subject == :ela && abbrv_type == :module && short_title.present?
+        short_title.gsub('module ', '').upcase
 
       elsif subject == :math && abbrv_type == :lesson
         lesson_position_on_the_module
