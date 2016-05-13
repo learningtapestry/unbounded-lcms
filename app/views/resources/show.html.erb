@@ -107,13 +107,13 @@
             <% if @resource.engageny_url %>
             <div class="o-resource__item  o-resource__item--credits">
               <h3>Credits</h3>
-              <%= render partial: 'resources/engageny', locals: { resource: @resource } %>
+              <%= render partial: 'resources/engageny', locals: { resource: @resource, color_code: @resource.color_code(@grade_color_code) } %>
             </div>
             <% end %>
           </div>
         </div>
         <% if !@curriculum.lesson? %>
-          <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code %>">
+          <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code(@grade_color_code) %>">
             <div class="o-resource-summary__map o-resource-summary__map--2x"></div>
             <div class="o-resource-summary__content--2x">
               <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum, color_code: @resource.color_code } %>

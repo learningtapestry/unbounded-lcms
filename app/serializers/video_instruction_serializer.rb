@@ -9,8 +9,7 @@ class VideoInstructionSerializer < ActiveModel::Serializer
   end
 
   def img
-    # TODO fix-me when we add photos/images to Resources
-    ActionController::Base.helpers.image_path('resource_placeholder.jpg')
+    object.try(:image_file).try(:url) || ActionController::Base.helpers.image_path('resource_placeholder.jpg')
   end
 
   def path
