@@ -337,6 +337,15 @@ class Curriculum < ActiveRecord::Base
     tree || create_tree
   end
 
+  def destroy_recursively_with_resources!(really_destroy_everything: false)
+    return unless really_destroy_everything
+
+    transaction do
+      ids = self_and_descendants.map(&:resource).map(&:id)
+      Resource.where(id: ids).destroy_all
+    end
+  end
+
   # Slugs
 
   def create_slugs
