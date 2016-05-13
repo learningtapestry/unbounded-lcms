@@ -4,7 +4,7 @@
 
 @mixin curriculum-map-base {
   @include flex-grid-row($gutter: 0);
-  flex-direction: column;
+  flex-flow: column nowrap;
 
   @include e(module-wrap) {
     @extend %map-transition;

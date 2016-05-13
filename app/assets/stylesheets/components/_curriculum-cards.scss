@@ -34,14 +34,20 @@ $ub-cur-card-margin: 2px;
 
   @include e(map) {
     @include flex-grid-column(shrink, 0);
-    display: flex;
-    flex-flow: column wrap;
+    @include flex;
+    flex-flow: column nowrap;
     justify-content: space-between;
 
     @include breakpoint(medium down) {
       @include flex-grid-column(12);
       margin-bottom: $ub-small-margin;
     }
+  }
+
+  @include e(map-wrap) {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
   }
 
   @include e(body) {
@@ -89,6 +95,16 @@ $ub-cur-card-margin: 2px;
 
     @include m(short) {
       @include flex-align-self(middle);
+
+      .submenu {
+        &::before {
+          @include css-triangle($tooltip-pip-width, $ub-white, up);
+          bottom: 100%;
+          right: 12px;
+          position: absolute;
+          transform: translateX(-50%);
+        }
+      }
     }
   }
 

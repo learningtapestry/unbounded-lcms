@@ -60,9 +60,13 @@
     }
 
     @include m(credits) {
-      font-size: 80%;
+      @include txt-element(engageny);
       h3 { font-size: 21px; }
-      i { padding-right: .2rem; }
+      ul {
+        @include txt-element(engageny);
+        margin-left: 0; margin-bottom: $ub-xs-padding;
+        li { margin-right: 8px; }
+      }
     }
 
   }
@@ -96,4 +100,11 @@
   @include e(cc) {
   }
 
+}
+
+// tooltip
+.u-resource-tooltip {
+  @include txt-element(engageny);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .08);
+  max-width: 15rem !important;
 }

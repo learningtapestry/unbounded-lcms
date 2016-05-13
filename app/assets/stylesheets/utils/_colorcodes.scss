@@ -9,7 +9,9 @@
 .cs-tint-bg {
   @each $code, $color in $ub-colorcodes {
     @include m(#{$code}) {
-      background-color: scale-color($color, $lightness: 90%);
+      $tint-color: scale-color($color, $lightness: 90%);
+      background-color: $tint-color;
+      &:before { border-bottom-color: $tint-color; }
     }
   }
 }
