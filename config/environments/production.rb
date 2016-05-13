@@ -27,7 +27,7 @@ Rails.application.configure do
   if ENABLE_CACHING
     redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
     config.cache_store = :readthis_store, {
-      expires_in: 1.hour.to_i,
+      expires_in: 12.hour.to_i,
       namespace: 'unbounded',
       redis: { url: redis_url, driver: :hiredis }
     }
