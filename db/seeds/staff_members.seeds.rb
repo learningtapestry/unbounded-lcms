@@ -1,4 +1,4 @@
-staff_members = [
+staff_member_defs = [
   {
     bio: 'Aleksey Kasavin has led large-scale product and program development in both the private and public sectors. As the director of product for digital curriculum, Alex leads the development of a suite of tools that support teacher learning and classroom pedagogy. In collaboration with the director of product for digital learning, Alex oversees the Standards Institute’s digital presence. Previously, he was the fellow for technology partnerships at the Regents Research Fund, where he led UX development and district outreach for the next generation of EngageNY.org. Alex also managed reseller partnerships and training programs at Google and developed immersive e-learning simulations at Enspire Learning.',
     name: 'Aleksey Kasavin',
@@ -172,6 +172,7 @@ staff_members = [
   }
 ]
 
-staff_members.each do |hash|
-  StaffMember.create_with(hash).find_or_create_by!(name: hash[:name])
+staff_member_defs.each do |staff_member_def|
+  staff_member = StaffMember.find_or_initialize_by(name: staff_member_def[:name])
+  staff_member.update_attributes(staff_member_def)
 end
