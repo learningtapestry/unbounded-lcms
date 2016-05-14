@@ -8,7 +8,7 @@
 
   @include e(module-wrap) {
     @extend %map-transition;
-    @include flex-grid-column($gutter: 0);
+    //@include flex-grid-column($gutter: 0);
   }
 
   @include e(module) {
