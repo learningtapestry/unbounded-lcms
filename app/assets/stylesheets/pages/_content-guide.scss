@@ -358,7 +358,10 @@
 }
 
 .c-cg-title {
-  color: #fff !important;
-  font-size: 2.25rem !important;
   margin-bottom: 2rem;
+
+  * {
+    color: #fff !important;
+    font: 2.25rem/1.2 $ub-serif;
+  }
 }
