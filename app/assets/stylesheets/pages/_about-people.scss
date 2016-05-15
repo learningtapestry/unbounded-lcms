@@ -4,6 +4,7 @@ $staff-img: 120px;
   h1 { color: $ub-primary; }
   @include e(title) {
     font-family: $ub-serif;
+    font-weight: 600;
     padding-bottom: $ub-small-padding;
   }
 }
@@ -35,21 +36,27 @@ $staff-img: 120px;
     @extend %material-card;
     @include callout-base;
     @include callout($ub-white);
+    @include add-column-padding;
+    @include add-top-bottom-padding;
     display: none;
 
-    > div { padding-right: $ub-large-padding; }
-    //> div { width: 90%; margin: 0; }
+    > div { @include txt-element(base); }
+
+    @include breakpoint(medium) {
+      > div { width: 75%;  }
+    }
 
     .close-button {
       color: map-get($ub-yellow, base);
-      font-size: $global-font-size;
+      font-size: x-large;
+      font-weight: bold;
     }
   }
 }
 
 .c-stp-media {
   @include media-object-container;
-  @include add-gutter;
+  @include add-gutter(margin, top, 1.5);
 
   @include e(img) {
     @include media-object-section;
@@ -70,11 +77,7 @@ $staff-img: 120px;
 
     h3 { color: $ub-primary; }
     h4 {
-      color: lighten($ub-txt, 10%);
-      font-family: $ub-serif;
-      font-size: $global-font-size;
-      font-style: italic;
-      margin: 0;
+      font-size: map-get(map-get($ub-element-typography, base), 'font-size');
     }
   }
 }

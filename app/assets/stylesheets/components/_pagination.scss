@@ -41,13 +41,13 @@
   }
 
   @include e(pages) {
+    @include txt-element(pagination);
     display: inline-flex;
-    font-family: $ub-serif;
     list-style: none;
     margin-left: 0;
     li {
       line-height: 2rem;
-      padding: 0 .25rem;
+      padding: 0 .7rem;
     }
     li a {
       border-radius: 50%;
