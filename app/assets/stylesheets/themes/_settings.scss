@@ -124,8 +124,8 @@ $header-sizes: (
     'h2': 22,
     'h3': 26,
     'h4': 21,
-    'h5': 18,
-    'h6': 16,
+    'h5': 22,
+    'h6': 18,
   ),
 );
 $header-color: $ub-heading-txt;
@@ -148,7 +148,7 @@ $anchor-color-hover: scale-color($anchor-color, $lightness: -14%);
 $anchor-text-decoration: none;
 $anchor-text-decoration-hover: none;
 $hr-width: $global-width;
-$hr-border: 1px solid $medium-gray;
+$hr-border: 1px solid $ub-hr;
 $hr-margin: rem-calc(20) auto;
 $list-lineheight: $paragraph-lineheight;
 $list-margin-bottom: $paragraph-margin-bottom;

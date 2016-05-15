@@ -61,7 +61,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
   color: $ub-white;
 
   @include e(wrap) {
-    @include flex-align($y: center);
+    @include flex-align($y: middle);
     height: 160px;
   }
 
@@ -103,7 +103,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
       @include txt-element(media-text);
       @include add-gutter;
       color: $ub-white;
-      flex: 1 1 0px;
+      flex: 1 1 auto;
     }
 
     @include m(ela) {
