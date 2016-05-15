@@ -61,7 +61,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
   color: $ub-white;
 
   @include e(wrap) {
-    @include flex-align($y: center);
+    @include flex-align($y: middle);
     height: 160px;
   }
 

@@ -12,9 +12,10 @@
 //= require react_ujs
 //= require components
 //= require content_guides
-//= require about_people
-//= require social_sharing
+//= require initializers/about_people
+//= require initializers/social_sharing
 //= require freshdesk
+//= require initializers/google_analytics
 
 ready(function() {
   $(document).initFoundation();
@@ -23,4 +24,5 @@ ready(function() {
   window.initializeAboutPeople();
   window.initializeSocialSharing();
   window.initializeFreshdesk();
+  window.initializeGoogleAnalytics();
 });
