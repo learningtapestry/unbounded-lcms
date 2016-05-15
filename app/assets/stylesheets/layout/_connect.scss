@@ -1,16 +1,16 @@
 .o-connect {
+  @include flex-grid-column(12, 0);
+  @include flex;
+  color: $ub-nav-link;
+  flex-direction: column;
+  padding-bottom: $ub-xlarge-padding;
+  padding-top: $ub-xlarge-padding;
+
   h2 {
     @include txt-element(connect-header);
     color: #ededed;
     text-transform: uppercase;
   }
-  color: $ub-nav-link;
-
-  @include flex-grid-column(12, 0);
-  @include flex;
-  flex-direction: column;
-  padding-bottom: $ub-xlarge-padding;
-  padding-top: $ub-xlarge-padding;
 
   @include breakpoint(large) {
     @include flex-grid-column(4, 0);
@@ -22,7 +22,7 @@
 
   @include e(dsc) {
     @include txt-element(connect-text);
-    flex: 1 1 0px;
+    flex: 1 1 auto;
     padding-right: $ub-base-padding;
   }
 

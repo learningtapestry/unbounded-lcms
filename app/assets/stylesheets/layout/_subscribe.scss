@@ -19,7 +19,7 @@
 
   @include e(email) {
     @include flex-grid-column(8, 0);
-    @include placeholder($ub-heading-txt);
+    @include placeholder($ub-subscribe-txt);
     height: $ub-subscribe-height;
     margin-bottom: 0;
     input {
@@ -29,7 +29,7 @@
         background-color: $ub-subscribe-form-bg;
         border-color: $ub-subscribe-form-bg;
         box-shadow: none;
-        color: $ub-heading-txt;
+        color: $ub-subscribe-txt;
       }
     }
   }
