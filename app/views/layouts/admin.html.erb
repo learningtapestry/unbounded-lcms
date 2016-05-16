@@ -7,6 +7,8 @@
     <title><%= page_title %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('default_title') %>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= javascript_include_tag 'generated/translations' %>
+    <%= javascript_include_tag 'generated/routes' %>
     <script>document.querySelector('html').className = 'js';</script>
     <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track' => true %>
     <%= render partial: 'shared/google_analytics' %>
