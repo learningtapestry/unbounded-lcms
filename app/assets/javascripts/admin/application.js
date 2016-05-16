@@ -10,7 +10,6 @@
 //= require react
 //= require react_ujs
 //= require ../ready
-//= require ../routes
 //= require ../components
 //= require ./components
 //= require_tree ./editor
