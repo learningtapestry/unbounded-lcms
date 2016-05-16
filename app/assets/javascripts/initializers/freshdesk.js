@@ -12,6 +12,7 @@ window.initializeFreshdesk = function() {
     "offset": "-1500px",
     "formHeight": "500px",
     "submitThanks": "Thank you for your feedback",
-    "url": "https://unbounded.freshdesk.com"
+    "url": "https://unbounded.freshdesk.com",
+    "loadOnEvent": 'immediate',
   });
 };

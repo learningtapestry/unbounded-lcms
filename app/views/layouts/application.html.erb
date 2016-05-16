@@ -13,10 +13,10 @@
     <%= javascript_include_tag 'i18n' %>
     <%= javascript_include_tag 'generated/translations' %>
     <%= javascript_include_tag 'generated/routes' %>
-		<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag '//s7.addthis.com/js/300/addthis_widget.js#async=1' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= render partial: 'shared/google_analytics' %>
-		<%= csrf_meta_tags %>
+    <%= csrf_meta_tags %>
   </head>
   <body>
     <div class="u-page-wrap">
