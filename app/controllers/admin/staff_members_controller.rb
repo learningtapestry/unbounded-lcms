@@ -41,6 +41,6 @@ class Admin::StaffMembersController < Admin::AdminController
     end
 
     def staff_member_params
-      params.require(:staff_member).permit(:bio, :name, :position, :department, :image_file, :staff_type)
+      params.require(:staff_member).permit(:bio, :first_name, :last_name, :position, :department, :image_file, :staff_type, :order)
     end
 end

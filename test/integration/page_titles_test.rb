@@ -55,7 +55,8 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
   end
 
   def test_admin_staff_member_pages
-    staff_member = StaffMember.create!(name: Faker::Name.name)
+    fname, lname = Faker::Name.name.split(' ')
+    staff_member = StaffMember.create!(first_name: fname, last_name: lname)
 
     visit '/admin/staff_members'
     assert_page_title 'Staff Members'
