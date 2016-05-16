@@ -1,7 +1,8 @@
 <% url = @staff_member.new_record? ? :admin_staff_members : admin_staff_member_path(@staff_member) %>
 
 <%= simple_form_for @staff_member, url: url do |f| %>
-  <%= f.input :name %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
   <%= f.input :position %>
   <%= f.input :department %>
   <%= f.input :staff_type, as: :select, collection: StaffMember.staff_types, value_method: :first %>

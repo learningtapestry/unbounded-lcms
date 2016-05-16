@@ -197,6 +197,7 @@ staff_member_defs = [
   }
 ]
 
+StaffMember.where(first_name: nil, last_name: nil).destroy_all
 staff_member_defs.each do |staff_member_def|
   staff_member = StaffMember.find_or_initialize_by(first_name: staff_member_def[:first_name], last_name: staff_member_def[:last_name])
   staff_member.update_attributes(staff_member_def)
