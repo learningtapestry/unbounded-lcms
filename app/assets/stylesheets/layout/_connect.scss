@@ -15,7 +15,7 @@
 
   @include breakpoint(medium) {
     @include flex-grid-column(4, 0);
-    border-top: 0;
+    & + & { border-top: 0; }
   }
 
   @include breakpoint(medium only) {
