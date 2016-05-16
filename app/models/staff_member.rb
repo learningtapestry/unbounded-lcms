@@ -1,5 +1,5 @@
 class StaffMember < ActiveRecord::Base
-  validates :name, presence: true
+  validates :first_name, :last_name, presence: true
   validates :bio, length: { maximum: 4096 }
   enum staff_type: { staff: 1, board: 2 }
 
@@ -7,7 +7,7 @@ class StaffMember < ActiveRecord::Base
   scope :order_by_name_with_precedence, -> { order(:order, :last_name)}
 
   def name
-    "#{first_name} #{last_name}"
+    "#{self.first_name} #{self.last_name}"
   end
 
   #mount_uploader :image_file, StaffImageUploader

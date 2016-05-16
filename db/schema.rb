@@ -266,6 +266,8 @@ ActiveRecord::Schema.define(version: 20160516161657) do
     t.integer  "order"
   end
 
+  add_index "staff_members", ["first_name", "last_name"], name: "index_staff_members_on_first_name_and_last_name", using: :btree
+
   create_table "standard_links", force: :cascade do |t|
     t.integer "standard_begin_id", null: false
     t.integer "standard_end_id",   null: false
