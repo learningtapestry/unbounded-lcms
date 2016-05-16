@@ -4,8 +4,18 @@
   border-radius: $panel-radius;
 
   @include e(img) {
-    @include flex-grid-column(5, 0);
+    @include flex-grid-column(12, 0);
+    height: 200px;
     overflow: hidden;
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(5, 0);
+      height: auto;
+    }
+
+    @include breakpoint(small only) {
+      order: 1;
+    }
 
     img { width: 100%;}
 
@@ -16,8 +26,21 @@
   }
 
   @include e(body) {
-    @include flex-grid-column(7, $grid-column-2xgutter);
+    @include flex-grid-column(12, $grid-column-2xgutter);
     @include add-top-bottom-padding;
+    flex-shrink: 1;
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(7, $grid-column-2xgutter);
+
+      @include m(full) {
+        @include flex-grid-column(12, $grid-column-2xgutter);
+      }
+    }
+
+    @include breakpoint(small only) {
+      order: 2;
+    }
 
     h2 { @include txt-element(media-header); }
     &, p { @include txt-element(media-text); }
@@ -29,6 +52,10 @@
 
     @include m(no-right) {
       padding-right: 0;
+
+      @include breakpoint(small only) {
+        padding-left: 0;
+      }
     }
   }
 }
