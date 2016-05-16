@@ -18,6 +18,7 @@ class Admin::ResourcesController < Admin::AdminController
 
   def create
     rp = resource_params
+    cp = create_params(rp)
 
     @parent_curriculum = if rp.has_key?(:curriculum_id)
       Curriculum.find(rp.delete(:curriculum_id))
@@ -26,6 +27,20 @@ class Admin::ResourcesController < Admin::AdminController
     @resource = Resource.new(rp)
 
     if @resource.save
+      tag_creation = [
+        [:new_grade_names, 'grade'],
+        [:new_topic_names, 'topic'],
+        [:new_tag_names, 'tag'],
+        [:new_content_source_names, 'content_source']
+      ]
+
+      tag_creation.each do |(params_key, basename)|
+        Array.wrap(cp[params_key]).each do |name|
+          next if name.blank?
+          @resource.send("#{basename}_list").push(name)
+        end
+      end
+
       @parent_curriculum.add_child(@resource) if @parent_curriculum
       redirect_to :admin_resources, notice: t('.success', resource_id: @resource.id)
     else
@@ -43,6 +58,7 @@ class Admin::ResourcesController < Admin::AdminController
     end
 
     rp = resource_params
+    cp = create_params(rp)
 
     tag_creation = [
       [:new_grade_names, 'grade'],
@@ -52,15 +68,13 @@ class Admin::ResourcesController < Admin::AdminController
     ]
 
     tag_creation.each do |(params_key, basename)|
-      create_params = rp.delete(params_key)
-      Array.wrap(create_params).each do |name|
+      Array.wrap(cp[params_key]).each do |name|
         next if name.blank?
         @resource.send("#{basename}_list").push(name)
       end
     end
 
-    new_unbounded_standard_names = rp.delete(:new_unbounded_standard_names)
-    Array.wrap(new_unbounded_standard_names).each do |std_name|
+    Array.wrap(cp[:new_unbounded_standard_names]).each do |std_name|
       std = UnboundedStandard
         .create_with(subject: @resource.subject)
         .find_or_create_by!(name: std_name)
@@ -118,5 +132,19 @@ class Admin::ResourcesController < Admin::AdminController
                 new_tag_names: [],
                 new_content_source_names: []
               )
+    end
+
+    def create_params(rp)
+      cparams = {}
+
+      [
+        :new_grade_names,
+        :new_topic_names,
+        :new_tag_names,
+        :new_content_source_names,
+        :new_unbounded_standard_names
+      ].each { |p| cparams[p] = rp.delete(p) }
+
+      cparams
     end
 end
