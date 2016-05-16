@@ -61,6 +61,11 @@
   @include add-gutter(padding, top, $y);
 }
 
+@mixin add-top-bottom-margin($y: 1) {
+  @include add-gutter(margin, bottom, $y);
+  @include add-gutter(margin, top, $y);
+}
+
 @mixin placeholder($color: $ub-txt){
   ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: $color;
