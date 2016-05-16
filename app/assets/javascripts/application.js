@@ -1,5 +1,4 @@
 //= require turbolinks
-//= require ./routes
 //= require jquery
 //= require jquery_ujs
 //= require ready
