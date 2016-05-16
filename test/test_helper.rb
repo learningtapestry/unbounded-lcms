@@ -10,6 +10,8 @@ require 'shoulda/matchers'
 require 'capybara/poltergeist';
 require 'email_spec'
 
+JsRoutes.generate!("app/assets/javascripts/generated/routes.js")
+
 Capybara.javascript_driver = :poltergeist
 
 # Increase Poltergeist timeout so we don't run into timeout errors.
