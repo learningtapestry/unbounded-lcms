@@ -147,3 +147,137 @@ In addition, by submitting User Content to the UnboundEd site, you hereby grant 
 HTML
 
 Page.create_with(body: tos_body, title: 'Terms of Service').find_or_create_by(slug: 'tos')
+
+
+privacy_body = <<-HTML
+<p><em>Last modified: May 12, 2016</em></p>
+
+<p>&nbsp;</p>
+
+<h3>SUMMARY</h3>
+
+<p>We will treat your data carefully, preserving your privacy according to the rules laid out in this document, and to the best of our ability.</p>
+
+<p>As you use our services, we want you to be clear how we’re using information and the ways in which you can protect your privacy and use our services. Our Privacy Policy explains: What information we collect and why we collect it, and how we use that information.</p>
+
+<h3>WHAT INFORMATION WE COLLECT AND WHY WE COLLECT IT</h3>
+
+<p>We collect information to provide better services to all of our users. We collect information in two ways:</p>
+
+<h4>Information you give us</h4>
+
+<p>For example, in the future, some of our services may require you to sign up for an Account. When you do, we’ll ask for personal information, like your name, email address, and a password.</p>
+
+<h4>Information we get from your use of our services</h4>
+
+<p>We may collect information about the services that you use and how you use them, like when you visit a website that uses our services or you view and interact with our technology via a browser plug­in. This information includes:</p>
+
+<h4>Credential information</h4>
+
+<p>We may obtain and compare your provided login credentials with known credentials associated with your account in order to provide you access with your account. We may store and issue temporary credentials on your behalf for purposes such as password resets.</p>
+
+<h4>Device information</h4>
+
+<p>We may collect device specific information (such as your hardware model, operating system version, unique device identifiers, and mobile network information including phone number). We may associate your device identifiers or phone number with your Account.</p>
+
+<h4>Log and application information</h4>
+
+<p>When you use our services or view content, we may automatically collect and store certain information in server logs. This may include: details of how you used our service, such as your activities on authorized websites, Internet protocol address, device event information such as crashes, system activity, hardware settings, browser type, browser language, the date and time of your request and referral URL, cookies that may uniquely identify your browser or your Account.</p>
+
+<h4>Network information</h4>
+
+<p>When you use our service, we may collect and process information about your network, such as your IP address, your Internet Service Provider, your domain name, your bandwidth, your network route to the Internet and to our services.</p>
+
+<h4>Location information</h4>
+
+<p>When you use a location enabled service, we may collect and process information about your actual location. When you do not use a location enabled service, we may infer your approximate location by examining your Network information.</p>
+
+<h4>Local storage</h4>
+
+<p>We may collect and store information (including personal information) locally on your device using mechanisms such as browser web storage (including HTML 5) and application data caches.</p>
+
+<h4>Cookies and anonymous identifiers</h4>
+
+<p>We use various technologies to collect and store information when you visit our service, and this may include sending one or more cookies or anonymous identifiers to your device.</p>
+
+<h4>Links and Integrations</h4>
+
+<p>Our site contains links and integrations with third party sites whose information and privacy collection policies may be different from our own. This privacy policy does not apply to third party sites. Please consult the relevant polices from such third parties to learn more about their information gathering policies.</p>
+
+<h3>HOW WE USE INFORMATION WE COLLECT</h3>
+
+<p>We use the information we collect from all of our services first and foremost to provide information to our customers and partners to help them provide services based on the information. We also use the information to provide, maintain, protect and improve the services we offer as well as to develop new services, to keep our system running effectively and to protect our system and our users.</p>
+
+<p>We will never sell information provided by, or about, you to our customers or partners or anyone else.</p>
+
+<p>We may share information about our users with partners for purposes of delivering our services. For example, we might share information about specific users to a data analytics partner who can analyze this information to provide predictions about the services a user might need (this is sometimes called &quot;predictive analytics&quot; or &quot;collaborative filtering&quot;). In cases where we do share information in this way to partners, we will ensure that the partner is bound by the same or similar privacy agreement as this one, so that your information cannot be used by that organization in a way that is different from how we use it, as described in this privacy policy.</p>
+
+<p>When you contact us, we may keep a record of your communication to help solve any issues you might be facing. We may use your email address to inform you about our services, such as letting you know about upcoming changes or improvements, or in the case of urgent updates.</p>
+
+<p>We use information collected from cookies and other technologies, like pixel tags and web page events, to improve your user experience and the overall quality of our services.</p>
+
+<p>We will ask for your consent before using information for a purpose other than those that are set out in this Privacy Policy. We currently processes personal information on servers located in the United States. When we process your personal information, we do not guarantee it will be on a server located in the country where you live. Our management of your data will always be governed by this Privacy Policy.</p>
+
+<h3>TRANSPARENCY AND CHOICE</h3>
+
+<p>People have different privacy concerns. Our goal is to be clear about what information we collect, so that you can make meaningful choices about how it is used.</p>
+
+<p>We always aim to maintain our services in a manner that protects information from accidental disclosure or malicious interference. Because of this, after you delete information from our services, we may not immediately delete residual copies from our active servers and may not remove information from our backup systems, but we will still follow this Privacy Policy when managing those residual copies.</p>
+
+<h3>INFORMATION WE SHARE</h3>
+
+<p>We do not share personal information with companies, organizations or individuals outside of our organization unless one of the following circumstances applies:</p>
+
+<h4>With your consent</h4>
+
+<p>We will share personal information with companies, organizations or individuals outside of our organization when we have your consent to do so. We require opt­in consent for the sharing of any sensitive personal information.</p>
+
+<h4>For external processing</h4>
+
+<p>We provide personal information to our affiliates or other trusted businesses or persons to process it for us, based on our instructions and in compliance with our Privacy Policy and any other appropriate regulations, confidentiality and security measures.</p>
+
+<h4>For legal reasons</h4>
+
+<p>We will share personal information with companies, organizations or individuals outside of our organization if we have a good faith belief that access, use, preservation or disclosure of the information is reasonably necessary to: meet any applicable law, regulation, legal process or enforceable governmental request, enforce applicable Terms of Service, including investigation of potential violations, detect, prevent, or otherwise address fraud, security or technical issues, protect against harm to the rights, property or safety of our organization, our users, employees or the public as required or permitted by law.</p>
+
+<p>We may share aggregated, non­personally identifiable information with our partners for purposes of improving our services. For example, we may share information about the usage of our site with our management, customers, funders and other parties, provided that none of such information will include personally identifiable information. If we are involved in a merger, acquisition or asset sale, we will continue to ensure the confidentiality of any personal information and give affected users notice before personal information is transferred or becomes subject to a different privacy policy.</p>
+
+<h4>For Disseminating Information About Our Services</h4>
+
+<p>We may use the information collected to send you information and opportunities related to Standards Institute.  If you would like to opt-out of these communications, please send an email to support AT unbounded.org.</p>
+
+<h3>INFORMATION SECURITY</h3>
+
+<p>We work hard to protect our organization and our users from unauthorized access to or unauthorized alteration, disclosure or destruction of information we hold. In particular, we encrypt many of our services using SSL. We review our information collection, storage and processing practices, including physical security measures, to guard against unauthorized access to systems. We restrict access to personal information to employees, contractors and agents who need to know that information in order to process or manage it for us, and who are subject to strict contractual confidentiality obligations and may be disciplined or terminated if they fail to meet these obligations.</p>
+
+<h3>WHEN THIS PRIVACY POLICY APPLIES</h3>
+
+<p>Our Privacy Policy applies to all of the services offered by us and our affiliates, including services offered on other sites (such as our partners) where the data from those services are managed by our organization, but excludes services that have separate privacy policies that do not incorporate this Privacy Policy. Our Privacy Policy does not apply to services offered by other companies or individuals, including products or sites that may include our services, or other sites linked to from our services. Our Privacy Policy does not cover the information practices of other companies and organizations who advertise our services, and who may use cookies, pixel tags and other technologies to serve and offer relevant, complementary or related services.</p>
+
+<h3>COMPLIANCE AND COOPERATION WITH REGULATORY AUTHORITIES</h3>
+
+<p>We regularly review our compliance with our Privacy Policy. We also adhere to several selfregulatory frameworks. When we receive formal written complaints, we will contact the person who made the complaint to follow up. We work with the appropriate regulatory authorities, including local data protection authorities, to resolve any complaints regarding the transfer of personal data that we cannot resolve with our users directly.</p>
+
+<h3>PRIVACY OF CHILDREN</h3>
+
+<p>Our site operates in compliance with the Children&#39;s Online Privacy Protection Act (COPPA). We never knowingly collect information from children under the age of 13 and no part of our website aims to serve or attract children under the age of 13. Visitors under 13 are strictly prohibited from using the website at any point for any reason.</p>
+
+<h3>SECURITY</h3>
+
+<p>We work hard to keep private data secure. Although we cannot guarantee the security of information, we have implemented a number of best practices in physical, electronic, and managerial security practices in order to prevent unauthorized access to private data. For example, when a user provides a password, that information is stored in an encrypted manner. We also use Secure Socket Layer (SSL) for portions of our Sites to transfer data securely.  You can check whether SSL is active by looking for a &quot;locked&quot; padlock icon within your browser. Please be aware, however, that despite our efforts, no security measures are perfect.</p>
+
+<p>If you use a password to access the website, you are responsible for keeping the password private and confidential. You must refrain from sharing it with other people. If you suspect your password has been misused in any way, please notify us at support AT unbounded.org.</p>
+
+<h3>CHANGES</h3>
+
+<p>Our Privacy Policy may change from time to time. We will not reduce your rights under this Privacy Policy without your explicit consent or giving you the opportunity to opt­out of any changes. Opting­out could require stopping your use of our services entirely.</p>
+
+<p>We will post any privacy policy changes on this page and, if the changes are significant, we will provide a more prominent notice (including, for certain services, email notification of privacy policy changes). Significant changes will be effective 30 days following our posting of the change to our website or the date we email you about such changes.  All other changes are effective on the day we post the change to our website.  Any change to how we use your personal information is considered a significant change.  If you do not wish to permit changes in our use of your personal information, you must notify us prior to the effective date of the change. Continued use of our services following notice of changes shall indicate your acknowledgement of such changes and agreement to be bound by the terms and conditions of such change.</p>
+
+<p>If you have questions regarding our privacy policy or if you want to report any security violations to us, you can email us at support AT unbounded.org.</p>
+
+
+<p><em>Last Revised: May 12, 2016</em></p>
+HTML
+
+Page.create_with(body: privacy_body, title: 'UnboundEd Privacy Policy').find_or_create_by(slug: 'privacy')
