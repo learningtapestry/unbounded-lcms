@@ -16,7 +16,7 @@
     </nav>
     <div class="tabs-content" data-tabs-content="st-tabs">
       <div class="o-tab__panel tabs-panel is-active" id="st-tab-staff">
-        <%= render partial: 'about_people_staff', locals: {members: StaffMember.staff.order_by_name, type: 's'} %>
+        <%= render partial: 'about_people_staff', locals: {members: StaffMember.staff.order_by_name_with_precedence, type: 's'} %>
       </div>
       <!-- <div class="o-tab__panel tabs-panel" id="st-tab-board">
         <%= render partial: 'about_people_staff', locals: {members: StaffMember.board.order_by_name, type: 'b'} %>

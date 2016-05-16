@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510163123) do
+ActiveRecord::Schema.define(version: 20160516161657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,13 +255,15 @@ ActiveRecord::Schema.define(version: 20160510163123) do
 
   create_table "staff_members", force: :cascade do |t|
     t.string   "bio",        limit: 4096
-    t.string   "name",                                null: false
     t.string   "position"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "staff_type",              default: 1, null: false
     t.string   "image_file"
     t.string   "department"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "order"
   end
 
   create_table "standard_links", force: :cascade do |t|
