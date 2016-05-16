@@ -13,7 +13,7 @@
 //= require content_guides
 //= require initializers/about_people
 //= require initializers/social_sharing
-//= require freshdesk
+//= require initializers/freshdesk
 //= require initializers/google_analytics
 
 ready(function() {
