@@ -1,10 +1,11 @@
 .o-connect {
   @include flex-grid-column(12, 0);
-  @include flex;
+  //@include flex;
   color: $ub-nav-link;
   flex-direction: column;
   padding-bottom: $ub-xlarge-padding;
   padding-top: $ub-xlarge-padding;
+  & + & { border-top: 1px solid $ub-nav-link; }
 
   h2 {
     @include txt-element(connect-header);
@@ -12,23 +13,25 @@
     text-transform: uppercase;
   }
 
-  @include breakpoint(large) {
+  @include breakpoint(medium) {
     @include flex-grid-column(4, 0);
+    border-top: 0;
   }
 
   @include breakpoint(medium only) {
-    @include flex-grid-column(6, 0);
+    //@include flex-grid-column(6, 0);
   }
 
   @include e(dsc) {
     @include txt-element(connect-text);
-    flex: 1 1 auto;
+    //flex: 1 1 auto;
     padding-right: $ub-base-padding;
   }
 
   @include e(list) {
     @include menu-simple;
     margin: 0;
+    li { margin-right: .75rem; }
     i { font-size: 2.3rem; }
     a {
       color: $ub-nav-link;

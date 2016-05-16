@@ -3,16 +3,16 @@
 
   @include e(menu) {
     @include menu-direction(vertical);
+    > li > a { @include add-column-padding; }
 
     @include breakpoint($topbar-unstack-breakpoint) {
       @include menu-direction(horizontal);
-      > li > a { @include add-column-padding; }
     }
   }
 
   @include e(left-menu) {
+    > li > a { @include add-column-padding; }
     @include breakpoint($topbar-unstack-breakpoint) {
-      > li > a { @include add-column-padding; }
     }
   }
 
@@ -79,18 +79,23 @@
 
 .c-header-title {
   @include breakpoint($topbar-unstack-breakpoint down) {
-    @include top-bar-container;
+    //@include top-bar-container;
+    @include flex;
+    @include flex-align($x: justify, $y: middle);
+    min-height: $ub-nav-height;
   }
 
   @include e(logo) {
+    @include add-column-padding;
     @include breakpoint($topbar-unstack-breakpoint) {
-      @include add-column-padding;
+
     }
   }
 
   @include e(h-menu) {
+    @include add-column-padding;
     @include breakpoint($topbar-unstack-breakpoint) {
-      display: none;
+      //display: none;
     }
   }
 }

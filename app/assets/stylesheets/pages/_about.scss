@@ -34,16 +34,28 @@
   background-image: image-url('about_standards_institute.jpg');
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
+
+  @include breakpoint(medium only) {
+    background-position: 40% 0%;
+  }
 }
 
 .c-ap-img--hwa {
   background-image: image-url('about_who_we_are.jpg');
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
+
+  @include breakpoint(medium only) {
+    background-position: 100% 0%;
+  }
 }
 
 .c-ap-img--op {
   background-image: image-url('about_partners.jpg');
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
+
+  @include breakpoint(medium only) {
+    background-position: 70% 0%;
+  }
 }

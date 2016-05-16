@@ -11,19 +11,26 @@
   }
 
   @include e(label) {
-    @include flex-grid-column(4, 0);
+    @include flex-grid-column(12, 0);
     @include flex-align-self(middle);
     @include txt-element(subscribe-header);
+    @include add-top-bottom-padding($y: .5);
     color: map-get($ub-mignight, base);
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(4, 0);
+      @include add-top-bottom-padding(0);
+    }
   }
 
   @include e(email) {
-    @include flex-grid-column(8, 0);
+    @include flex-grid-column(12, 0);
     @include placeholder($ub-subscribe-txt);
     height: $ub-subscribe-height;
     margin-bottom: 0;
     input {
       @include txt-element(subscribe-text);
+      width: 100%;
       padding: 1.5rem 1rem;
       &, &:focus {
         background-color: $ub-subscribe-form-bg;
@@ -31,6 +38,10 @@
         box-shadow: none;
         color: $ub-subscribe-txt;
       }
+    }
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(8, 0);
     }
   }
   @include e(submit) {
