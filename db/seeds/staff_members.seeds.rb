@@ -28,9 +28,10 @@ staff_member_defs = [
     bio: 'Amy Rudat designs literacy curriculum and professional development. She is a former middle school and high school teacher and K-8 literacy coach in the Troy School District in New York. As the director of English Language Arts content, she manages the selection of open educational resource curriculum and formative assessments in ELA. Previously, Amy worked at the New York State Education Department, where she contributed to the development of P-12 ELA resources on EngageNY.org. Amy also chaired the New York State Education Equity Alliance.',
     first_name: 'Amy',
     last_name: 'Rudat',
-    position: 'ELA Content Manager',
+    position: 'Director of ELA Content',
     department: 'ELA',
-    staff_type: 1
+    staff_type: 1,
+    image_file: 'https://s3.amazonaws.com/unboundedwebimages/amyheadshot2016.jpg'
   },
   {
     bio: 'Danielle Peyton started her career in education as a fourth-grade ELL (English Language Learner) teacher in Phoenix, Arizona. Upon relocating to Washington, D.C., she worked in the education nonprofit sector, at the National Council for the Accreditation of Teacher Education, a teacher preparation startup called Teach-Now, and Zero To Three. Throughout her career, Danielle has maintained a focus of working with students ages 8-16, and served as a tutor and out-of-school-time coordinator/teacher for the Latin American Youth Center and The Fishing School, both in Washington, D.C. An Arizona native, Danielle earned her bachelor’s degree in elementary education in 2008 from Arizona State University. She is currently pursuing a master\'s of science degree in learning, design and technology from Purdue University.',
@@ -91,7 +92,8 @@ staff_member_defs = [
     position: 'Managing Partner',
     department: '',
     staff_type: 1,
-    order: 1
+    order: 1,
+    image_file: 'https://s3.amazonaws.com/unboundedwebimages/kateheadshot2016.jpg'
   },
   {
     bio: 'Kristen Ehlman has worked for more than 25 years as an educator, with expertise in school leadership and change management. Kristen began her career as an elementary and middle school teacher in Maryland. As the director of leadership, Kristen designs and conducts professional development sessions focused on school and district leadership, change management and effective implementation strategies. Most recently, Kristen served as the national director of principal support at the nonprofit New Leaders, which trains aspiring school leaders. Kristen was also the staff development specialist in Montgomery County Public Schools in Maryland, and trained teachers and administrators in the Ukraine for Step By Step, a nonprofit organization that promotes democratic education reform in newly formed democracies around the world. She is a certified facilitative leadership affiliate trainer for the Interaction Institute for Social Change in Boston.',
@@ -110,6 +112,7 @@ staff_member_defs = [
     department: '',
     staff_type: 1,
     order: 2,
+    image_file: 'https://s3.amazonaws.com/unboundedwebimages/lauraheadshot2016.jpg'
   },
   {
     bio: 'Luis Lima has worked in secondary mathematics education as a curriculum developer, teacher and mathematics coordinator. Luis worked for 11 years in Baltimore City Schools as a math teacher and, later, secondary math coordinator, before joining Anne Arundel Public Schools in Maryland as their secondary math coordinator. In these assignments, Luis played a pivotal role in the development of standards-aligned mathematics curricula, supported faculty and school leaders through the design and delivery of professional learning experiences, and managed initiatives related to the implementation of higher educational standards in mathematics. Prior moving to Maryland, Luis worked in the private sector, where he designed and managed a technology education program for non-public schools. Luis’ career began in Rio de Janeiro, where he taught elementary and secondary school and served as curriculum director for K-8 mathematics.',
@@ -193,7 +196,8 @@ staff_member_defs = [
     last_name: 'Maloney',
     position: 'Director of Leadership and Learning',
     department: 'Leadership',
-    staff_type: 1
+    staff_type: 1,
+    image_file: 'https://s3.amazonaws.com/unboundedwebimages/vertaheadshot2016.jpg'
   }
 ]
 
