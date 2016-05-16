@@ -1,9 +1,9 @@
 <% set_page_title @content_guide.title %>
 
 <% cache @content_guide do %>
-  <div class="o-page o-page--margin-to-bottom o-page--cg">
+  <div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @content_guide.subject %>">
     <div class="o-page__module">
-      <%= link_to :enhance_instruction_index, class: 'o-ub-btn o-ub-btn--base' do %>
+      <%= link_to :enhance_instruction_index, class: 'o-ub-btn o-ub-btn--base c-cg-back' do %>
         <i class="fa-lg ub-arrow-left"></i> <%= t('content_guide_page.back_to_hub') %>
       <% end %>
     </div>
@@ -19,12 +19,12 @@
         </div>
       </div>
     </div>
-    <div class="o-page__module u-bg--light c-ch-content">
+    <div class="o-page__module u-bg--light c-cg-content">
       <div class="o-page__wrap--row">
-        <div class="c-ch-content__sidebar">
+        <div class="c-cg-content__sidebar">
           <%= render partial: 'nav', locals: { headings: @content_guide.headings } %>
         </div>
-        <div id="c-ch-content" class="c-ch-content__body">
+        <div id="c-ch-content" class="c-cg-content__body">
           <% if @content_guide.broken_images.any? %>
             <div class='callout warning'>
               <p><%= t('.broken_images') %>
