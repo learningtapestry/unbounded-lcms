@@ -17,5 +17,5 @@ var addthis_share = {
 
 window.initializeSocialSharing = () => {
   addthis_config.ui_email_note = ($('.o-social-sharing__teaser').length) ? $('.o-social-sharing__teaser').html().trim() : '';
-  if (typeof addthis !== 'undefined') { addthis.toolbox('.addthis_toolbox'); }
+  if (window.addthis) { addthis.toolbox('.addthis_toolbox'); }
 }
