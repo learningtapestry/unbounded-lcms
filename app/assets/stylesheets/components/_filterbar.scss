@@ -45,6 +45,10 @@ $filterbar-height: 58px;
       }
     }
 
+    @include m(facet) {
+      margin-bottom: 1px !important;
+    }
+
     @include m(deselected) {
       opacity: .35;
     }
@@ -72,11 +76,15 @@ $filterbar-height: 58px;
   width: 100%;
 
   @include e(label) {
-    @include flex-grid-column(shrink, 0);
+    @include flex-grid-column(12, 0);
     @include txt-element(filter-label);
     background-color: $ub-label-bg;
     color: $ub-white;
     height: $filterbar-height;
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(shrink, 0);
+    }
 
     span {
       @include flex;
@@ -88,9 +96,13 @@ $filterbar-height: 58px;
   }
 
   @include e(input) {
-    @include flex-grid-column(null, 0);
+    @include flex-grid-column(12, 0);
     position: relative;
     > input { margin-bottom: 0; @include txt-element(filter-input); }
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(null, 0);
+    }
   }
 
   @include e(field) {
