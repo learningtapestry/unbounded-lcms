@@ -1,6 +1,7 @@
 //= require turbolinks
 //= require jquery
 //= require jquery_ujs
+//= require vendor/modernizr-custom
 //= require ready
 //= require jquery/smoothscrolling
 //= require foundation

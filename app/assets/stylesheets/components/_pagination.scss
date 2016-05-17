@@ -47,7 +47,11 @@
     margin-left: 0;
     li {
       line-height: 2rem;
-      padding: 0 .7rem;
+      padding: 0 .35rem;
+
+      @include breakpoint(medium) {
+        padding: 0 .7rem;
+      }
     }
     li a {
       border-radius: 50%;

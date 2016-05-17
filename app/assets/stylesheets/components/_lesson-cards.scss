@@ -64,12 +64,12 @@ $lesson-card-height: 185px;
   @include e(dsc) {
     @include m(short) {
       @include txt-element(lesson-title);
-      @include clamp($lesson-dsc-short-lines);
+      @include clamp($lesson-dsc-short-lines, lesson-title);
     }
 
     @include m(full) {
       @include txt-element(lesson-hover);
-      @include clamp($lesson-dsc-full-lines);
+      @include clamp($lesson-dsc-full-lines, lesson-hover);
     }
   }
 

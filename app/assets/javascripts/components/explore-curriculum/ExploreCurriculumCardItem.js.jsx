@@ -89,7 +89,7 @@ class ExploreCurriculumCardItem extends React.Component {
           </ul>
           <ul className="o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short" ref="dropdown">
             <li>
-              <a href="#" className="o-cur-card__ellipsis"><i className="ub-ellipsis fa-3x"></i></a>
+              <a href="" className="o-cur-card__ellipsis"><i className="ub-ellipsis fa-3x"></i></a>
               <ul className="menu">
                 <li><a href={resource.path}>View Details</a></li>
                 <li><a className={cssDownloadLinkClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>
