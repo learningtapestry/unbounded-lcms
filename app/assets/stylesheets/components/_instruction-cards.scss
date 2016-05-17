@@ -6,7 +6,7 @@ $media-img-height: 110px;
   @include flex-grid-column(6);
   flex-direction: column;
 
-  @include breakpoint(medium) {
+  @include breakpoint(ipad) {
     @include flex-grid-column(3);
   }
 
@@ -20,6 +20,10 @@ $media-img-height: 110px;
     img {
       width: 100%;
       height: auto;
+    }
+
+    @include breakpoint(small only) {
+      display: none;
     }
   }
 
@@ -40,6 +44,10 @@ $media-img-height: 110px;
     overflow: hidden;
 
     img { height: 100%; }
+
+    @include breakpoint(small only) {
+      display: none;
+    }
   }
 
   @include e(body) {
@@ -63,7 +71,7 @@ $media-img-height: 110px;
   @include m(instruction) {
     @include flex-grid-column(12);
 
-    @include breakpoint(medium) {
+    @include breakpoint(ipad) {
       @include flex-grid-column(6);
     }
 

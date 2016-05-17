@@ -59,6 +59,11 @@
   @include e(module-wrap) {
     margin-bottom: $module-margin;
     width: $width;
+
+    @include breakpoint(small only) {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   @include e(module) {
@@ -72,6 +77,11 @@
 
   @include e(units) {
     width: $units-row;
+
+    @include breakpoint(small only) {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   @include e(unit) {

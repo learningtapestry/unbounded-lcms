@@ -62,6 +62,10 @@ $ub-cur-card-margin: 2px;
     @include m(medium) {
       margin-top: -2px;
     }
+
+    @include breakpoint(medium down) {
+      @include add-column-padding($x: .5);
+    }
   }
 
   @include e(title) {
@@ -132,8 +136,21 @@ $ub-cur-card-margin: 2px;
     margin-bottom: $ub-xlarge-margin;
   }
 
-  @include m(show-medium)  { display: inherit; }
-  @include m(show-short) { display: none; }
+  @include m(show-medium)  {
+    display: inherit;
+
+    @include breakpoint(ipad only) {
+      &.o-cur-card__menu { display: none; }
+    }
+  }
+  @include m(show-short) {
+    display: none;
+
+    @include breakpoint(ipad only) {
+      &.o-cur-card__menu { display: inherit; }
+    }
+
+  }
 
   @include m(short) {
     @extend %map-transition;
