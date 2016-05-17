@@ -20,6 +20,10 @@
     });
     if ($elemsToInit) {
       $elemsToInit.foundation();
+      let $maggelan = $elemsToInit.find('[data-magellan]');
+      if ($maggelan.length) {
+        $maggelan.foundation('reflow');
+      }
     }
   }
 
@@ -30,7 +34,7 @@
    */
   function fixMediaQuery() {
     // queries, need to be changed if brekpoints will be changed
-    const extractedStyles = "\"small=0em&medium=40em&large=64em&xlarge=75em&xxlarge=90em\"";
+    const extractedStyles = "\"small=0em&medium=40em&ipad=48em&large=64em&xlarge=76.875em&xxlarge=90em\"";
     let fQuery = Foundation.MediaQuery;
     // was initialized successfully
     if (fQuery.queries.length > 5) return;
