@@ -18,7 +18,8 @@
 @import
   'utils/styles_override',
   'utils/helpers',
-  'utils/colorcodes';
+  'utils/colorcodes',
+  'utils/functions';
 
 @import
   'base/fonts',
@@ -66,4 +67,5 @@
   'pages/explore-curriculum',
   'pages/enhance-instruction',
   'pages/content-guide',
-  'pages/find-lessons';
+  'pages/find-lessons',
+  'pages/unsupported';
