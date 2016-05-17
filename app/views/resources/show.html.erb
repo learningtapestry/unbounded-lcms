@@ -7,12 +7,12 @@
       <a class="o-sticky__btn" href="<%= @curriculum.previous_of_type ? show_with_slug_path(@curriculum.previous_of_type.slug.value) : '#' %>">
         <div class="o-page__wrap--row">
           <div class="o-sticky__icon">
-            <i class="fa-2x ub-angle-left"></i>
+            <i class="fa-3x ub-angle-left"></i>
           </div>
           <% if  @curriculum.previous_of_type %>
             <div class="o-sticky__txt">
-              <small><%= t('resources.btn.arrow', dir: 'Previous', type: type_name(@curriculum.previous_of_type)) %></small></br>
-              <strong><%= @curriculum.previous_of_type.resource.title %></strong>
+              <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow', dir: 'Previous', type: type_name(@curriculum.previous_of_type)) %></div>
+              <div class="o-sticky__arrow-header"><%= @curriculum.previous_of_type.resource.title %></div>
             </div>
           <% end %>
         </div>
@@ -29,13 +29,17 @@
       <div class="o-page__section cs-bg--<%= @resource.color_code(@grade_color_code) %>">
         <div class="o-content-title u-text--capitalized">
           <%
-            @curriculum.self_and_ancestors.reverse.each_with_index do |ancestor|
+            @curriculum.self_and_ancestors.reverse.each_with_index do |ancestor, idx|
               is_last = ancestor.id == @curriculum.id
               piece = is_last ?
                 @curriculum.resource.short_title :
                 ancestor.breadcrumb_piece
           %>
-            <%= link_to piece, show_with_slug_path(ancestor.slug.value) %>
+            <% if idx == 0 %>
+              <%= piece %>
+            <% else %>
+              <%= link_to piece, show_with_slug_path(ancestor.slug.value) %>
+            <% end %>
             <%= ' / ' if !is_last %>
           <% end %>
         </div>
@@ -129,12 +133,12 @@
         <div class="o-page__wrap--row">
           <% if  @curriculum.next_of_type %>
             <div class="o-sticky__txt">
-              <small><%= t('resources.btn.arrow', dir: 'Next', type: type_name(@curriculum.next_of_type)) %></small></br>
-              <strong><%= @curriculum.next_of_type.resource.title %></strong>
+              <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow', dir: 'Next', type: type_name(@curriculum.next_of_type)) %></div>
+              <div class="o-sticky__arrow-header"><%= @curriculum.next_of_type.resource.title %></div>
             </div>
           <% end %>
           <div class="o-sticky__icon">
-            <i class="fa-2x ub-angle-right"></i>
+            <i class="fa-3x ub-angle-right"></i>
           </div>
         </div>
       </a>

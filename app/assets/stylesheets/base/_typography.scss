@@ -66,7 +66,9 @@ $ub-element-typography: (
   pagination: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
   search-result-header: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
   search-result-subheader: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif),
-  search-result-teaser: ('font-size': 21px, 'line-height': 26px, 'font-family': $ub-sanserif)
+  search-result-teaser: ('font-size': 21px, 'line-height': 26px, 'font-family': $ub-sanserif),
+  arrow-header: ('font-size': 20px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 500),
+  arrow-subheader: ('font-size': 14px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 600, color: #31424c),
 );
 
 @each $element, $typo in $ub-element-typography {

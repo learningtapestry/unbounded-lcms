@@ -16,6 +16,7 @@
     @include menu-base;
     @include menu-simple;
     @include menu-direction(horizontal);
+    flex-wrap: wrap;
     justify-content: center;
   }
 
