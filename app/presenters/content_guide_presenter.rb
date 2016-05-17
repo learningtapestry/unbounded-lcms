@@ -470,23 +470,12 @@ class ContentGuidePresenter < BasePresenter
   def wrap_keywords(content)
     result = content.dup
 
-    keywords = {}
-    ContentGuideDefinition.find_each { |d| keywords[d.keyword] = { description: d.description } }
-    Standard.all.each do |standard|
-      if standard.name.present? && standard.name.scan('.').size > 1
-        keywords[standard.name.upcase] = { description: standard.description, emphasis: standard.emphasis }
-      end
-
-      standard.alt_names.each do |alt_name|
-        if alt_name.scan('.').size > 1
-          keywords[alt_name.upcase] = { description: standard.description, emphasis: standard.emphasis }
-        end
-      end
-    end
+    defintions = {}
+    ContentGuideDefinition.find_each { |d| defintions[d.keyword] = d.description }
 
     dropdowns = []
-    keywords.each do |keyword, value|
-      next unless value.present?
+    defintions.each do |keyword, description|
+      next unless description.present?
 
       result.gsub!(/(>|\(|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
         id = "cg-k_#{SecureRandom.hex(4)}"
@@ -498,17 +487,36 @@ class ContentGuidePresenter < BasePresenter
                 data-hover-delay=0
                 data-hover-pane=true
                 id=#{id}>
-            #{value[:description]}
+            #{description}
           </span>
         )
 
-        toggler = "<span class=c-cg-keyword data-toggle=#{id}>"
-        if (emphasis = value[:emphasis])
-          toggler << "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
-        end
-        toggler << "#{keyword}</span>"
-
+        toggler = "<span class=c-cg-keyword data-toggle=#{id}>#{keyword}</span>"
         m.gsub!(/#{keyword}/i, toggler)
+      end
+    end
+
+    result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
+      if (standard = CommonCoreStandard.find_by_name_or_synonym(m))
+        id = "cg-k_#{SecureRandom.hex(4)}"
+        dropdowns << %Q(
+          <span class='dropdown-pane c-cg-dropdown'
+                data-dropdown
+                data-hover=true
+                data-hover-delay=0
+                data-hover-pane=true
+                id=#{id}>
+            #{standard.description}
+          </span>
+        )
+        toggler = "<span class=c-cg-keyword data-toggle=#{id}>"
+        if (emphasis = standard.emphasis)
+          toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
+        end
+        toggler += "#{m}</span>"
+        toggler
+      else
+        m
       end
     end
 

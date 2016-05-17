@@ -7,6 +7,11 @@ class CommonCoreStandard < Standard
   scope :domains, ->{ where(label: 'domain') }
   scope :standards, ->{ where(label: 'standard') }
 
+  def self.find_by_name_or_synonym(name)
+    name = name.downcase
+    find_by_name(name) || where_alt_name(name).first
+  end
+
   def self.where_alt_name(alt_name)
     where('? = ANY(alt_names)', alt_name)
   end
