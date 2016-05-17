@@ -27,12 +27,13 @@
   }
 }
 
-@mixin clamp($lines) {
+@mixin clamp($lines, $element) {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
+  max-height: computed-height($element, $lines);
 }
 
 @mixin ellipsis {

@@ -6,7 +6,7 @@ $media-img-height: 110px;
   @include flex-grid-column(6);
   flex-direction: column;
 
-  @include breakpoint(ipad) {
+  @include breakpoint(large) {
     @include flex-grid-column(3);
   }
 
@@ -29,7 +29,7 @@ $media-img-height: 110px;
 
   @include e(title) {
     @include txt-element(media-card-title);
-    @include clamp(3);
+    @include clamp(3, media-card-title);
   }
 }
 
@@ -71,7 +71,7 @@ $media-img-height: 110px;
   @include m(instruction) {
     @include flex-grid-column(12);
 
-    @include breakpoint(ipad) {
+    @include breakpoint(large) {
       @include flex-grid-column(6);
     }
 
@@ -84,6 +84,7 @@ $media-img-height: 110px;
 
     @include e(title) {
       @include txt-element(cg-card-title);
+      @include clamp(4, cg-card-title);
     }
   }
 
