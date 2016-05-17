@@ -21,7 +21,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
     background-image: image-url('hp_hero_bg.jpg');
   }
 
-  @include breakpoint(medium only) {
+  @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
     background-image: image-url('hp_hero_bg_medium.jpg');
   }
 
@@ -196,7 +196,8 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
 
-  @include breakpoint(medium only) {
+  @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
     background-position: 50% 0%;
   }
+
 }
