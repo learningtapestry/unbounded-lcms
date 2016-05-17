@@ -21,6 +21,9 @@ front-end.
 1. Set up `.env.test`, `.env.development` and `.env.integration`
 2. `bundle && bundle exec rake cloud66:after_bundle`
 
+You should also run the task `routes:generate_js` every time routes are updated.
+This task is run as part of `cloud66:after_bundle`.
+
 ### Integration database
 
 For convenience, a copy of a reference unboundED database is available
