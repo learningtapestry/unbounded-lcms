@@ -2,10 +2,22 @@
   @include flex-grid-row(nest);
 
   @include e(title) {
-    @include flex-grid-column();
+    @include flex-grid-column;
+
+    @include breakpoint(medium down) {
+      @include flex-grid-column(12);
+    }
   }
   @include e(links) {
     @include flex-grid-column(shrink);
+
+    @include breakpoint(medium down) {
+      @include flex;
+      @include flex-grid-column(12);
+      flex-flow: row wrap;
+      margin-top: $ub-xs-padding;
+      > div { margin-right: $ub-xs-padding;}
+    }
   }
 }
 
@@ -22,6 +34,15 @@
 
     @include m(2x) {
       @include flex-grid-column(shrink, $gutter: $grid-column-2xgutter);
+
+      @include breakpoint(small only) {
+        @include flex-grid-column(12, $gutter: $grid-column-2xgutter);
+      }
+    }
+
+    @include breakpoint(small only) {
+      @include flex-grid-column(12);
+      text-align: center;
     }
   }
 
@@ -30,9 +51,9 @@
   }
 
   @include e(content) {
-    @include flex-grid-column();
+    @include flex-grid-column;
 
-    @include breakpoint(medium) {
+    @include breakpoint(large) {
       margin-right: 8%;
 
       @include m(media) {
@@ -40,8 +61,16 @@
       }
     }
 
+    @include breakpoint(small only) {
+      @include flex-grid-column(12);
+    }
+
     @include m(2x) {
       @include flex-grid-column($gutter: $grid-column-2xgutter);
+
+      @include breakpoint(small only) {
+        @include flex-grid-column(12, $gutter: $grid-column-2xgutter);
+      }
     }
   }
 }
