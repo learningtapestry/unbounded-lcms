@@ -13,9 +13,14 @@ $lesson-card-height: 185px;
       @include flex-grid-column(2.4);
     }
 
-    @include breakpoint(medium only) {
+    @include breakpoint(ipad only) {
       @include flex-grid-column(4);
     }
+
+    @include breakpoint(medium only) {
+      @include flex-grid-column(6);
+    }
+
   }
 
   @include e(wrap) {
