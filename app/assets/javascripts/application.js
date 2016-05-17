@@ -7,14 +7,12 @@
 //= require foundation
 //= require jquery/foundation.magellanex
 //= require jquery/foundation.initialize
-//= require vendor/freshwidget
 //= require react
 //= require react_ujs
 //= require components
 //= require content_guides
 //= require initializers/about_people
 //= require initializers/social_sharing
-//= require initializers/freshdesk
 //= require initializers/google_analytics
 
 ready(function() {
@@ -23,6 +21,6 @@ ready(function() {
   window.initializeContentGuide();
   window.initializeAboutPeople();
   window.initializeSocialSharing();
-  window.initializeFreshdesk();
+  //window.initializeFreshdesk();
   window.initializeGoogleAnalytics();
 });
