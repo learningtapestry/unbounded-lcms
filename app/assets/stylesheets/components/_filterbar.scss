@@ -23,7 +23,7 @@ $filterbar-height: 58px;
 
   @include e(list) {
     @include button-group($child-selector: 'div');
-    @include flex-align($x: start, $y: top);
+    @include flex-align($x: left, $y: top);
     flex-wrap: wrap;
     margin-bottom: $ub-base-margin;
 

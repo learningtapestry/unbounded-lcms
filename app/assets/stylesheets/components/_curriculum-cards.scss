@@ -52,7 +52,7 @@ $ub-cur-card-margin: 2px;
 
   @include e(body) {
     @include flex-grid-column($gutter: $grid-column-2xgutter);
-    @include zero-margin-bottom();
+    @include zero-margin-bottom;
 
     h3 { margin-bottom: 0; }
 
@@ -99,16 +99,6 @@ $ub-cur-card-margin: 2px;
 
     @include m(short) {
       @include flex-align-self(middle);
-
-      .submenu {
-        &::before {
-          @include css-triangle($tooltip-pip-width, $ub-white, up);
-          bottom: 100%;
-          right: 12px;
-          position: absolute;
-          transform: translateX(-50%);
-        }
-      }
     }
   }
 
@@ -124,12 +114,30 @@ $ub-cur-card-margin: 2px;
         margin-bottom: $ub-small-margin / 2;
       }
     }
+
+    @include m(short) {
+      .is-dropdown-submenu {
+        right: 0% !important;
+        top: 54px;
+      }
+
+      .submenu {
+        &::before {
+          @include css-triangle($tooltip-pip-width, $ub-white, up);
+          bottom: 100%;
+          right: 12px;
+          position: absolute;
+          transform: translateX(-50%);
+        }
+      }
+    }
   }
 
   @include e(ellipsis) {
     padding: 0 !important;
     padding-right: 10px !important;
     color: $ub-txt;
+    cursor: pointer;
   }
 
   @include m(grade) {

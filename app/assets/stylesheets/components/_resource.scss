@@ -4,14 +4,14 @@
   @include e(title) {
     @include flex-grid-column;
 
-    @include breakpoint(medium down) {
+    @include breakpoint(ipad down) {
       @include flex-grid-column(12);
     }
   }
   @include e(links) {
     @include flex-grid-column(shrink);
 
-    @include breakpoint(medium down) {
+    @include breakpoint(ipad down) {
       @include flex;
       @include flex-grid-column(12);
       flex-flow: row wrap;
