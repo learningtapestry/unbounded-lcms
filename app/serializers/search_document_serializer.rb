@@ -4,7 +4,15 @@ class SearchDocumentSerializer < ActiveModel::Serializer
   attributes :id, :model_id, :model_type, :title, :path, :type_name, :teaser, :breadcrumbs, :subject, :grade
 
   def path
-    model_type == 'content_guide' ? content_guide_path(object.model_id) : resource_path(object.model_id)
+    if model_type == 'content_guide'
+      content_guide_path(object.model_id)
+    else
+      if ['podcast', 'video'].include?(object.doc_type)
+        media_path(object.model_id)
+      else
+        resource_path(object.model_id)
+      end
+    end
   end
 
   def type_name
