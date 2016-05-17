@@ -78,7 +78,7 @@ en:
     sidebar_down_nav:
       down_link: "Next %{title}"
   title:
-    logo: Unbounded Logo
+    logo: UnboundEd Logo
     subscribe: Get updates and stay connected
     active: Document status
     age_range: Age range
@@ -142,3 +142,4 @@ en:
     view_topics: View Topics
     contact_us: Contact Us
     questions: Questions?
+    unbounded: UnboundEd
