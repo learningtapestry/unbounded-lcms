@@ -13,8 +13,8 @@
 $filterbar-height: 58px;
 
 .o-filterbar {
-  @include flex();
-  @include flex-align($x: justify);
+  @include flex;
+  @include flex-align($x: justify, $y: top);
   margin: $ub-small-margin 0;
 
   @include breakpoint(small only) {
@@ -23,13 +23,17 @@ $filterbar-height: 58px;
 
   @include e(list) {
     @include button-group($child-selector: 'div');
-    @include flex-align($y: top);
+    @include flex-align($x: start, $y: top);
     flex-wrap: wrap;
     margin-bottom: $ub-base-margin;
 
     > div { @include txt-element(filter-btn); border-radius: 0; }
     > div:first-child { border-top-left-radius: $global-radius; border-bottom-left-radius: $global-radius; }
     > div:last-child { border-top-right-radius: $global-radius; border-bottom-right-radius: $global-radius; }
+
+    @include m(facet) {
+
+    }
   }
 
   @include e(item) {

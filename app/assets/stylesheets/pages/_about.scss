@@ -35,7 +35,7 @@
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
 
-  @include breakpoint(medium only) {
+  @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
     background-position: 40% 0%;
   }
 }
@@ -45,7 +45,7 @@
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
 
-  @include breakpoint(medium only) {
+  @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
     background-position: 100% 0%;
   }
 }
@@ -55,7 +55,7 @@
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
 
-  @include breakpoint(medium only) {
+  @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
     background-position: 70% 0%;
   }
 }

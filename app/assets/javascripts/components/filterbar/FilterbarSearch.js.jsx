@@ -26,7 +26,7 @@ class FilterbarSearch extends React.Component {
           <span>{this.props.searchLabel}</span>
         </div>
         <div className="o-filterbar-search__input">
-          <input className="o-filterbar-search__field" type="search"
+          <input className="o-filterbar-search__field" type="text"
             placeholder='Enter Terms (e.g: writing, geometry, etc)'
             value={this.state.value}
             onKeyUp={pushToBus('keyup')}
