@@ -20,10 +20,16 @@
     });
     if ($elemsToInit) {
       $elemsToInit.foundation();
-      let $maggelan = $elemsToInit.find('[data-magellan]');
-      if ($maggelan.length) {
-        $maggelan.foundation('reflow');
-      }
+    }
+    // fix initialization with turbolinks,
+    // emulate what should happen on load event
+    let $maggelan = $('[data-magellan]');
+    if ($maggelan.length) {
+      $maggelan.foundation('reflow');
+    }
+    let $sticky = $('[data-sticky]');
+    if ($sticky.length) {
+      $(window).trigger('load.zf.sticky');
     }
   }
 
