@@ -63,10 +63,15 @@ urlHistory = (function() {
     update(params);
   }
 
+  const emptyState = function () {
+    state = {}
+  };
+
   return {
     state: state,
     update: update,
     updatePaginationParams: updatePaginationParams,
-    querystringToJSON: querystringToJSON
+    querystringToJSON: querystringToJSON,
+    emptyState: emptyState,
   };
 })();
