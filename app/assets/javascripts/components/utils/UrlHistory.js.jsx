@@ -2,13 +2,18 @@ urlHistory = (function() {
 
   let state = {};
 
-  let update = function(newState, skipKey) {
+  let update = function(newState, options) {
+    // options:
+    //   skipKey: function which returns if a key should be skiped or not
+    //   replace: if true uses replaceState instead the default pushState
+
     let query = [];
     let mergedState = _.extend(state, newState);
+    let opts = options || {};
 
     state = {};
     _.forEach(mergedState, (val, k) => {
-      if (skipKey && skipKey(k, val)) { return; }
+      if (opts.skipKey && opts.skipKey(k, val)) { return; }
 
       if (val) {
         let urlVal = (_.isArray(val) && val.length) ? val.join(',') : val.toString();
@@ -21,7 +26,11 @@ urlHistory = (function() {
     query = query.join('&');
     let path = query ? '?' + query : window.location.pathname;
 
-    window.history.pushState(params(path), null, path);
+    if (opts.replace) {
+      window.history.replaceState(params(path), null, path);
+    } else {
+      window.history.pushState(params(path), null, path);
+    }
   };
 
   let params = function(url) {
@@ -54,10 +63,15 @@ urlHistory = (function() {
     update(params);
   }
 
+  const emptyState = function () {
+    state = {}
+  };
+
   return {
     state: state,
     update: update,
     updatePaginationParams: updatePaginationParams,
-    querystringToJSON: querystringToJSON
+    querystringToJSON: querystringToJSON,
+    emptyState: emptyState,
   };
 })();

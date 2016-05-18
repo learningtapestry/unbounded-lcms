@@ -17,7 +17,7 @@ class ExploreCurriculumPage extends React.Component {
       }
     }
 
-    urlHistory.update(query);
+    urlHistory.update(query, {replace: true});
   }
 
   componentDidMount() {

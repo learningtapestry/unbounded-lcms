@@ -84,6 +84,10 @@ class EnhanceInstructionPage extends React.Component {
     }
   }
 
+  componentWillMount() {
+    urlHistory.emptyState();
+  }
+
   componentWillUpdate(nextProps, nextState) {
     urlHistory.updatePaginationParams(nextState);
   }
