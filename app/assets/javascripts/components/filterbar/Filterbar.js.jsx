@@ -133,9 +133,9 @@ class Filterbar extends React.Component {
   }
 
   updateUrl(query) {
-    urlHistory.update( query, (key, val) => {
+    urlHistory.update( query, { skipKey: (key, val) => {
       return this.props.withDropdown && key === 'search_term'
-    });
+    }});
   }
 
   render() {
