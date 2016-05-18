@@ -40,10 +40,11 @@ module ApplicationHelper
   end
 
   def page_description
-    content_for(:description) || ENV['DEFAULT_DESCRIPTION_TEXT']
+    content_for(:description)
   end
 
   def set_og_tags(resource, image_url = nil)
+    set_page_description(resource.teaser)
     content_for(:og_title, resource.title)
     content_for(:og_description, resource.teaser)
     content_for(:og_image, image_url) if image_url.present?
