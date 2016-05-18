@@ -33,8 +33,14 @@ module ApplicationHelper
     end
   end
 
+  def set_page_description(dsc)
+    content_for :description do
+      dsc
+    end
+  end
+
   def page_description
-    content_for(:description) || t('default_title')
+    content_for(:description) || ENV['DEFAULT_DESCRIPTION_TEXT']
   end
 
   def set_og_tags(resource, image_url = nil)
