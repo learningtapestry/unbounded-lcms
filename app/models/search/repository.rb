@@ -3,7 +3,7 @@ module Search
     definition = {
       type: 'multi_field', fields: {
         prop     => {type: 'string'},
-        :key     => {type: 'string', analyzer: 'keyword'},
+        :key     => {type: 'string', analyzer: 'lower_key'},
         :full    => {type: 'string', analyzer: 'full_str'},
         :partial => {type: 'string', analyzer: 'partial_str'}
       }
@@ -20,6 +20,11 @@ module Search
           stop_en:    {type: "stop", stopwords: "_english_"},
         },
         analyzer: {
+          lower_key: {
+            filter: ["lowercase"],
+            type: "custom",
+            tokenizer: "keyword",
+          },
           full_str: {
             filter: ["standard", "lowercase", "stop_en", "asciifolding"],
             type: "custom",
@@ -74,9 +79,10 @@ module Search
       else
         limit = options.fetch(:per_page, 20)
         page = options.fetch(:page, 1)
+        term = term.downcase
 
         query = {
-          min_score: 0.42,
+          min_score: 0.5,
           query: {
             bool: {
               should: [
@@ -89,14 +95,14 @@ module Search
                 { match: { 'tag_authors.full'    => {query: term, type: 'phrase', boost: 3} } },
                 { match: { 'tag_authors.partial' => {query: term, boost: 2} } },
 
-                { match: { 'tag_texts.full'    => {query: term, type: 'phrase', boost: 2} } },
+                { match: { 'tag_texts.full'    => {query: term, type: 'phrase', boost: 3} } },
                 { match: { 'tag_texts.partial' => {query: term, boost: 1} } },
 
-                { match: { 'tag_keywords.full'    => {query: term, type: 'phrase', boost: 2} } },
+                { match: { 'tag_keywords.full'    => {query: term, type: 'phrase', boost: 3} } },
                 { match: { 'tag_keywords.partial' => {query: term, boost: 1} } },
 
-                { match: { 'tag_standards.key'     => {query: term, boost: (probably_a_standard?(term) ? 18 : 4)} } },
-                { match: { 'tag_standards.partial' => {query: term, boost: (probably_a_standard?(term) ? 4  : 1)} } },
+                # { match: { 'tag_standards.key'     => {query: term, boost: 4} } },
+                # { match: { 'tag_standards.partial' => {query: term, boost: 1} } },
 
                 # { match: { 'description.full'     => {query: term, type: 'phrase', boost: 1} } },
                 # { match: { 'description.partial'  => {query: term, boost: 1} } },
@@ -107,6 +113,11 @@ module Search
           size: limit,
           from: (page - 1) * limit
         }
+
+        if is_a_standard?(term)
+          query[:query][:bool][:should] = []
+          query[:query][:bool][:must] = [{ match: { 'tag_standards.key' => {query: term} } }]
+        end
 
         # filters
         accepted_filters.each do |filter|
@@ -124,7 +135,7 @@ module Search
       end
     end
 
-    def probably_a_standard?(term)
+    def is_a_standard?(term)
       term.match /(ela|math)?\.\w+\.\w+$/
     end
 
