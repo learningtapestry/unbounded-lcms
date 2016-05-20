@@ -82,15 +82,25 @@ class FindLessonsPage extends React.Component {
         </div>
         <div className="o-page o-page--margin-bottom">
           <div className="o-page__module">
-            <SearchResultsHeader
-              onChangePerPage={this.handleChangePerPage.bind(this)}
-              current_page={this.state.current_page}
-              per_page={this.state.per_page}
-              num_items={this.state.lessons.length}
-              total_hits={this.state.total_hits}
-              per_page={this.state.per_page}
-              order={this.state.order} />
-            <FindLessonsCards lessons={this.state.lessons} />
+            { (this.state.lessons.length > 0) ?
+              <SearchResultsHeader
+                onChangePerPage={this.handleChangePerPage.bind(this)}
+                current_page={this.state.current_page}
+                per_page={this.state.per_page}
+                num_items={this.state.lessons.length}
+                total_hits={this.state.total_hits}
+                per_page={this.state.per_page}
+                order={this.state.order} />
+
+              : false
+            }
+
+            { (this.state.lessons.length > 0) ?
+              <FindLessonsCards lessons={this.state.lessons} />
+
+              : <FindLessonsCardsEmpty searchTerm={this.state.filterbar.search_term} />
+            }
+
             <PaginationBoxView previousLabel={<i className="fa-2x ub-angle-left"></i>}
                             nextLabel={<i className="fa-2x ub-angle-right"></i>}
                             breakLabel={<li className="o-pagination__break">...</li>}
