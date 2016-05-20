@@ -31,7 +31,7 @@ function InstructionCard(props) {
             <div className="o-instruction-card__teaser">{item.teaser}</div>
             : null
           }
-          <h3 className={bemClass('title')}>{item.title}</h3>
+          <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>
         </div>
       </div>
     </a>

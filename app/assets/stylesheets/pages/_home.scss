@@ -117,13 +117,26 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
     }
   }
 
-  @include e(btn) { display: none; }
+  @include e(btn) {
+    @include breakpoint(ipad down) {
+      @include flex-grid-column(12, $gutter: $grid-column-2xgutter);
+      margin-top: 0;
+      padding-top: 0;
+    }
 
-  @include breakpoint(large) {
-    @include e(btn) {
-      display: inherit;
+    @include breakpoint(ipad only) {
+      display: none;
+    }
+
+    @include m(ipad) {
+      display: none;
+      @include breakpoint(ipad only) {
+        display: block;
+        margin-top: $ub-small-margin;
+      }
     }
   }
+
 }
 
 .c-hp-panel {

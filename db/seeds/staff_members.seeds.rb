@@ -80,7 +80,7 @@ staff_member_defs = [
     bio: 'Joyce Macek has led coaching, organizational change management and talent development around the implementation of new educational standards for the past decade. She is a former high school English teacher for students with disabilities in Greater New Orleans. As the director of partnerships, Joyce manages relationships and quality assurance metrics with key stakeholders receiving professional development, including goal setting, strategic planning and ongoing evaluation of local professional development. Previously, Joyce was a fellow for educator engagement at the Regents Research Fund. During this time, she created an extensive library of more than 400 K-12 teacher and principal practice videos. Joyce was also the national director of assessments, recruitment and admissions at the national nonprofit New Leaders, which trains aspiring school leaders.',
     first_name: 'Joyce',
     last_name: 'Macek',
-    position: 'Director or Partnerships',
+    position: 'Director of Partnerships',
     department: 'Leadership',
     staff_type: 1,
     image_file: 'https://s3.amazonaws.com/unboundedwebimages/joyceheadshot2016.jpg'
