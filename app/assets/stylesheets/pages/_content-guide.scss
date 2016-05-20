@@ -138,8 +138,13 @@ $ub-cg-math-colors: (
   padding-bottom: $ub-large-padding;
 
   @include e(sidebar) {
-    @include flex-grid-column(3);
     border-right: 1px dotted $light-gray;
+    display: none;
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(3);
+      display: block;
+    }
   }
 
   @include e(body) {
@@ -398,7 +403,7 @@ $ub-cg-math-colors: (
         &:last-child {
           border-bottom: none;
         }
-      }  
+      }
     }
 
     .c-cg-task {
