@@ -8,7 +8,7 @@ function FindLessonsCardsEmpty(props) {
       <h3 className='u-text--large'>Sugestions</h3>
       <ul>
         <li>Check your spelling</li>
-        <li>Try use fewer filters</li>
+        <li>Try using fewer filters</li>
         <li>Try more general Terms</li>
       </ul>
 
