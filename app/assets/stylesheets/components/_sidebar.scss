@@ -1,10 +1,28 @@
+.o-sidebar {
+  @include e(wrap) {
+    //fix for Opera - TODO issue number
+    @include breakpoint(xlarge) {
+      max-width: 269px;
+    }
+    @include breakpoint(large only) {
+      max-width: 217.5px;
+    }
+    @include breakpoint(ipad only) {
+      max-width: 153.75px;
+    }
+    @include breakpoint(medium only) {
+      max-width: 140px;
+    }
+  }
+}
+
 .o-sidebar-nav {
   @include menu-base;
   @include menu-direction(vertical);
 
   @include e(header) {
     color: #f96924;
-    display: inline-block !important;
+    //display: inline-block !important;
     font-size: 1.25rem;
     font-weight: bold;
     margin: 0 0 1rem 1rem;
