@@ -2,6 +2,10 @@ class InstructionSerializer < ActiveModel::Serializer
   self.root = false
   attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type
 
+  def title
+    ActionController::Base.helpers.simple_format(object.title)
+  end
+
   def subject
     object.subject.try(:downcase) || 'default'
   end

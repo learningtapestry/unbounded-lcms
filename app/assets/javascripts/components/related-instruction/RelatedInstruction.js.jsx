@@ -52,7 +52,7 @@ class RelatedInstruction extends React.Component {
           <li><a className="o-ub-btn o-ub-btn--yellow u-margin-bottom--zero" onClick={this.handleBtnClick.bind(this)}>More Instruction</a></li>
           : false
         }
-        <li><a className="o-ub-btn o-ub-btn--2bordered-gray u-margin-bottom--zero" href={allInstructionsPath}>All Instructions</a></li>
+        <li><a className="o-ub-btn o-ub-btn--2bordered-gray u-margin-bottom--zero" href={allInstructionsPath}>See All Guides</a></li>
       </ul>;
 
     return (
