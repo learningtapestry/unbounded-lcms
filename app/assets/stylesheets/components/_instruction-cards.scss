@@ -28,8 +28,10 @@ $media-img-height: 110px;
   }
 
   @include e(title) {
-    @include txt-element(media-card-title);
     @include clamp(3, media-card-title);
+    &, & > * {
+      @include txt-element(media-card-title);
+    }
   }
 }
 
@@ -37,7 +39,7 @@ $media-img-height: 110px;
   @include media-object-container;
   @include add-gutter;
   cursor: pointer;
-  h3 { margin-bottom: 0; color: $ub-white; }
+  h3, h3 > * { margin-bottom: 0; color: $ub-white; }
 
   @include e(img) {
     flex: 0 0 auto;
@@ -83,8 +85,10 @@ $media-img-height: 110px;
     }
 
     @include e(title) {
-      @include txt-element(cg-card-title);
       @include clamp(4, cg-card-title);
+      &, & > * {
+        @include txt-element(cg-card-title);
+      }
     }
   }
 
