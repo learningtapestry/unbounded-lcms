@@ -1,7 +1,11 @@
 class FilterbarSearch extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: props.searchTerm};
+
+  componentWillMount() {
+    this.setState({value: this.props.searchTerm});
+
+    this.props.searchBus.on('clearSearch', e => {
+      this.setState({value: null})
+    });
 
     this.debouncedUpdate = _.debounce(function(value) {
       if ('onUpdate' in this.props) {

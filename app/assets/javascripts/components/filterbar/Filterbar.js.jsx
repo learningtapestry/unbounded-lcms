@@ -76,6 +76,7 @@ class Filterbar extends React.Component {
 
   onClickClear() {
     this.setState(this.emptyState);
+    this.searchBus.emit('clearSearch');
   }
 
   onClickGrade(incoming) {
