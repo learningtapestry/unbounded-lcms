@@ -17,10 +17,13 @@ class ContentGuide < ActiveRecord::Base
   has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
 
   validates :date, :description, :subject, :teaser, :title, presence: true, if: :validate_metadata?
+  validates :permalink, format: { with: /\A\w+\z/ }, uniqueness: { case_sensitive: false }
   validate :icon_values
   validate :media_exist
 
   before_validation :process_content, unless: :update_metadata
+  before_validation :downcase_permalink
+  before_save :set_slug
 
   mount_uploader :big_photo, ContentGuidePhotoUploader
   mount_uploader :small_photo, ContentGuidePhotoUploader
@@ -140,6 +143,15 @@ class ContentGuide < ActiveRecord::Base
     end
   end
 
+  def downcase(str)
+    str.mb_chars.downcase.to_s rescue nil
+  end
+
+  def downcase_permalink
+    self.permalink = downcase(permalink)
+    true
+  end
+
   def download_images(doc)
     doc.css('img').each do |img|
       url = img[:src]
@@ -158,6 +170,14 @@ class ContentGuide < ActiveRecord::Base
       a[:target] = '_blank'
     end
     doc
+  end
+
+  def set_slug
+    value = update_metadata ? slug : title
+    return true unless value.present?
+
+    value = downcase(value)
+    self.slug = value.gsub(/[[:space:]]/, '_').gsub(/[^-_[[:alnum:]]]/, '').gsub('__', '_')
   end
 
   def icon_values
