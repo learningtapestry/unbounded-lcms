@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516161657) do
+ActiveRecord::Schema.define(version: 20160525085837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,12 +45,12 @@ ActiveRecord::Schema.define(version: 20160516161657) do
   add_index "content_guide_standards", ["standard_id"], name: "index_content_guide_standards_on_standard_id", using: :btree
 
   create_table "content_guides", force: :cascade do |t|
-    t.string   "content",                   null: false
-    t.string   "file_id",                   null: false
-    t.string   "name",                      null: false
-    t.string   "original_content",          null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.string   "content",                                   null: false
+    t.string   "file_id",                                   null: false
+    t.string   "name",                                      null: false
+    t.string   "original_content",                          null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.datetime "last_modified_at"
     t.string   "last_modifying_user_email"
     t.string   "last_modifying_user_name"
@@ -62,9 +62,14 @@ ActiveRecord::Schema.define(version: 20160516161657) do
     t.string   "subject"
     t.string   "teaser"
     t.string   "title"
+    t.boolean  "fake",                      default: false, null: false
+    t.string   "mailchimp_list_id"
+    t.string   "permalink"
+    t.string   "slug"
   end
 
   add_index "content_guides", ["file_id"], name: "index_content_guides_on_file_id", unique: true, using: :btree
+  add_index "content_guides", ["permalink"], name: "index_content_guides_on_permalink", unique: true, using: :btree
 
   create_table "curriculum_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false

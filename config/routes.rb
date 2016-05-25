@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
   get '/media/:id' => 'resources#media', as: :media
+  get '/content_guides/:permalink(/:slug)', to: 'content_guides#show'
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
