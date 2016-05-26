@@ -177,7 +177,7 @@ class ContentGuide < ActiveRecord::Base
     return true unless value.present?
 
     value = downcase(value)
-    self.slug = value.gsub(/[[:space:]]/, '_').gsub(/[^-_[[:alnum:]]]/, '').gsub('__', '_')
+    self.slug = value.gsub(/(_|[[:space:]])/, '-').gsub(/[^-[[:alnum:]]]/, '').gsub(/-+/, '-')
   end
 
   def icon_values
