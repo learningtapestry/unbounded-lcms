@@ -15,11 +15,8 @@ class InstructionSerializer < ActiveModel::Serializer
   end
 
   def path
-    return content_guide_path(object) unless object.permalink.present?
-    
-    return content_guide_path(object.permalink) unless object.slug.present?
-
-    "/content_guides/#{object.permalink}/#{object.slug}"
+    id = object.permalink.present? ? object.permalink : object.id
+    content_guide_path(id, object.slug)
   end
 
   def instruction_type
