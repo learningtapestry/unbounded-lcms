@@ -18,6 +18,7 @@
 
   @include e(item) {
     @include flex-grid-column(shrink, 0);
+    font-style: normal;
 
     select {
       background-origin: border-box;
