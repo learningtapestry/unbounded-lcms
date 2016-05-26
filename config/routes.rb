@@ -10,7 +10,6 @@ Rails.application.routes.draw do
 
   get  '/search' => 'search#index'
 
-  resources :content_guides, only: :show
   resources :explore_curriculum, only: [:index, :show]
   resources :enhance_instruction, only: :index
   resources :find_lessons, only: :index
@@ -19,7 +18,7 @@ Rails.application.routes.draw do
 
   get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
   get '/media/:id' => 'resources#media', as: :media
-  get '/content_guides/:permalink(/:slug)', to: 'content_guides#show'
+  get '/content_guides/:id(/:slug)', as: :content_guide, to: 'content_guides#show'
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
