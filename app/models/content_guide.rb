@@ -4,6 +4,7 @@ class ContentGuide < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
 
+  GRADES = ['prekindergarten', 'kindergarten', 'grade 1', 'grade 2', 'grade 3', 'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9', 'grade 10', 'grade 11', 'grade 12']
   ICON_VALUES = %w(complexity instruction volume)
 
   attr_accessor :update_metadata
@@ -62,6 +63,20 @@ class ContentGuide < ActiveRecord::Base
                   version: file.version)
       cg
     end
+
+    def sort_by_grade
+      includes(taggings: :tag).sort_by(&:grade_score)
+    end
+  end
+
+  def grade_score
+    indices =
+      taggings.map do |t|
+        grade = t.tag.name if t.context == 'grades'
+        GRADES.index(grade)
+      end.compact
+
+    indices.any? ? (indices.sum.to_f / indices.size) : 0
   end
 
   def modified_by
