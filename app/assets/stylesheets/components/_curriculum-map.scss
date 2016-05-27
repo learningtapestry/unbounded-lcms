@@ -3,12 +3,12 @@
 }
 
 @mixin curriculum-map-base {
-  @include flex-grid-row(nest);
-  flex-direction: column;
+  @include flex-grid-row($gutter: 0);
+  flex-flow: column nowrap;
 
   @include e(module-wrap) {
     @extend %map-transition;
-    @include flex-grid-column();
+    //@include flex-grid-column($gutter: 0);
   }
 
   @include e(module) {
@@ -21,13 +21,13 @@
   }
 
   @include e(units-wrap) {
-    //@extend %map-transition;
-    @include flex-grid-column();
+    width: 100%;
+    //@include flex-grid-column($gutter: 0);
   }
 
   @include e(units) {
     @extend %map-transition;
-    @include flex-grid-row();
+    @include flex-grid-row($gutter: 0);
     @include flex-align($x: left, $y: top);
     margin-left: 0;
   }
@@ -48,9 +48,10 @@
 @mixin curriculum-map-layout($lesson-size: 10px, $lesson-margin: 4px, $lessons-in-row: 4,
                       $units-in-row: 3, $units-margin: 0, $module-height: 15px,
                       $module-margin: $ub-xs-padding, $module-padding: $ub-tiny-padding $ub-xs-padding,
+                      $unit-margin-type: top,
                       $width: map-get($curriculum-map-width, base)) {
 
-  $width-for-padding: 15px;
+  $width-for-padding: 0;
   $unit-padding: ($width - $width-for-padding - (($lesson-size + $lesson-margin) * $lessons-in-row) * $units-in-row) / $units-in-row;
   $units-row: (($lesson-size + $lesson-margin) * $lessons-in-row) * $units-in-row + $unit-padding * $units-in-row;
   $lessons-row: ($lesson-size + $lesson-margin) * $lessons-in-row + $unit-padding;
@@ -58,6 +59,11 @@
   @include e(module-wrap) {
     margin-bottom: $module-margin;
     width: $width;
+
+    @include breakpoint(small only) {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   @include e(module) {
@@ -71,10 +77,15 @@
 
   @include e(units) {
     width: $units-row;
+
+    @include breakpoint(small only) {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   @include e(unit) {
-    margin-bottom: min($unit-padding, $lesson-size * 2);
+    margin-#{$unit-margin-type}: $lesson-size * 1.5;
     padding-right: $unit-padding;
     width: $lessons-row;
   }
@@ -90,7 +101,9 @@
 .o-c-map {
   @extend .u-margin-top--small;
   @include curriculum-map-base;
-  @include curriculum-map-layout($lesson-size: 12px);
+  @include curriculum-map-layout($lesson-size: 12px,
+                                 $unit-margin-type: bottom
+                                 );
 }
 
 .o-ch-map {
@@ -101,18 +114,24 @@
   }
 
   @include m(medium) {
-    @include curriculum-map-layout($width: map-get($curriculum-map-width, medium), $module-padding: 8px);
+    @include curriculum-map-layout($width: map-get($curriculum-map-width, medium),
+                                   $module-padding: 0,
+                                   $module-height: 10px,
+                                   $module-margin: 5px,
+                                   $lesson-size: 10px,
+                                   $lesson-margin: 3px);
 
     @include e(details) {
       @include curriculum-details;
     }
+    padding-bottom: $ub-small-padding;
   }
 
   @include m(short) {
-    @include curriculum-map-layout($lesson-size: 4px, $lesson-margin: 2px,
-                            $width: 100px, $module-height: 5px,
-                            $module-margin: 2px, $units-margin: 5px,
-                            $module-padding: 2px);
+    @include curriculum-map-layout($lesson-size: 4px, $lesson-margin: 1px,
+                            $width: 80px, $module-height: 5px,
+                            $module-margin: 3px,
+                            $module-padding: 0);
 
     @include e(details) {
       @extend %map-transition;
@@ -129,16 +148,22 @@
   }
 
   @include m(medium) {
-    @include curriculum-map-layout($lesson-size: 35px, $lesson-margin: 8px,
-                            $units-in-row: 1, $width: 200px);
+    @include curriculum-map-layout($width: map-get($curriculum-map-width, medium),
+                                   $lesson-size: 23px, $lesson-margin: 8px,
+                                   $units-margin: 23px * (-1.5),
+                                   $lessons-in-row: 5,
+                                   $units-in-row: 1);
     @include e(details) {
       @include curriculum-details;
     }
+    padding-bottom: $ub-small-padding;
   }
 
   @include m(short) {
     @include curriculum-map-layout($lesson-size: 12px,
-                            $units-in-row: 1, $width: 85px);
+                                   $units-margin: 12px * (-1.5),
+                                   $lessons-in-row: 5,
+                                   $units-in-row: 1, $width: 80px);
     @include e(details) {
       @extend %map-transition;
       display: none;

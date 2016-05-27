@@ -4,7 +4,6 @@ class ContentGuidesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        params_cache_key
         @content_guide = ContentGuidePresenter.new(
           content_guide,
           request.base_url,
@@ -35,10 +34,6 @@ class ContentGuidesController < ApplicationController
   end
 
   protected
-    def params_cache_key
-      @params_cache_key ||= "id::#{params[:id]}"
-    end
-
     def render_pdf
       cover_image_url =
         if (path = @content_guide.big_photo.url)

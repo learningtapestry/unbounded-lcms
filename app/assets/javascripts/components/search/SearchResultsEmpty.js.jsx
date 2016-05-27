@@ -1,26 +1,25 @@
 function SearchResultsEmpty(props) {
+  const contact = "Contact Us";
   return (
     <div className='o-search-results__empty'>
       <h2>Sorry, No Results were found for "{props.searchTerm}"</h2>
-      <p>
-        <h3 className='u-text--large'>Sugestions</h3>
-        <ul>
-          <li>Check your spelling</li>
-          <li>Try user fewer filters</li>
-          <li>Try more general Terms</li>
-        </ul>
-      </p>
+      <br/>
+      <h3 className='u-text--large'>Sugestions</h3>
+      <ul>
+        <li>Check your spelling</li>
+        <li>Try using fewer filters</li>
+        <li>Try more general Terms</li>
+      </ul>
+
       <hr />
 
-      <p>
-        <h3 className='u-text--large'>Or, Maybe We Can Help</h3>
+      <h3 className='u-text--large'>Or, Maybe We Can Help</h3>
 
-        <ul>
-          <li><a href="">Explore Our Curriculum</a></li>
-          <li><a href="">Find Lessons in our Library</a></li>
-          <li><a href="">Contact Us</a></li>
-        </ul>
-      </p>
+      <ul>
+        <li><a href={Routes.explore_curriculum_index_path()}>Explore Our Curriculum</a></li>
+        <li><a href={Routes.find_lessons_path()}>Find Lessons in our Library</a></li>
+        <li><FreshdeskBtn text={contact} /></li>
+      </ul>
     </div>
   );
 }

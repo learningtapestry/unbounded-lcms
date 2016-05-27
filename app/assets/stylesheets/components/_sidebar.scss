@@ -1,20 +1,51 @@
+.o-sidebar {
+  @include e(wrap) {
+    //fix for Opera - TODO issue number
+    @include breakpoint(xlarge) {
+      max-width: 269px;
+    }
+    @include breakpoint(large only) {
+      max-width: 217.5px;
+    }
+    @include breakpoint(ipad only) {
+      max-width: 153.75px;
+    }
+    @include breakpoint(medium only) {
+      max-width: 140px;
+    }
+  }
+}
+
 .o-sidebar-nav {
   @include menu-base;
   @include menu-direction(vertical);
-  li a { padding: 0.4rem 1rem; }
 
   @include e(header) {
-    display: inline-block !important;
-    border-bottom: 4px solid $ub-txt;
+    color: #f96924;
+    //display: inline-block !important;
+    font-size: 1.25rem;
     font-weight: bold;
-    margin: 0.7rem 1rem;
+    margin: 0 0 1rem 1rem;
     padding: 0.4rem 0;
+  }
+
+  @include e(sep) {
+    background: #f96924;
+    border-radius: .1875rem;
+    display: inline-block;
+    height: .375rem;
+    margin: 0 1rem 1.5625rem;
+    width: 3.5rem;
   }
 
   @include e(item) {
     a {
+      color: #959595;
+      line-height: 1.2 !important;
+      padding: 0 1rem .5rem !important;
+
       &.active, &:hover, &:focus {
-        font-weight: bold;
+        color: #f96924;
       }
     }
 

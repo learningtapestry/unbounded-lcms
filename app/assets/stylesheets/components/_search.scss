@@ -6,19 +6,36 @@
   }
 
   @include e(item) {
-    border-top: solid 1px $ub-secondary;
-    padding: $ub-base-padding 0;
+    @include add-gutter(padding, top, .75);
+    @include add-gutter(padding, bottom);
+    border-top: dotted 1px $ub-hr;
+  }
 
-    @include m(type) {
-      @extend .u-text--small;
-      color: $ub-primary;
-      text-transform: uppercase;
+  @include e(header) {
+    @include txt-element(search-result-header);
+    text-transform: capitalize;
+  }
+
+  @include e(subheader) {
+    @include txt-element(search-result-subheader);
+    text-transform: capitalize;
+
+    .s-bullet {
+      padding-left: $ub-xs-padding / 2;
+      padding-right: $ub-xs-padding / 2;
+      &:after { content: '\2022'; }
     }
+  }
 
-    @include m(title) {
-      @extend .u-text--large;
-      @extend .u-margin-bottom--small;
-      font-weight: bold;
+
+  @include e(title) {
+  }
+
+  @include e(teaser) {
+    @include txt-element(search-result-teaser);
+
+    @include breakpoint(medium) {
+      width: 75%;
     }
   }
 

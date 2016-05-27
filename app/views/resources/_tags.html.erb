@@ -1,7 +1,10 @@
-<ul class="o-resource__taglist o-resource__list--<%= resource.color_code %>">
-  <% resource.tags.sort.each_with_index do |tag, i| %>
+<ul class="o-resource__taglist o-resource__list--<%= color_code %>">
+  <% tags.each_with_index do |tag, i| %>
     <li>
-      <%= link_to tag.name, search_path(search_term: tag.name) %><%= ', ' if i != resource.tags.size - 1  %>
+      <%= link_to tag, search_path(search_term: tag) %><%= ', ' if i != tags.size - 1  %>
     </li>
+  <% end %>
+  <% if tags.empty? %>
+    <span>There are no tags for this resource</span>
   <% end %>
 </ul>

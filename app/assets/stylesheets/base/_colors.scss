@@ -1,5 +1,6 @@
 // Color scheme
 $ub-primary: #433973;
+$ub-primary1: #433c5d;
 $ub-secondary: #ffbf00;
 $ub-page-bg: #ededed;
 $ub-btn-light: #97c40f;
@@ -7,16 +8,34 @@ $ub-btn-base: #ffbf00;
 $ub-btn-dark: #7B7B81;
 $ub-panel-bg: #dbdbdb;
 $ub-hero-bg: #9e9e9e;
-$ub-nav-bg: darken($ub-primary, 15%);
-$ub-nav-link: lighten($ub-primary, 40%);
+$ub-nav-bg: #272242;
+$ub-footer-bg: #282133;
+$ub-nav-link: lighten($ub-primary1, 40%);
 $ub-light-bg: #dbdbdb;
 $ub-dark-bg: #9e9e9e;
 $ub-white: #fefefe;
 $ub-whitesmoke: #f5f5f5;
-$ub-txt: #555;
+$ub-heading-txt: #555;
+$ub-txt: #666;
+$ub-txt-dark: #333;
+$ub-label-bg: #777099;
+$ub-subscribe-txt: #2f2940;
+$ub-hr: #959595;
+
+// gradient d9d9d9 to c4c3c4
+$ub-gray-gradient: linear-gradient(to bottom, #d9d9d9, #c4c3c4);
+
+$ub-txt-colors: (
+  base: $ub-txt,
+  light: #b3b3b3,
+  h1: $ub-heading-txt,
+  h2: #333,
+  h3: $ub-heading-txt,
+  h4: #898989
+);
 
 $ub-mignight: (
-  dark: #231d32,
+  dark: #282133,
   base: #433973,
   eighty: #6d6590,
   sixty: #928bac,
@@ -56,13 +75,13 @@ $ub-tooltip: #fff8e5;
 $ub-colorcodes: (
   // ela color scheme
   ela-base: #f75b28,
-  ela-pk: #fcb157,
-  ela-k: #fda53b,
-  ela-1: #fc9837,
-  ela-2: #fb8d32,
-  ela-3: #fa812d,
-  ela-4: #f97529,
-  ela-5: #f96924,
+  ela-pk: #fda43a,
+  ela-k: #fc9837,
+  ela-1: #fb8d32,
+  ela-2: #f7802c,
+  ela-3: #f97529,
+  ela-4: #f96924,
+  ela-5: #f85e20,
   ela-6: #f0501a,
   ela-7: #e94d1a,
   ela-8: #e14b19,
@@ -73,10 +92,10 @@ $ub-colorcodes: (
   // math color scheme
   math-base: #00a699,
   math-pk: #69d59d,
-  math-k: #69d49c,
-  math-1: #5bcf9d,
-  math-2: #4cc89c,
-  math-3: #3cc19b,
+  math-k: #5bcf9d,
+  math-1: #4cc89c,
+  math-2: #3cc19b,
+  math-3: #2ebb9b,
   math-4: #1eb49a,
   math-5: #0fad9a,
   math-6: #009d90,
@@ -88,23 +107,39 @@ $ub-colorcodes: (
   math-12: #00675d,
   // default color scheme
   default-base: #a269bf,
-  default-pk: #cb94e1,
-  default-k: #ca94e0,
-  default-1: #c58edc,
-  default-2: #c088d7,
-  default-3: #b47ccd,
-  default-4: #a86fc4,
-  default-5: #a86fc4,
-  default-6: #9961b6,
-  default-7: #905aae,
-  default-8: #8753a5,
-  default-9: #7e4b9d,
-  default-10: #754494,
-  default-11: #6d3d8c,
-  default-12: #633583,
+  default-pk: #8985ad,
+  default-k: #8985ad,
+  default-1: #827da4,
+  default-2: #78749a,
+  default-3: #706c90,
+  default-4: #676385,
+  default-5: #5e5b7c,
+  default-6: #555170,
+  default-7: #4a4764,
+  default-8: #4a4663,
+  default-9: #45425f,
+  default-10: #44415c,
+  default-11: #423f59,
+  default-12: #413f58,
+  //leadership
+  ls-base: #a269bf,
+  ls-pk: #cb94e1,
+  ls-k: #ca94e0,
+  ls-1: #c58edc,
+  ls-2: #c088d7,
+  ls-3: #b47ccd,
+  ls-4: #a86fc4,
+  ls-5: #a86fc4,
+  ls-6: #9961b6,
+  ls-7: #905aae,
+  ls-8: #8753a5,
+  ls-9: #7e4b9d,
+  ls-10: #754494,
+  ls-11: #6d3d8c,
+  ls-12: #633583,
   // additional
   clear: #959595,
   base: $ub-panel-bg,
-  white: $ub-white,
+  light: $ub-white,
   facet: #6e6e6e
 );

@@ -6,6 +6,16 @@
   }
 }
 
+.cs-tint-bg {
+  @each $code, $color in $ub-colorcodes {
+    @include m(#{$code}) {
+      $tint-color: scale-color($color, $lightness: 90%);
+      background-color: $tint-color;
+      &:before { border-bottom-color: $tint-color; }
+    }
+  }
+}
+
 .cs-txt {
   @each $code, $color in $ub-colorcodes {
     @include m(#{$code}) {

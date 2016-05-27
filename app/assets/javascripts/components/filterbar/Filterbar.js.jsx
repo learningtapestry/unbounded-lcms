@@ -76,6 +76,7 @@ class Filterbar extends React.Component {
 
   onClickClear() {
     this.setState(this.emptyState);
+    this.searchBus.emit('clearSearch');
   }
 
   onClickGrade(incoming) {
@@ -132,31 +133,10 @@ class Filterbar extends React.Component {
     }
   }
 
-  updateUrl(newState) {
-    let query = [];
-    _.forEach(newState, (val, k) => {
-      if (this.props.withDropdown && k === 'search_term') {
-        return;
-      }
-
-      if (val) {
-        let urlVal = val;
-        if (_.isArray(val)) {
-          if (val.length) {
-            query.push(k+'='+val.join(','));
-          }
-        } else {
-          query.push(k+'='+val);
-        }
-      }
-    });
-    query = query.join('&');
-    query = query ? '?' + query : window.location.pathname;
-
-    // Make pushState play nice with Turbolinks.
-    // Ref https://github.com/turbolinks/turbolinks-classic/issues/363
-    const historyState = { turbolinks: true, url: query };
-    window.history.pushState(historyState, null, query);
+  updateUrl(query) {
+    urlHistory.update( query, { skipKey: (key, val) => {
+      return this.props.withDropdown && key === 'search_term'
+    }});
   }
 
   render() {
@@ -242,8 +222,8 @@ class Filterbar extends React.Component {
             })}
           </div>
           <div className='o-filterbar__list hide-for-small-only'>
-             <div className='o-filterbar__item--clear o-filterbar__item--square' onClick={this.onClickClear.bind(this)}>
-               <i className="ub-close fa-2x"></i>
+             <div className='o-filterbar__item o-filterbar__item--clear o-filterbar__item--square' onClick={this.onClickClear.bind(this)}>
+               <span><i className="ub-close fa-2x"></i></span>
              </div>
           </div>
         </div>

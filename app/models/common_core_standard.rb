@@ -1,5 +1,20 @@
 class CommonCoreStandard < Standard
   belongs_to :standard_strand
+  belongs_to :cluster, class_name: 'CommonCoreStandard'
+  belongs_to :domain, class_name: 'CommonCoreStandard'
+
+  scope :clusters, ->{ where(label: 'cluster') }
+  scope :domains, ->{ where(label: 'domain') }
+  scope :standards, ->{ where(label: 'standard') }
+
+  def self.find_by_name_or_synonym(name)
+    name = name.downcase
+    find_by_name(name) || where_alt_name(name).first
+  end
+
+  def self.where_alt_name(alt_name)
+    where('? = ANY(alt_names)', alt_name)
+  end
 
   def self.import
     api_url = "#{ENV['COMMON_STANDARDS_PROJECT_API_URL']}/api/v1"
@@ -19,7 +34,7 @@ class CommonCoreStandard < Standard
         standard_set_data['standards'].select do |_, data|
           asn_identifier = data['asnIdentifier'].downcase
           name = data['statementNotation'].try(:downcase)
-          
+
           standard = name.present? ? find_or_initialize_by(name: name) : find_or_initialize_by(asn_identifier: asn_identifier)
 
           standard.generate_alt_names
@@ -32,7 +47,7 @@ class CommonCoreStandard < Standard
           standard.description = data['description']
           standard.grades << grade unless standard.grades.include?(grade)
           standard.label = data['statementLabel'].try(:downcase)
-          standard.name = name
+          standard.name = name if name.present?
           standard.subject = subject
 
           standard.save!
@@ -60,10 +75,14 @@ class CommonCoreStandard < Standard
     # 6-rp.a.3 -> 6.rp.a.3
     dot_name = short_name.gsub(/[-]/, '.')
 
+    # ccss.ela-literacy.r.1.2 -> ela.r.1.2
+    prefixed_dot_name = "#{subject}.#{dot_name}"
+
     alt_names << short_name
     alt_names << clean_name
     alt_names << letters_expand
     alt_names << dot_name
+    alt_names << prefixed_dot_name
 
     self.alt_names = (self.alt_names + alt_names).uniq
   end

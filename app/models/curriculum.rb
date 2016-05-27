@@ -54,7 +54,7 @@ class Curriculum < ActiveRecord::Base
   belongs_to :curriculum_item, class_name: 'Curriculum',
     foreign_key: 'item_id', foreign_type: 'Curriculum'
 
-  has_many :referrers, class_name: 'Curriculum', as: 'item'
+  has_many :referrers, class_name: 'Curriculum', as: 'item', dependent: :destroy
 
   has_many :resource_slugs, dependent: :destroy
   alias_attribute :slugs, :resource_slugs
@@ -337,6 +337,15 @@ class Curriculum < ActiveRecord::Base
     tree || create_tree
   end
 
+  def destroy_recursively_with_resources!(really_destroy_everything: false)
+    return unless really_destroy_everything
+
+    transaction do
+      ids = self_and_descendants.map(&:resource).map(&:id)
+      Resource.where(id: ids).destroy_all
+    end
+  end
+
   # Slugs
 
   def create_slugs
@@ -400,6 +409,11 @@ class Curriculum < ActiveRecord::Base
         long: 'WM',
         has_position: false
       },
+      literary_module: {
+        short: 'LC',
+        long: 'LC',
+        has_position: false
+      },
       core_proficiencies_module: {
         short: 'CP',
         long: 'CP',
@@ -432,6 +446,7 @@ class Curriculum < ActiveRecord::Base
     return unless resource && resource.subject
 
     subject = resource.subject.to_sym
+    short_title = resource.short_title.downcase.strip
 
     abbrv_type = case current_level
       when :map then subject
@@ -445,7 +460,6 @@ class Curriculum < ActiveRecord::Base
           :grade
         end
       when :module
-        short_title = resource.short_title.downcase.strip
         if short_title.include?('writing')
           :writing_module
         elsif short_title.include?('core proficiencies')
@@ -456,6 +470,8 @@ class Curriculum < ActiveRecord::Base
           :ss_module
         elsif short_title.include?('learning')
           :ll_module
+        elsif short_title.include?('literary criticism')
+          :literary_module
         else
           :module
         end
@@ -467,14 +483,24 @@ class Curriculum < ActiveRecord::Base
     pos = begin
       if !(abbrv[:has_position])
         ''
+
       elsif subject == :math && abbrv_type == :topic
         (position + 65).chr
+
       elsif abbrv_type == :grade
         resource.grade_list.first.downcase.gsub('grade ', '')
+
+      elsif subject == :ela && abbrv_type == :module && short_title.present?
+        short_title.gsub('module ', '').upcase
+
+      elsif subject == :math && abbrv_type == :lesson
+        lesson_position_on_the_module
+
       else
         position + 1
       end
     end
+
     self.breadcrumb_short_piece = "#{abbrv[:short]}#{pos}"
     self.breadcrumb_piece = "#{abbrv[:long]}#{pos}"
   end
@@ -516,6 +542,29 @@ class Curriculum < ActiveRecord::Base
     }.join(' ')
   end
 
+  def create_resource_short_title!
+    return unless current_level == :lesson
+
+    pos = (resource.subject.to_sym == :math) ? lesson_position_on_the_module : position + 1
+
+    resource.short_title = "lesson #{pos}"
+    resource.save!
+  end
+
+  def lesson_position_on_the_module
+    module_ = parent.parent # first parent is unit, second is module
+
+    # count all lesson for previous units belonging to the same module
+    module_previous_lessons = if module_
+      module_.children.where('position < ?', parent.position).map { |c| c.children.count }.sum
+    else
+      0
+    end
+
+    # position for previous lessons for this module + position on this unit + 1 for 0-based index
+    pos = module_previous_lessons + position + 1
+  end
+
   def update_generated_fields
     generate_breadcrumb_pieces
     generate_breadcrumb_titles
@@ -534,7 +583,7 @@ class Curriculum < ActiveRecord::Base
   def self._draw_node_recursively(node, depth, stop_at)
     padding = '  '*depth
     sep = depth == 0 ? '' : '-> '
-    desc = "#{node.position}. ##{node.id} #{node.resource.title} -> #{node.item_type}, id #{node.item_id}, slug #{node.slug.value}"
+    desc = "#{node.position}. ##{node.id} #{node.resource.title} -> #{node.item_type}, id #{node.item_id}, slug #{node.slug.try(:value)}"
     puts "#{padding}#{sep}#{desc}"
 
     return if stop_at == depth
@@ -557,5 +606,9 @@ class Curriculum < ActiveRecord::Base
   def should_index?
     # index only Curriculum.trees.where_resources
     do_not_skip_indexing? && seed_id.present? && resource_item.present?
+  end
+
+  def named_tags
+    resource.named_tags.merge! resource_type: curriculum_type.try(:name)
   end
 end

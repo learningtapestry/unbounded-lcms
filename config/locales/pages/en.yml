@@ -1,7 +1,4 @@
 en:
-  content_guide_presenter:
-    hide_task: Hide Task
-    show_task: Show Task
   content_guides:
     show:
       broken_images: Some images failed to import.
@@ -69,4 +66,4 @@ en:
       show: Show
   welcome:
     index:
-      page_title: Highschool Curriculum Pilot
+      page_title: 

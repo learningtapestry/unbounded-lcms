@@ -28,7 +28,7 @@ class Resource < ActiveRecord::Base
   has_many :downloads, through: :resource_downloads
 
   # Curriculums.
-  has_many :curriculums, as: :item
+  has_many :curriculums, as: :item, dependent: :destroy
 
   # Reading assignments.
   has_many :resource_reading_assignments, dependent: :destroy
@@ -37,7 +37,11 @@ class Resource < ActiveRecord::Base
 
   # Related resources.
   has_many :resource_related_resources, dependent: :destroy
-  has_many :related_resources, through: :resource_related_resources
+  has_many :related_resources, through: :resource_related_resources, class_name: 'Resource'
+  has_many :resource_related_resources_as_related,
+    class_name: 'ResourceRelatedResource',
+    foreign_key: 'related_resource_id',
+    dependent: :destroy
 
   # Requirements
   has_many :resource_requirements, dependent: :destroy
@@ -211,6 +215,31 @@ class Resource < ActiveRecord::Base
   def should_index?
     # index only videos and podcast (other resources are indexed via Curriculum)
     do_not_skip_indexing? && is_media?
+  end
+
+  def named_tags
+    {
+      keywords: (tag_list + topic_list).compact.uniq,
+      resource_type: resource_type,
+      ell_appropriate: ell_appropriate,
+      ccss_standards: tag_standards,
+      ccss_domain: nil,  # resource.standards.map { |std| std.domain.try(:name) }.uniq
+      ccss_cluster: nil,  #  resource.standards.map { |std| std.cluster.try(:name) }.uniq
+      authors: reading_assignment_texts.map {|t| t.author.try(:name) }.compact.uniq,
+      texts: reading_assignment_texts.map(&:name).uniq,
+    }
+  end
+
+  def tag_standards
+    standards.map do |std|
+      short_name = std.name.gsub('ccss.ela-literacy.', '')
+                           .gsub('ccss.math.content.', '')
+
+      dot_name = short_name.gsub(/[-]/, '.').gsub(' ', '')
+      prefixed_dot_name = "#{subject}.#{dot_name}"
+
+      [prefixed_dot_name, dot_name]
+    end.flatten.uniq
   end
 
 end

@@ -1,12 +1,18 @@
 // Font families
 $ub-sanserif: 'PFCentroSansPro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $ub-serif: 'Caponi Slab Web', Georgia, "Times New Roman", Times, serif;
+$ub-sanserif-condensed: 'PFCentroSansCond', $ub-sanserif;
 
 // Layout
 $ub-footer-height: (
   small: 0,
   medium: 75px,
 );
+
+$panel-radius: 3px;
+
+$ub-nav-height: 90px;
+$ub-subscribe-height: 90px;
 
 // Paddings, margins
 $ub-base-margin: 1rem;
@@ -23,6 +29,6 @@ $ub-tiny-padding: $ub-base-padding * .06;
 
 // Base element sizes
 $curriculum-map-width: (
-  base: 245px,
-  medium: 220px
+  base: 230px,
+  medium: 180px
 );

@@ -55,7 +55,8 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
   end
 
   def test_admin_staff_member_pages
-    staff_member = StaffMember.create!(name: Faker::Name.name)
+    fname, lname = Faker::Name.name.split(' ')
+    staff_member = StaffMember.create!(first_name: fname, last_name: lname)
 
     visit '/admin/staff_members'
     assert_page_title 'Staff Members'
@@ -80,7 +81,7 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
 
   def test_home_page
     visit '/'
-    assert_page_title 'Highschool Curriculum Pilot'
+    assert page.title == 'UnboundEd'
   end
 
   def test_tos_page

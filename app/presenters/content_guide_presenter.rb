@@ -17,7 +17,6 @@ class ContentGuidePresenter < BasePresenter
     @host = host
     @view_context = view_context
     @wrap_keywords = wrap_keywords
-    @doc = Nokogiri::HTML.fragment(process_content)
   end
 
   def broken_images
@@ -25,41 +24,41 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def dangling_links
-    cache('dangling_links') do
-      doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
-        file_id = ContentGuide.file_id_from_url(a[:href])
-        next unless file_id.present?
+    doc.css('a[href*="docs.google.com/document/d/"]').map do |a|
+      file_id = ContentGuide.file_id_from_url(a[:href])
+      next unless file_id.present?
 
-        DanglingLink.new(a.text, a[:href]) unless ContentGuide.exists?(file_id: file_id)
-      end.compact
-    end
+      DanglingLink.new(a.text, a[:href]) unless ContentGuide.exists?(file_id: file_id)
+    end.compact
   end
 
   def headings
-    cache('headings') do
-      headings =
-        doc.css('h1, h2, h3').each_with_index.map do |h, i|
-          id = "heading_#{i}"
-          level = h.name[/\d/].to_i
-          text = h.text.chomp.strip
+    process_doc
 
-          h[:id] = id
-          h['data-magellan-target'] = id
-        
-          Heading.new(id, level, text)
-        end
+    headings =
+      doc.css('h1, h2, h3').each_with_index.map do |h, i|
+        id = "heading_#{i}"
+        level = h.name[/\d/].to_i
+        text = h.text.chomp.strip
 
-      min_level = headings.map(&:level).minmax.first
-      headings.each { |h| h.level -= min_level }
-      headings
-    end
+        h[:id] = id
+        h['data-magellan-target'] = id
+      
+        Heading.new(id, level, text)
+      end
+
+    min_level = headings.map(&:level).minmax.first
+    headings.each { |h| h.level -= min_level }
+    headings
   end
 
   def html
-    cache('html') do
-      process_doc
-      doc.to_s.html_safe
-    end
+    process_doc
+    doc.to_s.html_safe
+  end
+
+  def icons
+    find_custom_tags('icon') + find_custom_tags('icon-small')
   end
 
   def podcast_links
@@ -83,6 +82,34 @@ class ContentGuidePresenter < BasePresenter
 
   private
 
+  def all_next_elements_with_name(tag, name)
+    nodes = []
+    next_node = tag.try(:next)
+
+    loop do
+      break if next_node.nil?
+      nodes << next_node if next_node.name == name
+      next_node = next_node.next
+    end
+
+    nodes
+  end
+
+  def create_media_node(resource, container)
+    title = doc.document.create_element('a', class: 'c-cg-media__title', href: media_path(resource), target: '_blank')
+    title.content = resource.title
+
+    media = doc.document.create_element('div', class: 'c-cg-media')
+    media << title
+    media << container
+
+    media
+  end
+
+  def doc
+    @doc ||= Nokogiri::HTML.fragment(process_content)
+  end
+
   def embed_audios
     urls_hash = {}
 
@@ -94,14 +121,8 @@ class ContentGuidePresenter < BasePresenter
       id = "sc_container_#{index}"
       urls_hash[id] = url
 
-      title = doc.document.create_element('a', class: 'c-cg-media__title', href: resource_path(resource), target: '_blank')
-      title.content = resource.title
-
       container = doc.document.create_element('div', id: id)
-
-      media = doc.document.create_element('div', class: 'c-cg-media')
-      media << title
-      media << container
+      media = create_media_node(resource, container)
 
       a.replace(media)
     end
@@ -126,17 +147,12 @@ class ContentGuidePresenter < BasePresenter
       resource = Resource.find_video_by_url(url)
       next unless resource
 
-      title = doc.document.create_element('a', class: 'c-cg-media__title', href: resource_path(resource), target: '_blank')
-      title.content = resource.title
-
       params = Rack::Utils.parse_query(url.query)
       video_id = params['v']
       src = "https://www.youtube.com/embed/#{video_id}"
       iframe = doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0, height: 315, src: src, width: 560)
 
-      media = doc.document.create_element('div', class: 'c-cg-media')
-      media << title
-      media << iframe
+      media = create_media_node(resource, iframe)
 
       a.replace(media)
     end
@@ -146,7 +162,7 @@ class ContentGuidePresenter < BasePresenter
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*bold/
         content = span.content
-        tag_regex = /<#{tag_name}(:[^>]*)?>/i
+        tag_regex = /<#{tag_name}(:?[^->]*)?>/i
 
         if content =~ tag_regex
           tag_def = content[tag_regex]
@@ -191,13 +207,13 @@ class ContentGuidePresenter < BasePresenter
 
       annotation_list = doc.document.create_element('div', class: 'c-cg-annotationList')
       annotation_dropdowns.each_with_index do |dropdown, index|
-        number = doc.document.create_element('span', class: 'c-cg-annotationList__number')
+        number = doc.document.create_element('span', class: 'c-cg-annotationListItem__number')
         number.content = index + 1
 
-        content = doc.document.create_element('span')
+        content = doc.document.create_element('span', class: 'c-cg-annotationListItem__content')
         content.inner_html = dropdown.inner_html
 
-        list_item = doc.document.create_element('p')
+        list_item = doc.document.create_element('p', class: 'c-cg-annotationListItem')
         list_item << number
         list_item << content
 
@@ -226,7 +242,7 @@ class ContentGuidePresenter < BasePresenter
         annotation << current_element
       end
 
-      dropdown = doc.document.create_element('span', class: 'dropdown-pane', id: id, 'data-dropdown' => nil, 'data-hover' => true, 'data-hover-pane' => true)
+      dropdown = doc.document.create_element('span', class: 'c-cg-dropdown dropdown-pane', id: id, 'data-dropdown' => nil, 'data-hover' => true, 'data-hover-delay' => 0, 'data-hover-pane' => true)
       next_element = tag.next
       loop do
         break unless next_element && next_element[:style] =~ background_color_regex
@@ -269,15 +285,29 @@ class ContentGuidePresenter < BasePresenter
       dropdown = doc.document.create_element('span', class: 'dropdown-pane c-cg-dropdown', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-delay' => 0, 'data-hover-pane' => true, id: id)
       dropdown.inner_html = footnote.at_css('p').inner_html
       dropdown.at_css(a[:href]).remove
+      dropdown.css('[data-toggle]').each do |toggler|
+        toggler[:class] = nil
+        toggler[:id] = nil
+        toggler.delete('data-toggle')
+      end
       a.parent.next = dropdown
+    end
+  end
+
+  def process_footnotes
+    hr = doc.at_css('hr')
+    return unless hr
+
+    all_next_elements_with_name(hr, 'div').each do |div|
+      div[:class] = 'c-cg-footnote'
     end
   end
 
   def process_icons
     find_custom_tags('icon').each do |tag|
       icon_type = tag['data-value']
-      div = doc.document.create_element('div', class: "c-cg-icon c-cg-icon--#{icon_type}")
-      tag.replace(div)
+      span = doc.document.create_element('span', class: "c-cg-icon c-cg-icon--#{icon_type}")
+      tag.replace(span)
     end
 
     find_custom_tags('icon-small').each do |tag|
@@ -300,14 +330,27 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
-  def process_standards
+  def process_superscript_standards
+    superscript_style = /vertical-align:\s*super;?/
+    doc.css('.c-cg-keyword').each do |span|
+      superscript_ancestor = span.ancestors.find do |node|
+        (node[:style] || '') =~ superscript_style
+      end
+      if superscript_ancestor
+        span.inner_html = "(#{span.inner_html})"
+        superscript_ancestor[:style] = superscript_ancestor[:style].gsub(superscript_style, '')
+        superscript_ancestor.inner_html = " #{superscript_ancestor.inner_html}"
+      end
+    end
+  end
+
+  def process_standards_table
     find_custom_tags('standards').each do |tag|
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
       return unless table
 
       table.css('[data-toggle]').each do |dropdown|
-        dropdown[:class] = nil
         dropdown.delete('data-toggle')
       end
     end
@@ -335,10 +378,10 @@ class ContentGuidePresenter < BasePresenter
         end
 
         hide_task = doc.document.create_element('span', class: 'c-cg-task__toggler__hide')
-        hide_task.content = t('.hide_task')
+        hide_task.content = t('ui.hide')
 
         show_task = doc.document.create_element('span', class: 'c-cg-task__toggler__show')
-        show_task.content = t('.show_task')
+        show_task.content = t('ui.show')
 
         toggler = doc.document.create_element('div', class: 'c-cg-task__toggler')
         toggler << hide_task
@@ -350,9 +393,11 @@ class ContentGuidePresenter < BasePresenter
       tag.remove
     end
 
-    copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
-    copyright.content = table.xpath('tbody/tr/td')[2].content
-    body << copyright
+    if (copyright_row = table.xpath('tbody/tr/td')[2]).content.strip.size > 0
+      copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
+      copyright.inner_html = copyright_row.inner_html
+      body << copyright
+    end
 
     parts
   end
@@ -378,12 +423,31 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def remove_comments
+    doc.css('[id^=cmnt]').each do |a|
+      begin
+        a.ancestors('sup').first.remove
+      rescue
+        a.ancestors('div').first.remove
+      end
+    end
+  end
+
   def replace_guide_links
     doc.css('a[href*="docs.google.com/document/d/"]').each do |a|
       file_id = ContentGuide.file_id_from_url(a[:href])
       if (content_guide = ContentGuide.find_by_file_id(file_id))
         a.content = content_guide.name if a.text == a[:href]
         a[:href] = content_guide_url(content_guide)
+      end
+    end
+  end
+
+  def reset_heading_styles
+    doc.css('h1, h2, h3, h4').each do |h|
+      h.remove_attribute('style')
+      h.css('*').each do |n|
+        n.remove_attribute('style')
       end
     end
   end
@@ -406,41 +470,57 @@ class ContentGuidePresenter < BasePresenter
   def wrap_keywords(content)
     result = content.dup
 
-    keywords = {}
-    ContentGuideDefinition.find_each { |d| keywords[d.keyword] = { description: d.description } }
-    Standard.all.each do |standard|
-      keywords[standard.name.upcase] = { description: standard.description, emphasis: standard.emphasis } if standard.name.present?
-      standard.alt_names.each do |alt_name|
-        keywords[alt_name.upcase] = { description: standard.description, emphasis: standard.emphasis }
-      end
-    end
+    defintions = {}
+    ContentGuideDefinition.find_each { |d| defintions[d.keyword] = d.description }
 
-    keywords.each do |keyword, value|
-      next unless value.present?
+    dropdowns = []
+    defintions.each do |keyword, description|
+      next unless description.present?
 
-      result.gsub!(/(>|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
+      result.gsub!(/(>|\(|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
         id = "cg-k_#{SecureRandom.hex(4)}"
-        klass = 'has-tip'
-        if (emphasis = value[:emphasis])
-          klass += " c-cg-standard c-cg-standard--#{emphasis}"
-        end
-        dropdown = %Q(
-          <span class='#{klass}' data-toggle=#{id}>#{keyword}</span>
+
+        dropdowns << %Q(
           <span class='dropdown-pane c-cg-dropdown'
-            data-dropdown
-            data-hover=true
-            data-hover-delay=0
-            data-hover-pane=true
-            id=#{id}>
-            #{value[:description]}
+                data-dropdown
+                data-hover=true
+                data-hover-delay=0
+                data-hover-pane=true
+                id=#{id}>
+            #{description}
           </span>
         )
 
-        m.gsub!(keyword, dropdown)
+        toggler = "<span class=c-cg-keyword data-toggle=#{id}>#{keyword}</span>"
+        m.gsub!(/#{keyword}/i, toggler)
       end
     end
 
-    result
+    result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
+      if (standard = CommonCoreStandard.find_by_name_or_synonym(m))
+        id = "cg-k_#{SecureRandom.hex(4)}"
+        dropdowns << %Q(
+          <span class='dropdown-pane c-cg-dropdown'
+                data-dropdown
+                data-hover=true
+                data-hover-delay=0
+                data-hover-pane=true
+                id=#{id}>
+            #{standard.description}
+          </span>
+        )
+        toggler = "<span class=c-cg-keyword data-toggle=#{id}>"
+        if (emphasis = standard.emphasis)
+          toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
+        end
+        toggler += "#{m}</span>"
+        toggler
+      else
+        m
+      end
+    end
+
+    result + dropdowns.join
   end
 
   protected
@@ -450,21 +530,24 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def process_doc
+    return if @doc_processed
+
     embed_audios
     embed_videos
     process_annotation_boxes
     process_blockquotes
     process_broken_images
     process_footnote_links
+    process_footnotes
     process_icons
     process_pullquotes
-    process_standards
+    process_superscript_standards
+    process_standards_table
     process_tasks
+    remove_comments
     replace_guide_links
+    reset_heading_styles
     reset_table_styles
-  end
-
-  def cache(key)
-    Rails.cache.fetch("content_guides/presented/#{id}/#{key}") { yield }
+    @doc_processed = true
   end
 end

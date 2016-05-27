@@ -45,13 +45,14 @@ gem 'wicked_pdf', '~> 1.0'
 gem 'will_paginate', '~> 3.0.7', require: ['will_paginate', 'will_paginate/active_record']
 gem 'will_paginate-bootstrap'
 gem 'truncate_html', '~> 0.9.3'
-gem 'foundation-rails', '~> 6.2.0'
+gem 'foundation-rails', '~> 6.2.1'
 gem 'order_as_specified', '~> 0.1.0'
 gem 'readthis'
 gem 'hiredis'
 gem 'validate_url', '~> 1.0'
 gem 'virtus', '~> 1.0.5'
 gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
+gem 'autoprefixer-rails', '~> 6.3.6'
 
 group :development, :test do
   gem 'byebug'

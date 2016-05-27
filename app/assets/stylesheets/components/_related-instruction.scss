@@ -1,5 +1,7 @@
 .o-related-instruction {
   @include e(title) {
+    @include txt-element(related-header);
+    margin-bottom: $ub-small-margin;
     text-align: center;
   }
 
@@ -14,6 +16,7 @@
     @include menu-base;
     @include menu-simple;
     @include menu-direction(horizontal);
+    flex-wrap: wrap;
     justify-content: center;
   }
 

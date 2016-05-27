@@ -2,9 +2,12 @@ Rails.application.routes.draw do
   root to: 'welcome#index'
 
   get '/' => 'welcome#index'
-  get '/about' => 'pages#show_slug', slug: 'about'
+
+  get '/about'        => 'pages#show_slug', slug: 'about'
   get '/about/people' => 'pages#show_slug', slug: 'about_people'
-  get '/tos' => 'pages#show_slug', as: :tos_page, slug: 'tos'
+  get '/tos'          => 'pages#show_slug', slug: 'tos',     as: :tos_page
+  get '/privacy'      => 'pages#show_slug', slug: 'privacy', as: :privacy_page
+
   get  '/search' => 'search#index'
 
   resources :content_guides, only: :show

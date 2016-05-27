@@ -19,11 +19,12 @@ module ApplicationHelper
 
   def page_title
     if content_for?(:page_title)
-      content_for(:page_title)
+      page_title = content_for(:page_title)
     else
       controller = controller_path.gsub('/', '.')
-      t("#{controller}.#{action_name}.page_title", default: t('default_title'))
+      page_title = t("#{controller}.#{action_name}.page_title", default: t('default_title'))
     end
+    current_page?(root_path) ? "UnboundEd" : "UnboundEd - #{page_title}"
   end
 
   def set_page_title(title)
@@ -31,4 +32,22 @@ module ApplicationHelper
       title
     end
   end
+
+  def set_page_description(dsc)
+    content_for :description do
+      dsc
+    end
+  end
+
+  def page_description
+    content_for(:description)
+  end
+
+  def set_og_tags(resource, image_url = nil)
+    set_page_description(resource.teaser)
+    content_for(:og_title, resource.title)
+    content_for(:og_description, resource.teaser)
+    content_for(:og_image, image_url) if image_url.present?
+  end
+
 end

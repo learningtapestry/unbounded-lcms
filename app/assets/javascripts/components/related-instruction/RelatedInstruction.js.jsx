@@ -27,7 +27,7 @@ class RelatedInstruction extends React.Component {
                          hasMore: false,
                          expanded: true
                        };
-      this.setState(Object.assign({}, this.state, newState));
+      this.setState(_.assign({}, this.state, newState));
     });
   }
 
@@ -44,7 +44,7 @@ class RelatedInstruction extends React.Component {
         item => <InstructionCard key={item.id} item={item} />
     );
     const actions = (this.state.instructions.length == 0) ?
-      <p className="o-related-instruction__empty lead">
+      <p className="o-related-instruction__empty u-txt--teaser">
         There are no related guides or videos. To see all our guides, please visit the Enhance Instruction section <a href={allInstructionsPath}>here</a>.
       </p> :
       <ul className="o-related-instruction__actions">
@@ -52,16 +52,16 @@ class RelatedInstruction extends React.Component {
           <li><a className="o-ub-btn o-ub-btn--yellow u-margin-bottom--zero" onClick={this.handleBtnClick.bind(this)}>More Instruction</a></li>
           : false
         }
-        <li><a className="o-ub-btn o-ub-btn--2bordered-gray u-margin-bottom--zero" href={allInstructionsPath}>All Instructions</a></li>
+        <li><a className="o-ub-btn o-ub-btn--2bordered-gray u-margin-bottom--zero" href={allInstructionsPath}>See All Guides</a></li>
       </ul>;
 
     return (
       <div className="o-related-instruction o-page__module u-pd-content--xlarge">
-        <h2 className="o-related-instruction__title">Related Instruction</h2>
-        <p className="o-related-instruction__teaser">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+        <h2 className="o-related-instruction__title">Related Guides and Multimedia</h2>
+        <p className="o-related-instruction__teaser u-txt--teaser">
+          Our professional learning resources include teaching guides, videos, and podcasts that build educators' knowledge of content related to the standards and their application in the classroom.
         </p>
-        <div className="o-related-instruction__list o-page__wrap--row-nest">
+        <div className="o-related-instruction__list o-page__wrap--row-nest u-padding-top--gutter">
           {instructions}
         </div>
         <div className="o-related-instruction__list">

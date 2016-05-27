@@ -18,7 +18,8 @@
 @import
   'utils/styles_override',
   'utils/helpers',
-  'utils/colorcodes';
+  'utils/colorcodes',
+  'utils/functions';
 
 @import
   'base/fonts',
@@ -26,6 +27,7 @@
   'base/typography';
 
 @import
+  'components/assoc-picker',
   'components/buttons',
   'components/cards',
   'components/curriculum-cards',
@@ -41,12 +43,12 @@
   'components/panel-dsc',
   'components/related-instruction',
   'components/resource',
-  'components/assoc-picker',
   'components/search',
   'components/search-dropdown',
   'components/search-header',
   'components/sidebar',
   'components/simple-tab',
+  'components/social-sharing',
   'components/titles';
 
 @import
@@ -65,4 +67,5 @@
   'pages/explore-curriculum',
   'pages/enhance-instruction',
   'pages/content-guide',
-  'pages/find-lessons';
+  'pages/find-lessons',
+  'pages/unsupported';

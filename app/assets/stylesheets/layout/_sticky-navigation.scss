@@ -1,13 +1,18 @@
 $sticky-width: 60px;
 $sticky-height: 60px;
-$sticky-btn-width: 50px;
+$sticky-btn-height: 90px;
+$sticky-btn-width: (small: 50px, medium: 60px, large: 60px, xlarge: 80px );
 $sticky-txt-width: 280px;
-$sticky-btn-margin: $sticky-width - $sticky-btn-width;
+//$sticky-btn-margin: $sticky-width - $sticky-btn-width;
 
 .o-sticky {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
+
+  @include breakpoint(small only) {
+    //display: none;
+  }
 
   &:hover, &:focus {
     .o-sticky__txt {
@@ -16,17 +21,23 @@ $sticky-btn-margin: $sticky-width - $sticky-btn-width;
   }
 
   @include m(right) {
-    margin-left: $sticky-btn-margin;
+    right: 0;
     text-align: right;
 
-    &:hover, &:focus {
-      margin-left: $sticky-btn-margin - $sticky-txt-width;
+    @include e(btn) {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
     }
   }
 
   @include m(left) {
-    margin-left: -$sticky-width;
+    left: 0;
     text-align: left;
+
+    @include e(btn) {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
   }
 
   @include m(disabled) {
@@ -37,17 +48,22 @@ $sticky-btn-margin: $sticky-width - $sticky-btn-width;
   }
 
   @include e(btn) {
-    @include button($background: $ub-panel-bg, $background-hover: $ub-white, $color: $ub-txt);
+    @include button($background: rgba($ub-panel-bg, .7), $background-hover: rgba($ub-white, .7), $color: $ub-txt);
     @include button-expand;
     border: 1px solid darken($ub-panel-bg, 5%);
-    height: $sticky-btn-width;
-    min-width: $sticky-btn-width;
+    height: $sticky-btn-height;
     padding: 0 $ub-xs-padding;
 
     > div {
-      @include flex-align($y: middle);
+      @include flex-align($x: center, $y: middle);
       flex-wrap: nowrap;
       height: 100%;
+    }
+
+    @each $breakpoint, $btn-width in $sticky-btn-width {
+      @include breakpoint($breakpoint) {
+        min-width: $btn-width;
+      }
     }
 
   }
@@ -60,7 +76,19 @@ $sticky-btn-margin: $sticky-width - $sticky-btn-width;
     @include flex-grid-column(shrink, 0);
     display: none;
     text-align: left;
-    width: $sticky-txt-width;
+    max-width: $sticky-txt-width;
+    width: auto;
+    padding-left: $ub-xs-padding;
   }
+
+  @include e(arrow-header) {
+    @include txt-element(arrow-header);
+  }
+
+  @include e(arrow-subheader) {
+    @include txt-element(arrow-subheader);
+  }
+
+
 
 }

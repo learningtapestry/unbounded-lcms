@@ -1,7 +1,11 @@
 class FilterbarSearch extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: props.searchTerm};
+
+  componentWillMount() {
+    this.setState({value: this.props.searchTerm});
+
+    this.props.searchBus.on('clearSearch', e => {
+      this.setState({value: null})
+    });
 
     this.debouncedUpdate = _.debounce(function(value) {
       if ('onUpdate' in this.props) {
@@ -26,7 +30,7 @@ class FilterbarSearch extends React.Component {
           <span>{this.props.searchLabel}</span>
         </div>
         <div className="o-filterbar-search__input">
-          <input className="o-filterbar-search__field" type="search"
+          <input className="o-filterbar-search__field" type="text"
             placeholder='Enter Terms (e.g: writing, geometry, etc)'
             value={this.state.value}
             onKeyUp={pushToBus('keyup')}

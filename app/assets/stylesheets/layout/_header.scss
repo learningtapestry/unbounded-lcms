@@ -1,11 +1,18 @@
 .c-header {
-  background-color: rgba($ub-primary, .6);
+  background-color: rgba($ub-primary, .9);
 
   @include e(menu) {
     @include menu-direction(vertical);
+    > li > a { @include add-column-padding; }
 
     @include breakpoint($topbar-unstack-breakpoint) {
       @include menu-direction(horizontal);
+    }
+  }
+
+  @include e(left-menu) {
+    > li > a { @include add-column-padding; }
+    @include breakpoint($topbar-unstack-breakpoint) {
     }
   }
 
@@ -42,14 +49,16 @@
       a { background: none; }
     }
     a {
+      @include txt-element(nav-span);
       span:last-child:before { content: '\00a0'; }
       @include breakpoint($topbar-unstack-breakpoint) {
         display: block !important;
-        padding-bottom: 1rem !important;
-        padding-top: 1rem !important;
-        span:first-child { font-size: $small-font-size; }
+        padding-bottom: 1.5rem !important;
+        padding-top: 1.5rem !important;
+        span:first-child {
+          @include txt-element(nav-base);
+        }
         span:last-child {
-          font-weight: bold;
           &:before { content: '\A'; white-space: pre; }
         }
       }
@@ -61,7 +70,7 @@
         a {
           align-items: center !important;
           display: flex !important;
-          height: 100%;
+          height: $ub-nav-height;
         }
       }
     }
@@ -70,19 +79,23 @@
 
 .c-header-title {
   @include breakpoint($topbar-unstack-breakpoint down) {
-    @include top-bar-container;
+    //@include top-bar-container;
+    @include flex;
+    @include flex-align($x: justify, $y: middle);
+    min-height: $ub-nav-height;
   }
 
   @include e(logo) {
+    @include add-column-padding;
     @include breakpoint($topbar-unstack-breakpoint) {
-      padding-left: 1em;
-      padding-right: 1em;
+
     }
   }
 
   @include e(h-menu) {
+    @include add-column-padding;
     @include breakpoint($topbar-unstack-breakpoint) {
-      display: none;
+      //display: none;
     }
   }
 }

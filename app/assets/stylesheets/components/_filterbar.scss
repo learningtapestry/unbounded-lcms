@@ -1,18 +1,20 @@
 .o-filterbar-title {
-  padding-bottom: $ub-base-padding;
-  padding-top: $ub-xlarge-padding;
+  @include add-gutter(padding, bottom);
+  @include add-gutter(padding, top, 2);
   text-align: center;
 
-  h1, h2 { color: $ub-primary; }
+  h1, h2 { @include txt-element(filter-header); }
 
   @include e(subheader) {
-    font-style: italic;
+    @include txt-element(filter-subheader);
   }
 }
 
+$filterbar-height: 58px;
+
 .o-filterbar {
-  @include flex();
-  @include flex-align($x: justify);
+  @include flex;
+  @include flex-align($x: justify, $y: top);
   margin: $ub-small-margin 0;
 
   @include breakpoint(small only) {
@@ -21,19 +23,34 @@
 
   @include e(list) {
     @include button-group($child-selector: 'div');
-    @include flex-align($y: top);
+    @include flex-align($x: left, $y: top);
     flex-wrap: wrap;
     margin-bottom: $ub-base-margin;
+
+    > div { @include txt-element(filter-btn); border-radius: 0; }
+    > div:first-child { border-top-left-radius: $global-radius; border-bottom-left-radius: $global-radius; }
+    > div:last-child { border-top-right-radius: $global-radius; border-bottom-right-radius: $global-radius; }
+
+    @include m(facet) {
+
+    }
   }
 
   @include e(item) {
-    @extend %ub-btn-font;
-    padding: $ub-base-padding $ub-base-padding / 2 !important;
+    @include flex;
+    @include flex-align($x: center, $y: middle);
+    height: $filterbar-height;
+    padding: 0 !important;
 
     @each $code, $color in $ub-colorcodes {
       @include m(#{$code}) {
         @include button($background: $color, $background-hover: auto, $color: $ub-white);
+        @include flex;
       }
+    }
+
+    @include m(facet) {
+      margin-bottom: 1px !important;
     }
 
     @include m(deselected) {
@@ -42,11 +59,11 @@
 
     @include m(clear) {
       font-weight: bold;
-      padding: $ub-base-padding / 2 0 !important;
+      i { text-shadow: 0 1px 1px rgba(0, 0, 0, .3); }
     }
 
     @include m(rectangle) {
-      width: 110px;
+      width: 115px;
     }
 
     @include m(rectangle-big) {
@@ -59,46 +76,52 @@
   }
 }
 
-$search-height: 2.8em;
-
 .o-filterbar-search {
   width: 100%;
 
   @include e(label) {
-    @include flex-grid-column(shrink, 0);
-    background-color: $ub-primary;
+    @include flex-grid-column(12, 0);
+    @include txt-element(filter-label);
+    background-color: $ub-label-bg;
     color: $ub-white;
-    font-family: $ub-serif;
-    font-weight: bold;
-    height: $search-height;
+    height: $filterbar-height;
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(shrink, 0);
+    }
 
     span {
       @include flex;
       align-items: center;
       height: 100%;
-      padding-left: $ub-large-padding;
-      padding-right: $ub-large-padding;
+      padding-left: $ub-xlarge-padding;
+      padding-right: $ub-xlarge-padding;
     }
   }
 
   @include e(input) {
-    @include flex-grid-column(null, 0);
+    @include flex-grid-column(12, 0);
     position: relative;
-    > input { margin-bottom: 0; }
+    > input { margin-bottom: 0; @include txt-element(filter-input); }
+
+    @include breakpoint(medium) {
+      @include flex-grid-column(null, 0);
+    }
   }
 
   @include e(field) {
     border-right: 0;
     box-shadow: none;
-    height: $search-height;
+    height: $filterbar-height;
+    padding-left: $ub-large-padding;
     padding-right: 2rem;
   }
 
   @include e(icon) {
-    color: $ub-txt;
+    color: #757575;
     font-weight: bold;
     position: absolute;
-    right: .5rem;
-    top: .75rem;
+    right: .75rem;
+    top: 1.2rem;
   }
 }
