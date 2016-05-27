@@ -54,7 +54,7 @@ staff_member_defs = [
     bio: 'Doug Sovde develops assessments and professional learning experiences, and is a former teacher and high school administrator. As the executive director of math strategic initiatives, Doug contributes to the development of the professional learning experiences and strategic planning for grades K-12. In addition, Doug partners with the leadership and learning team to support content-embedded capacity-building experiences. Previously, Doug worked for PARCC Inc., supporting multiple states in developing the mathematical content and instructional supports associated with the PARCC Assessment System. Doug was also a member of the writing team of the Common Core State Standards in mathematics, having principal responsibility for creating Appendix A to the mathematics standards. Doug spent 12 years educating students in the Bellevue Public Schools in Washington state, and later became an assistant principal at two of Newsweek’s Top 100 High Schools, where he supervised the mathematics departments and supported mathematics curriculum development.',
     first_name: 'Doug',
     last_name: 'Sovde',
-    position: 'Executive Director, Strategic Mathematics Initiatives',
+    position: 'Executive Director, Strategic Math Initiatives',
     department: 'Math',
     staff_type: 1
   },
@@ -143,7 +143,7 @@ staff_member_defs = [
     bio: 'Peter Coe is a former teacher who has designed and developed curriculum, assessment and training for K-12 mathematics curriculum and assessment. Peter taught in New York City public schools and held multiple school leadership roles. As the chief academic officer for mathematics, he directs the math curriculum work and creates professional development programs for the Standards Institute. Previously, Peter was a fellow for math curriculum and assessment at the Regents Research Fund, where he led the design and development of K-12 mathematics curriculum on EngageNY.org. Peter was awarded a master teacher fellowship and the school leader fellowship from Math For America. He received the DeForest Senior Prize in pure and applied mathematics at Yale University.',
     first_name: 'Peter',
     last_name: 'Coe',
-    position: 'Chief Academic Officer Mathematics',
+    position: 'Chief Academic Officer Math',
     department: 'Math',
     staff_type: 1,
     image_file: 'https://s3.amazonaws.com/unboundedwebimages/peterheadshot2016.jpg'
