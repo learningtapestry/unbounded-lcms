@@ -1,19 +1,24 @@
 .o-s-header {
   @include flex-align($x: justify, $y: middle);
-  @extend .u-margin-top--large;
+  @include add-gutter(margin, top, 1.5);
+  @include add-gutter(margin, bottom, 1);
+
+  p { margin-bottom: 0; }
 
   @include e(item) {
-    @include flex-grid-column();
+    @include flex-grid-column;
+    &, p { @include txt-element(search-header); }
   }
 }
 
 .o-s-select {
-  @include flex-grid-row();
+  @include flex-grid-row;
   @include flex-align($x: right, $y: middle);
   outline: 0;
 
   @include e(item) {
     @include flex-grid-column(shrink, 0);
+    font-style: normal;
 
     select {
       background-origin: border-box;

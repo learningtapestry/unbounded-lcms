@@ -4,6 +4,8 @@ class ContentGuide < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
 
+  ICON_VALUES = %w(complexity instruction volume)
+
   attr_accessor :update_metadata
 
   acts_as_taggable_on :grades
@@ -14,7 +16,8 @@ class ContentGuide < ActiveRecord::Base
   has_many :standards, through: :content_guide_standards
   has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
 
-  validates :date, :description, :grade, :subject, :teaser, :title, presence: true, if: :validate_metadata?
+  validates :date, :description, :subject, :teaser, :title, presence: true, if: :validate_metadata?
+  validate :icon_values
   validate :media_exist
 
   before_validation :process_content, unless: :update_metadata
@@ -85,6 +88,14 @@ class ContentGuide < ActiveRecord::Base
     "https://docs.google.com/document/d/#{file_id}/edit"
   end
 
+  def paragraphs_with_invalid_icons
+    @paragraphs_with_invalid_icons ||= begin
+      presenter.icons.map do |icon|
+        icon.parent unless ICON_VALUES.include?(icon['data-value'])
+      end.compact
+    end
+  end
+
   def validate_metadata
     @validate_metadata = true
     valid?
@@ -147,6 +158,10 @@ class ContentGuide < ActiveRecord::Base
       a[:target] = '_blank'
     end
     doc
+  end
+
+  def icon_values
+    errors.add(:base, :invalid) if paragraphs_with_invalid_icons.any?
   end
 
   def media_exist

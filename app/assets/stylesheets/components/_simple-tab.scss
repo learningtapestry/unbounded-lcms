@@ -17,23 +17,21 @@
     float: left;
     padding-bottom: $ub-xs-padding;
     & + & { margin-left: $ub-base-padding; }
-    > a:hover { font-weight: bold; }
+    > a:hover { color: $ub-heading-txt; }
     > a {
-      color: $ub-txt;
-      font-family: $ub-serif;
-      font-size: inherit;
-      line-height: inherit;
+      @include txt-element(tab-title);
+      color: map-get($ub-txt-colors, light);
       padding: 0;
     }
 
     @include m(active) {
-      border-bottom: 4px solid $ub-txt;
-      font-weight: bold;
+      border-bottom: 4px solid $ub-heading-txt;
+      > a { color: $ub-heading-txt; }
     }
 
     &.is-active {
-      border-bottom: 4px solid $ub-txt;
-      font-weight: bold;
+      border-bottom: 4px solid $ub-heading-txt;
+      > a { color: $ub-heading-txt; }
     }
   }
 }

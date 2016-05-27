@@ -1,14 +1,15 @@
 .o-title {
-  @extend .u-text--small;
-  font-weight: bold;
-
   @include e(type) {
-    font-family: $ub-serif;
+    @include txt-element(title-type);
+
+    @include m(short) {
+      @include txt-element(title-type-short);
+    }
   }
 
   @include e(duration) {
+    @include txt-element(title-duration);
     float: right;
-    font-weight: normal;
   }
 
   @each $code, $color in $ub-colorcodes {
@@ -19,8 +20,8 @@
 }
 
 .o-content-title {
-  font-weight: bold;
-  padding-bottom: $ub-xs-padding;
-  padding-top: $ub-xs-padding;
+  @include txt-element(breadcrumbs);
+  padding-bottom: $ub-small-padding;
+  padding-top: $ub-small-padding;
   &, a {color: $ub-white;}
 }

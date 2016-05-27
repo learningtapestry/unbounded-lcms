@@ -1,4 +1,4 @@
-//= require ./routes
+//= require generated/routes
 //= require es6-promise
 //= require eventemitter3
 //= require fetch

@@ -35,35 +35,39 @@ class FindLessonsPage extends React.Component {
 
   handlePageClick(data) {
     const selected = data.selected;
-    const newState = Object.assign({}, this.state, { current_page: selected + 1 });
+    const newState = _.assign({}, this.state, { current_page: selected + 1 });
     this.fetch(newState);
   }
 
   handleChangePerPage(event) {
     const newPerPage = event.target.value;
-    const newState = Object.assign({}, this.state, { per_page: newPerPage });
+    const newState = _.assign({}, this.state, { per_page: newPerPage, current_page: 1 });
     this.fetch(newState);
   }
 
   handleChangeOrder(event) {
     const newOrder = event.target.value;
-    const newState = Object.assign({}, this.state, { order: newOrder });
+    const newState = _.assign({}, this.state, { order: newOrder, current_page: 1 });
     this.fetch(newState);
   }
 
   handleFilterbarUpdate(filterbar) {
-    const newState = Object.assign({}, this.state, { filterbar: filterbar });
+    const newState = _.assign({}, this.state, { filterbar: filterbar, current_page: 1 });
     this.fetch(newState);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    urlHistory.updatePaginationParams(nextState);
   }
 
   render () {
     return (
       <div>
-        <div className="u-bg--base">
+        <div className="u-bg--base-gradient">
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
-                <h2>Find lessons</h2>
+                <h2>Find Lessons</h2>
                 <div className="o-filterbar-title__subheader">
                   Search our free collection for specific lessons or topics within a grade. Download, adapt, share.
                 </div>
@@ -76,17 +80,27 @@ class FindLessonsPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page u-margin-bottom--xlarge">
+        <div className="o-page o-page--margin-bottom">
           <div className="o-page__module">
-            <SearchResultsHeader
-              onChangePerPage={this.handleChangePerPage.bind(this)}
-              current_page={this.state.current_page}
-              per_page={this.state.per_page}
-              num_items={this.state.lessons.length}
-              total_hits={this.state.total_hits}
-              per_page={this.state.per_page}
-              order={this.state.order} />
-            <FindLessonsCards lessons={this.state.lessons} />
+            { (this.state.lessons.length > 0) ?
+              <SearchResultsHeader
+                onChangePerPage={this.handleChangePerPage.bind(this)}
+                current_page={this.state.current_page}
+                per_page={this.state.per_page}
+                num_items={this.state.lessons.length}
+                total_hits={this.state.total_hits}
+                per_page={this.state.per_page}
+                order={this.state.order} />
+
+              : false
+            }
+
+            { (this.state.lessons.length > 0) ?
+              <FindLessonsCards lessons={this.state.lessons} />
+
+              : <FindLessonsCardsEmpty searchTerm={this.state.filterbar.search_term} />
+            }
+
             <PaginationBoxView previousLabel={<i className="fa-2x ub-angle-left"></i>}
                             nextLabel={<i className="fa-2x ub-angle-right"></i>}
                             breakLabel={<li className="o-pagination__break">...</li>}

@@ -1,3 +1,7 @@
+ENABLE_CACHING = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(
+  ENV.fetch('ENABLE_CACHING', true)
+)
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -12,13 +16,24 @@ Rails.application.configure do
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
+  config.action_controller.perform_caching = ENABLE_CACHING
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
   # For large-scale production use, consider using a caching reverse proxy like
   # NGINX, varnish or squid.
   # config.action_dispatch.rack_cache = true
+
+  if ENABLE_CACHING
+    redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
+    config.cache_store = :readthis_store, {
+      expires_in: 29.days.to_i,
+      namespace: 'unbounded',
+      redis: { url: redis_url, driver: :hiredis }
+    }
+  else
+    config.cache_store = :null_store
+  end
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -77,11 +92,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
-  config.cache_store = :readthis_store, {
-    expires_in: 1.hour.to_i,
-    namespace: 'unbounded',
-    redis: { url: redis_url, driver: :hiredis }
-  }
 end

@@ -21,6 +21,9 @@ front-end.
 1. Set up `.env.test`, `.env.development` and `.env.integration`
 2. `bundle && bundle exec rake cloud66:after_bundle`
 
+You should also run the task `routes:generate_js` every time routes are updated.
+This task is run as part of `cloud66:after_bundle`.
+
 ### Integration database
 
 For convenience, a copy of a reference unboundED database is available
@@ -99,3 +102,11 @@ methodology to standardize stylesheet development.
   - `u`, for utils like text sizes, margins and so on.
 - It's not recommended to use elements of elements in `BEM`
 - It's fine to add Foundation classes to HTML, especially during active development
+
+
+## Google Dev Account for Content Guide Import Process
+
+- Create a new project here: https://console.developers.google.com
+- Enable Drive API on the Overview screen.
+- Go to the Credentials tab and create credentials for OAuth2 (application type should be Web application). The path of the Redirect URI should be /admin/google_oauth2_callback.
+- Use cliend ID and client secret values to create the GOOGLE_OAUTH2_CLIENT_ID and GOOGLE_OAUTH2_CLIENT_SECRET environment variables respectively.

@@ -1,11 +1,12 @@
 <div class="o-sidebar" data-sticky-container>
-  <nav class="o-sidebar__wrap sticky hide-for-small-only" data-sticky data-anchor="c-ch-content" data-sticky-on="medium">
+  <nav class="o-sidebar__wrap sticky hide-for-small-only" data-sticky data-anchor="c-ch-content" data-sticky-on="medium" data-check-every="50">
     <ul class="o-sidebar-nav" data-magellan>
-      <li class="o-sidebar-nav__header">Contents</li>
+      <li class=o-sidebar-nav__header><%= t('ui.contents') %>
+      <li><div class=o-sidebar-nav__sep></div>
+
       <% headings.each do |heading| %>
         <li class='o-sidebar-nav__item o-sidebar-nav__item--level<%= heading.level %>'>
           <%= link_to heading.text, "##{heading.id}" %>
-        </li>
       <% end %>
     </ul>
   </nav>

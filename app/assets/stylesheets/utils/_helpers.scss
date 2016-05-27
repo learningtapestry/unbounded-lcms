@@ -22,6 +22,10 @@ $text-sizes: (
   text-transform: uppercase;
 }
 
+.u-text--centered {
+  text-align: center;
+}
+
 .u-show { display: block !important; }
 
 $margins: (
@@ -32,7 +36,7 @@ $margins: (
   'large': $ub-large-margin,
   'xlarge': $ub-xlarge-margin
 );
-$margins-align: (top, bottom);
+$margins-align: (top, bottom, right, left);
 
 @each $margin-type, $margin-value in $margins {
   @each $align in $margins-align {
@@ -75,9 +79,13 @@ $bg: (
   light: $ub-white,
   base: $ub-panel-bg,
   dark: $ub-hero-bg,
-  primary: $ub-primary,
+  primary: $ub-primary1,
   tooltip: darken($ub-tooltip, 1%)
 );
+
+.u-bg--base-gradient {
+  background-image: $ub-gray-gradient;
+}
 
 @each $bg-type, $bg-color in $bg {
   .u-bg--#{$bg-type} {
@@ -95,13 +103,11 @@ $bg: (
 }
 
 .u-pd-content {
-  padding-bottom: $ub-large-padding;
-  padding-top: $ub-large-padding;
+  @include add-top-bottom-padding;
 }
 
 .u-pd-content--xlarge {
-  padding-bottom: $ub-xlarge-padding;
-  padding-top: $ub-xlarge-padding;
+  @include add-top-bottom-padding(2);
 }
 
 .u-link--disabled {
@@ -114,7 +120,8 @@ $bg: (
 .u-hr-small {
   @include clearfix;
   border-bottom: 4px solid map-get($ub-yellow, base);
-  margin-bottom: $ub-small-margin;
+  border-radius: 2px;
+  margin-bottom: $ub-base-margin;
   width: 60px;
 }
 

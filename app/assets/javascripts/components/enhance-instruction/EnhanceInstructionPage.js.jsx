@@ -12,6 +12,7 @@ class EnhanceInstructionPage extends React.Component {
   buildStateFromProps(props) {
     return {
       items: props.results,
+      current_page: props.pagination.current_page,
       per_page: props.pagination.per_page,
       order: props.pagination.order,
       filterbar: props.filterbar,
@@ -26,14 +27,15 @@ class EnhanceInstructionPage extends React.Component {
       total_pages: props.pagination.total_pages,
       num_items: props.pagination.num_items,
       total_hits: props.pagination.total_hits,
-      items: props.results,
+      items: props.results
     };
     return this.state.tabs;
   }
 
   createQuery(newState) {
     const tab = newState.activeTab;
-    const current_page =  newState.current_page || newState.tabs[tab].current_page
+    const current_page =  newState.current_page || newState.tabs[tab].current_page;
+
     return {
       format: 'json',
       per_page: newState.per_page,
@@ -54,32 +56,40 @@ class EnhanceInstructionPage extends React.Component {
 
   handlePageClick(data) {
     const selected = data.selected;
-    const newState = Object.assign({}, this.state, { current_page: selected + 1 });
+    const newState = _.assign({}, this.state, { current_page: selected + 1 });
     this.fetch(newState);
   }
 
   handleChangePerPage(event) {
     const newPerPage = event.target.value;
-    const newState = Object.assign({}, this.state, { per_page: newPerPage });
+    const newState = _.assign({}, this.state, { per_page: newPerPage, current_page: 1 });
     this.fetch(newState);
   }
 
   handleChangeOrder(event) {
     const newOrder = event.target.value;
-    const newState = Object.assign({}, this.state, { order: newOrder });
+    const newState = _.assign({}, this.state, { order: newOrder, current_page: 1 });
     this.fetch(newState);
   }
 
   handleFilterbarUpdate(filterbar) {
-    const newState = Object.assign({}, this.state, { filterbar: filterbar });
+    const newState = _.assign({}, this.state, { filterbar: filterbar, current_page: 1 });
     this.fetch(newState);
   }
 
   handleTabChange(idxTab) {
     if (idxTab != (this.state.activeTab + 1)) {
-      const newState = Object.assign({}, this.state, { activeTab: idxTab - 1, current_page: 1 });
+      const newState = _.assign({}, this.state, { activeTab: idxTab - 1, current_page: 1 });
       this.fetch(newState);
     }
+  }
+
+  componentWillMount() {
+    urlHistory.emptyState();
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    urlHistory.updatePaginationParams(nextState);
   }
 
   renderTab(title, idx) {
@@ -116,16 +126,16 @@ class EnhanceInstructionPage extends React.Component {
 
   render() {
     const tabGuides = this.renderTab('Content Guides', 0);
-    const tabResources = this.renderTab('Resources', 1);
+    const tabResources = this.renderTab('Videos and Podcasts', 1);
     return (
       <div>
-        <div className="u-bg--base">
+        <div className="u-bg--base-gradient">
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
                 <h2>Enhance Instruction</h2>
                 <div className="o-filterbar-title__subheader">
-                  Search our free professional learning resources for teaching guides, videos and podcasts that focus on the application of content related to the standards in the classroom. Download, adapt, share.
+                  Search our free professional learning resources for teaching guides, videos and podcasts that focus on the application of content related to the standards in the classroom. Download, adapt, share. Visit this page often for new guides and multimedia.
                 </div>
               </div>
               <Filterbar
@@ -135,7 +145,7 @@ class EnhanceInstructionPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page u-margin-bottom--xlarge">
+        <div className="o-page o-page--margin-bottom">
           <Tabs tabActive={this.state.activeTab + 1} onBeforeChange={this.handleTabChange.bind(this)} className='c-eh-tab o-page__module'>
              {tabGuides}
              {tabResources}

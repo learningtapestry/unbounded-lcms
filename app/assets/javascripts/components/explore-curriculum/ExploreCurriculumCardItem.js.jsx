@@ -35,6 +35,12 @@ class ExploreCurriculumCardItem extends React.Component {
       `o-cur-card--${props.curriculum.type}`
     );
 
+    const cssBodyClasses = classNames(
+      "o-cur-card__body",
+      { "o-cur-card__body--medium": props.shouldItemExpand },
+      { "o-cur-card__body--short": !props.shouldItemExpand }
+    );
+
     const cssActionClasses = classNames(
       "o-cur-card__actions",
       {"o-cur-card__actions--short": !props.shouldItemExpand }
@@ -49,6 +55,17 @@ class ExploreCurriculumCardItem extends React.Component {
       {"u-link--disabled": !hasDownloads }
     );
 
+    const cssHeaderClasses = classNames(
+      `cs-txt--${colorCode}`,
+      {"o-title__type": props.shouldItemExpand},
+      {"o-title__type--short": !props.shouldItemExpand }
+    );
+
+    const cssTitleClasses = classNames(
+      {"u-txt--card-title-medium": props.shouldItemExpand },
+      {"u-txt--card-title-short": !props.shouldItemExpand }
+    );
+
     const resourceType = resource.type.name == 'grade' ? 'curriculum' : resource.type.name;
     const downloadBtnLabel = `Download ${_.capitalize(resourceType)}`;
     const downloadModalId = `downloads-modal-${resource.id}`;
@@ -56,23 +73,23 @@ class ExploreCurriculumCardItem extends React.Component {
     return (
       <div id={props.curriculum.id} name={resource.path} onClick={props.onClickElement} className={cssClasses} data-magellanhash-target>
         {curriculumMap}
-        <div className="o-cur-card__body">
+        <div className={cssBodyClasses}>
           <div className="o-title u-text--uppercase">
-            <span className={`o-title__type u-txt--${colorCode}`}>{resource.short_title}</span>
+            <span className={cssHeaderClasses}>{resource.short_title}</span>
             <span className="o-title__duration o-cur-card--show-medium"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
-          <h3 className="o-cur-card__dsc--short">{resource.title}</h3>
-          <div className="o-cur-card--show-medium o-cur-card__dsc--full">{resource.teaser}</div>
+          <h3 className={cssTitleClasses}>{resource.title}</h3>
+          <div className="o-cur-card--show-medium o-cur-card__dsc">{resource.teaser}</div>
         </div>
         <div className={cssActionClasses}>
           <ul className="o-cur-card__menu o-cur-card__menu--medium o-cur-card--show-medium">
-            <li><a className="o-ub-btn" href={resource.path}>View Details</a></li>
+            <li><a className="o-ub-btn o-ub-btn--yellow" href={resource.path}>View Details</a></li>
             <li><a className={cssDownloadBtnClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>
-            <li><a className="o-ub-btn o-ub-btn--bordered o-ub-btn--disabled">Related Instruction</a></li>
+            <li><a className="o-ub-btn o-ub-btn--bordered o-ub-btn--disabled">Related Guides</a></li>
           </ul>
           <ul className="o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short" ref="dropdown">
             <li>
-              <a href="#" className="o-cur-card__ellipsis"><i className="ub-ellipsis fa-3x"></i></a>
+              <a href="" className="o-cur-card__ellipsis"><i className="ub-ellipsis fa-3x"></i></a>
               <ul className="menu">
                 <li><a href={resource.path}>View Details</a></li>
                 <li><a className={cssDownloadLinkClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>

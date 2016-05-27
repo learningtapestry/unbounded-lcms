@@ -114,43 +114,69 @@
 .ub-file-zip:before {
   content: '\e91c';
 }
+.ub-menu:before {
+  content: '\e120';
+}
+
+$ub-angle-left: "\e900";
+$ub-cc-by: "\e901";
+$ub-cc-nc: "\e902";
+$ub-cc-nd: "\e903";
+$ub-cc-pd: "\e904";
+$ub-cc-remix: "\e905";
+$ub-cc-sa: "\e906";
+$ub-cc-share: "\e907";
+$ub-cc-stamp: "\e908";
+$ub-cc-zero: "\e909";
+$ub-close: "\e90a";
+$ub-angle-down: "\e90b";
+$ub-facebook: "\e90c";
+$ub-angle-right: "\e90d";
+$ub-arrow-right: "\e91d";
+$ub-arrow-left: "\e90e";
+$ub-file-image: "\e90f";
+$ub-search: "\e910";
+$ub-file-media: "\e911";
+$ub-file-pdf: "\e912";
+$ub-pinterest: "\e913";
+$ub-ellipsis: "\e914";
+$ub-share: "\e915";
+$ub-arrow-share: "\e916";
+$ub-spreadsheet: "\e917";
+$ub-file-text: "\e918";
+$ub-twitter: "\e919";
+$ub-vimeo: "\e91a";
+$ub-youtube: "\e91b";
+$ub-file-zip: "\e91c";
 
 .file-pdf:before {
-  @extend .fa;
-  content: $fa-var-file-pdf-o;
+  content: $ub-file-pdf;
 }
 
 .file-doc:before {
-  @extend .fa;
-  content: $fa-var-file-word-o;
+  content: $ub-file-text;
 }
 
 .file-video:before {
-  @extend .fa;
-  content: $fa-var-file-video-o;
+  content: $ub-file-media;
 }
 
 .file-resource:before {
-  @extend .fa;
-  content: $fa-var-file-text-o;
+  content: $ub-file-text;
 }
 
 .file-excel:before {
-  @extend .fa;
-  content: $fa-var-file-excel-o;
+  content: $ub-spreadsheet;
 }
 
 .file-powerpoint:before {
-  @extend .fa;
-  content: $fa-var-file-powerpoint-o;
+  content: $ub-file-image;
 }
 
 .file-unknown:before {
-  @extend .fa;
-  content: $fa-var-file-o;
+  content: $ub-file-text;
 }
 
 .file-zip:before {
-  @extend .fa;
-  content: $fa-var-file-zip-o;
+  content: $ub-file-zip;
 }

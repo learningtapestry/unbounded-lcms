@@ -4,30 +4,45 @@ $staff-img: 120px;
   h1 { color: $ub-primary; }
   @include e(title) {
     font-family: $ub-serif;
+    font-weight: 600;
     padding-bottom: $ub-small-padding;
+  }
+}
+
+@mixin staff-dsc($dsc-count) {
+  @for $i from 1 through $dsc-count {
+    &:nth-child(#{$dsc-count}n + #{$i}) {
+      .c-stp-staff__dsc {
+        margin-left: (1 - $i) * 100%;
+        width: $dsc-count * 100%;
+
+        &::before {
+          @include css-triangle($tooltip-pip-width, $ub-white, up);
+          bottom: 100%;
+          left: (100% / $dsc-count) * ($i - 1);
+          margin-left: $staff-img / 2;
+          position: absolute;
+          transform: translateX(-50%);
+        }
+      }
+    }
   }
 }
 
 .c-stp-staff {
   @include e(item) {
-    @include flex-grid-column(4, 0);
+    @include flex-grid-column(12, 0);
+    @include staff-dsc(1);
+    flex-shrink: 1;
 
-    @for $i from 1 through 3 {
-      &:nth-child(3n + #{$i}) {
-        .c-stp-staff__dsc {
-          margin-left: (1 - $i) * 100%;
-          width: 300%;
+    @include breakpoint(medium) {
+      @include flex-grid-column(6, 0);
+      @include staff-dsc(2);
+    }
 
-          &::before {
-            @include css-triangle($tooltip-pip-width, $ub-white, up);
-            bottom: 100%;
-            left: (100% / 3) * ($i - 1);
-            margin-left: $staff-img / 2;
-            position: absolute;
-            transform: translateX(-50%);
-          }
-        }
-      }
+    @include breakpoint(large) {
+      @include flex-grid-column(4, 0);
+      @include staff-dsc(3);
     }
   }
 
@@ -35,21 +50,31 @@ $staff-img: 120px;
     @extend %material-card;
     @include callout-base;
     @include callout($ub-white);
+    @include add-column-padding;
+    @include add-top-bottom-padding;
     display: none;
 
+    > div { @include txt-element(base); }
 
-    //> p { width: 90%; margin: 0; }
+    @include breakpoint(large) {
+      > div { width: 75%;  }
+    }
+
+    @include breakpoint(medium) {
+      > div { width: 85%;  }
+    }
 
     .close-button {
       color: map-get($ub-yellow, base);
-      font-size: $global-font-size;
+      font-size: x-large;
+      font-weight: bold;
     }
   }
 }
 
 .c-stp-media {
   @include media-object-container;
-  @include add-gutter;
+  @include add-gutter(margin, top, 1.5);
 
   @include e(img) {
     @include media-object-section;
@@ -65,15 +90,12 @@ $staff-img: 120px;
 
   @include e(body) {
     @include media-object-section;
-    padding: $ub-base-padding 0;
-    padding-left: $ub-xs-padding;
+    flex: 1 1 0;
+    padding: $ub-base-padding $ub-xs-padding;
 
     h3 { color: $ub-primary; }
     h4 {
-      color: lighten($ub-txt, 10%);
-      font-family: $ub-serif;
-      font-style: italic;
-      margin: 0;
+      font-size: map-get(map-get($ub-element-typography, base), 'font-size');
     }
   }
 }

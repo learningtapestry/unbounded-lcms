@@ -7,35 +7,17 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   updateUrl($active) {
-    if (!$active && !/p=/.test(location.search)) {
-      return;
-    }
+    if ( !$active && !/p=/.test(location.search) ) return;
 
-    let query = [];
-
-    const queryStringArr = window.location.search.slice(1).split('&');
-    query = _.filter(queryStringArr, function(piece) {
-      return !(piece.startsWith('e=') || piece.startsWith('p='));
-    });
-
+    let query = {p: null, e: null};
     if ($active) {
-      query.push('p=' + $active[0].getAttribute('name'));
-
-      if (this.state.active[this.state.active.length-2] == $active[0].id) {
-        query.push('e=1');
+      query['p'] = $active[0].getAttribute('name');
+      if ( this.state.active[this.state.active.length - 2] == $active[0].id ) {
+        query['e'] = '1';
       }
     }
 
-    if (window.history) {
-      const prefix = window.location.pathname;
-      const queryString = query.length ? '?' + query.join('&') : '';
-      let newUrl = prefix + queryString;
-      if (newUrl[newUrl.length-1] == '?') {
-        newUrl = newUrl.slice(0, -1);
-      }
-      const historyState = { turbolinks: true, url: newUrl };
-      window.history.replaceState(historyState, null, newUrl);
-    }
+    urlHistory.update(query, {replace: true});
   }
 
   componentDidMount() {
@@ -140,8 +122,8 @@ class ExploreCurriculumPage extends React.Component {
 
   fetchOne(id) {
     const query = { format: 'json', id: id };
-    const url = Routes.explore_curriculum_path(id);
-    return fetch(url).then(r => r.json());
+    const url = Routes.explore_curriculum_path(query);
+    return fetch(url, { headers: new Headers({Accept: 'application/json'}) }).then(r => r.json());
   }
 
   getActive(parentage, cur) {
@@ -203,7 +185,7 @@ class ExploreCurriculumPage extends React.Component {
     const oldFilterbar = _.omit(this.state.filterbar, 'search_term');
     const onlyChangedSearchTerm = $.param(newFilterbar) === $.param(oldFilterbar);
 
-    const newState = Object.assign({}, this.state, { filterbar: filterbar });
+    const newState = _.assign({}, this.state, { filterbar: filterbar });
 
     if (onlyChangedSearchTerm) {
       this.setState(newState);
@@ -229,11 +211,11 @@ class ExploreCurriculumPage extends React.Component {
 
     return (
       <div>
-        <div className="u-bg--base">
+        <div className="u-bg--base-gradient">
           <div className="o-page">
             <div className="o-page__module">
               <div className="o-filterbar-title">
-                <h2>Explore curriculum</h2>
+                <h2>Explore Curriculum</h2>
                 <div className="o-filterbar-title__subheader">
                   Search our free collection, or filter by subject or grade. Download, adapt, share.
                 </div>
@@ -247,7 +229,7 @@ class ExploreCurriculumPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="o-page u-margin-bottom--xlarge">
+        <div className="o-page o-page--margin-bottom">
           <div className="o-page__module" ref="curriculumList">
             <ExploreCurriculumHeader totalItems={this.state.curriculums.length} />
             {curriculums}

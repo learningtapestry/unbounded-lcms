@@ -6,7 +6,7 @@ $media-img-height: 110px;
   @include flex-grid-column(6);
   flex-direction: column;
 
-  @include breakpoint(medium) {
+  @include breakpoint(large) {
     @include flex-grid-column(3);
   }
 
@@ -15,14 +15,23 @@ $media-img-height: 110px;
   }
 
   @include e(img) {
+    height: $media-img-height;
+    overflow: hidden;
     img {
-      height: $media-img-height;
       width: 100%;
+      height: auto;
+    }
+
+    @include breakpoint(small only) {
+      display: none;
     }
   }
 
   @include e(title) {
-    @include clamp(3);
+    @include clamp(3, media-card-title);
+    &, & > * {
+      @include txt-element(media-card-title);
+    }
   }
 }
 
@@ -30,35 +39,41 @@ $media-img-height: 110px;
   @include media-object-container;
   @include add-gutter;
   cursor: pointer;
-  h3 { margin-bottom: 0; }
+  h3, h3 > * { margin-bottom: 0; color: $ub-white; }
 
   @include e(img) {
     flex: 0 0 auto;
+    overflow: hidden;
+
+    img { height: 100%; }
+
+    @include breakpoint(small only) {
+      display: none;
+    }
   }
 
   @include e(body) {
+    @include add-top-bottom-padding(.5);
+    @include add-column-padding(.5);
     min-width: 0;
-    padding: $ub-large-padding $ub-base-padding;
   }
 
   @include e(teaser) {
-    @extend .u-text--small;
+    @include txt-element(cg-card-teaser);
     @include ellipsis;
-    font-family: $ub-serif;
-    font-weight: bold;
   }
 
   @include e(wrap) {
     @extend %material-card;
     @include flex;
-    min-height: $instruction-card-height;
+    height: $instruction-card-height;
     width: 100%;
   }
 
   @include m(instruction) {
     @include flex-grid-column(12);
 
-    @include breakpoint(medium) {
+    @include breakpoint(large) {
       @include flex-grid-column(6);
     }
 
@@ -66,6 +81,13 @@ $media-img-height: 110px;
       img {
         height: 100%;
         width: $guide-img-width;
+      }
+    }
+
+    @include e(title) {
+      @include clamp(4, cg-card-title);
+      &, & > * {
+        @include txt-element(cg-card-title);
       }
     }
   }

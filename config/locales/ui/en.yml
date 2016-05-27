@@ -34,13 +34,13 @@ en:
       admin: Administration
       tos: Terms of Service
   nav:
-    about: About Unbounded
+    about: About UnboundEd
     curriculum: Explore Curriculum
     lessons: Find Lessons
     instructions: Enhance Instruction
     news: News
     professional_development: Professional Development
-    about_html: <span>About</span><span>Unbounded</span>
+    about_html: <span>About</span><span>UnboundEd</span>
     curriculum_html: <span>Explore</span><span>Curriculum</span>
     lessons_html: <span>Find</span><span>Lessons</span>
     instructions_html: <span>Enhance</span><span>Instruction</span>
@@ -57,7 +57,7 @@ en:
     btn:
       view: "View %{short_title}"
       download: "Download %{title}"
-      related: "Related Instruction"
+      related: "Related Guides"
       back: "Back to Curriculum Map"
       arrow: "%{dir} %{type} in Series"
       explore: "Explore %{short_title}"
@@ -78,7 +78,7 @@ en:
     sidebar_down_nav:
       down_link: "Next %{title}"
   title:
-    logo: Unbounded Logo
+    logo: UnboundEd Logo
     subscribe: Get updates and stay connected
     active: Document status
     age_range: Age range
@@ -108,10 +108,12 @@ en:
     all: All
     are_you_sure: Are you sure?
     close: Close
+    contents: Contents
     delete: Delete
     edit: Edit
     export: Export
     export_resources: Export Resources
+    hide: Hide
     import: Import
     import_subtitles: 'Import subtitles & descriptions'
     loading: Loading
@@ -128,6 +130,7 @@ en:
     open_math_lesson: Open this Lesson
     open_math_module: Open this Module
     open_math_unit: Open this Topic
+    show: Show
     show_less: Show Less
     show_more: Show More
     url: URL
@@ -137,4 +140,6 @@ en:
     go: Go
     register: Register Now
     view_topics: View Topics
+    contact_us: Contact Us
     questions: Questions?
+    unbounded: UnboundEd

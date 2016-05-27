@@ -7,6 +7,21 @@
 
   <div>
     <ui class=accordion data-accordion>
+      <% if (pars = @content_guide.paragraphs_with_invalid_icons).any? %>
+        <li class='accordion-item is-active' data-accordion-item>
+          <%= link_to '#', class: 'accordion-title' do %>
+            <h3><%= t('.invalid_icons') %></h3>
+          <% end %>
+
+          <div class=accordion-content data-tab-content>
+            <ol>
+              <% pars.each do |par| %>
+                <li><%= par.to_s.html_safe %>
+              <% end %>
+            </ol>
+          </div>
+      <% end %>
+
       <% if (urls = @content_guide.non_existent_videos).any? %>
         <li class='accordion-item is-active' data-accordion-item>
           <%= link_to '#', class: 'accordion-title' do %>

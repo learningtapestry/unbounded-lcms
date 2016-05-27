@@ -1,5 +1,8 @@
+$logo-width: 160px;
+$footer-padding: 5px;
+
 .c-footer {
-  background-color: $ub-nav-bg;
+  background-color: $ub-footer-bg;
   @each $breakpoint, $footer-height in $ub-footer-height {
     @include breakpoint($breakpoint) {
       min-height: $footer-height;
@@ -8,8 +11,8 @@
 
   @include e(wrap) {
     @include flex-align(left, top);
-    padding-bottom: $ub-small-padding;
-    padding-top: $ub-base-padding;
+    padding-bottom: $ub-large-padding;
+    padding-top: $ub-large-padding;
 
     @include breakpoint(medium) {
       padding-bottom: $ub-base-padding;
@@ -18,25 +21,20 @@
   }
 
   @include e(logo) {
-    img { width: 160px; }
-
-    @include breakpoint(medium) {
-      @include flex-grid-column(shrink, 0);
-    }
-
-    @include breakpoint(medium down) {
-      @include flex-grid-column(shrink);
-    }
+    @include flex-grid-column(shrink, 0);
+    img { width: $logo-width; }
   }
 
   @include e(item) {
-    @include flex-grid-column(12);
+    @include flex-grid-column(12, 0);
+    color: darken($ub-nav-link, 20%);
+    text-align: left;
 
     @include breakpoint(medium down) {
       margin-top: $ub-small-margin;
     }
 
-    @include breakpoint(medium) {
+    @include breakpoint(large) {
       @include flex-grid-column(shrink);
 
       @include m(full) {
@@ -46,20 +44,33 @@
       }
     }
 
+    @include breakpoint(ipad only) {
+      @include flex-grid-column(null);
+
+      @include m(full) {
+        @include flex-grid-column(12);
+        text-align: left;
+        span {
+          margin-left: $logo-width + $footer-padding;
+        }
+      }
+    }
+
+
   }
 
   @include e(list) {
     @include menu-base;
     @include menu-direction(horizontal);
     color: $ub-whitesmoke;
-    li a { padding-left: .5rem; padding-right: .5rem; }
+    li a { padding-left: $footer-padding; padding-right: $footer-padding; }
 
     @include breakpoint(medium down) {
       display: inline-flex;
       flex-wrap: wrap;
       li { flex: 0 0 auto; }
       li a { padding: .1rem 0; }
-      li.bullet { padding: .1rem .5rem; }
+      li.t-bullet { padding: .1rem $footer-padding; }
     }
   }
 }
@@ -70,7 +81,7 @@
 
 
 .c-footer {
-  background-color: $ub-nav-bg;
+  background-color: $ub-footer-bg;
   color: $ub-nav-link;
 
   @include e(link) {

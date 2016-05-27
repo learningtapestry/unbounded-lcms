@@ -18,21 +18,24 @@ $ub-cur-card-margin: 2px;
 }
 
 .o-cur-card {
-  @extend .u-wrap--light;
+  @extend .u-bg--light;
   @extend %material-card;
-  @include flex-grid-row();
+  @include flex-grid-row;
+  @include add-top-bottom-padding;
+  @include add-column-padding;
   cursor: pointer;
 
   &:hover, &:focus {
     color: $ub-white !important;
     [class^='cs-bg'], [class*=' cs-bg'] { background-color: $ub-white !important; }
-    .o-cur-card__ellipsis { color: $ub-white; }
+    .o-title__type, .o-title__type--short,
+    .o-title__duration, .o-cur-card__ellipsis, h3 { color: $ub-white; }
   }
 
   @include e(map) {
-    @include flex-grid-column(shrink);
-    display: flex;
-    flex-flow: column wrap;
+    @include flex-grid-column(shrink, 0);
+    @include flex;
+    flex-flow: column nowrap;
     justify-content: space-between;
 
     @include breakpoint(medium down) {
@@ -41,25 +44,52 @@ $ub-cur-card-margin: 2px;
     }
   }
 
+  @include e(map-wrap) {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+  }
+
   @include e(body) {
-    @include flex-grid-column();
-    //@include inline-styles-override();
-    @include zero-margin-bottom();
+    @include flex-grid-column($gutter: $grid-column-2xgutter);
+    @include zero-margin-bottom;
+
+    h3 { margin-bottom: 0; }
+
+    @include m(short) {
+      margin-top: -5px;
+    }
+    @include m(medium) {
+      margin-top: -2px;
+    }
+
+    @include breakpoint(medium down) {
+      @include add-column-padding($x: .5);
+    }
+  }
+
+  @include e(title) {
+    @include m(short) {
+    }
+    @include m(medium) {
+    }
   }
 
   @include e(dsc) {
+    @include txt-element(base);
+    padding-top: $ub-small-padding;
     @include m(short) {
       //overflow: hidden;
       //text-overflow: ellipsis;
       //white-space: nowrap;
     }
-    @include m(full) {
+    @include m(medium) {
       //@include clamp(3);
     }
   }
 
   @include e(actions) {
-    @include flex-grid-column(shrink);
+    @include flex-grid-column(shrink, 0);
 
     @include breakpoint(medium down) {
       @include flex-grid-column(12);
@@ -84,23 +114,57 @@ $ub-cur-card-margin: 2px;
         margin-bottom: $ub-small-margin / 2;
       }
     }
+
+    @include m(short) {
+      .is-dropdown-submenu {
+        right: 0% !important;
+        top: 54px;
+      }
+
+      .submenu {
+        &::before {
+          @include css-triangle($tooltip-pip-width, $ub-white, up);
+          bottom: 100%;
+          right: 12px;
+          position: absolute;
+          transform: translateX(-50%);
+        }
+      }
+    }
   }
 
   @include e(ellipsis) {
     padding: 0 !important;
+    padding-right: 10px !important;
     color: $ub-txt;
+    cursor: pointer;
   }
 
   @include m(grade) {
     margin-bottom: $ub-xlarge-margin;
   }
 
-  @include m(show-medium)  { display: inherit; }
-  @include m(show-short) { display: none; }
+  @include m(show-medium)  {
+    display: inherit;
+
+    @include breakpoint(ipad only) {
+      &.o-cur-card__menu { display: none; }
+    }
+  }
+  @include m(show-short) {
+    display: none;
+
+    @include breakpoint(ipad only) {
+      &.o-cur-card__menu { display: inherit; }
+    }
+
+  }
 
   @include m(short) {
     @extend %map-transition;
-    border-radius: 0;
+    @include add-top-bottom-padding(.5);
+    @include add-column-padding(.5);
+    //border-radius: 0;
 
     .o-cur-card--show-medium { display: none; }
     .o-cur-card--show-short { display: inherit; }

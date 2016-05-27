@@ -1,12 +1,14 @@
 <header class="c-header">
-  <div class="o-page__wrap--row-column">
-    <nav class="o-top-bar">
+  <div class="o-page">
+    <div class="o-top-bar">
       <div class="o-top-bar__item c-header-title">
         <%= link_to root_path, class: 'c-header-title__logo c-header__link' do %>
           <%= image_tag('logo.svg') %>
         <% end %>
         <span class="c-header-title__h-menu" data-responsive-toggle="navbar" data-hide-for="large">
-          <span class="menu-icon" data-toggle></span>
+          <span class="c-header-title__h-icon c-header__link" data-toggle>
+            <i class="fa-2x ub-menu" aria-hidden="true"></i>
+          </span>
         </span>
       </div>
       <div class="o-top-bar__wrapper" id="navbar">
@@ -19,20 +21,15 @@
           </ul>
         </div>
         <div class="o-top-bar__item">
-          <ul class="menu">
+          <ul class="menu c-header__left-menu">
             <li class="c-header__link">
               <%= link_to search_path do %>
                 <i class="fa-2x ub-search"></i>
               <% end %>
             </li>
-            <li class="c-header__link c-header__link--light">
-              <%= link_to '' do %>
-                <i class="fa-2x ub-share"></i>
-              <% end %>
-            </li>
           </ul>
         </div>
       </div>
-    </nav>
+    </div>
   </div>
 </header>

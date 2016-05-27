@@ -83,7 +83,7 @@ class ResourcesController < ApplicationController
     end
 
     def find_related_through_standards(limit:, &block)
-      related = @resource.standards.flat_map { |standard|
+      related = @resource.unbounded_standards.flat_map { |standard|
         qset = yield standard
         qset = qset.limit(limit) unless expanded? # limit each part
         qset
