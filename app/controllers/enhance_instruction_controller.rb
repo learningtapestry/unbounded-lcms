@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class EnhanceInstructionController < ApplicationController
   include Filterbar
   include Pagination
@@ -19,6 +21,7 @@ class EnhanceInstructionController < ApplicationController
     queryset.where_subject(subject_params)
             .where_grade(grade_params)
             .distinct
+            .sort_by_grade
             .paginate(pagination_params.slice(:page, :per_page))
   end
 
@@ -29,6 +32,7 @@ class EnhanceInstructionController < ApplicationController
             .where_subject(subject_params)
             .where_grade(grade_params)
             .distinct
+            .sort_by_grade
             .paginate(pagination_params.slice(:page, :per_page))
   end
 
