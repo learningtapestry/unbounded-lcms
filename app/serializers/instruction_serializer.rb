@@ -15,7 +15,8 @@ class InstructionSerializer < ActiveModel::Serializer
   end
 
   def path
-    content_guide_path(object)
+    id = object.permalink.present? ? object.permalink : object.id
+    content_guide_path(id, object.slug)
   end
 
   def instruction_type

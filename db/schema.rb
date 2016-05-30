@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516161657) do
+ActiveRecord::Schema.define(version: 20160525085837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,9 +62,12 @@ ActiveRecord::Schema.define(version: 20160516161657) do
     t.string   "subject"
     t.string   "teaser"
     t.string   "title"
+    t.string   "permalink"
+    t.string   "slug"
   end
 
   add_index "content_guides", ["file_id"], name: "index_content_guides_on_file_id", unique: true, using: :btree
+  add_index "content_guides", ["permalink"], name: "index_content_guides_on_permalink", unique: true, using: :btree
 
   create_table "curriculum_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false
