@@ -1,6 +1,6 @@
 class ContentGuidesController < ApplicationController
   def show
-    content_guide = ContentGuide.find(params[:id])
+    content_guide = ContentGuide.find_by_permalink(params[:id]) || ContentGuide.find(params[:id])
 
     respond_to do |format|
       format.html do

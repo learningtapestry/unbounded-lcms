@@ -57,6 +57,7 @@ en:
       edit:
         page_title: Edit Content Guide
       import:
+        common_errors: Common errors
         invalid_icons: The following icons have incorrect values
         non_existent_podcasts_error: "The following podcasts don't exist"
         non_existent_videos_error: "The following videos don't exist"
