@@ -1,0 +1,43 @@
+@charset 'utf-8';
+
+@import
+  'utils/variables',
+  'utils/mixins',
+  'base/colors',
+  'base/cg-colors';
+
+@import
+  'themes/settings';
+
+@import
+  'font-awesome-sprockets',
+  'font-awesome',
+  'vendors/foundation_and_overrides';
+
+@import
+  'utils/styles_override',
+  'utils/helpers',
+  'utils/colorcodes';
+
+@import
+  'print/b64-fonts',
+  'base/icons',
+  'base/typography',
+  'print/typography';
+
+@import
+  'components/cg/annotations',
+  'components/cg/colorscheme',
+  'components/cg/elements',
+  'components/cg/footnote',
+  'components/cg/icons',
+  'components/cg/quotes',
+  'components/cg/standards',
+  'components/cg/table',
+  'components/cg/task';
+
+  @import
+  'print/base',
+  'print/cover',
+  'print/toc',
+  'print/footer';

@@ -43,7 +43,7 @@ class ContentGuidePresenter < BasePresenter
 
         h[:id] = id
         h['data-magellan-target'] = id
-      
+
         Heading.new(id, level, text)
       end
 
@@ -67,7 +67,7 @@ class ContentGuidePresenter < BasePresenter
 
   def tasks_without_break
     @tasks_without_break ||= begin
-      find_custom_tags('task').map do |tag| 
+      find_custom_tags('task').map do |tag|
         next_element_with_name(tag.parent, 'table')
       end.compact.select do |table|
         find_custom_tags('task break', table).empty? &&
