@@ -11,22 +11,13 @@ class ContentGuidesController < ApplicationController
           wrap_keywords: true
         )
       end
-      # else
-      #   format.html do
-      #     @content_guide = ContentGuidePdfPresenter.new(
-      #       content_guide,
-      #       request.base_url,
-      #       view_context
-      #     )
-      #     render 'show.pdf', layout: 'pdf'
-      #   end
-      # end
 
       format.pdf do
         @content_guide = ContentGuidePdfPresenter.new(
           content_guide,
           request.base_url,
-          view_context
+          view_context,
+          wrap_keywords: true
         )
         render_pdf
       end
@@ -43,22 +34,31 @@ class ContentGuidesController < ApplicationController
         end
 
       render pdf: @content_guide.name,
-             cover: render_to_string(partial: 'cover', locals: { content_guide: @content_guide, cover_image_url: cover_image_url }),
+             cover: render_to_string(template: 'content_guides/_cover',
+                                     layout: 'cg_plain',
+                                     locals: { content_guide: @content_guide,
+                                               cover_image_url: cover_image_url
+                                             }
+                                    ),
              disposition: 'attachment',
              show_as_html: params.key?('debug'),
              page_size: 'Letter',
+             margin: { top: 10, bottom: 18, left: 10, right: 10 },
              disable_internal_links: false,
              disable_external_links: false,
-             layout: 'pdf.html',
-             footer: {
-               right: "[#{t('.page')}]"
-             },
-             header: {
-               left: @content_guide.name,
-               spacing: 5
-             },
-             margin: {
-               top: 15
-             }
+             layout: 'cg',
+             print_media_type: false,
+             footer: { html: { template: 'content_guides/_footer',
+                               layout: 'cg_plain',
+                               locals:  { title: @content_guide.footer_title }
+                             },
+                       line: false
+                      },
+             toc: { disable_dotted_lines: true,
+                    disable_links: false,
+                    disable_toc_links: false,
+                    disable_back_links: false,
+                    xsl_style_sheet: Rails.root.join('app', 'views', 'content_guides', "_toc--#{@content_guide.subject}.xsl")
+                  }
     end
 end

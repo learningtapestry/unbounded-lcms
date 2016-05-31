@@ -1,8 +1,16 @@
 class ContentGuidePdfPresenter < ContentGuidePresenter
   FOOTNOTES_CLASS = 'contengGuide__footnotes'
 
-  def initialize(content_guide, host, view_context)
-    super(content_guide, host, view_context, wrap_keywords: false)
+  def initialize(content_guide, host, view_context, wrap_keywords = false)
+    super(content_guide, host, view_context, wrap_keywords)
+  end
+
+  def footer_title
+    "#{subject.try(:upcase)} #{grade_list.join(' ').try(:capitalize)} #{title}"
+  end
+
+  def header_title
+    "#{subject.try(:upcase)} #{grade_list.join(' ').try(:capitalize)}"
   end
 
   private
@@ -31,23 +39,47 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     end
   end
 
+  def wrap_keywords(content)
+    result = content.dup
+    result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
+      if (standard = CommonCoreStandard.find_by_name_or_synonym(m))
+        toggler = "<span class=c-cg-keyword>"
+        if (emphasis = standard.emphasis)
+          toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
+        end
+        toggler += "#{m}</span>"
+        toggler
+      else
+        m
+      end
+    end
+    result
+  end
+
+
   protected
 
   def process_content
-    content
+    @wrap_keywords ? wrap_keywords(content) : content
   end
 
   def process_doc
     mark_footnotes
     process_annotation_boxes
     process_blockquotes
+    process_broken_images
+    process_footnote_links
+    process_footnotes
+    process_icons
+    process_pullquotes
+    process_superscript_standards
+    process_standards_table
     process_tasks(with_break: false)
+    remove_comments
     replace_guide_links
     replace_image_sources
+    reset_heading_styles
     reset_table_styles
-    process_icons
-    process_standards
-    process_pullquotes
-    reset_styles
+    #reset_styles
   end
 end

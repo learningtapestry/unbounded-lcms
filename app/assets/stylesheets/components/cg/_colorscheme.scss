@@ -1,0 +1,38 @@
+@mixin cg-color-scheme($map) {
+  .c-cg-annotation {
+    background-color: map-get($map, annotation-bg);
+  }
+
+  .c-cg-annotationListItem {
+    @include e(number) {
+      background: map-get($map, annotation-number-bg);
+    }
+  }
+
+  .c-cg-blockquote {
+    border-left-color: map-get($map, blockquote-border);
+  }
+
+  .c-cg-pullquote {
+    border-left-color: map-get($map, pullquote-border);
+    color: map-get($map, pullquote);
+  }
+
+  .c-cg-task {
+    background: map-get($map, task-bg);
+
+    @include e(toggler) {
+      background: map-get($map, task-toggler-bg);
+      color: map-get($map, task-toggler);
+    }
+  }
+
+  .c-cg-content {
+    @include e(body) {
+      a {
+        color: map-get($map, link) !important;
+      }
+    }
+  }
+
+}

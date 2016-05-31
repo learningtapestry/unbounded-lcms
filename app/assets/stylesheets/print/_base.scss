@@ -1,0 +1,84 @@
+@mixin cg-pdf-color-scheme($map) {
+  h1 {
+    color: map-get($map, link);
+  }
+}
+
+// Unbounded specific
+html, body {
+  background: none;
+  height: 100%;
+}
+
+header, footer, o-sidebar-nav {
+  display: none;
+}
+
+tr, img, table, pre, blockquote, .callout { page-break-inside: avoid; }
+
+// Avoid page breaks after a heading
+h1, h2, h3, h4, h5 { page-break-after: avoid; }
+
+.contengGuide__footnotes {
+  page-break-before: always;
+}
+
+h1, h2, h3, h4 {
+  font-weight: bold;
+}
+
+h1 {
+  @include txt-pdf-element(h3);
+  clear: both;
+  padding-top: 1.25rem;
+
+  & + h2 {
+    padding-top: 0 !important;
+  }
+}
+
+h2 {
+  @include txt-pdf-element(h4);
+  padding-top: 1.25rem;
+
+  & + h3 {
+    padding-top: 0 !important;
+  }
+}
+
+h3 {
+  @include txt-pdf-element(h5);
+  padding-top: 1.25rem;
+
+  & + h4 {
+    padding-top: 0 !important;
+  }
+}
+
+h4 {
+  @include txt-pdf-element(h6);
+  padding-top: 1.25rem;
+}
+
+p, ol, ul {
+  * {
+    $typo: map-get($ub-pdf-typography, base);
+    @each $style, $value in $typo {
+      #{$style}: $value !important;
+    }
+  }
+}
+
+ul li {
+  text-indent: 0 !important;
+}
+
+.o-page--cg-ela {
+  @include cg-color-scheme($ub-cg-ela-colors);
+  @include cg-pdf-color-scheme($ub-cg-ela-colors);
+}
+
+.o-page--cg-math {
+  @include cg-color-scheme($ub-cg-math-colors);
+  @include cg-pdf-color-scheme($ub-cg-math-colors);
+}

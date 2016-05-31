@@ -1,0 +1,34 @@
+.c-cg-annotationBox {
+  background-color: #fff;
+  padding: 1rem;
+}
+
+.c-cg-annotationList {
+  margin: 1rem 1rem 0;
+
+  * {
+    color: #000;
+    font-size: .875rem !important;
+  }
+}
+
+.c-cg-annotationListItem {
+  display: table-row;
+
+  @include e(content) {
+    display: table-cell;
+    margin-bottom: 1rem;
+  }
+
+  @include e(number) {
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    font: bold 1rem $ub-serif;
+    height: 2rem;
+    margin: 0 .5rem 1rem 0;
+    padding: 0.3rem;
+    text-align: center;
+    width: 2rem;
+  }
+}
