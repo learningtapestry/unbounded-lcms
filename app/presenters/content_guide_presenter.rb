@@ -228,10 +228,11 @@ class ContentGuidePresenter < BasePresenter
   def process_annotations(table)
     background_color_regex = /background-color:\s*#{ANNOTATION_COLOR};?\s*/
 
-    find_custom_tags('annotation', table).map do |tag|
+    find_custom_tags('annotation', table).map.with_index do |tag, index|
       id = "annotation_#{SecureRandom.hex(4)}"
 
-      annotation = doc.document.create_element('span', class: 'c-cg-annotation', 'data-toggle' => id)
+      annotation = doc.document.create_element('span', class: 'c-cg-annotation')
+      annotation << doc.document.create_element('span', (index + 1).to_s, class: 'c-cg-annotationBox__number', 'data-toggle' => id)
       prev_element = tag.previous
       loop do
         break unless prev_element && prev_element[:style] =~ background_color_regex

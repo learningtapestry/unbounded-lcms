@@ -42,20 +42,14 @@
   }
 
   @include e(content) {
-    @include add-column-padding;
-    @include add-top-bottom-padding;
-    //height: 100%;
-    //min-width: 0;
-    //position: relative;
+    padding: 30px;
   }
 
   @include e(title) {
-    //min-width: 0;
   }
 
   @include e(logo) {
     bottom: 30px;
-    //height: 24pt;
     position: absolute;
   }
 }

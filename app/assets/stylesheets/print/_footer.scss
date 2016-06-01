@@ -6,20 +6,24 @@
 
 .c-pdf-footer {
   @include txt-element(footer, $ub-pdf-typography);
+  border: 0;
+  border-collapse: separate;
+  border-radius: 0;
   border-top: 1px solid $ub-hr;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+  box-shadow: none;
+  margin: 0;
   margin-top: $ub-base-padding;
+  outline: 0;
+  padding: 0;
   padding-top: $ub-small-padding;
   width: 100%;
 
   @include e(left) {
-    @include flex-grid-column(null, 0);
+    padding: 0;
   }
 
   @include e(right) {
-    @include flex-grid-column(shrink, 0);
+    padding: 0;
     text-align: right;
   }
 }

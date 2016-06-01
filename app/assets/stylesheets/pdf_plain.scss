@@ -2,7 +2,7 @@
 
 @import
   'utils/variables',
-  'utils/mixins',
+  'utils/mixins-base',
   'base/colors',
   'base/cg-colors';
 
@@ -10,15 +10,10 @@
   'themes/settings';
 
 @import
-  'vendors/foundation_and_overrides';
-
-@import
-  'utils/helpers',
-  'utils/colorcodes';
+  'vendors/foundation_and_overrides-pdf';
 
 @import
   'print/b64-fonts',
-  'base/typography',
   'print/typography';
 
 @import
@@ -27,5 +22,4 @@
 @import
   'print/base',
   'print/cover',
-  'print/toc',
   'print/footer';
