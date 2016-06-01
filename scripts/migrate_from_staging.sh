@@ -90,7 +90,7 @@ echo "-> Migrating files."
 
 echo "(1) Compressing files in staging."
 
-ssh ub-staging.learningtapestry.com <<\EOF
+ssh $UB_STAGING_ADDRESS <<\EOF
     cd ~
     cp -Lr $STACK_PATH/public/uploads ~/
     XZ_OPT=-9 tar cJf uploads.tar.xz uploads
@@ -99,7 +99,7 @@ EOF
 
 echo "(2) Copying files from staging."
 
-scp ub-staging.learningtapestry.com:/home/ubuntu/uploads.tar.xz /home/ubuntu/uploads.tar.xz
+scp $UB_STAGING_ADDRESS:/home/ubuntu/uploads.tar.xz /home/ubuntu/uploads.tar.xz
 
 echo "(3) Restoring files."
 
@@ -110,7 +110,7 @@ find uploads/ -print | cpio -pvdm --owner nginx:app_writers $STACK_BASE/shared
 rm -r uploads
 rm uploads.tar.xz
 
-ssh ub-staging.learningtapestry.com <<\EOF
+ssh $UB_STAGING_ADDRESS <<\EOF
     cd ~
     rm uploads.tar.xz
 EOF
