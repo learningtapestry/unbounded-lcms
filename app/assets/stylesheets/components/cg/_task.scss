@@ -1,37 +1,39 @@
 .c-cg-task {
   clear: both;
-}
 
-.c-cg-task__body {
-  padding: 1.25rem 1.25rem .25rem;
-}
+  @include e(body) {
+    padding: 1.25rem 1.25rem .25rem;
+  }
 
-.c-cg-task__copyright {
-  font-style: italic;
-  margin-top: 1rem;
-}
+  @include e(copyright) {
+    font-style: italic;
+    margin-top: 1rem;
+  }
 
-.c-cg-task__hidden {
-  display: none;
-  padding-top: 1em;
-}
+  @include e(hidden) {
+    display: none;
+    padding-top: 1em;
+  }
 
-.c-cg-task__title {
-  color: #555;
-  font: bold 1.5rem $ub-sanserif-condensed;
-  margin: 0;
-  padding: 1rem 1rem 0;
-}
+  @include e(title) {
+    color: #555;
+    font: 1.5rem $ub-sanserif-condensed;
+    font-weight: 500 !important;
+    margin: 0;
+    padding: 1rem 1rem 0;
+  }
 
-.c-cg-task__toggler {
-  cursor: pointer;
-  display: block;
-  font-size: 0.875rem;
-  font-weight: bold;
-  padding: .75rem 0;
-  text-align: center;
-}
+  @include e(toggler) {
+    cursor: pointer;
+    display: block;
+    font-size: 0.875rem;
+    font-weight: bold;
+    padding: .75rem 0;
+    text-align: center;
+  }
 
-.c-cg-task__toggler__hide {
-  display: none;
+  @include e(toggler__hide) {
+    display: none;
+  }
+
 }

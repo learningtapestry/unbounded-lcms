@@ -163,6 +163,11 @@
   }
 }
 
+.c-cg-btn-related {
+  border-style: solid;
+  border-width: 1px;
+}
+
 .o-page--cg-ela {
   @include cg-color-scheme($ub-cg-ela-colors);
   @include cg-page-color-scheme($ub-cg-ela-colors);

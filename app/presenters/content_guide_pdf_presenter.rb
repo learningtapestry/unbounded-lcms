@@ -6,11 +6,11 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def footer_title
-    "#{subject.try(:upcase)} #{grade_list.join(' ').try(:capitalize)} #{title}"
+    "#{subject.try(:upcase)} #{grade_list.join(' ').try(:titleize)} #{title}"
   end
 
   def header_title
-    "#{subject.try(:upcase)} #{grade_list.join(' ').try(:capitalize)}"
+    "#{subject.try(:upcase)} #{grade_list.join(' ').try(:titleize)}"
   end
 
   private

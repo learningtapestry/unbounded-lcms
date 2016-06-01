@@ -2,7 +2,8 @@
 
 @import
   'utils/variables',
-  'utils/mixins',
+  'utils/mixins-base',
+  'utils/mixins-ext',
   'base/colors',
   'base/cg-colors';
 
@@ -10,9 +11,7 @@
   'themes/settings';
 
 @import
-  'font-awesome-sprockets',
-  'font-awesome',
-  'vendors/foundation_and_overrides';
+  'vendors/foundation_and_overrides-pdf';
 
 @import
   'utils/styles_override',
@@ -29,7 +28,6 @@
   'components/cg/annotations',
   'components/cg/colorscheme',
   'components/cg/elements',
-  'components/cg/footnote',
   'components/cg/icons',
   'components/cg/quotes',
   'components/cg/standards',
@@ -38,6 +36,4 @@
 
   @import
   'print/base',
-  'print/cover',
-  'print/toc',
-  'print/footer';
+  'print/elements_typography';

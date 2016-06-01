@@ -22,7 +22,8 @@ Rails.application.config.assets.precompile += [
   'i18n.js',
   'generated/*',
   'server_rendering.js',
-  'pdf.css'
+  'pdf.css',
+  'pdf_plain.css'
 ]
 
 Rails.application.config.assets.paths << "#{Rails.root}/public/javascripts"

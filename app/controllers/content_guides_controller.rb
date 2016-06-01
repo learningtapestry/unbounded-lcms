@@ -43,6 +43,7 @@ class ContentGuidesController < ApplicationController
              disposition: 'attachment',
              show_as_html: params.key?('debug'),
              page_size: 'Letter',
+             outline: { outline_depth: 3 },
              margin: { top: 10, bottom: 18, left: 10, right: 10 },
              disable_internal_links: false,
              disable_external_links: false,
