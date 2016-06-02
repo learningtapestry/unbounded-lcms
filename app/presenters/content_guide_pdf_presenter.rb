@@ -6,14 +6,20 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def footer_title
-    "#{subject.try(:upcase)} #{grade_list.join(' ').try(:titleize)} #{title}"
+    "#{subject.try(:upcase)} #{grades_title} #{title}"
   end
 
   def header_title
-    "#{subject.try(:upcase)} #{grade_list.join(' ').try(:titleize)}"
+    "#{subject.try(:upcase)} #{grades_title}"
   end
 
   private
+
+  def grades_title
+    first_grade = grade_list.first.try(:titleize)
+    return first_grade if grade_list.size < 2
+    "#{first_grade}-#{grade_list.last[/\d+/]}"
+  end
 
   def mark_footnotes
     if (hr = doc.at_xpath('hr[following-sibling::div[.//a[starts-with(@id, "ftnt")]]]'))
