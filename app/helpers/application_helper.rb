@@ -12,6 +12,11 @@ module ApplicationHelper
     "#{class_prefix} #{cls}"
   end
 
+  def active_class_resource(controller_name, action_name, cls = '')
+    class_prefix = (controller.controller_name == controller_name.to_s && controller.action_name == action_name.to_s) ? 'active' : ''
+    "#{class_prefix} #{cls}"
+  end
+
   def nav_link(link_text, link_path, attrs = {})
     cls = active_class(link_path, attrs[:class])
     content_tag(:li, attrs.merge(class: cls)) { link_to link_text, link_path }

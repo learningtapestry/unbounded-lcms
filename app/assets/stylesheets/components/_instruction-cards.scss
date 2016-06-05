@@ -27,12 +27,27 @@ $media-img-height: 110px;
     }
   }
 
+  @include e(body) {
+    @include flex;
+    @include flex-align($x: justify);
+    flex: 1 1 0px;
+    flex-direction: column;
+  }
+
   @include e(title) {
-    @include clamp(3, media-card-title);
+    @include clamp(2, media-card-title);
     &, & > * {
       @include txt-element(media-card-title);
     }
   }
+
+  @include e(duration) {
+    @include txt-element(media-card-duration);
+    color: $ub-white;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
 }
 
 .o-instruction-card {
