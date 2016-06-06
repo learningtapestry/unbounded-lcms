@@ -4,7 +4,7 @@ function SearchResultsEmpty(props) {
     <div className='o-search-results__empty'>
       <h2>Sorry, No Results were found for "{props.searchTerm}"</h2>
       <br/>
-      <h3 className='u-text--large'>Sugestions</h3>
+      <h3 className='u-text--large'>Suggestions</h3>
       <ul>
         <li>Check your spelling</li>
         <li>Try using fewer filters</li>
