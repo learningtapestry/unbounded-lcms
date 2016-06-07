@@ -44,6 +44,10 @@ module ApplicationHelper
     end
   end
 
+  def set_canonical_url(value)
+    content_for(:canonical_url, value)
+  end
+
   def page_description
     content_for(:description)
   end

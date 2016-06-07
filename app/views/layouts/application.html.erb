@@ -18,6 +18,9 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= render partial: 'shared/google_analytics' %>
     <%= csrf_meta_tags %>
+    <% if content_for?(:canonical_url) %>
+      <link rel=canonical href='<%= yield(:canonical_url) %>'>
+    <% end %>
   </head>
   <body>
     <%= render partial: 'shared/unsupported' %>
