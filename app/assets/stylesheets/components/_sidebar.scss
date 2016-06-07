@@ -48,13 +48,10 @@
         color: #f96924;
       }
     }
-
-    @include m(level1) {
+    
+    & > .o-sidebar-nav {
+      display: none;
       margin-left: 1rem;
-    }
-
-    @include m(level2) {
-      margin-left: 2rem;
     }
   }
 }
