@@ -5,7 +5,7 @@ class DownloadsController < ApplicationController
     category = 'download'
 
     action = if params[:slug_id]
-      "https://www.unbounded.org#{show_with_slug_path(ResourceSlug.find(params[:slug_id]).value)}"
+      show_with_slug_path(ResourceSlug.find(params[:slug_id]).value)
     else
       nil
     end
