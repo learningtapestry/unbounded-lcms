@@ -497,7 +497,7 @@ class ContentGuidePresenter < BasePresenter
     end
 
     result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
-      if (standard = CommonCoreStandard.find_by_name_or_synonym(m))
+      if ((standard = CommonCoreStandard.find_by_name_or_synonym(m)) && standard.description.present?)
         id = "cg-k_#{SecureRandom.hex(4)}"
         dropdowns << %Q(
           <span class='dropdown-pane c-cg-dropdown'
