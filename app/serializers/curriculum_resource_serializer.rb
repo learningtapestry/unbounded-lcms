@@ -63,7 +63,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
         id: download.id,
         icon: h.file_icon(download.attachment_content_type),
         title: download.title,
-        url: download_path(download),
+        url: download_path(download, slug_id: object.try(:slug).try(:id)),
       }
     end
   end
