@@ -6,12 +6,16 @@
   $ub-subscribe-form-bg: map-get($ub-green, eighty);
 
   @include e(wrap) {
-    @include flex-grid-row(collapse);
-    @include flex-align($y: middle);
+    //@include flex-grid-row(collapse);
+    //@include flex-align($y: middle);
+    @include breakpoint(small only) {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 
   @include e(label) {
-    @include flex-grid-column(12, 0);
+    @include flex-grid-column(12);
     @include flex-align-self(middle);
     @include txt-element(subscribe-header);
     @include add-top-bottom-padding($y: .5);
@@ -20,6 +24,7 @@
     @include breakpoint(medium) {
       @include flex-grid-column(4, 0);
       @include add-top-bottom-padding(0);
+      @include add-column-padding($x: 0);
     }
   }
 
@@ -37,6 +42,15 @@
         border-color: $ub-subscribe-form-bg;
         box-shadow: none;
         color: $ub-subscribe-txt;
+      }
+    }
+
+    @include breakpoint(small only) {
+      // @include add-gutter($type: margin, $subtype: left, $x: -.5);
+      // @include add-gutter($type: margin, $subtype: right, $x: -.5);
+      // min-width: 100%;
+      input {
+        @include add-column-padding($x: .5);
       }
     }
 

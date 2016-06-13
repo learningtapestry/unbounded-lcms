@@ -36,7 +36,7 @@ function InstructionCard(props) {
           <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>
           { ! isInstruction ?
             <div className={bemClass('duration')}>
-              <TimeToTeach duration={item.time_to_teach} />
+              <MediaTime duration={item.time_to_teach} />
             </div>
             : null
           }

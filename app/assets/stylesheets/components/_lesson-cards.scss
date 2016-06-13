@@ -1,10 +1,13 @@
 $lesson-dsc-short-lines: 4;
 $lesson-dsc-full-lines: 7;
-$lesson-card-height: 185px;
+$lesson-card-heights: (
+  small: 110px,
+  medium: 185px
+);
 
 .o-lesson-card {
-  @include flex();
-  @include add-gutter();
+  @include flex;
+  @include add-gutter;
 
   @include m(base) {
     @include flex-grid-column(12);
@@ -48,7 +51,12 @@ $lesson-card-height: 185px;
     flex: 1 1 0;
     flex-direction: column;
     justify-content: space-between;
-    min-height: $lesson-card-height;
+
+    @each $breakpoint, $value in $lesson-card-heights {
+      @include breakpoint($breakpoint) {
+        min-height: $value;
+      }
+    }
 
     @include m(base) {
       //color: $ub-txt;
@@ -65,11 +73,19 @@ $lesson-card-height: 185px;
     @include m(short) {
       @include txt-element(lesson-title);
       @include clamp($lesson-dsc-short-lines, lesson-title);
+
+      @include breakpoint(small only) {
+        @include clamp($lesson-dsc-short-lines - 2, lesson-title);
+      }
     }
 
     @include m(full) {
       @include txt-element(lesson-hover);
       @include clamp($lesson-dsc-full-lines, lesson-hover);
+
+      @include breakpoint(small only) {
+        @include clamp($lesson-dsc-full-lines - 2, lesson-hover);
+      }
     }
   }
 

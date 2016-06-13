@@ -70,6 +70,7 @@ $ub-element-typography: (
   search-result-teaser: ('font-size': 21px, 'line-height': 26px, 'font-family': $ub-sanserif),
   arrow-header: ('font-size': 20px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 500),
   arrow-subheader: ('font-size': 14px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 600, color: #31424c),
+  arrow-header-s: ('font-size': 16px, 'line-height': 18px, 'font-family': $ub-serif, 'font-weight': 500),
 );
 
 @each $element, $typo in $ub-element-typography {
