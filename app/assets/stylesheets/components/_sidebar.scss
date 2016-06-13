@@ -39,6 +39,24 @@
   }
 
   @include e(item) {
+    @include e(content) {
+      margin-left: 1rem;
+    }
+
+    @include e(icon) {
+      float: left;
+    }
+
+    &.expanded {
+      & > .o-sidebar-nav {
+        display: block;
+      }
+
+      & > a > .o-sidebar-nav__item__icon {
+        transform: rotate(90deg);
+      }
+    }
+
     a {
       color: #959595;
       line-height: 1.2 !important;
@@ -48,7 +66,7 @@
         color: #f96924;
       }
     }
-    
+
     & > .o-sidebar-nav {
       display: none;
       margin-left: 1rem;
