@@ -26,6 +26,13 @@ production: &production
       sudo: true
       apply_during: build_only
       run_on: all_servers
+    - source: /.cloud66/install_varnish.sh
+      destination: /tmp/install_varnish.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: build_only
+      run_on: all_servers
 staging:
   <<: *production
 development:
