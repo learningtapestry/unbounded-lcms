@@ -100,7 +100,7 @@ module Search
           subject: model.subject,
           grade: model.grade_list,
           breadcrumbs: curriculum.try(:breadcrumb_title),
-          slug: model.slugs.first.try(:value),
+          slug: (curriculum.slugs.first.value rescue nil),
           tag_authors: tags[:authors],
           tag_texts: tags[:texts],
           tag_keywords: tags[:keywords],
