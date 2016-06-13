@@ -1,7 +1,7 @@
 class StaffImageUploader < CarrierWave::Uploader::Base
-  storage :file
+  storage :fog
 
   def store_dir
-    "uploads/staff_images/#{model.id}"
+    "staff_images/#{model.id}"
   end
 end
