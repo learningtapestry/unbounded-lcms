@@ -1,7 +1,11 @@
 .o-pagination {
-  @include flex-align($x: center, $y: middle);
+  @include flex-align($x: justify, $y: middle);
   list-style: none;
   text-transform: uppercase;
+
+  @include breakpoint(medium) {
+    @include flex-align($x: center, $y: middle);
+  }
 
   @include e(item) {
     &, a { color: $ub-txt; }
@@ -46,13 +50,16 @@
     list-style: none;
     margin-left: 0;
     li {
+      display: none;
       line-height: 2rem;
       padding: 0 .35rem;
 
       @include breakpoint(medium) {
+        display: block;
         padding: 0 .7rem;
       }
     }
+    li.o-pagination__page--active { display: block; }
     li a {
       border-radius: 50%;
       display: block;

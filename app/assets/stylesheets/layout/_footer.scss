@@ -88,4 +88,10 @@ $footer-padding: 5px;
     &, a { color: $ub-nav-link; }
     &:hover, &:focus, a:hover, a:focus { color: $ub-white; text-decoration: none; }
   }
+
+  @include m(with-sticky) {
+    @include breakpoint(small only) {
+      margin-bottom: 90px;
+    }
+  }
 }

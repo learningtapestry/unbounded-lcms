@@ -50,8 +50,10 @@
     }
     a {
       @include txt-element(nav-span);
+      font-size: 18px;
       span:last-child:before { content: '\00a0'; }
       @include breakpoint($topbar-unstack-breakpoint) {
+        @include txt-element(nav-span);
         display: block !important;
         padding-bottom: 1.5rem !important;
         padding-top: 1.5rem !important;

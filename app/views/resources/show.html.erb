@@ -4,15 +4,19 @@
 <div class="o-page o-page--margin-to-bottom">
   <div class="o-page__sticky">
     <div class="o-sticky o-sticky--left <%= 'o-sticky--disabled' unless @curriculum.previous_of_type %>">
-      <a class="o-sticky__btn" href="<%= @curriculum.previous_of_type ? show_with_slug_path(@curriculum.previous_of_type.slug.value) : '#' %>">
-        <div class="o-page__wrap--row">
+      <a class="o-sticky__btn o-sticky--left__btn" href="<%= @curriculum.previous_of_type ? show_with_slug_path(@curriculum.previous_of_type.slug.value) : '#' %>">
+        <div class="o-page__wrap--row o-sticky__wrap o-sticky__wrap--left">
           <div class="o-sticky__icon">
             <i class="fa-3x ub-angle-left"></i>
           </div>
           <% if  @curriculum.previous_of_type %>
-            <div class="o-sticky__txt">
+            <div class="o-sticky__txt hide-for-small-only">
               <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow', dir: 'Previous', type: type_name(@curriculum.previous_of_type)) %></div>
               <div class="o-sticky__arrow-header"><%= @curriculum.previous_of_type.resource.title %></div>
+            </div>
+            <div class="o-sticky__txt show-for-small-only">
+              <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow-small', dir: 'Previous', type: type_name(@curriculum.previous_of_type)) %></div>
+              <div class="o-sticky__arrow-header"><%= t('resources.btn.arrow-txt-small') %></div>
             </div>
           <% end %>
         </div>
@@ -129,12 +133,16 @@
   </div>
   <div class="o-page__sticky">
     <div class="o-sticky o-sticky--right <%= 'o-sticky--disabled' unless @curriculum.next_of_type %>">
-      <a class="o-sticky__btn" href="<%= @curriculum.next_of_type ? show_with_slug_path(@curriculum.next_of_type.slug.value) : '#' %>">
-        <div class="o-page__wrap--row">
+      <a class="o-sticky__btn o-sticky--right__btn" href="<%= @curriculum.next_of_type ? show_with_slug_path(@curriculum.next_of_type.slug.value) : '#' %>">
+        <div class="o-page__wrap--row o-sticky__wrap o-sticky__wrap--right">
           <% if  @curriculum.next_of_type %>
-            <div class="o-sticky__txt">
+            <div class="o-sticky__txt hide-for-small-only">
               <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow', dir: 'Next', type: type_name(@curriculum.next_of_type)) %></div>
               <div class="o-sticky__arrow-header"><%= @curriculum.next_of_type.resource.title %></div>
+            </div>
+            <div class="o-sticky__txt show-for-small-only">
+              <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow-small', dir: 'Next', type: type_name(@curriculum.next_of_type)) %></div>
+              <div class="o-sticky__arrow-header"><%= t('resources.btn.arrow-txt-small') %></div>
             </div>
           <% end %>
           <div class="o-sticky__icon">
