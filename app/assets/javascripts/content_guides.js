@@ -11,14 +11,12 @@ window.initializeContentGuide = function() {
       var heading = headings[index];
 
       $('.o-sidebar-nav .active').removeClass('active');
-      $('.o-sidebar-nav__item > .o-sidebar-nav').hide();
+      $('.o-sidebar-nav__item').removeClass('expanded');
 
       if (heading) {
         var $item = $('.o-sidebar-nav__item a[href="#' + heading.id + '"]');
-        $item.addClass('active');
-        $item.parents('.o-sidebar-nav__item').each(function(_, item) {
-          $('.o-sidebar-nav:first', $(item)).show();
-        });
+        $item.addClass('active').addClass('expanded');
+        $item.parents('.o-sidebar-nav__item').addClass('expanded');
       }
     };
 
