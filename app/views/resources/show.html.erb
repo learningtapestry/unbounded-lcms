@@ -1,8 +1,8 @@
 <% set_page_title @resource.title %>
 <% set_og_tags @resource %>
 
-<% if (slug = @resource.slugs.first.try(:value)).present? %>
-  <% set_canonical_url show_with_slug_path(slug) %>
+<% if (slug = @curriculum.slug) %>
+  <% set_canonical_url show_with_slug_path(slug.value) %>
 <% end %>
 
 <div class="o-page o-page--margin-to-bottom">
