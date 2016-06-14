@@ -1,7 +1,7 @@
 class ContentGuideImageUploader < CarrierWave::Uploader::Base
-  storage :file
+  storage :fog
 
   def store_dir
-    "uploads/content_guide_images/#{model.id}"
+    "content_guide_images/#{model.id}"
   end
 end

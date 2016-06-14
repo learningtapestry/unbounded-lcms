@@ -1,7 +1,7 @@
 class BackupUploader < CarrierWave::Uploader::Base
-  storage :file
+  storage :fog
 
   def store_dir
-    "uploads/resource_backups/#{model.id}"
+    "resource_backups/#{model.id}"
   end
 end

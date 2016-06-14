@@ -10,6 +10,10 @@ require 'shoulda/matchers'
 require 'capybara/poltergeist';
 require 'email_spec'
 
+Fog.mock!
+CarrierWave::Storage::Fog.new(DownloadUploader.new)
+  .connection.directories.create(key: ENV['AWS_S3_BUCKET_NAME'])
+
 JsRoutes.generate!("app/assets/javascripts/generated/routes.js")
 
 Capybara.javascript_driver = :poltergeist
