@@ -51,7 +51,6 @@ Rails.application.routes.draw do
       patch :toggle_editing_enabled, on: :collection
     end
     resources :staff_members, except: :show
-    resources :subtitles_imports, only: [:index, :new, :create]
     resources :tags, only: :create
     resources :users, except: :show do
       post :reset_password, on: :member
