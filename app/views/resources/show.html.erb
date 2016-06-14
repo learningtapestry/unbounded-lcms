@@ -88,7 +88,7 @@
               <h3>Downloads</h3>
               <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= @resource.color_code %>">
                 <% @resource.downloads.each do |download| %>
-                  <%= render partial: 'resources/download', locals: { download: download } %>
+                  <%= render partial: 'resources/download', locals: { download: download, curriculum: @curriculum } %>
                 <% end %>
                 <% if @resource.downloads.empty? %>
                   <span>There are no downloads for this resource</span>
