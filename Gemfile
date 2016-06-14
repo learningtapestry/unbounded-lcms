@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'acts-as-taggable-on', '~> 3.5'
 gem 'active_model_serializers', '~> 0.9.3'
+gem 'activerecord-session_store', '~> 1.0'
 gem 'aws-sdk-rails', '~> 1.0'
 gem 'axlsx', '~> 2.1.0.pre'
 gem 'bootstrap-sass', '~> 3.3.5.1'

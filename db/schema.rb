@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160525085837) do
+ActiveRecord::Schema.define(version: 20160614121617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,6 +249,16 @@ ActiveRecord::Schema.define(version: 20160525085837) do
   add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
   add_index "resources", ["resource_type"], name: "index_resources_on_resource_type", using: :btree
+
+  create_table "sessions", force: :cascade do |t|
+    t.string   "session_id", null: false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
   create_table "settings", force: :cascade do |t|
     t.boolean  "editing_enabled", default: true, null: false
