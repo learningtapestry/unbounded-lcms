@@ -61,9 +61,9 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     object.resource.downloads.map do |download|
       {
         id: download.id,
-        icon: h.file_icon(h.attachment_content_type(download)),
+        icon: h.file_icon(download.attachment_content_type),
         title: download.title,
-        url: h.attachment_url(download),
+        url: download_path(download, slug_id: object.try(:slug).try(:id)),
       }
     end
   end

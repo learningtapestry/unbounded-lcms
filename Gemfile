@@ -39,6 +39,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'seedbank', '~> 0.3'
 gem 'simple_form'
+gem 'staccato', '~> 0.4.7'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'wicked_pdf', '~> 1.0'

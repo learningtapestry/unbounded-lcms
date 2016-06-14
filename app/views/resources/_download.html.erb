@@ -1,4 +1,5 @@
+
 <li>
-  <i class="ub-icon fa-lg file-<%= file_icon(attachment_content_type(download)) %>"></i>
-  <span><%= link_to(download.title, attachment_url(download), target: '_blank', class: 'resource-attachment') %></span>
+  <i class="ub-icon fa-lg file-<%= file_icon(download.attachment_content_type) %>"></i>
+  <span><%= link_to(download.title, download_path(download, slug_id: curriculum.try(:slug).try(:id)), target: '_blank', class: 'resource-attachment') %></span>
 </li>
