@@ -6,7 +6,7 @@ class ContentGuidePresenter < BasePresenter
   ANNOTATION_COLOR = '#fff2cc'
 
   DanglingLink = Struct.new(:text, :url)
-  Heading = Struct.new(:anchor, :children, :text)
+  Heading = Struct.new(:anchor, :children, :level, :text)
 
   attr_reader :doc, :host, :view_context
 
@@ -44,7 +44,8 @@ class ContentGuidePresenter < BasePresenter
       h[:class] = 'c-cg-heading'
       h[:id] = id
 
-      heading = Heading.new(id, [], text)
+      level = h.name.tr('h', '')
+      heading = Heading.new(id, [], level, text)
 
       # TODO find a better way to organize this
       if headings.any?

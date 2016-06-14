@@ -49,7 +49,7 @@
 
     &.expanded {
       & > .o-sidebar-nav {
-        display: block;
+        max-height: 100500px;
       }
 
       & > a > .o-sidebar-nav__item__icon {
@@ -68,8 +68,14 @@
     }
 
     & > .o-sidebar-nav {
-      display: none;
+      max-height: 0;
       margin-left: 1rem;
+      overflow: hidden;
+      transition: max-height 1s;
     }
   }
+}
+
+.o-sidebar-nav__item--level2 {
+  text-transform: uppercase;
 }
