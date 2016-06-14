@@ -1,5 +1,9 @@
 <% set_page_title @content_guide.title.html_safe %>
 
+<% if (permalink = @content_guide.permalink).present? %>
+  <% set_canonical_url content_guide_path(permalink, slug: @content_guide.slug) %>
+<% end %>
+
 <% cache @content_guide do %>
   <div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @content_guide.subject %>">
     <div class="o-page__module">

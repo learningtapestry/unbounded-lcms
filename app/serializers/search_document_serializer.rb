@@ -5,12 +5,16 @@ class SearchDocumentSerializer < ActiveModel::Serializer
 
   def path
     if model_type == 'content_guide'
-      content_guide_path(object.model_id)
+      content_guide_path(object.permalink || object.model_id, slug: object.slug)
     else
       if ['podcast', 'video'].include?(object.doc_type)
         media_path(object.model_id)
       else
-        resource_path(object.model_id)
+        if (slug = object.slug)
+          show_with_slug_path(slug)
+        else
+          resource_path(object.model_id)
+        end
       end
     end
   end

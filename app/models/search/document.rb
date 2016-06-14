@@ -13,6 +13,8 @@ module Search
     attribute :grade, String
     attribute :subject, String
     attribute :breadcrumbs, String
+    attribute :permalink, String
+    attribute :slug, String
     attribute :tag_authors, Array[String]
     attribute :tag_texts, Array[String]
     attribute :tag_keywords, Array[String]
@@ -85,9 +87,11 @@ module Search
           doc_type = model.resource_type
         end
 
+        id = curriculum ? "curriculum_#{curriculum.id}" : "resource_#{model.id}"
+
         tags = model.named_tags
         {
-          id: "resource_#{model.id}",
+          id: id,
           model_type: :resource,
           model_id: model.id,
           title: model.title,
@@ -98,6 +102,7 @@ module Search
           subject: model.subject,
           grade: model.grade_list,
           breadcrumbs: curriculum.try(:breadcrumb_title),
+          slug: (curriculum.slugs.first.value rescue nil),
           tag_authors: tags[:authors],
           tag_texts: tags[:texts],
           tag_keywords: tags[:keywords],
@@ -118,6 +123,8 @@ module Search
           subject: model.subject,
           grade: model.grade_list,
           breadcrumbs: nil,
+          permalink: model.permalink,
+          slug: model.slug,
           tag_authors: [],
           tag_texts: [],
           tag_keywords: [],
