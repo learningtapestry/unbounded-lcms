@@ -60,6 +60,8 @@ en:
       related: "Related Guides"
       back: "Back to Curriculum Map"
       arrow: "%{dir} %{type} in Series"
+      arrow-small: "%{dir} %{type}"
+      arrow-txt-small: "in this Series"
       explore: "Explore %{short_title}"
     title:
       children: "In This %{type}"

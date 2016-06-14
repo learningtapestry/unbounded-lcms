@@ -7,18 +7,16 @@ module ApplicationHelper
     end.html_safe
   end
 
-  def active_class(link_path, cls = '')
-    class_prefix = current_page?(link_path) ? 'active' : ''
-    "#{class_prefix} #{cls}"
+  def add_class_for_path(link_path, klass, klass_prefix = nil)
+    "#{klass_prefix} #{klass if current_page?(link_path)}"
   end
 
-  def active_class_resource(controller_name, action_name, cls = '')
-    class_prefix = (controller.controller_name == controller_name.to_s && controller.action_name == action_name.to_s) ? 'active' : ''
-    "#{class_prefix} #{cls}"
+  def add_class_for_action(controller_name, action_name, klass, klass_prefix = nil)
+    "#{klass_prefix} #{klass if controller.controller_name == controller_name.to_s && controller.action_name == action_name.to_s}"
   end
 
   def nav_link(link_text, link_path, attrs = {})
-    cls = active_class(link_path, attrs[:class])
+    cls = add_class_for_path(link_path, 'active', attrs[:class])
     content_tag(:li, attrs.merge(class: cls)) { link_to link_text, link_path }
   end
 
