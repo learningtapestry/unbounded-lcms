@@ -1,5 +1,5 @@
 <li class=o-sidebar-nav__item>
-  <%= link_to "##{heading.anchor}" do %>
+  <%= link_to "##{heading.anchor}", class: "o-sidebar-nav__item--level#{heading.level}" do %>
     <% if heading.children.any? %>
       <div class=o-sidebar-nav__item__icon>▸</div>
     <% end %>
