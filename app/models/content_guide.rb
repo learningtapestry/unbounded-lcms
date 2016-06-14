@@ -79,7 +79,7 @@ class ContentGuide < ActiveRecord::Base
         GRADES.index(grade)
       end.compact
 
-    indices.any? ? (indices.sum.to_f / indices.size) : 0
+    indices.min || 0
   end
 
   def modified_by
