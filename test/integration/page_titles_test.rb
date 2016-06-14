@@ -65,7 +65,7 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
     assert_page_title 'New Staff Member'
 
     visit "/admin/staff_members/#{staff_member.id}/edit"
-    assert_page_title staff_member.name
+    assert_page_title "UnboundEd - #{staff_member.name}"
   end
 
   def test_auth_pages
