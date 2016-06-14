@@ -87,9 +87,11 @@ module Search
           doc_type = model.resource_type
         end
 
+        id = curriculum ? "curriculum_#{curriculum.id}" : "resource_#{model.id}"
+
         tags = model.named_tags
         {
-          id: "resource_#{model.id}",
+          id: id,
           model_type: :resource,
           model_id: model.id,
           title: model.title,
