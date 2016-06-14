@@ -1,5 +1,3 @@
 <% set_page_description "Search our free collection for specific lessons or topics within a grade. Download, adapt, share." %>
 
-<% cache("find_lessons/views/index/#{@params_cache_key}") do %>
-  <%= react_component('FindLessonsPage', @props, prerender: true) %>
-<% end %>
+<%= react_component('FindLessonsPage', @props, prerender: true) %>

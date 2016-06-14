@@ -36,30 +36,26 @@ class CurriculumSerializer < ActiveModel::Serializer
   end
 
   def lesson_count
-    cache('lesson_count', 12.hours) { object.lessons.count }
+    object.lessons.count
   end
 
   def unit_count
-    cache('unit_count', 12.hours) { object.units.count }
+    object.units.count
   end
 
   def module_count
-    cache('module_count', 12.hours) { object.modules.count }
+    object.modules.count
   end
 
   def module_sizes
-    cache('module_sizes', 12.hours) do
-      object.modules.map do |mod|
-        mod.lessons.count
-      end
+    object.modules.map do |mod|
+      mod.lessons.count
     end
   end
 
   def unit_sizes
-    cache('unit_sizes', 12.hours) do
-      object.units.map do |unit|
-        unit.lessons.count
-      end
+    object.units.map do |unit|
+      unit.lessons.count
     end
   end
 
@@ -70,10 +66,4 @@ class CurriculumSerializer < ActiveModel::Serializer
   def type
     object.curriculum_type.name
   end
-
-  private
-    def cache(key, duration = 1.hours)
-      key = "curriculum_serializer/#{object.id}/#{key}"
-      Rails.cache.fetch(key, expires_in: duration) { yield }
-    end
 end
