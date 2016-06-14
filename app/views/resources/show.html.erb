@@ -1,6 +1,10 @@
 <% set_page_title @resource.title %>
 <% set_og_tags @resource %>
 
+<% if (slug = @curriculum.slug) %>
+  <% set_canonical_url show_with_slug_path(slug.value) %>
+<% end %>
+
 <div class="o-page o-page--margin-to-bottom">
   <div class="o-page__sticky">
     <div class="o-sticky o-sticky--left <%= 'o-sticky--disabled' unless @curriculum.previous_of_type %>">
