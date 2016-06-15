@@ -49,7 +49,8 @@
 
     &.expanded {
       & > .o-sidebar-nav {
-        max-height: 100500px;
+        max-height: 1000px;
+        transition: max-height 1s;
       }
 
       & > a > .o-sidebar-nav__item__icon {
@@ -71,7 +72,6 @@
       max-height: 0;
       margin-left: 1rem;
       overflow: hidden;
-      transition: max-height 1s;
     }
   }
 }
