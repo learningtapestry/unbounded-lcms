@@ -8,7 +8,7 @@ backend default {
 
 # Happens before we check if we have this in cache already.
 sub vcl_recv {
-    if (req.url ~ "^/admin(.*)" || req.url ~ "^/users(.*)") {
+    if (req.url ~ "^/admin(.*)" || req.url ~ "^/users(.*)" || req.url ~ "^/downloads(.*)") {
         return (pass);
     }
     unset req.http.Cookie;
@@ -18,7 +18,7 @@ sub vcl_recv {
 
 # Happens after we have read the response headers from the backend.
 sub vcl_backend_response {
-    if (bereq.url ~ "^/admin(.*)" || bereq.url ~ "^/users(.*)") {
+    if (bereq.url ~ "^/admin(.*)" || bereq.url ~ "^/users(.*)" || bereq.url ~ "^/downloads(.*)") {
         return (deliver);
     }
 
