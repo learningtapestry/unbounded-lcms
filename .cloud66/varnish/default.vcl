@@ -8,12 +8,23 @@ backend default {
 
 # Happens before we check if we have this in cache already.
 sub vcl_recv {
+    if (req.http.host !~ "www.unbounded.org" || req.http.X-Forwarded-Proto !~ "https") {
+        return (synth(750, ""));
+    }
     if (req.url ~ "^/admin(.*)" || req.url ~ "^/users(.*)" || req.url ~ "^/downloads(.*)") {
         return (pass);
     }
     unset req.http.Cookie;
     unset req.http.Authorization;
     return (hash);
+}
+
+sub vcl_synth {
+    if (resp.status == 750) {
+        set resp.status = 301;
+        set resp.http.Location = "https://www.unbounded.org" + req.url;
+        return(deliver);
+    }
 }
 
 # Happens after we have read the response headers from the backend.
