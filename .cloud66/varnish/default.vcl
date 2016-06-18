@@ -24,14 +24,18 @@ backend default {
 sub vcl_recv {
     # If this isn't requesting www and/or isn't HTTPS, redirect to the proper
     # location (https + www).
-    if (req.http.host !~ "www.unbounded.org" || req.http.X-Forwarded-Proto !~ "https") {
+    if (req.http.host !~ "www.unbounded.org" ||
+        req.http.X-Forwarded-Proto !~ "https") {
         return (synth(750, ""));
     }
 
     # If this is going to /admin, /users or /downloads, skip the cache.
     # /admin and /users need session cookies.
     # /downloads will result in a redirect and will collect cookies as well.
-    if (req.url ~ "^/admin(.*)" || req.url ~ "^/users(.*)" || req.url ~ "^/downloads(.*)") {
+    if (req.url ~ "^/admin(.*)" ||
+        req.url ~ "^/users(.*)" ||
+        req.url ~ "^/downloads(.*)" ||
+        req.url ~ "^/assets(.*)") {
         return (pass);
     }
 
@@ -58,7 +62,10 @@ sub vcl_synth {
 sub vcl_backend_response {
     # Don't touch the response if it's coming from one of the exceptions in
     # vcl_recv.
-    if (bereq.url ~ "^/admin(.*)" || bereq.url ~ "^/users(.*)" || bereq.url ~ "^/downloads(.*)") {
+    if (bereq.url ~ "^/admin(.*)" ||
+        bereq.url ~ "^/users(.*)" ||
+        bereq.url ~ "^/downloads(.*)" ||
+        bereq.url ~ "^/assets(.*)") {
         return (deliver);
     }
 
