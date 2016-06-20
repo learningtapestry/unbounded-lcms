@@ -82,24 +82,25 @@
   }
 }
 
-@mixin txt-element($element) {
-  font-family: map-get($ub-element-fonts, #{$element});
-  font-size: map-get($ub-element-fontsizes, #{$element});
-  line-height: map-get($ub-element-lineheights, #{$element});
-  @if map-has-key($ub-element-fontweights, #{$element}) {
-    font-weight: map-get($ub-element-fontweights, #{$element});
-  } @else {
-    font-weight: normal;
-  }
-}
-
-@mixin txt-element($element) {
+@mixin txt-element-base($element) {
   $typo: map-get($ub-element-typography, $element);
   @each $style, $value in $typo {
     #{$style}: $value;
   }
   @if not map-has-key($typo, 'font-weight') {
     font-weight: normal;
+  }
+}
+
+@mixin txt-element($element) {
+  @if map-has-key($element, small) {
+    @each $breakpoint, $value in $element {
+      @include breakpoint($breakpoint) {
+        @include txt-element-base($value);
+      }
+    }
+  } @else {
+    @include txt-element-base($element);
   }
 }
 

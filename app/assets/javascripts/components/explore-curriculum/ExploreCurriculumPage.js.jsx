@@ -220,7 +220,7 @@ class ExploreCurriculumPage extends React.Component {
                   Search our free collection, or filter by subject or grade. Download, adapt, share.
                 </div>
               </div>
-              <Filterbar
+              <FilterbarResponsive
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
                 searchLabel='What do you want to teach?'
                 withSearch={true}
