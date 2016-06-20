@@ -60,7 +60,7 @@ class SearchPage extends React.Component {
                   Filter by subject or grade, or search to reveal assets.
                 </div>
               </div>
-              <Filterbar
+              <FilterbarResponsive
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
                 searchLabel='Search the site'
                 withFacets={true}

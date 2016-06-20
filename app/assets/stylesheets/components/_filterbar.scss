@@ -10,15 +10,20 @@
   }
 }
 
-$filterbar-height: 58px;
-
 .o-filterbar {
   @include flex;
   @include flex-align($x: justify, $y: top);
   margin: $ub-small-margin 0;
 
-  @include breakpoint(small only) {
+  @include breakpoint(medium down) {
     flex-direction: column;
+    margin: 0;
+  }
+
+  @include e(title) {
+    @include txt-element(filter-title);
+    text-align: center;
+    width: 100%;
   }
 
   @include e(list) {
@@ -42,6 +47,10 @@ $filterbar-height: 58px;
     height: $filterbar-height;
     padding: 0 !important;
 
+    @include breakpoint(medium down) {
+      margin-bottom: 1px !important;
+    }
+
     @each $code, $color in $ub-colorcodes {
       @include m(#{$code}) {
         @include button($background: $color, $background-hover: auto, $color: $ub-white);
@@ -60,18 +69,31 @@ $filterbar-height: 58px;
     @include m(clear) {
       font-weight: bold;
       i { text-shadow: 0 1px 1px rgba(0, 0, 0, .3); }
+
+      @include breakpoint(medium down) {
+        @include button($background: map-get($ub-mignight, clear), $background-hover: auto, $color: $ub-white);
+        @include flex;
+      }
     }
 
     @include m(rectangle) {
       width: 115px;
+
+      @include breakpoint(medium down) {
+        width: $filterbar-xs;
+      }
     }
 
     @include m(rectangle-big) {
       width: 160px;
+
+      @include breakpoint(medium down) {
+        width: $filterbar-xs - 1px;
+      }
     }
 
     @include m(square) {
-      width: 58px;
+      width: $filterbar-square;
     }
   }
 }

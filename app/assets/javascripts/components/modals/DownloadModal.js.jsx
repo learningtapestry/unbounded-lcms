@@ -7,19 +7,20 @@ class DownloadModal extends React.Component {
   }
 
   download(download) {
-    const cls = `fa fa-lg file-${download.icon}`;
+    const cls = `ub-icon fa-lg file-${download.icon}`;
     return `<li>
               <i class="${cls}"></i>
               <span>
-                <a href=${download.url} class="resource-attachment" target="_blank">${download.title}</a>
+                <a href=${download.url} class="resource-attachment">${download.title}</a>
               </span>
             </li>`;
   }
 
   modalContentData() {
     const resource = this.props.resource;
-    return `<div class="o-download-modal__title cs-bg--${this.props.colorCode}">
-              Download ${_.capitalize(resource.type.name)}
+    return `<div class="o-download-modal__title">
+              <div class="u-margin-bottom--xs">Download ${_.capitalize(resource.type.name)}</div>
+              <div class="u-hr-small"></div>
             </div>
             <div class="o-download-modal__content">
               <ul class="o-resource__list o-resource__list--icons o-resource__list--${resource.subject}-base">
@@ -27,7 +28,7 @@ class DownloadModal extends React.Component {
               </ul>
             </div>
             <button class="close-button" data-close aria-label="Close modal" type="button">
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true"><i class="ub-close"></i></span>
             </button>`;
   }
 
