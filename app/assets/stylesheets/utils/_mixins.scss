@@ -33,7 +33,16 @@
   display: -webkit-box;
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
-  max-height: computed-height($element, $lines);
+  $typo: map-get($ub-element-typography, $element);
+  @if map-has-key($typo, small) {
+    @each $breakpoint, $value in $typo {
+      @include breakpoint($breakpoint) {
+        max-height: computed-height($value, $lines);
+      }
+    }
+  } @else {
+    max-height: computed-height($typo, $lines);
+  }
 }
 
 @mixin ellipsis {
@@ -82,24 +91,25 @@
   }
 }
 
-@mixin txt-element($element) {
-  font-family: map-get($ub-element-fonts, #{$element});
-  font-size: map-get($ub-element-fontsizes, #{$element});
-  line-height: map-get($ub-element-lineheights, #{$element});
-  @if map-has-key($ub-element-fontweights, #{$element}) {
-    font-weight: map-get($ub-element-fontweights, #{$element});
-  } @else {
+@mixin txt-element-base($typo) {
+  @each $style, $value in $typo {
+    #{$style}: $value;
+  }
+  @if not map-has-key($typo, 'font-weight') {
     font-weight: normal;
   }
 }
 
 @mixin txt-element($element) {
   $typo: map-get($ub-element-typography, $element);
-  @each $style, $value in $typo {
-    #{$style}: $value;
-  }
-  @if not map-has-key($typo, 'font-weight') {
-    font-weight: normal;
+  @if map-has-key($typo, small) {
+    @each $breakpoint, $value in $typo {
+      @include breakpoint($breakpoint) {
+        @include txt-element-base($value);
+      }
+    }
+  } @else {
+    @include txt-element-base($typo);
   }
 }
 

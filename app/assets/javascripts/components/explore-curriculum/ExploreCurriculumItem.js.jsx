@@ -13,12 +13,14 @@ class ExploreCurriculumItem extends React.Component {
     const activeParent = props.index[props.active[props.active.length - 2]];
     const shouldItemExpand = props.active.length === 1 ||
       _.some(activeParent.children, c => c.id === props.id);
+    const isItemActive = props.active.length > 1 && props.active[props.active.length - 2] === props.id;
 
     const item =
       <ExploreCurriculumCardItem
         curriculum={curriculum}
         onClickElement={ shouldItemExpand ? props.onClickViewDetails.bind(this, props.parentage) : props.onClickExpand.bind(this, props.parentage)}
         shouldItemExpand={shouldItemExpand}
+        isActive={isItemActive}
         colorCode={colorCode} />;
 
     // Children should be rendered if the item is a parent in the active branch.

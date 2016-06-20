@@ -114,17 +114,11 @@ $sticky-txt-width: 280px;
   }
 
   @include e(arrow-header) {
-    @include txt-element(arrow-header-s);
-    @include breakpoint(medium) {
-      @include txt-element(arrow-header);
-    }
+    @include txt-element(arrow-header);
   }
 
   @include e(arrow-subheader) {
-    @include txt-element(arrow-header-s);
-    @include breakpoint(medium) {
-      @include txt-element(arrow-subheader);
-    }
+    @include txt-element(arrow-subheader);
   }
 
 }

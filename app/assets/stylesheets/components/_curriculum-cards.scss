@@ -1,16 +1,46 @@
 $ub-cur-card-margin: 2px;
 
+@mixin card-active-bg($color) {
+  background-color: $color !important;
+  .o-cur-card__actions {
+    [class^='o-ub-btn'] {
+      @include button-style($background: $ub-white, $background-hover: auto, $color: $color);
+    }
+    [class*=' o-ub-btn--bordered'] {
+      @include button-hollow;
+      @include button-hollow-style($ub-white);
+    }
+  }
+}
+
+@mixin card-active-txt {
+  color: $ub-white !important;
+  [class^='cs-bg'], [class*=' cs-bg'] { background-color: $ub-white !important; }
+  .o-title__type, .o-title__type--short,
+  .o-title__duration, .o-cur-card__ellipsis, h3 { color: $ub-white; }
+}
+
+
 @each $code, $color in $ub-colorcodes {
-  .o-cur-card-hover--#{$code} {
-    &:hover, &:focus {
-      background-color: $color !important;
-      .o-cur-card__actions {
-        [class^='o-ub-btn'] {
-          @include button-style($background: $ub-white, $background-hover: auto, $color: $color);
+  .touchevents {
+    .o-cur-card-active--#{$code} {
+      @include card-active-bg($color);
+      @include card-active-txt;
+    }
+  }
+  .no-touchevents {
+    @include breakpoint(ipad up) {
+      .o-cur-card-hover--#{$code} {
+        &:hover, &:focus {
+          @include card-active-bg($color);
         }
-        [class*=' o-ub-btn--bordered'] {
-          @include button-hollow;
-          @include button-hollow-style($ub-white);
+      }
+    }
+
+    @include breakpoint(ipad up) {
+      .o-cur-card {
+        &:hover, &:focus {
+          @include card-active-txt;
         }
       }
     }
@@ -25,11 +55,8 @@ $ub-cur-card-margin: 2px;
   @include add-column-padding;
   cursor: pointer;
 
-  &:hover, &:focus {
-    color: $ub-white !important;
-    [class^='cs-bg'], [class*=' cs-bg'] { background-color: $ub-white !important; }
-    .o-title__type, .o-title__type--short,
-    .o-title__duration, .o-cur-card__ellipsis, h3 { color: $ub-white; }
+  @include breakpoint(medium down) {
+    padding: 1.5rem !important;
   }
 
   @include e(map) {
@@ -39,8 +66,7 @@ $ub-cur-card-margin: 2px;
     justify-content: space-between;
 
     @include breakpoint(medium down) {
-      @include flex-grid-column(12);
-      margin-bottom: $ub-small-margin;
+      display: none;
     }
   }
 
@@ -59,13 +85,17 @@ $ub-cur-card-margin: 2px;
     @include m(short) {
       margin-top: -5px;
     }
+
     @include m(medium) {
       margin-top: -2px;
     }
 
     @include breakpoint(medium down) {
-      @include add-column-padding($x: .5);
+      @include add-column-padding($x: 0);
+      @include flex-order(2);
+      @include flex-grid-column(12, 0);
     }
+
   }
 
   @include e(title) {
@@ -76,7 +106,7 @@ $ub-cur-card-margin: 2px;
   }
 
   @include e(dsc) {
-    @include txt-element(base);
+    @include txt-element(card-dsc);
     padding-top: $ub-small-padding;
     @include m(short) {
       //overflow: hidden;
@@ -91,14 +121,22 @@ $ub-cur-card-margin: 2px;
   @include e(actions) {
     @include flex-grid-column(shrink, 0);
 
-    @include breakpoint(medium down) {
-      @include flex-grid-column(12);
-      margin-top: $ub-small-margin;
-      text-align: center;
-    }
-
     @include m(short) {
       @include flex-align-self(middle);
+    }
+
+    @include breakpoint(medium down) {
+      @include flex;
+      @include flex-align($x: justify, $y: middle);
+      @include flex-order(1);
+      @include flex-grid-column(12, 0);
+      flex-flow: row nowrap;
+      height: 21px;
+
+      > div,  ul {
+        flex: 0 0 auto;
+        width: auto;
+      }
     }
   }
 
@@ -123,11 +161,17 @@ $ub-cur-card-margin: 2px;
 
       .submenu {
         &::before {
-          @include css-triangle($tooltip-pip-width, $ub-white, up);
-          bottom: 100%;
-          right: 12px;
+          background: $ub-white;
+          border-bottom: 1px solid $medium-gray;
+          border-right: 1px solid $medium-gray;
+          content: '';
+          display: block;
+          height: $tooltip-pip-width;
           position: absolute;
-          transform: translateX(-50%);
+          right: 12px;
+          top: -$tooltip-pip-width * .5;
+          transform: rotate(-135deg);
+          width: $tooltip-pip-width;
         }
       }
     }
@@ -138,6 +182,11 @@ $ub-cur-card-margin: 2px;
     padding-right: 10px !important;
     color: $ub-txt;
     cursor: pointer;
+
+    @include breakpoint(medium down) {
+      margin-right: -7px;
+      padding-right: 0 !important;
+    }
   }
 
   @include m(grade) {
@@ -147,14 +196,14 @@ $ub-cur-card-margin: 2px;
   @include m(show-medium)  {
     display: inherit;
 
-    @include breakpoint(ipad only) {
+    @include breakpoint(ipad down) {
       &.o-cur-card__menu { display: none; }
     }
   }
   @include m(show-short) {
     display: none;
 
-    @include breakpoint(ipad only) {
+    @include breakpoint(ipad down) {
       &.o-cur-card__menu { display: inherit; }
     }
 

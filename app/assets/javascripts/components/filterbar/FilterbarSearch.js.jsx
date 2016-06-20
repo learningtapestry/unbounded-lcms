@@ -26,7 +26,7 @@ class FilterbarSearch extends React.Component {
 
     return (
       <div className="o-page__wrap--row">
-        <div className="o-filterbar-search__label">
+        <div className="o-filterbar-search__label show-for-ipad">
           <span>{this.props.searchLabel}</span>
         </div>
         <div className="o-filterbar-search__input">

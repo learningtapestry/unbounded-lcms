@@ -5,6 +5,17 @@ $lesson-card-heights: (
   medium: 185px
 );
 
+.no-touchevents  {
+  @include breakpoint(ipad up) {
+    .o-lesson-card {
+      &:hover, &:focus {
+        .o-lesson-card__content--base { display: none; }
+        .o-lesson-card__content--hover { display: inherit;}
+      }
+    }    
+  }
+}
+
 .o-lesson-card {
   @include flex;
   @include add-gutter;
@@ -87,11 +98,6 @@ $lesson-card-heights: (
         @include clamp($lesson-dsc-full-lines - 2, lesson-hover);
       }
     }
-  }
-
-  &:hover, &:focus {
-    .o-lesson-card__content--base { display: none; }
-    .o-lesson-card__content--hover { display: inherit;}
   }
 
 }
