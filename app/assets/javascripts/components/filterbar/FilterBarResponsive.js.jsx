@@ -20,7 +20,7 @@ class FilterbarResponsive extends React.Component {
   }
 
   componentWillUnmount() {
-    $(window).off('changed.zf.mediaquery', this.handleResize);
+    $(window).off('changed.zf.mediaquery');
   }
 
   isMobile() {
