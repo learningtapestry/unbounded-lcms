@@ -154,7 +154,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleClickViewDetails(parentage, e) {
-    if (e.target.nodeName === "A") return;
+    if ((e.target.nodeName === "A") || (e.target.nodeName === "I"))  return;
     e.preventDefault();
     const currentTarget = `#${e.currentTarget.id}`;
     const id = _.last(parentage);

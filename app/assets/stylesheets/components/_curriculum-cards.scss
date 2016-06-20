@@ -1,20 +1,38 @@
 $ub-cur-card-margin: 2px;
 
-.no-touchevents {
-  @each $code, $color in $ub-colorcodes {
+@mixin card-active-bg($color) {
+  background-color: $color !important;
+  .o-cur-card__actions {
+    [class^='o-ub-btn'] {
+      @include button-style($background: $ub-white, $background-hover: auto, $color: $color);
+    }
+    [class*=' o-ub-btn--bordered'] {
+      @include button-hollow;
+      @include button-hollow-style($ub-white);
+    }
+  }
+}
+
+@mixin card-active-txt {
+  color: $ub-white !important;
+  [class^='cs-bg'], [class*=' cs-bg'] { background-color: $ub-white !important; }
+  .o-title__type, .o-title__type--short,
+  .o-title__duration, .o-cur-card__ellipsis, h3 { color: $ub-white; }
+}
+
+
+@each $code, $color in $ub-colorcodes {
+  .touchevents {
+    .o-cur-card-active--#{$code} {
+      @include card-active-bg($color);
+      @include card-active-txt;
+    }
+  }
+  .no-touchevents {
     @include breakpoint(ipad up) {
       .o-cur-card-hover--#{$code} {
         &:hover, &:focus {
-          background-color: $color !important;
-          .o-cur-card__actions {
-            [class^='o-ub-btn'] {
-              @include button-style($background: $ub-white, $background-hover: auto, $color: $color);
-            }
-            [class*=' o-ub-btn--bordered'] {
-              @include button-hollow;
-              @include button-hollow-style($ub-white);
-            }
-          }
+          @include card-active-bg($color);
         }
       }
     }
@@ -22,10 +40,7 @@ $ub-cur-card-margin: 2px;
     @include breakpoint(ipad up) {
       .o-cur-card {
         &:hover, &:focus {
-          color: $ub-white !important;
-          [class^='cs-bg'], [class*=' cs-bg'] { background-color: $ub-white !important; }
-          .o-title__type, .o-title__type--short,
-          .o-title__duration, .o-cur-card__ellipsis, h3 { color: $ub-white; }
+          @include card-active-txt;
         }
       }
     }
@@ -116,7 +131,7 @@ $ub-cur-card-margin: 2px;
       @include flex-order(1);
       @include flex-grid-column(12, 0);
       flex-flow: row nowrap;
-      margin-bottom: -.7rem;
+      height: 21px;
 
       > div,  ul {
         flex: 0 0 auto;

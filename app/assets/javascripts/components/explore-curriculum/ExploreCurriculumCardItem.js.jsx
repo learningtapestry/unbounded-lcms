@@ -1,6 +1,6 @@
 class ExploreCurriculumCardItem extends React.Component {
   componentDidMount() {
-    new Foundation.DropdownMenu($(this.refs.dropdown), { 'alignment': 'right' });
+    new Foundation.DropdownMenu($(this.refs.dropdown), { 'alignment': 'right', 'forceFollow': false, 'closingTime': 0});
   }
 
   componentWillUnmount() {
@@ -31,6 +31,7 @@ class ExploreCurriculumCardItem extends React.Component {
     const cssClasses = classNames(
       "o-cur-card",
       `o-cur-card-hover--${props.colorCode}`,
+      { [`o-cur-card-active--${props.colorCode}`]: props.isActive},
       { "o-cur-card--short": !props.shouldItemExpand },
       `o-cur-card--${props.curriculum.type}`
     );
@@ -79,7 +80,7 @@ class ExploreCurriculumCardItem extends React.Component {
             <span className="o-title__duration o-cur-card--show-medium"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
           <h3 className={cssTitleClasses}>{resource.title}</h3>
-          <div className="o-title u-text--uppercase hide-for-ipad">
+          <div className="o-title u-text--uppercase hide-for-ipad u-padding-top--xs">
             <span className="o-title__duration u-float-none"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
           <div className="o-cur-card--show-medium o-cur-card__dsc">{resource.teaser}</div>

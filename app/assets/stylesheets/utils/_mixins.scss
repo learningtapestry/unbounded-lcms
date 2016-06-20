@@ -33,7 +33,16 @@
   display: -webkit-box;
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
-  max-height: computed-height($element, $lines);
+  $typo: map-get($ub-element-typography, $element);
+  @if map-has-key($typo, small) {
+    @each $breakpoint, $value in $typo {
+      @include breakpoint($breakpoint) {
+        max-height: computed-height($value, $lines);
+      }
+    }
+  } @else {
+    max-height: computed-height($typo, $lines);
+  }
 }
 
 @mixin ellipsis {
@@ -82,8 +91,7 @@
   }
 }
 
-@mixin txt-element-base($element) {
-  $typo: map-get($ub-element-typography, $element);
+@mixin txt-element-base($typo) {
   @each $style, $value in $typo {
     #{$style}: $value;
   }
@@ -93,14 +101,15 @@
 }
 
 @mixin txt-element($element) {
-  @if map-has-key($element, small) {
-    @each $breakpoint, $value in $element {
+  $typo: map-get($ub-element-typography, $element);
+  @if map-has-key($typo, small) {
+    @each $breakpoint, $value in $typo {
       @include breakpoint($breakpoint) {
         @include txt-element-base($value);
       }
     }
   } @else {
-    @include txt-element-base($element);
+    @include txt-element-base($typo);
   }
 }
 
