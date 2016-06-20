@@ -96,6 +96,7 @@ $ub-element-typography: (
     small: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
     ipad: ('font-size': 15px, 'line-height': 19px, 'font-family': $ub-sanserif),
   ),
+  download-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 600, color: $ub-primary1),
 );
 
 @each $element, $typo in $ub-element-typography {

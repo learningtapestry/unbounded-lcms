@@ -10,10 +10,6 @@
   }
 }
 
-$filterbar-height: 58px;
-$filterbar-square: 58px;
-$filterbar-xs: (($filterbar-square + 1) * 5 - 1) / 2;
-
 .o-filterbar {
   @include flex;
   @include flex-align($x: justify, $y: top);

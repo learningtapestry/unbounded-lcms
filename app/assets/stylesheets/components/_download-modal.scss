@@ -1,14 +1,42 @@
 .o-download-modal {
   @include reveal-overlay;
   @include reveal-modal-base;
-  @include reveal-modal-width(45%);
+  //@include reveal-modal-width(45%);
+  @include add-top-bottom-padding($y: 1);
   margin-left: auto;
   margin-right: auto;
   overflow-y: auto;
   position: relative;
-  top: 30vh;
 
-  .close-button { color: $ub-white; }
+  @include breakpoint(large) {
+    width: 45%;
+  }
+
+  @include breakpoint(ipad) {
+    left: auto;
+    margin: 0 auto;
+    right: auto;
+    top: 30vh;
+    width: 65%;
+  }
+
+  @include breakpoint(medium down) {
+    @include reveal-modal-fullscreen;
+  }
+
+  .close-button {
+    background: $medium-gray;
+    border-radius: 0;
+    color: $ub-white;
+    cursor: pointer;
+    height: $filterbar-square;
+    line-height: 1;
+    padding: 0;
+    right: 0;
+    top: 0;
+    width: $filterbar-square;
+    span i { font-size: 2rem; }
+  }
 
   @include e(content) {
     @include add-column-padding;
@@ -20,12 +48,7 @@
 
   @include e(title) {
     @include add-column-padding;
-    color: $ub-white;
-    font-family: $ub-serif;
-    font-size: $lead-font-size;
-    font-weight: bold;
-    padding-bottom: $ub-xs-padding;
-    padding-top: $ub-xs-padding;
+    @include txt-element(download-header);
   }
 }
 
