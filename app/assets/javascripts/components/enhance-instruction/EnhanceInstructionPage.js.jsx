@@ -138,7 +138,7 @@ class EnhanceInstructionPage extends React.Component {
                   Search our free professional learning resources for teaching guides, videos and podcasts that focus on the application of content related to the standards in the classroom. Download, adapt, share. Visit this page often for new guides and multimedia.
                 </div>
               </div>
-              <Filterbar
+              <FilterbarResponsive
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
                 withSearch={false}
                 {...this.state.filterbar} />

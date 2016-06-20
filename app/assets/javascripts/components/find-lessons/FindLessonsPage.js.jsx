@@ -72,7 +72,7 @@ class FindLessonsPage extends React.Component {
                   Search our free collection for specific lessons or topics within a grade. Download, adapt, share.
                 </div>
               </div>
-              <Filterbar
+              <FilterbarResponsive
                 searchLabel='What do you want to teach?'
                 withSearch={true}
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
