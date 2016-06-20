@@ -1,9 +1,9 @@
 .c-cg-standard {
   background-size: contain;
   display: inline-block;
-  height: 1rem;
+  height: .75rem;
   margin-right: .2rem;
-  width: 1rem;
+  width: .75rem;
 
   @include m(a) {
     background-image: asset-url('st_icon_a.svg');

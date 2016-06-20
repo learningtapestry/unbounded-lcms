@@ -123,12 +123,23 @@ class Filterbar extends React.Component {
     });
   }
 
+  update(state) {
+    const filterbar = this.createQuery(state);
+    this.props.onUpdate( filterbar );
+    this.updateUrl( filterbar );
+  }
+
+  onClickRefine(value) {
+    if ('onRefine' in this.props) {
+      this.update(this.state);
+      this.props.onRefine();
+    }
+  }
+
   componentWillUpdate(nextProps, nextState) {
-    if ('onUpdate' in this.props) {
+    if (('onUpdate' in this.props) && !('onRefine' in this.props)) {
       if ($.param(this.state) !== $.param(nextState)) {
-        const filterbar = this.createQuery(nextState);
-        this.props.onUpdate( filterbar );
-        this.updateUrl( filterbar );
+        this.update(nextState);
       }
     }
   }
@@ -194,9 +205,12 @@ class Filterbar extends React.Component {
        </div>);
     }
 
+    const mobileTitle = this.props.withSearch ? 'Filter and Search' : 'Filter';
+
     return (
       <div>
         <div className='o-filterbar'>
+          <div className='o-filterbar__title hide-for-ipad u-margin-bottom--large'>{mobileTitle}</div>
           <div className='o-filterbar__list'>
             {state.subjects.map(subject => {
               return (
@@ -220,8 +234,11 @@ class Filterbar extends React.Component {
                   selected={grade.selected || !gradeSelected} />
               );
             })}
+            <div className='o-filterbar__item o-filterbar__item--clear o-filterbar__item--square hide-for-ipad' onClick={this.onClickClear.bind(this)}>
+              <span><i className="ub-close fa-2x"></i></span>
+            </div>
           </div>
-          <div className='o-filterbar__list hide-for-small-only'>
+          <div className='o-filterbar__list show-for-ipad'>
              <div className='o-filterbar__item o-filterbar__item--clear o-filterbar__item--square' onClick={this.onClickClear.bind(this)}>
                <span><i className="ub-close fa-2x"></i></span>
              </div>
@@ -229,6 +246,9 @@ class Filterbar extends React.Component {
         </div>
         {filterbarFacets}
         {filterbarSearch}
+        <div className='o-filterbar-refine hide-for-ipad u-margin-top--large'>
+          <a className='o-btn o-btn--yellow' onClick={this.onClickRefine.bind(this)}>Refine Results</a>
+        </div>
       </div>
     );
   }

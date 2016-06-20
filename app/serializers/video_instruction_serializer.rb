@@ -2,7 +2,7 @@ class VideoInstructionSerializer < ActiveModel::Serializer
   include ResourceHelper
 
   self.root = false
-  attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type
+  attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type, :time_to_teach
 
   def subject
     object.subject.try(:downcase) || 'default'
@@ -19,4 +19,5 @@ class VideoInstructionSerializer < ActiveModel::Serializer
   def instruction_type
     object.resource_type
   end
+
 end

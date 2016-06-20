@@ -1,6 +1,9 @@
 class ExploreCurriculumCardItem extends React.Component {
   componentDidMount() {
-    new Foundation.DropdownMenu($(this.refs.dropdown), { 'alignment': 'right' });
+    new Foundation.DropdownMenu($(this.refs.dropdown),
+                                { 'alignment': 'right',
+                                  'forceFollow': false,
+                                  'closingTime': Modernizr.touchevents ? 0 : 5000 });
   }
 
   componentWillUnmount() {
@@ -31,6 +34,7 @@ class ExploreCurriculumCardItem extends React.Component {
     const cssClasses = classNames(
       "o-cur-card",
       `o-cur-card-hover--${props.colorCode}`,
+      { [`o-cur-card-active--${props.colorCode}`]: props.isActive},
       { "o-cur-card--short": !props.shouldItemExpand },
       `o-cur-card--${props.curriculum.type}`
     );
@@ -74,11 +78,14 @@ class ExploreCurriculumCardItem extends React.Component {
       <div id={props.curriculum.id} name={resource.path} onClick={props.onClickElement} className={cssClasses} data-magellanhash-target>
         {curriculumMap}
         <div className={cssBodyClasses}>
-          <div className="o-title u-text--uppercase">
+          <div className="o-title u-text--uppercase show-for-ipad">
             <span className={cssHeaderClasses}>{resource.short_title}</span>
             <span className="o-title__duration o-cur-card--show-medium"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
           <h3 className={cssTitleClasses}>{resource.title}</h3>
+          <div className="o-title u-text--uppercase hide-for-ipad u-padding-top--xs">
+            <span className="o-title__duration u-float-none"><TimeToTeach duration={resource.time_to_teach} /></span>
+          </div>
           <div className="o-cur-card--show-medium o-cur-card__dsc">{resource.teaser}</div>
         </div>
         <div className={cssActionClasses}>
@@ -87,6 +94,9 @@ class ExploreCurriculumCardItem extends React.Component {
             <li><a className={cssDownloadBtnClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>
             <li><a className="o-ub-btn o-ub-btn--bordered o-ub-btn--disabled">Related Guides</a></li>
           </ul>
+          <div className={`${cssHeaderClasses} u-text--uppercase hide-for-ipad`}>
+            {resource.short_title}
+          </div>
           <ul className="o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short" ref="dropdown">
             <li>
               <a href="" className="o-cur-card__ellipsis"><i className="ub-ellipsis fa-3x"></i></a>

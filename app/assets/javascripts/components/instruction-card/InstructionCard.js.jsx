@@ -20,6 +20,8 @@ function InstructionCard(props) {
     bemClass('body')
   );
 
+  const isInstruction = (item.instruction_type === 'instruction');
+
   return (
     <a className={cssInstruction} href={props.item.path}>
       <div className={cssWrapper}>
@@ -27,11 +29,17 @@ function InstructionCard(props) {
           <img src={item.img}/>
         </div>
         <div className={cssBody}>
-          { item.instruction_type == 'instruction' ?
+          { isInstruction ?
             <div className="o-instruction-card__teaser">{item.teaser}</div>
             : null
           }
           <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>
+          { ! isInstruction ?
+            <div className={bemClass('duration')}>
+              <MediaTime duration={item.time_to_teach} />
+            </div>
+            : null
+          }
         </div>
       </div>
     </a>

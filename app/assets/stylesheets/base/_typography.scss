@@ -28,8 +28,14 @@ $ub-heading-typography: (
 $ub-element-typography: (
   base: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
   teaser: ('font-size': 22px, 'line-height': 28px, 'font-family': $ub-sanserif),
-  title-type: ('font-size': 16px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
-  title-type-short: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+  title-type: (
+    small: ('font-size': 15px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+    ipad: ('font-size': 16px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+  ),
+  title-type-short: (
+    small: ('font-size': 15px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+    ipad: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+  ),
   title-duration: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-sanserif, color: #929299),
   breadcrumbs: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
   button: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
@@ -44,7 +50,7 @@ $ub-element-typography: (
   footer-links: ('font-size': 13px, 'line-height': 19px, 'font-family': $ub-sanserif),
   related-header: ('font-size': 30px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 500, color: #555),
   page-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif),
-  search-header: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-sanserif, 'font-style': italic),
+  search-header: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-sanserif),
   connect-header: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
   connect-text: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-serif),
   resource-map-header: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-serif, color: #898989),
@@ -53,22 +59,44 @@ $ub-element-typography: (
   filter-btn: ('font-size': 18px, 'line-height': 18px, 'font-family': $ub-serif, 'font-weight': 600),
   filter-label: ('font-size': 22px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 600),
   filter-input: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-sanserif),
+  filter-title: ('font-size': 26px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: $ub-white),
   lesson-hover: ('font-size': 15px, 'line-height': 18px, 'font-family': $ub-sanserif),
-  lesson-title: ('font-size': 24px, 'line-height': 31px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
+  lesson-title: (
+    small: ('font-size': 26px, 'line-height': 26px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
+    ipad: ('font-size': 24px, 'line-height': 31px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
+  ),
   lesson-duration: ('font-size': 14px, 'line-height': 16px, 'font-family': $ub-sanserif, color: #929299),
-  card-title-medium: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
-  card-title-short: ('font-size': 24px, 'line-height': 31px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
   cg-card-teaser: ('font-size': 15px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
   cg-card-title: ('font-size': 30px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500),
-  media-card-title: ('font-size': 22px, 'line-height': 24px, 'font-family': $ub-serif, 'font-weight': 500),
+  media-card-title: ('font-size': 20px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 500),
+  media-card-duration: ('font-size': 14px, 'line-height': 16px, 'font-family': $ub-sanserif),
   tab-title: ('font-size': 20px, 'line-height': 24px, 'font-family': $ub-serif, 'font-weight': 600),
   engageny: ('font-size': 14px, 'line-height': 18px, 'font-family': $ub-sanserif),
   pagination: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
   search-result-header: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
   search-result-subheader: ('font-size': 16px, 'line-height': 30px, 'font-family': $ub-serif),
   search-result-teaser: ('font-size': 21px, 'line-height': 26px, 'font-family': $ub-sanserif),
-  arrow-header: ('font-size': 20px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 500),
-  arrow-subheader: ('font-size': 14px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 600, color: #31424c),
+  arrow-header: (
+    small: ('font-size': 16px, 'line-height': 18px, 'font-family': $ub-serif, 'font-weight': 600),
+    ipad: ('font-size': 20px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 500),
+  ),
+  arrow-subheader: (
+    small: ('font-size': 16px, 'line-height': 18px, 'font-family': $ub-serif, 'font-weight': 600),
+    ipad: ('font-size': 14px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 600, color: #31424c),
+  ),
+  card-title-medium: (
+    small: ('font-size': 26px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
+    ipad: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
+  ),
+  card-title-short: (
+    small: ('font-size': 26px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
+    ipad: ('font-size': 24px, 'line-height': 31px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
+  ),
+  card-dsc: (
+    small: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
+    ipad: ('font-size': 15px, 'line-height': 19px, 'font-family': $ub-sanserif),
+  ),
+  download-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 600, color: $ub-primary1),
 );
 
 @each $element, $typo in $ub-element-typography {

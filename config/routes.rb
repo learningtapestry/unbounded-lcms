@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   get  '/search' => 'search#index'
 
-  resources :content_guides, only: :show
+  resources :downloads, only: [:show]
   resources :explore_curriculum, only: [:index, :show]
   resources :enhance_instruction, only: :index
   resources :find_lessons, only: :index
@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
   get '/media/:id' => 'resources#media', as: :media
+  get '/content_guides/:id(/:slug)', as: :content_guide, to: 'content_guides#show'
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
@@ -50,7 +51,6 @@ Rails.application.routes.draw do
       patch :toggle_editing_enabled, on: :collection
     end
     resources :staff_members, except: :show
-    resources :subtitles_imports, only: [:index, :new, :create]
     resources :tags, only: :create
     resources :users, except: :show do
       post :reset_password, on: :member

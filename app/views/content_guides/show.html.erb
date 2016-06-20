@@ -1,41 +1,43 @@
 <% set_page_title @content_guide.title.html_safe %>
 
-<% cache @content_guide do %>
-  <div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @content_guide.subject %>">
-    <div class="o-page__module u-margin-bottom--gutter">
-      <%= link_to :enhance_instruction_index, class: 'o-btn o-btn--base' do %>
-        <i class="fa-lg ub-arrow-left"></i> <%= t('content_guide_page.back_to_hub') %>
-      <% end %>
-    </div>
-    <div class="o-page__module c-ch-hero">
-      <div class="o-page__wrap--row">
-        <div class=c-cg-hero__img style="background-image: url('<%= @content_guide.small_photo.url %>')">
-          <div class=content>
-          </div>
-        </div>
-        <div class="c-cg-hero__body">
-          <div class=c-cg-teaser><%= @content_guide.teaser %></div>
-          <h1 class=c-cg-title><%= simple_format @content_guide.title %></h1>
-          <div class="u-margin-top--small">
-            <%= link_to t('resources.btn.download', title: 'Guide'), url_for(format: 'pdf'), class: 'o-ub-btn c-cg-btn-download' %>
-          </div>
+<% if (permalink = @content_guide.permalink).present? %>
+  <% set_canonical_url content_guide_path(permalink, slug: @content_guide.slug) %>
+<% end %>
+
+<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @content_guide.subject %>">
+  <div class="o-page__module u-margin-bottom--gutter">
+    <%= link_to :enhance_instruction_index, class: 'o-btn o-btn--base' do %>
+      <i class="fa-lg ub-arrow-left"></i> <%= t('content_guide_page.back_to_hub') %>
+    <% end %>
+  </div>
+  <div class="o-page__module c-ch-hero">
+    <div class="o-page__wrap--row">
+      <div class=c-cg-hero__img style="background-image: url('<%= @content_guide.small_photo.url %>')">
+        <div class=content>
         </div>
       </div>
-    </div>
-    <div class="o-page__module u-bg--light c-cg-content">
-      <div class="o-page__wrap--row">
-        <div class="c-cg-content__sidebar">
-          <%= render partial: 'nav', locals: { headings: @content_guide.headings } %>
-        </div>
-        <div id="c-ch-content" class="c-cg-content__body">
-          <% if @content_guide.broken_images.any? %>
-            <div class='callout warning'>
-              <p><%= t('.broken_images') %>
-            </div>
-          <% end %>
-          <%= @content_guide.html %>
+      <div class="c-cg-hero__body">
+        <div class=c-cg-teaser><%= @content_guide.teaser %></div>
+        <h1 class=c-cg-title><%= simple_format @content_guide.title %></h1>
+        <div class="u-margin-top--small">
+          <%= link_to t('resources.btn.download', title: 'Guide'), url_for(format: 'pdf'), class: 'o-ub-btn c-cg-btn-download' %>
         </div>
       </div>
     </div>
   </div>
-<% end %>
+  <div class="o-page__module u-bg--light c-cg-content">
+    <div class="o-page__wrap--row">
+      <div class="c-cg-content__sidebar">
+        <%= render partial: 'nav', locals: { headings: @content_guide.headings } %>
+      </div>
+      <div id="c-ch-content" class="c-cg-content__body">
+        <% if @content_guide.broken_images.any? %>
+          <div class='callout warning'>
+            <p><%= t('.broken_images') %>
+          </div>
+        <% end %>
+        <%= @content_guide.html %>
+      </div>
+    </div>
+  </div>
+</div>
