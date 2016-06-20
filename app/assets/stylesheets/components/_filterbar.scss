@@ -76,6 +76,7 @@ $filterbar-xs: (($filterbar-square + 1) * 5 - 1) / 2;
 
       @include breakpoint(medium down) {
         @include button($background: map-get($ub-mignight, clear), $background-hover: auto, $color: $ub-white);
+        @include flex;
       }
     }
 
@@ -91,7 +92,7 @@ $filterbar-xs: (($filterbar-square + 1) * 5 - 1) / 2;
       width: 160px;
 
       @include breakpoint(medium down) {
-        width: $filterbar-xs;
+        width: $filterbar-xs - 1px;
       }
     }
 

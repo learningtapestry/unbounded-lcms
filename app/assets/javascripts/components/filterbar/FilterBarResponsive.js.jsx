@@ -1,7 +1,7 @@
 class FilterbarResponsive extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { breakpoint: 'xxlarge', ...this.props};
+    this.state = { breakpoint: 'xxlarge' };
     this.WINDOW_BREAKPOINT = 768;
     this.WINDOW_BREAKPOINT_NAMES = ['small', 'medium'];
   }
@@ -42,7 +42,7 @@ class FilterbarResponsive extends React.Component {
           <a className="o-btn o-btn--yellow u-margin-bottom--large" onClick={this.onClickRefine.bind(this)}>Refine Results</a>
           <div className="o-filterbar-modal" ref="modal">
             <Filterbar
-               {...this.state}
+               {...this.props}
                 withDropdown={false}
                 onRefine={this.handleRefineClick.bind(this)} />
           </div>
@@ -50,7 +50,7 @@ class FilterbarResponsive extends React.Component {
       );
     }
     return (
-      <Filterbar {...this.state}/>
+      <Filterbar {...this.props}/>
     );
   }
 
