@@ -9,7 +9,7 @@
   position: relative;
 
   @include breakpoint(large) {
-    width: 45%;
+    width: 45% !important;
   }
 
   @include breakpoint(ipad) {
@@ -40,10 +40,13 @@
 
   @include e(content) {
     @include add-column-padding;
-    max-height: 50vh;
     overflow-y: auto;
     padding-bottom: $ub-base-padding;
     padding-top: $ub-base-padding;
+
+    @include breakpoint(ipad) {
+      max-height: 50vh;
+    }
   }
 
   @include e(title) {

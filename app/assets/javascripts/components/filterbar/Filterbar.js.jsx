@@ -205,10 +205,12 @@ class Filterbar extends React.Component {
        </div>);
     }
 
+    const mobileTitle = this.props.withSearch ? 'Filter and Search' : 'Filter';
+
     return (
       <div>
         <div className='o-filterbar'>
-          <div className='o-filterbar__title hide-for-ipad u-margin-bottom--large'>Filter and Search</div>
+          <div className='o-filterbar__title hide-for-ipad u-margin-bottom--large'>{mobileTitle}</div>
           <div className='o-filterbar__list'>
             {state.subjects.map(subject => {
               return (
