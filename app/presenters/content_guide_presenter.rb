@@ -6,7 +6,7 @@ class ContentGuidePresenter < BasePresenter
   ANNOTATION_COLOR = '#fff2cc'
 
   DanglingLink = Struct.new(:text, :url)
-  Heading = Struct.new(:id, :level, :text)
+  Heading = Struct.new(:anchor, :children, :level, :text)
 
   attr_reader :doc, :host, :view_context
 
@@ -35,20 +35,38 @@ class ContentGuidePresenter < BasePresenter
   def headings
     process_doc
 
-    headings =
-      doc.css('h1, h2, h3').each_with_index.map do |h, i|
-        id = "heading_#{i}"
-        level = h.name[/\d/].to_i
-        text = h.text.chomp.strip
+    headings = []
 
-        h[:id] = id
-        h['data-magellan-target'] = id
-      
-        Heading.new(id, level, text)
+    doc.css('h1, h2, h3').each_with_index.map do |h, i|
+      id = "heading_#{i}"
+      text = h.text.chomp.strip
+
+      h[:class] = 'c-cg-heading'
+      h[:id] = id
+
+      level = h.name.tr('h', '')
+      heading = Heading.new(id, [], level, text)
+
+      # TODO find a better way to organize this
+      if headings.any?
+        case h.name
+        when 'h2'
+          parent = headings.last
+          next unless parent
+          parent.children ||= []
+          parent.children << heading
+        when 'h3'
+          parent = headings.last.children.last rescue nil
+          next unless parent
+          parent.children ||= []
+          parent.children << heading
+        else headings << heading
+        end
+      else
+        headings << heading
       end
+    end
 
-    min_level = headings.map(&:level).minmax.first
-    headings.each { |h| h.level -= min_level }
     headings
   end
 

@@ -1,0 +1,12 @@
+<li class=o-sidebar-nav__item>
+  <%= link_to "##{heading.anchor}", class: "o-sidebar-nav__item--level#{heading.level}" do %>
+    <% if heading.children.any? %>
+      <div class=o-sidebar-nav__item__icon>▸</div>
+    <% end %>
+    <div class=o-sidebar-nav__item__content><%= heading.text %></div>
+  <% end %>
+  <ul class=o-sidebar-nav>
+    <% heading.children.each do |heading| %>
+      <%= render 'nav_item', heading: heading %>
+    <% end %>
+  </ul>
