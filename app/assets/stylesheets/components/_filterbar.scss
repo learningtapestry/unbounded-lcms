@@ -73,6 +73,10 @@ $filterbar-xs: (($filterbar-square + 1) * 5 - 1) / 2;
     @include m(clear) {
       font-weight: bold;
       i { text-shadow: 0 1px 1px rgba(0, 0, 0, .3); }
+
+      @include breakpoint(medium down) {
+        @include button($background: map-get($ub-mignight, clear), $background-hover: auto, $color: $ub-white);
+      }
     }
 
     @include m(rectangle) {
