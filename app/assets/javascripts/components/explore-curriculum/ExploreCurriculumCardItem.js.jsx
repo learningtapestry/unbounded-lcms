@@ -1,6 +1,9 @@
 class ExploreCurriculumCardItem extends React.Component {
   componentDidMount() {
-    new Foundation.DropdownMenu($(this.refs.dropdown), { 'alignment': 'right', 'forceFollow': false, 'closingTime': 0});
+    new Foundation.DropdownMenu($(this.refs.dropdown),
+                                { 'alignment': 'right',
+                                  'forceFollow': false,
+                                  'closingTime': Modernizr.touchevents ? 0 : 5000 });
   }
 
   componentWillUnmount() {
