@@ -20,11 +20,6 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
     assert_page_title 'Admin'
   end
 
-  def test_admin_import_page
-    visit '/admin/subtitles_imports/new'
-    assert_page_title 'Import subtitles & descriptions'
-  end
-
   def test_admin_page_pages
     tos = pages(:tos)
 
@@ -65,7 +60,7 @@ class PageTitlesTestCase < ActionDispatch::IntegrationTest
     assert_page_title 'New Staff Member'
 
     visit "/admin/staff_members/#{staff_member.id}/edit"
-    assert_page_title staff_member.name
+    assert_page_title "UnboundEd - #{staff_member.name}"
   end
 
   def test_auth_pages

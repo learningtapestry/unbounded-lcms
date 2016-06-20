@@ -12,6 +12,25 @@ class Download < ActiveRecord::Base
     write_attribute(:filename, filename)
   end
 
+  def attachment_url
+    if url.present?
+      url.sub('public://', 'http://k12-content.s3-website-us-east-1.amazonaws.com/')
+    else
+      file.url
+    end
+  end
+
+  def attachment_content_type
+    case content_type
+    when 'application/zip' then 'zip'
+    when 'application/pdf' then 'pdf'
+    when 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' then 'excel'
+    when 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' then 'powerpoint'
+    when 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' then 'doc'
+    else content_type
+    end
+  end
+
   private
     def update_metadata
       if file.present?

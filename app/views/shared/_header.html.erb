@@ -14,10 +14,10 @@
       <div class="o-top-bar__wrapper" id="navbar">
         <div class="o-top-bar__item">
           <ul class="menu c-header__menu">
-            <%= nav_link t('nav.curriculum_html'), explore_curriculum_index_path, class: 'c-header__link' %>
-            <%= nav_link t('nav.lessons_html'), find_lessons_path, class: 'c-header__link' %>
-            <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: 'c-header__link' %>
-            <%= nav_link t('nav.about_html'), about_path, class: "c-header__link #{active_class(about_people_path)}" %>
+            <%= nav_link t('nav.curriculum_html'), explore_curriculum_index_path, class: "c-header__link #{add_class_for_action(:resources, :show, 'active')}" %>
+            <%= nav_link t('nav.lessons_html'), find_lessons_path, class: "c-header__link" %>
+            <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: "c-header__link #{add_class_for_action(:resources, :media, 'active')} #{add_class_for_action(:content_guides, :show, 'active')}" %>
+            <%= nav_link t('nav.about_html'), about_path, class: "c-header__link #{add_class_for_path(about_people_path, 'active')}" %>
           </ul>
         </div>
         <div class="o-top-bar__item">

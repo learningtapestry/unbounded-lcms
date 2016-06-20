@@ -84,37 +84,6 @@ EOF
 
 rm staging_dump.dump
 
-# 2. Copy the files.
-
-echo "-> Migrating files."
-
-echo "(1) Compressing files in staging."
-
-ssh ub-staging.learningtapestry.com <<\EOF
-    cd ~
-    cp -Lr $STACK_PATH/public/uploads ~/
-    XZ_OPT=-9 tar cJf uploads.tar.xz uploads
-    rm -r uploads
-EOF
-
-echo "(2) Copying files from staging."
-
-scp ub-staging.learningtapestry.com:/home/ubuntu/uploads.tar.xz /home/ubuntu/uploads.tar.xz
-
-echo "(3) Restoring files."
-
-tar xf uploads.tar.xz
-
-find uploads/ -print | cpio -pvdm --owner nginx:app_writers $STACK_BASE/shared
-
-rm -r uploads
-rm uploads.tar.xz
-
-ssh ub-staging.learningtapestry.com <<\EOF
-    cd ~
-    rm uploads.tar.xz
-EOF
-
 cd $CWD
 
 echo "-> Done."

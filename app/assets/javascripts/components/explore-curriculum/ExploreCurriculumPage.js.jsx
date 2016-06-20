@@ -154,7 +154,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleClickViewDetails(parentage, e) {
-    if (e.target.nodeName === "A") return;
+    if ((e.target.nodeName === "A") || (e.target.nodeName === "I"))  return;
     e.preventDefault();
     const currentTarget = `#${e.currentTarget.id}`;
     const id = _.last(parentage);
@@ -220,7 +220,7 @@ class ExploreCurriculumPage extends React.Component {
                   Search our free collection, or filter by subject or grade. Download, adapt, share.
                 </div>
               </div>
-              <Filterbar
+              <FilterbarResponsive
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
                 searchLabel='What do you want to teach?'
                 withSearch={true}

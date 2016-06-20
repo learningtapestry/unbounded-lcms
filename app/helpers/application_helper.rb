@@ -7,13 +7,16 @@ module ApplicationHelper
     end.html_safe
   end
 
-  def active_class(link_path, cls = '')
-    class_prefix = current_page?(link_path) ? 'active' : ''
-    "#{class_prefix} #{cls}"
+  def add_class_for_path(link_path, klass, klass_prefix = nil)
+    "#{klass_prefix} #{klass if current_page?(link_path)}"
+  end
+
+  def add_class_for_action(controller_name, action_name, klass, klass_prefix = nil)
+    "#{klass_prefix} #{klass if controller.controller_name == controller_name.to_s && controller.action_name == action_name.to_s}"
   end
 
   def nav_link(link_text, link_path, attrs = {})
-    cls = active_class(link_path, attrs[:class])
+    cls = add_class_for_path(link_path, 'active', attrs[:class])
     content_tag(:li, attrs.merge(class: cls)) { link_to link_text, link_path }
   end
 
@@ -37,6 +40,10 @@ module ApplicationHelper
     content_for :description do
       dsc
     end
+  end
+
+  def set_canonical_url(value)
+    content_for(:canonical_url, value)
   end
 
   def page_description

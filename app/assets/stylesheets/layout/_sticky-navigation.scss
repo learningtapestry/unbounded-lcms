@@ -7,26 +7,32 @@ $sticky-txt-width: 280px;
 
 .o-sticky {
   position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
 
   @include breakpoint(small only) {
-    //display: none;
+    bottom: 0;
+    width: 50%;
   }
 
-  &:hover, &:focus {
-    .o-sticky__txt {
-      display: block;
+  @include breakpoint(medium) {
+    top: 50%;
+    transform: translateY(-50%);
+    &:hover, &:focus {
+      .o-sticky__txt {
+        display: block;
+      }
     }
   }
+
 
   @include m(right) {
     right: 0;
     text-align: right;
 
-    @include e(btn) {
-      border-bottom-right-radius: 0;
-      border-top-right-radius: 0;
+    @include breakpoint(medium) {
+      @include e(btn) {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+      }
     }
   }
 
@@ -34,9 +40,11 @@ $sticky-txt-width: 280px;
     left: 0;
     text-align: left;
 
-    @include e(btn) {
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
+    @include breakpoint(medium) {
+      @include e(btn) {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+      }
     }
   }
 
@@ -47,17 +55,38 @@ $sticky-txt-width: 280px;
     }
   }
 
+  @include e(wrap) {
+    flex-wrap: nowrap;
+    height: 100%;
+
+    @include breakpoint(medium) {
+      @include flex-align($x: center, $y: middle);
+    }
+
+    @include breakpoint(small only) {
+      @include m(right) {
+        @include flex-align($x: right, $y: middle);
+      }
+      @include m(left) {
+        @include flex-align($x: left, $y: middle);
+      }
+    }
+  }
+
   @include e(btn) {
-    @include button($background: rgba($ub-panel-bg, .7), $background-hover: rgba($ub-white, .7), $color: $ub-txt);
+    @include button($background: $ub-white, $background-hover: darken($ub-white, 10%), $color: $ub-txt);
+    @include breakpoint(medium) {
+      @include button($background: rgba($ub-panel-bg, .7), $background-hover: rgba($ub-white, .7), $color: $ub-txt);
+    }
     @include button-expand;
     border: 1px solid darken($ub-panel-bg, 5%);
     height: $sticky-btn-height;
+    margin-bottom: 0;
     padding: 0 $ub-xs-padding;
 
-    > div {
-      @include flex-align($x: center, $y: middle);
-      flex-wrap: nowrap;
-      height: 100%;
+    @include breakpoint(small only) {
+      border-radius: 0;
+      padding: 0;
     }
 
     @each $breakpoint, $btn-width in $sticky-btn-width {
@@ -74,11 +103,14 @@ $sticky-txt-width: 280px;
 
   @include e(txt) {
     @include flex-grid-column(shrink, 0);
-    display: none;
-    text-align: left;
     max-width: $sticky-txt-width;
+    text-align: left;
     width: auto;
-    padding-left: $ub-xs-padding;
+
+    @include breakpoint(medium) {
+      display: none;
+      padding-left: $ub-xs-padding;
+    }
   }
 
   @include e(arrow-header) {
@@ -88,7 +120,5 @@ $sticky-txt-width: 280px;
   @include e(arrow-subheader) {
     @include txt-element(arrow-subheader);
   }
-
-
 
 }

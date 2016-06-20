@@ -14,7 +14,11 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
 
   @include e(wrap) {
     @include add-gutter(margin, top, 3.5);
-    @include add-gutter(margin, bottom, 3.5);
+    @include add-gutter(margin, bottom, 3);
+
+    @include breakpoint(small) {
+      @include add-gutter(margin, bottom, 3.5);
+    }
   }
 
   @include breakpoint(large up) {

@@ -21,20 +21,18 @@ class ExploreCurriculumController < ApplicationController
   protected
 
     def set_curriculums
-      @curriculums = Rails.cache.fetch("explore_curriculums/#{params_cache_key}") do
-        Curriculum.trees
-          .grades
-          .with_resources
-          .where_subject(subject_params)
-          .where_grade(grade_params)
-          .order('resources.subject', :position)
-      end
+      @curriculums = Curriculum.trees
+        .grades
+        .with_resources
+        .where_subject(subject_params)
+        .where_grade(grade_params)
+        .order('resources.subject', :position)
     end
 
     def set_index_props
       set_curriculums
 
-      @props = Rails.cache.fetch("explore_curriculums/props/#{params_cache_key}") do
+      @props = begin
         if slug_param
           target_curriculum = ResourceSlug.find_by!(value: slug_param).curriculum
           raise StandardError unless target_curriculum
@@ -79,15 +77,6 @@ class ExploreCurriculumController < ApplicationController
     def set_show_props
       @curriculum = Curriculum.find(params[:id])
       @props = CurriculumSerializer.new(@curriculum, depth: 1).as_json
-    end
-
-    def params_cache_key
-      @params_cache_key ||= begin
-        grade_key = grade_params.sort.flatten.join(':')
-        subject_key = subject_params.sort.flatten.join(':')
-        slug_key = slug_param
-        "subject::#{subject_key}/grade::#{grade_key}::#{slug_key}"
-      end
     end
 
     def slug_param

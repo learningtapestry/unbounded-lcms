@@ -4,6 +4,7 @@ class ContentGuide < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
 
+  GRADES = ['prekindergarten', 'kindergarten', 'grade 1', 'grade 2', 'grade 3', 'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9', 'grade 10', 'grade 11', 'grade 12']
   ICON_VALUES = %w(complexity instruction volume)
 
   attr_accessor :update_metadata
@@ -17,10 +18,13 @@ class ContentGuide < ActiveRecord::Base
   has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
 
   validates :date, :description, :subject, :teaser, :title, presence: true, if: :validate_metadata?
+  validates :permalink, format: { with: /\A\w+\z/ }, uniqueness: { case_sensitive: false }
   validate :icon_values
   validate :media_exist
 
   before_validation :process_content, unless: :update_metadata
+  before_validation :downcase_permalink
+  before_save :set_slug
 
   mount_uploader :big_photo, ContentGuidePhotoUploader
   mount_uploader :small_photo, ContentGuidePhotoUploader
@@ -62,6 +66,20 @@ class ContentGuide < ActiveRecord::Base
                   version: file.version)
       cg
     end
+
+    def sort_by_grade
+      includes(taggings: :tag).sort_by(&:grade_score)
+    end
+  end
+
+  def grade_score
+    indices =
+      taggings.map do |t|
+        grade = t.tag.name if t.context == 'grades'
+        GRADES.index(grade)
+      end.compact
+
+    indices.min || 0
   end
 
   def modified_by
@@ -140,6 +158,15 @@ class ContentGuide < ActiveRecord::Base
     end
   end
 
+  def downcase(str)
+    str.mb_chars.downcase.to_s rescue nil
+  end
+
+  def downcase_permalink
+    self.permalink = downcase(permalink)
+    true
+  end
+
   def download_images(doc)
     doc.css('img').each do |img|
       url = img[:src]
@@ -158,6 +185,14 @@ class ContentGuide < ActiveRecord::Base
       a[:target] = '_blank'
     end
     doc
+  end
+
+  def set_slug
+    value = update_metadata ? slug : title
+    return true unless value.present?
+
+    value = downcase(value)
+    self.slug = value.gsub(/(_|[[:space:]])/, '-').gsub(/[^-[[:alnum:]]]/, '').gsub(/-+/, '-')
   end
 
   def icon_values

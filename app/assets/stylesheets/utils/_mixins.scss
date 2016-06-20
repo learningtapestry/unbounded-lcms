@@ -27,8 +27,7 @@
   }
 }
 
-@mixin txt-element($element, $map: $ub-element-typography) {
-  $typo: map-get($map, $element);
+@mixin txt-element-base($typo) {
   @each $style, $value in $typo {
     #{$style}: $value;
   }
@@ -37,8 +36,17 @@
   }
 }
 
-@mixin txt-pdf-element($element) {
-  @include txt-element($element, $ub-pdf-typography);
+@mixin txt-element($element) {
+  $typo: map-get($ub-element-typography, $element);
+  @if map-has-key($typo, small) {
+    @each $breakpoint, $value in $typo {
+      @include breakpoint($breakpoint) {
+        @include txt-element-base($value);
+      }
+    }
+  } @else {
+    @include txt-element-base($typo);
+  }
 }
 
 @mixin txt-heading-base($element) {
@@ -59,13 +67,26 @@
   }
 }
 
+@mixin txt-pdf-element($element) {
+  @include txt-element($element, $ub-pdf-typography);
+}
+
 @mixin clamp($lines, $element) {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
-  max-height: computed-height($element, $lines);
+  $typo: map-get($ub-element-typography, $element);
+  @if map-has-key($typo, small) {
+    @each $breakpoint, $value in $typo {
+      @include breakpoint($breakpoint) {
+        max-height: computed-height($value, $lines);
+      }
+    }
+  } @else {
+    max-height: computed-height($typo, $lines);
+  }
 }
 
 @mixin ellipsis {

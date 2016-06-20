@@ -39,6 +39,25 @@
   }
 
   @include e(item) {
+    @include e(content) {
+      margin-left: 1rem;
+    }
+
+    @include e(icon) {
+      float: left;
+    }
+
+    &.expanded {
+      & > .o-sidebar-nav {
+        max-height: 1000px;
+        transition: max-height 1s;
+      }
+
+      & > a > .o-sidebar-nav__item__icon {
+        transform: rotate(90deg);
+      }
+    }
+
     a {
       color: #959595;
       line-height: 1.2 !important;
@@ -49,12 +68,14 @@
       }
     }
 
-    @include m(level1) {
+    & > .o-sidebar-nav {
+      max-height: 0;
       margin-left: 1rem;
-    }
-
-    @include m(level2) {
-      margin-left: 2rem;
+      overflow: hidden;
     }
   }
+}
+
+.o-sidebar-nav__item--level2 {
+  text-transform: uppercase;
 }
