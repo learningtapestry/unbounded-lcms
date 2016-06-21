@@ -9,6 +9,10 @@ module ResourceHelper
     end
   end
 
+  def show_resource_path_curriculum(curriculum)
+    show_resource_path(curriculum.resource, curriculum)
+  end
+
   def type_name(curriculum)
     curriculum.curriculum_type.name.capitalize
   end

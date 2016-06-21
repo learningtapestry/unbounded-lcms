@@ -9,10 +9,13 @@
 //= require selectize
 //= require react
 //= require react_ujs
+//= require vendor/html.sortable.min
 //= require ../ready
 //= require ../components
 //= require ./components
 //= require_tree ./editor
+//= require_tree ./curriculums
+
 
 ready(function() {
   $(document).initFoundation();
