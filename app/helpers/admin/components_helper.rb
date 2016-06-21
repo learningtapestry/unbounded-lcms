@@ -1,10 +1,18 @@
 module Admin::ComponentsHelper
-  def resource_picker_field(form, collection, path:, name:)
+  def resource_picker_field(form, collection, allow_multiple: true, path:, name:, preserve_name: false)
     path = path.to_s
-    base_name = form.hidden_field(name).scan(/\b(?<=name=\")[^"]+(?=\")/)[0] 
+
+    computed_name = if preserve_name
+                      name
+                    else
+                      base_name = form.hidden_field(name).scan(/\b(?<=name=\")[^"]+(?=\")/)[0]
+                      "#{base_name}[]"
+                    end
+
     component = react_component('ResourcePicker',
-      name: "#{base_name}[]",
-      resources: collection.map { |i| { id: i.id, title: i.title } }
+      name: computed_name,
+      resources: collection.map { |i| { id: i.id, title: i.title } },
+      allow_multiple: allow_multiple
     )
     content_tag(:div) do
       [

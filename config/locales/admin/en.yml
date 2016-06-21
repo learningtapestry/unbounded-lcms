@@ -213,6 +213,7 @@ en:
         users: Users
     nav:
       curriculums: Curriculums
+      add_curriculum: Add curriculum
       resources: Resources
       add_resource: Add resource
       import_resources: Import resources

@@ -103,8 +103,6 @@ class Curriculum < ActiveRecord::Base
   scope :units, -> { where(curriculum_type: CurriculumType.unit) }
   scope :lessons, -> { where(curriculum_type: CurriculumType.lesson) }
 
-  after_save :update_generated_fields
-
   def self.ela_tree
     ela.maps.trees.first
   end
@@ -333,8 +331,25 @@ class Curriculum < ActiveRecord::Base
     tree.try(:reload)
   end
 
+  def trees_referencing
+    Curriculum.trees.where(item_id: resource.id, curriculum_type: curriculum_type)
+  end
+
   def tree_or_create
     tree || create_tree
+  end
+
+  def update_trees
+    transaction do
+      trees_referencing.each do |tr|
+        tr_parent_tree = tr.parent
+        tr_seed = tr.seed
+        tr.children.each { |trc| trc.destroy }
+        tr.reload
+        children.each { |c| create_tree_recursively(tr_seed, c, tr) }
+        tr.generate_slugs
+      end
+    end
   end
 
   def destroy_recursively_with_resources!(really_destroy_everything: false)
@@ -348,9 +363,17 @@ class Curriculum < ActiveRecord::Base
 
   # Slugs
 
-  def create_slugs
+  def self.regenerate_all_slugs
     transaction do
-      tree.self_and_descendants.find_each do |curriculum|
+      trees.where(parent_id: nil).each do |tree|
+        tree.generate_slugs
+      end
+    end
+  end
+
+  def generate_slugs
+    transaction do
+      self_and_descendants.find_each do |curriculum|
         ResourceSlug.create_for_curriculum(curriculum)
       end
     end

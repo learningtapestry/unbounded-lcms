@@ -2,7 +2,8 @@ require 'test_helper'
 
 class ResourcesControllerTest < ActionController::TestCase
   setup do
-    Curriculum.maps.each { |m| m.tree_or_create.create_slugs }
+    Curriculum.maps.each { |m| m.tree_or_create }
+    Curriculum.regenerate_all_slugs
   end
 
   test 'show lesson details' do

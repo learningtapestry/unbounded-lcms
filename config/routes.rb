@@ -41,10 +41,12 @@ Rails.application.routes.draw do
       end
     end
     resource :curriculum_export, only: %i(new create)
+    resources :curriculums
     resources :reading_assignment_texts
     resource :resource_bulk_edits, only: [:new, :create]
     resources :resource_children, only: :create
     get '/resource_picker' => 'resource_picker#index'
+    get '/curriculum_picker' => 'resource_picker#curriculum'
     resources :resources, except: :show
     resources :pages, except: :show
     resources :settings, only: [] do

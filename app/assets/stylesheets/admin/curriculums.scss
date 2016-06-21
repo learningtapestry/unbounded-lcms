@@ -1,0 +1,20 @@
+.c-admcur-filter {
+  select:hover {
+    cursor: pointer;
+  }
+}
+
+.c-admcur-results {
+  .button {
+    margin-bottom: 0;
+  }
+}
+
+#cur-edit-items li {
+  cursor: move;
+}
+
+.cur-edit-item-curtype {
+  font-weight: bold;
+  text-transform: uppercase;
+}
