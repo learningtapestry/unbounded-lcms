@@ -27,7 +27,7 @@
 
     @include e(item) {
       a {
-        &.active, &:hover, &:focus {
+        &.active, &:hover {
           color: map-get($map, sidebar);
         }
       }
@@ -47,45 +47,49 @@
     background-size: cover;
     padding: 0 !important;
 
-    @include breakpoint(medium) {
+    @include breakpoint(ipad) {
       @include flex-grid-column(3);
     }
   }
 
   @include e(body) {
-    @extend .u-wrap--base;
-    @include flex-grid-column(12);
+    @include flex-grid-column(12, 2 * 1.5rem);
+    padding-bottom: 3.5rem;
+    padding-top: 2.25rem;
 
-    @include breakpoint(medium) {
-      @include flex-grid-column(9);
+    @include breakpoint(ipad) {
+      @include flex-grid-column(9, 2 * 1.875rem);
     }
 
-    padding: 2.25rem 1.875rem 3.5rem !important;
   }
 }
 
 .c-cg-content {
-  padding-top: $ub-xlarge-padding;
   padding-bottom: $ub-large-padding;
+  padding-top: $ub-xlarge-padding;
 
   @include e(sidebar) {
-    border-right: 1px dotted $light-gray;
-    display: none;
 
-    @include breakpoint(medium) {
+    @include breakpoint(medium down) {
+      @include add-gutter(margin, left, -.5);
+      @include add-gutter(margin, right, -.5);
+      flex: 0 0 100%;
+      min-width: 100%;
+    }
+
+    @include breakpoint(ipad) {
       @include flex-grid-column(3);
-      display: block;
+      border-right: 1px dotted $light-gray;
     }
   }
 
   @include e(body) {
-    @include flex-grid-column(12);
+    @include flex-grid-column(12, 2 * 1.75rem);
 
-    @include breakpoint(medium) {
+    @include breakpoint(ipad) {
       @include flex-grid-column(9);
+      padding: 0 2.125rem 0 2.25rem !important;
     }
-
-    padding: 0 2.125rem 0 2.25rem !important;
 
     h1, h2, h3, h4 {
       font-weight: bold;

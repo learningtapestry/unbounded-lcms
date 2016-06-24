@@ -19,6 +19,10 @@ class ContentGuidePresenter < BasePresenter
     @wrap_keywords = wrap_keywords
   end
 
+  def sticky_title
+    "#{t('ui.unbounded')} #{subject} #{t('ui.guide')} #{grade_numbers}"
+  end
+
   def broken_images
     @broken_images ||= doc.css('[src*="google.com"]')
   end
@@ -99,6 +103,19 @@ class ContentGuidePresenter < BasePresenter
   end
 
   private
+
+  def grade_numbers
+    first_grade = grade_number(grade_list.first)
+    return first_grade if grade_list.size < 2
+    "#{first_grade}-#{grade_number(grade_list.last)}"
+  end
+
+  def grade_number(g)
+    grade = g.downcase
+    return 'k' if grade == 'kindergarten'
+    return 'pk' if grade == 'prekindergarten'
+    return grade[/\d+/] if grade[/\d+/]
+  end
 
   def all_next_elements_with_name(tag, name)
     nodes = []
@@ -524,6 +541,7 @@ class ContentGuidePresenter < BasePresenter
                 data-hover=true
                 data-hover-delay=0
                 data-hover-pane=true
+                data-standard=1
                 id=#{id}>
             #{standard.description}
           </span>

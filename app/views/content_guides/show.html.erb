@@ -4,7 +4,7 @@
   <% set_canonical_url content_guide_path(permalink, slug: @content_guide.slug) %>
 <% end %>
 
-<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @content_guide.subject %>">
+<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @content_guide.subject %>" data-scroll="cg-page" id="cg-page">
   <div class="o-page__module u-margin-bottom--gutter">
     <%= link_to :enhance_instruction_index, class: 'o-btn o-btn--base' do %>
       <i class="fa-lg ub-arrow-left"></i> <%= t('content_guide_page.back_to_hub') %>
@@ -28,7 +28,7 @@
   <div class="o-page__module u-bg--light c-cg-content">
     <div class="o-page__wrap--row">
       <div class="c-cg-content__sidebar">
-        <%= render partial: 'nav', locals: { headings: @content_guide.headings } %>
+        <%= render partial: 'nav', locals: { cg: @content_guide } %>
       </div>
       <div id="c-ch-content" class="c-cg-content__body">
         <% if @content_guide.broken_images.any? %>
