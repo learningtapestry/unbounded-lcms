@@ -45,7 +45,7 @@ class FilterbarResponsive extends React.Component {
                {...this.props}
                 withDropdown={false}
                 onRefine={this.handleRefineClick.bind(this)} />
-            <button className="close-button" data-close aria-label="Close modal" type="button" onClick={this.handleRefineClick.bind(this)}>
+            <button className="close-button" aria-label="Close modal" type="button" onClick={this.handleRefineClick.bind(this)}>
               <span aria-hidden="true"><i className="ub-close"></i></span>
             </button>
           </div>
