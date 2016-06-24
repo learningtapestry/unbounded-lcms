@@ -348,6 +348,7 @@ class Curriculum < ActiveRecord::Base
         tr.reload
         children.each { |c| create_tree_recursively(tr_seed, c, tr) }
         tr.generate_slugs
+        tr.self_and_descendants.find_each { |trc| trc.update_generated_fields }
       end
     end
   end
