@@ -36,8 +36,8 @@
   }
 }
 
-@mixin txt-element($element) {
-  $typo: map-get($ub-element-typography, $element);
+@mixin txt-element($element, $ub-map: $ub-element-typography) {
+  $typo: map-get($ub-map, $element);
   @if map-has-key($typo, small) {
     @each $breakpoint, $value in $typo {
       @include breakpoint($breakpoint) {

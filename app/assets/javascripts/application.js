@@ -10,7 +10,7 @@
 //= require react
 //= require react_ujs
 //= require components
-//= require content_guides
+//= require initializers/content_guides
 //= require initializers/about_people
 //= require initializers/social_sharing
 //= require initializers/google_analytics

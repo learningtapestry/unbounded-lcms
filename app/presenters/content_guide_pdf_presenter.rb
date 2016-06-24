@@ -6,7 +6,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def footer_title
-    "#{subject.try(:upcase)} #{grades_title} #{title}"
+    "#{title}"
   end
 
   def header_title
@@ -16,9 +16,8 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   private
 
   def grades_title
-    first_grade = grade_list.first.try(:titleize)
-    return first_grade if grade_list.size < 2
-    "#{first_grade}-#{grade_list.last[/\d+/]}"
+    g = grade_numbers
+    g.include?('k') ? g.try(:titleize) : "#{t('ui.grade')} #{g}"
   end
 
   def mark_footnotes
