@@ -6,6 +6,19 @@ class Admin::ResourcePickerController < Admin::AdminController
     attributes :id, :title
   end
 
+  class CurriculumPickerSerializer < ActiveModel::Serializer
+    self.root = false
+    attributes :id, :title, :curriculum_type
+
+    def curriculum_type
+      object.current_level
+    end
+
+    def title
+      object.resource.title
+    end
+  end
+
   def index
     @resources = Resource
 
@@ -40,6 +53,43 @@ class Admin::ResourcePickerController < Admin::AdminController
         json_response = serialize_with_pagination(@resources,
           pagination: pagination_params,
           each_serializer: ResourcePickerSerializer
+        )
+        render json: json_response
+      }
+    end
+  end
+
+  def curriculum
+    @curriculums = Curriculum.seeds.where(parent: nil)
+
+    if index_params[:subject].present?
+      @curriculums = @curriculums.where_subject(index_params[:subject])
+    end
+
+    if index_params[:type].present?
+      @curriculums = @curriculums.where(
+        curriculum_type: FilterParamsConstants.curriculum_types[index_params[:type]]
+      )
+    end
+
+    if index_params[:grade].present?
+      @curriculums = @curriculums.where_grade(
+        FilterParamsConstants.grades[index_params[:grade]]
+      )
+    end
+
+    if index_params[:q].present?
+      @curriculums = @curriculums.with_resources.where('resources.title ilike ?', "%#{params[:q]}%")
+    end
+
+    @curriculums = @curriculums
+      .paginate(page: pagination_params[:page], per_page: 10)
+
+    respond_to do |format|
+      format.json {
+        json_response = serialize_with_pagination(@curriculums,
+          pagination: pagination_params,
+          each_serializer: CurriculumPickerSerializer
         )
         render json: json_response
       }

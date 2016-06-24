@@ -13,6 +13,13 @@ class ResourcePicker extends React.Component {
     return $(this.modal);
   }
 
+  get allowMultiple() {
+    if (_.isUndefined(this.props.allow_multiple) || this.props.allow_multiple === null) {
+      return true;
+    }
+    return this.props.allow_multiple;
+  }
+
   componentDidMount() {
     new Foundation.Reveal(this.jqmodal);
     this.jqmodal.on('open.zf.reveal', () => this.jqmodal.css({top: '15px'}));
@@ -32,9 +39,13 @@ class ResourcePicker extends React.Component {
   selectResource(resource) {
     this.jqmodal.foundation('close');
 
+    const newResources = this.allowMultiple ?
+                           [...this.state.resources, resource] :
+                           [resource];
+
     this.setState({
       ...this.state,
-      resources: [...this.state.resources, resource]
+      resources: newResources
     });
   }
 
