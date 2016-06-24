@@ -23,9 +23,10 @@
             </li>
 
             <li class="dropdown c-header__link">
-              <%= link_to t('admin.nav.curriculums'), about_path %>
+              <%= link_to t('admin.nav.curriculums'), :admin_curriculums %>
               <ul class="menu vertical">
-                <%= nav_link t('admin.nav.curriculums'), about_path %>
+                <%= nav_link t('admin.nav.curriculums'), :admin_curriculums %>
+                <%= nav_link t('admin.nav.add_curriculum'), :new_admin_curriculum %>
               </ul>
             </li>
 
