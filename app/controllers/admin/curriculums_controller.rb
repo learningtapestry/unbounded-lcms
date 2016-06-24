@@ -76,8 +76,11 @@ class Admin::CurriculumsController < Admin::AdminController
     def build_curriculum
       p = curriculum_params
       Curriculum.transaction do
+        is_unit = p[:curriculum_type_id].to_i == CurriculumType.unit.id
         new_children_ids = p.delete(:child_ids).map(&:to_i)
-        new_children = Curriculum.where(id: new_children_ids)
+        new_children = is_unit ?
+                         Resource.where(id: new_children_ids) :
+                         Curriculum.where(id: new_children_ids)
 
         @curriculum = if params[:id].present?
                         Curriculum.find(params[:id])
@@ -97,23 +100,21 @@ class Admin::CurriculumsController < Admin::AdminController
           end
         end
 
-        new_children.each do |curriculum|
-          new_position = new_children_ids.index(curriculum.id)
-          if current_item_ids.include?(curriculum.id)
+        new_children.each do |resource_or_curriculum|
+          new_position = new_children_ids.index(resource_or_curriculum.id)
+          if current_item_ids.include?(resource_or_curriculum.id)
             @curriculum.children
-              .find_by(item_id: curriculum.id)
+              .find_by(item_id: resource_or_curriculum.id)
               .update_columns(position: new_position)
           else
             @curriculum.children.create!(
-              item_id: curriculum.id,
-              item_type: 'Curriculum',
-              curriculum_type: curriculum.curriculum_type,
+              item_id: resource_or_curriculum.id,
+              item_type: is_unit ? 'Resource' : 'Curriculum',
+              curriculum_type: is_unit ? CurriculumType.lesson : resource_or_curriculum.curriculum_type,
               position: new_position
             )
           end
         end
-
-        new_children.each { |curriculum| curriculum.update_generated_fields }
 
         @curriculum.update_attributes!(p)
         @curriculum.reload
