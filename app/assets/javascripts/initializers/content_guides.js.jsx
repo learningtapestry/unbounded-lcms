@@ -1,6 +1,7 @@
 $(function () {
 
-  var lastScrollTop = 0;
+  let lastScrollTop = 0;
+  const SCROLLING_THRESHOLD = 15;
 
   function initSticky() {
     let $sidebar = $('#cg-sidebar');
@@ -50,7 +51,7 @@ $(function () {
         $stickyContainer = $('#cg-sidebar-container'),
         $modal = $('#cg-contents-modal');
     const st = $(document).scrollTop();
-    if (st < lastScrollTop) {
+    if (st < lastScrollTop - SCROLLING_THRESHOLD) {
       $stickyContainer.removeClass('o-sidebar--tiny');
       $sticky.addClass('o-sidebar-xs--show');
       $('#cg-sidebar-xs__action').unbind().click((e) => {
@@ -66,7 +67,7 @@ $(function () {
         $modal.foundation('close');
       });
     }
-    if (st > lastScrollTop) {
+    if (st > lastScrollTop + SCROLLING_THRESHOLD) {
       $sticky.removeClass('o-sidebar-xs--show');
       $stickyContainer.addClass('o-sidebar--tiny');
     }
