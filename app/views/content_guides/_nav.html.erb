@@ -14,9 +14,8 @@
       </div>
     </div>
     <ul class="o-sidebar-nav o-sidebar-nav__menu show-for-ipad">
-      <li class=o-sidebar-nav__header><%= t('ui.contents') %></li>
+      <li class=o-sidebar-nav__header><span><%= t('ui.contents') %></span></li>
       <li><div class=o-sidebar-nav__sep></div></li>
-
       <% cg.headings.each do |heading| %>
         <%= render 'nav_item', heading: heading %>
       <% end %>

@@ -18,7 +18,7 @@ tr, img, table, pre, blockquote, .callout { page-break-inside: avoid; }
 
 // Avoid page breaks after a heading
 h1, h2, h3, h4, h5 { page-break-after: avoid; }
-h1, .c-cg-task { page-break-before: always; }
+.c-cg-content__body h1, .c-cg-task { page-break-before: always; }
 .c-cg-blockquote, .c-cg-pullquote { page-break-inside: avoid; }
 
 .contengGuide__footnotes {

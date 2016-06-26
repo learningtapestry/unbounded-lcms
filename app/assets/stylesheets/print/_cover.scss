@@ -4,6 +4,7 @@
 
 .c-pdf-timestamp {
   @include txt-pdf-element(cover-timestamp);
+  padding-top: $ub-small-padding;
 }
 
 .c-pdf-logo {
@@ -20,10 +21,12 @@
 
   h1 {
     @include txt-pdf-element(h1);
+    padding-top: 0;
   }
 
   h2 {
     @include txt-pdf-element(h2);
+    padding-top: 0;
   }
 
   @include m(ela) {
