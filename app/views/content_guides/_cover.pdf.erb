@@ -1,40 +1,20 @@
-<style>
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    background: rgba(255, 128, 0, 0.2);
-  }
-
-  h1 {
-    margin: 3rem 0;
-  }
-
-  .cover-content {
-    padding: 0 1rem;
-  }
-
-  .cover-image {
-    background: #0cf;
-    background-size: cover;
-    height: 500px;
-    margin: 0;
-  }
-</style>
-
-
-<div class=cover-image style='background-image: <%= cover_image_url %>'></div>
-
-<div class=cover-content>
-  <p>
-    <%= content_guide.grade %>
-    <%= content_guide.subject %>
-  </p>
-
-  <h1><%= content_guide.title %></h1>
-
-  <h2><%= content_guide.teaser %></h2>
-</div>
+<body class="c-pdf-header--<%= content_guide.subject %>" onload="subst()">
+  <div class="c-pdf-header">
+    <div class="c-pdf-header__img" style='background-image: <%= cover_image_url %>'></div>
+    <div class="c-pdf-header__content">
+      <div class="c-pdf-header__title">
+        <div class="c-pdf-title cs-txt--<%= content_guide.subject %>-base">
+          <%= content_guide.header_title %>
+        </div>
+        <h1><%= content_guide.title %></h1>
+        <h2><%= content_guide.teaser %></h2>
+        <div class="c-pdf-timestamp">
+          Generated on <%= Time.now.strftime("%B %d,%Y") %>
+        </div>
+      </div>
+      <div class="c-pdf-header__logo">
+        <span class="c-pdf-logo--u">Unbound</span><span class="c-pdf-logo--ed">Ed</span>
+      </div>
+    </div>
+  </div>
+</body>

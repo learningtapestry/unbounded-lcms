@@ -1,0 +1,29 @@
+.pdf-bullet {
+  padding-left: $ub-xs-padding / 2;
+  padding-right: $ub-xs-padding / 2;
+  &:after { content: '\2022'; }
+}
+
+.c-pdf-footer {
+  @include txt-element(footer, $ub-pdf-typography);
+  border: 0;
+  border-collapse: separate;
+  border-radius: 0;
+  border-top: 1px solid $ub-hr;
+  box-shadow: none;
+  margin: 0;
+  margin-top: $ub-base-padding;
+  outline: 0;
+  padding: 0;
+  padding-top: $ub-small-padding;
+  width: 100%;
+
+  @include e(left) {
+    padding: 0;
+  }
+
+  @include e(right) {
+    padding: 0;
+    text-align: right;
+  }
+}

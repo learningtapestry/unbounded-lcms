@@ -1,0 +1,15 @@
+.c-cg-content__body {
+  @import
+    'components/cg/annotations',
+    'components/cg/elements',
+    'components/cg/footnote',
+    'components/cg/icons',
+    'components/cg/quotes',
+    'components/cg/standards',
+    'components/cg/table',
+    'components/cg/task';
+}
+
+@import
+  'components/cg/colorscheme',
+  'components/cg/contents-modal';

@@ -24,20 +24,6 @@
     @include reveal-modal-fullscreen;
   }
 
-  .close-button {
-    background: $medium-gray;
-    border-radius: 0;
-    color: $ub-white;
-    cursor: pointer;
-    height: $filterbar-square;
-    line-height: 1;
-    padding: 0;
-    right: 0;
-    top: 0;
-    width: $filterbar-square;
-    span i { font-size: 2rem; }
-  }
-
   @include e(content) {
     @include add-column-padding;
     overflow-y: auto;

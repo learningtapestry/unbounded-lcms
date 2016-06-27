@@ -1,7 +1,7 @@
 // Font families
-$ub-sanserif: 'PFCentroSansPro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$ub-sanserif: 'PF Centro Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $ub-serif: 'Caponi Slab Web', Georgia, "Times New Roman", Times, serif;
-$ub-sanserif-condensed: 'PFCentroSansCond', $ub-sanserif;
+$ub-sanserif-condensed: 'PF Centro Sans Condensed', $ub-sanserif;
 
 // Layout
 $ub-footer-height: (
@@ -36,3 +36,5 @@ $curriculum-map-width: (
 $filterbar-height: 58px;
 $filterbar-square: 58px;
 $filterbar-xs: (($filterbar-square + 1) * 5 - 1) / 2;
+
+$pdf-margin: 8px;

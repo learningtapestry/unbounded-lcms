@@ -19,6 +19,10 @@ class ContentGuidePresenter < BasePresenter
     @wrap_keywords = wrap_keywords
   end
 
+  def sticky_title
+    "#{t('ui.unbounded')} #{subject} #{t('ui.guide')} #{grade_numbers}"
+  end
+
   def broken_images
     @broken_images ||= doc.css('[src*="google.com"]')
   end
@@ -85,7 +89,7 @@ class ContentGuidePresenter < BasePresenter
 
   def tasks_without_break
     @tasks_without_break ||= begin
-      find_custom_tags('task').map do |tag| 
+      find_custom_tags('task').map do |tag|
         next_element_with_name(tag.parent, 'table')
       end.compact.select do |table|
         find_custom_tags('task break', table).empty? &&
@@ -99,6 +103,19 @@ class ContentGuidePresenter < BasePresenter
   end
 
   private
+
+  def grade_numbers
+    first_grade = grade_number(grade_list.first)
+    return first_grade if grade_list.size < 2
+    "#{first_grade}-#{grade_number(grade_list.last)}"
+  end
+
+  def grade_number(g)
+    grade = g.downcase
+    return 'k' if grade == 'kindergarten'
+    return 'pk' if grade == 'prekindergarten'
+    return grade[/\d+/] if grade[/\d+/]
+  end
 
   def all_next_elements_with_name(tag, name)
     nodes = []
@@ -246,10 +263,11 @@ class ContentGuidePresenter < BasePresenter
   def process_annotations(table)
     background_color_regex = /background-color:\s*#{ANNOTATION_COLOR};?\s*/
 
-    find_custom_tags('annotation', table).map do |tag|
+    find_custom_tags('annotation', table).map.with_index do |tag, index|
       id = "annotation_#{SecureRandom.hex(4)}"
 
-      annotation = doc.document.create_element('span', class: 'c-cg-annotation', 'data-toggle' => id)
+      annotation = doc.document.create_element('span', class: 'c-cg-annotation')
+      annotation << doc.document.create_element('span', (index + 1).to_s, class: 'c-cg-annotationBox__number', 'data-toggle' => id)
       prev_element = tag.previous
       loop do
         break unless prev_element && prev_element[:style] =~ background_color_regex
@@ -523,6 +541,7 @@ class ContentGuidePresenter < BasePresenter
                 data-hover=true
                 data-hover-delay=0
                 data-hover-pane=true
+                data-standard=1
                 id=#{id}>
             #{standard.description}
           </span>
