@@ -27,7 +27,9 @@ class ContentGuidesController < ApplicationController
   protected
     def render_pdf
       cover_image_url =
-        if (path = @content_guide.big_photo.url)
+        if (path = @content_guide.big_photo.url) && path.start_with?('http')
+          "url(#{path})"
+        elsif path.present?
           "url(#{request.protocol}#{request.host_with_port}#{path})"
         else
           'none'
@@ -47,11 +49,8 @@ class ContentGuidesController < ApplicationController
              margin: { bottom: 18 },
              disable_internal_links: false,
              disable_external_links: false,
-             disable_smart_shrinking: true,
              layout: 'cg',
-             low_quality: false,
              print_media_type: false,
-             viewport_size: '1024px',
              footer: { html: { template: 'content_guides/_footer',
                                layout: 'cg_plain',
                                locals:  { title: @content_guide.footer_title }

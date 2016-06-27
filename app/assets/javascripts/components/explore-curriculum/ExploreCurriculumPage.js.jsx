@@ -225,6 +225,7 @@ class ExploreCurriculumPage extends React.Component {
                 searchLabel='What do you want to teach?'
                 withSearch={true}
                 withDropdown={true}
+                withSearch={false}
                 {...this.state.filterbar} />
             </div>
           </div>
