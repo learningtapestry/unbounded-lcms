@@ -22,6 +22,8 @@
 
   @include m(tiny) {
     height: 1px !important;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
@@ -38,9 +40,9 @@
   @include flex-grid-row;
   @include flex-align($x: justify, $y: middle);
   color: $ub-white;
-  flex: 0 0 100%;
+  //flex: 0 0 100%;
   min-height: 1px;
-  min-width: 100%;
+  //min-width: 100%;
   visibility: hidden;
 
   @include e(header) {
@@ -83,7 +85,7 @@
 
   @include e(sep) {
     border-radius: .1875rem;
-    display: inline-block;
+    //display: inline-block;
     height: .375rem;
     margin: 0 1rem 1.5625rem;
     width: 3.5rem;

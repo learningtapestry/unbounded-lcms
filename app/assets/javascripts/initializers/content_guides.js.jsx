@@ -12,7 +12,7 @@ $(function () {
                                     });
     $(window).trigger('load.zf.sticky');
     $(window).off('sticky.zf.unstuckfrom:top').on('sticky.zf.unstuckfrom:top', () => {
-      $('#cg-sidebar-container').addClass('o-sidebar--tiny');
+      handleSidebarMenuHide();
     });
   }
 
@@ -22,6 +22,16 @@ $(function () {
       $('.c-cg-task__toggler__hide', $(this)).toggle();
       $('.c-cg-task__toggler__show', $(this)).toggle();
     });
+  }
+
+  function handleSidebarMenuShow() {
+    $('#cg-sidebar-xs').addClass('o-sidebar-xs--show');
+    $('#cg-sidebar-container').removeClass('o-sidebar--tiny');
+  }
+
+  function handleSidebarMenuHide() {
+    $('#cg-sidebar-xs').removeClass('o-sidebar-xs--show');
+    $('#cg-sidebar-container').addClass('o-sidebar--tiny');
   }
 
   function updateMenu(headings) {
@@ -47,29 +57,24 @@ $(function () {
 
   function updateSticky(headings) {
     if (!$('#cg-sidebar.is-stuck').length) return;
-    let $sticky = $('#cg-sidebar-xs'),
-        $stickyContainer = $('#cg-sidebar-container'),
-        $modal = $('#cg-contents-modal');
+    let $modal = $('#cg-contents-modal');
     const st = $(document).scrollTop();
     if (st < lastScrollTop - SCROLLING_THRESHOLD) {
-      $stickyContainer.removeClass('o-sidebar--tiny');
-      $sticky.addClass('o-sidebar-xs--show');
+      handleSidebarMenuShow();
       $('#cg-sidebar-xs__action').unbind().click((e) => {
         e.preventDefault();
         updateMenu(headings);
         updateModalMenu();
-        $sticky.removeClass('o-sidebar-xs--show');
+        handleSidebarMenuHide();
         $modal.foundation('open');
       });
       $('#cg-menu-modal .o-sidebar-nav__item__content').unbind().click((e) => {
-        $sticky.removeClass('o-sidebar-xs--show');
-        $stickyContainer.addClass('o-sidebar--tiny');
+        handleSidebarMenuHide();
         $modal.foundation('close');
       });
     }
     if (st > lastScrollTop + SCROLLING_THRESHOLD) {
-      $sticky.removeClass('o-sidebar-xs--show');
-      $stickyContainer.addClass('o-sidebar--tiny');
+      handleSidebarMenuHide();
     }
     lastScrollTop = st;
   }

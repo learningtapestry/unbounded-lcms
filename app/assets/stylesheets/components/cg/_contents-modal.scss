@@ -2,10 +2,11 @@
   @include reveal-overlay;
   @include reveal-modal-base;
   @include reveal-modal-fullscreen;
-  margin-left: auto;
-  margin-right: auto;
-  overflow: auto;
-  position: relative;
+  margin-left: 0;
+  margin-right: 0;
+  // overflow: auto;
+  // position: relative;
+  top: 0 !important;
 
   @include e(content) {
     //@include add-column-padding;

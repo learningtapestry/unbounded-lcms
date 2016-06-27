@@ -75,6 +75,15 @@ ul li {
   text-indent: 0 !important;
 }
 
+img, span, td, table {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c-cg-single-cell-table span, img {
+  width: 100% !important;
+}
+
 .o-page--cg-ela {
   @include cg-color-scheme($ub-cg-ela-colors);
   @include cg-pdf-color-scheme($ub-cg-ela-colors);
