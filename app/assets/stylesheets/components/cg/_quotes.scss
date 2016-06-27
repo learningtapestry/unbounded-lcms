@@ -1,0 +1,16 @@
+.c-cg-blockquote {
+  border-left-style: solid;
+  border-left-width: .625rem;
+  clear: both;
+  padding-left: 1.5rem;
+}
+
+.c-cg-pullquote {
+  border-left-style: solid;
+  border-left-width: 0.125rem;
+  float: right;
+  font: italic 1.25rem/1.3 $ub-serif;
+  margin: 1.5rem 0 1rem 3.25rem;
+  padding-left: 1.125rem;
+  width: 50%;
+}

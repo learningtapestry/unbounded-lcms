@@ -4,7 +4,8 @@
   'utils/variables',
   'utils/mixins',
   'utils/placeholders',
-  'base/colors';
+  'base/colors',
+  'base/cg-colors';
 
 @import
   'themes/settings',
@@ -24,12 +25,14 @@
 @import
   'base/fonts',
   'base/icons',
-  'base/typography';
+  'base/typography',
+  'print/print';
 
 @import
   'components/assoc-picker',
   'components/buttons',
   'components/cards',
+  'components/cg-base',
   'components/curriculum-cards',
   'components/curriculum-map',
   'components/download-modal',

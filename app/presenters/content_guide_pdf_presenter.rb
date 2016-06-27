@@ -1,11 +1,24 @@
 class ContentGuidePdfPresenter < ContentGuidePresenter
   FOOTNOTES_CLASS = 'contengGuide__footnotes'
 
-  def initialize(content_guide, host, view_context)
-    super(content_guide, host, view_context, wrap_keywords: false)
+  def initialize(content_guide, host, view_context, wrap_keywords = false)
+    super(content_guide, host, view_context, wrap_keywords)
+  end
+
+  def footer_title
+    "#{title}"
+  end
+
+  def header_title
+    "#{subject.try(:upcase)} #{grades_title}"
   end
 
   private
+
+  def grades_title
+    g = grade_numbers
+    g.include?('k') ? g.try(:titleize) : "#{t('ui.grade')} #{g}"
+  end
 
   def mark_footnotes
     if (hr = doc.at_xpath('hr[following-sibling::div[.//a[starts-with(@id, "ftnt")]]]'))
@@ -25,18 +38,53 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     end
   end
 
+  def reset_styles
+    doc.css("[style]").each do |node|
+      node.remove_attribute('style')
+    end
+  end
+
+  def wrap_keywords(content)
+    result = content.dup
+    result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
+      if (standard = CommonCoreStandard.find_by_name_or_synonym(m))
+        toggler = "<span class=c-cg-keyword>"
+        if (emphasis = standard.emphasis)
+          toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
+        end
+        toggler += "#{m}</span>"
+        toggler
+      else
+        m
+      end
+    end
+    result
+  end
+
+
   protected
 
   def process_content
-    content
+    @wrap_keywords ? wrap_keywords(content) : content
   end
 
   def process_doc
     mark_footnotes
+    process_annotation_boxes
     process_blockquotes
+    process_broken_images
+    process_footnote_links
+    process_footnotes
+    process_icons
+    process_pullquotes
+    process_superscript_standards
+    process_standards_table
     process_tasks(with_break: false)
-    realign_tables
+    remove_comments
     replace_guide_links
     replace_image_sources
+    reset_heading_styles
+    reset_table_styles
+    #reset_styles
   end
 end

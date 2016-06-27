@@ -1,88 +1,19 @@
-$ub-cg-ela-colors: (
-  annotation-bg: #fff2cc,
-  annotation-number-bg: #ffbf00,
-  blockquote-border: #fdd2bd,
-  btn-download: #f96924,
-  btn-download-bg: #fee1d3,
-  btn-related: #f3bba0,
-  btn-related-border: #f3bba0,
-  header-bg: #f96924,
-  link: #f96924,
-  pullquote: #f96924,
-  pullquote-border: #f75b28,
-  sidebar: #f96924,
-  task-bg: #fee8de,
-  task-toggler: #f96924,
-  task-toggler-bg: #fdd2bd
-);
-
-$ub-cg-math-colors: (
-  annotation-bg: #c8ddcb,
-  annotation-number-bg: #2cd493,
-  blockquote-border: #b1d7bb,
-  btn-download: #5cd36f,
-  btn-download-bg: #9bd4af,
-  btn-related: #9ac2a5,
-  btn-related-border: #9ac2a5,
-  header-bg: #1eb49a,
-  link: #1eb49a,
-  pullquote: #1eb49a,
-  pullquote-border: #f75b28,
-  sidebar: #1eb49a,
-  task-bg: #cbe8d2,
-  task-toggler: #1eb49a,
-  task-toggler-bg: #b1d7bb,
-);
-
-@mixin cg-color-scheme($map) {
-  .c-cg-annotation {
-    background-color: map-get($map, annotation-bg);
-  }
-
-  .c-cg-annotationListItem__number {
-    background: map-get($map, annotation-number-bg);
-  }
-
-  .c-cg-blockquote {
-    border-left-color: map-get($map, blockquote-border);
-  }
-
-  .c-cg-btn-download {
-    background: map-get($map, btn-download-bg);
-    color: map-get($map, btn-download);
-  }
-
-  .c-cg-btn-related {
-    border-color: map-get($map, btn-related-border);
-    color: map-get($map, btn-related);
-  }
-
-  .c-cg-content {
-    @include e(body) {
-      a {
-        color: map-get($map, link) !important;
-      }
-    }
-  }
-
+@mixin cg-page-color-scheme($map) {
   .c-cg-hero {
     @include e(body) {
       background: map-get($map, header-bg);
     }
   }
 
-  .c-cg-pullquote {
-    border-left-color: map-get($map, pullquote-border);
-    color: map-get($map, pullquote);
+  .c-cg-btn-download {
+    $background: map-get($map, btn-download-bg);
+    $color: map-get($map, link);
+    @include button-style($background: $background, $background-hover: auto, $color: $color);
   }
 
-  .c-cg-task {
-    background: map-get($map, task-bg);
-  }
-
-  .c-cg-task__toggler {
-    background: map-get($map, task-toggler-bg);
-    color: map-get($map, task-toggler);
+  .c-cg-btn-related {
+    border-color: map-get($map, btn-related-border);
+    color: map-get($map, btn-related);
   }
 
   .o-sidebar-nav {
@@ -96,7 +27,7 @@ $ub-cg-math-colors: (
 
     @include e(item) {
       a {
-        &.active, &:hover, &:focus {
+        &.active, &:hover {
           color: map-get($map, sidebar);
         }
       }
@@ -116,45 +47,49 @@ $ub-cg-math-colors: (
     background-size: cover;
     padding: 0 !important;
 
-    @include breakpoint(medium) {
+    @include breakpoint(ipad) {
       @include flex-grid-column(3);
     }
   }
 
   @include e(body) {
-    @extend .u-wrap--base;
-    @include flex-grid-column(12);
+    @include flex-grid-column(12, 2 * 1.5rem);
+    padding-bottom: 3.5rem;
+    padding-top: 2.25rem;
 
-    @include breakpoint(medium) {
-      @include flex-grid-column(9);
+    @include breakpoint(ipad) {
+      @include flex-grid-column(9, 2 * 1.875rem);
     }
 
-    padding: 2.25rem 1.875rem 3.5rem !important;
   }
 }
 
 .c-cg-content {
-  padding-top: $ub-xlarge-padding;
   padding-bottom: $ub-large-padding;
+  padding-top: $ub-xlarge-padding;
 
   @include e(sidebar) {
-    border-right: 1px dotted $light-gray;
-    display: none;
 
-    @include breakpoint(medium) {
+    @include breakpoint(medium down) {
+      @include add-gutter(margin, left, -.5);
+      @include add-gutter(margin, right, -.5);
+      flex: 0 0 100%;
+      min-width: 100%;
+    }
+
+    @include breakpoint(ipad) {
       @include flex-grid-column(3);
-      display: block;
+      border-right: 1px dotted $light-gray;
     }
   }
 
   @include e(body) {
-    @include flex-grid-column(12);
+    @include flex-grid-column(12, 2 * 1.75rem);
 
-    @include breakpoint(medium) {
+    @include breakpoint(ipad) {
       @include flex-grid-column(9);
+      padding: 0 2.125rem 0 2.25rem !important;
     }
-
-    padding: 0 2.125rem 0 2.25rem !important;
 
     h1, h2, h3, h4 {
       font-weight: bold;
@@ -162,7 +97,6 @@ $ub-cg-math-colors: (
 
     h1 {
       @include txt-heading(h3);
-
       clear: both;
       padding-top: 1.25rem;
 
@@ -173,7 +107,6 @@ $ub-cg-math-colors: (
 
     h2 {
       @include txt-heading(h4);
-
       padding-top: 1.25rem;
 
       & + h3 {
@@ -183,7 +116,6 @@ $ub-cg-math-colors: (
 
     h3 {
       @include txt-heading(h5);
-
       padding-top: 1.25rem;
 
       & + h4 {
@@ -193,7 +125,6 @@ $ub-cg-math-colors: (
 
     h4 {
       @include txt-heading(h6);
-
       padding-top: 1.25rem;
     }
 
@@ -207,251 +138,40 @@ $ub-cg-math-colors: (
       text-indent: 0 !important;
     }
 
-    .c-cg-annotationBox {
-      background-color: #fff;
-      padding: 1rem;
+    img, span, td, table {
+      max-width: 100%;
+      max-height: 100%;
     }
 
-    .c-cg-annotationList {
-      margin: 1rem 1rem 0;
+    @include breakpoint(ipad down) {
+      table {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
 
-      * {
-        color: #000;
-        font-size: .875rem !important;
-      }
-    }
-
-    .c-cg-annotationListItem {
-      display: table-row;
-    }
-
-    .c-cg-annotationListItem__content {
-      display: table-cell;
-      margin-bottom: 1rem;
-    }
-
-    .c-cg-annotationListItem__number {
-      border-radius: 50%;
-      color: #fff;
-      display: inline-block;
-      font: bold 1rem $ub-serif;
-      height: 2rem;
-      margin: 0 .5rem 1rem 0;
-      padding: 0.3rem;
-      text-align: center;
-      width: 2rem;
-    }
-
-    .c-cg-blockquote {
-      border-left-style: solid;
-      border-left-width: .625rem;
-      clear: both;
-      padding-left: 1.5rem;
-    }
-
-    .c-cg-btn-related {
-      border-style: solid;
-      border-width: 1px;
-    }
-
-    .c-cg-dropdown {
-      background: #fff8e5;
-      border: none;
-      font-size: 1rem;
-      line-height: 1.2 !important;
-      padding: 1rem;
-
-      * {
-        word-wrap: break-word;
-      }
-    }
-
-    .c-cg-standard {
-      background-size: contain;
-      display: inline-block;
-      height: .75rem;
-      margin-right: .2rem;
-      width: .75rem;
-    }
-
-    .c-cg-standard--a {
-      background-image: asset-url('st_icon_a.svg');
-    }
-
-    .c-cg-standard--m {
-      background-image: asset-url('st_icon_m.svg');
-    }
-
-    .c-cg-standard--plus {
-      background-image: asset-url('st_icon_plus.svg');
-    }
-
-    .c-cg-standard--s {
-      background-image: asset-url('st_icon_s.svg');
-    }
-
-    .c-cg-footnote {
-      * {
-        font-size: .875rem !important;
-      }
-
-      a[id*=ftnt] {
-        font-weight: bold;
-      }
-    }
-
-    .c-cg-grade {
-      text-transform: capitalize;
-
-      &::after {
-        content: ', ';
-      }
-
-      &:last-child::after {
-        content: ''
-      }
-    }
-
-    .c-cg-icon {
-      background-size: contain;
-      clear: left;
-      float: left;
-      height: 80px;
-      margin: 0 1rem 1rem 0;
-      width: 80px;
-    }
-
-    .c-cg-icon-small {
-      background-size: contain;
-      display: inline-block;
-      height: 40px;
-      vertical-align: middle;
-      width: 40px;
-    }
-
-    .c-cg-icon--complexity {
-      background-image: asset-url('cg_icon_complexity.png');
-    }
-
-    .c-cg-icon--instruction {
-      background-image: asset-url('cg_icon_instruction.png');
-    }
-
-    .c-cg-icon--volume {
-      background-image: asset-url('cg_icon_volume.png');
-    }
-
-    .c-cg-keyword {
-      cursor: help;
-      font-weight: bold !important;
-      white-space: nowrap;
-    }
-
-    .c-cg-media__title {
-      display: block;
-      font-weight: bold;
-      margin-bottom: .5rem;
-    }
-
-    .c-cg-pullquote {
-      border-left-style: solid;
-      border-left-width: 0.125rem;
-      float: right;
-      font: italic 1.25rem/1.3 $ub-serif;
-      margin: 1.5rem 0 1rem 3.25rem;
-      padding-left: 1.125rem;
-      width: 50%;
-    }
-
-    .c-cg-single-cell-table {
-      width: auto !important;
-
-      tbody {
-        border: 0 !important;
-      }
-    }
-
-    .c-cg-table {
-      p {
-        margin: 0;
-      }
-
-      tbody {
-        border: none;
-      }
-
-      td {
-        border-left: 1px solid #cacaca;
-        font-size: 1.125rem;
-        padding: .875rem;
-        vertical-align: top;
-
-        &:last-child {
-          padding-right: 0;
+        &.c-cg-single-cell-table span, img {
+          width: 100% !important;
         }
 
-        &:first-child {
-          border-left: none;
-          padding-left: 0;
-        }
-      }
-
-      tr {
-        background: #fff !important;
-        border-bottom: 1px solid #cacaca;
-
-        &:last-child {
-          border-bottom: none;
-        }
       }
     }
 
-    .c-cg-task {
-      clear: both;
-    }
-
-    .c-cg-task__body {
-      padding: 1.25rem 1.25rem .25rem;
-    }
-
-    .c-cg-task__copyright {
-      font-style: italic;
-      margin-top: 1rem;
-    }
-
-    .c-cg-task__hidden {
-      display: none;
-      padding-top: 1em;
-    }
-
-    .c-cg-task__title {
-      color: #555;
-      font: bold 1.5rem $ub-sanserif-condensed;
-      margin: 0;
-      padding: 1rem 1rem 0;
-    }
-
-    .c-cg-task__toggler {
-      cursor: pointer;
-      display: block;
-      font-size: 0.875rem;
-      font-weight: bold;
-      padding: .75rem 0;
-      text-align: center;
-    }
-
-    .c-cg-task__toggler__hide {
-      display: none;
-    }
   }
 }
 
-.c-cg-back {
-  margin-bottom: 1.875rem;
+.c-cg-grade {
+  text-transform: capitalize;
+
+  &::after {
+    content: ', ';
+  }
+
+  &:last-child::after {
+    content: ''
+  }
 }
 
 .c-cg-teaser {
-  color: #fff;
+  color: $ub-white;
   font: 1.3125rem/1.3 $ub-serif;
 }
 
@@ -459,15 +179,22 @@ $ub-cg-math-colors: (
   margin-bottom: 2rem;
 
   * {
-    color: #fff !important;
+    color: $ub-white !important;
     font: 2.25rem/1.2 $ub-serif;
   }
 }
 
+.c-cg-btn-related {
+  border-style: solid;
+  border-width: 1px;
+}
+
 .o-page--cg-ela {
   @include cg-color-scheme($ub-cg-ela-colors);
+  @include cg-page-color-scheme($ub-cg-ela-colors);
 }
 
 .o-page--cg-math {
   @include cg-color-scheme($ub-cg-math-colors);
+  @include cg-page-color-scheme($ub-cg-math-colors);
 }

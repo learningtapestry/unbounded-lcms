@@ -1,0 +1,14 @@
+@page {
+  size: letter;
+}
+
+@media print {
+    // Unbounded specific
+    html, body {
+      background: none;
+    }
+
+    header, footer, o-sidebar-nav {
+      display: none;
+    }
+}

@@ -1,31 +1,5 @@
-<!DOCTYPE html>
-
-<meta charset=utf-8>
-
-<style>
-  img, table {
-    page-break-inside: avoid !important;
-  }
-
-  .c-cg-task__copyright {
-    border-top: 1px solid #ccc;
-    font-size: 70% !important;
-    padding-top: .75rem;
-  }
-
-  .callout {
-    background: rgba(255, 128, 0, 0.2);
-    padding: 1rem;
-    page-break-inside: avoid !important;
-  }
-
-  .contengGuide__footnotes {
-    page-break-before: always;
-  }
-
-  .contengGuide__toc {
-    page-break-before: always;
-  }
-</style>
-
-<%= @content_guide.html %>
+<div class="o-page--cg-<%= @content_guide.subject %>">
+  <div class="c-cg-content__body">
+    <%= @content_guide.html %>
+  </div>
+</div>

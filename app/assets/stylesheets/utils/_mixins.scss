@@ -27,6 +27,50 @@
   }
 }
 
+@mixin txt-element-base($typo) {
+  @each $style, $value in $typo {
+    #{$style}: $value;
+  }
+  @if not map-has-key($typo, 'font-weight') {
+    font-weight: normal;
+  }
+}
+
+@mixin txt-element($element, $ub-map: $ub-element-typography) {
+  $typo: map-get($ub-map, $element);
+  @if map-has-key($typo, small) {
+    @each $breakpoint, $value in $typo {
+      @include breakpoint($breakpoint) {
+        @include txt-element-base($value);
+      }
+    }
+  } @else {
+    @include txt-element-base($typo);
+  }
+}
+
+@mixin txt-heading-base($element) {
+  $typo: map-get($ub-heading-typography, $element);
+  color: map-get($ub-txt-colors, $element);
+  @each $style, $value in $typo {
+    #{$style}: $value;
+  }
+}
+
+@mixin txt-heading($element) {
+  @include txt-heading-base($element);
+  @each $size, $headers in $header-sizes {
+    @include breakpoint($size) {
+      $font-size: map-get($headers, $element);
+      font-size: rem-calc($font-size);
+    }
+  }
+}
+
+@mixin txt-pdf-element($element) {
+  @include txt-element($element, $ub-pdf-typography);
+}
+
 @mixin clamp($lines, $element) {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -88,46 +132,6 @@
   }
   :-moz-placeholder { /* Firefox 18- */
     color: $color;
-  }
-}
-
-@mixin txt-element-base($typo) {
-  @each $style, $value in $typo {
-    #{$style}: $value;
-  }
-  @if not map-has-key($typo, 'font-weight') {
-    font-weight: normal;
-  }
-}
-
-@mixin txt-element($element) {
-  $typo: map-get($ub-element-typography, $element);
-  @if map-has-key($typo, small) {
-    @each $breakpoint, $value in $typo {
-      @include breakpoint($breakpoint) {
-        @include txt-element-base($value);
-      }
-    }
-  } @else {
-    @include txt-element-base($typo);
-  }
-}
-
-@mixin txt-heading-base($element) {
-  $typo: map-get($ub-heading-typography, $element);
-  color: map-get($ub-txt-colors, $element);
-  @each $style, $value in $typo {
-    #{$style}: $value;
-  }
-}
-
-@mixin txt-heading($element) {
-  @include txt-heading-base($element);
-  @each $size, $headers in $header-sizes {
-    @include breakpoint($size) {
-      $font-size: map-get($headers, $element);
-      font-size: rem-calc($font-size);
-    }
   }
 }
 
