@@ -310,7 +310,7 @@ class Curriculum < ActiveRecord::Base
       recurse_from = seed_leaf
     end
 
-    recurse_from.children.each do |s|
+    recurse_from.children.order(position: :asc).each do |s|
       create_tree_recursively(seed_root, s, tree)
     end
 
@@ -342,13 +342,15 @@ class Curriculum < ActiveRecord::Base
   def update_trees
     transaction do
       trees_referencing.each do |tr|
-        tr_parent_tree = tr.parent
         tr_seed = tr.seed
         tr.children.each { |trc| trc.destroy }
         tr.reload
-        children.each { |c| create_tree_recursively(tr_seed, c, tr) }
-        tr.generate_slugs
-        tr.self_and_descendants.find_each { |trc| trc.update_generated_fields }
+        self.children.each { |c| create_tree_recursively(tr_seed, c, tr) }
+        tr.lessons.find_each { |l| l.create_resource_short_title! }
+        tr.self_and_descendants.find_each do |trc| 
+          trc.update_generated_fields
+          ResourceSlug.create_for_curriculum(trc)
+        end
       end
     end
   end
