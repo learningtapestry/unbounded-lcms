@@ -56,7 +56,7 @@ class CommonCoreStandard < Standard
     end
   end
 
-  def generate_alt_names
+  def generate_alt_names(regenerate: false)
     return unless name
 
     alt_names = []
@@ -65,25 +65,34 @@ class CommonCoreStandard < Standard
     short_name = name
       .gsub('ccss.ela-literacy.', '')
       .gsub('ccss.math.content.', '')
+      .gsub('ccss.math.practice.', '')
 
-    # 6.rp.a.3a -> 6.rp.a.3.a
-    letters_expand = short_name.gsub(/\.([1-9])([a-z])$/, '.\1.\2')
+    base_names = [short_name, short_name.gsub('ccra', 'ra')].uniq
 
-    # 6.rp.a.3 -> 6rpa3
-    clean_name = short_name.gsub(/[\.-]/, '')
+    base_names.each do |base_name| 
+      # 6.rp.a.3a -> 6.rp.a.3.a
+      letters_expand = base_name.gsub(/\.([1-9])([a-z])$/, '.\1.\2')
 
-    # 6-rp.a.3 -> 6.rp.a.3
-    dot_name = short_name.gsub(/[-]/, '.')
+      # 6.rp.a.3 -> 6rpa3
+      clean_name = base_name.gsub(/[\.-]/, '')
 
-    # ccss.ela-literacy.r.1.2 -> ela.r.1.2
-    prefixed_dot_name = "#{subject}.#{dot_name}"
+      # 6-rp.a.3 -> 6.rp.a.3
+      dot_name = base_name.gsub(/[-]/, '.')
 
-    alt_names << short_name
-    alt_names << clean_name
-    alt_names << letters_expand
-    alt_names << dot_name
-    alt_names << prefixed_dot_name
+      # ccss.ela-literacy.r.1.2 -> ela.r.1.2
+      prefixed_dot_name = "#{subject}.#{dot_name}"
 
-    self.alt_names = (self.alt_names + alt_names).uniq
+      alt_names << base_name
+      alt_names << clean_name
+      alt_names << letters_expand
+      alt_names << dot_name
+      alt_names << prefixed_dot_name
+    end
+
+    if regenerate
+      self.alt_names = alt_names.uniq
+    else
+      self.alt_names = (self.alt_names + alt_names).uniq
+    end
   end
 end
