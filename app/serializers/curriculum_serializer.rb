@@ -22,9 +22,9 @@ class CurriculumSerializer < ActiveModel::Serializer
     return [] if @depth_branch && !(@depth_branch.include?(object.id))
 
     kids = if object.item_is_curriculum?
-      object.curriculum_item.children
+      object.curriculum_item.children.order(position: :asc)
     else
-      object.children
+      object.children.order(position: :asc)
     end
 
     kids.map do |c| 
