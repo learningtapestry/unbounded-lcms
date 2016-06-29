@@ -84,6 +84,10 @@ img, span, td, table {
   width: 100% !important;
 }
 
+.nobreak {
+  page-break-before: avoid !important;
+}
+
 .o-page--cg-ela {
   @include cg-color-scheme($ub-cg-ela-colors);
   @include cg-pdf-color-scheme($ub-cg-ela-colors);
