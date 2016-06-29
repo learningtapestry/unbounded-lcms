@@ -15,6 +15,40 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
 
   private
 
+  def add_nobreak_to_heading
+    h1 = doc.at_css('h1')
+    return unless h1
+
+    prev_node = h1.previous
+    loop do
+      break unless prev_node
+      return if prev_node.text.present?
+
+      prev_node = prev_node.previous
+    end
+
+    h1[:class] = 'nobreak'
+  end
+
+  def add_nobreak_to_tasks
+    doc.css('.c-cg-task').each do |task|
+      prev_node = task.previous
+
+      loop do
+        break unless prev_node
+
+        unless prev_node.name =~ /h(1|2|3|4|5|6)/
+          break if prev_node.text.present?
+        else prev_node.text.present?
+          task[:class] = "#{task[:class]} nobreak"
+          break
+        end
+
+        prev_node = prev_node.previous
+      end
+    end
+  end
+
   def grades_title
     g = grade_numbers
     g.include?('k') ? g.try(:titleize) : "#{t('ui.grade')} #{g}"
@@ -69,6 +103,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def process_doc
+    add_nobreak_to_heading
     mark_footnotes
     process_annotation_boxes
     process_blockquotes
@@ -80,6 +115,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     process_superscript_standards
     process_standards_table
     process_tasks(with_break: false)
+    add_nobreak_to_tasks
     remove_comments
     replace_guide_links
     replace_image_sources
