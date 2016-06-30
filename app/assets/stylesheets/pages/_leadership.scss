@@ -95,6 +95,19 @@
   p { @include txt-element(media-text); }
 }
 
+@mixin ls-arrows($color) {
+  @include button($background: $color, $background-hover: darken($color, 10%), $color: $ub-txt);
+  @include flex;
+  @include flex-align($x: center, $y: middle);
+  background-image: none;
+  border: 1px solid darken($color, 10%);
+  height: 78px;
+  margin-bottom: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 72px;
+}
+
 .c-ls-slides {
   height: 100%;
   width: 75%;
@@ -112,6 +125,9 @@
     @include e(slide) {
       @include flex-grid-column(12, 0);
     }
+    @include e(btn) {
+      @include ls-arrows(map-get($ub-leadership, arrows1));
+    }
   }
 
   @include m(l) {
@@ -119,6 +135,9 @@
     @include e(slide) {
       @include flex-grid-column(4, 0);
       @include flex;
+    }
+    @include e(btn) {
+      @include ls-arrows(map-get($ub-leadership, arrows2));
     }
   }
 
