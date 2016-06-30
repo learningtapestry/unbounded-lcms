@@ -119,7 +119,7 @@
             <% if @resource.engageny_url %>
             <div class="o-resource__item  o-resource__item--credits">
               <h3>Credits</h3>
-              <%= render partial: 'resources/engageny', locals: { resource: @resource, color_code: @resource.color_code(@grade_color_code) } %>
+              <%= render partial: 'resources/engageny', locals: { curriculum: @curriculum, resource: @resource, color_code: @resource.color_code(@grade_color_code) } %>
             </div>
             <% end %>
           </div>
