@@ -110,6 +110,11 @@
   @include add-gutter(padding, right, $x);
 }
 
+@mixin add-column-margin($x: 1) {
+  @include add-gutter(margin, left, $x);
+  @include add-gutter(margin, right, $x);
+}
+
 @mixin add-top-bottom-padding($y: 1) {
   @include add-gutter(padding, bottom, $y);
   @include add-gutter(padding, top, $y);

@@ -1,0 +1,30 @@
+<!-- Slider main container -->
+<div class="swiper-container c-ls-slides c-ls-slides--l">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper c-ls-slides__wrap">
+      <!-- Slides -->
+      <% ls_posts.each do |post| %>
+        <div class="swiper-slide c-ls-slides__slide c-ls-slides--l__slide">
+          <div class="ls-post">
+            <div class="ls-post__img">
+              <%= image_tag post.img %>
+            </div>
+            <div class="ls-post__body">
+              <div class="ls-post__title">
+                <%= post.first_name %> <%= post.last_name %>
+              </div>
+              <div class="ls-post__subtitle">
+                <%= post.school %>
+              </div>
+              <div class="ls-post__txt u-padding-top--base">
+                <%= post.dsc %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+  </div>
+</div>
+<!-- If we need navigation buttons -->
+<div class="c-ls-slides--l__prev c-ls-slides__prev swiper-button-prev"></div>
+<div class="c-ls-slides--l__next c-ls-slides__next swiper-button-next"></div>

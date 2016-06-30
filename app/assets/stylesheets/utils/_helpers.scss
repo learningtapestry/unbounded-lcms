@@ -74,6 +74,9 @@ $align-types: (padding, margin);
     .u-#{$align-type}-#{$align-dir}--gutter {
       @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir});
     }
+    .u-#{$align-type}-#{$align-dir}--gutter2x {
+      @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir});
+    }
   }
 }
 
@@ -82,7 +85,8 @@ $bg: (
   base: $ub-panel-bg,
   dark: $ub-hero-bg,
   primary: $ub-primary1,
-  tooltip: darken($ub-tooltip, 1%)
+  tooltip: darken($ub-tooltip, 1%),
+  ls: map-get($ub-leadership, bg),
 );
 
 .u-bg--base-gradient {
@@ -121,12 +125,17 @@ $bg: (
 
 .u-hr-small {
   @include clearfix;
-  border-bottom: 4px solid map-get($ub-yellow, base);
+  border-bottom: 5px solid map-get($ub-yellow, base);
   border-radius: 2px;
   margin-bottom: $ub-base-margin;
-  width: 60px;
+  margin-top: $ub-small-margin;
+  width: 50px;
 }
 
 .u-hr-small--green {
-  border-bottom: 4px solid map-get($ub-green, base);
+  border-bottom-color: map-get($ub-green, base);
+}
+
+.u-hr-small--ls {
+  border-bottom-color: map-get($ub-leadership, base);
 }

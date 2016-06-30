@@ -50,6 +50,10 @@
       padding-left: 0;
     }
 
+    @include m(no-padding) {
+      @include add-top-bottom-padding($y: 0);
+    }
+
     @include m(no-right) {
       padding-right: 0;
 
