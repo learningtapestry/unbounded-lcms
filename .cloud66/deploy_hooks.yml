@@ -9,7 +9,7 @@ production: &production
     - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cloud66:after_symlink
       target: rails
       execute: true
-      run_on: all_servers
+      run_on: single_server
       apply_during: all
   first_thing:
     - source: /.cloud66/install_wkhtmltopdf.sh
