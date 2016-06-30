@@ -35,7 +35,7 @@ class ContentGuidesController < ApplicationController
           'none'
         end
 
-      render pdf: @content_guide.name,
+      render pdf: @content_guide.pdf_title,
              cover: render_to_string(template: 'content_guides/_cover',
                                      layout: 'cg_plain',
                                      locals: { content_guide: @content_guide,

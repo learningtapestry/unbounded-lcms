@@ -114,6 +114,10 @@ class ContentGuide < ActiveRecord::Base
     end
   end
 
+  def pdf_title
+    title.gsub(/[^[[:alnum:]]]/, '_').gsub(/_+/, '_')
+  end
+
   def validate_metadata
     @validate_metadata = true
     valid?
