@@ -28,7 +28,7 @@
           color: #f75b28;
         }
         .c-pdf-toc .c-pdf-toc__l2  {
-          margin-bottom: 30px;
+          margin-bottom: 15px;
           font-size: 11pt;
           line-height: 18pt;
           font-family: "PF Centro Sans Condensed", "PF Centro Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
