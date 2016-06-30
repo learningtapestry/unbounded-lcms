@@ -1,9 +1,28 @@
+@mixin header-link-padding {
+  @include add-column-padding;
+
+  @include breakpoint(xlarge) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @include breakpoint(large) {
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+  }
+
+  @media screen and #{breakpoint(large)} and (max-width: 1110px) {
+    padding-left: .8rem;
+    padding-right: .8rem;
+  }
+}
+
 .c-header {
   background-color: rgba($ub-primary, .9);
 
   @include e(menu) {
     @include menu-direction(vertical);
-    > li > a { @include add-column-padding; }
+    > li > a { @include header-link-padding; }
 
     @include breakpoint($topbar-unstack-breakpoint) {
       @include menu-direction(horizontal);
@@ -11,7 +30,8 @@
   }
 
   @include e(left-menu) {
-    > li > a { @include add-column-padding; }
+    > li > a { @include header-link-padding; }
+
     @include breakpoint($topbar-unstack-breakpoint) {
     }
   }

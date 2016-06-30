@@ -52,6 +52,10 @@
 
     @include m(no-padding) {
       @include add-top-bottom-padding($y: 0);
+
+      @include breakpoint(medium down) {
+        @include add-gutter(padding, top, 2);
+      }
     }
 
     @include m(no-right) {
