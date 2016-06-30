@@ -23,17 +23,14 @@
   </div>
 <% end %>
 
-
-<% curriculum.copyrights.each do |copyright| %>
-  <div class=o-resource__cc>
+<div class=o-resource__cc>
+  <% curriculum.copyrights.each do |copyright| %>
     <%= copyright.value %>
-  </div>
-<% end %>
-
-<% curriculum.copyrights.pluck(:disclaimer).uniq.each do |disclaimer| %>
-  <% if disclaimer.present? %>
-    <div class=o-resource__cc>
-      <%= disclaimer %>
-    </div>
   <% end %>
-<% end %>
+
+  <% curriculum.copyrights.pluck(:disclaimer).uniq.each do |disclaimer| %>
+    <% if disclaimer.present? %>
+      <%= disclaimer %>
+    <% end %>
+  <% end %>
+</div>
