@@ -644,7 +644,7 @@ class Curriculum < ActiveRecord::Base
     curriculum = self
     loop do
       return Curriculum.none unless curriculum
-      return copyright_attributions if copyright_attributions.any?
+      return curriculum.copyright_attributions if curriculum.copyright_attributions.any?
       curriculum = curriculum.parent
     end
   end
