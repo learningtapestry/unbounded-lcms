@@ -1,10 +1,10 @@
 class ContentGuidesController < ApplicationController
   include AnalyticsTracking
-  before_action :find_content_guide
 
   def show
+    cg = ContentGuide.find_by_permalink(params[:id]) || ContentGuide.find(params[:id])
     @content_guide = ContentGuidePresenter.new(
-      @content_guide_model,
+      cg,
       request.base_url,
       view_context,
       wrap_keywords: true
@@ -12,18 +12,16 @@ class ContentGuidesController < ApplicationController
   end
 
   def show_pdf
+    cg = ContentGuide.find(params[:id])
     @content_guide = ContentGuidePdfPresenter.new(
-      @content_guide_model,
+      cg,
       request.base_url,
       view_context,
       wrap_keywords: true
     )
       
     track_download(
-      action: content_guide_path(
-        @content_guide_model.permalink_or_id,
-        @content_guide_model.slug
-      ),
+      action: content_guide_path(cg.permalink_or_id, cg.slug),
       label: ''
     )
   
@@ -31,10 +29,6 @@ class ContentGuidesController < ApplicationController
   end
 
   protected
-    def find_content_guide
-      @content_guide_model = ContentGuide.find_by_permalink(params[:id]) || ContentGuide.find(params[:id])
-    end
-
     def render_pdf
       cover_image_url =
         if (path = @content_guide.big_photo.url) && path.start_with?('http')
