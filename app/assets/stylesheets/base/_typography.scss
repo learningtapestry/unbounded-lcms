@@ -97,11 +97,17 @@ $ub-element-typography: (
     ipad: ('font-size': 15px, 'line-height': 19px, 'font-family': $ub-sanserif),
   ),
   download-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 600, color: $ub-primary1),
+  // content guides
   cg-sidebar-title-type: ('font-size': 14px, 'line-height': 24px, 'font-family': $ub-serif, 'font-weight': 600),
   cg-sidebar-title: ('font-size': 24px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 500),
   cg-sidebar-l1: ('font-size': 18px, 'line-height': 20px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500),
   cg-sidebar-l2: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500),
-  cg-sidebar-l3: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500)
+  cg-sidebar-l3: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500),
+  // leaderhsip
+  ls-subhead: ('font-size': 20px, 'line-height': 23px, 'font-family': $ub-serif, 'font-weight': 600, color: map-get($ub-leadership, base)),
+  ls-post-title: ('font-size': 18px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600, color: map-get($ub-leadership, base)),
+  ls-post-subtitle: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 500, color: #4c4c4c),
+  ls-post-txt: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-sanserif, 'font-weight': 500, color: #555),
 );
 
 @each $element, $typo in $ub-element-typography {

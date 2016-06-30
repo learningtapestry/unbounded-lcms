@@ -1,0 +1,125 @@
+.c-ls-hero {
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @include e(wrap) {
+    @include add-gutter(margin, top, 3.5);
+    @include add-gutter(margin, bottom, 1);
+
+    @include breakpoint(ipad) {
+      @include add-gutter(margin, bottom, 2);
+    }
+  }
+
+  @include breakpoint(large up) {
+    background-image: image-url('hp_hero_bg.jpg');
+  }
+
+  @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
+    background-image: image-url('hp_hero_bg_medium.jpg');
+  }
+
+  @include breakpoint(small only) {
+    background-image: image-url('hp_hero_bg_small.jpg');
+  }
+
+  @include e(body) {
+    @include grid-column-offset(0);
+    @include flex-grid-column(12, $grid-column-2xgutter);
+    @include add-top-bottom-padding;
+    background-color: rgba($ub-white, .45);
+    border-radius: $panel-radius;
+
+    h1 {
+      @include txt-element(hero-header);
+      color: $ub-primary;
+    }
+
+    p {
+      @include txt-element(hero-text);
+      margin-bottom: 0;
+    }
+
+    @include breakpoint(medium) {
+      @include grid-column-offset(1);
+      @include flex-grid-column(11, $grid-column-2xgutter);
+    }
+
+    @include breakpoint(large) {
+      @include grid-column-offset(6.5);
+      @include flex-grid-column(5.5, $grid-column-2xgutter);
+    }
+  }
+}
+
+.c-ls-block {
+  @include add-top-bottom-margin($y: 2);
+}
+
+.c-ls-cblock {
+  width: 100%;
+
+  h2 { @include txt-element(media-header); }
+  &, p { @include txt-element(media-text); }
+  p { @include add-gutter; }
+
+  @include e(body) {
+    @include grid-column-position(center);
+    text-align: center;
+    width: 80%;
+
+    @include m(smaller) {
+      width: 77%;
+    }
+  }
+
+  @include e(carousel) {
+    @include flex-grid-column(12, 0);
+    position: relative;
+  }
+
+  @include e(item) {
+    @include flex-grid-column(4);
+    background-color: $ub-white;
+  }
+
+  @include e(wrap) {
+    @include flex-grid-row;
+    flex-wrap: nowrap;
+  }
+}
+
+.c-lk-cta {
+  h2 { @include txt-element(media-header); }
+  p { @include txt-element(media-text); }
+}
+
+.c-ls-slides {
+  height: 100%;
+  width: 75%;
+
+  @include e(wrap) {
+    @include flex-grid-row;
+    flex-wrap: nowrap;
+  }
+
+  @include e(slide) {
+    height: auto;
+  }
+
+  @include m(a) {
+    @include e(slide) {
+      @include flex-grid-column(12, 0);
+    }
+  }
+
+  @include m(l) {
+    width: 85%;
+    @include e(slide) {
+      @include flex-grid-column(4, 0);
+      @include flex;
+    }
+  }
+
+}

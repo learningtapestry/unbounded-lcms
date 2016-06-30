@@ -44,6 +44,7 @@ en:
     curriculum_html: <span>Explore</span><span>Curriculum</span>
     lessons_html: <span>Find</span><span>Lessons</span>
     instructions_html: <span>Enhance</span><span>Instruction</span>
+    leadership_html: <span>Advance</span><span>Leadership</span>
     about_dropdown:
       mission: Mission & Vision
       institute: Standards Institute

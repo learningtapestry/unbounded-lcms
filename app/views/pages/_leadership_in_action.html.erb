@@ -1,0 +1,21 @@
+<!-- Slider main container -->
+<div class="swiper-container c-ls-slides c-ls-slides--a">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper c-ls-slides__wrap">
+        <!-- Slides -->
+        <% ['//player.vimeo.com/video/74995528',
+            '//player.vimeo.com/video/152471744',
+            '//player.vimeo.com/video/170332966',
+            '//player.vimeo.com/video/69373117'].each do |video_url| %>
+          <div class="swiper-slide c-ls-slides__slide c-ls-slides--a__slide">
+            <div class="o-media-video">
+              <%= embed_video(video_url) %>
+            </div>
+          </div>
+        <% end %>
+
+    </div>
+</div>
+<!-- If we need navigation buttons -->
+<div class="c-ls-slides--a__prev c-ls-slides__prev swiper-button-prev"></div>
+<div class="c-ls-slides--a__next c-ls-slides__next swiper-button-next"></div>
