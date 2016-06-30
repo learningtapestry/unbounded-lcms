@@ -4,7 +4,7 @@ $(function () {
         slidesPerView: 'auto',
         nextButton: '.c-ls-slides--a__next',
         prevButton: '.c-ls-slides--a__prev',
-        spaceBetween: 30
+        spaceBetween: 20
     });
     let swiperPosts = new Swiper('.c-ls-slides--l', {
         slidesPerView: 'auto',
