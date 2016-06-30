@@ -1,30 +1,40 @@
 class ContentGuidesController < ApplicationController
+  include AnalyticsTracking
+  before_action :find_content_guide
+
   def show
-    content_guide = ContentGuide.find_by_permalink(params[:id]) || ContentGuide.find(params[:id])
+    @content_guide = ContentGuidePresenter.new(
+      @content_guide_model,
+      request.base_url,
+      view_context,
+      wrap_keywords: true
+    )
+  end
 
-    respond_to do |format|
-      format.html do
-        @content_guide = ContentGuidePresenter.new(
-          content_guide,
-          request.base_url,
-          view_context,
-          wrap_keywords: true
-        )
-      end
-
-      format.pdf do
-        @content_guide = ContentGuidePdfPresenter.new(
-          content_guide,
-          request.base_url,
-          view_context,
-          wrap_keywords: true
-        )
-        render_pdf
-      end
-    end
+  def show_pdf
+    @content_guide = ContentGuidePdfPresenter.new(
+      @content_guide_model,
+      request.base_url,
+      view_context,
+      wrap_keywords: true
+    )
+      
+    track_download(
+      action: content_guide_path(
+        @content_guide_model.permalink_or_id,
+        @content_guide_model.slug
+      ),
+      label: ''
+    )
+  
+    render_pdf
   end
 
   protected
+    def find_content_guide
+      @content_guide_model = ContentGuide.find_by_permalink(params[:id]) || ContentGuide.find(params[:id])
+    end
+
     def render_pdf
       cover_image_url =
         if (path = @content_guide.big_photo.url) && path.start_with?('http')
@@ -36,8 +46,8 @@ class ContentGuidesController < ApplicationController
         end
 
       render pdf: @content_guide.name,
-             cover: render_to_string(template: 'content_guides/_cover',
-                                     layout: 'cg_plain',
+             cover: render_to_string(template: 'content_guides/_cover_pdf',
+                                     layout: 'cg_plain_pdf',
                                      locals: { content_guide: @content_guide,
                                                cover_image_url: cover_image_url
                                              }
@@ -49,10 +59,10 @@ class ContentGuidesController < ApplicationController
              margin: { bottom: 18 },
              disable_internal_links: false,
              disable_external_links: false,
-             layout: 'cg',
+             layout: 'cg_pdf',
              print_media_type: false,
-             footer: { html: { template: 'content_guides/_footer',
-                               layout: 'cg_plain',
+             footer: { html: { template: 'content_guides/_footer_pdf',
+                               layout: 'cg_plain_pdf',
                                locals:  { title: @content_guide.footer_title }
                              },
                        line: false

@@ -114,6 +114,14 @@ class ContentGuide < ActiveRecord::Base
     end
   end
 
+  def permalink_or_id
+    if permalink.present?
+      permalink
+    else
+      id
+    end
+  end
+
   def validate_metadata
     @validate_metadata = true
     valid?
