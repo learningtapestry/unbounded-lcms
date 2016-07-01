@@ -1,0 +1,31 @@
+<div class=o-page>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('.new_leadership_post'), :new_admin_leadership_post, class: 'btn btn-success' %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <table class=table>
+    <tr>
+      <th>ID
+      <th>Order
+      <th><%= LeadershipPost.human_attribute_name :name %>
+      <th><%= LeadershipPost.human_attribute_name :position %>
+      <th><%= t('ui.actions') %>
+    </tr>
+
+    <% @leadership_posts.each do |leadership_post| %>
+      <tr id=leadership_post<%= leadership_post.id %>>
+        <td><%= leadership_post.id %>
+        <td><%= leadership_post.order %>
+        <td><%= link_to leadership_post.name, admin_leadership_post_path(leadership_post) %>
+        <td><%= leadership_post.school %>
+        <td>
+          <%= link_to t('ui.edit'), edit_admin_leadership_post_path(leadership_post), class: 'btn btn-default' %>
+          <%= button_to t('ui.delete'), admin_leadership_post_path(leadership_post), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+      </tr>
+    <% end %>
+  </table>
+</div>

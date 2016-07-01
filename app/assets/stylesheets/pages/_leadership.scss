@@ -51,6 +51,12 @@ $arrow-btn: (
       @include flex-grid-column(11, $grid-column-2xgutter);
     }
 
+    @include breakpoint(ipad) {
+      @include grid-column-offset(3);
+      @include flex-grid-column(9, $grid-column-2xgutter);
+    }
+
+
     @include breakpoint(large) {
       @include grid-column-offset(5);
       @include flex-grid-column(7, $grid-column-2xgutter);
@@ -167,13 +173,14 @@ $arrow-btn: (
       @include flex-grid-column(11, 0);
       @include flex;
 
+      @include breakpoint(ipad) {
+        @include flex-grid-column(6, 0);
+      }
+
       @include breakpoint(large) {
         @include flex-grid-column(4, 0);
       }
 
-      @include breakpoint(ipad) {
-        @include flex-grid-column(6, 0);
-      }
     }
     @include e(btn) {
       @include ls-arrows(map-get($ub-leadership, arrows2));

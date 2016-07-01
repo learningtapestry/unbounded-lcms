@@ -118,7 +118,7 @@ en:
         subjects: Subjects
         title: Title
       create:
-        success: "Resource #%{resource_id} was created successfully."        
+        success: "Resource #%{resource_id} was created successfully."
       update:
         success: "Resource #%{resource_id} was updated successfully."
     pages:
@@ -151,6 +151,18 @@ en:
         page_title: New Staff Member
       update:
         success: Staff Member updated successfully.
+    leadership_posts:
+      create:
+        success: Leadership Post created successfully.
+      destroy:
+        success: Leadership Post deleted successfully.
+      index:
+        new_leadership_post: Add Leadership Post
+        page_title: Leadership Posts
+      new:
+        page_title: New Leadership Post
+      update:
+        success: Leadership Post updated successfully.
     subtitles_imports:
       index:
         no_results: Nothing was imported
@@ -200,7 +212,7 @@ en:
       update:
         success: "Changes to reading assignment text were saved successfully."
       new:
-        page_title: New reading assignment text      
+        page_title: New reading assignment text
     welcome:
       index:
         collection_types: Collection Types
@@ -221,6 +233,7 @@ en:
       reading_assignment_texts: Reading assignments
       pages: Pages
       staff_members: Staff members
+      leadership_posts: Leadership posts
       content_guides: Content guides
       users: Users
       validate_links: Validate Links
