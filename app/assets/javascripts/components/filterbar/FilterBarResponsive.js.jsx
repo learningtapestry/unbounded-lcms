@@ -28,22 +28,24 @@ class FilterbarResponsive extends React.Component {
   }
 
   onClickRefine() {
-    $(this.refs.modal).addClass('o-filterbar-modal--show');
+    $(this._modal).addClass('o-filterbar-modal--show');
   }
 
   handleRefineClick() {
-    $(this.refs.modal).removeClass('o-filterbar-modal--show');
+    $(this._modal).removeClass('o-filterbar-modal--show');
   }
 
   render() {
     if (this.isMobile()) {
+      const withSearch = this.props.withDropdown ? false: this.props.withSearch;
       return (
         <div className="text-center">
           <a className="o-btn o-btn--yellow u-margin-bottom--large" onClick={this.onClickRefine.bind(this)}>Refine Results</a>
-          <div className="o-filterbar-modal" ref="modal">
+          <div className="o-filterbar-modal" ref={(ref) => this._modal = ref}>
             <Filterbar
                {...this.props}
                 withDropdown={false}
+                withSearch={withSearch}
                 onRefine={this.handleRefineClick.bind(this)} />
             <button className="close-button" aria-label="Close modal" type="button" onClick={this.handleRefineClick.bind(this)}>
               <span aria-hidden="true"><i className="ub-close"></i></span>
