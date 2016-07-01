@@ -58,6 +58,8 @@ en:
   pages:
     about:
       staff_members: Staff Members
+    leadership:
+      page_title: Leadership
   search:
     index:
       page_title: Search
@@ -66,4 +68,4 @@ en:
       show: Show
   welcome:
     index:
-      page_title: 
+      page_title:
