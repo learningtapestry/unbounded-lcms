@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/search' => 'search#index'
 
   resources :downloads, only: [:show]
+  get '/downloads/content_guides/:id(/:slug)', as: :content_guide_pdf, to: 'content_guides#show_pdf'
   resources :explore_curriculum, only: [:index, :show]
   resources :enhance_instruction, only: :index
   resources :find_lessons, only: :index
