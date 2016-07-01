@@ -9,15 +9,8 @@ production: &production
     - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cloud66:after_symlink
       target: rails
       execute: true
-      run_on: all_servers
-      apply_during: all  
-    - source: /.cloud66/after_symlink.sh
-      destination: /tmp/after_symlink.sh
-      target: rails
-      execute: true
-      sudo: true
+      run_on: single_server
       apply_during: all
-      run_on: all_servers 
   first_thing:
     - source: /.cloud66/install_wkhtmltopdf.sh
       destination: /tmp/install_wkhtmltopdf.sh
@@ -32,6 +25,13 @@ production: &production
       execute: true
       sudo: true
       apply_during: build_only
+      run_on: all_servers
+    - source: /.cloud66/install_fonts.sh
+      destination: /tmp/install_fonts.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
       run_on: all_servers
 staging:
   <<: *production

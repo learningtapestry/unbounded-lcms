@@ -54,6 +54,8 @@ class Curriculum < ActiveRecord::Base
   belongs_to :curriculum_item, class_name: 'Curriculum',
     foreign_key: 'item_id', foreign_type: 'Curriculum'
 
+  has_many :copyright_attributions
+
   has_many :referrers, class_name: 'Curriculum', as: 'item', dependent: :destroy
 
   has_many :resource_slugs, dependent: :destroy
@@ -636,5 +638,14 @@ class Curriculum < ActiveRecord::Base
 
   def named_tags
     resource.named_tags.merge! resource_type: curriculum_type.try(:name)
+  end
+
+  def copyrights
+    curriculum = self
+    loop do
+      return Curriculum.none unless curriculum
+      return curriculum.copyright_attributions if curriculum.copyright_attributions.any?
+      curriculum = curriculum.parent
+    end
   end
 end

@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160701092151) do
+=======
+ActiveRecord::Schema.define(version: 20160630135052) do
+>>>>>>> master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +72,16 @@ ActiveRecord::Schema.define(version: 20160701092151) do
 
   add_index "content_guides", ["file_id"], name: "index_content_guides_on_file_id", unique: true, using: :btree
   add_index "content_guides", ["permalink"], name: "index_content_guides_on_permalink", unique: true, using: :btree
+
+  create_table "copyright_attributions", force: :cascade do |t|
+    t.integer  "curriculum_id", null: false
+    t.string   "disclaimer"
+    t.string   "value",         null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "copyright_attributions", ["curriculum_id"], name: "index_copyright_attributions_on_curriculum_id", using: :btree
 
   create_table "curriculum_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false
@@ -378,6 +392,7 @@ ActiveRecord::Schema.define(version: 20160701092151) do
 
   add_foreign_key "content_guide_standards", "content_guides", on_delete: :cascade
   add_foreign_key "content_guide_standards", "standards"
+  add_foreign_key "copyright_attributions", "curriculums", on_delete: :cascade
   add_foreign_key "curriculums", "curriculum_types"
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
   add_foreign_key "curriculums", "curriculums", column: "seed_id"
