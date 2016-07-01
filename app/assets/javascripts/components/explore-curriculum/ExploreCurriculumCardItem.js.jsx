@@ -1,14 +1,14 @@
 class ExploreCurriculumCardItem extends React.Component {
   componentDidMount() {
-    new Foundation.DropdownMenu($(this.refs.dropdown),
+    new Foundation.DropdownMenu($(this._dropdown),
                                 { 'alignment': 'right',
                                   'forceFollow': false,
                                   'closingTime': Modernizr.touchevents ? 0 : 5000 });
   }
 
   componentWillUnmount() {
-    if (this.refs.dropdown) {
-      $(this.refs.dropdown).foundation('destroy');
+    if (this._dropdown) {
+      $(this._dropdown).foundation('destroy');
     }
   }
 
@@ -97,7 +97,7 @@ class ExploreCurriculumCardItem extends React.Component {
           <div className={`${cssHeaderClasses} u-text--uppercase hide-for-ipad`}>
             {resource.short_title}
           </div>
-          <ul className="o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short" ref="dropdown">
+          <ul className="o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short" ref={(ref) => this._dropdown = ref}>
             <li>
               <a href="" className="o-cur-card__ellipsis"><i className="ub-ellipsis fa-3x"></i></a>
               <ul className="menu">
