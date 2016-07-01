@@ -3,15 +3,15 @@
   <!-- Additional required wrapper -->
   <div class="swiper-wrapper c-ls-slides__wrap">
       <!-- Slides -->
-      <% ls_posts.each do |post| %>
+      <% leadership_posts.each do |post| %>
         <div class="swiper-slide c-ls-slides__slide c-ls-slides--l__slide">
           <div class="ls-post">
             <div class="ls-post__img">
-              <%= image_tag post.img %>
+              <%= image_tag(post.image_file) if post.image_file.present? %>
             </div>
             <div class="ls-post__body">
               <div class="ls-post__title">
-                <%= post.first_name %> <%= post.last_name %>
+                <%= post.name %>
               </div>
               <div class="ls-post__subtitle">
                 <%= post.school %>

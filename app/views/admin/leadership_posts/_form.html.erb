@@ -1,0 +1,11 @@
+<% url = @leadership_post.new_record? ? :admin_leadership_posts : admin_leadership_post_path(@leadership_post) %>
+
+<%= simple_form_for @leadership_post, url: url do |f| %>
+  <%= f.input :order %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+  <%= f.input :school %>
+  <%= f.input :image_file %>
+  <%= f.input :dsc, as: :text, input_html: { rows: 8 } %>
+  <%= f.button :submit, t('ui.save'), name: nil %>
+<% end %>

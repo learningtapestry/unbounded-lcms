@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get '/privacy'      => 'pages#show_slug', slug: 'privacy', as: :privacy_page
   get '/leadership'   => 'pages#leadership'
 
-  get  '/search' => 'search#index'
+  get '/search' => 'search#index'
 
   resources :downloads, only: [:show]
   resources :explore_curriculum, only: [:index, :show]
@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     resources :users, except: :show do
       post :reset_password, on: :member
     end
+    resources :leadership_posts, except: :show
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug
