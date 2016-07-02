@@ -45,6 +45,6 @@ class DownloadModal extends React.Component {
         <div className="o-download-modal" ref={(ref) => this._modal = ref} id={modalId}
              data-reveal dangerouslySetInnerHTML={ this.modalContent() }>
         </div>
-      ) : null;
+      ) : <div className="hide"></div>;
   }
 }

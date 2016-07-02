@@ -180,7 +180,7 @@ class Filterbar extends React.Component {
             <SearchDropdown
               searchContainer={() => this.searchContainer}
               searchBus={this.searchBus}
-              filterbar={conciseState} /> : null}
+              filterbar={conciseState} /> : <div className="hide"></div>}
         </div>
       );
     }
