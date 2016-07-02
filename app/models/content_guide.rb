@@ -114,6 +114,10 @@ class ContentGuide < ActiveRecord::Base
     end
   end
 
+  def pdf_title
+    title.gsub(/[^[[:alnum:]]]/, '_').gsub(/_+/, '_')
+  end
+
   def permalink_or_id
     if permalink.present?
       permalink
