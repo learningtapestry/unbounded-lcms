@@ -11,7 +11,7 @@ class DownloadModal extends React.Component {
     return `<li>
               <i class="${cls}"></i>
               <span>
-                <a href=${download.url} class="resource-attachment">${download.title}</a>
+                <a href=${download.url} data-no-turbolink="true" class="resource-attachment">${download.title}</a>
               </span>
             </li>`;
   }
