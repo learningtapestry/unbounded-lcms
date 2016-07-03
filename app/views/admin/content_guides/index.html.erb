@@ -6,6 +6,7 @@
       <th><%= ContentGuide.human_attribute_name :name %>
       <th><%= ContentGuide.human_attribute_name :title %>
       <th><%= ContentGuide.human_attribute_name :subject %>
+      <th><%= ContentGuide.human_attribute_name :grade_list %>
       <th><%= ContentGuide.human_attribute_name :modified_by %>
       <th><%= ContentGuide.human_attribute_name :version %>
       <th>
@@ -13,9 +14,14 @@
 
     <% @content_guides.each do |content_guide| %>
       <tr>
-        <td><%= link_to content_guide.name, content_guide %>
+        <td><%= link_to content_guide.title, content_guide_path(content_guide.permalink_or_id, content_guide.slug) %>
         <td><%= content_guide.title %>
         <td><%= t(content_guide.subject, scope: :subjects) if content_guide.subject %>
+        <td>
+          <% content_guide.sorted_grade_list.each do |grade| %>
+            <span class=text-nowrap><%= grade %></span>
+            <br>
+          <% end %>
         <td><%= content_guide.modified_by %>
         <td><%= content_guide.version %>
         <td class=text-nowrap>

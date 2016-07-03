@@ -6,7 +6,7 @@ module Admin
     before_action :load_content_guide, only: %i(edit update)
 
     def index
-      @content_guides = ContentGuide.order(updated_at: :desc)
+      @content_guides = ContentGuide.sort_by_grade
     end
 
     def new

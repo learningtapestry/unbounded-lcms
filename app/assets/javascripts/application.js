@@ -27,3 +27,7 @@ ready(function() {
   //window.initializeFreshdesk();
   window.initializeGoogleAnalytics();
 });
+
+$(document).on('page:before-unload', function(nodes) {
+  urlHistory.emptyState();
+});
