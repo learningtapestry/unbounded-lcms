@@ -1,7 +1,9 @@
 .o-filterbar-modal {
   @include reveal-overlay;
   @include reveal-modal-base;
+  @include reveal-modal-fullscreen;
   background-color: rgba(map-get($ub-mignight, filterbar), .95);
+  overflow: auto;
 
   > div {
     margin-left: auto;

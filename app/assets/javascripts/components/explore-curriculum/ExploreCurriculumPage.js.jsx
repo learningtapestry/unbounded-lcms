@@ -65,15 +65,15 @@ class ExploreCurriculumPage extends React.Component {
                         $('html, body').scrollTop(yOffset);
                       }
                     }
-                    $(this._curriculumList).foundation('mutexScrollUnlock');
-                    $(this._curriculumList).foundation('reflow');
+                    this._curriculumList.foundation('mutexScrollUnlock');
+                    this._curriculumList.foundation('reflow');
                   }, this.ANIMATION_DURATION / 4);
   }
 
   scrollToActive(el) {
     if (el && $(el).length) {
-      $(this._curriculumList).foundation('mutexScrollLock');
-      $(this._curriculumList).foundation('scrollToLoc', el);
+      this._curriculumList.foundation('mutexScrollLock');
+      this._curriculumList.foundation('scrollToLoc', el);
     }
     else {
       this.updateUrl(null);
@@ -81,7 +81,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   reflow() {
-    $(this._curriculumList).foundation('reflow');
+    this._curriculumList.foundation('reflow');
   }
 
   buildStateFromProps(props) {

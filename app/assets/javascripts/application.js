@@ -16,10 +16,12 @@
 //= require initializers/social_sharing
 //= require initializers/google_analytics
 //= require initializers/leadership
+//= require initializers/header_dropdown
 
 ready(function() {
   $(document).initFoundation();
   $(document).smoothscrolling();
+  window.initializeHeaderDropdown();
   window.initializeContentGuide();
   window.initializeAboutPeople();
   window.initializeSocialSharing();
