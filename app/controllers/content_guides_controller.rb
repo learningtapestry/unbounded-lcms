@@ -39,13 +39,11 @@ class ContentGuidesController < ApplicationController
           'none'
         end
 
-      render pdf: @content_guide.name,
+      render pdf: @content_guide.pdf_title,
              cover: render_to_string(template: 'content_guides/_cover_pdf',
                                      layout: 'cg_plain_pdf',
                                      locals: { content_guide: @content_guide,
-                                               cover_image_url: cover_image_url
-                                             }
-                                    ),
+                                               cover_image_url: cover_image_url }),
              disposition: 'attachment',
              show_as_html: params.key?('debug'),
              page_size: 'Letter',

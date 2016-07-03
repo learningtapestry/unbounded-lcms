@@ -1,8 +1,8 @@
 class DownloadModal extends React.Component {
 
   componentDidMount() {
-    if (this.refs.modal) {
-      new Foundation.Reveal($(this.refs.modal));
+    if (this._modal) {
+      new Foundation.Reveal($(this._modal));
     }
   }
 
@@ -11,7 +11,7 @@ class DownloadModal extends React.Component {
     return `<li>
               <i class="${cls}"></i>
               <span>
-                <a href=${download.url} class="resource-attachment">${download.title}</a>
+                <a href=${download.url} data-no-turbolink="true" class="resource-attachment">${download.title}</a>
               </span>
             </li>`;
   }
@@ -42,9 +42,9 @@ class DownloadModal extends React.Component {
 
     return (resource.downloads && resource.downloads.length > 0) ?
       (
-        <div className="o-download-modal" ref="modal" id={modalId}
+        <div className="o-download-modal" ref={(ref) => this._modal = ref} id={modalId}
              data-reveal dangerouslySetInnerHTML={ this.modalContent() }>
         </div>
-      ) : null;
+      ) : <div className="hide"></div>;
   }
 }

@@ -79,7 +79,7 @@ class ContentGuide < ActiveRecord::Base
         GRADES.index(grade)
       end.compact
 
-    indices.min || 0
+    [indices.min || 0, indices.size]
   end
 
   def modified_by
@@ -114,12 +114,20 @@ class ContentGuide < ActiveRecord::Base
     end
   end
 
+  def pdf_title
+    title.gsub(/[^[[:alnum:]]]/, '_').gsub(/_+/, '_')
+  end
+
   def permalink_or_id
     if permalink.present?
       permalink
     else
       id
     end
+  end
+
+  def sorted_grade_list
+    grade_list.sort_by { |g| GRADES.index(g) }
   end
 
   def validate_metadata

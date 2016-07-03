@@ -4,6 +4,7 @@ class ExploreCurriculumPage extends React.Component {
 
     this.state = this.buildStateFromProps(props);
     this.ANIMATION_DURATION = 400;
+    this._curriculumList = null;
   }
 
   updateUrl($active) {
@@ -21,7 +22,8 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   componentDidMount() {
-    new Foundation.MaggelanHash($(this.refs.curriculumList),
+    this._curriculumList = $('#curriculumList');
+    new Foundation.MaggelanHash(this._curriculumList,
                                 { deepLinking: true,
                                   updateUrl: this.updateUrl.bind(this),
                                   threshold: 20,
@@ -42,26 +44,36 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.refs.curriculumList) {
-      $(this.refs.curriculumList).foundation('destroy');
+    if (this._curriculumList) {
+      this._curriculumList.foundation('destroy');
     }
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    this._curriculumList.foundation('mutexScrollLock');
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this._curriculumList.foundation('mutexScrollUnlock');
+  }
+
   onScrollFinished(el) {
-    _.delay(() => { const yOffset = $(el).offset().top;
-                    // fix animation sync, will get inside in very rare cases
-                    if (Math.abs($(document).scrollTop() - yOffset) > 25) {
-                      $('html, body').scrollTop(yOffset);
+    _.delay(() => { if (el && $(el).length) {
+                      const yOffset = $(el).offset().top;
+                      // fix animation sync, will get inside in very rare cases
+                      if (Math.abs($(document).scrollTop() - yOffset) > 25) {
+                        $('html, body').scrollTop(yOffset);
+                      }
                     }
-                    $(this.refs.curriculumList).foundation('mutexScrollUnlock');
-                    $(this.refs.curriculumList).foundation('reflow');
+                    $(this._curriculumList).foundation('mutexScrollUnlock');
+                    $(this._curriculumList).foundation('reflow');
                   }, this.ANIMATION_DURATION / 4);
   }
 
   scrollToActive(el) {
     if (el && $(el).length) {
-      $(this.refs.curriculumList).foundation('mutexScrollLock');
-      $(this.refs.curriculumList).foundation('scrollToLoc', el);
+      $(this._curriculumList).foundation('mutexScrollLock');
+      $(this._curriculumList).foundation('scrollToLoc', el);
     }
     else {
       this.updateUrl(null);
@@ -69,7 +81,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   reflow() {
-    $(this.refs.curriculumList).foundation('reflow');
+    $(this._curriculumList).foundation('reflow');
   }
 
   buildStateFromProps(props) {
@@ -225,13 +237,12 @@ class ExploreCurriculumPage extends React.Component {
                 searchLabel='What do you want to teach?'
                 withSearch={true}
                 withDropdown={true}
-                withSearch={false}
                 {...this.state.filterbar} />
             </div>
           </div>
         </div>
         <div className="o-page o-page--margin-bottom">
-          <div className="o-page__module" ref="curriculumList">
+          <div className="o-page__module">
             <ExploreCurriculumHeader totalItems={this.state.curriculums.length} />
             {curriculums}
           </div>
