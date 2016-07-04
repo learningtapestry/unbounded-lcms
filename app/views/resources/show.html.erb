@@ -1,11 +1,11 @@
-<% set_page_title @resource.title %>
-<% set_og_tags @resource %>
+<% set_page_title @resource.page_title(@grade_color_code) %>
+<% set_og_tags @resource.page_title(@grade_color_code), @resource.teaser %>
 
 <% if (slug = @curriculum.slug) %>
   <% set_canonical_url show_with_slug_path(slug.value) %>
 <% end %>
 
-<div class="o-page o-page--margin-to-bottom">
+<div class="o-page o-page--margin-to-bottom o-page--resource">
   <div class="o-page__sticky">
     <div class="o-sticky o-sticky--left <%= 'o-sticky--disabled' unless @curriculum.previous_of_type %>">
       <a class="o-sticky__btn o-sticky--left__btn" href="<%= @curriculum.previous_of_type ? show_with_slug_path(@curriculum.previous_of_type.slug.value) : '#' %>">

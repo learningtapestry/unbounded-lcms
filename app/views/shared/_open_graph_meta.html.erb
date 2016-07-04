@@ -1,5 +1,5 @@
 <meta property="og:title" content="<%= content_for(:og_title) || page_title %>" />
-<meta property="og:image" content="<%= content_for(:og_image) || image_url(ENV['DEFAULT_IMAGE_LINK']) %>" />
-<meta property="og:description" content="<%= content_for(:og_description) || page_description || ENV['DEFAULT_DESCRIPTION_TEXT'] %>" />
+<meta property="og:image" content="<%= page_og_image %>" />
+<meta property="og:description" content="<%= content_for(:og_description) || page_description %>" />
 <meta property="og:url" content="<%= request.original_url %>" />
-<meta property="og:site_name" content="UnboundEd" />
+<meta property="og:site_name" content="<%= t('ui.unbounded') %>" />

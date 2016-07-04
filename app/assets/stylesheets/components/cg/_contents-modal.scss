@@ -2,10 +2,10 @@
   @include reveal-overlay;
   @include reveal-modal-base;
   @include reveal-modal-fullscreen;
-  margin-left: 0;
-  margin-right: 0;
+  margin-left: auto;
+  margin-right: auto;
   overflow: auto;
-  // position: relative;
+  position: relative;
   top: 0 !important;
 
   @include e(content) {

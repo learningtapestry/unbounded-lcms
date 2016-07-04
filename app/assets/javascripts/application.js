@@ -20,7 +20,7 @@
 
 ready(function() {
   $(document).initFoundation();
-  $(document).smoothscrolling();
+  $('.o-page--resource').smoothscrolling();
   window.initializeHeaderDropdown();
   window.initializeContentGuide();
   window.initializeAboutPeople();

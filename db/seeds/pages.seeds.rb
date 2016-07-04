@@ -280,4 +280,4 @@ privacy_body = <<-HTML
 <p><em>Last Revised: May 12, 2016</em></p>
 HTML
 
-Page.create_with(body: privacy_body, title: 'UnboundEd Privacy Policy').find_or_create_by(slug: 'privacy')
+Page.create_with(body: privacy_body, title: 'Privacy Policy').find_or_create_by(slug: 'privacy')
