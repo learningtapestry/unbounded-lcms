@@ -9,24 +9,25 @@ $arrow-btn: (
   background-size: cover;
 
   @include e(wrap) {
-    @include add-gutter(margin, top, 3.5);
-    @include add-gutter(margin, bottom, 1);
+    @include add-gutter(margin, top, 4.5);
+    @include add-gutter(margin, bottom, 2);
 
     @include breakpoint(ipad) {
-      @include add-gutter(margin, bottom, 2);
+      @include add-gutter(margin, bottom, 2.5);
     }
   }
 
   @include breakpoint(large up) {
-    background-image: image-url('hp_hero_bg.jpg');
+    background-image: image-url('ls_hero_bg.jpg');
   }
 
   @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
-    background-image: image-url('hp_hero_bg_medium.jpg');
+    background-image: image-url('ls_hero_bg_medium.jpg');
   }
 
   @include breakpoint(small only) {
-    background-image: image-url('hp_hero_bg_small.jpg');
+    background-image: image-url('ls_hero_bg_small.jpg');
+    background-position: 40% 0%;
   }
 
   @include e(body) {
@@ -71,6 +72,10 @@ $arrow-btn: (
 
 .c-ls-block {
   @include add-top-bottom-margin($y: 2);
+
+  @include breakpoint(ipad down) {
+    .o-btn { margin-bottom: $ub-xs-padding; }
+  }
 }
 
 .c-ls-cblock {
@@ -132,6 +137,15 @@ $arrow-btn: (
     width: 100%;
   }
 
+  @include e(overlay) {
+    display: none;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+
   @include e(wrap) {
     @include flex-grid-row;
     flex-wrap: nowrap;
@@ -187,4 +201,25 @@ $arrow-btn: (
     }
   }
 
+}
+
+
+.c-ls-img--syt {
+  background-image: image-url('ls_team.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+
+  @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
+    background-position: 20% 0%;
+  }
+}
+
+.c-ls-img--eyc {
+  background-image: image-url('ls_curriculum.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+
+  @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
+    background-position: 0% 0%;
+  }
 }
