@@ -42,6 +42,6 @@ class Admin::LeadershipPostsController < Admin::AdminController
   end
 
   def leadership_post_params
-    params.require(:leadership_post).permit(:dsc, :first_name, :last_name, :order, :school, :image_file)
+    params.require(:leadership_post).permit(:description, :first_name, :last_name, :order, :school, :image_file)
   end
 end
