@@ -13,12 +13,14 @@ $arrow-btn: (
     @include add-gutter(margin, bottom, 2);
 
     @include breakpoint(ipad) {
-      @include add-gutter(margin, bottom, 2.5);
+      @include add-gutter(margin, top, 5.5);
+      @include add-gutter(margin, bottom, 3);
     }
   }
 
   @include breakpoint(large up) {
     background-image: image-url('ls_hero_bg.jpg');
+    background-position: 0% 40%;
   }
 
   @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
