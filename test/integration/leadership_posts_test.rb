@@ -28,13 +28,13 @@ class LeadershipPostsTestCase < ActionDispatch::IntegrationTest
     fill_in 'First name', with: @first_name
     fill_in 'Last name', with: @last_name
     fill_in 'School', with: @school
-    fill_in 'Dsc', with: @dsc
+    fill_in 'Description', with: @dsc
     fill_in 'Image file', with: @image_file
     click_button 'Save'
 
     leadership_post = LeadershipPost.last
     assert_equal @order, leadership_post.order
-    assert_equal @dsc, leadership_post.dsc
+    assert_equal @dsc, leadership_post.description
     assert_equal @name, leadership_post.name
     assert_equal @school, leadership_post.school
     assert_equal @image_file, leadership_post.image_file
@@ -54,13 +54,13 @@ class LeadershipPostsTestCase < ActionDispatch::IntegrationTest
     fill_in 'First name', with: @first_name
     fill_in 'Last name', with: @last_name
     fill_in 'School', with: @school
-    fill_in 'Dsc', with: @dsc
+    fill_in 'Description', with: @dsc
     fill_in 'Image file', with: @image_file
     click_button 'Save'
 
     @leadership_post.reload
     assert_equal @order, @leadership_post.order
-    assert_equal @dsc, @leadership_post.dsc
+    assert_equal @dsc, @leadership_post.description
     assert_equal @name, @leadership_post.name
     assert_equal @school, @leadership_post.school
     assert_equal @image_file, @leadership_post.image_file
