@@ -14,7 +14,8 @@
 @import
   'font-awesome-sprockets',
   'font-awesome',
-  'vendors/foundation_and_overrides';
+  'vendors/foundation_and_overrides',
+  'vendors/swiper';
 
 @import
   'utils/styles_override',
@@ -40,6 +41,7 @@
   'components/filterbar',
   'components/filterbar-modal',
   'components/lesson-cards',
+  'components/ls-post',
   'components/media',
   'components/media-resources',
   'components/pagination',
@@ -72,4 +74,5 @@
   'pages/enhance-instruction',
   'pages/content-guide',
   'pages/find-lessons',
+  'pages/leadership',
   'pages/unsupported';

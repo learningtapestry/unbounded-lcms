@@ -17,6 +17,7 @@
             <%= nav_link t('nav.curriculum_html'), explore_curriculum_index_path, class: "c-header__link #{add_class_for_action(:resources, :show, 'active')}" %>
             <%= nav_link t('nav.lessons_html'), find_lessons_path, class: "c-header__link" %>
             <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: "c-header__link #{add_class_for_action(:resources, :media, 'active')} #{add_class_for_action(:content_guides, :show, 'active')}" %>
+            <%= nav_link t('nav.leadership_html'), leadership_path, class: "c-header__link" %>
             <%= nav_link t('nav.about_html'), about_path, class: "c-header__link #{add_class_for_path(about_people_path, 'active')}" %>
           </ul>
         </div>
@@ -26,6 +27,43 @@
               <%= link_to search_path do %>
                 <i class="fa-2x ub-search"></i>
               <% end %>
+            </li>
+            <li class="c-header__link c-header__link--light">
+              <a data-no-turbolink="true" class="show-for-large"><i class="fa-2x ub-share"></i></a>
+              <ul class="menu c-header__submenu addthis_toolbox">
+                <li class="c-header__submenu-link">
+                  <a class="addthis_button_twitter" rel="nofollow" data-no-turbolink="true">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x fa-header-bg"></i>
+                      <i class="fa-2x ub-twitter fa-stack-1x"></i>
+                    </span>
+                  </a>
+                </li>
+                <li class="c-header__submenu-link">
+                  <a class="addthis_button_facebook" data-href="<%= request.original_url %>" rel="nofollow" data-no-turbolink="true">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x fa-header-bg"></i>
+                      <i class="fa-2x ub-facebook fa-stack-1x"></i>
+                    </span>
+                  </a>
+                </li>
+                <li class="c-header__submenu-link">
+                  <a class="addthis_button_pinterest_share" rel="nofollow" data-no-turbolink="true">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x fa-header-bg"></i>
+                      <i class="fa-2x ub-pinterest fa-stack-1x"></i>
+                    </span>
+                  </a>
+                </li>
+                <li class="c-header__submenu-link">
+                  <a class="addthis_button_email" rel="nofollow" data-no-turbolink="true">
+                    <span class="fa-stack">
+                      <i class="fa fa-circle fa-stack-2x fa-header-bg"></i>
+                      <i class="fa-2x ub-arrow-share fa-stack-1x"></i>
+                    </span>
+                  </a>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>

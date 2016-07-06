@@ -8,4 +8,8 @@ class PagesController < ApplicationController
     @page = Page.find_by(slug: slug)
     render slug if template_exists?(slug, 'pages')
   end
+
+  def leadership
+    @leadership_posts = LeadershipPost.all.order_by_name_with_precedence
+  end
 end

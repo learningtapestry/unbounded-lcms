@@ -73,8 +73,10 @@
     @include breakpoint(medium down) {
       @include add-gutter(margin, left, -.5);
       @include add-gutter(margin, right, -.5);
-      flex: 0 0 100%;
-      min-width: 100%;
+      // flex: 0 0 100%;
+      // min-width: 100%;
+      @include flex-grid-column(12, 0);
+      //display: none;
     }
 
     @include breakpoint(ipad) {
@@ -144,17 +146,25 @@
     }
 
     @include breakpoint(ipad down) {
+      p { margin: 0 !important; text-indent: 0 !important; }
+      li { margin-left: 15px !important;}
+      span:not(.c-cg-standard):not(.c-cg-dropdown), img {
+        width: 100% !important;
+      }
+
       table {
         margin-left: 0 !important;
         margin-right: 0 !important;
-
-        &.c-cg-single-cell-table span, img {
-          width: 100% !important;
-        }
-
       }
     }
 
+  }
+}
+
+@include breakpoint(ipad down) {
+  .c-cg-dropdown {
+    max-width: 200px !important;
+    width: 100% !important;
   }
 }
 

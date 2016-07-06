@@ -27,7 +27,27 @@ module ApplicationHelper
       controller = controller_path.gsub('/', '.')
       page_title = t("#{controller}.#{action_name}.page_title", default: t('default_title'))
     end
-    current_page?(root_path) ? "UnboundEd" : "UnboundEd - #{page_title}"
+    page_title
+  end
+
+  def page_description
+    if content_for?(:description)
+      page_description = content_for(:description)
+    else
+      controller = controller_path.gsub('/', '.')
+      page_description = t("#{controller}.#{action_name}.page_description", default: t('default_description'))
+    end
+    page_description
+  end
+
+  def page_og_image
+    if content_for?(:og_image)
+      page_og_image = content_for(:og_image)
+    else
+      controller = controller_path.gsub('/', '.')
+      page_og_image = t("#{controller}.#{action_name}.og_image", default: t('default_og_image'))
+    end
+    page_og_image
   end
 
   def set_page_title(title)
@@ -50,11 +70,10 @@ module ApplicationHelper
     content_for(:description)
   end
 
-  def set_og_tags(resource, image_url = nil)
-    set_page_description(resource.teaser)
-    content_for(:og_title, resource.title)
-    content_for(:og_description, resource.teaser)
-    content_for(:og_image, image_url) if image_url.present?
+  def set_og_tags(title, description)
+    set_page_description(description)
+    content_for(:og_title, title)
+    content_for(:og_description, description)
   end
 
   def base64_encoded_asset(path)

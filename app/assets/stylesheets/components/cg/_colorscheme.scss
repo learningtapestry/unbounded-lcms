@@ -11,7 +11,7 @@
 
       &:hover, &:focus {
         background: map-get($map, annotation-number-bg);
-        color: #fff;  
+        color: #fff;
       }
     }
   }
@@ -44,6 +44,7 @@
     @include e(body) {
       a {
         color: map-get($map, link) !important;
+        word-wrap: break-word;
       }
     }
   }

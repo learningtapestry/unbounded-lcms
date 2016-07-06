@@ -13,14 +13,14 @@ class FilterbarResponsive extends React.Component {
   }
 
   componentDidMount() {
-    $(window).on('changed.zf.mediaquery', this.handleResize.bind(this));
+    $(window).on('changed.zf.mediaquery.ubfilterbar', this.handleResize.bind(this));
     if ($(window).width() <  this.WINDOW_BREAKPOINT) {
       this.setState({ breakpoint: this.WINDOW_BREAKPOINT_NAMES[0] });
     }
   }
 
   componentWillUnmount() {
-    $(window).off('changed.zf.mediaquery');
+    $(window).off('changed.zf.mediaquery.ubfilterbar');
   }
 
   isMobile() {

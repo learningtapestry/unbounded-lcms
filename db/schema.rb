@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630135052) do
+ActiveRecord::Schema.define(version: 20160705221310) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,19 @@ ActiveRecord::Schema.define(version: 20160630135052) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  create_table "leadership_posts", force: :cascade do |t|
+    t.string   "first_name",               null: false
+    t.string   "last_name",                null: false
+    t.string   "school"
+    t.string   "image_file"
+    t.string   "description", limit: 4096
+    t.integer  "order"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "leadership_posts", ["order", "last_name"], name: "index_leadership_posts_on_order_and_last_name", using: :btree
 
   create_table "pages", force: :cascade do |t|
     t.text     "body",       null: false
