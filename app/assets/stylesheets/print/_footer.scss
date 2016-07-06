@@ -18,6 +18,11 @@
   padding-top: $ub-small-padding;
   width: 100%;
 
+  @include e(wrap) {
+    margin-left: $pdf-margin;
+    margin-right: $pdf-margin;
+  }
+
   @include e(left) {
     padding: 0;
   }

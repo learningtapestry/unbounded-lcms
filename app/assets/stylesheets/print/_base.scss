@@ -10,6 +10,10 @@ html, body {
   height: 100%;
 }
 
+@page {
+  size: letter;
+}
+
 header, footer, o-sidebar-nav {
   display: none;
 }
@@ -20,7 +24,10 @@ tr, img, table, pre, blockquote, .callout { page-break-inside: avoid; }
 h1, h2, h3, h4, h5 { page-break-after: avoid; }
 .c-cg-content__body h1, .c-cg-task { page-break-before: always; }
 .c-cg-blockquote, .c-cg-pullquote { page-break-inside: avoid; }
-
+.c-cg-content__body {
+  padding-left: $pdf-margin;
+  padding-right: $pdf-margin;
+}
 .contengGuide__footnotes {
   page-break-before: always;
 }
@@ -80,9 +87,13 @@ img, span, td, table {
   max-width: 100%;
 }
 
-.c-cg-single-cell-table span:not(.c-cg-standard), img {
-  width: 100% !important;
+table td {
+  padding-right: $ub-large-padding !important;
 }
+
+// .c-cg-single-cell-table span:not(.c-cg-standard):not(.c-cg-icon), img {
+//   width: 100% !important;
+// }
 
 .nobreak {
   page-break-before: avoid !important;
