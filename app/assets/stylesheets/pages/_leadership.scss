@@ -13,8 +13,8 @@ $arrow-btn: (
     @include add-gutter(margin, bottom, 2);
 
     @include breakpoint(ipad) {
-      @include add-gutter(margin, top, 5.5);
-      @include add-gutter(margin, bottom, 3);
+      @include add-gutter(margin, top, 6);
+      @include add-gutter(margin, bottom, 3.5);
     }
   }
 
@@ -131,6 +131,14 @@ $arrow-btn: (
   }
 }
 
+.touchevents {
+  .c-ls-slides {
+    @include e(overlay) {
+      display: block;
+    }
+  }
+}
+
 .c-ls-slides {
   height: 100%;
   width: 75%;
@@ -140,12 +148,25 @@ $arrow-btn: (
   }
 
   @include e(overlay) {
+    bottom: 40px;
     display: none;
-    height: 100%;
+    height: auto;
     position: absolute;
-    top: 0;
-    width: 100%;
+    top: 50px;
+    width: 25%;
     z-index: 9999;
+
+    @include m(left) {
+      left: 0;
+    }
+
+    @include m(right) {
+      right: 0;
+    }
+
+    @include breakpoint(ipad down) {
+      display: block;
+    }
   }
 
   @include e(wrap) {
