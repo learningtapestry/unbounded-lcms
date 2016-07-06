@@ -27,6 +27,7 @@ class ContentGuide < ActiveRecord::Base
   before_save :set_slug
 
   mount_uploader :big_photo, ContentGuidePhotoUploader
+  mount_uploader :pdf, ContentGuidePdfUploader
   mount_uploader :small_photo, ContentGuidePhotoUploader
 
   scope :where_subject, ->(subjects) {
