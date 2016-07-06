@@ -13,23 +13,34 @@ class ContentGuidesController < ApplicationController
 
   def show_pdf
     cg = ContentGuide.find(params[:id])
-    @content_guide = ContentGuidePdfPresenter.new(
-      cg,
-      request.base_url,
-      view_context,
-      wrap_keywords: true
-    )
-      
+
+    if params.key?('debug') || params.key?('nocache')
+      render_pdf(cg)
+      return
+    end
+
+    if cg.pdf.blank?
+      cg.remote_pdf_url = url_for(nocache: '')
+      cg.save!
+    end
+
     track_download(
       action: content_guide_path(cg.permalink_or_id, cg.slug),
       label: ''
     )
   
-    render_pdf
+    redirect_to cg.pdf_url
   end
 
   protected
-    def render_pdf
+    def render_pdf(content_guide)
+      @content_guide = ContentGuidePdfPresenter.new(
+        content_guide,
+        request.base_url,
+        view_context,
+        wrap_keywords: true
+      )
+
       cover_image_url =
         if (path = @content_guide.big_photo.url) && path.start_with?('http')
           "url(#{path})"
