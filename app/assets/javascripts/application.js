@@ -2,6 +2,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require vendor/modernizr-custom
+//= require vendor/swiper.jquery
 //= require ready
 //= require jquery/smoothscrolling
 //= require foundation
@@ -14,13 +15,17 @@
 //= require initializers/about_people
 //= require initializers/social_sharing
 //= require initializers/google_analytics
+//= require initializers/leadership
+//= require initializers/header_dropdown
 
 ready(function() {
   $(document).initFoundation();
-  $(document).smoothscrolling();
+  $('.o-page--resource').smoothscrolling();
+  window.initializeHeaderDropdown();
   window.initializeContentGuide();
   window.initializeAboutPeople();
   window.initializeSocialSharing();
+  window.initializeLeadership();
   //window.initializeFreshdesk();
   window.initializeGoogleAnalytics();
 });

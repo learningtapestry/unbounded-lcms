@@ -16,7 +16,6 @@ en:
     unit_x_label: "(Core Materials for %{lesson} above)"
     unit_title: "Unit %{idx}"
     module_title: "Module %{idx}"
-  default_title: Untitled
   footer:
     address_html: >
       123 Main Street, 12th fl, New York NY 10003
@@ -44,6 +43,7 @@ en:
     curriculum_html: <span>Explore</span><span>Curriculum</span>
     lessons_html: <span>Find</span><span>Lessons</span>
     instructions_html: <span>Enhance</span><span>Instruction</span>
+    leadership_html: <span>Advance</span><span>Leadership</span>
     about_dropdown:
       mission: Mission & Vision
       institute: Standards Institute
@@ -147,3 +147,4 @@ en:
     guide: Guide
     grade: Grade
     unbounded: UnboundEd
+    standards_institute: Standards Institute

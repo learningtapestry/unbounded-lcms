@@ -1,4 +1,5 @@
-<% set_page_title @content_guide.title.html_safe %>
+<% set_page_title @content_guide.teaser.html_safe %>
+<% set_og_tags @content_guide.teaser.html_safe, @content_guide.title.try(:html_safe) %>
 
 <% if (permalink = @content_guide.permalink).present? %>
   <% set_canonical_url content_guide_path(permalink, slug: @content_guide.slug) %>
@@ -20,7 +21,7 @@
         <div class=c-cg-teaser><%= @content_guide.teaser %></div>
         <h1 class=c-cg-title><%= simple_format @content_guide.title %></h1>
         <div class="u-margin-top--small">
-          <%= link_to t('resources.btn.download', title: 'Guide'), content_guide_pdf_path(@content_guide), class: 'o-ub-btn c-cg-btn-download hide' %>
+          <%= link_to t('resources.btn.download', title: 'Guide'), content_guide_pdf_path(@content_guide), class: 'o-ub-btn c-cg-btn-download' %>
         </div>
       </div>
     </div>

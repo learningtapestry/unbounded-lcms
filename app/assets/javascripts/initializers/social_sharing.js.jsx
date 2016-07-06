@@ -16,6 +16,14 @@ var addthis_share = {
 };
 
 window.initializeSocialSharing = () => {
-  addthis_config.ui_email_note = ($('.o-social-sharing__teaser').length) ? $('.o-social-sharing__teaser').html().trim() : '';
+  let pageDsc = '';
+  if ($('.o-social-sharing__teaser').length) {
+    pageDsc = $('.o-social-sharing__teaser').html().trim();
+  } else {
+    if ($("meta[name='description']").attr('content')) {
+      pageDsc = $("meta[name='description']").attr('content');
+    }
+  }
+  addthis_config.ui_email_note = pageDsc;
   if (window.addthis) { addthis.toolbox('.addthis_toolbox'); }
 }

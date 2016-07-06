@@ -80,7 +80,7 @@ img, span, td, table {
   max-width: 100%;
 }
 
-.c-cg-single-cell-table span, img {
+.c-cg-single-cell-table span:not(.c-cg-standard), img {
   width: 100% !important;
 }
 

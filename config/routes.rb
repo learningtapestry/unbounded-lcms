@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   get '/about/people' => 'pages#show_slug', slug: 'about_people'
   get '/tos'          => 'pages#show_slug', slug: 'tos',     as: :tos_page
   get '/privacy'      => 'pages#show_slug', slug: 'privacy', as: :privacy_page
+  get '/leadership'   => 'pages#leadership'
 
-  get  '/search' => 'search#index'
+  get '/search' => 'search#index'
 
   resources :downloads, only: [:show]
   get '/downloads/content_guides/:id(/:slug)', as: :content_guide_pdf, to: 'content_guides#show_pdf'
@@ -58,6 +59,7 @@ Rails.application.routes.draw do
     resources :users, except: :show do
       post :reset_password, on: :member
     end
+    resources :leadership_posts, except: :show
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug
