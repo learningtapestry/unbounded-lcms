@@ -148,7 +148,7 @@
     @include breakpoint(ipad down) {
       p { margin: 0 !important; text-indent: 0 !important; }
       li { margin-left: 15px !important;}
-      span:not(.c-cg-standard):not(.c-cg-dropdown), img {
+      span:not(.c-cg-standard):not(.c-cg-dropdown):not(.c-cg-icon), img {
         width: 100% !important;
       }
 

@@ -28,7 +28,7 @@ class ContentGuidesController < ApplicationController
       action: content_guide_path(cg.permalink_or_id, cg.slug),
       label: ''
     )
-  
+
     redirect_to cg.pdf_url
   end
 
@@ -59,7 +59,7 @@ class ContentGuidesController < ApplicationController
              show_as_html: params.key?('debug'),
              page_size: 'Letter',
              outline: { outline_depth: 3 },
-             margin: { bottom: 18 },
+             margin: { bottom: 18, left: 8, right: 8 },
              disable_internal_links: false,
              disable_external_links: false,
              layout: 'cg_pdf',
