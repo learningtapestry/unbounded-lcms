@@ -1,7 +1,7 @@
 .c-cg-single-cell-table {
-  width: auto !important;
+  //width: auto !important;
 
-  tbody {
+  &, tbody, td {
     border: 0 !important;
   }
 }
@@ -11,8 +11,8 @@
     margin: 0;
   }
 
-  tbody {
-    border: none;
+  &, tbody {
+    border: 0;
   }
 
   td {
