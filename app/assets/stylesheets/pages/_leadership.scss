@@ -36,7 +36,7 @@ $arrow-btn: (
     @include grid-column-offset(0);
     @include flex-grid-column(12, $grid-column-2xgutter);
     @include add-top-bottom-padding;
-    background-color: rgba($ub-white, .45);
+    background-color: rgba($ub-white, .7);
     border-radius: $panel-radius;
 
     h1 {
@@ -172,6 +172,16 @@ $arrow-btn: (
   @include e(wrap) {
     @include flex-grid-row;
     flex-wrap: nowrap;
+
+    @include m(1) {
+      justify-content: center;
+    }
+
+    @include m(2) {
+      @include breakpoint(large) {
+        justify-content: center;
+      }
+    }
   }
 
   @include e(slide) {
@@ -188,7 +198,9 @@ $arrow-btn: (
 
   @include m(a) {
     @include e(slide) {
-      @include flex-grid-column(11, 0);
+      // uncomment for more than 1 video support
+      //@include flex-grid-column(11, 0);
+      @include flex-grid-column(12, 0);
 
       @include breakpoint(ipad) {
         @include flex-grid-column(12, 0);
