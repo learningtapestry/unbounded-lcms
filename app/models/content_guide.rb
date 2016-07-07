@@ -59,12 +59,16 @@ class ContentGuide < ActiveRecord::Base
       content = service.export_file(file_id, 'text/html').encode('ASCII-8BIT').force_encoding('UTF-8')
 
       cg = find_or_initialize_by(file_id: file_id)
-      cg.update(name: file.name,
-                  last_modified_at: file.modified_time,
-                  last_modifying_user_email: file.last_modifying_user.email_address,
-                  last_modifying_user_name: file.last_modifying_user.display_name,
-                  original_content: content,
-                  version: file.version)
+      cg.attributes = {
+        name: file.name,
+        last_modified_at: file.modified_time,
+        last_modifying_user_email: file.last_modifying_user.email_address,
+        last_modifying_user_name: file.last_modifying_user.display_name,
+        original_content: content,
+        version: file.version
+      }
+      cg.remove_pdf!
+      cg.save
       cg
     end
 
