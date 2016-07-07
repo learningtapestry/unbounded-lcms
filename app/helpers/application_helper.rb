@@ -66,10 +66,6 @@ module ApplicationHelper
     content_for(:canonical_url, value)
   end
 
-  def page_description
-    content_for(:description)
-  end
-
   def set_og_tags(title, description)
     set_page_description(description)
     content_for(:og_title, title)
