@@ -7,7 +7,7 @@
 
   <div>
     <ui class=accordion data-accordion>
-      <% if (errors = @content_guide.errors.full_messages).any? %>
+      <% if (errors = @content_guide.errors.full_messages.select { |m| m != 'is invalid' }).any? %>
         <li class='accordion-item is-active' data-accordion-item>
           <%= link_to '#', class: 'accordion-title' do %>
             <h3><%= t('.common_errors') %></h3>

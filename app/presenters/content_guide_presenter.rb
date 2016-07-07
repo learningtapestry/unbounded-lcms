@@ -560,6 +560,14 @@ class ContentGuidePresenter < BasePresenter
     result + dropdowns.join
   end
 
+  def wrap_tables
+    doc.css('table').each do |table|
+      wrap = doc.document.create_element('div', class: 'c-cg-scroll-wrap')
+      table.replace(wrap)
+      wrap << table
+    end
+  end
+
   protected
 
   def process_content
@@ -585,6 +593,8 @@ class ContentGuidePresenter < BasePresenter
     replace_guide_links
     reset_heading_styles
     reset_table_styles
+    wrap_tables
+
     @doc_processed = true
   end
 end
