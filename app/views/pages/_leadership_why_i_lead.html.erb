@@ -1,7 +1,7 @@
 <!-- Slider main container -->
 <div class="swiper-container c-ls-slides c-ls-slides--l">
   <!-- Additional required wrapper -->
-  <div class="swiper-wrapper c-ls-slides__wrap">
+  <div class="swiper-wrapper c-ls-slides__wrap c-ls-slides__wrap--<%= leadership_posts.count %>">
       <!-- Slides -->
       <% leadership_posts.each do |post| %>
         <div class="swiper-slide c-ls-slides__slide c-ls-slides--l__slide">
