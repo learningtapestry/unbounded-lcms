@@ -16,7 +16,7 @@ var addthis_share = {
 };
 
 window.initializeSocialSharing = () => {
-  let addthiDescription = $('header .addthis_toolbox').attr('addthis:description');
+  let addthiDescription = $("meta[name='description']").attr('content');
   addthis_config.ui_email_note = addthiDescription ? addthiDescription : '';
   if (window.addthis) { addthis.toolbox('.addthis_toolbox'); }
 }
