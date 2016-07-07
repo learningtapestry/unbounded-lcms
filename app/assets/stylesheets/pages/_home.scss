@@ -208,6 +208,16 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
   background-size: cover;
 }
 
+.c-hp-img--al {
+  background-image: image-url('hp_advance_leadership.jpg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+
+  @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
+    background-position: 50% 0%;
+  }
+}
+
 .c-hp-img--ei {
   background-image: image-url('hp_enhance_instructions.jpg');
   background-repeat: no-repeat, no-repeat;
@@ -216,5 +226,4 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
   @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
     background-position: 50% 0%;
   }
-
 }
