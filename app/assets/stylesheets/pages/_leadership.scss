@@ -233,7 +233,7 @@ $arrow-btn: (
   background-size: cover;
 
   @media screen and #{breakpoint(medium)} and #{breakpoint(ipad down)} {
-    background-position: 20% 0%;
+    background-position: 80% 0%;
   }
 }
 

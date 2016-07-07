@@ -16,14 +16,7 @@ var addthis_share = {
 };
 
 window.initializeSocialSharing = () => {
-  let pageDsc = '';
-  if ($('.o-social-sharing__teaser').length) {
-    pageDsc = $('.o-social-sharing__teaser').html().trim();
-  } else {
-    if ($("meta[name='description']").attr('content')) {
-      pageDsc = $("meta[name='description']").attr('content');
-    }
-  }
-  addthis_config.ui_email_note = pageDsc;
+  let addthiDescription = $("meta[name='description']").attr('content');
+  addthis_config.ui_email_note = addthiDescription ? addthiDescription : '';
   if (window.addthis) { addthis.toolbox('.addthis_toolbox'); }
 }
