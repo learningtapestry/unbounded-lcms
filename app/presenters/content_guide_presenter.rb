@@ -142,7 +142,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def doc
-    @doc ||= Nokogiri::HTML.fragment(process_content)
+    @doc ||= Nokogiri::HTML.fragment(process_content.gsub(/\u00a0/, ' '))
   end
 
   def embed_audios
@@ -541,7 +541,6 @@ class ContentGuidePresenter < BasePresenter
                 data-hover=true
                 data-hover-delay=0
                 data-hover-pane=true
-                data-standard=1
                 id=#{id}>
             #{standard.description}
           </span>
