@@ -25,10 +25,16 @@
 
   @include e(left) {
     padding: 0;
+
+    @include m(red) {
+      color: red;
+      padding-right: 5px;
+    }
   }
 
   @include e(right) {
     padding: 0;
     text-align: right;
   }
+
 }
