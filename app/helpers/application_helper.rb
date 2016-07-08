@@ -7,6 +7,10 @@ module ApplicationHelper
     end.html_safe
   end
 
+  def escape_newline(str)
+    str ? str.html_safe.gsub(/[\n\r]/, ' ') : ''
+  end
+
   def add_class_for_path(link_path, klass, klass_prefix = nil)
     "#{klass_prefix} #{klass if current_page?(link_path)}"
   end

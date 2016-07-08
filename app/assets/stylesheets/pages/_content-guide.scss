@@ -7,8 +7,8 @@
 
   .c-cg-btn-download {
     $background: map-get($map, btn-download-bg);
-    $color: map-get($map, link);
-    @include button-style($background: $background, $background-hover: auto, $color: $color);
+    $color: map-get($map, link1);
+    @include button-style($background: $background, $background-hover: lighten($background, 20%), $color: $color);
   }
 
   .c-cg-btn-related {
@@ -191,7 +191,9 @@
   * {
     color: $ub-white !important;
     font: 2.25rem/1.2 $ub-serif;
+    margin-bottom: 0;
   }
+
 }
 
 .c-cg-btn-related {

@@ -56,6 +56,7 @@ class ContentGuidesController < ApplicationController
                                      locals: { content_guide: @content_guide,
                                                cover_image_url: cover_image_url }),
              disposition: 'attachment',
+             javascript_delay: 5000,
              show_as_html: params.key?('debug'),
              page_size: 'Letter',
              outline: { outline_depth: 3 },
