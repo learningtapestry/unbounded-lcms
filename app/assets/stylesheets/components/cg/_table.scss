@@ -1,11 +1,12 @@
 .c-cg-scroll-wrap {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .c-cg-single-cell-table {
-  //width: auto !important;
+  // width: auto !important;
+  // td { width: 100% !important; }
 
-  &, tbody, td {
+  tbody {
     border: 0 !important;
   }
 }
@@ -15,7 +16,7 @@
     margin: 0;
   }
 
-  &, tbody {
+  tbody {
     border: 0;
   }
 
