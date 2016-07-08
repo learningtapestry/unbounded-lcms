@@ -7,10 +7,6 @@ module ApplicationHelper
     end.html_safe
   end
 
-  def escape_newline(str)
-    str ? str.html_safe.gsub(/[\n\r]/, ' ') : ''
-  end
-
   def add_class_for_path(link_path, klass, klass_prefix = nil)
     "#{klass_prefix} #{klass if current_page?(link_path)}"
   end
@@ -31,7 +27,7 @@ module ApplicationHelper
       controller = controller_path.gsub('/', '.')
       page_title = t("#{controller}.#{action_name}.page_title", default: t('default_title'))
     end
-    page_title
+    strip_tags_and_squish(page_title)
   end
 
   def page_description
@@ -41,7 +37,7 @@ module ApplicationHelper
       controller = controller_path.gsub('/', '.')
       page_description = t("#{controller}.#{action_name}.page_description", default: t('default_description'))
     end
-    page_description
+    strip_tags_and_squish(page_description)
   end
 
   def page_og_image
@@ -52,6 +48,14 @@ module ApplicationHelper
       page_og_image = t("#{controller}.#{action_name}.og_image", default: t('default_og_image'))
     end
     page_og_image
+  end
+
+  def page_og_title
+    strip_tags_and_squish(content_for(:og_title)) || page_title
+  end
+
+  def page_og_description
+    strip_tags_and_squish(content_for(:og_description)) || page_description
   end
 
   def set_page_title(title)
@@ -90,6 +94,11 @@ module ApplicationHelper
     raise "Could not find asset '#{path}'" if asset.nil?
     base64 = Base64.encode64(asset.to_s).gsub(/\s+/, '')
     "data:#{content_type};base64,#{Rack::Utils.escape(base64)}"
+  end
+
+  def strip_tags_and_squish(str)
+    return unless str.respond_to? :squish
+    strip_tags(str).squish
   end
 
 end
