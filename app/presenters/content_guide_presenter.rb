@@ -535,7 +535,14 @@ class ContentGuidePresenter < BasePresenter
     result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
       if ((standard = CommonCoreStandard.find_by_name_or_synonym(m)) && standard.description.present?)
         id = "cg-k_#{SecureRandom.hex(4)}"
+
+        # If the dropdown-pane doesn't have a toggler element, the plugin
+        # will throw an exception during initialization.
+        # For some standard references we're removing the dropdown behavior
+        # because that's undesirable, thus prompting this exception.
+        # Add a hidden toggle button that is always present, so this doesn't happen.
         dropdowns << %Q(
+          <span class=hide data-toggle=#{id}></span>
           <span class='dropdown-pane c-cg-dropdown'
                 data-dropdown
                 data-hover=true
