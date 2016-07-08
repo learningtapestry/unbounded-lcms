@@ -88,7 +88,6 @@ module ApplicationHelper
       [asset, content_type]
     end
     raise "Could not find asset '#{path}'" if asset.nil?
-    puts Rails.application.assets
     base64 = Base64.encode64(asset.to_s).gsub(/\s+/, '')
     "data:#{content_type};base64,#{Rack::Utils.escape(base64)}"
   end
