@@ -28,11 +28,14 @@
   'components/cg/colorscheme',
   'components/cg/elements',
   'components/cg/icons',
+  'components/cg/keywords',
   'components/cg/quotes',
   'components/cg/standards',
   'components/cg/table',
-  'components/cg/task';
+  'components/cg/task',
+  'components/cg/hacks';
 
   @import
   'print/base',
+  'print/hacks',
   'print/elements_typography';

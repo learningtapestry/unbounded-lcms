@@ -23,3 +23,9 @@ $ub-pdf-typography: (
   cover-logo-ed: ('font-size': 24pt, 'line-height': 24pt, 'font-family': $ub-serif, color: $ub-pdf-gray),
   footer: ('font-size': 7pt, 'line-height': 8.4pt, 'font-family': $ub-serif, color: $ub-pdf-gray),
 );
+
+p {
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  text-rendering: optimizeSpeed; //optimize-speed
+}
