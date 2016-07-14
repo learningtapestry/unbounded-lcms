@@ -71,16 +71,18 @@ h4 {
   padding-top: 1.25rem;
 }
 
-p, ol, ul {
-  * {
-      $typo: map-get($ub-pdf-typography, base);
-      @each $style, $value in $typo {
-        #{$style}: $value !important;
-      font-weight: normal !important;
-      orphans: 2 !important;
-      widows: 2 !important;
+.c-cg-content__body {
+  p, ol, ul {
+    &, * {
+        $typo: map-get($ub-pdf-typography, base);
+        @each $style, $value in $typo {
+          #{$style}: $value !important;
+        font-weight: normal !important;
+        orphans: 2 !important;
+        widows: 2 !important;
+      }
     }
-  }
+  }  
 }
 
 ul li {
@@ -88,34 +90,16 @@ ul li {
 }
 
 img, td, span, table {
-  //max-height: 100%;
   max-width: 100%;
 }
 
-// .c-cg-single-cell-table {
-//   & {
-//     width: auto !important;
-//   }
-//   //tbody, td { border: 0 !important; }
-// }
-
-.o-page--cg-ela {
-  .c-cg-single-cell-table {
-    tbody, td { border: 0 !important; }
-  }
-}
-
-
+img { height: auto !important; }
 
 .c-cg-content__body {
   table td {
     padding-right: $ub-large-padding !important;
   }
 }
-
-// .c-cg-single-cell-table span:not(.c-cg-standard):not(.c-cg-icon):not(.c-cg-dropdown), img {
-//   width: 100% !important;
-// }
 
 .nobreak {
   page-break-before: avoid !important;
