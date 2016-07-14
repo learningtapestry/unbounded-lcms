@@ -121,6 +121,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     replace_image_sources
     reset_heading_styles
     reset_table_styles
-    #reset_styles
+    wrap_tables
+    concatenate_spans
   end
 end
