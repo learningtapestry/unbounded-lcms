@@ -27,7 +27,7 @@ module Filterbar
     end
 
     def subject_params
-      split_params(params[:subjects]) & ['ela', 'math']
+      split_params(params[:subjects]) & ['ela', 'math', 'lead']
     end
 
     def facets_params

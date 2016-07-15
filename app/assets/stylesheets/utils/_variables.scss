@@ -36,5 +36,21 @@ $curriculum-map-width: (
 $filterbar-height: 58px;
 $filterbar-square: 58px;
 $filterbar-xs: (($filterbar-square + 1) * 5 - 1) / 2;
+$filterbar-xs-3: (($filterbar-square + 1) * 5 - 1) / 3;
+$filterbar-rectangle-2: (
+  small: $filterbar-xs,
+  ipad: 218px,
+  large: 115px
+);
+$filterbar-rectangle-3: (
+  small: $filterbar-xs-3 - 1px,
+  ipad: 108px,
+  large: 75px
+);
+$filterbar-rectangle-big: (
+  small: $filterbar-xs - 1px,
+  ipad: 157px
+);
+
 
 $pdf-margin: 8px;
