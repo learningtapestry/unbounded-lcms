@@ -17,7 +17,7 @@
           <li>
             <span class="cur-edit-item-curtype"><%= child.curriculum_type.name %></span>
             <span class="cur-edit-item-title"><%= child.resource.title %></span>
-            <span class="cur-edit-item-btn"><%= link_to('Edit', edit_admin_curriculum_path(child.curriculum_item), class: 'small button') %> <button type="button" class="small button remove">Remove</button></span>
+            <span class="cur-edit-item-btn"><% if child.current_level != :lesson %> <%= link_to('Edit', edit_admin_curriculum_path(child.curriculum_item), class: 'small button') %> <% end %> <button type="button" class="small button remove">Remove</button></span>
             <input type="hidden" name="curriculum[child_ids][]" value="<%= child.item_id %>">
           </li>
         <% end %>
