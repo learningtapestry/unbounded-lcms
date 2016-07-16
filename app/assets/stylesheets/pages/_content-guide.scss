@@ -210,3 +210,8 @@
   @include cg-color-scheme($ub-cg-math-colors);
   @include cg-page-color-scheme($ub-cg-math-colors);
 }
+
+.o-page--cg-lead {
+  @include cg-color-scheme($ub-cg-lead-colors);
+  @include cg-page-color-scheme($ub-cg-lead-colors);
+}

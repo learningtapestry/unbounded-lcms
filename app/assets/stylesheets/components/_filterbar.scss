@@ -39,6 +39,18 @@
     @include m(facet) {
 
     }
+
+    @include m(subjects) {
+      @include breakpoint(ipad only) {
+        max-width: map-get($filterbar-rectangle-2, ipad);
+      }
+    }
+
+    @include m(grades) {
+      @include breakpoint(ipad only) {
+        max-width: ($filterbar-square + 1) * 7;
+      }
+    }
   }
 
   @include e(item) {
@@ -76,20 +88,16 @@
       }
     }
 
-    @include m(rectangle) {
-      width: 115px;
+    @include m(rectangle-2) {
+      @include breakpoint-style-from-map($filterbar-rectangle-2, width);
+    }
 
-      @include breakpoint(medium down) {
-        width: $filterbar-xs;
-      }
+    @include m(rectangle-3) {
+      @include breakpoint-style-from-map($filterbar-rectangle-3, width);
     }
 
     @include m(rectangle-big) {
-      width: 160px;
-
-      @include breakpoint(medium down) {
-        width: $filterbar-xs - 1px;
-      }
+      @include breakpoint-style-from-map($filterbar-rectangle-big, width);
     }
 
     @include m(square) {
