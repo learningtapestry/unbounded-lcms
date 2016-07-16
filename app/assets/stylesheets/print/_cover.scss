@@ -52,6 +52,11 @@ body {
     background: map-get($ub-cg-math-colors, btn-download-bg);
   }
 
+  @include m(lead) {
+    @extend %pdf-full-height;
+    background: map-get($ub-cg-lead-colors, btn-download-bg);    
+  }
+
   @include e(wrap) {
     margin-left: $pdf-margin;
     margin-right: $pdf-margin;

@@ -38,3 +38,22 @@ $ub-cg-math-colors: (
   task-toggler: #1eb49a,
   task-toggler-bg: #b1d7bb,
 );
+
+$ub-cg-lead-colors: (
+  annotation-bg: map-get($ub-mignight, twenty),
+  annotation-number-bg: map-get($ub-mignight, base),
+  blockquote-border: lighten(map-get($ub-colorcodes, lead-base), 30%),
+  btn-download: map-get($ub-colorcodes, lead-4),
+  btn-download-bg: lighten(map-get($ub-colorcodes, lead-base), 30%),
+  btn-related: lighten(map-get($ub-colorcodes, lead-base), 30%),
+  btn-related-border: lighten(map-get($ub-colorcodes, lead-base), 30%),
+  header-bg: map-get($ub-colorcodes, lead-4),
+  link: map-get($ub-colorcodes, lead-4),
+  link1: darken(map-get($ub-colorcodes, lead-4), 10%),
+  pullquote: map-get($ub-colorcodes, lead-4),
+  pullquote-border: map-get($ub-colorcodes, lead-4),
+  sidebar: map-get($ub-colorcodes, lead-4),
+  task-bg: lighten(map-get($ub-colorcodes, lead-base), 35%),
+  task-toggler: map-get($ub-colorcodes, lead-4),
+  task-toggler-bg: lighten(map-get($ub-colorcodes, lead-base), 25%),
+);
