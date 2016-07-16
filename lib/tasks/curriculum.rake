@@ -13,4 +13,7 @@ namespace :curriculum do
 
   desc 'Syncs reading assignments for curriculum items'
   task sync_reading_assignments: [:environment] { CurriculumTasks.sync_reading_assignments }
+
+  desc 'Updates time to teach across curriculums'
+  task update_time_to_teach: [:environment] { CurriculumTasks.update_time_to_teach }
 end
