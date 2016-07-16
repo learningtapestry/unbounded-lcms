@@ -56,6 +56,11 @@
     fQuery.current = fQuery._getCurrentSize();
   }
 
+  function uniqMediaQuery() {
+    // clear current queries (will be duplicated b/c of turbolinks)
+    Foundation.MediaQuery.queries = _.uniq(Foundation.MediaQuery.queries, 'name');
+  }
+
   // Copy-paste from Foundation.MediaQuery
   // Thank you: https://github.com/sindresorhus/query-string
   function parseStyleToObject(str) {
@@ -97,6 +102,7 @@
   $.fn.initFoundation = function() {
     fixMediaQuery();
     initPlugins(this);
+    uniqMediaQuery();
     Foundation.IHearYou();
     return this;
   };
