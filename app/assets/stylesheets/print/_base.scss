@@ -130,3 +130,8 @@ img, td, span, table {
   @include cg-color-scheme($ub-cg-math-colors);
   @include cg-pdf-color-scheme($ub-cg-math-colors);
 }
+
+.o-page--cg-lead {
+  @include cg-color-scheme($ub-cg-lead-colors);
+  @include cg-pdf-color-scheme($ub-cg-lead-colors);
+}
