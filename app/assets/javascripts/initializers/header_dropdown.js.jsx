@@ -34,6 +34,9 @@ $(function () {
     $elDropdown = null;
     handleDropdown();
     $(window).off('changed.zf.mediaquery.ubheader').on('changed.zf.mediaquery.ubheader', handleResize);
+    $('.c-header-title__h-menu').off('toggled.zf.responsiveToggle').on('toggled.zf.responsiveToggle', (e) => {
+      $('.c-header-title__h-menu').toggleClass('c-header-title__h-menu--expanded');
+    });
   }
 
 })

@@ -26,8 +26,8 @@
   @include e(left) {
     padding: 0;
 
-    @include m(red) {
-      color: red;
+    @include m(draft) {
+      color: #f00;
       padding-right: 5px;
     }
   }
