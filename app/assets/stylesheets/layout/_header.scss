@@ -90,8 +90,10 @@
     &, a { color: $ub-nav-link; }
     &:hover, &:focus, a:hover, a:focus, &.active a { color: $ub-white; text-decoration: none; }
     &.active {
-      background-color: darken($ub-nav-bg, 5%);
       a { background: none; }
+      @include breakpoint($topbar-unstack-breakpoint) {
+        background-color: darken($ub-nav-bg, 5%);
+      }
     }
     > a {
       @include txt-element(nav-span);
@@ -141,8 +143,16 @@
 
   @include e(h-menu) {
     @include add-column-padding;
+    align-items: center;
+    display: flex;
+    min-height: $ub-nav-height;
+
     @include breakpoint($topbar-unstack-breakpoint) {
       //display: none;
+    }
+
+    @include m(expanded) {
+      background-color: darken($ub-nav-bg, 5%);
     }
   }
 }

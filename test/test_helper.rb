@@ -24,17 +24,31 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, timeout: 10000)
 end
 
+module DatabaseSwitch
+  def establish_connection(env)
+    Dotenv.overload(".env.#{env}")
+    config = Rails.application.config.database_configuration[env.to_s]
+    ActiveRecord::Base.establish_connection(config)
+  end
+
+  def restore_connection
+    establish_connection(Rails.env.to_s)
+  end
+end
+
 class ActiveSupport::TestCase
   fixtures :all
 end
 
 class ActionController::TestCase
   include Devise::TestHelpers
+  include DatabaseSwitch
 end
 
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
   include Warden::Test::Helpers; Warden.test_mode!
+  include DatabaseSwitch
 
   def setup
     super
@@ -62,13 +76,6 @@ class IntegrationDatabaseTestCase < ActionDispatch::IntegrationTest
 
   def teardown
     super
-    establish_connection(Rails.env.to_s)
+    restore_connection
   end
-
-  private
-    def establish_connection(env)
-      Dotenv.overload(".env.#{env}")
-      config = Rails.application.config.database_configuration[env.to_s]
-      ActiveRecord::Base.establish_connection(config)
-    end
 end

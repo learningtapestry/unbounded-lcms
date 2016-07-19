@@ -95,6 +95,18 @@
   white-space: nowrap;
 }
 
+@mixin breakpoint-style-from-map($map, $style) {
+  @each $breakpoint, $value in $map {
+    @if ($breakpoint == small) {
+      #{$style}: $value;
+    } @else {
+      @include breakpoint($breakpoint) {
+        #{$style}: $value;
+      }
+    }
+  }
+}
+
 @mixin add-gutter($type: margin, $subtype: bottom, $x: 1, $gutter: $grid-column-gutter) {
   @each $breakpoint, $value in $gutter {
     $margin: rem-calc($value);

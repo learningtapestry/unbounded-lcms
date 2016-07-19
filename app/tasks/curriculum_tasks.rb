@@ -40,5 +40,35 @@ class CurriculumTasks
         end
       end
     end
+
+    def update_time_to_teach
+      ActiveRecord::Base.transaction do
+        Curriculum.lessons.with_resources.find_each do |cur|
+          res = cur.resource
+          next if res.time_to_teach.present? && res.time_to_teach != 0
+          cur.resource.update_attributes(time_to_teach: 60)
+        end
+
+        Curriculum.units.with_resources.find_each do |cur|
+          total = cur.children.map { |c| c.resource.time_to_teach }.sum
+          cur.resource.update_attributes(time_to_teach: total)
+        end
+
+        Curriculum.modules.with_resources.find_each do |cur|
+          total = cur.children.map { |c| c.resource.time_to_teach }.sum
+          cur.resource.update_attributes(time_to_teach: total)
+        end
+
+        Curriculum.grades.with_resources.find_each do |cur|
+          total = cur.children.map { |c| c.resource.time_to_teach }.sum
+          cur.resource.update_attributes(time_to_teach: total)
+        end
+
+        Curriculum.maps.seeds.find_each do |cur|
+          total = cur.children.map { |c| c.resource.time_to_teach }.sum
+          cur.resource.update_attributes(time_to_teach: total)
+        end
+      end
+    end
   end
 end

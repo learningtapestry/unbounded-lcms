@@ -27,7 +27,7 @@ class DownloadModal extends React.Component {
                 ${ _.map(resource.downloads, item => this.download(item)).join('\n') }
               </ul>
             </div>
-            <button class="close-button" data-close aria-label="Close modal" type="button">
+            <button class="close-button ub-close-button" data-close aria-label="Close modal" type="button">
               <span aria-hidden="true"><i class="ub-close"></i></span>
             </button>`;
   }
