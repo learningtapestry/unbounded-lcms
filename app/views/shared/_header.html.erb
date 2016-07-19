@@ -14,6 +14,9 @@
       <div class="o-top-bar__wrapper" id="navbar">
         <div class="o-top-bar__item">
           <ul class="menu c-header__menu">
+            <li class="hide-for-large">
+              <%= render partial: 'shared/search_form' %>
+            </li>
             <%= nav_link t('nav.curriculum_html'), explore_curriculum_index_path, class: "c-header__link #{add_class_for_action(:resources, :show, 'active')}" %>
             <%= nav_link t('nav.lessons_html'), find_lessons_path, class: "c-header__link" %>
             <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: "c-header__link #{add_class_for_action(:resources, :media, 'active')} #{add_class_for_action(:content_guides, :show, 'active')}" %>
@@ -23,7 +26,7 @@
         </div>
         <div class="o-top-bar__item">
           <ul class="menu c-header__left-menu">
-            <li class="c-header__link">
+            <li class="c-header__link show-for-large">
               <%= link_to search_path do %>
                 <i class="fa-2x ub-search"></i>
               <% end %>

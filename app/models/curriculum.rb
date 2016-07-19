@@ -133,6 +133,7 @@ class Curriculum < ActiveRecord::Base
   end
 
   def add_child(new_child_resource)
+    reload
     child_curriculum_type = case current_level
                             when :map then CurriculumType.grade
                             when :grade then CurriculumType.module
@@ -146,7 +147,6 @@ class Curriculum < ActiveRecord::Base
       position: children.size,
       seed: seed
     )
-    ResourceSlug.create_for_curriculum(new_child)
   end
 
   # Navigation
@@ -466,6 +466,11 @@ class Curriculum < ActiveRecord::Base
         short: 'L',
         long: 'L',
         has_position: true
+      },
+      part: {
+        short: 'P',
+        long: 'P',
+        has_position: true
       }
     }
   end
@@ -504,7 +509,12 @@ class Curriculum < ActiveRecord::Base
           :module
         end
       when :unit then (subject == :ela ? :unit : :topic)
-      when :lesson then :lesson
+      when :lesson
+        if short_title.present? && short_title.include?('part')
+          :part
+        else
+          :lesson
+        end
       end
 
     abbrv = self.class.breadcrumb_abbrv[abbrv_type]
@@ -575,7 +585,7 @@ class Curriculum < ActiveRecord::Base
 
     pos = (resource.subject.to_sym == :math) ? lesson_position_on_the_module : position + 1
 
-    resource.short_title = "lesson #{pos}"
+    resource.short_title = parent.parent.resource.short_title.include?('core proficiencies') ? "part #{pos}" : "lesson #{pos}"
     resource.save!
   end
 

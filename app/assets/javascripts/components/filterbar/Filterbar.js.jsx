@@ -5,7 +5,8 @@ class Filterbar extends React.Component {
     this.emptyState = {
       subjects: [
         { displayName: 'ELA', name: 'ela', selected: false },
-        { displayName: 'MATH', name: 'math', selected: false }
+        { displayName: 'MATH', name: 'math', selected: false },
+        { displayName: 'LEAD', name: 'lead', selected: false }
       ],
       grades: [
         { displayName: 'PK', mathDisplayName: 'PK', name: 'pk', selected: false },
@@ -36,6 +37,9 @@ class Filterbar extends React.Component {
     };
 
     this.FACET_GROUP_IDX = 4;
+    if (!this.props.withLead) {
+      this.emptyState.subjects = _.dropRight(this.emptyState.subjects);
+    }
 
     let initialState = _.cloneDeep(this.emptyState);
     initialState.search_term = this.props.search_term;
@@ -211,19 +215,20 @@ class Filterbar extends React.Component {
       <div>
         <div className='o-filterbar'>
           <div className='o-filterbar__title hide-for-ipad u-margin-bottom--large'>{mobileTitle}</div>
-          <div className='o-filterbar__list'>
+          <div className='o-filterbar__list o-filterbar__list--subjects'>
             {state.subjects.map(subject => {
               return (
                 <FilterbarSubject
                   key={subject.name}
                   colorCode={colorCodeCss(subject.name)}
+                  cssModifier={state.subjects.length}
                   onClick={this.onClickSubject.bind(this, subject)}
                   displayName={subject.displayName}
                   selected={subject.selected || !subjectSelected} />
               );
             })}
           </div>
-          <div className='o-filterbar__list'>
+          <div className='o-filterbar__list o-filterbar__list--grades'>
             {state.grades.map(grade => {
               return (
                 <FilterbarGrade

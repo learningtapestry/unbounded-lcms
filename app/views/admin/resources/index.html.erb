@@ -33,10 +33,10 @@
         <td><%= link_to resource.title, [:edit, :admin, resource] %>
         <td class=resource-tag-col><%= resource.grade_list.join(', ') %>
         <td class=resource-tag-col><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
-        <td class=resource-tag-col><%= resource.resource_type_list.join(', ') %>
-        <td class=resource-tag-col><%= resource.tag_list.join(', ') %>
+        <td class=resource-tag-col><%= resource.resource_type %>
+        <td class=resource-tag-col><%= resource.subject %>
         <td><%= resource_status(resource) %>
-        <td><%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>  
+        <td><%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>
       </tr>
     <% end %>
   </table>

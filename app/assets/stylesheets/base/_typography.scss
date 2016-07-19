@@ -108,6 +108,8 @@ $ub-element-typography: (
   ls-post-title: ('font-size': 18px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600, color: map-get($ub-leadership, base)),
   ls-post-subtitle: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 500, color: #4c4c4c),
   ls-post-txt: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-sanserif, 'font-weight': 500, color: #555),
+  // nav search
+  nav-search: ('font-size': 21px, 'line-height': 24px, 'font-family': $ub-sanserif),
 );
 
 @each $element, $typo in $ub-element-typography {
