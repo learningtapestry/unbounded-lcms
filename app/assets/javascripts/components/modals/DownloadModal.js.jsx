@@ -26,6 +26,9 @@ class DownloadModal extends React.Component {
               <ul class="o-resource__list o-resource__list--icons o-resource__list--${resource.subject}-base">
                 ${ _.map(resource.downloads, item => this.download(item)).join('\n') }
               </ul>
+              <div class="o-resource__cc u-margin-top--base u-margin-bottom--zero u-txt--download-copyright">
+                ${resource.copyright}
+              </div>
             </div>
             <button class="close-button ub-close-button" data-close aria-label="Close modal" type="button">
               <span aria-hidden="true"><i class="ub-close"></i></span>
