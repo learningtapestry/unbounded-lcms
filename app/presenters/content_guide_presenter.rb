@@ -510,7 +510,7 @@ class ContentGuidePresenter < BasePresenter
       table.remove_attribute('style')
       # keep all styled for subelements except border styles (have them redifined at css)
       table.xpath('tbody/tr | tbody/tr/td').each do |node|
-        node[:style] = node[:style].gsub(/border[\w\-]+:\s*[\w\#]+;?\s*/i, '')
+        node[:style] = node[:style].gsub(/border[\w\-]+:\s*[\w\#]+;?\s*/i, '') if node[:style].present?
       end
     end
   end
@@ -601,7 +601,7 @@ class ContentGuidePresenter < BasePresenter
         span.replace(span.inner_html)
       else
         # change height to auto, critical for responsive, especially if subelement is image
-        span[:style] = span[:style].gsub(/height:\s*[\w\.]+;?\s*/i, 'height:auto;') if span[:style]
+        span[:style] = span[:style].gsub(/height:\s*[\w\.]+;?\s*/i, 'height:auto;') if span[:style].present?
       end
     end
   end
