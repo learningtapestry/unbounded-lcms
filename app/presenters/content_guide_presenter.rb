@@ -196,7 +196,7 @@ class ContentGuidePresenter < BasePresenter
 
   def find_custom_tags(tag_name, node = nil, &block)
     (node || doc).css('span').map do |span|
-      if (span[:style] || '') =~ /font-weight:\s*bold/
+      if (span[:style] || '') =~ /font-weight:\s*(bold|[5-9]00)/
         content = span.content
         tag_regex = /<#{tag_name}(:?[^->]*)?>/i
 
