@@ -165,6 +165,7 @@ class ContentGuidePresenter < BasePresenter
     return if urls_hash.empty?
 
     doc << doc.document.create_element('script', src: 'https://connect.soundcloud.com/sdk/sdk-3.0.0.js')
+    #doc << doc.document.create_element('script', src: 'https://w.soundcloud.com/player/api.js')
 
     script = doc.document.create_element('script')
     script.content = "SC.initialize({ client_id: '#{ENV['SOUNDCLOUD_CLIENT_ID']}' });\n"
@@ -195,7 +196,7 @@ class ContentGuidePresenter < BasePresenter
 
   def find_custom_tags(tag_name, node = nil, &block)
     (node || doc).css('span').map do |span|
-      if (span[:style] || '') =~ /font-weight:\s*bold/
+      if (span[:style] || '') =~ /font-weight:\s*(bold|[5-9]00)/
         content = span.content
         tag_regex = /<#{tag_name}(:?[^->]*)?>/i
 
@@ -492,13 +493,24 @@ class ContentGuidePresenter < BasePresenter
     doc.css('table').each do |table|
       if table.xpath('tbody/tr/td').size == 1
         table[:class] = 'c-cg-single-cell-table'
+        # remove inline borders style with width = 0 as they're not processing correct for pdf
+        table.xpath('tbody/tr/td').each do |node|
+          node_style = (node[:style] || '')
+          node_style.scan(/border-\w+-width:\s*0\w+;?/).each do |m|
+            border_type = m[/-\w+-/]
+            ['width', 'color', 'style'].each do |border_style|
+              node[:style] = node[:style].gsub(/border#{border_type}#{border_style}:\s*[\#\w]+;?\s*/i, '')
+            end
+          end
+        end
         next
       end
 
       table[:class] = 'c-cg-table'
       table.remove_attribute('style')
+      # keep all styled for subelements except border styles (have them redifined at css)
       table.xpath('tbody/tr | tbody/tr/td').each do |node|
-        node.remove_attribute('style')
+        node[:style] = node[:style].gsub(/border[\w\-]+:\s*[\w\#]+;?\s*/i, '') if node[:style].present?
       end
     end
   end
@@ -567,10 +579,30 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def wrap_tables
+    margin_left_right_regex = /margin-\w+t:\s*[\w\.]+;?\s*/i
     doc.css('table').each do |table|
-      wrap = doc.document.create_element('div', class: 'c-cg-scroll-wrap')
+      wrap_style = ''
+      # move margin-left/right styles to the wrapper to make possible to set table width as 100%
+      table[:style] = (table[:style] || '').gsub(margin_left_right_regex) do |m|
+        wrap_style += m
+        ''
+      end
+      wrap = doc.document.create_element('div', class: 'c-cg-scroll-wrap', style: wrap_style)
       table.replace(wrap)
       wrap << table
+    end
+  end
+
+  def concatenate_spans
+    span_meaning_styles_regex = /(text-decoration|display|width|font-style)/
+    doc.css('p span').each do |span|
+      # remove excessive spans
+      if span[:class].blank? && (span[:style] =~ span_meaning_styles_regex).nil?
+        span.replace(span.inner_html)
+      else
+        # change height to auto, critical for responsive, especially if subelement is image
+        span[:style] = span[:style].gsub(/height:\s*[\w\.]+;?\s*/i, 'height:auto;') if span[:style].present?
+      end
     end
   end
 
@@ -600,6 +632,7 @@ class ContentGuidePresenter < BasePresenter
     reset_heading_styles
     reset_table_styles
     wrap_tables
+    concatenate_spans
 
     @doc_processed = true
   end
