@@ -10,7 +10,7 @@ $ub-pdf-typography: (
   h4: ('font-size': 14pt, 'line-height': 18pt, 'font-family': $ub-sanserif, 'font-style': italic, color: $ub-pdf-gray),
   h5: ('font-size': 13pt, 'line-height': 16pt, 'font-family': $ub-sanserif-condensed, 'font-style': normal, 'font-weight': 500, color: $ub-pdf-black),
   h6: ('font-size': 10pt, 'line-height': 13pt, 'font-family': $ub-sanserif-condensed, 'font-style': normal, 'font-weight': 500, color: $ub-pdf-black),
-  base: ('font-size': 10pt, 'line-height': 14.5pt, 'font-family': $ub-sanserif),
+  base: ('font-size': 10pt, 'line-height': 1.5, 'font-family': $ub-sanserif),
   toc-l1: ('font-size': 14pt, 'line-height': 18pt, 'font-family': $ub-sanserif-condensed, 'font-weight': 500),
   toc-l2: ('font-size': 11pt, 'line-height': 18pt, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, color: $ub-pdf-gray),
   task-number: ('font-size': 10pt, 'line-height': 14.5pt, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, color: $ub-pdf-gray),
