@@ -15,7 +15,8 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     :downloads,
     :subject,
     :grade,
-    :breadcrumb_title
+    :breadcrumb_title,
+    :copyright
 
   def id
     object.resource.id
@@ -66,6 +67,17 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
         url: download_path(download, slug_id: object.try(:slug).try(:id)),
       }
     end
+  end
+
+  def copyright
+    cc_description = ''
+    object.copyrights.each do |copyright|
+      cc_description += copyright.value
+    end
+    object.copyrights.pluck(:disclaimer).uniq.each do |disclaimer|
+      cc_description += disclaimer if disclaimer.present?
+    end
+    cc_description
   end
 
   protected
