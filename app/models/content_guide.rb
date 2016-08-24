@@ -244,6 +244,7 @@ class ContentGuide < ActiveRecord::Base
     table = doc.at_css('table')
     return doc unless table
 
+    table.search('br').each { |br| br.replace("\n") }
     table.css('tr').each do |tr|
       key, value = tr.css('td').map(&:content).map(&:strip)
       case key
