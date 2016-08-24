@@ -39,10 +39,7 @@
           <h3>Description</h3>
           <%= @resource.description.try(:html_safe) %>
         </div>
-        <div class="o-resource__item">
-          <h3>Tags</h3>
-          <%= render partial: 'resources/tags', locals: { tags: tag_cloud(@resource), color_code: @resource.color_code } %>
-        </div>
+        <%= render_tag_clouds(@resource.named_tags, @resource.color_code) %>
         <% if @resource.engageny_url %>
         <div class="o-resource__item o-resource__item--credits">
           <h3>Credits</h3>

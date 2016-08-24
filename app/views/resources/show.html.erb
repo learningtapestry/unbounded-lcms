@@ -112,20 +112,7 @@
               </ul>
             </div>
             <% end %>
-            <div class="o-resource__item">
-              <h3>Tags</h3>
-              <%# TODO: inoptimal, but with minimal changes, optimize it someday with refactoring %>
-              <% @tag_clouds = tag_clouds @curriculum %>
-              <%= render_tags_cloud :ccss_standards, 'CCSS Standard' -%>
-              <%= render_tags_cloud :ccss_domain,    'CCSS Domain'   -%>
-              <%= render_tags_cloud :ccss_cluster,   'CCSS Cluster'  -%>
-              <%= render_tags_cloud :texts,          'Texts'         -%>
-              <%= render_tags_cloud :authors,        'Authors'       -%>
-              <%# All other tags %>
-              <%= render partial: 'resources/tags', locals: {
-                tags: @tag_clouds.values.flatten.compact.uniq,
-                color_code: @resource.color_code } %>
-            </div>
+            <%= render_tag_clouds(@curriculum.named_tags, @resource.color_code) %>
             <% if @resource.engageny_url %>
             <div class="o-resource__item  o-resource__item--credits">
               <h3>Credits</h3>
