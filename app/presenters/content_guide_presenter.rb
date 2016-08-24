@@ -2,6 +2,7 @@ require 'securerandom'
 
 class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
+  include SoundcloudEmbed
 
   ANNOTATION_COLOR = '#fff2cc'
 
@@ -83,8 +84,23 @@ class ContentGuidePresenter < BasePresenter
     find_custom_tags('icon') + find_custom_tags('icon-small')
   end
 
+  def podcast_attribute(podcast, tag)
+    podcast.content.match(/#{tag}=.?\d+/).to_s[/\d+/]
+  end
+
   def podcast_links
-    doc.css('a[href*="soundcloud.com"]')
+    find_custom_tags('podcast').map do |podcast|
+      start_time = podcast_attribute(podcast, :start)
+      stop_time = podcast_attribute(podcast, :stop)
+      s_link = next_element_with_name(podcast.parent, 'p')
+      podcast.remove
+      next unless s_link.present?
+      s_link = s_link.css('a[href*="soundcloud.com"]').try(:first)
+      next unless s_link.present?
+      s_link.set_attribute('start', start_time) if start_time
+      s_link.set_attribute('stop', stop_time) if stop_time
+      s_link
+    end
   end
 
   def tasks_without_break
@@ -130,11 +146,13 @@ class ContentGuidePresenter < BasePresenter
     nodes
   end
 
-  def create_media_node(resource, container)
+  def create_media_node(resource, container, start_time = nil, stop_time = nil)
     title = doc.document.create_element('a', class: 'c-cg-media__title', href: media_path(resource), target: '_blank')
     title.content = resource.title
 
     media = doc.document.create_element('div', class: 'c-cg-media')
+    media.set_attribute('data-start', start_time) if start_time
+    media.set_attribute('data-stop', stop_time) if stop_time
     media << title
     media << container
 
@@ -146,35 +164,42 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def embed_audios
-    urls_hash = {}
+    #urls_hash = {}
+
+    # create a client object with your app credentials
+    # client = Soundcloud.new(client_id: ENV['SOUNDCLOUD_CLIENT_ID'])
 
     podcast_links.each_with_index do |a, index|
       url = a[:href]
       resource = Resource.find_podcast_by_url(url)
       next unless resource
 
-      id = "sc_container_#{index}"
-      urls_hash[id] = url
+      embed_info = soundcloud_embed(url, try(:subject).try(:to_sym))
+      next unless embed_info.present?
 
-      container = doc.document.create_element('div', id: id)
-      media = create_media_node(resource, container)
+      id = "sc_container_#{index}"
+      container = doc.document.create_element('div', id: id, class: 'c-cg-media__podcast')
+      container << embed_info
+      media = create_media_node(resource, container, a[:start], a[:stop])
 
       a.replace(media)
     end
 
-    return if urls_hash.empty?
+    #return if urls_hash.empty?
 
-    doc << doc.document.create_element('script', src: 'https://connect.soundcloud.com/sdk/sdk-3.0.0.js')
-    #doc << doc.document.create_element('script', src: 'https://w.soundcloud.com/player/api.js')
-
-    script = doc.document.create_element('script')
-    script.content = "SC.initialize({ client_id: '#{ENV['SOUNDCLOUD_CLIENT_ID']}' });\n"
-
-    urls_hash.each do |id, url|
-      script.content += "SC.oEmbed('#{url}', { element: document.getElementById('#{id}') });\n"
-    end
-
-    doc << script
+    # doc << doc.document.create_element('script', src: 'https://connect.soundcloud.com/sdk/sdk-3.0.0.js')
+    # doc << doc.document.create_element('script', src: 'https://w.soundcloud.com/player/api.js')
+    #
+    # script = doc.document.create_element('script')
+    # script.content = "SC.initialize({ client_id: '#{ENV['SOUNDCLOUD_CLIENT_ID']}' });\n"
+    #
+    # urls_hash.each do |id, url|
+    #   script.content += "SC.oEmbed('#{url}', { element: document.getElementById('#{id}') });\n"
+    # end
+    #
+    # script.content += "window.initializeSoundCloud();\n"
+    #
+    # doc << script
   end
 
   def embed_videos
@@ -613,7 +638,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def process_doc
-    return if @doc_processed
+    #return if @doc_processed
 
     embed_audios
     embed_videos
