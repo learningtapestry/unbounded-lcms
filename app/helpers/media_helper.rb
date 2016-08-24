@@ -4,8 +4,7 @@ module MediaHelper
       embed_video(resource.embed_video_url)
     elsif resource.podcast?
       embed_podcast = resource.embed_podcast
-      embed_podcast.sub!('visual=true&', '') if embed_podcast
-      embed_podcast.try(:html_safe)
+      embed_podcast.try(:html_safe) || resource.url
     end
   end
 
