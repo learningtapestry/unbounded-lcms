@@ -1,4 +1,7 @@
 <ul class="o-resource__taglist o-resource__list--<%= color_code %>">
+  <% if local_assigns.has_key? :cloud_name %>
+    <li><strong><%= cloud_name %>:</strong></li>
+  <% end %>
   <% tags.each_with_index do |tag, i| %>
     <li>
       <%= link_to tag, search_path(search_term: tag) %><%= ', ' if i != tags.size - 1  %>
