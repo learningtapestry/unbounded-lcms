@@ -231,7 +231,7 @@ class Resource < ActiveRecord::Base
   end
 
   def tag_standards
-    standards.where.not(type: 'UnboundedStandard').map do |std|
+    common_core_standards.map do |std|
       short_name = std.name.gsub('ccss.ela-literacy.', '')
                            .gsub('ccss.math.content.', '')
 
