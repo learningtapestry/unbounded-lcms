@@ -1,5 +1,5 @@
 class MediaPresenter < ResourcePresenter
-  SUBJECT_COLORS = { math: '00a699', ela: 'f75b28', default: 'a269bf' }.freeze
+  include SoundcloudEmbed
 
   def media_title
     subject_title = subject.try(:upcase) || ''
@@ -9,11 +9,7 @@ class MediaPresenter < ResourcePresenter
 
   def embed_podcast
     if /soundcloud/ =~ url
-      color = SUBJECT_COLORS[try(:subject).try(:to_sym) || :default]
-      oembed_url = "http://soundcloud.com/oembed?url=#{url}&iframe=true&maxheight=166&color=#{color}&auto_play=false&format=json"
-      RestClient.get(oembed_url) do |response|
-        JSON.parse(response)['html'] if response.code == 200
-      end
+      soundcloud_embed(url, try(:subject).try(:to_sym))
     end
   end
 
