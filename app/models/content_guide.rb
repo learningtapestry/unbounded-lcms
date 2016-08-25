@@ -67,8 +67,13 @@ class ContentGuide < ActiveRecord::Base
         original_content: content,
         version: file.version
       }
-      cg.remove_pdf!
-      cg.save
+      saved = cg.save
+
+      if saved
+        cg.remove_pdf!
+        cg.save
+      end
+
       cg
     end
 
