@@ -3,7 +3,7 @@
 
   <%= simple_form_for [:admin, @content_guide] do |f| %>
     <%= f.input :update_metadata, as: :hidden %>
-    <%= f.input :title %>
+    <%= f.input :title, as: :text, input_html: { rows: 2 } %>
     <%= f.input :teaser %>
     <%= f.input :permalink, input_html: { disabled: true } %>
     <%= f.input :slug %>
