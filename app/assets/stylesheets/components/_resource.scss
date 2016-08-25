@@ -105,7 +105,13 @@
     @include menu-direction($dir: horizontal);
     flex-wrap: wrap;
     margin-left: 0;
-    li { margin: 0; padding: 0; }
+    li {
+      margin: 0;
+      padding: 0;
+      strong {
+        color: #555;
+      }
+    }
   }
 
   @include e(list) {
