@@ -17,7 +17,29 @@ CWD=$(pwd)
 
 cd ~
 
-# 1. Migrate the database.
+# Backup the current database.
+
+echo "-> Backing up current database."
+
+BACKUP_FOLDER=database_backups/`date +%Y_%m_%d`
+BACKUP_NAME=unbounded_`date +%s`.dump
+BACKUP_PATH=$BACKUP_FOLDER/$BACKUP_NAME
+
+mkdir -p $BACKUP_FOLDER
+
+PGPASSWORD=$POSTGRESQL_PASSWORD pg_dump \
+    -h $POSTGRESQL_ADDRESS \
+    -U $POSTGRESQL_USERNAME \
+    --no-owner \
+    --no-acl \
+    -n public \
+    -F c \
+    $POSTGRESQL_DATABASE \
+    > $BACKUP_PATH
+
+echo "-> Backup created in $BACKUP_PATH."
+
+# Migrate the database.
 
 echo "-> Migrating database."
 
