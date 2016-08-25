@@ -112,10 +112,7 @@
               </ul>
             </div>
             <% end %>
-            <div class="o-resource__item">
-              <h3>Tags</h3>
-              <%= render partial: 'resources/tags', locals: { tags: tag_cloud(@curriculum), color_code: @resource.color_code } %>
-            </div>
+            <%= render_tag_clouds(@curriculum.named_tags, @resource.color_code) %>
             <% if @resource.engageny_url %>
             <div class="o-resource__item  o-resource__item--credits">
               <h3>Credits</h3>
