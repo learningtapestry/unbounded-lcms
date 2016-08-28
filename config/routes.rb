@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       collection do
         get :import
         get :links_validation
+        post :reset_pdfs
       end
     end
     resource :curriculum_export, only: %i(new create)
