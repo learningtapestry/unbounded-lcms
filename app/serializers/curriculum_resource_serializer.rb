@@ -70,14 +70,14 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def copyright
-    cc_description = ''
+    cc_descriptions = []
     object.copyrights.each do |copyright|
-      cc_description += copyright.value
+      cc_descriptions << copyright.value.strip if copyright.value.present?
     end
     object.copyrights.pluck(:disclaimer).uniq.each do |disclaimer|
-      cc_description += disclaimer if disclaimer.present?
+      cc_descriptions << disclaimer.strip if disclaimer.present?
     end
-    cc_description
+    cc_descriptions.join(' ')
   end
 
   protected
