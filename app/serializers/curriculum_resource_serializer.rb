@@ -16,7 +16,8 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     :subject,
     :grade,
     :breadcrumb_title,
-    :copyright
+    :copyright,
+    :has_related
 
   def id
     object.resource.id
@@ -78,6 +79,13 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
       cc_descriptions << disclaimer.strip if disclaimer.present?
     end
     cc_descriptions.join(' ')
+  end
+
+  def has_related
+    # based on 'find_related_instructions' method from 'ResourcesController'
+    object.resource.unbounded_standards.any? do |standard|
+      standard.content_guides.exists? || standard.resources.media.exists?
+    end
   end
 
   protected
