@@ -16,6 +16,7 @@ class ExploreCurriculumCardItem extends React.Component {
     const props = this.props;
     const resource = props.curriculum.resource;
     const hasDownloads = resource.downloads && resource.downloads.length > 0;
+    const hasRelated = resource.has_related;
     const colorCode = props.colorCode;
 
     const curriculumComponent = {
@@ -55,6 +56,11 @@ class ExploreCurriculumCardItem extends React.Component {
       {"o-ub-btn--disabled": !hasDownloads }
     );
 
+    const cssRelatedBtnClasses = classNames(
+      "o-ub-btn", "o-ub-btn--bordered",
+      {"o-ub-btn--disabled": !hasRelated }
+    );
+
     const cssDownloadLinkClasses = classNames(
       {"u-link--disabled": !hasDownloads }
     );
@@ -92,7 +98,7 @@ class ExploreCurriculumCardItem extends React.Component {
           <ul className="o-cur-card__menu o-cur-card__menu--medium o-cur-card--show-medium">
             <li><a className="o-ub-btn o-ub-btn--yellow" href={resource.path}>View Details</a></li>
             <li><a className={cssDownloadBtnClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>
-            <li><a className="o-ub-btn o-ub-btn--bordered o-ub-btn--disabled">Related Guides</a></li>
+            <li><a className={cssRelatedBtnClasses} href={`${resource.path}#related-instruction`}>Related Guides</a></li>
           </ul>
           <div className={`${cssHeaderClasses} u-text--uppercase hide-for-ipad`}>
             {resource.short_title}
