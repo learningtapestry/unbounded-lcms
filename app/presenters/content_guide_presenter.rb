@@ -393,16 +393,17 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def process_superscript_standards
+    superscripts = Set.new
     superscript_style = /vertical-align:\s*super;?/
     doc.css('.c-cg-keyword').each do |span|
       superscript_ancestor = span.ancestors.find do |node|
         (node[:style] || '') =~ superscript_style
       end
-      if superscript_ancestor
-        span.inner_html = "(#{span.inner_html})"
-        superscript_ancestor[:style] = superscript_ancestor[:style].gsub(superscript_style, '')
-        superscript_ancestor.inner_html = " #{superscript_ancestor.inner_html}"
-      end
+      superscripts << superscript_ancestor if superscript_ancestor
+    end
+    superscripts.each do |superscript|
+      superscript.inner_html = " (#{superscript.inner_html})"
+      superscript[:style] = superscript[:style].gsub(superscript_style, '')
     end
   end
 
