@@ -6,7 +6,9 @@
           <span class="c-pdf-footer__left--draft">[DRAFT]</span>
           <strong>Unbound</strong>Ed
           <span class="pdf-bullet"></span>
-          <%= simple_format(title, {}, wrapper_tag: :strong) %>
+          <strong>
+            <%= title.split("\n").select(&:present?).join(' | ') %>
+          </strong>
         </td>
         <td class="c-pdf-footer__right">
           <span class="page"></span>
