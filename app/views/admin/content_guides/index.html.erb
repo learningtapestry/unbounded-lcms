@@ -1,5 +1,7 @@
 <div class="o-page">
   <h2 class=text-center><%= t('.page_title') %></h2>
+  <%= link_to 'Reset PDFs', reset_pdfs_admin_content_guides_path,
+    class: %w[button pull-right], data: { confirm: 'Are you sure?' }, method: :post %>
 
   <table class=table>
     <tr>

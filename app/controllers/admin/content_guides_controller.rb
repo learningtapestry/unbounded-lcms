@@ -9,7 +9,14 @@ module Admin
       @content_guides = ContentGuide.sort_by_grade
     end
 
-    def new
+    def reset_pdfs
+      ContentGuide.find_each do |cg|
+        cg.remove_pdf!
+        cg.save!
+      end
+      redirect_to({ action: :index }, notice: 'Cached PDFs were reset')
+    rescue Excon::Errors::Error => e
+      redirect_to({ action: :index }, alert: e.to_s)
     end
 
     def edit
