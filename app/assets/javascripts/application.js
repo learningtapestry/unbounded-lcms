@@ -18,6 +18,7 @@
 //= require initializers/leadership
 //= require initializers/header_dropdown
 //= require initializers/soundcloud
+//= require initializers/subscribe_placeholder
 
 ready(function() {
   $(document).initFoundation();
@@ -30,6 +31,7 @@ ready(function() {
   //window.initializeFreshdesk();
   window.initializeGoogleAnalytics();
   window.initializeSoundCloud();
+  window.initializeSubscribePlaceholder();
 });
 
 $(document).on('page:before-unload', function(nodes) {
