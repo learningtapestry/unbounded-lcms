@@ -81,7 +81,7 @@ module ApplicationHelper
   end
 
   def base64_encoded_asset(path)
-    asset, content_type = if Rails.env.development?
+    asset, content_type = if (Rails.env.development? || Rails.env.test?)
       asset = Rails.application.assets.find_asset(path)
       content_type = asset.content_type
       [asset, content_type]
