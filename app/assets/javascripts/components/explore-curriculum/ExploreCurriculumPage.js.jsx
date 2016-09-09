@@ -133,9 +133,12 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   fetchOne(id) {
-    const query = { format: 'json', id: id };
-    const url = Routes.explore_curriculum_path(query);
-    return fetch(url, { headers: new Headers({Accept: 'application/json'}) }).then(r => r.json());
+    const url = Routes.explore_curriculum_path(id, { format: 'json' });
+    return fetch(url, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(r => r.json());
   }
 
   getActive(parentage, cur) {
