@@ -18,6 +18,8 @@
 
 # Ignore uploads
 /public/uploads
+/public/content_guides
+/public/content_guide_images
 
 # Ignore all logfiles and tempfiles.
 /log/*
