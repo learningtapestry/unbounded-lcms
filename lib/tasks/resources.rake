@@ -25,7 +25,7 @@ namespace :resources do
         resources.time_to_teach,
         modules.title AS collection_title,
         modules.description AS collection_description,
-        collections.position AS collection_order,
+        COALESCE(collections.position, 0) + 1 AS collection_order,
         CASE
           WHEN BTRIM(COALESCE(slugs.value, '')) = '' THEN NULL
           ELSE 'https://unbounded.org/' || slugs.value END AS url
