@@ -220,10 +220,10 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def find_custom_tags(tag_name, node = nil, &block)
+    tag_regex = /<#{tag_name}(:?[^->]*)?>/i
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*(bold|[5-9]00)/
         content = span.content
-        tag_regex = /<#{tag_name}(:?[^->]*)?>/i
 
         if content =~ tag_regex
           tag_def = content[tag_regex]
@@ -239,7 +239,12 @@ class ContentGuidePresenter < BasePresenter
           span.before(before) if before
           span.content = tag_def
 
-          _, tag_value = tag_def.split(':')
+          if tag_name == 'link-to' # not sure if that acceptable for other tags
+            _, *tag_value = tag_def.split(':')
+            tag_value = tag_value.join(':')
+          else
+            _, tag_value = tag_def.split(':')
+          end
           span['data-value'] = tag_value.strip.gsub('>', '') rescue nil
 
           yield span if block
@@ -486,6 +491,30 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def process_links
+    find_custom_tags('link-to') do |tag|
+      link_data = tag.attr('data-value')
+      /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
+        cg_id, anchor, description = m.to_a[1..3].map(&:strip)
+        anchor = ERB::Util.url_encode(anchor.downcase)
+        link = doc.document.create_element('a', href: content_guide_path(cg_id, anchor: anchor))
+        link << description
+        tag.replace(link)
+      end
+    end
+  end
+
+  def process_anchors
+    find_custom_tags('anchor') do |tag|
+      target = tag.attr('data-value')
+      if target.present?
+        target = ERB::Util.url_encode(target.downcase)
+        anchor = doc.document.create_element('span', id: target)
+        tag.replace(anchor)
+      end
+    end
+  end
+
   def remove_comments
     doc.css('[id^=cmnt]').each do |a|
       begin
@@ -653,6 +682,8 @@ class ContentGuidePresenter < BasePresenter
     process_superscript_standards
     process_standards_table
     process_tasks
+    process_links
+    process_anchors
     remove_comments
     replace_guide_links
     reset_heading_styles
