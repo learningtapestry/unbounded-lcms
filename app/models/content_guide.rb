@@ -48,7 +48,7 @@ class ContentGuide < ActiveRecord::Base
 
   class << self
     def file_id_from_url(url)
-      url.scan(/\/d\/([^\/]+)\//).first.first rescue nil
+      url.scan(/\/d\/([^\/]+)\/?/).first.first rescue nil
     end
 
     def import(file_id, credentials)
