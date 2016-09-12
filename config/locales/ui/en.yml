@@ -57,7 +57,7 @@ en:
     btn:
       view: "View %{short_title}"
       download: "Download %{title}"
-      related: "Related Guides"
+      related: "Related Resources"
       back: "Back to Curriculum Map"
       arrow: "%{dir} %{type} in Series"
       arrow-small: "%{dir} %{type}"
