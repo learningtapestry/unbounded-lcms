@@ -44,14 +44,14 @@ class HtmlSanitizer
   private def _remove_spans_wo_attrs(env)
     node = env[:node]
     if node.element? && node.name == 'span' && node.attr('style').blank?
-      node.replace Nokogiri::XML::Text.new(node.text, node.document)
+      node.replace Nokogiri::XML::Text.new(node.inner_html, node.document)
     end
   end
 
   # Remove '<p></p>'
   private def _remove_empty_paragraphs(env)
     node = env[:node]
-    if node.element? && node.name == 'p' && node.text.blank?
+    if node.element? && node.name == 'p' && node.inner_html.blank?
       node.unlink
     end
   end
