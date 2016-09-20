@@ -2,16 +2,13 @@ class HtmlSanitizer
 
   attr_accessor :config
 
-
   def initialize
     @config = default_config
   end
 
-
   def sanitize(html)
     Sanitize.fragment(html, @config)
   end
-
 
   def default_config
     {
@@ -19,11 +16,11 @@ class HtmlSanitizer
       attributes: {
         'a'    => %w(href title data-toggle id),
         'img'  => %w(src alt),
+        'ol'   => %w(type style),
         'p'    => %w(style),
         'span' => %w(style),
         'td'   => %w(colspan rowspan),
         'th'   => %w(colspan rowspan),
-        'ol'   => %w(type style),
       },
       protocols: {
         'a' => {'href' => ['http', 'https', :relative]},
@@ -38,7 +35,6 @@ class HtmlSanitizer
       ],
     }
   end
-
 
   # Replace '<span>text</span>' with 'text'
   private def _remove_spans_wo_attrs(env)

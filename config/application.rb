@@ -28,7 +28,7 @@ module Content
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
 
     # Autoload /lib
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths << "#{Rails.root}/lib"
 
     config.react.addons = true
   end
