@@ -258,7 +258,7 @@ class ContentGuide < ActiveRecord::Base
     body = download_images(body)
     body = extract_links(body)
     body = process_metadata(body)
-    body = HtmlSanitizer.new.sanitize(body)
+    #body = HtmlSanitizer.new.sanitize(body)
     self.content = body.to_s
   end
 
