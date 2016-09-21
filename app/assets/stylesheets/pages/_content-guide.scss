@@ -132,7 +132,9 @@
 
     p, ol, ul {
       &, * {
-        font: 1rem/1.5 $ub-sanserif !important;
+        font-family: $ub-sanserif !important;
+        font-size: 1rem !important;
+        line-height: 1.5 !important;
       }
     }
 

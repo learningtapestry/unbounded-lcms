@@ -274,7 +274,7 @@ class ContentGuide < ActiveRecord::Base
       when 'big_photo', 'small_photo' then send("remote_#{key}_url=", value)
       when 'grade', 'grades' then assign_grades(value)
       when 'subject' then assign_subject(value)
-      else send("#{key}=", value)
+      else send("#{key}=", value) # TODO: what if key is blank?
       end
     end
 
