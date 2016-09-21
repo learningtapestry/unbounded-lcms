@@ -22,22 +22,22 @@ $(function () {
 
     _.each(arrWidgets, (p) => {
       p.widget.bind(SC.Widget.Events.READY, () => {
-        if (p.start) {
-          p.widget.play();
-          p.widget.bind(SC.Widget.Events.PLAY, () => {
-            p.widget.pause();
+          p.widget.bind(SC.Widget.Events.FINISH, () => {
             p.widget.seekTo(p.start * 1000);
-            p.widget.unbind(SC.Widget.Events.PLAY);
+            p.widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
+            p.widget.unbind(SC.Widget.Events.FINISH);
           });
-        }
-        if (p.stop) {
           p.widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
-            if (Math.round(e.currentPosition / 1000) == p.stop) {
+            let cp = Math.round(e.currentPosition / 1000)
+            if (cp < p.start) {
+              p.widget.seekTo(p.start * 1000);
+            }
+            if (p.stop != 0 && cp == p.stop) {
               p.widget.pause();
+              p.widget.seekTo(p.start * 1000);
               p.widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
             }
           });
-        }
       });
     });
   };
