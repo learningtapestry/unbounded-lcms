@@ -620,7 +620,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def concatenate_spans
-    span_meaning_styles_regex = /(text-decoration|display|width|font-style)/
+    span_meaning_styles_regex = /(text-decoration|display|width|font-style|font-weight|color)/
     doc.css('p span').each do |span|
       # remove excessive spans
       if span[:class].blank? && (span[:style] =~ span_meaning_styles_regex).nil?
