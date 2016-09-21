@@ -702,7 +702,7 @@ DEPENDENCIES
   ruby-progressbar (~> 1.7, >= 1.7.5)
   rubytree (~> 0.9.6)
   safe_attributes (~> 1.0.10)
-  sanitize (>= 4.2.0)
+  sanitize (~> 4.2)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   seedbank (~> 0.3)
