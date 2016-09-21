@@ -22,12 +22,17 @@ $(function () {
 
     _.each(arrWidgets, (p) => {
       p.widget.bind(SC.Widget.Events.READY, () => {
+          p.widget.bind(SC.Widget.Events.FINISH, () => {
+            p.widget.seekTo(p.start * 1000);
+            p.widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
+            p.widget.unbind(SC.Widget.Events.FINISH);
+          });
           p.widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
             let cp = Math.round(e.currentPosition / 1000)
             if (cp < p.start) {
               p.widget.seekTo(p.start * 1000);
             }
-            if (cp == p.stop) {
+            if (p.stop != 0 && cp == p.stop) {
               p.widget.pause();
               p.widget.seekTo(p.start * 1000);
               p.widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
