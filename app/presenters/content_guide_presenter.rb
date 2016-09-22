@@ -496,8 +496,9 @@ class ContentGuidePresenter < BasePresenter
       link_data = tag.attr('data-value')
       /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
         cg_id, anchor, description = m.to_a[1..3].map(&:strip)
-        anchor = ERB::Util.url_encode(anchor.downcase)
-        link = content_guide_path(cg_id, anchor: anchor)
+        anchor = ERB::Util.url_encode(anchor.parameterize)
+        content_guide = ContentGuide.find_by_permalink(cg_id)
+        link = content_guide_path(content_guide.permalink_or_id, content_guide.slug, anchor: anchor)
         link = doc.document.create_element('a', href: link, target: '_blank')
         link << description
         tag.replace(link)
@@ -509,8 +510,8 @@ class ContentGuidePresenter < BasePresenter
     find_custom_tags('anchor') do |tag|
       target = tag.attr('data-value')
       if target.present?
-        target = ERB::Util.url_encode(target.downcase)
-        anchor = doc.document.create_element('span', id: target)
+        target = ERB::Util.url_encode(target.parameterize)
+        anchor = doc.document.create_element('a', id: target)
         tag.replace(anchor)
       end
     end
