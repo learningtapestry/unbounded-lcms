@@ -69,7 +69,7 @@ class CommonCoreStandard < Standard
 
     base_names = [short_name, short_name.gsub('ccra', 'ra')].uniq
 
-    base_names.each do |base_name| 
+    base_names.each do |base_name|
       # 6.rp.a.3a -> 6.rp.a.3.a
       letters_expand = base_name.gsub(/\.([1-9])([a-z])$/, '.\1.\2')
 
@@ -87,6 +87,26 @@ class CommonCoreStandard < Standard
       alt_names << letters_expand
       alt_names << dot_name
       alt_names << prefixed_dot_name
+    end
+
+    # Only for standards containing ".math.":
+    /^[[:alpha:]]+\.math\.[[:alpha:]]+\.(?<short_name>.+)$/ =~ name
+
+    if short_name
+      # "*.math.*.hs*"
+      if short_name.starts_with?("hs")
+        /^hs(?<prefix>[[:alpha:]])(?:-|\.)(?<suffix>.+)$/ =~ short_name
+        alt_names << "hs#{prefix}-#{suffix}"
+        alt_names << "hs#{prefix}.#{suffix}"
+        alt_names << "#{prefix}-#{suffix}"
+        alt_names << "#{prefix}.#{suffix}"
+      end
+
+      # Remove cluster from math standards
+      # "ccss.math.content.5.oa.b.3" -> "5.oa.3"
+      if m = short_name.match(/^([^\.]+)\.([^\.]+)\.[^\.]+\.([^\.]+)$/)
+        alt_names << "#{m[1]}.#{m[2]}.#{m[3]}"
+      end
     end
 
     if regenerate
