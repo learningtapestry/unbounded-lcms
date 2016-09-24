@@ -497,9 +497,13 @@ class ContentGuidePresenter < BasePresenter
       /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
         cg_id, anchor, description = m.to_a[1..3].map(&:strip)
         anchor = ERB::Util.url_encode(anchor.parameterize)
-        content_guide = ContentGuide.find_by_permalink(cg_id)
-        link = content_guide_path(content_guide.permalink_or_id, content_guide.slug, anchor: anchor)
-        link = doc.document.create_element('a', href: link, target: '_blank')
+        if permalink == cg_id # Anchor is on the same page
+          link = doc.document.create_element('a', href: "##{anchor}")
+        else
+          content_guide = ContentGuide.find_by_permalink(cg_id)
+          link = content_guide_path(content_guide.permalink_or_id, content_guide.slug, anchor: anchor)
+          link = doc.document.create_element('a', href: link, target: '_blank')
+        end
         link << description
         tag.replace(link)
       end
