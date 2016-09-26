@@ -495,20 +495,24 @@ class ContentGuidePresenter < BasePresenter
     find_custom_tags('link-to') do |tag|
       link_data = tag.attr('data-value')
       /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
-        cg_id, anchor, description = m.to_a[1..3].map(&:strip)
-        anchor = ERB::Util.url_encode(anchor.parameterize)
-        if permalink == cg_id # Anchor is on the same page
-          link = doc.document.create_element('a', href: "##{anchor}")
+        tag_permalink, tag_anchor, tag_description = m.to_a[1..3].map(&:strip)
+        tag_anchor = ERB::Util.url_encode(tag_anchor.parameterize)
+        target = "_blank"
+        if permalink == tag_permalink # Anchor is on the same page
+          path, target = "##{tag_anchor}", nil
         else
-          content_guide = ContentGuide.find_by_permalink(cg_id)
-          link = content_guide_path(content_guide.permalink_or_id, content_guide.slug, anchor: anchor)
-          link = doc.document.create_element('a', href: link, target: '_blank')
+          content_guide = ContentGuide.find_by_permalink(tag_permalink)
+          return [tag_permalink] unless content_guide # Broken permalinks TODO: collect all
+          path = content_guide_path(content_guide.permalink, content_guide.slug, anchor: tag_anchor)
         end
-        link << description
+        link = doc.document.create_element('a', href: path, target: target)
+        link << tag_description
         tag.replace(link)
       end
     end
+    [] # List of broken permalinks
   end
+
 
   def process_anchors
     find_custom_tags('anchor') do |tag|
