@@ -112,6 +112,10 @@ class ContentGuide < ActiveRecord::Base
     end
   end
 
+  def broken_ext_links
+    presenter.send(:process_links)
+  end
+
   def original_url
     "https://docs.google.com/document/d/#{file_id}/edit"
   end
@@ -128,10 +132,11 @@ class ContentGuide < ActiveRecord::Base
     title.gsub(/[^[[:alnum:]]]/, '_').gsub(/_+/, '_')
   end
 
+  # "Fuzzy" CG identificator
   def permalink_or_id
     if permalink.present?
       permalink
-    else
+    else # Fallback to ID
       id
     end
   end
@@ -226,10 +231,11 @@ class ContentGuide < ActiveRecord::Base
   end
 
   def media_exist
-    if non_existent_podcasts.any? || non_existent_videos.any?
+    if non_existent_podcasts.any? || non_existent_videos.any? || broken_ext_links.any?
       errors.add(:base, :invalid)
     end
   end
+
 
   def presenter
     @presenter ||= ContentGuidePresenter.new(self)

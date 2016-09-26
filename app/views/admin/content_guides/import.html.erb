@@ -37,6 +37,21 @@
           </div>
       <% end %>
 
+      <% if (urls = @content_guide.broken_ext_links).any? %>
+        <li class='accordion-item is-active' data-accordion-item>
+          <%= link_to '#', class: 'accordion-title' do %>
+            <h3><%= t('.broken_ext_links_error') %></h3>
+          <% end %>
+
+          <div class=accordion-content data-tab-content>
+            <ol>
+              <% urls.each do |url| %>
+                <li><%= link_to url, url %>
+              <% end %>
+            </ol>
+          </div>
+      <% end %>
+
       <% if (urls = @content_guide.non_existent_videos).any? %>
         <li class='accordion-item is-active' data-accordion-item>
           <%= link_to '#', class: 'accordion-title' do %>
