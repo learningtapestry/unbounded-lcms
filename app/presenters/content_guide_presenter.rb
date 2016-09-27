@@ -118,6 +118,18 @@ class ContentGuidePresenter < BasePresenter
     doc.css('a[href*="youtube.com/watch?"]')
   end
 
+  def broken_ext_links
+    broken_links = []
+    find_custom_tags('link-to') do |tag|
+      link_data = tag.attr('data-value')
+      /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
+        tag_permalink = m[1].strip
+        broken_links << tag_permalink unless ContentGuide.find_by_permalink(tag_permalink)
+      end
+    end
+    broken_links # List of broken permalinks
+  end
+
   private
 
   def grade_numbers
@@ -220,10 +232,10 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def find_custom_tags(tag_name, node = nil, &block)
+    tag_regex = /<#{tag_name}(:?[^->]*)?>/i
     (node || doc).css('span').map do |span|
       if (span[:style] || '') =~ /font-weight:\s*(bold|[5-9]00)/
         content = span.content
-        tag_regex = /<#{tag_name}(:?[^->]*)?>/i
 
         if content =~ tag_regex
           tag_def = content[tag_regex]
@@ -239,7 +251,12 @@ class ContentGuidePresenter < BasePresenter
           span.before(before) if before
           span.content = tag_def
 
-          _, tag_value = tag_def.split(':')
+          if tag_name == 'link-to' # not sure if that acceptable for other tags
+            _, *tag_value = tag_def.split(':')
+            tag_value = tag_value.join(':')
+          else
+            _, tag_value = tag_def.split(':')
+          end
           span['data-value'] = tag_value.strip.gsub('>', '') rescue nil
 
           yield span if block
@@ -486,6 +503,39 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def process_links
+    find_custom_tags('link-to') do |tag|
+      link_data = tag.attr('data-value')
+      /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
+        tag_permalink, tag_anchor, tag_description = m.to_a[1..3].map(&:strip)
+        tag_anchor = ERB::Util.url_encode(tag_anchor.parameterize)
+        target = "_blank"
+        if permalink == tag_permalink # Anchor is on the same page
+          path = "##{tag_anchor}"
+          target = nil
+        else
+          content_guide = ContentGuide.find_by_permalink(tag_permalink)
+          next unless content_guide
+          path = content_guide_path(content_guide.permalink, content_guide.slug, anchor: tag_anchor)
+        end
+        link = doc.document.create_element('a', href: path, target: target)
+        link << tag_description
+        tag.replace(link)
+      end
+    end
+  end
+
+  def process_anchors
+    find_custom_tags('anchor') do |tag|
+      target = tag.attr('data-value')
+      if target.present?
+        target = ERB::Util.url_encode(target.parameterize)
+        anchor = doc.document.create_element('a', id: target)
+        tag.replace(anchor)
+      end
+    end
+  end
+
   def remove_comments
     doc.css('[id^=cmnt]').each do |a|
       begin
@@ -653,6 +703,8 @@ class ContentGuidePresenter < BasePresenter
     process_superscript_standards
     process_standards_table
     process_tasks
+    process_links
+    process_anchors
     remove_comments
     replace_guide_links
     reset_heading_styles

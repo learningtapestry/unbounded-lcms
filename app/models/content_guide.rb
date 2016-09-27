@@ -21,6 +21,7 @@ class ContentGuide < ActiveRecord::Base
   validates :permalink, format: { with: /\A\w+\z/ }, uniqueness: { case_sensitive: false }
   validate :icon_values
   validate :media_exist
+  validate :no_broken_ext_links
 
   before_validation :process_content, unless: :update_metadata
   before_validation :downcase_permalink
@@ -44,11 +45,11 @@ class ContentGuide < ActiveRecord::Base
     .where(tags: { name: value })
   }
 
-  delegate :tasks_without_break, to: :presenter
+  delegate :broken_ext_links, :tasks_without_break, to: :presenter
 
   class << self
     def file_id_from_url(url)
-      url.scan(/\/d\/([^\/]+)\//).first.first rescue nil
+      url.scan(/\/d\/([^\/]+)\/?/).first.first rescue nil
     end
 
     def import(file_id, credentials)
@@ -128,6 +129,7 @@ class ContentGuide < ActiveRecord::Base
     title.gsub(/[^[[:alnum:]]]/, '_').gsub(/_+/, '_')
   end
 
+  # "Fuzzy" CG identificator
   def permalink_or_id
     if permalink.present?
       permalink
@@ -229,6 +231,10 @@ class ContentGuide < ActiveRecord::Base
     if non_existent_podcasts.any? || non_existent_videos.any?
       errors.add(:base, :invalid)
     end
+  end
+
+  def no_broken_ext_links
+    errors.add(:base, :invalid) if broken_ext_links.any?
   end
 
   def presenter

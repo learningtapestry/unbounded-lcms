@@ -42,7 +42,7 @@ module Admin
     # GET /content_guides/import
     def import
       file_id = ContentGuide.file_id_from_url(params[:content_guide][:url])
-      redirect_to :new_admin_content_guides if file_id.blank?
+      redirect_to(:new_admin_content_guide, alert: 'Incorrect link!') and return if file_id.blank?
 
       @content_guide = ContentGuide.import(file_id, google_credentials)
       if @content_guide.errors.empty?
