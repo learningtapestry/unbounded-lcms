@@ -199,8 +199,8 @@ $arrow-btn: (
   @include m(a) {
     @include e(slide) {
       // uncomment for more than 1 video support
-      //@include flex-grid-column(11, 0);
-      @include flex-grid-column(12, 0);
+      @include flex-grid-column(11, 0);
+      //@include flex-grid-column(12, 0);
 
       @include breakpoint(ipad) {
         @include flex-grid-column(12, 0);
