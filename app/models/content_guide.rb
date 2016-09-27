@@ -21,6 +21,7 @@ class ContentGuide < ActiveRecord::Base
   validates :permalink, format: { with: /\A\w+\z/ }, uniqueness: { case_sensitive: false }
   validate :icon_values
   validate :media_exist
+  validate :no_broken_ext_links
 
   before_validation :process_content, unless: :update_metadata
   before_validation :downcase_permalink
@@ -82,6 +83,10 @@ class ContentGuide < ActiveRecord::Base
     end
   end
 
+  def broken_ext_links
+    presenter.broken_ext_links
+  end
+
   def grade_score
     indices =
       taggings.map do |t|
@@ -110,10 +115,6 @@ class ContentGuide < ActiveRecord::Base
         !Resource.find_video_by_url(url)
       end
     end
-  end
-
-  def broken_ext_links
-    presenter.send(:process_links)
   end
 
   def original_url
@@ -231,11 +232,14 @@ class ContentGuide < ActiveRecord::Base
   end
 
   def media_exist
-    if non_existent_podcasts.any? || non_existent_videos.any? || broken_ext_links.any?
+    if non_existent_podcasts.any? || non_existent_videos.any?
       errors.add(:base, :invalid)
     end
   end
 
+  def no_broken_ext_links
+    errors.add(:base, :invalid) if broken_ext_links.any?
+  end
 
   def presenter
     @presenter ||= ContentGuidePresenter.new(self)

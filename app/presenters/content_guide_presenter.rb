@@ -118,6 +118,18 @@ class ContentGuidePresenter < BasePresenter
     doc.css('a[href*="youtube.com/watch?"]')
   end
 
+  def broken_ext_links
+    broken_links = []
+    find_custom_tags('link-to') do |tag|
+      link_data = tag.attr('data-value')
+      /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
+        tag_permalink = m[1].strip
+        broken_links << tag_permalink unless ContentGuide.find_by_permalink(tag_permalink)
+      end
+    end
+    broken_links # List of broken permalinks
+  end
+
   private
 
   def grade_numbers
@@ -499,10 +511,11 @@ class ContentGuidePresenter < BasePresenter
         tag_anchor = ERB::Util.url_encode(tag_anchor.parameterize)
         target = "_blank"
         if permalink == tag_permalink # Anchor is on the same page
-          path, target = "##{tag_anchor}", nil
+          path = "##{tag_anchor}"
+          target = nil
         else
           content_guide = ContentGuide.find_by_permalink(tag_permalink)
-          return [tag_permalink] unless content_guide # Broken permalinks TODO: collect all
+          next unless content_guide
           path = content_guide_path(content_guide.permalink, content_guide.slug, anchor: tag_anchor)
         end
         link = doc.document.create_element('a', href: path, target: target)
@@ -510,9 +523,7 @@ class ContentGuidePresenter < BasePresenter
         tag.replace(link)
       end
     end
-    [] # List of broken permalinks
   end
-
 
   def process_anchors
     find_custom_tags('anchor') do |tag|
