@@ -1,12 +1,14 @@
-<li class='accordion-item is-active' data-accordion-item>
-  <%= link_to '#', class: 'accordion-title' do %>
-    <h3><%= title %></h3>
-  <% end %>
+<% if urls.any? %>
+  <li class='accordion-item is-active' data-accordion-item>
+    <%= link_to '#', class: 'accordion-title' do %>
+      <h3><%= title %></h3>
+    <% end %>
 
-  <div class=accordion-content data-tab-content>
-    <ol>
-      <% urls.each do |url| %>
-        <li><%= link_to url, url %>
-      <% end %>
-    </ol>
-  </div>
+    <div class=accordion-content data-tab-content>
+      <ol>
+        <% urls.each do |url| %>
+          <li><%= link_to url, url %>
+        <% end %>
+      </ol>
+    </div>
+<% end %>
