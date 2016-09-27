@@ -45,7 +45,7 @@ class ContentGuide < ActiveRecord::Base
     .where(tags: { name: value })
   }
 
-  delegate :tasks_without_break, to: :presenter
+  delegate :broken_ext_links, :tasks_without_break, to: :presenter
 
   class << self
     def file_id_from_url(url)
@@ -81,10 +81,6 @@ class ContentGuide < ActiveRecord::Base
     def sort_by_grade
       includes(taggings: :tag).sort_by(&:grade_score)
     end
-  end
-
-  def broken_ext_links
-    presenter.broken_ext_links
   end
 
   def grade_score
@@ -137,7 +133,7 @@ class ContentGuide < ActiveRecord::Base
   def permalink_or_id
     if permalink.present?
       permalink
-    else # Fallback to ID
+    else
       id
     end
   end
