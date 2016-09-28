@@ -620,7 +620,7 @@ class ContentGuidePresenter < BasePresenter
       end
     end
 
-    result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
+    result.gsub!(/[[:alnum:]]+([\.-][[:alnum:]]+)+/) do |m|
       if ((standard = CommonCoreStandard.find_by_name_or_synonym(m)) && standard.description.present?)
         id = "cg-k_#{SecureRandom.hex(4)}"
 
