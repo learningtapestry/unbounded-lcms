@@ -518,7 +518,7 @@ class ContentGuidePresenter < BasePresenter
           next unless content_guide
           path = content_guide_path(content_guide.permalink, content_guide.slug, anchor: tag_anchor)
         end
-        link = doc.document.create_element('a', href: path, target: target)
+        link = doc.document.create_element('a', class: 'c-cg-link', href: path, target: target)
         link << tag_description
         tag.replace(link)
       end
