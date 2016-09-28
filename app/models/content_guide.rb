@@ -68,13 +68,7 @@ class ContentGuide < ActiveRecord::Base
         original_content: content,
         version: file.version
       }
-      saved = cg.save
-
-      if saved
-        cg.remove_pdf!
-        cg.save
-      end
-
+      cg.save
       cg
     end
 
@@ -126,7 +120,20 @@ class ContentGuide < ActiveRecord::Base
   end
 
   def pdf_title
-    title.gsub(/[^[[:alnum:]]]/, '_').gsub(/_+/, '_')
+    base_title = title.gsub(/[^[[:alnum:]]]/, '_').gsub(/_+/, '_')
+    "#{base_title}_v#{version}"
+  end
+
+  def pdf_version
+    v = pdf.url.split('_').last
+    if v.start_with?('v')
+      v[1..-1].to_i
+    end
+  end
+
+  def pdf_refresh?
+    return true if pdf.blank?
+    pdf_version != version
   end
 
   # "Fuzzy" CG identificator
