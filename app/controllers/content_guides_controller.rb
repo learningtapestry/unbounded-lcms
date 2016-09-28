@@ -19,7 +19,7 @@ class ContentGuidesController < ApplicationController
       return
     end
 
-    if cg.pdf.blank?
+    if cg.pdf_refresh?
       cg.remote_pdf_url = url_for(nocache: '')
       cg.save!
     end
