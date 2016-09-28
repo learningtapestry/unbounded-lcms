@@ -55,6 +55,10 @@
                 <%= nav_link t('admin.nav.users'), :admin_users %>
               </ul>
             </li>
+
+            <li class="c-header__link">
+              <%= link_to t('admin.nav.sign_out'), destroy_user_session_path %>
+            </li>
           </ul>
         </div>
       </div>
