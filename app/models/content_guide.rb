@@ -136,6 +136,14 @@ class ContentGuide < ActiveRecord::Base
     pdf_version != version
   end
 
+  # If PDF is stale, refresh it using a remote URL
+  def pdf_refresh!(new_pdf_url)
+    if pdf_refresh?
+      self.remote_pdf_url = new_pdf_url
+      save!
+    end
+  end
+
   # "Fuzzy" CG identificator
   def permalink_or_id
     if permalink.present?
