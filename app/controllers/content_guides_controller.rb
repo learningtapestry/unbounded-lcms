@@ -19,10 +19,7 @@ class ContentGuidesController < ApplicationController
       return
     end
 
-    if cg.pdf.blank?
-      cg.remote_pdf_url = url_for(nocache: '')
-      cg.save!
-    end
+    cg.pdf_refresh!(url_for(nocache: ''))
 
     track_download(
       action: content_guide_path(cg.permalink_or_id, cg.slug),
