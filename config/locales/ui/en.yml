@@ -59,6 +59,7 @@ en:
       download: "Download %{title}"
       related: "Related Resources"
       back: "Back to Curriculum Map"
+      edit: "Edit"
       arrow: "%{dir} %{type} in Series"
       arrow-small: "%{dir} %{type}"
       arrow-txt-small: "in this Series"
