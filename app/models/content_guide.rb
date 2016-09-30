@@ -132,8 +132,7 @@ class ContentGuide < ActiveRecord::Base
   end
 
   def pdf_refresh?
-    return true if pdf.blank?
-    pdf_version != version
+    pdf.blank? || pdf_version != version
   end
 
   # If PDF is stale, refresh it using a remote URL
