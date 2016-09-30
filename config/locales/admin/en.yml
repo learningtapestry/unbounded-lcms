@@ -110,6 +110,9 @@ en:
         standards: Standards
         status: Status
         subjects: Subjects
+        teaser: Teaser
+        title: Title
+        url_slugs: URL slugs
       new:
         page_title: New Resource
       search_form:
