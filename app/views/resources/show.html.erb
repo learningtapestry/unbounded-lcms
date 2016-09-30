@@ -33,6 +33,11 @@
         <%= link_to back_to_curriculum_path(@curriculum), class: 'o-btn o-btn--base' do %>
           <i class="fa-lg ub-arrow-left"></i> <%= t('resources.btn.back') %>
         <% end %>
+        <% if user_signed_in? %>
+          <%= link_to edit_admin_resource_path(@resource), class: 'o-btn o-btn--base' do %>
+            <%= t('resources.btn.edit') %>
+          <% end %>
+        <% end %>
       </div>
       <div class="o-page__section cs-bg--<%= @resource.color_code(@grade_color_code) %>">
         <div class="o-content-title u-text--capitalized">
