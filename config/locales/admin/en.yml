@@ -121,6 +121,7 @@ en:
         standards: Standards
         subjects: Subjects
         title: Title
+        url_slug: URL slug
       create:
         success: "Resource #%{resource_id} was created successfully."
       update:
