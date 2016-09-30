@@ -238,7 +238,7 @@ class Resource < ActiveRecord::Base
       dot_name = short_name.gsub(/[-]/, '.').gsub(' ', '')
       prefixed_dot_name = "#{subject}.#{dot_name}"
 
-      [prefixed_dot_name, dot_name]
+      [prefixed_dot_name, dot_name, std.alt_names].compact
     end.flatten.uniq
   end
 
