@@ -136,7 +136,14 @@ module Search
     end
 
     def is_a_standard?(term)
-      term.match /(ela|math)?\.\w+\.\w+$/
+      possible_formats = [
+        /^(?:[a-z0-9]{1,3}[.-]{1}){1,5}[a-z0-9]{1,2}$/,
+        /^math\.(?:[a-z0-9]{1,3}[.-]{1}){0,3}[a-z0-9]{1,3}$/,
+        /^[a-z0-9]{3,9}$/,
+        /ccss\.*math/,
+      ]
+      regexp = Regexp.union(possible_formats)
+      term.match(regexp)
     end
 
     def accepted_filters
