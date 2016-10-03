@@ -24,7 +24,6 @@ $(function () {
   }
 
   function initTopScrollButton() {
-    $('body').prepend('<a href="#" class="o-top-scroll-button"><i class="fa-3x ub-triangle-top"></a>');
     $(window).scroll(function() {
       if ( $(window).scrollTop() > 300 ) { /* amound scrolled */
         $('.o-top-scroll-button').fadeIn('slow');
