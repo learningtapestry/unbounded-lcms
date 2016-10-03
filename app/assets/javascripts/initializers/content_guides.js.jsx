@@ -23,6 +23,20 @@ $(function () {
     });
   }
 
+  function initTopScrollButton() {
+    $(window).scroll(function() {
+      if ( $(window).scrollTop() > 300 ) { /* amound scrolled */
+        $('.o-top-scroll-button').fadeIn('slow');
+      } else {
+        $('.o-top-scroll-button').fadeOut('slow');
+      }
+      });
+      $('.o-top-scroll-button').click(function() {
+        $('html, body').animate({ scrollTop: 0 }, 700);
+        return false;
+    });
+  }
+
   function initTasksToggler() {
     $('.c-cg-task__toggler').click(function() {
       $('.c-cg-task__hidden', $(this).parent()).toggle();
@@ -104,6 +118,7 @@ $(function () {
     const headings = $.makeArray($('.c-cg-heading'));
     clearStates();
     initSticky();
+    initTopScrollButton();
     initTasksToggler();
     updateMenu(headings);
     $('.o-page--cg, #cg-contents-modal').smoothscrolling(setScrollingState);
