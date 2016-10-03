@@ -137,10 +137,10 @@ module Search
 
     def is_a_standard?(term)
       possible_formats = [
-        /^(?:[a-z0-9]{1,3}[.-]{1}){1,5}[a-z0-9]{1,2}$/,
-        /^math\.(?:[a-z0-9]{1,3}[.-]{1}){0,3}[a-z0-9]{1,3}$/,
-        /^[a-z0-9]{3,9}$/,
-        /ccss\.*math/,
+        /^(?:[a-z0-9]{1,3}[.-]{1}){1,5}[a-z0-9]{1,2}$/, # hsa-rei.d.11 w.11-12.2.e s.cp.4
+        /^math\.(?:[a-z0-9]{1,3}[.-]{1}){0,3}[a-z0-9]{1,3}$/, # math.mp6 math.hsa.sse.b.3a
+        /^[a-z0-9]{3,9}$/, # wk2 w9101d w11121b rfpk1b hsncnc7
+        /ccss\.*math/, # ccssmathpracticemp4 math.ccss.math.practice.mp3
       ]
       regexp = Regexp.union(possible_formats)
       term.match(regexp)
