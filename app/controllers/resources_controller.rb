@@ -25,7 +25,9 @@ class ResourcesController < ApplicationController
 
     def find_resource_and_curriculum
       if params[:slug].present?
-        slug = ResourceSlug.find_by_value!(params[:slug]) # Can raise RecordNotFound
+        unless slug = ResourceSlug.find_by_value(params[:slug])
+          fail Error::ResourceNotFound, "Unknown ResourceSlug value: '#{params[:slug]}'"
+        end
         resource = slug.resource
         curriculum = slug.curriculum
       else
@@ -37,9 +39,6 @@ class ResourcesController < ApplicationController
       @grade_color_code = curriculum.try(:grade_color_code)
       @curriculum = CurriculumPresenter.new(curriculum)
       @instructions = find_related_instructions
-    rescue ActiveRecord::RecordNotFound
-      # TODO: report request params to a bugtracker
-      redirect_to root_url
     end
 
     def expanded?
