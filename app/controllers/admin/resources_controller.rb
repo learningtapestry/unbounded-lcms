@@ -5,7 +5,7 @@ class Admin::ResourcesController < Admin::AdminController
     @q = Resource.ransack(params[:q])
     @resources = @q.result.
                    order(id: :desc).
-                   includes(:standards, :taggings).
+                   includes(:standards, :taggings, :resource_slugs).
                    paginate(page: params[:page], per_page: 15)
   end
 
@@ -99,7 +99,7 @@ class Admin::ResourcesController < Admin::AdminController
     end
 
     def resource_params(ps = nil)
-      ps ||= params 
+      ps ||= params
       ps.
         require(:resource).
         permit(
