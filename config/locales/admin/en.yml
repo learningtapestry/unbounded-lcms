@@ -110,6 +110,9 @@ en:
         standards: Standards
         status: Status
         subjects: Subjects
+        teaser: Teaser
+        title: Title
+        url_slugs: URL slugs
       new:
         page_title: New Resource
       search_form:
@@ -118,6 +121,7 @@ en:
         standards: Standards
         subjects: Subjects
         title: Title
+        url_slug: URL slug
       create:
         success: "Resource #%{resource_id} was created successfully."
       update:

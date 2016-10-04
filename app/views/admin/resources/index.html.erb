@@ -16,11 +16,12 @@
     <tr>
       <th><%= check_box_tag nil, nil, false, class: 'resource-list-select-all' %>
       <th>ID
-      <th><%= t('.resource') %>
-      <th><%= t('.grade_levels') %>
+      <th><%= t('.title') %>
+      <th><%= t('.teaser') %>
       <th><%= t('.standards') %>
       <th><%= t('.resource_types') %>
       <th><%= t('.subjects') %>
+      <th><%= t('.url_slugs') %>
       <th><%= t('.status') %>
       <th>
     </tr>
@@ -31,10 +32,11 @@
         <td><%= check_box_tag 'ids[]', resource.id, false, class: 'resource-checkbox', id: check_box_id %>
         <td><%= label_tag check_box_id, resource.id, class: 'resource-id-label' %>
         <td><%= link_to resource.title, [:edit, :admin, resource] %>
-        <td class=resource-tag-col><%= resource.grade_list.join(', ') %>
+        <td class=resource-tag-col><%= resource.teaser %>
         <td class=resource-tag-col><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
         <td class=resource-tag-col><%= resource.resource_type %>
         <td class=resource-tag-col><%= resource.subject %>
+        <td class=resource-tag-col><%= resource.slugs.map(&:value).join(', ') %>
         <td><%= resource_status(resource) %>
         <td><%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>
       </tr>
