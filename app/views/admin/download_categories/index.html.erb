@@ -1,0 +1,19 @@
+<% page_title %>
+
+<h2 class=text-center><%= t('.page_title') %></h2>
+
+  <p><%= link_to t('.new_category'), :new_admin_download_category, class: 'button
+  primary', 'data-no-turbolink' => '' %></p>
+
+
+  <table class=table>
+    <% @categories.each do |category| %>
+      <tr>
+        <td class=category-tag-col><%= category.name %>
+        <td class=category-tag-col><%= category.description %>
+        <td><%= link_to t('ui.edit'), [:edit, :admin, category], class: 'button small' %>
+        <td><%= button_to t('ui.delete'), admin_download_category_path(category), class: 'button danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %></td>
+      </tr>
+    <% end %>
+  </table>
+

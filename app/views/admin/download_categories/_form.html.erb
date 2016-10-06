@@ -1,0 +1,11 @@
+<% url = @category.new_record? ? :admin_download_categories : admin_download_category_path(@category) %>
+
+<%= simple_form_for @category, url: url, html: { id: 'download_category_form' } do |f| %>
+
+  <%= f.input :name %>
+
+  <%= f.input :description %>
+
+  <%= f.button :submit, t('ui.save'), name: nil %>
+
+<% end %>
