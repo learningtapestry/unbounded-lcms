@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   def rescue_not_found(err)
     # TODO: log err.message to somewhere
-    render template: "errors/show", status: 404
+    render template: "errors/404", status: 404
   end
 
 end

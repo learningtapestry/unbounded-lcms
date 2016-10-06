@@ -1,11 +1,6 @@
 Rails.application.routes.draw do
   root to: 'welcome#index'
 
-  # error pages
-  %w( 404 422 500 503 ).each do |code|
-    get code, :to => 'errors#show', :code => code
-  end
-
   get '/' => 'welcome#index'
 
   get '/about'        => 'pages#show_slug', slug: 'about'
