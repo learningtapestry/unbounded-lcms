@@ -31,6 +31,6 @@ module Content
     config.react.addons = true
 
     # Serve error pages from the Rails app itself, instead of /public
-    config.exceptions_app = self.routes
+    #config.exceptions_app = self.routes
   end
 end

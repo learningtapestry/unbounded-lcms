@@ -2,6 +2,7 @@ class ExploreCurriculumController < ApplicationController
   include Filterbar
 
   def index
+  fail
     set_index_props
 
     respond_to do |format|
