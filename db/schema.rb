@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706094245) do
+ActiveRecord::Schema.define(version: 20161006131637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -396,7 +396,7 @@ ActiveRecord::Schema.define(version: 20160706094245) do
   add_foreign_key "reading_assignment_texts", "reading_assignment_authors"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"
-  add_foreign_key "resource_downloads", "download_categories"
+  add_foreign_key "resource_downloads", "download_categories", on_delete: :nullify
   add_foreign_key "resource_downloads", "downloads"
   add_foreign_key "resource_downloads", "resources"
   add_foreign_key "resource_reading_assignments", "reading_assignment_texts", name: "fk_res_rea_asg_rea_asg_txt"

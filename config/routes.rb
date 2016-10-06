@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     get '/resource_picker' => 'resource_picker#index'
     get '/curriculum_picker' => 'resource_picker#curriculum'
     resources :resources, except: :show
+    resources :download_categories, except: :show
     resources :pages, except: :show
     resources :settings, only: [] do
       patch :toggle_editing_enabled, on: :collection
