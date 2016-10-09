@@ -9,7 +9,7 @@ class DownloadsController < ApplicationController
                nil
              end
     label = @download.attachment_url
-    track_download(action: action, label: label)
+    ga_track_download(action: action, label: label)
     redirect_to @download.attachment_url
   end
 end
