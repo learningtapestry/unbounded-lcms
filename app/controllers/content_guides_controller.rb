@@ -24,7 +24,7 @@ class ContentGuidesController < ApplicationController
       cg.save!
     end
 
-    track_download(
+    ga_track_download(
       action: content_guide_path(cg.permalink_or_id, cg.slug),
       label: ''
     )
