@@ -11,7 +11,16 @@ class SearchController < ApplicationController
       format.html
       format.json { render json: @props }
     end
-    ga_report_pageview(request: request)
+  end
+
+  # Log search requests (to Google Analytics for now)
+  def log_search
+    result = ga_report_search(search_url: params[:search_url], referrer: params[:referrer])
+    if result
+      render json: {ok: true, ga_response_code: result.code}
+    else
+      render json: {ok: false}
+    end
   end
 
   protected

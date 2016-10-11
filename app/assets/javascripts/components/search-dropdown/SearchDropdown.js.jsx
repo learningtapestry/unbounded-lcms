@@ -134,6 +134,9 @@ class SearchDropdown extends React.Component {
       subjects: props.filterbar.subjects
     }
     let url = Routes.search_path(query);
+    $.cookie('_lastsearch_referrer', window.location.href);
+    $.cookie('_lastsearch', url);
+    $.cookie('_lastsearch_time', new Date().getTime()); // Milliseconds since 1970
 
     fetch(url, {credentials: 'same-origin'}).then(r => r.json()).then(response => {
       this.setState(this.buildStateFromResponse(response));
