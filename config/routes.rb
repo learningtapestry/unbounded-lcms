@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/leadership'   => 'pages#leadership'
 
   get '/search' => 'search#index'
+  post '/log_search' => 'search#log_search'
 
   resources :downloads, only: [:show]
   get '/downloads/content_guides/:id(/:slug)', as: :content_guide_pdf, to: 'content_guides#show_pdf'

@@ -8,6 +8,7 @@
 //= require foundation
 //= require jquery/foundation.magellanex
 //= require jquery/foundation.initialize
+//= require jquery/jquery.cookie
 //= require react
 //= require react_ujs
 //= require components
