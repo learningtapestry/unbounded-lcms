@@ -77,6 +77,20 @@ en:
         success: "'%{name}' updated successfully."
     common:
       editing_disabled: Resource editing is disabled. Turn editing on in order to edit resources.
+    download_categories:
+      create:
+        success: "Download category created successfully."
+      destroy:
+        success: "Category deleted successfully."
+      edit:
+        page_title: "Edit download category '%{name}'"
+      index:
+        page_title: Downloadable Resource Categories
+        new_category: New Category
+      new:
+        page_title: New Downloadable Resource Category
+      update:
+        success: "Category updated successfully."
     resource_bulk_edits:
       create:
         success: "%{count} %{resources_count} updated successfully."
@@ -232,6 +246,7 @@ en:
       curriculums: Curriculums
       add_curriculum: Add curriculum
       resources: Resources
+      downloadable_resource_categories: Download Categories
       add_resource: Add resource
       import_resources: Import resources
       export_resources: Export resources
