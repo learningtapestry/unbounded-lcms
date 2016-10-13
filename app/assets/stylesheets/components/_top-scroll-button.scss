@@ -1,16 +1,27 @@
 .o-top-scroll-button {
   display: none; /* initially hidden */
-  color: #ffffff;
-  width: 60px;
-  height: 60px;
-  position: fixed;
-  z-index: 999;
-  right: 20px;
-  bottom: 20px;
-  text-align: center;
-  background:rgba(0,0,0,0.3) no-repeat center 43%;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
   border-radius: 30px;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  background:rgba(0,0,0,0.3) no-repeat center 43%;
+  bottom: 30px;
+  color: #ffffff;
+  height: 60px;
+  line-height: 60px;
+  position: fixed;
+  right: 30px;
+  text-align: center;
+  transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  vertical-align: bottom;
+  width: 60px;
+  z-index: 999;
+  &:hover {
+    color: #ffffff;
+    background-color: #3366ff;
+  }
 }
 
