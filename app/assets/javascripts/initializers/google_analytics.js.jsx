@@ -17,10 +17,9 @@ $(function () {
         search_url: $.cookie('_lastsearch'),
         referrer: $.cookie('_lastsearch_referrer'),
       }).done(function( data ) {
-          console.log( "response: " + data );
-          $.removeCookie('_lastsearch');
-          $.removeCookie('_lastsearch_time');
-          $.removeCookie('_lastsearch_referrer');
+        $.removeCookie('_lastsearch');
+        $.removeCookie('_lastsearch_time');
+        $.removeCookie('_lastsearch_referrer');
       });
     };
     setTimeout(reportLastSearch, checkEveryMsec);
