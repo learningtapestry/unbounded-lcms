@@ -10,6 +10,7 @@ module AnalyticsTracking
     GA_DEBUG_MODE = false
 
     def ga_client_id
+      # Last two char sequences, separated by a dot char ".":
       @ga_client_id ||= /[^\.]+\.[^\.]+$/.match(cookies["_ga"]).to_s.presence
     end
 
