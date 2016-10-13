@@ -25,7 +25,6 @@ class SearchController < ApplicationController
 
   protected
 
-
     def find_documents
       @documents = Search::Document.search(search_term, search_params).paginate(pagination_params)
     end
@@ -38,4 +37,3 @@ class SearchController < ApplicationController
       @props.merge!(filterbar_props)
     end
 end
-

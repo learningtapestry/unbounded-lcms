@@ -22,7 +22,6 @@ module Content
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.action_mailer.delivery_method = :aws_sdk
-    config.web_console.whitelisted_ips = '109.173.96.247'
 
     config.active_record.raise_in_transactional_callbacks = true
 
