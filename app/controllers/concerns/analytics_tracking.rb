@@ -18,14 +18,6 @@ module AnalyticsTracking
       @ga_id ||= ENV['GOOGLE_ANALYTICS_ID']
     end
 
-    def ga_report_search(search_url:, referrer:)
-      return if ga_client_id.blank?
-      return if is_googlebot?(ua: request.user_agent)
-
-      ga_tracker(options: {document_location: search_url})
-        .pageview(referrer: referrer)
-    end
-
     def ga_track_download(action:, label:)
       return if ga_client_id.blank?
       return if is_googlebot?(ua: request.user_agent)
