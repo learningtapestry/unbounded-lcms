@@ -25,9 +25,7 @@ class ResourcesController < ApplicationController
 
     def find_resource_and_curriculum
       if params[:slug].present?
-        unless slug = ResourceSlug.find_by_value(params[:slug])
-          fail Error::ResourceNotFound, "Unknown ResourceSlug value: '#{params[:slug]}'"
-        end
+        slug = ResourceSlug.find_by_value!(params[:slug])
         resource = slug.resource
         curriculum = slug.curriculum
       else
