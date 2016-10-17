@@ -70,6 +70,10 @@ en:
     not_found:
       page_header: Page Not Found
       page_title: UnboundEd - Page Not Found
+  resources:
+    media:
+      related_guides_subtitle: Guides that feature this %{type} will appear in this section.
+      related_guides_title: Related Guides
   search:
     index:
       page_title: UnboundEd - Search

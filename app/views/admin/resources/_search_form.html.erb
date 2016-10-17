@@ -8,6 +8,10 @@
     <%= f.input :tags_name_in, as: :select, collection: Tag.where_context('tags').select(:id, :name).distinct(:name), input_html: { class: 'selectize resource-search-select', multiple: true }, label: t('.subjects'), value_method: :name, required: false, wrapper_html: { class: 'resource-search-wrap' } %>
   </div>
 
+  <div class='row align-justify'>
+    <%= f.input :resource_slugs_value_eq, label: t('.url_slug'), required: false, wrapper_html: { class: 'resource-search-url-slug' }  %>
+  </div>
+
   <div class='row align-bottom align-justify'>
     <%= f.input :resource_type_eq, as: :select, label: Resource.human_attribute_name(:resource_type), required: false, wrapper_html: { class: 'resource-search-type' }, collection: Resource.resource_types %>
     <%= f.input :title_cont, label: t('.title'), required: false, wrapper_html: { class: 'resource-search-title' }  %>
