@@ -12,4 +12,8 @@ class PagesController < ApplicationController
   def leadership
     @leadership_posts = LeadershipPost.all.order_by_name_with_precedence
   end
+
+  def not_found
+    render status: :not_found
+  end
 end
