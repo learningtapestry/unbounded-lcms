@@ -231,15 +231,7 @@ class Resource < ActiveRecord::Base
   end
 
   def tag_standards
-    common_core_standards.map do |std|
-      short_name = std.name.gsub('ccss.ela-literacy.', '')
-                           .gsub('ccss.math.content.', '')
-
-      dot_name = short_name.gsub(/[-]/, '.').gsub(' ', '')
-      prefixed_dot_name = "#{subject}.#{dot_name}"
-
-      [prefixed_dot_name, dot_name]
-    end.flatten.uniq
+    common_core_standards.map(&:alt_names).flatten.uniq
   end
 
 end

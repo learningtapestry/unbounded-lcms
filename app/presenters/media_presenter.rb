@@ -2,9 +2,7 @@ class MediaPresenter < ResourcePresenter
   include SoundcloudEmbed
 
   def media_title
-    subject_title = subject.try(:upcase) || ''
-    resource_title = resource_type.try(:titleize) || ''
-    "#{subject_title} #{resource_title}".strip
+    [subject, resource_type].compact.join(' ').titleize
   end
 
   def embed_podcast
