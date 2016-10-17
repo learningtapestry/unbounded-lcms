@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get '/' => 'welcome#index'
 
+  get '/404'          => 'pages#not_found'
   get '/about'        => 'pages#show_slug', slug: 'about'
   get '/about/people' => 'pages#show_slug', slug: 'about_people'
   get '/tos'          => 'pages#show_slug', slug: 'tos',     as: :tos_page

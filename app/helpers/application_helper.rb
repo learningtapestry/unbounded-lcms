@@ -58,6 +58,18 @@ module ApplicationHelper
     strip_tags_and_squish(content_for(:og_description)) || page_description
   end
 
+  # Render meta tag
+  def redirect_meta_tag
+    content_for(:redirect_meta_tag) if content_for?(:redirect_meta_tag)
+  end
+
+  # Use in views as redirection directive
+  def redirect_via_meta_tag(to_url:, delay:5)
+    content_for(:redirect_meta_tag) do
+      content_tag(:meta, nil, {content: "#{delay};url=#{to_url}", "http-equiv" => "refresh"}, true)
+    end
+  end
+
   def set_page_title(title)
     content_for :page_title do
       title
