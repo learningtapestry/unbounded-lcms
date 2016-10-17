@@ -67,6 +67,9 @@ en:
     leadership:
       page_title: UnboundEd - Advance Leadership
       page_description: Empower and inspire your school community to ensure higher standards for all students with our free, aligned curricular and professional learning resources.
+    not_found:
+      page_header: Page Not Found
+      page_title: UnboundEd - Page Not Found
   resources:
     media:
       related_guides_subtitle: Guides that feature this %{type} will appear in this section.

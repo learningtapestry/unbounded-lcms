@@ -34,8 +34,9 @@ class ExploreCurriculumController < ApplicationController
 
       @props = begin
         if slug_param
-          target_curriculum = ResourceSlug.find_by!(value: slug_param).curriculum
-          raise StandardError unless target_curriculum
+          unless target_curriculum = ResourceSlug.find_by_value(slug_param).try(:curriculum)
+            fail Error::ResourceNotFound, "Unknown ResourceSlug value: '#{slug_param}'"
+          end
 
           parent_curriculum = target_curriculum
           while parent_curriculum.current_level != :grade
