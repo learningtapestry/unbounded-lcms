@@ -29,6 +29,9 @@ class FindLessonsPage extends React.Component {
     const url = Routes.find_lessons_path(query);
 
     fetch(url).then(r => r.json()).then(response => {
+      if (window.ga) {
+        ga('send', 'pageview', url);
+      }
       this.setState(this.buildStateFromProps(response));
     });
   }
