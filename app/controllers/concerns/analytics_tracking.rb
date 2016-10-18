@@ -11,7 +11,9 @@ module AnalyticsTracking
 
     def ga_client_id
       # Last two char sequences, separated by a dot char ".":
-      @ga_client_id ||= /[^\.]+\.[^\.]+$/.match(cookies["_ga"]).to_s.presence
+      @ga_client_id ||= if cookies['_ga'].present?
+                          cookies['_ga'].split('.').last(2).join('.')
+                        end
     end
 
     def ga_id
@@ -22,11 +24,7 @@ module AnalyticsTracking
       return if ga_client_id.blank?
       return if is_googlebot?(ua: request.user_agent)
 
-      ga_tracker.event(
-        category: 'download',
-        action: action,
-        label: label
-      )
+      ga_tracker.event(category: 'download', action: action, label: label)
     end
 
     def is_googlebot?(ua:)

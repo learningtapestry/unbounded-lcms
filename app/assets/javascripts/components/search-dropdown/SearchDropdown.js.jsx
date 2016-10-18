@@ -135,7 +135,7 @@ class SearchDropdown extends React.Component {
     }
     let url = Routes.search_path(query);
 
-    fetch(url, {credentials: 'same-origin'}).then(r => r.json()).then(response => {
+    fetch(url).then(r => r.json()).then(response => {
       if (window.ga) {
         ga('send', 'pageview', url);
       }
