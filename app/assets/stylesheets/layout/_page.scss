@@ -1,22 +1,11 @@
-html, body {
-  height: 100%;
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-@each $breakpoint, $footer-height in $ub-footer-height {
-  @include breakpoint($breakpoint) {
-    .u-page-wrap {
-      margin-bottom: -$footer-height;
-      min-height: 100%;
-      &:after {
-        content: '';
-        display: block;
-      }
-    }
-
-    .u-page-wrap:after {
-      height: $footer-height;
-    }
-  }
+.u-page-wrap {
+  flex: 1;
 }
 
 .o-page {
