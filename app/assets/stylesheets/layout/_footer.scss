@@ -3,11 +3,7 @@ $footer-padding: 5px;
 
 .c-footer {
   background-color: $ub-footer-bg;
-  @each $breakpoint, $footer-height in $ub-footer-height {
-    @include breakpoint($breakpoint) {
-      min-height: $footer-height;
-    }
-  }
+  color: $ub-nav-link;
 
   @include e(wrap) {
     @include flex-align(left, top);
@@ -18,6 +14,11 @@ $footer-padding: 5px;
       padding-bottom: $ub-base-padding;
       padding-top: $ub-large-padding;
     }
+  }
+
+  @include e(link) {
+    &, a { color: $ub-nav-link; }
+    &:hover, &:focus, a:hover, a:focus { color: $ub-white; text-decoration: none; }
   }
 
   @include e(logo) {
@@ -77,21 +78,4 @@ $footer-padding: 5px;
 
 .t-bullet {
   &:after { content: '\2022'; color: $ub-nav-link; }
-}
-
-
-.c-footer {
-  background-color: $ub-footer-bg;
-  color: $ub-nav-link;
-
-  @include e(link) {
-    &, a { color: $ub-nav-link; }
-    &:hover, &:focus, a:hover, a:focus { color: $ub-white; text-decoration: none; }
-  }
-
-  @include m(with-sticky) {
-    @include breakpoint(small only) {
-      margin-bottom: 90px;
-    }
-  }
 }
