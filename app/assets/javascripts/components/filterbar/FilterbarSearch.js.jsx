@@ -7,11 +7,12 @@ class FilterbarSearch extends React.Component {
       this.setState({value: null})
     });
 
+    const debounceTimeout = 1000; // 1sec
     this.debouncedUpdate = _.debounce(function(value) {
       if ('onUpdate' in this.props) {
         this.props.onUpdate( value );
       }
-    }, 300);
+    }, debounceTimeout);
   }
 
   handleChange (event) {
