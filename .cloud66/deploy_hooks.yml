@@ -42,5 +42,17 @@ production: &production
       run_on: all_servers
 staging:
   <<: *production
+  after_symlink:
+    - command: sudo cp -R $STACK_PATH/.cloud66/public/staging/* $STACK_PATH/public
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
 development:
   <<: *production
+  after_symlink:
+    - command: sudo cp -R $STACK_PATH/.cloud66/public/development/* $STACK_PATH/public
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
