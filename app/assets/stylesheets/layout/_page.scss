@@ -1,11 +1,15 @@
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  display: table;
+  width: 100%;
+}
+
+body, html {
+  height: 100%;
 }
 
 .u-page-wrap {
-  flex: 1;
+  display: table-row;
+  height: 100%;
 }
 
 .o-page {

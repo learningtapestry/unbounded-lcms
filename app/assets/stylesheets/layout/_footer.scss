@@ -4,6 +4,7 @@ $footer-padding: 5px;
 .c-footer {
   background-color: $ub-footer-bg;
   color: $ub-nav-link;
+  display: table-row;
 
   @include e(wrap) {
     @include flex-align(left, top);
