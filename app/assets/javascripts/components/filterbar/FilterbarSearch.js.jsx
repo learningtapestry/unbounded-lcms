@@ -7,7 +7,7 @@ class FilterbarSearch extends React.Component {
       this.setState({value: null})
     });
 
-    const debounceTimeout = 1000; // 1sec
+    const debounceTimeout = 500; // 500 msec
     this.debouncedUpdate = _.debounce(function(value) {
       if ('onUpdate' in this.props) {
         this.props.onUpdate( value );
