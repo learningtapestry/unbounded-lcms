@@ -39,6 +39,11 @@ sub vcl_recv {
         return (pass);
     }
 
+    # Skip the cache if there's a session set.
+    if (req.http.Cookie ~ "_content_session") {
+        return (pass);
+    }
+
     # Otherwise, cache it!
 
     # Disregard cookies and the Authorization header, which might prevent caching.
@@ -66,6 +71,12 @@ sub vcl_backend_response {
         bereq.url ~ "^/users(.*)" ||
         bereq.url ~ "^/downloads(.*)" ||
         bereq.url ~ "^/assets(.*)") {
+        return (deliver);
+    }
+
+    # Don't touch it either if the user is logged in.
+    if (beresp.http.Set-Cookie ~ "_content_session" ||
+        beresp.http.Cookie ~ "_content_session") {
         return (deliver);
     }
 
