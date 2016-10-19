@@ -28,5 +28,7 @@ module Content
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
 
     config.react.addons = true
+
+    config.middleware.insert_before ::ActionDispatch::Cookies, 'RemoveSession'
   end
 end
