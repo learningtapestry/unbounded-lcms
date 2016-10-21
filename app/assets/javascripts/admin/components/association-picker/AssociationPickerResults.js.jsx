@@ -4,7 +4,7 @@ function AssociationPickerResults(props) {
   const shouldAllowCreate = _.isString(props.value) && props.value.length > 0
     && props.allowCreate && props.items.length == 0;
 
-  const selectedIds = _.map(props.selected, 'id');
+  const selectedIds = _.map(props.selectedItems, 'id');
   const isSelected = (item) => {
     return _.includes(selectedIds, item.id);
   }
@@ -23,7 +23,7 @@ function AssociationPickerResults(props) {
     items = props.items.map(item => {
       let newItem = { id: item.id, name: item.name, _create: false, _selected: isSelected(item) };
       return (
-        <tr key={newItem.id} className={newItem._selected ? 'active' : ''} selected={newItem._selected}>
+        <tr key={newItem.id} className={newItem._selected ? 'active' : ''}>
           <td onClick={() => props.onSelectItem(newItem)}>{newItem.name}</td>
         </tr>
       );
