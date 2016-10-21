@@ -9,6 +9,7 @@ class AssociationPickerWindow extends React.Component {
         total_pages: 0
       },
       items: [],
+      selectedItems: [],
       q: null
     };
 
@@ -47,9 +48,23 @@ class AssociationPickerWindow extends React.Component {
   }
 
   selectItem(item) {
+    const operation = this.updateSelectedItems(item);
     if ('onSelectItem' in this.props) {
-      this.props.onSelectItem(item);
+      this.props.onSelectItem(item, operation);
     }
+  }
+
+  updateSelectedItems(item) {
+    let operation, newItems;
+    if (item._selected) {
+      newItems = _.filter(this.state.selectedItems, r => r.id !== item.id);
+      operation = 'removed';
+    } else {
+      newItems = [...this.state.selectedItems, item];
+      operation = 'added';
+    }
+    this.setState(...this.state, {selectedItems: newItems});
+    return operation;
   }
 
   handleUpdateQ(event) {
@@ -94,6 +109,7 @@ class AssociationPickerWindow extends React.Component {
             <AssociationPickerResults
               value={this.state.q}
               items={this.state.items}
+              selected={this.state.selectedItems}
               allowCreate={this.props.allowCreate}
               onSelectItem={this.selectItem.bind(this)} />
             <PaginationBoxView previousLabel={"< Previous"}
@@ -112,6 +128,13 @@ class AssociationPickerWindow extends React.Component {
                             pagesClassName={"o-pagination__item--middle"}
                             subContainerClassName={"o-pagination__pages"}
                             activeClassName={"o-pagination__page--active"} />
+
+            { (this.props.allowMultiple) ?
+              <button type="button"
+                      className="button c-assocpicker-submit"
+                      onClick={this.props.onClickDone}>Submit</button>
+              : null
+            }
           </div>
         </div>
       </div>
