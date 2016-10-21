@@ -109,7 +109,7 @@ class AssociationPickerWindow extends React.Component {
             <AssociationPickerResults
               value={this.state.q}
               items={this.state.items}
-              selected={this.state.selectedItems}
+              selectedItems={this.state.selectedItems}
               allowCreate={this.props.allowCreate}
               onSelectItem={this.selectItem.bind(this)} />
             <PaginationBoxView previousLabel={"< Previous"}
