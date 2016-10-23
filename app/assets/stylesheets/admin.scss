@@ -8,10 +8,22 @@
 }
 
 .c-admin {
-  .menu { .active > a { background: inherit; } }
+  .menu {
+    &.vertical:not(.is-dropdown-submenu) {
+      display: none !important;
+    }
+
+    .active > a { background: inherit; }
+  }
   .menu > li > a {
     line-height: inherit;
     white-space: nowrap;
+  }
+
+  @include breakpoint($topbar-unstack-breakpoint) {
+    .c-header-title__h-menu {
+      display: none;
+    }
   }
 }
 
