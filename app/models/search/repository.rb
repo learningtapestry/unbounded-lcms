@@ -67,12 +67,11 @@ module Search
         indexes :tag_authors,   **::Search.ngrams_multi_field(:tag_authors)
         indexes :tag_texts,     **::Search.ngrams_multi_field(:tag_texts)
         indexes :tag_keywords,  **::Search.ngrams_multi_field(:tag_keywords)
-        indexes :tag_standards, **::Search.ngrams_multi_field(:tag_standards, with_key: true)
-        # indexes :tag_standards, type: 'string', index: 'not_analyzed'
+        indexes :tag_standards, type: 'string', index: 'not_analyzed'
       end
     end
 
-    def build_query(term, options)
+    def fts_query(term, options)
       if term.respond_to?(:to_hash)
         term
 
@@ -100,12 +99,6 @@ module Search
 
                 { match: { 'tag_keywords.full'    => {query: term, type: 'phrase', boost: 3} } },
                 { match: { 'tag_keywords.partial' => {query: term, boost: 1} } },
-
-                # { match: { 'tag_standards.key'     => {query: term, boost: 4} } },
-                # { match: { 'tag_standards.partial' => {query: term, boost: 1} } },
-
-                # { match: { 'description.full'     => {query: term, type: 'phrase', boost: 1} } },
-                # { match: { 'description.partial'  => {query: term, boost: 1} } },
               ],
               filter: []
             }
@@ -114,36 +107,46 @@ module Search
           from: (page - 1) * limit
         }
 
-        if is_a_standard?(term)
-          query[:query][:bool][:should] = []
-          query[:query][:bool][:must] = [{ match: { 'tag_standards.key' => {query: term} } }]
-        end
-
-        # filters
-        accepted_filters.each do |filter|
-          if options[filter]
-            if options[filter].is_a? Array
-              filter_term = { terms: { filter => options[filter] } }
-            else
-              filter_term = { match: { filter => {query: options[filter]} } }
-            end
-            query[:query][:bool][:filter] << filter_term
-          end
-        end
-
-        query
+        apply_filters(query, options)
       end
     end
 
-    def is_a_standard?(term)
-      possible_formats = [
-        /^(?:[a-z0-9]{1,3}[.-]{1}){1,5}[a-z0-9]{1,2}$/, # hsa-rei.d.11 w.11-12.2.e s.cp.4
-        /^math\.(?:[a-z0-9]{1,3}[.-]{1}){0,3}[a-z0-9]{1,3}$/, # math.mp6 math.hsa.sse.b.3a
-        /^[a-z0-9]{3,9}$/, # wk2 w9101d w11121b rfpk1b hsncnc7
-        /ccss\.*math/, # ccssmathpracticemp4 math.ccss.math.practice.mp3
-      ]
-      regexp = Regexp.union(possible_formats)
-      term.match(regexp)
+    def standards_query(term, options)
+      if term.respond_to?(:to_hash)
+        term
+
+      else
+        limit = options.fetch(:per_page, 20)
+        page = options.fetch(:page, 1)
+
+        query = {
+          query: {
+            bool: {
+              filter: [
+                { term: {tag_standards: term} }
+              ]
+            }
+          },
+          size: limit,
+          from: (page - 1) * limit
+        }
+
+        apply_filters query, options
+      end
+    end
+
+    def apply_filters(query, options)
+      accepted_filters.each do |filter|
+        if options[filter]
+          if options[filter].is_a? Array
+            filter_term = { terms: { filter => options[filter] } }
+          else
+            filter_term = { match: { filter => {query: options[filter]} } }
+          end
+          query[:query][:bool][:filter] << filter_term
+        end
+      end
+      query
     end
 
     def accepted_filters
