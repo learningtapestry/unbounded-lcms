@@ -56,15 +56,19 @@ module Search
       return repository.empty_response unless repository.index_exists?
 
       if term.present?
-        query = repository.build_query(term, options)
+        query = repository.standards_query(term, options)
+        res = repository.search query
+        return res if res.count > 0
 
+        query = repository.fts_query(term, options)
+        repository.search query
       else
-        query = repository.build_query('', options)
+        query = repository.fts_query('', options)
         query[:query][:bool].delete(:should)
         query[:query][:bool][:must] = { match_all: {} }
-      end
 
-      repository.search query
+        repository.search query
+      end
     end
 
     # this is necessary for the ActiveModel::ArraySerializer#as_json method to work
