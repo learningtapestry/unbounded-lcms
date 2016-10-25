@@ -1,15 +1,12 @@
 module Search
-  def ngrams_multi_field(prop, with_key=false)
-    definition = {
+  def ngrams_multi_field(prop)
+    {
       type: 'multi_field', fields: {
         prop     => {type: 'string'},
-        :key     => {type: 'string', analyzer: 'lower_key'},
         :full    => {type: 'string', analyzer: 'full_str'},
         :partial => {type: 'string', analyzer: 'partial_str'}
       }
     }
-    definition[:fields][:key] = {type: 'string', analyzer: 'keyword'} if with_key
-    definition
   end
 
   def index_settings
@@ -20,11 +17,6 @@ module Search
           stop_en:    {type: "stop", stopwords: "_english_"},
         },
         analyzer: {
-          lower_key: {
-            filter: ["lowercase"],
-            type: "custom",
-            tokenizer: "keyword",
-          },
           full_str: {
             filter: ["standard", "lowercase", "stop_en", "asciifolding"],
             type: "custom",
@@ -60,7 +52,6 @@ module Search
         indexes :title,         **::Search.ngrams_multi_field(:title)
         indexes :teaser,        **::Search.ngrams_multi_field(:teaser)
         indexes :description,   **::Search.ngrams_multi_field(:description)
-        # indexes :misc,          **::Search.ngrams_multi_field(:description)
         indexes :doc_type,      type: 'string', index: 'not_analyzed'  #  module | unit | lesson | video | etc
         indexes :grade,         type: 'string', index: 'not_analyzed'
         indexes :subject,       type: 'string'
@@ -81,24 +72,20 @@ module Search
         term = term.downcase
 
         query = {
-          min_score: 0.5,
+          min_score: 0.20,
           query: {
             bool: {
               should: [
-                { match: { 'title.full'     => {query: term, type: 'phrase', boost: 8} } },
-                { match: { 'title.partial'  => {query: term, boost: 4} } },
+                { match: { 'title.full'     => {query: term, boost: 3} } },
+                { match: { 'title.partial'  => {query: term, boost: 0.5} } },
 
-                { match: { 'teaser.full'    => {query: term, type: 'phrase', boost: 0.2} } },
-                { match: { 'teaser.partial' => {query: term, boost: 0.2} } },
+                { match: { 'teaser.full'    => {query: term, boost: 4} } },
 
-                { match: { 'tag_authors.full'    => {query: term, type: 'phrase', boost: 3} } },
-                { match: { 'tag_authors.partial' => {query: term, boost: 2} } },
+                { match: { 'tag_authors.full'    => {query: term, boost: 4} } },
 
-                { match: { 'tag_texts.full'    => {query: term, type: 'phrase', boost: 3} } },
-                { match: { 'tag_texts.partial' => {query: term, boost: 1} } },
+                { match: { 'tag_texts.full'    => {query: term, boost: 4} } },
 
-                { match: { 'tag_keywords.full'    => {query: term, type: 'phrase', boost: 3} } },
-                { match: { 'tag_keywords.partial' => {query: term, boost: 1} } },
+                { match: { 'tag_keywords.full'    => {query: term, boost: 4} } },
               ],
               filter: []
             }
