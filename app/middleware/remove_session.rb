@@ -20,7 +20,7 @@ class RemoveSession
       headers[SET_COOKIE].blank?
     )
 
-    signing_out = path =~ /^\/users\/sign_out$/
+    signing_out = path == '/users/sign_out'
 
     unless skip_delete
       # Delete ONLY the session cookie.
@@ -29,23 +29,30 @@ class RemoveSession
 
     if signing_out
       # Clear out the session cookie so the browser won't send it again.
-      Rack::Utils.delete_cookie_header!(headers, '_content_session')
+      Rack::Utils.delete_cookie_header!(headers, session_key, path: '/')
     end
 
     [status, headers, body]
   end
 
-  def without_session_cookie(header)
-    case header
-    when nil, ''
-      cookies = []
-    when String
-      cookies = header.split("\n")
-    when Array
-      cookies = header
-    end
+  private
 
-    cookies.reject! { |c| c =~ /_content_session/ }
+  def session_key
+    Rails.application.config.session_options[:key]
+  end
+
+  def without_session_cookie(header)
+    cookies =
+      case header
+      when String
+        header.split("\n")
+      when Array
+        header
+      else
+        []
+      end
+
+    cookies.reject! { |c| c =~ /#{session_key}/ }
 
     cookies.join('\n')
   end
