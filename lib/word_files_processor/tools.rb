@@ -33,8 +33,9 @@ module WordFilesProcessor
         :resource_id,
         :resource_title,
         :category,
-        :breadcrumb,
+        :breadcrumbs,
         :action,
+        :dir,
         :filename_old,
         :filename
       ]
