@@ -41,8 +41,7 @@ module WordFilesProcessor
       ]
     end
 
-    # Debug report
-    def report(row)
+    def csv(row)
       if row == :headers
         puts csv_fields.map(&:to_s).join(',')
       else

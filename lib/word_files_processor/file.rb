@@ -30,7 +30,8 @@ module WordFilesProcessor
     # @param [Hash] extra_fields
     def recommended_filename(extra_fields: {})
       return "" unless template
-      template[:format] % filename_fragments.merge(extra_fields)
+      fname = template[:format] % filename_fragments.merge(extra_fields)
+      fname.strip
     end
 
     def klass

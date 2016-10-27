@@ -31,19 +31,22 @@ module WordFilesProcessor
     def add_files_to_module
       category  = dirname.ends_with?(c = "Rubrics and Tools") ? c : nil
       files.each do |file|
-        c = CurriculumFinder.new(file, context).find
-        report c.merge(category: category, dir: file.filepath.dirname, filename_old: nil, filename: file.basename, action: 'add')
+        rh = ResourceHandler.new(file, context)
+        rh.report category: category, action: 'add'
+        rh.create_db_assoc!
       end
     end
 
     def add_files_to_unit
       # first remove all unit files
-      c = CurriculumFinder.new(files.first, context).find
-      report c.merge(dir: files.first.filepath.dirname, filename_old: nil, filename: nil, action: 'remove')
+      # rh = ResourceHandler.new(files.first, context)
+      # rh.report filename: nil, action: 'remove'
+      # rh.remove_all!
 
       files.each do |file|
-        c = CurriculumFinder.new(file, context).find
-        report c.merge(dir: file.filepath.dirname, filename_old: nil, filename: file.basename, action: 'add')
+        rh = ResourceHandler.new(file, context)
+        rh.report action: 'add'
+        rh.create_db_assoc!
       end
     end
 
@@ -54,9 +57,11 @@ module WordFilesProcessor
 
       files.each do |file|
         new_filename = file.recommended_filename(extra_fields: {subject: subject})
+        ::File.rename(file.filepath.to_s, file.filepath.dirname.join(new_filename).to_s)
 
-        c = CurriculumFinder.new(file, context).find
-        report c.merge(category: category, dir: file.filepath.dirname, filename_old: file.basename, filename: new_filename, action: 'add')
+        rh = ResourceHandler.new(file, context)
+        rh.report category: category, filename_old: file.basename, filename: new_filename, action: 'add'
+        rh.create_db_assoc!
       end
     end
   end

@@ -2,7 +2,7 @@ module WordFilesProcessor
   extend Tools
 
   def self.process(dir)
-    report :headers
+    csv :headers
     process_directory(dir)
   end
 

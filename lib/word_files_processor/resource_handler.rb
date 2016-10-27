@@ -1,5 +1,5 @@
 module WordFilesProcessor
-  class CurriculumFinder
+  class ResourceHandler
     include Tools
 
     attr_reader :file, :context
@@ -7,6 +7,7 @@ module WordFilesProcessor
     def initialize(file, context)
       @file = file
       @context = context.to_h.merge(@file.filename_fragments)
+      find!
     end
 
     def breadcrumbs
@@ -34,9 +35,35 @@ module WordFilesProcessor
       nil
     end
 
-    def find
-      c = find_by_breadcrumbs || find_by_introspection
-      {curriculum_id: c.id, resource_id: c.resource.id, resource_title: c.resource.title, breadcrumbs: breadcrumbs}
+    def find!
+      @curriculum = find_by_breadcrumbs || find_by_introspection
+      @resource = @curriculum.resource
+    end
+
+    def attrs
+      {
+        curriculum_id:  @curriculum.id,
+        resource_id:    @resource.id,
+        resource_title: @resource.title,
+        breadcrumbs:    breadcrumbs,
+        filename:       @file.basename,
+        dir:            @file.filepath.dirname
+      }
+    end
+
+    def report(extras)
+      csv attrs.merge(extras)
+    end
+
+    def create_db_assoc!
+      # @resource.downloads << file.filepath.open
+      # @resource.save!
+    end
+
+    def remove_all!
+      # Disabled for now!
+      # @resource.downloads = []
+      # @resource.save!
     end
   end
 end
