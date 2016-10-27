@@ -36,7 +36,6 @@ module WordFilesProcessor
 
     def find
       c = find_by_breadcrumbs || find_by_introspection
-      byebug unless c
       {curriculum_id: c.id, resource_id: c.resource.id, resource_title: c.resource.title, breadcrumbs: breadcrumbs}
     end
   end
