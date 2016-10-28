@@ -34,6 +34,12 @@ module WordFilesProcessor
       fname.strip
     end
 
+    def recommended_file(extra_fields: {})
+      filename = recommended_filename(extra_fields: extra_fields)
+      path = @filepath.dirname.join(filename).to_s
+      klass.new ::Pathname.new(path)
+    end
+
     def klass
       self.class
     end

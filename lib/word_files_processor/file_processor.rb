@@ -56,12 +56,12 @@ module WordFilesProcessor
       subject = context[:subject]
 
       files.each do |file|
-        new_filename = file.recommended_filename(extra_fields: {subject: subject})
-        ::File.rename(file.filepath.to_s, file.filepath.dirname.join(new_filename).to_s)
+        new_file = file.recommended_file(extra_fields: {subject: subject})
+        ::File.rename(file.filepath.to_s, new_file.filepath.to_s)
 
         rh = ResourceHandler.new(file, context)
-        rh.report category: category, filename_old: file.basename, filename: new_filename, action: 'add'
-        rh.create_db_assoc!
+        rh.report category: category, filename_old: file.basename, filename: new_file.basename, action: 'add'
+        rh.create_db_assoc!(new_file)
       end
     end
   end

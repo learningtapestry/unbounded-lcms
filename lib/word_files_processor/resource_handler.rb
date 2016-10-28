@@ -55,9 +55,11 @@ module WordFilesProcessor
       csv attrs.merge(extras)
     end
 
-    def create_db_assoc!
-      # @resource.downloads << file.filepath.open
-      # @resource.save!
+    def create_db_assoc!(s3_file=nil)
+      s3_file ||= @file
+      title = s3_file.basename.gsub(/\.\w+$/, '') # file name without extension
+      @resource.downloads << Download.create(file: s3_file.filepath.open, title: title)
+      @resource.save!
     end
 
     def remove_all!
