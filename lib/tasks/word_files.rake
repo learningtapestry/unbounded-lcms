@@ -3,7 +3,7 @@ namespace :word_files do
   task process: [:environment] do
     path = ENV['WORD_FILES_DIR']
     unless path
-      puts "Usage example: rake word_files:process WORD_FILES_DIR=<full_path>"
+      puts "Usage example: rake word_files:process WORD_FILES_DIR=<full_path> PDF_FILES_DIR=<full_path>"
     else
       WordFilesProcessor.process(path)
     end
