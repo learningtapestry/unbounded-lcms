@@ -62,6 +62,7 @@
 
   @include m(register) {
     @include ub-button-hollow($background: $ub-white, $color: $ub-white, $color-hover: $ub-primary);
+    @include txt-element(button-register);
   }
 
   @include m(expand) {
@@ -83,6 +84,7 @@
 
   @include m(connect) {
     @include button-style($background: $ub-nav-link, $background-hover: auto, $color: $ub-primary);
+    @include txt-element(button-connect);
     margin-bottom: 0;
   }
 

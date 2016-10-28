@@ -98,7 +98,7 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
     flex-shrink: 1;
 
     @include breakpoint(medium) {
-      @include flex-grid-column(shrink, $grid-column-2xgutter);
+      @include flex-grid-column(shrink, $grid-column-4xgutter);
       @include add-top-bottom-margin;
       @include add-top-bottom-padding(0);
     }

@@ -125,17 +125,17 @@ $bg: (
 
 .u-hr-small {
   @include clearfix;
-  border-bottom: 5px solid map-get($ub-yellow, base);
+  border-bottom: 2px solid map-get($ub-yellow, base);
   border-radius: 2px;
+  border-top: 3px solid map-get($ub-yellow, base);
   margin-bottom: $ub-base-margin;
-  margin-top: $ub-small-margin;
-  width: 50px;
+  width: 52px;
 }
 
 .u-hr-small--green {
-  border-bottom-color: map-get($ub-green, base);
+  border-color: map-get($ub-green, base);
 }
 
 .u-hr-small--ls {
-  border-bottom-color: map-get($ub-leadership, base);
+  border-color: map-get($ub-leadership, base);
 }
