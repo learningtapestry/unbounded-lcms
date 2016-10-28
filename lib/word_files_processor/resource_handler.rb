@@ -55,10 +55,21 @@ module WordFilesProcessor
       csv attrs.merge(extras)
     end
 
+    def pdf_dir
+      @@pdf_dir ||= begin
+        pdf_files_dir = ENV['PDF_FILES_DIR']
+        pdf_files_dir ? Pathname.new(pdf_files_dir) : nil
+      end
+    end
+
     def create_db_assoc!(s3_file=nil)
       s3_file ||= @file
       title = s3_file.basename.gsub(/\.\w+$/, '') # file name without extension
       @resource.downloads << Download.create(file: s3_file.filepath.open, title: title)
+      if pdf_dir
+        pdf_filename = pdf_dir.join(s3_file.basename.to_s.gsub('.docx', '.pdf'))
+        @resource.downloads << Download.create(file: pdf_filename.open, title: title)
+      end
       @resource.save!
     end
 
