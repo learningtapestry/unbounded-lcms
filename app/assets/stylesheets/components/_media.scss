@@ -5,12 +5,25 @@
 
   @include e(img) {
     @include flex-grid-column(12, 0);
+    border-top-left-radius: $panel-radius;
+    border-top-right-radius: $panel-radius;
     height: 200px;
     overflow: hidden;
 
     @include breakpoint(medium) {
       @include flex-grid-column(5, 0);
+      border-radius: 0;
       height: auto;
+
+      @include m(left) {
+        border-bottom-left-radius: $panel-radius;
+        border-top-left-radius: $panel-radius;
+      }
+
+      @include m(right) {
+        border-bottom-right-radius: $panel-radius;
+        border-top-right-radius: $panel-radius;
+      }
     }
 
     @include breakpoint(small only) {
@@ -42,7 +55,10 @@
       order: 2;
     }
 
-    h2 { @include txt-element(media-header); }
+    h2 {
+      @include txt-element(media-header);
+      margin-bottom: $ub-base-margin;
+    }
     &, p { @include txt-element(media-text); }
     p { @include add-gutter; }
 

@@ -39,9 +39,11 @@ $ub-element-typography: (
   title-duration: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-sanserif, color: #929299),
   breadcrumbs: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
   button: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+  button-register: ('font-size': 16px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
+  button-connect: ('font-size': 15px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600, color: #433c5d),
   hero-header: ('font-size': 40px, 'line-height': 42px, 'font-family': $ub-serif, 'font-weight': 500),
   hero-text: ('font-size': 21px, 'line-height': 27px, 'font-family': $ub-sanserif),
-  media-header: ('font-size': 30px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
+  media-header: ('font-size': 30px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600, color: #585858),
   media-text: ('font-size': 24px, 'line-height': 30px, 'font-family': $ub-serif),
   subscribe-header: ('font-size': 27px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 600),
   subscribe-text: ('font-size': 21px, 'line-height': 24px, 'font-family': $ub-sanserif),
@@ -111,6 +113,8 @@ $ub-element-typography: (
   ls-post-txt: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-sanserif, 'font-weight': 500, color: #555),
   // nav search
   nav-search: ('font-size': 21px, 'line-height': 24px, 'font-family': $ub-sanserif),
+  // home page
+  st-label: ('font-size': 18px, 'line-height': 21px, 'font-family': $ub-sanserif)
 );
 
 @each $element, $typo in $ub-element-typography {
