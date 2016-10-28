@@ -176,11 +176,6 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def embed_audios
-    #urls_hash = {}
-
-    # create a client object with your app credentials
-    # client = Soundcloud.new(client_id: ENV['SOUNDCLOUD_CLIENT_ID'])
-
     podcast_links.each_with_index do |a, index|
       url = a[:href]
       resource = Resource.find_podcast_by_url(url)
@@ -196,22 +191,6 @@ class ContentGuidePresenter < BasePresenter
 
       a.replace(media)
     end
-
-    #return if urls_hash.empty?
-
-    # doc << doc.document.create_element('script', src: 'https://connect.soundcloud.com/sdk/sdk-3.0.0.js')
-    # doc << doc.document.create_element('script', src: 'https://w.soundcloud.com/player/api.js')
-    #
-    # script = doc.document.create_element('script')
-    # script.content = "SC.initialize({ client_id: '#{ENV['SOUNDCLOUD_CLIENT_ID']}' });\n"
-    #
-    # urls_hash.each do |id, url|
-    #   script.content += "SC.oEmbed('#{url}', { element: document.getElementById('#{id}') });\n"
-    # end
-    #
-    # script.content += "window.initializeSoundCloud();\n"
-    #
-    # doc << script
   end
 
   def embed_videos
@@ -677,7 +656,10 @@ class ContentGuidePresenter < BasePresenter
         span.replace(span.inner_html)
       else
         # change height to auto, critical for responsive, especially if subelement is image
-        span[:style] = span[:style].gsub(/height:\s*[\w\.]+;?\s*/i, 'height:auto;') if span[:style].present?
+        if span[:style].present?
+          span[:style] = span[:style].gsub(/height:\s*[\w\.]+;?\s*/i, 'height:auto;')
+          span[:style] = span[:style].gsub(/width:\s*[\w\.]+;?\s*/i, 'width:auto;') if span.xpath('./img').present?
+        end
       end
     end
   end
