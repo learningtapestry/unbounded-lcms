@@ -63,9 +63,7 @@ module WordFilesProcessor
     end
 
     def remove_all!
-      # Disabled for now!
-      # @resource.downloads = []
-      # @resource.save!
+      ResourceDownload.where(resource_id: @resource.id).delete_all if @resource
     end
   end
 end
