@@ -3,6 +3,7 @@ $(function () {
   let lastScrollTop = 0;
   let isScrolling = false;
   const SCROLLING_THRESHOLD = 15;
+  const SCROLLING_TOPBUTTON_OFFSET = 300;
 
   function clearStates() {
     lastScrollTop = 0;
@@ -24,16 +25,9 @@ $(function () {
   }
 
   function initTopScrollButton() {
-    $(window).scroll(function() {
-      if ( $(window).scrollTop() > 300 ) { /* amound scrolled */
-        $('.o-top-scroll-button').fadeIn('slow');
-      } else {
-        $('.o-top-scroll-button').fadeOut('slow');
-      }
-      });
-      $('.o-top-scroll-button').click(function() {
-        $('html, body').animate({ scrollTop: 0 }, 700);
-        return false;
+    $('.o-top-scroll-button').click(() => {
+      $('html, body').animate({ scrollTop: 0 }, 700);
+      return false;
     });
   }
 
@@ -97,6 +91,14 @@ $(function () {
     lastScrollTop = st;
   }
 
+  function updateTopScrollButton() {
+    if ($(document).scrollTop() > SCROLLING_TOPBUTTON_OFFSET) {
+      $('.o-top-scroll-button').fadeIn('slow');
+    } else {
+      $('.o-top-scroll-button').fadeOut('slow');
+    }
+  }
+
   function handleScroll(headings, e) {
     if (Foundation.MediaQuery.atLeast('ipad')) {
       clearStates();
@@ -104,6 +106,7 @@ $(function () {
     } else {
       updateSticky(headings);
     }
+    updateTopScrollButton();
   }
 
   function setScrollingState(state) {
