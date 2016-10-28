@@ -39,9 +39,9 @@ module WordFilesProcessor
 
     def add_files_to_unit
       # first remove all unit files
-      # rh = ResourceHandler.new(files.first, context)
-      # rh.report filename: nil, action: 'remove'
-      # rh.remove_all!
+      rh = ResourceHandler.new(files.first, context)
+      rh.report filename: nil, action: 'remove'
+      rh.remove_all!
 
       files.each do |file|
         rh = ResourceHandler.new(file, context)
