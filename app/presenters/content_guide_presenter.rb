@@ -636,6 +636,7 @@ class ContentGuidePresenter < BasePresenter
   def wrap_tables
     margin_left_right_regex = /margin-\w+t:\s*[\w\.]+;?\s*/i
     doc.css('table').each do |table|
+      next if table.ancestors('.c-cg-scroll-wrap').present?
       wrap_style = ''
       # move margin-left/right styles to the wrapper to make possible to set table width as 100%
       table[:style] = (table[:style] || '').gsub(margin_left_right_regex) do |m|
