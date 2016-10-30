@@ -52,12 +52,12 @@ class ExploreCurriculumCardItem extends React.Component {
     );
 
     const cssDownloadBtnClasses = classNames(
-      "o-ub-btn", "o-ub-btn--bordered",
+      "o-ub-btn", "o-ub-btn--bordered", "o-ub-btn--curriculum",
       {"o-ub-btn--disabled": !hasDownloads }
     );
 
     const cssRelatedBtnClasses = classNames(
-      "o-ub-btn", "o-ub-btn--bordered",
+      "o-ub-btn", "o-ub-btn--bordered", "o-ub-btn--curriculum",
       {"o-ub-btn--disabled": !hasRelated }
     );
 
@@ -67,7 +67,7 @@ class ExploreCurriculumCardItem extends React.Component {
 
     const cssHeaderClasses = classNames(
       `cs-txt--${colorCode}`,
-      {"o-title__type": props.shouldItemExpand},
+      {"o-title__type o-title__type--top-align": props.shouldItemExpand},
       {"o-title__type--short": !props.shouldItemExpand }
     );
 
@@ -97,7 +97,7 @@ class ExploreCurriculumCardItem extends React.Component {
         <div className={cssActionClasses}>
           <ul className="o-cur-card__menu o-cur-card__menu--medium o-cur-card--show-medium">
             <li>
-              <a className="o-ub-btn o-ub-btn--yellow" href={resource.path}>
+              <a className="o-ub-btn o-ub-btn--yellow o-ub-btn--subtle" href={resource.path}>
                 View Details
               </a>
             </li>

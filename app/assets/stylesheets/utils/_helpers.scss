@@ -30,6 +30,20 @@ $text-sizes: (
 
 .u-float-none { float: none !important;}
 
+$border-radius-aligns: (top-left, bottom-left, top-right, bottom-right);
+@each $border-radius-align in $border-radius-aligns {
+  .u-br-#{$border-radius-align}--base {
+    border-#{$border-radius-align}-radius: $global-radius;
+  }
+}
+$border-radius-sides: (top, bottom);
+@each $border-radius-side in $border-radius-sides {
+  .u-br-#{$border-radius-side}--base {
+    border-#{$border-radius-side}-left-radius: $global-radius;
+    border-#{$border-radius-side}-right-radius: $global-radius;
+  }
+}
+
 $margins: (
   'zero': 0,
   'xs': $ub-small-margin * .7,
