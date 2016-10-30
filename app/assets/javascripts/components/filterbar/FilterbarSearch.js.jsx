@@ -40,7 +40,7 @@ class FilterbarSearch extends React.Component {
             onChange={e => { pushToBus('change')(e); this.handleChange(e); }}
             ref={r => this.input = r}
           />
-          <i className="fa-lg ub-search o-filterbar-search__icon"></i>
+          <i className="ub-search o-filterbar-search__icon"></i>
         </div>
       </div>);
   }

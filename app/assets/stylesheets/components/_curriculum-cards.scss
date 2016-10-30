@@ -87,7 +87,7 @@ $ub-cur-card-margin: 2px;
     }
 
     @include m(medium) {
-      margin-top: -2px;
+      margin-top: -1px;
     }
 
     @include breakpoint(medium down) {
@@ -190,7 +190,7 @@ $ub-cur-card-margin: 2px;
   }
 
   @include m(grade) {
-    margin-bottom: $ub-xlarge-margin;
+    @include add-gutter(margin, bottom, 1);
   }
 
   @include m(show-medium)  {
