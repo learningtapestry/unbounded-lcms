@@ -62,15 +62,26 @@ module WordFilesProcessor
       end
     end
 
-    def create_db_assoc!(s3_file=nil)
+    def create_db_assoc!(s3_file: nil, category: nil)
       s3_file ||= @file
       title = s3_file.basename.gsub(/\.\w+$/, '') # file name without extension
-      @resource.downloads << Download.create(file: s3_file.filepath.open, title: title)
+      download = Download.create(file: s3_file.filepath.open, title: title)
+      @resource.downloads << download
+      add_category_to_download(download, category) if category
+
       if pdf_dir
         pdf_filename = pdf_dir.join(s3_file.basename.to_s.gsub('.docx', '.pdf'))
-        @resource.downloads << Download.create(file: pdf_filename.open, title: title)
+        download = Download.create(file: pdf_filename.open, title: title)
+        @resource.downloads << download
+        add_category_to_download(download, category) if category
       end
+
       @resource.save!
+    end
+
+    def add_category_to_download(download, category)
+      dr = ResourceDownload.find_by(download_id: download.id)
+      dr.update_attributes download_category_id: DownloadCategory.find_by(name: category).id
     end
 
     def remove_all!
