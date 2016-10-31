@@ -1,4 +1,4 @@
-$logo-width: 160px;
+$logo-width: 143px;
 $footer-padding: 5px;
 
 .c-footer {
@@ -12,8 +12,8 @@ $footer-padding: 5px;
     padding-top: $ub-large-padding;
 
     @include breakpoint(medium) {
-      padding-bottom: $ub-base-padding;
-      padding-top: $ub-large-padding;
+      padding-bottom: $ub-large-padding;
+      padding-top: $ub-xlarge-padding * 1.2;
     }
   }
 

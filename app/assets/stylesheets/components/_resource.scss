@@ -76,8 +76,9 @@
 }
 
 .o-resource-hr {
-  @include add-gutter($subtype: bottom);
-  @include add-gutter($subtype: top);
+  @include add-gutter($subtype: bottom, $x: 4/3);
+  @include add-gutter($subtype: top, $x: 4/3);
+  border-bottom: 1px solid #b2b2b2;
 }
 
 .o-resource {

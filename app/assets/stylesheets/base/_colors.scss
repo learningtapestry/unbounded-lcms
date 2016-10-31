@@ -28,6 +28,7 @@ $ub-gray-gradient: linear-gradient(to bottom, #d9d9d9, #c4c3c4);
 $ub-txt-colors: (
   base: $ub-txt,
   light: #b3b3b3,
+  gray: #898989,
   h1: $ub-heading-txt,
   h2: #333,
   h3: $ub-heading-txt,
@@ -47,7 +48,7 @@ $ub-mignight: (
 
 $ub-yellow: (
   base: #ffbf00,
-  eighty: #ffcc33,
+  eighty: #fc3,
   sixty: #ffd966,
   forty: #ffe599,
   twenty: #fff2cc

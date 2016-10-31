@@ -39,7 +39,7 @@
           <% end %>
         <% end %>
       </div>
-      <div class="o-page__section cs-bg--<%= @resource.color_code(@grade_color_code) %>">
+      <div class="o-page__section cs-bg--<%= @resource.color_code(@grade_color_code) %> u-br-top-right--base">
         <div class="o-content-title u-text--capitalized">
           <%
             @curriculum.self_and_ancestors.reverse.each_with_index do |ancestor, idx|
@@ -57,7 +57,7 @@
           <% end %>
         </div>
       </div>
-      <div class="o-page__section u-padding-top--gutter u-bg--light">
+      <div class="o-page__section u-padding-top--gutter u-bg--light u-br-top-right--base u-br-bottom--base">
         <div class="o-resource-title">
           <div class="o-resource-title__title">
             <div class="o-title u-text--uppercase">
@@ -86,7 +86,7 @@
               <strong><%= @curriculum.subject_and_grade_title %> Curriculum Map</strong>
             </div>
             <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum, color_code: @resource.color_code(@grade_color_code) } %>
-            <%= render partial: 'shared/social_sharing', locals: { resource: @resource, cl: 'u-margin-top--gutter' } %>
+            <%= render partial: 'shared/social_sharing', locals: { resource: @resource, cl: 'u-margin-top--base' } %>
           </div>
           <div class="o-resource-summary__content">
             <div class="o-resource__item o-resource__item--description">
@@ -130,7 +130,7 @@
           </div>
         </div>
         <% if !@curriculum.lesson? %>
-          <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code(@grade_color_code) %>">
+          <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code(@grade_color_code) %> u-br-bottom--base">
             <div class="o-resource-summary__map o-resource-summary__map--2x"></div>
             <div class="o-resource-summary__content--2x">
               <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum, color_code: @resource.color_code } %>

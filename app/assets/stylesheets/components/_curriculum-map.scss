@@ -47,7 +47,7 @@
 
 @mixin curriculum-map-layout($lesson-size: 10px, $lesson-margin: 4px, $lessons-in-row: 4,
                       $units-in-row: 3, $units-margin: 0, $module-height: 15px,
-                      $module-margin: $ub-xs-padding, $module-padding: $ub-tiny-padding $ub-xs-padding,
+                      $module-margin: 8px, $module-padding: $ub-tiny-padding $ub-xs-padding,
                       $unit-margin-type: top,
                       $width: map-get($curriculum-map-width, base)) {
 
@@ -72,7 +72,7 @@
   }
 
   @include e(units-wrap) {
-    margin-top: $units-margin;
+    margin-top: if($units-margin == 'same', $unit-padding + $lesson-margin - $module-margin, $units-margin);
   }
 
   @include e(units) {
@@ -102,7 +102,8 @@
   @extend .u-margin-top--small;
   @include curriculum-map-base;
   @include curriculum-map-layout($lesson-size: 12px,
-                                 $unit-margin-type: bottom
+                                 $unit-margin-type: bottom,
+                                 $units-margin: 'same'
                                  );
 }
 
@@ -111,6 +112,7 @@
 
   @include e(details) {
     @extend %map-transition;
+    font-style: italic;
   }
 
   @include m(medium) {

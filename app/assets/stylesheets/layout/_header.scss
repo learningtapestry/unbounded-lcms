@@ -137,7 +137,7 @@
   @include e(logo) {
     @include add-column-padding;
     @include breakpoint($topbar-unstack-breakpoint) {
-
+      img { margin-top: .4rem; }
     }
   }
 

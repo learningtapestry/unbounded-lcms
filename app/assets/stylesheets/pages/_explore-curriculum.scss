@@ -7,13 +7,17 @@
     //transition: all .5s cubic-bezier(0, 1, .5, 1);
 
     @include m(expanded) {
-      margin-bottom: $ub-large-margin;
-      margin-top: $ub-large-margin;
+      @include add-gutter(margin, bottom, 2);
+      @include add-gutter(margin, top, 1);
     }
 
     @include m(lessons) {
       @include flex-grid-row(nest);
       @include add-gutter(margin, left, .5);
+
+      &.c-ec-cards__children--expanded {
+        @include add-gutter(margin, bottom, 1);
+      }
     }
   }
 }
