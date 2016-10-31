@@ -23,15 +23,27 @@ class AssociationPicker extends React.Component {
     const picker = React.createElement(AssociationPickerWindow, {
       onSelectItem: this.selectItem.bind(this),
       association: this.props.association,
-      allowCreate: this.props.allow_create
+      allowCreate: this.props.allow_create,
+      allowMultiple: this.props.allow_multiple,
+      onClickDone: this.closeModal.bind(this),
+      selectedItems: this.state.items
     }, null);
     ReactDOM.render(picker, this.modal);
     this.jqmodal.foundation('open');
   }
 
-  selectItem(item) {
-    this.jqmodal.foundation('close');
+  selectItem(item, operation) {
+    if (!this.props.allow_multiple) {
+      this.closeModal();
+    }
+    operation == 'added' ? this.addItem(item) : this.removeItem(item);
+  }
 
+  closeModal() {
+    this.jqmodal.foundation('close');
+  }
+
+  addItem(item) {
     const newItems = this.props.allow_multiple ?
       [...this.state.items, item] :
       [item];
