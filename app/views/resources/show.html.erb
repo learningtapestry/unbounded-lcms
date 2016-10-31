@@ -96,8 +96,11 @@
             <div id="resource-downloads-list" class="o-resource__item">
               <h3>Downloads</h3>
               <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= @resource.color_code %>">
-                <% @resource.downloads.each do |download| %>
-                  <%= render partial: 'resources/download', locals: { download: download, curriculum: @curriculum } %>
+                <% @resource.download_categories.each do |k, downloads| %>
+                  <strong><%= k %></strong>
+                  <% downloads.each do |download| %>
+                    <%= render partial: 'resources/download', locals: { download: download.download, curriculum: @curriculum } %>
+                  <% end %>
                 <% end %>
                 <% if @resource.downloads.empty? %>
                   <span>There are no downloads for this resource</span>
