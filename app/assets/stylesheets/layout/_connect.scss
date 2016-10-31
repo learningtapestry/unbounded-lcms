@@ -10,6 +10,7 @@
   h2 {
     @include txt-element(connect-header);
     color: #ededed;
+    margin-bottom: 0;
     text-transform: uppercase;
   }
 
@@ -25,6 +26,7 @@
   @include e(dsc) {
     @include txt-element(connect-text);
     //flex: 1 1 auto;
+    margin-bottom: 1.5rem;
     padding-right: $ub-base-padding;
   }
 

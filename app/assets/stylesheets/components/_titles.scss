@@ -5,6 +5,12 @@
     @include m(short) {
       @include txt-element(title-type-short);
     }
+
+    @include m(top-align) {
+      display: inline-flex;
+      line-height: 1;
+      vertical-align: top;
+    }
   }
 
   @include e(duration) {

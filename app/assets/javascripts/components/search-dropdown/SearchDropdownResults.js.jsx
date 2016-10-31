@@ -1,5 +1,6 @@
 function SearchDropdownResults(props) {
   const resultCls = 'o-search-dropdown-result';
+  const resultMoreCls = 'o-search-dropdown-result o-search-dropdown-result--more';
 
   if (props.resources.length == 0) {
     if (props.isSearching) {
@@ -19,7 +20,7 @@ function SearchDropdownResults(props) {
   });
 
   const showMore = (
-    <a className={resultCls}
+    <a className={resultMoreCls}
       href={Routes.search_path({ search_term: props.search_term })}>
       Show more results...
     </a>
