@@ -29,11 +29,11 @@ module WordFilesProcessor
     end
 
     def add_files_to_module
-      category  = dirname.ends_with?(c = "Rubrics and Tools") ? c : nil
+      category  = dirname.ends_with?('Rubrics and Tools') ? 'rubrics_and_tools' : nil
       files.each do |file|
         rh = ResourceHandler.new(file, context)
         rh.report category: category, action: 'add'
-        rh.create_db_assoc!
+        rh.create_db_assoc!(category: category)
       end
     end
 
@@ -51,8 +51,7 @@ module WordFilesProcessor
     end
 
     def add_files_to_lessons
-      c = "Rubrics and Tools"
-      category = dirname == c ? c : nil
+      category = (dirname == 'Rubrics and Tools') ? 'rubrics_and_tools' : nil
       subject = context[:subject]
 
       files.each do |file|
@@ -61,7 +60,7 @@ module WordFilesProcessor
 
         rh = ResourceHandler.new(file, context)
         rh.report category: category, filename_old: file.basename, filename: new_file.basename, action: 'add'
-        rh.create_db_assoc!(new_file)
+        rh.create_db_assoc!(category: category, s3_file: new_file)
       end
     end
   end
