@@ -31,8 +31,37 @@ module WordFilesProcessor
     end
 
     def find_by_introspection
-      # unnecessary for now. Look on https://github.com/learningtapestry/unbounded/issues/411 for more info on this
-      nil
+      # Grade
+      curr = Curriculum.grades
+                       .where_grade("grade #{context[:grade]}")
+                       .where_subject(context.fetch(:subject, 'ela').downcase)
+                       .where(parent: nil).first
+
+      # Module
+      if context[:module]
+        mod = curr.children.select do |c|
+          c.resource.short_title =~ /^module #{context[:module]}$/
+        end.first.try(:item)
+        curr = mod if mod
+      end
+
+      # Unit
+      if context[:unit]
+        unit = curr.children.select do |c|
+          c.resource.short_title =~ /^unit #{context[:unit]}$/
+        end.first.try(:item)
+        curr = unit if unit
+      end
+
+      # Lesson
+      if context[:lesson]
+        lesson = curr.children.select do |c|
+          c.resource.short_title =~ /^lesson #{context[:lesson]}$/
+        end.first
+        curr = lesson if lesson
+      end
+
+      curr
     end
 
     def find!
