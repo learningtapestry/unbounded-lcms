@@ -57,7 +57,7 @@
           <% end %>
         </div>
       </div>
-      <div class="o-page__section u-padding-top--gutter u-bg--light u-br-top-right--base">
+      <div class="o-page__section u-padding-top--gutter u-bg--light u-br-top-right--base u-br-bottom--base">
         <div class="o-resource-title">
           <div class="o-resource-title__title">
             <div class="o-title u-text--uppercase">
@@ -127,7 +127,7 @@
           </div>
         </div>
         <% if !@curriculum.lesson? %>
-          <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code(@grade_color_code) %> u-br-border--base">
+          <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code(@grade_color_code) %> u-br-bottom--base">
             <div class="o-resource-summary__map o-resource-summary__map--2x"></div>
             <div class="o-resource-summary__content--2x">
               <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum, color_code: @resource.color_code } %>
