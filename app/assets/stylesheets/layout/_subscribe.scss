@@ -19,7 +19,7 @@
     @include add-top-bottom-padding($y: .5);
     color: map-get($ub-mignight, base);
 
-    @include breakpoint(medium) {
+    @include breakpoint(ipad) {
       @include flex-grid-column(4, 0);
       @include add-top-bottom-padding(0);
       @include add-column-padding($x: 0);
@@ -33,6 +33,9 @@
     margin-bottom: 0;
     input {
       @include txt-element(subscribe-text);
+      flex: 0 1 auto;
+      height: auto;
+      margin: 0;
       padding: 1.5rem 1rem 1.5rem 2rem;
       &, &:focus {
         background-color: $ub-subscribe-form-bg;
@@ -55,6 +58,7 @@
   }
   @include e(submit) {
     display: flex !important;
+    flex: 1 1 0;
     button {
       @include button($background: $ub-subscribe-form-bg, $background-hover: auto, $color: $ub-txt);
       margin: 0;

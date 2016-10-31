@@ -40,6 +40,19 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers
+  after_rails:
+    - command: cd $STACK_PATH && chgrp -R app_writers tmp && chown -R nginx:app_writers tmp && chmod 775 tmp && chmod g+s tmp && chmod -R g+rw tmp
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
+      sudo: true
+    - command: cd $STACK_PATH && chgrp -R app_writers public && chown -R nginx:app_writers public && chmod 775 public && chmod g+s public && chmod -R g+rw public
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
+      sudo: true
 staging:
   <<: *production
   after_symlink:
