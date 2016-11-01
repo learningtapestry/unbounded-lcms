@@ -62,6 +62,7 @@
 
   @include m(register) {
     @include ub-button-hollow($background: $ub-white, $color: $ub-white, $color-hover: $ub-primary);
+    @include txt-element(button-register);
   }
 
   @include m(expand) {
@@ -81,9 +82,19 @@
     @include button-hollow-style($ub-btn-base);
   }
 
+  @include m(curriculum) {
+    box-shadow: none;
+    color: map-get($ub-txt-colors, gray);
+  }
+
   @include m(connect) {
     @include button-style($background: $ub-nav-link, $background-hover: auto, $color: $ub-primary);
+    @include txt-element(button-connect);
     margin-bottom: 0;
+  }
+
+  @include m(subtle) {
+     text-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
   }
 
   @include m(disabled) {

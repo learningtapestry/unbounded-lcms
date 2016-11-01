@@ -83,7 +83,10 @@ $arrow-btn: (
 .c-ls-cblock {
   width: 100%;
 
-  h2 { @include txt-element(media-header); }
+  h2 {
+    @include txt-element(media-header);
+    margin-bottom: $ub-base-margin;
+  }
   &, p { @include txt-element(media-text); }
   p { @include add-gutter; }
 
