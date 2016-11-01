@@ -101,6 +101,10 @@ $grid-column-2xgutter: (
   small: 40px,
   medium: 60px,
 );
+$grid-column-4xgutter: (
+  small: 2 * 40px,
+  medium: 2 * 60px,
+);
 $grid-column-align-edge: true;
 $block-grid-max: 8;
 

@@ -10,6 +10,10 @@
   display: block;
   font-size: 1.2rem;
   padding: 1rem;
+
+  @include m(more) {
+    font-style: italic;
+  }
 }
 
 .o-search-dropdown-result:hover,

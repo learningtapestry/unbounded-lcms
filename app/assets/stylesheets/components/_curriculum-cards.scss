@@ -83,7 +83,7 @@ $ub-cur-card-margin: 2px;
     h3 { margin-bottom: 0; }
 
     @include m(short) {
-      margin-top: -5px;
+      margin-top: -6px;
     }
 
     @include m(medium) {
@@ -190,7 +190,7 @@ $ub-cur-card-margin: 2px;
   }
 
   @include m(grade) {
-    margin-bottom: $ub-xlarge-margin;
+    @include add-gutter(margin, bottom, 1);
   }
 
   @include m(show-medium)  {
