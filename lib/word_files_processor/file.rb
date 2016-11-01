@@ -30,7 +30,9 @@ module WordFilesProcessor
     # @param [Hash] extra_fields
     def recommended_filename(extra_fields: {})
       return "" unless template
-      fname = template[:format] % filename_fragments.merge(extra_fields)
+      fragments = filename_fragments.merge(extra_fields)
+      fragments[:topic] = fragments[:topic].titleize if fragments[:topic]
+      fname = template[:format] % fragments
       fname.strip
     end
 
@@ -55,7 +57,19 @@ module WordFilesProcessor
           format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit}, Lesson %{lesson}.%{ext}",
         },
         {
+          regex: /(?<subject>math|ela)?\s?Grade (?<grade>[0-9]+) Module (?<module>[0-9]+[A-Z]*)(, Unit (?<unit>[0-9]+))?(, Lesson (?<lesson>[0-9]+))?\.(?<ext>docx|doc|pdf)/i,
+          format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit}, Lesson %{lesson}.%{ext}",
+        },
+        {
           regex: /(?<topic>.*)_(?<grade>[0-9]+)\.(?<module>[0-9]+[A-Z]*)\.(?<unit>[0-9]+)\.l(?<lesson>[0-9]{1,2})\.(?<ext>docx|doc|pdf)/i,
+          format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit}, Lesson %{lesson} - %{topic}.%{ext}",
+        },
+        {
+          regex: /(?<subject>math|ela)-g(?<grade>\d+)-m(?<module>[0-9]+[A-Z]*)-unit-(?<unit>[0-9]+)-lesson-(?<lesson>[0-9]{1,2})\.(?<ext>docx|doc|pdf)/i,
+          format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit}, Lesson %{lesson}.%{ext}",
+        },
+        {
+          regex: /(?<subject>math|ela)-g(?<grade>\d+)-m(?<module>[0-9]+[A-Z]*)-unit-(?<unit>[0-9]+)-lesson-(?<lesson>[0-9]{1,2})-(?<topic>.*)\.(?<ext>docx|doc|pdf)/i,
           format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit}, Lesson %{lesson} - %{topic}.%{ext}",
         },
       ]

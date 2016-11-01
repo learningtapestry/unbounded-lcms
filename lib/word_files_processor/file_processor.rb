@@ -29,7 +29,14 @@ module WordFilesProcessor
     end
 
     def add_files_to_module
-      category  = dirname.ends_with?('Rubrics and Tools') ? 'rubrics_and_tools' : nil
+      category = if dirname.ends_with?('Rubrics and Tools')
+                   'rubrics_and_tools'
+                 elsif dirname.ends_with?('Texts')
+                   'texts'
+                 else
+                   nil
+                 end
+
       files.each do |file|
         rh = ResourceHandler.new(file, context)
         rh.report category: category, action: 'add'
@@ -51,7 +58,14 @@ module WordFilesProcessor
     end
 
     def add_files_to_lessons
-      category = (dirname == 'Rubrics and Tools') ? 'rubrics_and_tools' : nil
+      category = if dirname == 'Rubrics and Tools'
+                   'rubrics_and_tools'
+                 elsif dirname == 'Texts'
+                   'texts'
+                 else
+                   nil
+                 end
+
       subject = context[:subject]
 
       files.each do |file|
