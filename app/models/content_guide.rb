@@ -212,7 +212,7 @@ class ContentGuide < ActiveRecord::Base
   def download_images(doc)
     doc.css('img').each do |img|
       url = img[:src]
-      if (image = ContentGuideImage.find_or_create_by_original_url(value))
+      if (image = ContentGuideImage.find_or_create_by_original_url(url))
         img[:src] = image.file.url
       end
     end
