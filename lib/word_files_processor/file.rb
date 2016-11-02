@@ -61,6 +61,10 @@ module WordFilesProcessor
           format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit}, Lesson %{lesson}.%{ext}",
         },
         {
+          regex: /Grade (?<grade>[0-9]+) (?<subject>math|ela) Module (?<module>[0-9]+[A-Z]*), Unit (?<unit>[0-9]+) \- (?<topic>.*)\.(?<ext>docx|doc|pdf)/i,
+          format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit} - %{topic}.%{ext}",
+        },
+        {
           regex: /(?<topic>.*)_(?<grade>[0-9]+)\.(?<module>[0-9]+[A-Z]*)\.(?<unit>[0-9]+)\.l(?<lesson>[0-9]{1,2})\.(?<ext>docx|doc|pdf)/i,
           format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit}, Lesson %{lesson} - %{topic}.%{ext}",
         },
@@ -71,6 +75,11 @@ module WordFilesProcessor
         {
           regex: /(?<subject>math|ela)-g(?<grade>\d+)-m(?<module>[0-9]+[A-Z]*)-unit-(?<unit>[0-9]+)-lesson-(?<lesson>[0-9]{1,2})-(?<topic>.*)\.(?<ext>docx|doc|pdf)/i,
           format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit}, Lesson %{lesson} - %{topic}.%{ext}",
+        },
+        {
+          regex: /(?<subject>math|ela)-g(?<grade>\d+)-m(?<module>[0-9]+[A-Z]*)-(?<topic>.*)-unit-(?<unit>[0-9]+)-lesson-(?<lesson>[0-9]{1,2})\.(?<ext>docx|doc|pdf)/i,
+          format: "%{subject} Grade %{grade} Module %{module}, Unit %{unit}, Lesson %{lesson} - %{topic}.%{ext}",
+
         },
       ]
     end
