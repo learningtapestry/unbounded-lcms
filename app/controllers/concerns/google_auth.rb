@@ -17,7 +17,10 @@ module GoogleAuth
 
     remove_expired_token(redis, user_id)
 
-    credentials = authorizer.get_credentials(user_id, request)
+    credentials =
+      begin authorizer.get_credentials(user_id, request)
+      rescue Signet::AuthorizationError
+      end
 
     if credentials
       @google_credentials = credentials
