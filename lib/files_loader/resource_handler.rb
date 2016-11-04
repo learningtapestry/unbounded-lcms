@@ -29,7 +29,8 @@ module FilesLoader
         mod = curr.children.select do |c|
           (
             c.resource.short_title.match(/^module #{context[:module]}$/) ||
-            c.resource.short_title.match(/^literary criticism$/i) ||
+            (context[:module] == 'LC' && c.resource.short_title.match(/^literary criticism$/i)) ||
+            (context[:module] == 'EM' && c.resource.short_title.match(/^extension module$/i)) ||
             c.resource.short_title == context[:module]
           )
         end.first.try(:item)
@@ -42,6 +43,8 @@ module FilesLoader
           c.resource.short_title =~ /^unit #{context[:unit]}$/
         end.first.try(:item)
         curr = unit if unit
+      elsif !context[:unit] && curr.children.count == 1
+        curr = curr.children.first.try(:item)
       end
 
       # Lesson
@@ -98,7 +101,7 @@ module FilesLoader
 
     # Find the corresponding pdf file this file
     def pdf_file
-      pdf = pdfs.select do |f|
+      pdfs.select do |f|
         fname = Pathname.new(f).basename.to_s
         # The pdf name should be equal to either the new or the old filenames
         (filename_without_ext(fname) == filename_without_ext(context[:filename]) ||
