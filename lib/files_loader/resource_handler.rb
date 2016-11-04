@@ -27,7 +27,11 @@ module FilesLoader
       # Module
       if context[:module]
         mod = curr.children.select do |c|
-          c.resource.short_title =~ /^module #{context[:module]}$/
+          (
+            c.resource.short_title.match(/^module #{context[:module]}$/) ||
+            c.resource.short_title.match(/^literary criticism$/i) ||
+            c.resource.short_title == context[:module]
+          )
         end.first.try(:item)
         curr = mod if mod
       end
