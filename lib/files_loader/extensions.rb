@@ -34,10 +34,10 @@ module FilesLoader
     class ELA_G12_LC < ModuleExt
       def before_process
         # Remove zip folders from LC units
-        breadcrumb = 'EL / G12 / LC'
-        curr = Curriculum.trees.find_by(breadcrumb_short_title: breadcrumb)
+        grade = Curriculum.trees.find_by(breadcrumb_short_title: 'EL / G12')
+        mod = grade.children.select { |c| c.resource.short_title =~ /literary criticism/i }.first
 
-        curr.children.each do |c| # for every unit
+        mod.children.each do |c| # for every unit
           rds = c.resource.resource_downloads.select do |rd|
             if is_zip = rd.download.title.match(/zip folder/i)
               loader.csv(
