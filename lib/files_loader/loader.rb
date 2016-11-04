@@ -93,6 +93,10 @@ module FilesLoader
       mod = path.match(/\-m(\d+)\-/i).try(:[], 1) unless mod.present?
       # ELA Grade 12 Literary Criticism Module_ Module Performance Assessment.docx
       mod = 'LC' if mod.blank? && path.match(/Literary Criticism Module/i)
+      # ELA Grade 12 Extension Module_ Performance Tool.docx
+      mod = 'EM' if mod.blank? && path.match(/Extension Module/i)
+      # ela-grade-12.ext.l1.docx
+      mod = 'EM' if mod.blank? && path.match(/\.ext\.l\d+\.(docx|doc|pdf)/)
       mod
     end
 
@@ -115,6 +119,9 @@ module FilesLoader
       topic = path.match(/(.*)_\d+\.[\d|\w]+\.\d+\.l\d+\.(docx|doc|pdf)/i).try(:[], 1) unless topic.present?
       # ELA Grade 12 Literary Criticism Module_ Module Performance Assessment
       topic = path.match(/Literary Criticism Module_ (.*)\.(docx|doc|pdf)/i).try(:[], 1) unless topic.present?
+      # ELA Grade 12 Extension Module_ Performance Tool
+      topic = path.match(/Extension Module_ (.*)\.(docx|doc|pdf)/i).try(:[], 1) unless topic.present?
+
       topic.present? ? topic : nil
     end
 
@@ -130,8 +137,15 @@ module FilesLoader
       pieces << (ctx[:subject] == 'ela' ? 'ELA ' : 'Math ')
       pieces << "Grade #{ctx[:grade]} "    if ctx[:grade]
       if ctx[:module]
-        # Ela Grade 12 Literary Criticism Module, Unit 1, Lesson 3 - Topic.docx
-        pieces << (ctx[:module] == 'LC' ? 'Literary Criticism Module' : "Module #{ctx[:module]}")
+        if ctx[:module] == 'LC'
+          # Ela Grade 12 Literary Criticism Module, Unit 1, Lesson 3 - Topic.docx
+          pieces << 'Literary Criticism Module'
+        elsif ctx[:module] == 'EM'
+          # Ela Grade 12 Extension Module, Lesson 3 - Topic.docx
+          pieces << 'Extension Module'
+        else
+          pieces << "Module #{ctx[:module]}"
+        end
       end
       pieces << ", Unit #{ctx[:unit]}"     if ctx[:unit]
       pieces << ", Lesson #{ctx[:lesson]}" if ctx[:lesson]
