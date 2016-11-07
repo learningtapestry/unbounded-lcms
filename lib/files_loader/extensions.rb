@@ -65,6 +65,20 @@ module FilesLoader
     class ELA_G12_EM < ModuleExt
       def before_process
         remove_zip_folders_from_units 'EL / G12', /extension module/i
+        add_texts_to_lessons
+      end
+
+      def add_texts_to_lessons
+        unit = Curriculum.trees.find_by(breadcrumb_title: 'ELA / G12 / EM / unit 1')
+
+        lessons = unit.children.map do |l|
+          { lesson: l.position + 1 }
+        end
+
+        loader.contexts.select { |c| c[:level] == :lesson && c[:category] == 'texts' }.each do |ctx|
+          loader.contexts.delete(ctx)
+          lessons.each { |l| loader.contexts << ctx.merge(l) }
+        end
       end
     end
   end

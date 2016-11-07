@@ -14,7 +14,7 @@ module FilesLoader
     end
 
     def find_by_breadcrumbs
-      Curriculum.trees.find_by(breadcrumb_short_title: breadcrumbs)
+      # Curriculum.trees.find_by(breadcrumb_short_title: breadcrumbs)
     end
 
     def find_by_introspection
