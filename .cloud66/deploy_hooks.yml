@@ -53,6 +53,12 @@ production: &production
       run_on: all_servers
       apply_during: all
       sudo: true
+    - command: cd $STACK_PATH && chmod 0777 -R $RAILS_STACK_PATH/tmp/uploads
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
+      sudo: true
 staging:
   <<: *production
   after_symlink:
