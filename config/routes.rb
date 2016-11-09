@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       post :reset_password, on: :member
     end
     resources :leadership_posts, except: :show
+    resources :content_guide_faqs, except: :show
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug

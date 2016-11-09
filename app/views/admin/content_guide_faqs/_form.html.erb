@@ -1,0 +1,12 @@
+<% url = @content_guide_faq.new_record? ? :admin_content_guide_faqs : admin_content_guide_faq_url(@content_guide_faq) %>
+
+<%= simple_form_for @content_guide_faq, url: url do |f| %>
+  <%= f.input :title %>
+  <%= f.input :subject, as: :select, collection: ['ela', 'math', 'lead'], include_blank: false %>
+  <%= f.input :active %>
+  <%= f.input :heading %>
+  <%= f.input :subheading, as: :text, input_html: { rows: 2 } %>
+  <%= f.input :description, as: :ckeditor, input_html: { rows: 10 } %>
+  <br />
+  <%= f.button :submit, t('ui.save'), name: nil %>
+<% end %>

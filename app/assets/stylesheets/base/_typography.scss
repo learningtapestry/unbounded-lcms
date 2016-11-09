@@ -101,11 +101,16 @@ $ub-element-typography: (
   download-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 600, color: $ub-primary1),
   download-copyright: ('font-size': 11px, 'line-height': 14px, 'font-family': $ub-sanserif, color: #929299),
   // content guides
+  cg-teaser: ('font-size': 16px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600, 'text-shadow': 1px 1px 1px rgba(0, 0, 0, .1)),
+  cg-title: ('font-size': 34px, 'line-height': 35px, 'font-family': $ub-serif, 'font-weight': 500, 'text-shadow': 1px 1px 1px rgba(0, 0, 0, .1)),
   cg-sidebar-title-type: ('font-size': 14px, 'line-height': 24px, 'font-family': $ub-serif, 'font-weight': 600),
   cg-sidebar-title: ('font-size': 24px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 500),
   cg-sidebar-l1: ('font-size': 18px, 'line-height': 20px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500),
   cg-sidebar-l2: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500),
   cg-sidebar-l3: ('font-size': 15px, 'line-height': 20px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500),
+  cg-faq-title: ('font-size': 24px, 'line-height': 26px, 'font-family': $ub-serif, 'font-weight': 600, color: #555),
+  cg-faq-body: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
+  cg-faq-q: ('font-size': 44px, 'line-height': 107px, 'font-family': $ub-serif, 'font-weight': 600),
   // leaderhsip
   ls-subhead: ('font-size': 20px, 'line-height': 23px, 'font-family': $ub-serif, 'font-weight': 600, color: map-get($ub-leadership, base)),
   ls-post-title: ('font-size': 18px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600, color: map-get($ub-leadership, base)),

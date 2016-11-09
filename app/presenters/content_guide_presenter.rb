@@ -75,6 +75,10 @@ class ContentGuidePresenter < BasePresenter
     headings
   end
 
+  def faq_ref
+    @doc.css('h1.c-cg-heading').last.try(:attr, 'id')
+  end
+
   def html
     process_doc
     doc.to_s.html_safe
@@ -653,6 +657,7 @@ class ContentGuidePresenter < BasePresenter
     span_meaning_styles_regex = /(text-decoration|display|width|font-style|font-weight|color)/
     doc.css('p span').each do |span|
       # remove excessive spans
+      span[:style] = span[:style].gsub(/color:\s*[#0]+\s*(;|$)/, '') if span[:style].present?
       if span[:class].blank? && (span[:style] =~ span_meaning_styles_regex).nil?
         span.replace(span.inner_html)
       else
@@ -668,7 +673,8 @@ class ContentGuidePresenter < BasePresenter
   protected
 
   def process_content
-    @wrap_keywords ? wrap_keywords(content) : content
+    content_ext = content + (faq.try(:description) || '')
+    @wrap_keywords ? wrap_keywords(content_ext) : content_ext
   end
 
   def process_doc

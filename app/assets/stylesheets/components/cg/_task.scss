@@ -24,10 +24,9 @@
   }
 
   @include e(toggler) {
+    @include txt-element(button);
     cursor: pointer;
     display: block;
-    font-size: 0.875rem;
-    font-weight: bold;
     padding: .75rem 0;
     text-align: center;
   }
