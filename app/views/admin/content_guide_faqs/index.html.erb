@@ -1,0 +1,31 @@
+<div class=o-page>
+  <div class=clearfix>
+    <div class=pull-right>
+      <%= link_to t('.new_content_guide_faq'), :new_admin_content_guide_faq, class: 'btn btn-success' %>
+    </div>
+  </div>
+
+  <h2 class=text-center><%= t('.page_title') %></h2>
+
+  <table class=table>
+    <tr>
+      <th>ID
+      <th><%= ContentGuideFaq.human_attribute_name :title %>
+      <th><%= ContentGuideFaq.human_attribute_name :subject %>
+      <th><%= ContentGuideFaq.human_attribute_name :active %>
+      <th><%= t('ui.actions') %>
+    </tr>
+
+    <% @content_guide_faqs.each do |faq| %>
+      <tr id=cg_faq_<%= faq.id %>>
+        <td><%= faq.id %>
+        <td><%= link_to faq.title, edit_admin_content_guide_faq_url(faq) %>
+        <td><%= faq.subject %>
+        <td><%= faq.active %>
+        <td>
+          <%= link_to t('ui.edit'), edit_admin_content_guide_faq_url(faq), class: 'btn btn-default' %>
+          <%= button_to t('ui.delete'), admin_content_guide_faq_url(faq), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+      </tr>
+    <% end %>
+  </table>
+</div>

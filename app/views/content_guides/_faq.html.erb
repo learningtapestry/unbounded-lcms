@@ -1,0 +1,16 @@
+<div class="c-cg-faq cs-tint-bg--<%= cg.subject %>-base">
+  <div class="c-cg-faq__img u-txt--cg-faq-q cs-txt--<%= cg.subject %>-base hide-for-small-only">
+    <div>?</div>
+  </div>
+  <div class="c-cg-faq__body">
+    <div class="u-txt--cg-faq-title u-margin-bottom--gutter-half">
+      <%= cg.faq.heading %>
+    </div>
+    <p class="u-txt--cg-faq-body">
+      <%= cg.faq.subheading %>
+    </p>
+    <%= link_to "##{cg.faq_ref}", class: "o-btn o-btn--#{cg.subject}" do %>
+      <%= t('content_guide_page.view_faq') %>
+    <% end %>
+  </div>
+</div>

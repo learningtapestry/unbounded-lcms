@@ -7,7 +7,7 @@ class ContentGuide < ActiveRecord::Base
   GRADES = ['prekindergarten', 'kindergarten', 'grade 1', 'grade 2', 'grade 3', 'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9', 'grade 10', 'grade 11', 'grade 12']
   ICON_VALUES = %w(complexity instruction volume)
 
-  attr_accessor :update_metadata
+  attr_accessor :update_metadata, :faq
 
   acts_as_taggable_on :grades
 
@@ -75,6 +75,10 @@ class ContentGuide < ActiveRecord::Base
     def sort_by_grade
       includes(taggings: :tag).sort_by(&:grade_score)
     end
+  end
+
+  def faq
+    ContentGuideFaq.where_subject(subject).try(:first)
   end
 
   def grade_score

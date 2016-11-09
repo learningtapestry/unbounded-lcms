@@ -42,7 +42,7 @@
 
   .c-cg-content {
     @include e(body) {
-      a {
+      a:not(.o-btn) {
         color: map-get($map, link) !important;
         overflow-wrap: break-word;
         word-break: break-all;
