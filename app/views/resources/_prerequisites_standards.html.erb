@@ -1,0 +1,12 @@
+<% unless standards.empty? %>
+<div class="o-resource__item">
+  <h3>Prerequisites</h3>
+  <ul class="o-resource__taglist o-resource__list--<%= color_code %>">
+  <% standards.each_with_index do |standard, i| %>
+    <li>
+      <%= link_to standard, search_path(search_term: standard) %><%= ', ' if i != standards.size - 1  %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<% end %>

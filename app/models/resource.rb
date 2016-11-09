@@ -160,6 +160,12 @@ class Resource < ActiveRecord::Base
     by_category
   end
 
+  def prerequisites_standards
+    ids = StandardLink.where(standard_end_id: common_core_standards.pluck(:id))
+                      .pluck(:standard_begin_id)
+    Standard.where(id: ids).pluck(:alt_names).flatten.uniq.sort
+  end
+
   def first_tree
     curriculums.trees.first
   end
