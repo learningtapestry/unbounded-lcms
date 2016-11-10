@@ -76,10 +76,10 @@ module Search
           query: {
             bool: {
               should: [
-                { match: { 'title.full'     => {query: term, boost: 3} } },
+                { match: { 'title.full'     => {query: term, boost: 3, type: 'phrase'} } },
                 { match: { 'title.partial'  => {query: term, boost: 0.5} } },
 
-                { match: { 'teaser.full'    => {query: term, boost: 4} } },
+                { match: { 'teaser.full'    => {query: term, boost: 4, type: 'phrase'} } },
 
                 { match: { 'tag_authors.full'    => {query: term, boost: 4} } },
 
