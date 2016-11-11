@@ -18,7 +18,7 @@
     <% @staff_members.each do |staff_member| %>
       <tr id=staff_member_<%= staff_member.id %>>
         <td><%= staff_member.id %>
-        <td><%= link_to staff_member.name, admin_staff_member_path(staff_member) %>
+        <td><%= link_to staff_member.name, edit_admin_staff_member_path(staff_member) %>
         <td><%= staff_member.position %>
         <td>
           <%= link_to t('ui.edit'), edit_admin_staff_member_path(staff_member), class: 'btn btn-default' %>

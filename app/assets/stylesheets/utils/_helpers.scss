@@ -85,6 +85,9 @@ $align-types: (padding, margin);
 
 @each $align-dir in $align-directions {
   @each $align-type in $align-types {
+    .u-#{$align-type}-#{$align-dir}--gutter-half {
+      @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir}, $x: .5);
+    }
     .u-#{$align-type}-#{$align-dir}--gutter {
       @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir});
     }

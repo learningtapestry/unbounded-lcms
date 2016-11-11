@@ -48,6 +48,18 @@ en:
       new:
         page_title: Import Glossary
         submit: Import
+    content_guide_faqs:
+      create:
+        success: Content Guide Faq created successfully.
+      destroy:
+        success: Content Guide Faq deleted successfully.
+      index:
+        new_content_guide_faq: Add Content Guide Faq
+        page_title: Content Guide Faqs
+      new:
+        page_title: New Content Guide Faq
+      update:
+        success: Content Guide Faq updated successfully.
     content_guide_standards:
       index:
         page_title: Content Guide Standards
@@ -255,6 +267,7 @@ en:
       staff_members: Staff members
       leadership_posts: Leadership posts
       content_guides: Content guides
+      content_guide_faqs: Content guide FAQs
       users: Users
       validate_links: Validate Links
       glossary: Glossary
