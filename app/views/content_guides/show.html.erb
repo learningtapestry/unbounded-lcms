@@ -37,6 +37,7 @@
             <p><%= t('.broken_images') %>
           </div>
         <% end %>
+        <%= render partial: 'faq', locals: { cg: @content_guide } if @content_guide.faq.present? %>
         <%= @content_guide.html %>
       </div>
     </div>

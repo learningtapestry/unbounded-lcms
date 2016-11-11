@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161006131637) do
+ActiveRecord::Schema.define(version: 20161107140854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,20 @@ ActiveRecord::Schema.define(version: 20161006131637) do
   end
 
   add_index "content_guide_definitions", ["keyword"], name: "index_content_guide_definitions_on_keyword", unique: true, using: :btree
+
+  create_table "content_guide_faqs", force: :cascade do |t|
+    t.string   "title",                       null: false
+    t.string   "description",                 null: false
+    t.string   "subject",                     null: false
+    t.string   "heading",                     null: false
+    t.string   "subheading",                  null: false
+    t.boolean  "active",      default: false, null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "content_guide_faqs", ["active"], name: "index_content_guide_faqs_on_active", using: :btree
+  add_index "content_guide_faqs", ["subject"], name: "index_content_guide_faqs_on_subject", using: :btree
 
   create_table "content_guide_images", force: :cascade do |t|
     t.string   "file",         null: false

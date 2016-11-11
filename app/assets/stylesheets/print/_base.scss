@@ -74,13 +74,13 @@ h4 {
 .c-cg-content__body {
   p, ol, ul {
     &, * {
-        $typo: map-get($ub-pdf-typography, base);
-        @each $style, $value in $typo {
-          #{$style}: $value !important;
-        font-weight: normal;
-        orphans: 2;
-        widows: 2;
+      $typo: map-get($ub-pdf-typography, base);
+      @each $style, $value in $typo {
+        #{$style}: $value !important;
       }
+      font-weight: normal;
+      orphans: 2;
+      widows: 2;
     }
   }
 }
