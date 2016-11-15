@@ -1,7 +1,7 @@
 class CurriculumMapModule extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isHovering: false, resource: {} };
+    this.state = { isHovering: false, resource: { title: '' } };
     this._handlePopupState = this.handlePopupState.bind(this);
     this.WINDOW_BREAKPOINT = 768;
   }
@@ -28,7 +28,7 @@ class CurriculumMapModule extends React.Component {
     );
     return (
       <div>
-        <div className='o-c-map__module-wrap' ref={(m) => this.domModule = m}>
+        <div className='o-c-map__module-wrap' ref={ (m) => this.domModule = m }>
           <ResourceHover cssClasses={cssClasses}
                          styles={props.styles}
                          resource={curriculum.resource}
@@ -37,6 +37,7 @@ class CurriculumMapModule extends React.Component {
           <ResourcePreview anchor={this.domModule}
                            isHovering={this.state.isHovering}
                            resource={this.state.resource}
+                           colorCode={props.colorCode}
           />
         </div>
         <div className='o-c-map__units-wrap'>
