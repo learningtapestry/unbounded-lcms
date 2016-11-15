@@ -33,12 +33,10 @@ class CurriculumMapModule extends React.Component {
                          styles={props.styles}
                          resource={curriculum.resource}
                          resourceHtml={curriculum.resource.short_title}
-                         handlePopupState={this._handlePopupState}/>
+                         handlePopupState={this._handlePopupState} />
           <ResourcePreview anchor={this.domModule}
                            isHovering={this.state.isHovering}
-                           resource={this.state.resource}
-                           colorCode={props.colorCode}
-          />
+                           resource={this.state.resource} />
         </div>
         <div className='o-c-map__units-wrap'>
           <div className='o-c-map__units'>
