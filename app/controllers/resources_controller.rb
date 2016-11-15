@@ -42,13 +42,13 @@ class ResourcesController < ApplicationController
     end
 
     def set_index_props
-      depth = (@curriculum.unit? || @curriculum.lesson?) ? @curriculum.hierarchy.size : 1
+      full_depth = @curriculum.unit? || @curriculum.lesson?
       active_branch = @curriculum.self_and_ancestor_ids
-      target_branch = @curriculum.unit? ? @curriculum.parent.child_ids : []
+      target_branch = full_depth ? @curriculum.current_module.child_ids : []
       @props = { active: active_branch,
                  results:
                     CurriculumSerializer.new(@curriculum.current_grade,
-                                             depth: depth,
+                                             depth: full_depth ? @curriculum.hierarchy.size : 1,
                                              depth_branch: active_branch + target_branch
                                              ).as_json
                 }
