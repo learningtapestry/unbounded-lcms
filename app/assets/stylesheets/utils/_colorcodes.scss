@@ -24,6 +24,16 @@
   }
 }
 
+.cs-txt-link {
+  @each $code, $color in $ub-colorcodes {
+    @include m(#{$code}) {
+      &, &:hover, &:focus {
+        color: $color;
+      }
+    }
+  }
+}
+
 .cs-link-bg {
   @each $code, $color in $ub-colorcodes {
     @include m(#{$code}) {

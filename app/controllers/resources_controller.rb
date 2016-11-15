@@ -37,6 +37,21 @@ class ResourcesController < ApplicationController
       @grade_color_code = curriculum.try(:grade_color_code)
       @curriculum = CurriculumPresenter.new(curriculum)
       @instructions = find_related_instructions
+
+      set_index_props
+    end
+
+    def set_index_props
+      depth = (@curriculum.unit? || @curriculum.lesson?) ? @curriculum.hierarchy.size : 1
+      active_branch = @curriculum.self_and_ancestor_ids
+      target_branch = @curriculum.unit? ? @curriculum.parent.child_ids : []
+      @props = { active: active_branch,
+                 results:
+                    CurriculumSerializer.new(@curriculum.current_grade,
+                                             depth: depth,
+                                             depth_branch: active_branch + target_branch
+                                             ).as_json
+                }
     end
 
     def expanded?
