@@ -101,6 +101,13 @@
 
   }
 
+  @include e(preview) {
+    @extend %material-card;
+    border: 0;
+    padding: 1rem;
+    width: 305px;
+  }
+
   @include e(taglist) {
     @include menu-simple;
     @include menu-direction($dir: horizontal);
