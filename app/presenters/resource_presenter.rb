@@ -10,17 +10,8 @@ class ResourcePresenter < SimpleDelegator
   end
 
   def download_categories
-    default_title = h.t('resources.title.download_category')
-    download_groups = resource_downloads.group_by { |d| d.try(:download_category).try(:category_name) || default_title }
-                                        .sort_by { |k, _| k }.to_h
-                                        .transform_values { |v| v.sort_by { |d| d.download.attachment_url } }
-    return download_groups unless download_groups.key?(default_title)
-    { default_title => download_groups.delete(default_title) }.merge(download_groups)
-  end
-
-  private
-
-  def h
-    ApplicationController.helpers
+    resource_downloads.group_by { |d| d.download_category.try(:category_name) || '' }
+                      .sort_by { |k, _| k }.to_h
+                      .transform_values { |v| v.map(&:download).sort_by(&:attachment_url) }
   end
 end
