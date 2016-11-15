@@ -83,7 +83,9 @@ $ub-cur-card-margin: 2px;
     h3 { margin-bottom: 0; }
 
     @include m(short) {
-      margin-top: -6px;
+      @include breakpoint(ipad){
+        margin-top: -6px;
+      }
     }
 
     @include m(medium) {
