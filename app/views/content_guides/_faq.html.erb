@@ -6,9 +6,9 @@
     <div class="u-txt--cg-faq-title u-margin-bottom--gutter-half">
       <%= cg.faq.heading %>
     </div>
-    <p class="u-txt--cg-faq-body">
+    <div class="u-txt--cg-faq-body u-margin-bottom--base">
       <%= cg.faq.subheading %>
-    </p>
+    </div>
     <%= link_to "##{cg.faq_ref}", class: "o-btn o-btn--#{cg.subject}" do %>
       <%= t('content_guide_page.view_faq') %>
     <% end %>
