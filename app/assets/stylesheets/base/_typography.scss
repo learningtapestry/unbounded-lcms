@@ -119,7 +119,10 @@ $ub-element-typography: (
   // nav search
   nav-search: ('font-size': 21px, 'line-height': 24px, 'font-family': $ub-sanserif),
   // home page
-  st-label: ('font-size': 18px, 'line-height': 21px, 'font-family': $ub-sanserif)
+  st-label: ('font-size': 18px, 'line-height': 21px, 'font-family': $ub-sanserif),
+  // resources
+  resource-preview-title: ('font-size': 17px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 500),
+  resource-preview-body: ('font-size': 16px, 'line-height': 20px, 'font-family': $ub-sanserif)
 );
 
 @each $element, $typo in $ub-element-typography {
