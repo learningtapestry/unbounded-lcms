@@ -104,6 +104,7 @@
   @include e(preview) {
     @extend %material-card;
     border: 0;
+    background-color: $ub-tooltip;
     padding: 1rem;
     width: 305px;
   }

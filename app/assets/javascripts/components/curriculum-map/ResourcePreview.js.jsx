@@ -11,10 +11,9 @@ class ResourcePreview extends React.Component {
       let $anchorDims = Foundation.Box.GetDimensions(props.anchor);
       styles = { left: $anchorDims.offset.left + $anchorDims.width + this.hOffset,
                  top: $anchorDims.offset.top
-               };
+                };
     }
     const cssStyles = classNames( 'dropdown-pane', 'o-resource__preview',
-                                 [ `cs-tint-bg--${props.colorCode}`],
                                  { 'is-open': props.isHovering });
     const previewTitle = `${_.capitalize(props.resource.short_title)} - ${props.resource.title}`;
 
