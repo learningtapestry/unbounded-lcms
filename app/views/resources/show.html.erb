@@ -85,7 +85,7 @@
             <div class="o-resource-summary__title">
               <strong><%= @curriculum.subject_and_grade_title %> Curriculum Map</strong>
             </div>
-            <%= render partial: 'resources/curriculum_map', locals: { resource: @resource, curriculum: @curriculum, color_code: @resource.color_code(@grade_color_code) } %>
+            <%= react_component('CurriculumMap', @props, prerender: true) %>
             <%= render partial: 'shared/social_sharing', locals: { resource: @resource, cl: 'u-margin-top--base' } %>
           </div>
           <div class="o-resource-summary__content">

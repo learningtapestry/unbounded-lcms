@@ -14,10 +14,12 @@
   @include e(module) {
     @extend .u-text--small;
     @extend %map-transition;
-    color: $white;
     font-family: $ub-serif;
     font-weight: bold;
     text-transform: uppercase;
+    &, &:hover, &:focus {
+      color: $white;
+    }
   }
 
   @include e(units-wrap) {
@@ -37,6 +39,14 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
+  }
+
+  @include e(unit-title) {
+    @extend .u-text--small;
+    font-family: $ub-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
   }
 
   @include e(lesson) {
@@ -105,6 +115,12 @@
                                  $unit-margin-type: bottom,
                                  $units-margin: 'same'
                                  );
+  a {
+    display: block;
+    &, &:hover, &:focus {
+
+    }
+  }
 }
 
 .o-ch-map {
