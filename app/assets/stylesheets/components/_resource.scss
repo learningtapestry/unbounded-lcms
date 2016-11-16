@@ -102,7 +102,7 @@
   }
 
   @include e(preview) {
-    @extend %material-card;
+    @extend %popup-shadow;
     border: 0;
     background-color: $ub-tooltip;
     padding: 1rem;
