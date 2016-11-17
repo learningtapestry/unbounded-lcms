@@ -17,6 +17,11 @@ module Search
           stop_en:    {type: "stop", stopwords: "_english_"},
         },
         analyzer: {
+          keyword_str: {
+            filter:["lowercase"],
+            type: "custom",
+            tokenizer: "keyword",
+          },
           full_str: {
             filter: ["standard", "lowercase", "stop_en", "asciifolding"],
             type: "custom",
@@ -58,7 +63,7 @@ module Search
         indexes :tag_authors,   **::Search.ngrams_multi_field(:tag_authors)
         indexes :tag_texts,     **::Search.ngrams_multi_field(:tag_texts)
         indexes :tag_keywords,  **::Search.ngrams_multi_field(:tag_keywords)
-        indexes :tag_standards, type: 'string', index: 'not_analyzed'
+        indexes :tag_standards, type: 'string', analyzer: 'keyword_str'
       end
     end
 
@@ -110,7 +115,7 @@ module Search
           query: {
             bool: {
               filter: [
-                { term: {tag_standards: term} }
+                { match: {tag_standards: term} }
               ]
             }
           },
