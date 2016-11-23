@@ -60,7 +60,7 @@ class Resource < ActiveRecord::Base
   has_many :content_guides, through: :unbounded_standards
 
   validates :title, presence: true
-  validates :url, presence: true, url: true, unless: :resource?
+  validates :url, presence: true, url: true, if: [:video?, :podcast?]
 
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
@@ -96,6 +96,13 @@ class Resource < ActiveRecord::Base
   scope :videos, -> { where(resource_type: self.resource_types[:video]) }
   scope :podcasts, -> { where(resource_type: self.resource_types[:podcast]) }
   scope :media, -> { where(resource_type: [self.resource_types[:video], self.resource_types[:podcast]])}
+
+  scope :generic_resources, -> do
+    where(resource_type: [
+      self.resource_types[:text_set],
+      self.resource_types[:quick_reference_guide]
+    ])
+  end
 
   class << self
     def by_title(title)

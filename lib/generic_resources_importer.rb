@@ -9,18 +9,25 @@ class GenericResourcesImporter
 
   def run!
     CSV.foreach(csv_filepath, headers: true) do |row|
-      resource = Resource.new(
+      resource_type = row['Resource Type'].gsub(' ', '_').underscore
+
+      resource = Resource.create(
         title: row['Title'],
         teaser: row['Teaser'],
-        resource_type: Resource.resource_types[row['Resource Type'].underscore],
+        resource_type: Resource.resource_types[resource_type],
         description: row['Description'],
         subject: row['Subject'].downcase
       )
-      # grades_for(row['Grade(s ']).each { |grade| resource.grades.add(grade) }
-      files = find_files(row['File Name'])
+      grades_for(row['Grade(s ']).each { |grade| resource.grade_list.add(grade) }
 
-      puts "==> #{row['Title']}  #{row['Grade(s ']} => #{grades_for(row['Grade(s '])}"
-      puts files
+      filename = row['File Name']
+      find_files(filename).each do |path|
+        download = Download.create(file: File.open(path), title: filename, main: path.end_with?('.pdf'))
+        resource.downloads << download
+      end
+
+      resource.save
+      puts "-- imported: id=#{resource.id} title=#{resource.title}"
     end
   end
 
