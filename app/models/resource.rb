@@ -4,7 +4,13 @@ class Resource < ActiveRecord::Base
 
   mount_uploader :image_file, ResourceImageUploader
 
-  enum resource_type: { podcast: 2, resource: 1, video: 3 }
+  enum resource_type: {
+    resource: 1,
+    podcast: 2,
+    video: 3,
+    quick_reference_guide: 4,
+    text_set: 5
+  }
 
   acts_as_taggable_on :content_sources,
     :download_types,
