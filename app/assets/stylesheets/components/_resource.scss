@@ -109,6 +109,16 @@
     width: 305px;
   }
 
+  @include e(pdf-preview) {
+    @include m(full) {
+      &, iframe {
+        height: 960px;
+        max-width: 840px;
+        width: 100%;
+      }
+    }
+  }
+
   @include e(taglist) {
     @include menu-simple;
     @include menu-direction($dir: horizontal);
@@ -128,7 +138,12 @@
     @include menu-base;
     @include menu-direction($dir: vertical);
     li { padding-bottom: .35rem; padding-top: .35rem; }
-    li i { margin-right: 5px; }
+    li i {
+      margin-right: 5px;
+      &:not(.file-pdf):not(.fa-eye) {
+        padding-left: 27.75px;
+      }
+    }
 
     @include m(icons) {
       @include menu-icons($position: left);

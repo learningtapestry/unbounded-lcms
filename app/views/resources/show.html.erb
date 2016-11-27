@@ -71,8 +71,10 @@
           </div>
           <div class="o-resource-title__links">
             <div>
-              <!--button class="o-ub-btn" data-open="downloads-modal"><%= t('resources.btn.download', title: @curriculum.type_name) %></button-->
-              <a class="o-ub-btn o-ub-btn--yellow" href="#resource-downloads-list"><%= t('resources.btn.download', title: @curriculum.type_name) %></a>
+              <a class="o-ub-btn o-ub-btn--yellow <%= 'o-ub-btn--disabled' if @resource.downloads.empty? %>" data-open="downloads-modal">
+                <%= t('resources.btn.download', title: @curriculum.type_name) %>
+              </a>
+              <!-- <a class="o-ub-btn o-ub-btn--yellow" href="#resource-downloads-list"><%= t('resources.btn.download', title: @curriculum.type_name) %></a> -->
             </div>
             <div>
               <%= link_to t('resources.btn.related'), '#related-instruction', class: 'o-ub-btn o-ub-btn--2bordered-gray' %>
@@ -97,7 +99,7 @@
               <h3>Downloads</h3>
               <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= @resource.color_code %>">
                 <% @resource.download_categories.each do |k, downloads| %>
-                  <strong><%= k.presence || t('resources.title.download_category') %></strong>
+                  <strong><%= k %></strong>
                   <% downloads.each do |download| %>
                     <%= render partial: 'resources/download', locals: { download: download, curriculum: @curriculum } %>
                   <% end %>
@@ -127,6 +129,7 @@
         <% end %>
       </div>
     </div>
+    <%= render partial: 'resources/download_form', locals: { resource: @resource, curriculum: @curriculum } %>
   </div>
   <div class="o-page__sticky">
     <div class="o-sticky o-sticky--right <%= 'o-sticky--disabled' unless @curriculum.next_of_type %>">

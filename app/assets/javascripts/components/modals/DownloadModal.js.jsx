@@ -6,9 +6,22 @@ class DownloadModal extends React.Component {
     }
   }
 
+  downloadsByCategories(downloads) {
+    if (downloads.length < 2) return null;
+    return `<strong>${downloads[0]}</strong>
+            ${ _.map(downloads[1], item => this.download(item)).join('\n') }`;
+  }
+
   download(download) {
     const cls = `ub-icon fa-lg file-${download.icon}`;
+    const preview = (download.icon == 'pdf') ?
+        `<span>
+          <a href=${download.preview_url} data-no-turbolink="true" target="_blank">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+          </a>
+        </span>` : '';
     return `<li>
+              ${preview}
               <i class="${cls}"></i>
               <span>
                 <a href=${download.url} data-no-turbolink="true" class="resource-attachment">${download.title}</a>
@@ -24,7 +37,7 @@ class DownloadModal extends React.Component {
             </div>
             <div class="o-download-modal__content">
               <ul class="o-resource__list o-resource__list--icons o-resource__list--${resource.subject}-base">
-                ${ _.map(resource.downloads, item => this.download(item)).join('\n') }
+                ${ _.map(resource.downloads, item => this.downloadsByCategories(item)).join('\n') }
               </ul>
               <div class="o-resource__cc u-margin-top--base u-margin-bottom--zero u-txt--download-copyright">
                 ${resource.copyright}

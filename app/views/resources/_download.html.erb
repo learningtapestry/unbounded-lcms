@@ -1,5 +1,11 @@
-
 <li>
+  <% if download.attachment_content_type == 'pdf' %>
+    <span>
+      <%= link_to preview_download_path(download, slug_id: curriculum.try(:slug).try(:id)), data: { no_turbolink: true }, target: '_blank' do %>
+        <i class="fa fa-eye" aria-hidden="true"></i>
+      <% end %>
+    </span>
+  <% end %>
   <i class="ub-icon fa-lg file-<%= file_icon(download.attachment_content_type) %>"></i>
   <span><%= link_to(download.title, download_path(download, slug_id: curriculum.try(:slug).try(:id)), class: 'resource-attachment', data: { no_turbolink: true }) %></span>
 </li>

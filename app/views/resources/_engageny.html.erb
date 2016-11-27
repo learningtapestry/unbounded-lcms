@@ -24,13 +24,5 @@
 <% end %>
 
 <div class=o-resource__cc>
-  <% curriculum.copyrights.each do |copyright| %>
-    <%= copyright.value %>
-  <% end %>
-
-  <% curriculum.copyrights.pluck(:disclaimer).uniq.each do |disclaimer| %>
-    <% if disclaimer.present? %>
-      <%= disclaimer %>
-    <% end %>
-  <% end %>
+  <%= curriculum.copyrights_text %>
 </div>
