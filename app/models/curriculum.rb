@@ -349,7 +349,7 @@ class Curriculum < ActiveRecord::Base
         tr.reload
         self.children.each { |c| create_tree_recursively(tr_seed, c, tr) }
         tr.lessons.find_each { |l| l.create_resource_short_title! }
-        tr.self_and_descendants.find_each do |trc| 
+        tr.self_and_descendants.find_each do |trc|
           trc.update_generated_fields
           ResourceSlug.create_for_curriculum(trc)
         end
@@ -657,5 +657,16 @@ class Curriculum < ActiveRecord::Base
       return curriculum.copyright_attributions if curriculum.copyright_attributions.any?
       curriculum = curriculum.parent
     end
+  end
+
+  def copyrights_text
+    cc_descriptions = []
+    copyrights.each do |copyright|
+      cc_descriptions << copyright.value.strip if copyright.value.present?
+    end
+    copyrights.pluck(:disclaimer).uniq.each do |disclaimer|
+      cc_descriptions << disclaimer.strip if disclaimer.present?
+    end
+    cc_descriptions.join(' ')
   end
 end
