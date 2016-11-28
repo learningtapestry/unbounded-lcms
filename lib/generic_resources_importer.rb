@@ -9,18 +9,18 @@ class GenericResourcesImporter
 
   def run!
     CSV.foreach(csv_filepath, headers: true) do |row|
-      resource_type = row['Resource Type'].gsub(' ', '_').underscore
+      resource_type = row['resource_type'].gsub(' ', '_').underscore
 
       resource = Resource.create(
-        title: row['Title'],
-        teaser: row['Teaser'],
+        title: row['title'],
+        teaser: row['teaser'],
         resource_type: Resource.resource_types[resource_type],
-        description: row['Description'],
-        subject: row['Subject'].downcase
+        description: row['description'],
+        subject: row['subject'].downcase
       )
-      grades_for(row['Grade(s ']).each { |grade| resource.grade_list.add(grade) }
+      grades_for(row['grades']).each { |grade| resource.grade_list.add(grade) }
 
-      filename = row['File Name']
+      filename = row['file_name']
       find_files(filename).each do |path|
         download = Download.create(file: File.open(path), title: filename, main: path.end_with?('.pdf'))
         resource.downloads << download
@@ -53,6 +53,6 @@ class GenericResourcesImporter
   end
 
   def find_files(filename)
-    Dir[files_dir + '**/*.{pdf,docx}'].select { |f| f =~ /#{filename}/ }
+    Dir[File.join(files_dir, '**/*.{pdf,docx}')].select { |f| f =~ /#{filename}/ }
   end
 end
