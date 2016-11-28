@@ -1,5 +1,5 @@
 class CopyrightAttribution < ActiveRecord::Base
-  belongs_to :curriculum
+  belongs_to :resource
 
-  validates :curriculum_id, :value, presence: true
+  validates :resource_id, :value, presence: true
 end
