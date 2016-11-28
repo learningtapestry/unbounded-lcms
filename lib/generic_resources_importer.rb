@@ -55,6 +55,6 @@ class GenericResourcesImporter
   end
 
   def find_files(filename)
-    Dir[File.join(files_dir, '**/*.{pdf,docx}')].select { |f| f =~ /#{filename}/ }
+    Dir[File.join(files_dir, '**', '*.{pdf,docx}')].select { |f| f =~ /#{filename}/ }
   end
 end
