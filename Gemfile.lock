@@ -391,6 +391,7 @@ GEM
       mime-types (>= 1.16, < 4)
     memoist (0.14.0)
     method_source (0.8.2)
+    migration_data (0.2.1)
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
@@ -673,6 +674,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   js-routes (~> 1.1.2)
+  migration_data (~> 0.2.1)
   minitest-focus
   minitest-rails-capybara
   nested_form
