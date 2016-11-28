@@ -54,8 +54,6 @@ class Curriculum < ActiveRecord::Base
   belongs_to :curriculum_item, class_name: 'Curriculum',
     foreign_key: 'item_id', foreign_type: 'Curriculum'
 
-  has_many :copyright_attributions
-
   has_many :referrers, class_name: 'Curriculum', as: 'item', dependent: :destroy
 
   has_many :resource_slugs, dependent: :destroy
@@ -653,8 +651,9 @@ class Curriculum < ActiveRecord::Base
   def copyrights
     curriculum = self
     loop do
-      return Curriculum.none unless curriculum
-      return curriculum.copyright_attributions if curriculum.copyright_attributions.any?
+      return CopyrightAttribution.none unless curriculum
+      resource = curriculum.resource
+      return resource.copyright_attributions if resource && resource.copyright_attributions.any?
       curriculum = curriculum.parent
     end
   end
