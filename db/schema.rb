@@ -16,43 +16,6 @@ ActiveRecord::Schema.define(version: 20161128134756) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cms_entries", force: :cascade do |t|
-    t.string   "path",                    null: false
-    t.jsonb    "fields",     default: {}, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  add_index "cms_entries", ["path"], name: "index_cms_entries_on_path", using: :btree
-
-  create_table "cms_images", force: :cascade do |t|
-    t.string   "image",      null: false
-    t.string   "field",      null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "cms_version_images", force: :cascade do |t|
-    t.integer  "cms_version_id", null: false
-    t.integer  "cms_image_id",   null: false
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  add_index "cms_version_images", ["cms_image_id"], name: "index_cms_version_images_on_cms_image_id", using: :btree
-  add_index "cms_version_images", ["cms_version_id"], name: "index_cms_version_images_on_cms_version_id", using: :btree
-
-  create_table "cms_versions", force: :cascade do |t|
-    t.integer  "cms_entry_id"
-    t.integer  "version",                      null: false
-    t.boolean  "current",      default: false, null: false
-    t.jsonb    "content",      default: {},    null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-  end
-
-  add_index "cms_versions", ["cms_entry_id"], name: "index_cms_versions_on_cms_entry_id", using: :btree
-
   create_table "content_guide_definitions", force: :cascade do |t|
     t.string   "keyword",     null: false
     t.string   "description", null: false
@@ -437,9 +400,6 @@ ActiveRecord::Schema.define(version: 20161128134756) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "cms_version_images", "cms_images"
-  add_foreign_key "cms_version_images", "cms_versions"
-  add_foreign_key "cms_versions", "cms_entries"
   add_foreign_key "content_guide_standards", "content_guides", on_delete: :cascade
   add_foreign_key "content_guide_standards", "standards"
   add_foreign_key "copyright_attributions", "resources"
