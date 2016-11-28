@@ -59,6 +59,8 @@ class Resource < ActiveRecord::Base
 
   has_many :content_guides, through: :unbounded_standards
 
+  has_many :copyright_attributions
+
   validates :title, presence: true
   validates :url, presence: true, url: true, if: [:video?, :podcast?]
 
