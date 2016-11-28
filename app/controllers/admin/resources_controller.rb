@@ -118,7 +118,7 @@ class Admin::ResourcesController < Admin::AdminController
                 :image_file,
                 additional_resource_ids: [],
                 common_core_standard_ids: [],
-                resource_downloads_attributes: [:_destroy, :id, :download_category_id, { download_attributes: [:description, :file, :filename_cache, :id, :title] }],
+                resource_downloads_attributes: [:_destroy, :id, :download_category_id, { download_attributes: [:description, :file, :main, :filename_cache, :id, :title] }],
                 related_resource_ids: [],
                 unbounded_standard_ids: [],
                 new_unbounded_standard_names: [],
