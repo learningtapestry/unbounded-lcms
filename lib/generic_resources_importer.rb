@@ -26,6 +26,8 @@ class GenericResourcesImporter
         resource.downloads << download
       end
 
+      resource.copyright_attributions.create(value: row['attribution']) if row['attribution'].present?
+
       resource.save
       puts "-- imported: id=#{resource.id} title=#{resource.title}"
     end

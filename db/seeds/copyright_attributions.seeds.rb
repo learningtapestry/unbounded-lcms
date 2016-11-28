@@ -2,7 +2,7 @@ class << self
   def add_copyright(curriculums, value, with_disclaimer: true)
     disclaimer = 'UnboundEd is not affiliated with the copyright holder of this work.' if with_disclaimer
     curriculums.trees.each do |curriculum|
-      curriculum.copyright_attributions.create_with(disclaimer: disclaimer).find_or_create_by!(value: value)
+      curriculum.resource.copyright_attributions.create_with(disclaimer: disclaimer).find_or_create_by!(value: value)
     end
   end
 end

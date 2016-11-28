@@ -54,8 +54,6 @@ class Curriculum < ActiveRecord::Base
   belongs_to :curriculum_item, class_name: 'Curriculum',
     foreign_key: 'item_id', foreign_type: 'Curriculum'
 
-  has_many :copyright_attributions
-
   has_many :referrers, class_name: 'Curriculum', as: 'item', dependent: :destroy
 
   has_many :resource_slugs, dependent: :destroy
@@ -349,7 +347,7 @@ class Curriculum < ActiveRecord::Base
         tr.reload
         self.children.each { |c| create_tree_recursively(tr_seed, c, tr) }
         tr.lessons.find_each { |l| l.create_resource_short_title! }
-        tr.self_and_descendants.find_each do |trc| 
+        tr.self_and_descendants.find_each do |trc|
           trc.update_generated_fields
           ResourceSlug.create_for_curriculum(trc)
         end
@@ -653,8 +651,9 @@ class Curriculum < ActiveRecord::Base
   def copyrights
     curriculum = self
     loop do
-      return Curriculum.none unless curriculum
-      return curriculum.copyright_attributions if curriculum.copyright_attributions.any?
+      return CopyrightAttribution.none unless curriculum
+      resource = curriculum.resource
+      return resource.copyright_attributions if resource && resource.copyright_attributions.any?
       curriculum = curriculum.parent
     end
   end
