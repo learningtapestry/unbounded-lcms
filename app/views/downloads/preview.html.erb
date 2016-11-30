@@ -1,8 +1,8 @@
-<% set_page_title "#{t('ui.unbounded')} - #{@pdf_filename}}" %>
+<% set_page_title "#{t('ui.unbounded')} - #{@download.s3_filename}}" %>
 <script>
-  pdf_url = "<%= @pdf_url %>";
+  pdfUrl = "<%= @download.proxy_url %>";
 </script>
 <div class="o-page o-page--margin-to-top o-page--margin-bottom o-page--centered">
-  <h1 class="u-margin-bottom--base">Preview <%= @pdf_filename %></h1>
+  <h1 class="u-margin-bottom--base">Preview <%= @download.s3_filename %></h1>
   <div class="o-resource__pdf-preview--full"></div>
 </div>

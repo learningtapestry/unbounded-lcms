@@ -4,7 +4,7 @@ class PDFProxy < Rack::Proxy
     env['REQUEST_PATH'] = env['REQUEST_PATH'].gsub('/pdf_proxy', '')
     env['SERVER_PORT'] = 80 if Rails.env.development?
     env['SCRIPT_NAME'] = nil
-    #env['HTTP_X_FORWARDED_PORT'] = nil
+    env['HTTP_X_FORWARDED_PORT'] = nil
     env
   end
 
@@ -16,6 +16,7 @@ class PDFProxy < Rack::Proxy
   def rewrite_response(triplet)
     _status, headers, _body = triplet
     headers['Content-Disposition'] = 'inline'
+    headers.delete 'transfer-encoding'
     triplet
   end
 end

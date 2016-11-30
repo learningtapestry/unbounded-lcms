@@ -1,8 +1,13 @@
 $generic-card-height: 164px;
+$preview-height: 451px;
+$preview-btn-height: 45px;
 
 .o-generic-preview {
-  height: 451px;
+  @include add-gutter;
+  border: 1px solid map-get($ub-buttons, show-more);
+  height: $preview-height;
   overflow-y: hidden;
+  position: relative;
 
   @include e(canvas) {
     width: 100%;
@@ -12,9 +17,12 @@ $generic-card-height: 164px;
     @include txt-element(button);
     cursor: pointer;
     display: block;
-    opacity: 75%;
+    opacity: .75;
     padding: .75rem 0;
+    position: absolute;
     text-align: center;
+    top: $preview-height - $preview-btn-height;
+    width: 100%;
   }
 }
 
