@@ -1,8 +1,17 @@
 <% set_page_title "#{t('ui.unbounded')} - #{@download.s3_filename}}" %>
+
 <script>
-  pdfUrl = "<%= pdf_proxy_download_path(@download, s3: @download.s3_filename) %>";
+  pdfUrl = "<%= pdf_proxy_download_path(params[:id], s3: @download.s3_filename) %>";
 </script>
-<div class="o-page o-page--margin-to-top o-page--margin-bottom o-page--centered">
-  <h1 class="u-margin-bottom--base">Preview <%= @download.s3_filename %></h1>
-  <div class="o-resource__pdf-preview--full"></div>
+
+<div class="o-page o-page--margin-to-top o-page--margin-bottom">
+  <%= render partial: 'resources/header', locals: { curriculum: @curriculum,
+                                                    resource: @resource,
+                                                    color_code: @color_code } %>
+  <div class="o-page__section u-padding-top--gutter u-bg--light">
+    <div class="o-page__wrap--row o-page--centered">
+      <h1 class="u-margin-bottom--base">Preview <%= @download.s3_filename %></h1>
+      <div class="o-resource__pdf-preview--full"></div>
+    </div>
+  </div>
 </div>
