@@ -657,15 +657,4 @@ class Curriculum < ActiveRecord::Base
       curriculum = curriculum.parent
     end
   end
-
-  def copyrights_text
-    cc_descriptions = []
-    copyrights.each do |copyright|
-      cc_descriptions << copyright.value.strip if copyright.value.present?
-    end
-    copyrights.pluck(:disclaimer).uniq.each do |disclaimer|
-      cc_descriptions << disclaimer.strip if disclaimer.present?
-    end
-    cc_descriptions.join(' ')
-  end
 end

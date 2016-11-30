@@ -1,0 +1,23 @@
+<% cc_types = [{ icon: 'cc-zero', title: 'You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.' }] %>
+
+<ul class="menu horizontal">
+  <% cc_types.each do |cc_type| %>
+    <li>
+      <span data-tooltip data-template-classes="u-resource-tooltip cs-tint-bg--<%= color_code %>" aria-haspopup="true" title="<%= cc_type[:title] %>">
+        <i class="fa-lg ub-<%= cc_type[:icon] %>"></i>
+      </span>
+    </li>
+  <% end %>
+</ul>
+
+<% if resource.engageny_url %>
+  <div class="o-resource__cc">From EngageNY.org of the New York State Education Department. <%= resource.engageny_title.strip %>.
+    <% if url = resource.engageny_url %>
+      Available from <%= url.gsub(/^(https?:\/\/)?(www\.)?/, '') %>; accessed 2015-05-29.
+    <% end %>
+  </div>
+<% end %>
+
+<div class=o-resource__cc>
+  <%= copyrights_text(resource) %>
+</div>

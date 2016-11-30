@@ -238,14 +238,18 @@ class Resource < ActiveRecord::Base
     end.uniq.compact
   end
 
-  def is_media?
+  def media?
     ['video', 'podcast'].include? resource_type
+  end
+
+  def generic?
+    ['text_set', 'quick_reference_guide'].include?(resource_type)
   end
 
   alias :do_not_skip_indexing? :should_index?
   def should_index?
     # index only videos and podcast (other resources are indexed via Curriculum)
-    do_not_skip_indexing? && is_media?
+    do_not_skip_indexing? && (media? || generic?)
   end
 
   def named_tags
@@ -265,4 +269,7 @@ class Resource < ActiveRecord::Base
     common_core_standards.map(&:alt_names).flatten.uniq
   end
 
+  def copyrights
+    copyright_attributions
+  end
 end

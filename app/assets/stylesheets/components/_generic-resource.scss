@@ -1,0 +1,74 @@
+$generic-card-height: 164px;
+
+.o-generic-preview {
+  height: 451px;
+  overflow-y: hidden;
+
+  @include e(canvas) {
+    width: 100%;
+  }
+
+  @include e(btn) {
+    @include txt-element(button);
+    cursor: pointer;
+    display: block;
+    opacity: 75%;
+    padding: .75rem 0;
+    text-align: center;
+  }
+}
+
+.o-generic-card {
+  @include flex-grid-column(6);
+  @include add-gutter;
+  @include flex;
+  color: $ub-white;
+
+  @include breakpoint(large) {
+    @include flex-grid-column(3);
+  }
+
+  @include e(wrap) {
+    @include add-column-padding(.5);
+    @include add-top-bottom-padding(.5);
+    @extend %material-card;
+    height: $generic-card-height;
+    width: 100%;
+  }
+
+  @include e(title) {
+    @include txt-element(generic-card-title);
+    text-shadow: .5px .9px 1px rgba(0, 0, 0, .15);
+    text-transform: uppercase;
+  }
+
+  @include e(teaser) {
+    @include clamp(3, generic-card-teaser);
+    @include txt-element(generic-card-teaser);
+    text-shadow: .5px .9px 1px rgba(0, 0, 0, .1);
+  }
+//   .title {
+//     /* Base text style */
+// width: 166px;
+// height: 10px;
+// opacity: 0.7;
+// text-shadow: 0.5px 0.9px 1px rgba(0, 0, 0, 0.15);
+// color: white;
+// font-family: "Caponi Slab";
+// font-size: 14px;
+// font-weight: 600;
+// line-height: 30px;
+// text-transform: uppercase;
+//   }
+//   .teaser {
+//     /* Base text style */
+// width: 207px;
+// height: 69px;
+// text-shadow: 0.5px 0.9px 1px rgba(0, 0, 0, 0.1);
+// color: white;
+// font-family: "Caponi Slab";
+// font-size: 22px;
+// font-weight: 500;
+// line-height: 24px;
+//   }
+}
