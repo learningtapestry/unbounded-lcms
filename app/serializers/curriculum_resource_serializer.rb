@@ -75,7 +75,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def copyright
-    object.copyrights_text
+    copyrights_text(object)
   end
 
   def has_related

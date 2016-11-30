@@ -4,7 +4,13 @@ class PDFProxy < Rack::Proxy
     env['REQUEST_PATH'] = env['REQUEST_PATH'].gsub('/pdf_proxy', '')
     env['SERVER_PORT'] = 80 if Rails.env.development?
     env['SCRIPT_NAME'] = nil
+    #env['HTTP_X_FORWARDED_PORT'] = nil
     env
+  end
+
+  def call(env)
+    @streaming = true
+    super
   end
 
   def rewrite_response(triplet)

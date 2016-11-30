@@ -21,4 +21,15 @@ module ResourceHelper
     slug = curriculum.lesson? ? curriculum.parent.slug.value : curriculum.slug.value
     CGI.unescape(explore_curriculum_index_path(p: slug, e: 1))
   end
+
+  def copyrights_text(object)
+    cc_descriptions = []
+    object.copyrights.each do |copyright|
+      cc_descriptions << copyright.value.strip if copyright.value.present?
+    end
+    object.copyrights.pluck(:disclaimer).uniq.each do |disclaimer|
+      cc_descriptions << disclaimer.strip if disclaimer.present?
+    end
+    cc_descriptions.join(' ')
+  end
 end

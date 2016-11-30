@@ -5,7 +5,7 @@ class EnhanceInstructionPage extends React.Component {
     let initTab = () => { return { current_page: 1, total_pages: 1,
                                    num_items: 0, total_hits: 0,
                                    items: []}; };
-    this.state = { tabs: _.times(2, initTab) };
+    this.state = { tabs: _.times(3, initTab) };
     this.state = this.buildStateFromProps(props);
   }
 
@@ -127,6 +127,7 @@ class EnhanceInstructionPage extends React.Component {
   render() {
     const tabGuides = this.renderTab('Content Guides', 0);
     const tabResources = this.renderTab('Videos and Podcasts', 1);
+    const tabGeneric = this.renderTab('Resources', 2);
     return (
       <div>
         <div className="u-bg--base-gradient">
@@ -150,6 +151,7 @@ class EnhanceInstructionPage extends React.Component {
           <Tabs tabActive={this.state.activeTab + 1} onBeforeChange={this.handleTabChange.bind(this)} className='c-eh-tab o-page__module'>
              {tabGuides}
              {tabResources}
+             {tabGeneric}
           </Tabs>
        </div>
      </div>

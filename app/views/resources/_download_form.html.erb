@@ -1,6 +1,6 @@
 <div class="o-download-modal" id="downloads-modal" data-reveal> <!-- modal content -->
   <div class="o-download-modal__title">
-    <div class="u-margin-bottom--xs">Download <%= resource.resource_type.capitalize %></div>
+    <div class="u-margin-bottom--xs">Download <%= resource.resource_type.humanize %></div>
     <div class="u-hr-small"></div>
   </div>
   <div class="o-download-modal__content">
@@ -13,7 +13,7 @@
       <% end %>
     </ul>
     <div class="o-resource__cc u-margin-top--base u-margin-bottom--zero u-txt--download-copyright">
-      <%= curriculum.copyrights_text %>
+      <%= copyrights_text(curriculum || resource) %>
     </div>
   </div>
   <button class="close-button ub-close-button" data-close aria-label="Close modal" type="button">

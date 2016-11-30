@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
   get '/media/:id' => 'resources#media', as: :media
+  get '/generic/:id' => 'resources#generic', as: :generic
   get '/content_guides/:id(/:slug)', as: :content_guide, to: 'content_guides#show'
 
   devise_for :users, class_name: 'User', controllers: {

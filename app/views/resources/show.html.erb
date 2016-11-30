@@ -95,20 +95,7 @@
               <h3>Description</h3>
               <%= @resource.description.try(:html_safe) %>
             </div>
-            <div id="resource-downloads-list" class="o-resource__item">
-              <h3>Downloads</h3>
-              <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= @resource.color_code %>">
-                <% @resource.download_categories.each do |k, downloads| %>
-                  <strong><%= k %></strong>
-                  <% downloads.each do |download| %>
-                    <%= render partial: 'resources/download', locals: { download: download, curriculum: @curriculum } %>
-                  <% end %>
-                <% end %>
-                <% if @resource.downloads.empty? %>
-                  <span>There are no downloads for this resource</span>
-                <% end %>
-              </ul>
-            </div>
+            <%= render partial: 'resources/downloads', locals: { resource: @resource, curriculum: @curriculum } %>
             <%= render partial: 'resources/prerequisites_standards', locals: { standards: @resource.prerequisites_standards, color_code: @resource.color_code } %>
             <%= render_tag_clouds(@curriculum.named_tags, @resource.color_code) %>
             <% if @resource.engageny_url %>
