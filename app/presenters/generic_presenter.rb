@@ -14,6 +14,6 @@ class GenericPresenter < ResourcePresenter
   end
 
   def pdf_preview_download
-    downloads.find { |d| d.main? && d.attachment_content_type == 'pdf' }
+    resource_downloads.find { |d| d.download.main? && d.download.attachment_content_type == 'pdf' }
   end
 end

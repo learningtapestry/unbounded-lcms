@@ -1,6 +1,8 @@
 class DownloadsController < ApplicationController
   include AnalyticsTracking
+
   before_action :init_download
+  before_action :init_resource, only: :preview
   before_action :ga_track, except: :pdf_proxy
 
   def show
@@ -23,7 +25,19 @@ class DownloadsController < ApplicationController
   private
 
   def init_download
-    @download = Download.find(params[:id])
+    resource_download = ResourceDownload.find(params[:id])
+    @resource = GenericPresenter.new(resource_download.resource)
+    @download = resource_download.download
+  end
+
+  def init_resource
+    if @resource.generic?
+      @color_code = @resource.color_code
+    else
+      curriculum = @resource.first_tree
+      @color_code = @resource.color_code(curriculum.try(:grade_color_code))
+      @curriculum = CurriculumPresenter.new(curriculum)
+    end
   end
 
   def ga_track

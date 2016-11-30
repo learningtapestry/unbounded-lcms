@@ -180,8 +180,12 @@ class Resource < ActiveRecord::Base
     resource_downloads
       .group_by { |d| d.download_category.try(:category_name) || '' }
       .sort_by { |k, _| k }.to_h
-      .transform_values { |v| v.map(&:download).sort_by(&:title) }
+      .transform_values { |v| v.sort_by { |d| d.download.title } }
       .transform_keys { |k| k.blank? ? default_title : k }
+  end
+
+  def pdf_downloads?
+    downloads.any? { |d| d.attachment_content_type == 'pdf' }
   end
 
   def prerequisites_standards

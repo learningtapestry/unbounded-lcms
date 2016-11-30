@@ -7,11 +7,9 @@
       <i class="fa-lg ub-arrow-left"></i> <%= t('instructions.btn.back') %>
     <% end %>
   </div>
-  <div class="o-page__section cs-bg--<%= @resource.color_code %>">
-    <div class="o-content-title u-text--capitalized">
-      <%= @resource.generic_title %>
-    </div>
-  </div>
+  <%= render partial: 'resources/header', locals: { curriculum: nil,
+                                                    resource: @resource,
+                                                    color_code: @resource.color_code } %>
   <div class="o-page__section u-padding-top--gutter u-bg--light">
     <div class="o-resource-title">
       <div class="o-resource-title__title">
@@ -64,6 +62,6 @@
 </div>
 
 <% if @resource.preview? %>
-  <script>pdfUrl="<%= pdf_proxy_download_path(@resource.pdf_preview_download, s3: @resource.pdf_preview_download.s3_filename) %>"</script>
+  <script>pdfUrl="<%= pdf_proxy_download_path(@resource.pdf_preview_download, s3: @resource.pdf_preview_download.download.s3_filename) %>"</script>
   <%= javascript_include_tag 'pdf_js_preview' %>
 <% end %>

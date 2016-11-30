@@ -13,7 +13,8 @@ class DownloadModal extends React.Component {
   }
 
   download(download) {
-    const cls = `ub-icon fa-lg file-${download.icon}`;
+    const indent = download.indent ? 'u-li-indent' : '';
+    const cls = `ub-icon fa-lg file-${download.icon} ${indent}`;
     const preview = (download.icon == 'pdf') ?
         `<span>
           <a href=${download.preview_url} data-no-turbolink="true" target="_blank">

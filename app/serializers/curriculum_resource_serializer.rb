@@ -60,13 +60,16 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def downloads
+    indent = object.resource.pdf_downloads?
     serialize_download = lambda do |download|
       {
         id: download.id,
-        icon: h.file_icon(download.attachment_content_type),
-        title: download.title,
+        icon: h.file_icon(download.download.attachment_content_type),
+        title: download.download.title,
         url: download_path(download, slug_id: object.try(:slug).try(:id)),
-        preview_url: preview_download_path(download, slug_id: object.try(:slug).try(:id))
+        preview_url: preview_download_path(id: download,
+                                           slug_id: object.try(:slug).try(:id)),
+        indent: indent
       }
     end
     object.resource.download_categories.map do |k, v|
