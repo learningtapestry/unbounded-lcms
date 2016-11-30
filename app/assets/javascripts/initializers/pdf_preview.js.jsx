@@ -6,9 +6,9 @@ $(function () {
       const options = {
         pdfOpenParams: { page: 1, view: 'Fit' }
       };
-      PDFObject.embed(pdf_url, '.o-resource__pdf-preview--full', options);
+      PDFObject.embed(pdfUrl, '.o-resource__pdf-preview--full', options);
     } else {
-      $('.o-resource__pdf-preview--full').append(`<iframe src="${pdf_url}"></iframe>`);
+      $('.o-resource__pdf-preview--full').append(`<iframe src="${pdfUrl}"></iframe>`);
     }
   };
 });

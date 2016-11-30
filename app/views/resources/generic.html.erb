@@ -38,6 +38,12 @@
         <%= render partial: 'shared/social_sharing', locals: { resource: @resource, cl: '' } %>
       </div>
       <div class="o-resource-summary__content">
+        <% if @resource.preview? %>
+          <div class="o-generic-preview">
+            <canvas id="o-generic-preview__canvas" class="o-generic-preview__canvas"></canvas>
+            <%= link_to t('ui.show_more'), preview_download_path(@resource.pdf_preview_download), class: 'o-generic-preview__btn o-ub-btn--show-more', target: '_blank' %>
+          </div>
+        <% end %>
         <div class="o-resource__item o-resource__item--description">
           <h3>Description</h3>
           <%= @resource.description.try(:html_safe) %>
@@ -56,3 +62,8 @@
   </div>
   <%= render partial: 'resources/download_form', locals: { resource: @resource, curriculum: nil } %>
 </div>
+
+<% if @resource.preview? %>
+  <script>pdfUrl="<%= @resource.pdf_preview_download.try(:proxy_url) %>"</script>
+  <%= javascript_include_tag 'pdf_js_preview' %>
+<% end %>

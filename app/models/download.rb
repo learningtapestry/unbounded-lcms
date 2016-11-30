@@ -20,6 +20,10 @@ class Download < ActiveRecord::Base
     end
   end
 
+  def s3_filename
+    File.basename(attachment_url)
+  end
+
   def attachment_content_type
     case content_type
     when 'application/zip' then 'zip'
@@ -29,6 +33,10 @@ class Download < ActiveRecord::Base
     when 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' then 'doc'
     else content_type
     end
+  end
+
+  def proxy_url
+    "/pdf_proxy/#{URI.parse(attachment_url).path}"
   end
 
   private
