@@ -1,6 +1,6 @@
 <% set_page_title "#{t('ui.unbounded')} - #{@download.s3_filename}}" %>
 
-<script>
+<script type="text/javascript" data-turbolinks-eval="always">
   pdfUrl = "<%= pdf_proxy_download_path(params[:id], s3: @download.s3_filename) %>";
 </script>
 
@@ -8,9 +8,8 @@
   <%= render partial: 'resources/header', locals: { curriculum: @curriculum,
                                                     resource: @resource,
                                                     color_code: @color_code } %>
-  <div class="o-page__section u-padding-top--gutter u-bg--light">
+  <div class="o-page__section u-padding-top--gutter u-padding-bottom--gutter u-bg--light">
     <div class="o-page__wrap--row o-page--centered">
-      <h1 class="u-margin-bottom--base">Preview <%= @download.s3_filename %></h1>
       <div class="o-resource__pdf-preview--full"></div>
     </div>
   </div>

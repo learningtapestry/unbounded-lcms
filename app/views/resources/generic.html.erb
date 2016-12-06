@@ -62,6 +62,7 @@
 </div>
 
 <% if @resource.preview? %>
-  <script>pdfUrl="<%= pdf_proxy_download_path(@resource.pdf_preview_download, s3: @resource.pdf_preview_download.download.s3_filename) %>"</script>
-  <%= javascript_include_tag 'pdf_js_preview' %>
+  <script type="text/javascript" data-turbolinks-eval="always">
+    pdfUrl="<%= pdf_proxy_download_path(@resource.pdf_preview_download, s3: @resource.pdf_preview_download.download.s3_filename) %>"
+  </script>
 <% end %>
