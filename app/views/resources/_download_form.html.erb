@@ -1,19 +1,24 @@
+<% indent = resource.downloads_indent %>
+
 <div class="o-download-modal" id="downloads-modal" data-reveal> <!-- modal content -->
-  <h2><%= t('resources.btn.download', title: title) %></h2>
-  <p>Teaser text lorem ipsum dolor essunt apictias aut perrum natero que ipsunt qui ut volorer sperferibus.</p>
-  <form class="o-download-form">
-    <div>
-      <% downloads.each do |download| %>
-        <div class="o-download-form__item">
-          <input id="checkbox-<%=download.id%>" type="checkbox"><label for="checkbox1"><%= download.title %></label>
-        </div>
+  <div class="o-download-modal__title">
+    <div class="u-margin-bottom--xs">Download <%= resource.resource_type.humanize %></div>
+    <div class="u-hr-small"></div>
+  </div>
+  <div class="o-download-modal__content">
+    <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= resource.subject %>-base">
+      <% resource.download_categories.each do |k, downloads| %>
+        <strong><%= k %></strong>
+        <% downloads.each do |download| %>
+          <%= render partial: 'resources/download', locals: { download: download, curriculum: @curriculum, indent: indent } %>
+        <% end %>
       <% end %>
-      <div class="o-download-form__button">
-        <button type="submit" class="o-btn--base"><%= t('resources.btn.download', title: 'Files') %></button>
-      </div>
+    </ul>
+    <div class="o-resource__cc u-margin-top--base u-margin-bottom--zero u-txt--download-copyright">
+      <%= copyrights_text(curriculum || resource) %>
     </div>
-  </form>
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
+  </div>
+  <button class="close-button ub-close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true"><i class="ub-close"></i></span>
   </button>
 </div>

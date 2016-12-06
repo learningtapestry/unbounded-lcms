@@ -60,25 +60,25 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def downloads
-    object.resource.downloads.map do |download|
+    indent = object.resource.pdf_downloads?
+    serialize_download = lambda do |download|
       {
         id: download.id,
-        icon: h.file_icon(download.attachment_content_type),
-        title: download.title,
+        icon: h.file_icon(download.download.attachment_content_type),
+        title: download.download.title,
         url: download_path(download, slug_id: object.try(:slug).try(:id)),
+        preview_url: preview_download_path(id: download,
+                                           slug_id: object.try(:slug).try(:id)),
+        indent: indent
       }
+    end
+    object.resource.download_categories.map do |k, v|
+      [k, v.map(&serialize_download)]
     end
   end
 
   def copyright
-    cc_descriptions = []
-    object.copyrights.each do |copyright|
-      cc_descriptions << copyright.value.strip if copyright.value.present?
-    end
-    object.copyrights.pluck(:disclaimer).uniq.each do |disclaimer|
-      cc_descriptions << disclaimer.strip if disclaimer.present?
-    end
-    cc_descriptions.join(' ')
+    copyrights_text(object)
   end
 
   def has_related

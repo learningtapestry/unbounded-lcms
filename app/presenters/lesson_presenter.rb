@@ -18,16 +18,8 @@ class LessonPresenter < SimpleDelegator
     @grade ||= unit.grades.first
   end
 
-  def subject_and_grade_title
-    "#{subject.try(:name).try(:upcase)} / #{grade.try(:name)}"
-  end
-
   def tags
     subjects.map(&:name).join(', ')
-  end
-
-  def test_curriculums
-    curriculums
   end
 
   def curriculum
