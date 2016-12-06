@@ -39,24 +39,9 @@
           <% end %>
         <% end %>
       </div>
-      <div class="o-page__section cs-bg--<%= @resource.color_code(@grade_color_code) %> u-br-top-right--base">
-        <div class="o-content-title u-text--capitalized">
-          <%
-            @curriculum.self_and_ancestors.reverse.each_with_index do |ancestor, idx|
-              is_last = ancestor.id == @curriculum.id
-              piece = is_last ?
-                @curriculum.resource.short_title :
-                ancestor.breadcrumb_piece
-          %>
-            <% if idx == 0 %>
-              <%= piece %>
-            <% else %>
-              <%= link_to piece, show_with_slug_path(ancestor.slug.value) %>
-            <% end %>
-            <%= ' / ' if !is_last %>
-          <% end %>
-        </div>
-      </div>
+      <%= render partial: 'resources/header', locals: { curriculum: @curriculum,
+                                                             resource: @resource,
+                                                             color_code: @resource.color_code(@grade_color_code) } %>
       <div class="o-page__section u-padding-top--gutter u-bg--light u-br-top-right--base u-br-bottom--base">
         <div class="o-resource-title">
           <div class="o-resource-title__title">
@@ -71,8 +56,10 @@
           </div>
           <div class="o-resource-title__links">
             <div>
-              <!--button class="o-ub-btn" data-open="downloads-modal"><%= t('resources.btn.download', title: @curriculum.type_name) %></button-->
-              <a class="o-ub-btn o-ub-btn--yellow" href="#resource-downloads-list"><%= t('resources.btn.download', title: @curriculum.type_name) %></a>
+              <a class="o-ub-btn o-ub-btn--yellow <%= 'o-ub-btn--disabled' if @resource.downloads.empty? %>" data-open="downloads-modal">
+                <%= t('resources.btn.download', title: @curriculum.type_name) %>
+              </a>
+              <!-- <a class="o-ub-btn o-ub-btn--yellow" href="#resource-downloads-list"><%= t('resources.btn.download', title: @curriculum.type_name) %></a> -->
             </div>
             <div>
               <%= link_to t('resources.btn.related'), '#related-instruction', class: 'o-ub-btn o-ub-btn--2bordered-gray' %>
@@ -93,20 +80,7 @@
               <h3>Description</h3>
               <%= @resource.description.try(:html_safe) %>
             </div>
-            <div id="resource-downloads-list" class="o-resource__item">
-              <h3>Downloads</h3>
-              <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= @resource.color_code %>">
-                <% @resource.download_categories.each do |k, downloads| %>
-                  <strong><%= k.presence || t('resources.title.download_category') %></strong>
-                  <% downloads.each do |download| %>
-                    <%= render partial: 'resources/download', locals: { download: download, curriculum: @curriculum } %>
-                  <% end %>
-                <% end %>
-                <% if @resource.downloads.empty? %>
-                  <span>There are no downloads for this resource</span>
-                <% end %>
-              </ul>
-            </div>
+            <%= render partial: 'resources/downloads', locals: { resource: @resource, curriculum: @curriculum } %>
             <%= render partial: 'resources/prerequisites_standards', locals: { standards: @resource.prerequisites_standards, color_code: @resource.color_code } %>
             <%= render_tag_clouds(@curriculum.named_tags, @resource.color_code) %>
             <% if @resource.engageny_url %>
@@ -127,6 +101,7 @@
         <% end %>
       </div>
     </div>
+    <%= render partial: 'resources/download_form', locals: { resource: @resource, curriculum: @curriculum } %>
   </div>
   <div class="o-page__sticky">
     <div class="o-sticky o-sticky--right <%= 'o-sticky--disabled' unless @curriculum.next_of_type %>">

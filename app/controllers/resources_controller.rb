@@ -15,10 +15,14 @@ class ResourcesController < ApplicationController
 
   def media
     resource = Resource.find(params[:id])
-    unless ['video', 'podcast'].include? resource.resource_type
-      return redirect_to resource_path(resource)
-    end
+    return redirect_to resource_path(resource) unless resource.media?
     @resource = MediaPresenter.new(resource)
+  end
+
+  def generic
+    resource = Resource.find(params[:id])
+    return redirect_to resource_path(resource) unless resource.generic?
+    @resource = GenericPresenter.new(resource)
   end
 
   protected
