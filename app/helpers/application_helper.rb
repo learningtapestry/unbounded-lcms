@@ -113,4 +113,8 @@ module ApplicationHelper
     strip_tags(str).squish
   end
 
+  def generic_page?
+    controller.controller_name == 'resources' && controller.action_name == 'generic'
+  end
+
 end

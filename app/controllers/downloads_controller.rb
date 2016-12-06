@@ -1,4 +1,5 @@
 class DownloadsController < ApplicationController
+  include ActionController::Live
   include AnalyticsTracking
 
   before_action :init_download
@@ -16,10 +17,19 @@ class DownloadsController < ApplicationController
   end
 
   def pdf_proxy
-    response = RestClient.get(@download.attachment_url)
-    send_data response.body, type: response.headers[:content_type], disposition: 'inline'
-  rescue RestClient::ExceptionWithResponse => e
-    render text: e.response, status: '404'
+    uri = URI(@download.attachment_url)
+    response.headers['Content-Disposition'] = 'inline'
+    response.headers['Content-Type'] = 'application/pdf'
+    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      s3_request = Net::HTTP::Get.new(uri)
+      http.request(s3_request) do |s3_response|
+        s3_response.read_body do |chunk|
+          response.stream.write(chunk)
+        end
+      end
+    end
+  ensure
+    response.stream.close
   end
 
   private

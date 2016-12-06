@@ -454,8 +454,6 @@ GEM
       rack
     rack-mini-profiler (0.9.9.2)
       rack (>= 1.2.0)
-    rack-proxy (0.6.0)
-      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.4)
@@ -690,7 +688,6 @@ DEPENDENCIES
   quiet_assets (~> 1.1)
   rack-livereload (~> 0.3.16)
   rack-mini-profiler (~> 0.9.9.2)
-  rack-proxy (~> 0.6)
   rails (= 4.2.4)
   rails-assets-classnames (~> 2.2.3)!
   rails-assets-es6-promise (~> 3.1.2)!
