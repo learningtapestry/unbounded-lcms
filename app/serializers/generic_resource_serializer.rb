@@ -2,7 +2,7 @@ class GenericResourceSerializer < ActiveModel::Serializer
   include ResourceHelper
 
   self.root = false
-  attributes :id, :title, :subject, :teaser, :path, :instruction_type, :time_to_teach
+  attributes :id, :title, :subject, :teaser, :path, :instruction_type
 
   def subject
     object.subject.try(:downcase) || 'default'
@@ -13,7 +13,9 @@ class GenericResourceSerializer < ActiveModel::Serializer
   end
 
   def title
-    object.resource_type.humanize
+    presenter = GenericPresenter.new(object)
+    return "#{presenter.grades_to_str} #{presenter.type_name}" unless object.grades.blank?
+    presenter.type_name
   end
 
   def teaser
