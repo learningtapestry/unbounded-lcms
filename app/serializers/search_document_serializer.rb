@@ -9,6 +9,8 @@ class SearchDocumentSerializer < ActiveModel::Serializer
     else
       if ['podcast', 'video'].include?(object.doc_type)
         media_path(object.model_id)
+      elsif ['text_set', 'quick_reference_guide'].include?(object.doc_type)
+        generic_path(object.model_id)
       else
         if (slug = object.slug)
           show_with_slug_path(slug)
