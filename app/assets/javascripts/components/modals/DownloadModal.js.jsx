@@ -18,7 +18,7 @@ class DownloadModal extends React.Component {
     const preview = (download.icon == 'pdf') ?
         `<span>
           <a href=${download.preview_url} data-no-turbolink="true" target="_blank">
-            <i class="fa fa-eye" aria-hidden="true"></i>
+            <i class="ub-icon ub-eye" aria-hidden="true"></i>
           </a>
         </span>` : '';
     return `<li>
