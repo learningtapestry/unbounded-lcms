@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   get '/search' => 'search#index'
 
+  mount PdfjsViewer::Rails::Engine => '/pdfjs', as: 'pdfjs'
+
   resources :downloads, only: [:show] do
     member do
       get :preview
