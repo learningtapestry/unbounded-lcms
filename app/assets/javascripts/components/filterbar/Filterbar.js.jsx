@@ -30,8 +30,8 @@ class Filterbar extends React.Component {
         { displayName: 'Units', name: 'unit', selected: false },
         { displayName: 'Lessons', name: 'lesson', selected: false },
         { displayName: 'Content Guides', name: 'content_guide', selected: false },
-        { displayName: 'Videos', name: 'video', selected: false },
-        { displayName: 'Podcasts', name: 'podcast', selected: false },
+        { displayName: 'Multimedia', name: 'multimedia', selected: false },
+        { displayName: 'Other Resources', name: 'other', selected: false },
       ],
       search_term: null
     };
