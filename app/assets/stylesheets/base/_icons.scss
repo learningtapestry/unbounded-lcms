@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ub-eye:before {
+  content: '\e91e';
+}
 .ub-angle-left:before {
   content: '\e900';
 }
@@ -121,6 +124,7 @@
   content: '\e120';
 }
 
+$ub-eye: "\e91e";
 $ub-angle-left: "\e900";
 $ub-cc-by: "\e901";
 $ub-cc-nc: "\e902";
