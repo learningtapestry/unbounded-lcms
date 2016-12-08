@@ -15,6 +15,7 @@
       <% end %>
     </ul>
     <div class="o-resource__cc u-margin-top--base u-margin-bottom--zero u-txt--download-copyright">
+      <%= render partial: 'resources/copyright_icons_generic', locals: { resource: resource } if resource.generic? %>
       <%= copyrights_text(curriculum || resource) %>
     </div>
   </div>

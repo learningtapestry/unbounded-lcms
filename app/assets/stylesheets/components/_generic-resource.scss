@@ -47,7 +47,6 @@ $preview-btn-height: 45px;
   @include e(title) {
     @include txt-element(generic-card-title);
     text-shadow: .5px .9px 1px rgba(0, 0, 0, .15);
-    text-transform: uppercase;
   }
 
   @include e(teaser) {
@@ -55,28 +54,4 @@ $preview-btn-height: 45px;
     @include txt-element(generic-card-teaser);
     text-shadow: .5px .9px 1px rgba(0, 0, 0, .1);
   }
-//   .title {
-//     /* Base text style */
-// width: 166px;
-// height: 10px;
-// opacity: 0.7;
-// text-shadow: 0.5px 0.9px 1px rgba(0, 0, 0, 0.15);
-// color: white;
-// font-family: "Caponi Slab";
-// font-size: 14px;
-// font-weight: 600;
-// line-height: 30px;
-// text-transform: uppercase;
-//   }
-//   .teaser {
-//     /* Base text style */
-// width: 207px;
-// height: 69px;
-// text-shadow: 0.5px 0.9px 1px rgba(0, 0, 0, 0.1);
-// color: white;
-// font-family: "Caponi Slab";
-// font-size: 22px;
-// font-weight: 500;
-// line-height: 24px;
-//   }
 }
