@@ -429,6 +429,9 @@ GEM
       activerecord (~> 4.0)
     orm_adapter (0.5.0)
     os (0.9.6)
+    pdfjs_viewer-rails (0.0.9)
+      rails (> 4.2.0)
+      sass-rails (~> 5.0)
     pg (0.18.2)
     pg_array_parser (0.0.9)
     poltergeist (1.6.0)
@@ -681,6 +684,7 @@ DEPENDENCIES
   oj (~> 2.12.12)
   oj_mimic_json (~> 1.0.1)
   order_as_specified (~> 0.1.0)
+  pdfjs_viewer-rails (~> 0.0.9)
   pg (~> 0.18.2)
   poltergeist
   postgres_ext (~> 3.0)
