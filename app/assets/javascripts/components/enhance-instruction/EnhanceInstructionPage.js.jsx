@@ -127,7 +127,7 @@ class EnhanceInstructionPage extends React.Component {
   render() {
     const tabGuides = this.renderTab('Content Guides', 0);
     const tabResources = this.renderTab('Videos and Podcasts', 1);
-    const tabGeneric = this.renderTab('Additional Resources', 2);
+    const tabGeneric = this.renderTab('Other Resources', 2);
     return (
       <div>
         <div className="u-bg--base-gradient">
