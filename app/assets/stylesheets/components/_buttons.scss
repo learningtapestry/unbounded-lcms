@@ -101,6 +101,11 @@
     @include button-disabled;
   }
 
+  @include m(force-disabled) {
+    cursor: not-allowed !important;
+    opacity: 0.25 !important;
+  }
+
   @each $type, $color in $ub-buttons {
     $btn-color: if($type == 'base', $ub-txt, $ub-white);
     @include m(#{$type}) {
