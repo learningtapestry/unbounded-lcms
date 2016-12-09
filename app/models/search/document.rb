@@ -20,6 +20,10 @@ module Search
     attribute :tag_keywords, Array[String]
     attribute :tag_standards, Array[String]
 
+    def grade_list
+      grade
+    end
+
     def self.build_from(model)
 
       if model.is_a?(Resource)
