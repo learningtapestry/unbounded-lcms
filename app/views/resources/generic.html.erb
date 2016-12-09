@@ -39,7 +39,9 @@
         <% if @resource.preview? %>
           <div class="o-generic-preview">
             <canvas id="o-generic-preview__canvas" class="o-generic-preview__canvas"></canvas>
-            <%= link_to t('ui.show_more'), preview_download_path(@resource.pdf_preview_download), class: 'o-generic-preview__btn o-ub-btn--show-more', target: '_blank' %>
+            <button class="o-generic-preview__btn o-ub-btn--show-more o-ub-btn--force-disabled">
+              <%= t('ui.show_more') %>
+            </button>
           </div>
         <% end %>
         <div class="o-resource__item o-resource__item--description">
