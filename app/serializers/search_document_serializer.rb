@@ -22,7 +22,9 @@ class SearchDocumentSerializer < ActiveModel::Serializer
   end
 
   def type_name
-    object.doc_type.titleize
+    return object.doc_type.titleize if media_resource? || object.grade.blank?
+    presenter = GenericPresenter.new(object)
+    "#{presenter.grades_to_str} #{object.doc_type.titleize}"
   end
 
   def grade

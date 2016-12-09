@@ -22,31 +22,30 @@ class GenericPresenter < ResourcePresenter
   end
 
   def grades_to_str
-    return '' unless grades.any?
+    return '' unless grade_list.any?
     "Grade #{grade_numbers.join(', ')}"
   end
 
   private
 
   def sorted_grade_list
-    (grades.map { |g| g.name.downcase } & GRADES)
-      .sort_by { |g| GRADES.index(g) }
+    (grade_list & GRADES).sort_by { |g| GRADES.index(g) }
   end
 
   def grade_numbers
-    grade_list = sorted_grade_list
-    grades_size = grade_list.size
+    grades_sorted = sorted_grade_list
+    grades_size = grades_sorted.size
     grade_strs = []
     idx = prev_gidx = next_gidx = 0
     while idx < grades_size
-      next_gidx = GRADES.index(grade_list[idx])
-      current_grade_str = grade_number(grade_list[idx])
+      next_gidx = GRADES.index(grades_sorted[idx])
+      current_grade_str = grade_number(grades_sorted[idx])
       idx += 1
       while idx < grades_size
         prev_gidx = next_gidx
-        next_gidx = GRADES.index(grade_list[idx])
+        next_gidx = GRADES.index(grades_sorted[idx])
         if prev_gidx + 1 == next_gidx
-          current_grade_str = "#{current_grade_str[/\w+/]}-#{grade_number(grade_list[idx])}"
+          current_grade_str = "#{current_grade_str[/\w+/]}-#{grade_number(grades_sorted[idx])}"
           idx += 1
         else
           break
