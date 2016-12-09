@@ -57,6 +57,7 @@
     }
   }
   @include e(submit) {
+    display: flex !important;
     flex: 0 0 auto;
     button {
       @include button($background: $ub-subscribe-form-bg, $background-hover: auto, $color: $ub-txt);
