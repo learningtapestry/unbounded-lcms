@@ -7,31 +7,28 @@ class SearchDocumentSerializer < ActiveModel::Serializer
     if model_type == 'content_guide'
       content_guide_path(object.permalink || object.model_id, slug: object.slug)
     else
-      if ['podcast', 'video'].include?(object.doc_type)
-        media_path(object.model_id)
-      elsif ['text_set', 'quick_reference_guide'].include?(object.doc_type)
-        generic_path(object.model_id)
+      return media_path(object.model_id) if media?
+      return generic_path(object.model_id) if generic?
+      if (slug = object.slug)
+        show_with_slug_path(slug)
       else
-        if (slug = object.slug)
-          show_with_slug_path(slug)
-        else
-          resource_path(object.model_id)
-        end
+        resource_path(object.model_id)
       end
     end
   end
 
   def type_name
-    return object.doc_type.titleize if media_resource? || object.grade.blank?
+    return object.doc_type.titleize unless generic? && object.grade.present?
     presenter = GenericPresenter.new(object)
     "#{presenter.grades_to_str} #{object.doc_type.titleize}"
   end
 
   def grade
-    (model_type == 'content_guide' || media_resource?) ? 'base' : grade_color_code
+    generic? || media? || content_guide? ? 'base' : grade_color_code
   end
 
   private
+
   def grade_color_code
     object.grade.each do |g|
       grade = g.downcase
@@ -42,8 +39,15 @@ class SearchDocumentSerializer < ActiveModel::Serializer
     'base'
   end
 
-  def media_resource?
-    object.doc_type == 'video' || object.doc_type == 'podcast'
+  def media?
+    %w(video podcast).include?(object.doc_type)
   end
 
+  def generic?
+    %w(text_set quick_reference_guide).include?(object.doc_type)
+  end
+
+  def content_guide?
+    object.doc_type == 'content_guide'
+  end
 end
