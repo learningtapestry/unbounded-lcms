@@ -12,18 +12,32 @@ function renderPage(pdfDoc, num) {
   // Using promise to fetch the page
   pdfDoc.getPage(num).then(function(page) {
     var viewport = page.getViewport(1);
-    var desiredWidth = $('.o-generic-preview').width;
+    var desiredWidth = $('.o-generic-preview').width();
     var scale = desiredWidth / viewport.width;
     var scaledViewport = page.getViewport(scale);
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
+    canvas.height = scaledViewport.height;
+    canvas.width = scaledViewport.width;
 
     // Render PDF page into canvas context
     var renderContext = {
       canvasContext: context,
-      viewport: viewport
+      viewport: scaledViewport
     };
     page.render(renderContext);
+    replacePDF(scaledViewport.height);
+  });
+}
+
+function replacePDF(height) {
+  $('.o-generic-preview__btn').removeClass('o-ub-btn--force-disabled');
+  $('.o-generic-preview__btn').click(function(e) {
+    e.preventDefault();
+    const options = {
+      pdfOpenParams: { page: 1, view: 'Fit' },
+      PDFJS_URL: Routes.pdfjs_full_path(),
+    };
+    $('.o-generic-preview').height(height);
+    var myPDF = PDFObject.embed(pdfUrl, '.o-generic-preview', options);
   });
 }
 
@@ -33,4 +47,5 @@ ready(function() {
     // first page rendering
     renderPage(pdfDoc, 1);
   });
+
 });
