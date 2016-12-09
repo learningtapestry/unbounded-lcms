@@ -3,6 +3,7 @@ $preview-height: 451px;
 $preview-btn-height: 45px;
 
 .o-generic-preview {
+  @extend %map-transition;
   @include add-gutter;
   border: 1px solid map-get($ub-buttons, show-more);
   height: $preview-height;
