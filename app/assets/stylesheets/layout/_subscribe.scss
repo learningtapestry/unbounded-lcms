@@ -57,8 +57,8 @@
     }
   }
   @include e(submit) {
-    display: flex !important;
     flex: 0 0 auto;
+    height: 100%;
     button {
       @include button($background: $ub-subscribe-form-bg, $background-hover: auto, $color: $ub-txt);
       height: 100%;
