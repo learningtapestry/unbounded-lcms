@@ -1,5 +1,4 @@
 //= require vendor/pdf.js
-//= require vendor/pdf.worker.js
 
 /**
  * Get page info from document, set scale/canvas accordingly, and render page.
@@ -42,6 +41,8 @@ function replacePDF(height) {
 }
 
 ready(function() {
+  PDFJS.workerSrc = window._PDFJSworkerSrc;
+
   if (!$('.o-generic-preview').length) return;
   PDFJS.getDocument(pdfUrl).then(function (pdfDoc) {
     // first page rendering

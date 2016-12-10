@@ -24,6 +24,7 @@ Rails.application.config.assets.precompile += [
   'server_rendering.js',
   'pdf.css',
   'pdf_plain.css',
+  'vendor/pdf.worker.js',
   'pdf_js_preview.js'
 ]
 
