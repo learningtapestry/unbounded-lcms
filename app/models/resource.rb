@@ -2,6 +2,10 @@ class Resource < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
 
+  GRADES = ['prekindergarten', 'kindergarten', 'grade 1', 'grade 2', 'grade 3',
+            'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9',
+            'grade 10', 'grade 11', 'grade 12'].freeze
+
   mount_uploader :image_file, ResourceImageUploader
 
   enum resource_type: {
@@ -148,6 +152,18 @@ class Resource < ActiveRecord::Base
       resource = new
       resource.standard_ids = resources.map(&:standard_ids).inject { |memo, ids| memo &= ids }
       resource
+    end
+
+    def sort_by_type_and_grade
+      type_grade_score = lambda do |r|
+        indices =
+          r.taggings.map do |t|
+            grade = t.tag.name if t.context == 'grades'
+            GRADES.index(grade)
+          end.compact
+        [r.resource_type, indices.min || 0, indices.size]
+      end
+      includes(taggings: :tag).sort_by(&type_grade_score)
     end
   end
 
