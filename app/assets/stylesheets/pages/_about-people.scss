@@ -56,13 +56,13 @@ $staff-img: 120px;
 
     > div { @include txt-element(base); }
 
-    @include breakpoint(large) {
-      > div { width: 75%;  }
-    }
-
-    @include breakpoint(medium) {
-      > div { width: 85%;  }
-    }
+    // @include breakpoint(large) {
+    //   > div { width: 75%;  }
+    // }
+    //
+    // @include breakpoint(medium) {
+    //   > div { width: 85%;  }
+    // }
 
     .close-button {
       color: map-get($ub-yellow, base);
