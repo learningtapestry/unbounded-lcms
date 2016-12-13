@@ -74,6 +74,12 @@
       }
     }
 
+    @include m(no-top-padding) {
+      @include breakpoint(medium) {
+        padding-top: 0;
+      }
+    }
+
     @include m(no-right) {
       padding-right: 0;
 
