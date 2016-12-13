@@ -1,4 +1,6 @@
 class Standard < ActiveRecord::Base
+  mount_uploader :language_progression_file, LanguageProgressionFileUploader
+
   has_many :content_guide_standards
   has_many :content_guides, through: :content_guide_standards
   has_many :resource_standards
@@ -26,4 +28,6 @@ class Standard < ActiveRecord::Base
 
   scope :ela, ->{ where(subject: 'ela') }
   scope :math, ->{ where(subject: 'math') }
+
+  scope :bilingual, ->{ where(is_language_progression_standard: true) }
 end
