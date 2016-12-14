@@ -1,0 +1,12 @@
+.o-standard-form {
+  .input {
+    margin-bottom: 1em;
+  }
+  .o-admin-standard-readonly {
+    label { min-width: 5em; }
+  }
+  label {
+    font-weight: bold;
+    margin: 0 1em 1em 0;
+  }
+}

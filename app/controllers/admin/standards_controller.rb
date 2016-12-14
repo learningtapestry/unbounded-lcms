@@ -2,7 +2,7 @@ class Admin::StandardsController < Admin::AdminController
   before_action :find_standard, except: [:index]
 
   def index
-    @standards = Standard.order(id: :desc).paginate(page: params[:page])
+    @standards = Standard.order(:id).paginate(page: params[:page])
   end
 
   def edit
