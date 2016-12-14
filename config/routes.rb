@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       get :preview
     end
   end
-  get '/downloads/:id/pdf_proxy(/:s3)', as: :pdf_proxy_download, to: 'downloads#pdf_proxy'
+  get '/downloads/:id/pdf_proxy(/:s3)', as: :pdf_proxy_download, to: 'downloads#pdf_proxy', constraints: { s3: /[^\/]+/ }
   get '/downloads/content_guides/:id(/:slug)', as: :content_guide_pdf, to: 'content_guides#show_pdf'
   resources :explore_curriculum, only: [:index, :show]
   resources :enhance_instruction, only: :index
