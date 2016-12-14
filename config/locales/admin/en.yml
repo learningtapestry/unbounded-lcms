@@ -254,6 +254,9 @@ en:
         resources: Resources
         staff_members: Staff Members
         users: Users
+    standards:
+      edit:
+        page_title: "Edit Standard"
     nav:
       curriculums: Curriculums
       add_curriculum: Add curriculum

@@ -1,0 +1,29 @@
+<%= simple_form_for @standard, url: admin_standard_path(@standard), html: { class: 'o-standard-form' } do |f| %>
+
+  <div class="row o-admin-standard-readonly">
+    <label>Name: </label>
+    <span><%= @standard.name %></span>
+  </div>
+
+  <div class="row o-admin-standard-readonly">
+    <label class="col-md-4">Synonyms: </label>
+    <div class="col-md-8"><%= @standard.alt_names.join(' | ') %></div>
+  </div>
+
+  <%= f.input :description, as: :ckeditor, input_html: { rows: 5 } %>
+
+  <%= f.input :is_language_progression_standard %>
+
+  <% if f.object.language_progression_file.url %>
+    <%= f.label :current_image %>
+    <img src="<%= f.object.language_progression_file.url %>" />
+    <%#= f.link_to_remove t('ui.remove'), class: 'small button' %>
+  <% end %>
+  <%= f.input :language_progression_file_cache, as: :hidden %>
+  <%= f.input :language_progression_file, as: :file %>
+
+  <%= f.input :language_progression_note, as: :ckeditor, input_html: { rows: 2 } %>
+
+  <%= f.button :submit, t('ui.save'), name: nil %>
+
+<% end %>
