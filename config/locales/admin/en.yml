@@ -257,6 +257,8 @@ en:
     standards:
       edit:
         page_title: "Edit Standard"
+      update:
+        success: Standard updated
     nav:
       curriculums: Curriculums
       add_curriculum: Add curriculum
