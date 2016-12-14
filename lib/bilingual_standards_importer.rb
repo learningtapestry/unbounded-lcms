@@ -8,39 +8,31 @@ class BilingualStandardsImporter
   end
 
   def run!
-    not_found = []
     CSV.foreach(csv_filepath, headers: true) do |row|
-      (row['Standard'] || '').split(',').each do |std|
-        orig_std = std.strip
-        print "#{orig_std}\t"
-        std = std.gsub('-','.').gsub(' ', '')
-        found = find_standard(std)
-        not_found << orig_std unless found
-        print "-> #{found.try(:name)}\n"
+      standards(row).each do |std|
+        standard = find_standard clean_name(std)
+
+        if standard
+          standard.file = File.open file_path(row)
+          standard.is_language_progression_standard = true
+          standard.save!
+
+          puts "-- Standard imported : #{row['Standard']}"
+        end
       end
-      # resource_type = row['resource_type'].gsub(' ', '_').underscore
-
-      # resource = Resource.create(
-      #   title: row['title'],
-      #   teaser: row['teaser'],
-      #   resource_type: Resource.resource_types[resource_type],
-      #   description: row['description'],
-      #   subject: row['subject'].downcase
-      # )
-
-      # filename = row['file_name']
-      # find_files(filename).each do |path|
-      #   download = Download.create(file: File.open(path), title: filename, main: path.end_with?('.pdf'))
-      #   resource.downloads << download
-      # end
-
-
-      # resource.save
-      # puts "-- imported: id=#{resource.id} title=#{resource.title}"
     end
-    puts "\n\n================"
-    puts "#{not_found.count} NOT FOUND!"
-    puts not_found
+  end
+
+  def standards(row)
+    (row['Standard'] || '').split(',')
+  end
+
+  def clean_name(std)
+    std.strip.gsub('-','.').gsub(' ', '')
+  end
+
+  def file_path(row)
+    File.join(files_dir, row['Filename'])
   end
 
   def find_standard(std)
