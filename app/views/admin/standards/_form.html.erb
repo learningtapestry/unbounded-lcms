@@ -1,4 +1,4 @@
-<%= simple_form_for @standard, url: admin_standard_path(@standard), html: { class: 'o-standard-form' } do |f| %>
+<%= simple_form_for @standard, as: :standard, url: admin_standard_path(@standard), html: { class: 'o-standard-form' } do |f| %>
 
   <div class="row o-admin-standard-readonly">
     <label>Name: </label>
@@ -12,18 +12,18 @@
 
   <%= f.input :description, as: :ckeditor, input_html: { rows: 5 } %>
 
-  <%= f.input :is_language_progression_standard %>
-
   <% if f.object.language_progression_file.url %>
-    <%= f.label :current_image %>
-    <img src="<%= f.object.language_progression_file.url %>" />
-    <%#= f.link_to_remove t('ui.remove'), class: 'small button' %>
+    <div class="o-standard-form-current-file">
+      <%= f.label :current_image %>
+      <img src="<%= f.object.language_progression_file.url %>" />
+    </div>
+    <label><%= f.check_box :remove_language_progression_file %> Remove file</label>
   <% end %>
-  <%= f.input :language_progression_file_cache, as: :hidden %>
+
   <%= f.input :language_progression_file, as: :file %>
+  <%= f.input :language_progression_file_cache, as: :hidden %>
 
   <%= f.input :language_progression_note, as: :ckeditor, input_html: { rows: 2 } %>
 
   <%= f.button :submit, t('ui.save'), name: nil %>
-
 <% end %>

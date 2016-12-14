@@ -22,6 +22,17 @@ class Admin::StandardsController < Admin::AdminController
     end
 
     def standard_params
-      params.require(:standard).permit(:note, :description, :file)
+      @std_params ||= params.require(:standard).permit(
+        :description,
+        :language_progression_note,
+        :language_progression_file,
+        :language_progression_file_cache,
+        :remove_language_progression_file,
+      ).tap do |whitelist|
+        ps = params[:standard]
+
+        whitelist[:is_language_progression_standard] = true  if ps[:language_progression_file].present?
+        whitelist[:is_language_progression_standard] = false if ps[:remove_language_progression_file] == '1'
+      end
     end
 end
