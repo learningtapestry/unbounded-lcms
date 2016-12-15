@@ -211,6 +211,10 @@ class Resource < ActiveRecord::Base
     Standard.where(id: ids).pluck(:alt_names).flatten.uniq.sort
   end
 
+  def bilingual_standards
+    standards.bilingual
+  end
+
   def first_tree
     curriculums.trees.first
   end

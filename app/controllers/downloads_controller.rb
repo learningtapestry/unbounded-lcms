@@ -35,9 +35,13 @@ class DownloadsController < ApplicationController
   private
 
   def init_download
-    resource_download = ResourceDownload.find(params[:id])
-    @resource = GenericPresenter.new(resource_download.resource)
-    @download = resource_download.download
+    if params[:type].present?
+      @download = Standard.find(params[:id])
+    else
+      resource_download = ResourceDownload.find(params[:id])
+      @resource = GenericPresenter.new(resource_download.resource)
+      @download = resource_download.download
+    end
   end
 
   def init_resource
