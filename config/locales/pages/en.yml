@@ -75,6 +75,8 @@ en:
     media:
       related_guides_subtitle: Guides that feature this %{type} will appear in this section.
       related_guides_title: Related Guides
+    bilingual:
+      standard_title: "English Language Acquisition Scaffolds for %{std}"
   search:
     index:
       page_title: UnboundEd - Search

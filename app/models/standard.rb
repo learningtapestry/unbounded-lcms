@@ -43,4 +43,12 @@ class Standard < ActiveRecord::Base
       SQL
     )
   end
+
+  def attachment_url
+    language_progression_file.url if language_progression_file.present?
+  end
+
+  def short_name
+    alt_names.try(:first) || name
+  end
 end
