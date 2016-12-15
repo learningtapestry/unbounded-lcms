@@ -1,0 +1,15 @@
+.o-bilingual-stds {
+  @include txt-element(base);
+  @include flex-grid-row;
+
+  @include e(item) {
+    @include flex-grid-column(12);
+    border: $table-border;
+    padding-bottom: rem-calc(10);
+    padding-top: rem-calc(10);
+
+    @include breakpoint(xlarge) {
+      @include flex-grid-column(6);
+    }
+  }
+}
