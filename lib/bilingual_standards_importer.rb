@@ -13,12 +13,20 @@ class BilingualStandardsImporter
         standard = find_standard clean_name(std)
 
         if standard
-          standard.file = File.open file_path(row)
-          standard.is_language_progression_standard = true
-          standard.save!
+          path = file_path(row)
+          if File.exists?(path)
+            standard.language_progression_file = File.open path
+            standard.is_language_progression_standard = true
+            standard.save!
 
-          puts "-- Standard imported : #{row['Standard']}"
+            puts "-- Standard imported : #{row['Standard']}"
+          else
+            puts "-- File NOT FOUND: #{row['Filename']}"
+          end
+        else
+          puts "-- Standard NOT FOUND: #{row['Standard']}"
         end
+
       end
     end
   end
