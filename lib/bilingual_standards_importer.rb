@@ -19,7 +19,7 @@ class BilingualStandardsImporter
             standard.is_language_progression_standard = true
             standard.save!
 
-            puts "-- Standard imported : #{row['Standard']}"
+            puts "-- Standard imported : #{std}"
           else
             puts "-- File NOT FOUND: #{row['Filename']}"
           end

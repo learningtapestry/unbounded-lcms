@@ -2,7 +2,14 @@ class Admin::StandardsController < Admin::AdminController
   before_action :find_standard, except: [:index]
 
   def index
-    @standards = Standard.order(:id).paginate(page: params[:page])
+    query = Standard.all.order(:id)
+    @q = OpenStruct.new(params[:q])
+
+    if @q
+      query = Standard.bilingual if @q[:is_language_progression_standard] == '1'
+      query = query.search_by_name(@q[:name]) if @q[:name].present?
+    end
+    @standards = query.paginate(page: params[:page])
   end
 
   def edit
