@@ -78,9 +78,6 @@ class CommonCoreStandard < Standard
       # 6.rp.a.3a -> 6.rp.a.3.a
       letters_expand = base_name.gsub(/\.([1-9])([a-z])$/, '.\1.\2')
 
-      # 6.rp.a.3 -> 6rpa3
-      clean_name = base_name.gsub(/[\.-]/, '')
-
       # 6-rp.a.3 -> 6.rp.a.3
       dot_name = base_name.gsub(/[-]/, '.')
 
@@ -95,11 +92,13 @@ class CommonCoreStandard < Standard
       end
 
       alt_names << base_name
-      alt_names << clean_name
       alt_names << letters_expand
       alt_names << dot_name
       alt_names << prefixed_dot_name
     end
+
+    # add "clean" names: ela.r.1.2 -> elar12
+    alt_names = alt_names | alt_names.map {|n| n.gsub(/[\.-]/, '') }.uniq
 
     unless regenerate
       alt_names.merge(self.alt_names)
