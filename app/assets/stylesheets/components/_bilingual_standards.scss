@@ -3,13 +3,12 @@
   @include flex-grid-row;
 
   @include e(item) {
-    @include flex-grid-column(12);
+    @include flex-grid-column(12, 0);
     border: $table-border;
-    padding-bottom: rem-calc(10);
-    padding-top: rem-calc(10);
+    padding: $table-padding;
 
     @include breakpoint(xlarge) {
-      @include flex-grid-column(6);
+      @include flex-grid-column(6, 0);
     }
   }
 }

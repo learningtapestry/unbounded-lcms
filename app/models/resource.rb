@@ -1,6 +1,7 @@
 class Resource < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
+  include CCSSStandardFilter
 
   GRADES = ['prekindergarten', 'kindergarten', 'grade 1', 'grade 2', 'grade 3',
             'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9',
@@ -208,7 +209,8 @@ class Resource < ActiveRecord::Base
     ids = StandardLink.where(standard_end_id: common_core_standards.pluck(:id))
                       .where.not(link_type: 'c')
                       .pluck(:standard_begin_id)
-    Standard.where(id: ids).pluck(:alt_names).flatten.uniq.sort
+    Standard.where(id: ids).pluck(:alt_names).flatten.uniq
+            .map { |n| filter_ccss_standards(n) }.compact.sort
   end
 
   def bilingual_standards
@@ -287,6 +289,15 @@ class Resource < ActiveRecord::Base
       authors: reading_assignment_texts.map {|t| t.author.try(:name) }.compact.uniq,
       texts: reading_assignment_texts.map(&:name).uniq,
     }
+  end
+
+  def filtered_named_tags
+    filtered_named_tags = named_tags
+    filtered_named_tags.merge(
+      ccss_standards: named_tags[:ccss_standards]
+                        .map { |n| filter_ccss_standards(n) }
+                        .compact
+    )
   end
 
   def tag_standards

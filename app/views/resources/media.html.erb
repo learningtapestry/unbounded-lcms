@@ -39,7 +39,7 @@
           <h3>Description</h3>
           <%= @resource.description.try(:html_safe) %>
         </div>
-        <%= render_tag_clouds(@resource.named_tags, @resource.color_code) %>
+        <%= render_tag_clouds(@resource.filtered_named_tags, @resource.color_code) %>
         <% if @resource.engageny_url %>
         <div class="o-resource__item o-resource__item--credits">
           <h3>Credits</h3>

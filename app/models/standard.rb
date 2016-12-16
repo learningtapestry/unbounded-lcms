@@ -1,4 +1,5 @@
 class Standard < ActiveRecord::Base
+  include CCSSStandardFilter
   mount_uploader :language_progression_file, LanguageProgressionFileUploader
 
   has_many :content_guide_standards
@@ -49,6 +50,6 @@ class Standard < ActiveRecord::Base
   end
 
   def short_name
-    alt_names.try(:first) || name
+    alt_names.map { |n| filter_ccss_standards(n) }.compact.try(:first) || name
   end
 end
