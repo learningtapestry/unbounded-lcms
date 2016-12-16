@@ -4,7 +4,7 @@ function GenericResourceCard(props) {
   const bemClass = _.partial(convertToBEM, mainClass);
   const cssGeneric = classNames(
     mainClass,
-    `cs-link-bg--${colorCodeCss(item.subject)}`
+    `cs-link-bg--${colorCodeCss(item.subject, item.grade_avg)}`
   );
 
   return (

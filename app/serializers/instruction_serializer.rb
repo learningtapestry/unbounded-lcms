@@ -1,6 +1,6 @@
 class InstructionSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type
+  attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type, :grade_avg
 
   def title
     ActionController::Base.helpers.simple_format(object.title)

@@ -1,9 +1,9 @@
 @mixin cg-page-color-scheme($map) {
-  .c-cg-hero {
-    @include e(body) {
-      background: map-get($map, header-bg);
-    }
-  }
+  // .c-cg-hero {
+  //   @include e(body) {
+  //     background: map-get($map, header-bg);
+  //   }
+  // }
 
   .c-cg-btn-download {
     $background: map-get($map, btn-download-bg);
