@@ -11,7 +11,7 @@ class DownloadsController < ApplicationController
   end
 
   def preview
-    ga_track(category: 'preview')
+    ga_track('preview')
     RestClient.head(@download.attachment_url)
   rescue RestClient::ExceptionWithResponse => e
     render text: e.response, status: '404'
@@ -55,7 +55,7 @@ class DownloadsController < ApplicationController
     end
   end
 
-  def ga_track(category:)
+  def ga_track(category = nil)
     action = show_with_slug_path(ResourceSlug.find(params[:slug_id]).value) if params[:slug_id]
     label = @download.attachment_url
     ga_track_download(action: action, label: label, category: category)
