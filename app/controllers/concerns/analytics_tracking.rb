@@ -20,7 +20,7 @@ module AnalyticsTracking
       @ga_id ||= ENV['GOOGLE_ANALYTICS_ID']
     end
 
-    def ga_track_download(action:, label:, category:)
+    def ga_track_download(action:, label:, category: nil)
       return if ga_client_id.blank?
       return if is_googlebot?(ua: request.user_agent)
 
