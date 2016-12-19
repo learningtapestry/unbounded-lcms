@@ -42,8 +42,19 @@ body {
     padding-top: 0;
   }
 
-  @include m(base) {
+  @include m(ela) {
     @extend %pdf-full-height;
+    background: map-get($ub-cg-ela-colors, btn-download-bg);
+  }
+
+  @include m(math) {
+    @extend %pdf-full-height;
+    background: map-get($ub-cg-math-colors, btn-download-bg);
+  }
+
+  @include m(lead) {
+    @extend %pdf-full-height;
+    background: map-get($ub-cg-lead-colors, btn-download-bg);
   }
 
   @include e(wrap) {
