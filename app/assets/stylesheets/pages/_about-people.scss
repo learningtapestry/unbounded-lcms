@@ -7,6 +7,9 @@ $staff-img: 120px;
     font-weight: 600;
     padding-bottom: $ub-small-padding;
   }
+  @include breakpoint(large) {
+    p { width: 70%; }
+  }
 }
 
 @mixin staff-dsc($dsc-count) {
@@ -48,6 +51,7 @@ $staff-img: 120px;
 
   @include e(dsc) {
     @extend %material-card;
+    @extend %popup-shadow;
     @include callout-base;
     @include callout($ub-white);
     @include add-column-padding;
@@ -56,17 +60,17 @@ $staff-img: 120px;
 
     > div { @include txt-element(base); }
 
-    @include breakpoint(large) {
-      > div { width: 75%;  }
-    }
-
-    @include breakpoint(medium) {
-      > div { width: 85%;  }
-    }
+    // @include breakpoint(large) {
+    //   > div { width: 75%;  }
+    // }
+    //
+    // @include breakpoint(medium) {
+    //   > div { width: 85%;  }
+    // }
 
     .close-button {
       color: map-get($ub-yellow, base);
-      font-size: x-large;
+      font-size: xx-large;
       font-weight: bold;
     }
   }
@@ -93,9 +97,12 @@ $staff-img: 120px;
     flex: 1 1 0;
     padding: $ub-base-padding $ub-xs-padding;
 
-    h3 { color: $ub-primary; }
+    h3 {
+      @include txt-element(staff-name);
+      margin-bottom: .5rem;
+    }
     h4 {
-      font-size: map-get(map-get($ub-element-typography, base), 'font-size');
+      @include txt-element(staff-position);
     }
   }
 }
