@@ -26,7 +26,10 @@
   @include add-gutter($type: margin, $subtype: bottom);
   @include add-gutter($type: margin, $subtype: top);
 
-  h2 { @include txt-element(media-header); }
+  h2 {
+    @include txt-element(media-header);
+    margin-bottom: 1rem;
+  }
   p { @include txt-element(media-text); }
 }
 
