@@ -9,12 +9,12 @@
   </div>
   <%= render partial: 'resources/header', locals: { curriculum: nil,
                                                     resource: @resource,
-                                                    color_code: @resource.color_code } %>
+                                                    color_code: @resource.color_code(@grade_color_code) } %>
   <div class="o-page__section u-padding-top--gutter u-bg--light">
     <div class="o-resource-title">
       <div class="o-resource-title__title">
         <div class="o-title u-text--uppercase">
-          <span class="o-title__type cs-txt--<%= @resource.color_code %>"><%= @resource.type_name %></span>
+          <span class="o-title__type cs-txt--<%= @resource.color_code(@grade_color_code) %>"><%= @resource.type_name %></span>
           <!-- <span class="o-title__duration"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span> -->
         </div>
         <h1><%= @resource.title %></h1>
@@ -54,7 +54,7 @@
         <% if @resource.copyright_attributions.present? %>
         <div class="o-resource__item o-resource__item--credits">
           <h3>Credits</h3>
-          <%= render partial: 'resources/engageny_generic', locals: { resource: @resource, color_code: @resource.color_code } %>
+          <%= render partial: 'resources/engageny_generic', locals: { resource: @resource, color_code: @resource.color_code(@grade_color_code) } %>
         </div>
         <% end %>
       </div>
