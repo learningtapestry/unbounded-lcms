@@ -82,7 +82,8 @@
             </div>
             <%= render partial: 'resources/downloads', locals: { resource: @resource, curriculum: @curriculum } %>
             <%= render partial: 'resources/prerequisites_standards', locals: { standards: @resource.prerequisites_standards, color_code: @resource.color_code } %>
-            <%= render_tag_clouds(@curriculum.named_tags, @resource.color_code) %>
+            <%= render partial: 'resources/bilingual_standards', locals: { standards: @resource.bilingual_standards, color_code: @resource.color_code, curriculum: @curriculum } %>
+            <%= render_tag_clouds(@curriculum.filtered_named_tags, @resource.color_code) %>
             <% if @resource.engageny_url %>
             <div class="o-resource__item  o-resource__item--credits">
               <h3>Credits</h3>

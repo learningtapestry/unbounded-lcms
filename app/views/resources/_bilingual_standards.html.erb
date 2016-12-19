@@ -1,0 +1,14 @@
+<% unless standards.empty? %>
+<div class="o-resource__item">
+  <h3>Bilingual Language Progressions</h3>
+  <p>These resources, developed by the New York State Education Department, provide standard-level scaffolding suggestions for English Language Learners (ELLs) to help them meet grade-level demands. Each resource contains scaffolds at multiple levels of language acquisition and describes the linguistic demands of the standards to help ELA teachers as well as ESL/bilingual teachers scaffold content for their English learning students.</p>
+  <div class="o-bilingual-stds o-resource__list--<%= color_code %>">
+  <% standards.each do |standard| %>
+    <div class="o-bilingual-stds__item">
+      <%= link_to t('resources.bilingual.standard_title', std: standard.short_name),
+                  download_path(standard, slug_id: curriculum.try(:slug).try(:id), type: 'standard')%>
+    </div>
+  <% end %>
+</div>
+</div>
+<% end %>

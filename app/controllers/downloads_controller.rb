@@ -4,13 +4,14 @@ class DownloadsController < ApplicationController
 
   before_action :init_download
   before_action :init_resource, only: :preview
-  before_action :ga_track, except: :pdf_proxy
+  before_action :ga_track, except: [:pdf_proxy, :preview]
 
   def show
     redirect_to @download.attachment_url
   end
 
   def preview
+    ga_track('preview')
     RestClient.head(@download.attachment_url)
   rescue RestClient::ExceptionWithResponse => e
     render text: e.response, status: '404'
@@ -35,9 +36,13 @@ class DownloadsController < ApplicationController
   private
 
   def init_download
-    resource_download = ResourceDownload.find(params[:id])
-    @resource = GenericPresenter.new(resource_download.resource)
-    @download = resource_download.download
+    if params[:type].present?
+      @download = Standard.find(params[:id])
+    else
+      resource_download = ResourceDownload.find(params[:id])
+      @resource = GenericPresenter.new(resource_download.resource)
+      @download = resource_download.download
+    end
   end
 
   def init_resource
@@ -50,9 +55,9 @@ class DownloadsController < ApplicationController
     end
   end
 
-  def ga_track
+  def ga_track(category = nil)
     action = show_with_slug_path(ResourceSlug.find(params[:slug_id]).value) if params[:slug_id]
     label = @download.attachment_url
-    ga_track_download(action: action, label: label)
+    ga_track_download(action: action, label: label, category: category)
   end
 end
