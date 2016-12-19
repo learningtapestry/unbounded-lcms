@@ -57,7 +57,7 @@ $ub-element-typography: (
   connect-text: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-serif),
   resource-map-header: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-serif, color: #898989),
   filter-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: $ub-primary1),
-  filter-subheader: ('font-size': 20px, 'line-height': 32px, 'font-family': $ub-serif, 'font-style': italic),
+  filter-subheader: ('font-size': 20px, 'line-height': 24px, 'font-family': $ub-serif, 'font-style': italic),
   filter-btn: ('font-size': 18px, 'line-height': 18px, 'font-family': $ub-serif, 'font-weight': 600),
   filter-label: ('font-size': 22px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 600),
   filter-input: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-sanserif),

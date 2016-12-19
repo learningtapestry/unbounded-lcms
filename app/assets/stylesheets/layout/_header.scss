@@ -20,6 +20,13 @@
 .c-header {
   background-color: rgba($ub-primary, .9);
 
+  @include breakpoint(medium down) {
+    > .o-page {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
   @include e(menu) {
     @include menu-direction(vertical);
     > li > a { @include header-link-padding; }
@@ -97,7 +104,7 @@
     }
     > a {
       @include txt-element(nav-span);
-      font-size: 18px;
+      font-size: 20px;
       span:last-child:before { content: '\00a0'; }
       @include breakpoint($topbar-unstack-breakpoint) {
         @include txt-element(nav-span);

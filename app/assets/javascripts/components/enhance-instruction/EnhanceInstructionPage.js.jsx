@@ -126,7 +126,7 @@ class EnhanceInstructionPage extends React.Component {
 
   render() {
     const tabGuides = this.renderTab('Content Guides', 0);
-    const tabResources = this.renderTab('Videos and Podcasts', 1);
+    const tabResources = this.renderTab('Multimedia', 1);
     const tabGeneric = this.renderTab('Other Resources', 2);
     return (
       <div>

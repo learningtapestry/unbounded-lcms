@@ -71,7 +71,7 @@ $footer-padding: 5px;
       display: inline-flex;
       flex-wrap: wrap;
       li { flex: 0 0 auto; }
-      li a { padding: .1rem 0; }
+      li a { line-height: 1.5; padding: .1rem 0; }
       li.t-bullet { padding: .1rem $footer-padding; }
     }
   }
