@@ -10,5 +10,16 @@ namespace :import do
       GenericResourcesImporter.new(csv_path, files_dir).run!
     end
   end
+
+  desc 'Import emphasis csv (see issue 455)'
+  task emphasis: :environment do
+    csv_path = ENV['CSV_PATH']
+
+    unless csv_path
+      puts "Usage example: rake import:emphasis CSV_PATH=<full_path>"
+    else
+      EmphasisImporter.new(csv_path).run!
+    end
+  end
 end
 
