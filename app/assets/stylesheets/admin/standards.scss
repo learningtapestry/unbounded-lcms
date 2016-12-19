@@ -1,0 +1,24 @@
+.o-standard-form {
+  .input {
+    margin-bottom: 1em;
+  }
+  .o-admin-standard-readonly {
+    label { min-width: 5em; }
+  }
+  label {
+    font-weight: bold;
+    margin: 0 1em 1em 0;
+  }
+}
+.o-admin-standards-table {
+  width: 100%;
+}
+.o-admin-standards-search {
+  .input.string:first-child {
+    padding-left: 0;
+  }
+  .input.boolean {
+    margin-bottom: 1em;
+    margin-right: 2em;
+  }
+}

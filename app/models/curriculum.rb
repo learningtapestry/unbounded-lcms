@@ -640,6 +640,11 @@ class Curriculum < ActiveRecord::Base
     resource.named_tags.merge! resource_type: curriculum_type.try(:name)
   end
 
+  def filtered_named_tags
+    resource.filtered_named_tags
+            .merge!(resource_type: curriculum_type.try(:name))
+  end
+
   def copyrights
     curriculum = self
     loop do

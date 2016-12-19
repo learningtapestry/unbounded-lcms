@@ -23,5 +23,5 @@ ready(function() {
   $('.selectize').selectize({
     allowEmptyOption: true,
     plugins: ['remove_button']
-  }); 
+  });
 });

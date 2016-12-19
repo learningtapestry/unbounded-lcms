@@ -254,6 +254,11 @@ en:
         resources: Resources
         staff_members: Staff Members
         users: Users
+    standards:
+      edit:
+        page_title: "Edit Standard"
+      update:
+        success: Standard updated
     nav:
       curriculums: Curriculums
       add_curriculum: Add curriculum
@@ -274,3 +279,4 @@ en:
       import_content_guide: Import Content Guide
       import_glossary: Import Glossary
       sign_out: Sign out
+      standards: Standards
