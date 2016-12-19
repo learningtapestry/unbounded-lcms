@@ -2,7 +2,7 @@ class GenericResourceSerializer < ActiveModel::Serializer
   include ResourceHelper
 
   self.root = false
-  attributes :id, :title, :subject, :teaser, :path, :instruction_type
+  attributes :id, :title, :subject, :teaser, :path, :instruction_type, :grade_avg
 
   def subject
     object.subject.try(:downcase) || 'default'

@@ -54,7 +54,7 @@ body {
 
   @include m(lead) {
     @extend %pdf-full-height;
-    background: map-get($ub-cg-lead-colors, btn-download-bg);    
+    background: map-get($ub-cg-lead-colors, btn-download-bg);
   }
 
   @include e(wrap) {

@@ -2,10 +2,7 @@ class Resource < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
   include CCSSStandardFilter
-
-  GRADES = ['prekindergarten', 'kindergarten', 'grade 1', 'grade 2', 'grade 3',
-            'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9',
-            'grade 10', 'grade 11', 'grade 12'].freeze
+  include GradeListHelper
 
   mount_uploader :image_file, ResourceImageUploader
 
@@ -160,7 +157,7 @@ class Resource < ActiveRecord::Base
         indices =
           r.taggings.map do |t|
             grade = t.tag.name if t.context == 'grades'
-            GRADES.index(grade)
+            GradeListHelper::GRADES.index(grade)
           end.compact
         [r.resource_type, indices.min || 0, indices.size]
       end

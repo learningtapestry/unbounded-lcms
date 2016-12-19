@@ -1,6 +1,7 @@
 module Search
   class Document
     include Virtus.model
+    include GradeListHelper
 
     attribute :id, String
     attribute :model_type, String
