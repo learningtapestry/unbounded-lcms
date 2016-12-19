@@ -24,20 +24,10 @@ class SearchDocumentSerializer < ActiveModel::Serializer
   end
 
   def grade
-    generic? || media? || content_guide? ? 'base' : grade_color_code
+    generic? || media? || content_guide? ? object.grade_avg : object.grade_color_code
   end
 
   private
-
-  def grade_color_code
-    object.grade.each do |g|
-      grade = g.downcase
-      return 'k' if grade == 'kindergarten'
-      return 'pk' if grade == 'prekindergarten'
-      return grade[/\d+/] if grade[/\d+/]
-    end
-    'base'
-  end
 
   def media?
     %w(video podcast).include?(object.doc_type)

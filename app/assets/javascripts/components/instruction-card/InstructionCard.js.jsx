@@ -4,7 +4,7 @@ function InstructionCard(props) {
   const bemClass = _.partial(convertToBEM, mainClass);
   const cssInstruction = classNames(
     'o-instruction-card',
-    `cs-link-bg--${colorCodeCss(item.subject)}`,
+    `cs-link-bg--${colorCodeCss(item.subject, item.grade_avg)}`,
     mainClass
   );
   const cssWrapper = classNames(
