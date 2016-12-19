@@ -47,7 +47,7 @@ class DownloadsController < ApplicationController
 
   def init_resource
     if @resource.generic?
-      @color_code = @resource.color_code
+      @color_code = @resource.color_code(@resource.grade_avg)
     else
       curriculum = @resource.first_tree
       @color_code = @resource.color_code(curriculum.try(:grade_color_code))

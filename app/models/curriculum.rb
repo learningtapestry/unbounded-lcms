@@ -558,15 +558,7 @@ class Curriculum < ActiveRecord::Base
   end
 
   def grade_color_code
-    if current_grade.try(:resource).try(:grades)
-      current_grade.resource.grades.each do |g|
-        grade = g.name.downcase
-        return 'k' if grade == 'kindergarten'
-        return 'pk' if grade == 'prekindergarten'
-        return grade[/\d+/] if grade[/\d+/]
-      end
-    end
-    'base'
+    current_grade.try(:resource).try(:grade_color_code)
   end
 
   def generate_hierarchical_position
