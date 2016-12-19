@@ -214,7 +214,7 @@ class Resource < ActiveRecord::Base
   end
 
   def bilingual_standards
-    standards.bilingual
+    standards.bilingual.distinct.order(:name)
   end
 
   def first_tree
