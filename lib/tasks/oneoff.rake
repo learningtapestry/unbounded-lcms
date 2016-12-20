@@ -6,7 +6,7 @@ namespace :oneoff do
       right_std = Standard.where("alt_names @> '{#{std}}' AND name != '#{std}'").first
 
       right_std.emphasis = wrong_std.emphasis
-      right_std.cluster_id = wrong.cluster_id
+      right_std.cluster_id = wrong_std.cluster_id
       right_std.save
       wrong_std.destroy
 
