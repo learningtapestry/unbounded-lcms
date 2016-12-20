@@ -7,7 +7,7 @@
       <i class="fa-lg ub-arrow-left"></i> <%= t('instructions.btn.back') %>
     <% end %>
   </div>
-  <div class="o-page__section cs-bg--<%= @resource.color_code %>">
+  <div class="o-page__section cs-bg--<%= @resource.color_code(@grade_color_code) %>">
     <div class="o-content-title u-text--capitalized">
       <%= @resource.media_title %>
     </div>
@@ -39,16 +39,16 @@
           <h3>Description</h3>
           <%= @resource.description.try(:html_safe) %>
         </div>
-        <%= render_tag_clouds(@resource.named_tags, @resource.color_code) %>
+        <%= render_tag_clouds(@resource.filtered_named_tags, @resource.color_code) %>
         <% if @resource.engageny_url %>
         <div class="o-resource__item o-resource__item--credits">
           <h3>Credits</h3>
-          <%= render partial: 'resources/engageny', locals: { resource: @resource, color_code: @resource.color_code } %>
+          <%= render partial: 'resources/engageny', locals: { resource: @resource, color_code: @resource.color_code(@grade_color_code) } %>
         </div>
         <% end %>
       </div>
     </div>
-    <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code %>">
+    <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code(@grade_color_code) %>">
       <div class="o-resource-summary__map o-resource-summary__map--2x"></div>
       <div class="o-resource-summary__content--2x">
         <h3><%= t('.related_guides_title') %></h3>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128134756) do
+ActiveRecord::Schema.define(version: 20161216133644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -338,23 +338,27 @@ ActiveRecord::Schema.define(version: 20161128134756) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subject",                         null: false
+    t.string   "subject",                                          null: false
     t.string   "emphasis"
     t.integer  "standard_strand_id"
     t.string   "asn_identifier"
     t.string   "description"
-    t.text     "grades",             default: [], null: false, array: true
+    t.text     "grades",                           default: [],    null: false, array: true
     t.string   "label"
-    t.text     "alt_names",          default: [], null: false, array: true
+    t.text     "alt_names",                        default: [],    null: false, array: true
     t.string   "type"
     t.integer  "cluster_id"
     t.integer  "domain_id"
+    t.string   "language_progression_file"
+    t.string   "language_progression_note"
+    t.boolean  "is_language_progression_standard", default: false, null: false
   end
 
   add_index "standards", ["asn_identifier"], name: "index_standards_on_asn_identifier", unique: true, using: :btree
   add_index "standards", ["cluster_id"], name: "index_standards_on_cluster_id", using: :btree
   add_index "standards", ["domain_id"], name: "index_standards_on_domain_id", using: :btree
   add_index "standards", ["emphasis"], name: "index_standards_on_emphasis", using: :btree
+  add_index "standards", ["is_language_progression_standard"], name: "index_standards_on_is_language_progression_standard", using: :btree
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
   add_index "standards", ["standard_strand_id"], name: "index_standards_on_standard_strand_id", using: :btree
   add_index "standards", ["subject"], name: "index_standards_on_subject", using: :btree

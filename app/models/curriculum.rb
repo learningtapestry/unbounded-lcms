@@ -558,15 +558,7 @@ class Curriculum < ActiveRecord::Base
   end
 
   def grade_color_code
-    if current_grade.try(:resource).try(:grades)
-      current_grade.resource.grades.each do |g|
-        grade = g.name.downcase
-        return 'k' if grade == 'kindergarten'
-        return 'pk' if grade == 'prekindergarten'
-        return grade[/\d+/] if grade[/\d+/]
-      end
-    end
-    'base'
+    current_grade.try(:resource).try(:grade_color_code)
   end
 
   def generate_hierarchical_position
@@ -646,6 +638,11 @@ class Curriculum < ActiveRecord::Base
 
   def named_tags
     resource.named_tags.merge! resource_type: curriculum_type.try(:name)
+  end
+
+  def filtered_named_tags
+    resource.filtered_named_tags
+            .merge!(resource_type: curriculum_type.try(:name))
   end
 
   def copyrights
