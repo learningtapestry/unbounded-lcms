@@ -4,8 +4,11 @@ class Standard < ActiveRecord::Base
 
   has_many :content_guide_standards, dependent: :destroy
   has_many :content_guides, through: :content_guide_standards
+
   has_many :resource_standards
   has_many :resources, through: :resource_standards
+
+  has_many :standard_emphases, dependent: :destroy
 
   scope :by_grade, ->(grade) {
     self.by_grades([grade])
