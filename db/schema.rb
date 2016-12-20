@@ -410,10 +410,6 @@ ActiveRecord::Schema.define(version: 20161220142204) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "cms_section_images", "cms_images"
-  add_foreign_key "cms_section_images", "cms_sections"
-  add_foreign_key "cms_sections", "cms_versions"
-  add_foreign_key "cms_versions", "cms_entries"
   add_foreign_key "content_guide_standards", "content_guides", on_delete: :cascade
   add_foreign_key "content_guide_standards", "standards"
   add_foreign_key "copyright_attributions", "resources"

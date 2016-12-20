@@ -55,4 +55,8 @@ class Standard < ActiveRecord::Base
   def short_name
     alt_names.map { |n| filter_ccss_standards(n) }.compact.try(:first) || name
   end
+
+  def emphasis
+    standard_emphasis.first
+  end
 end
