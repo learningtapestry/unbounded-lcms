@@ -77,8 +77,7 @@
   }
 
   @include e(header) {
-    font-size: 1.25rem;
-    font-weight: bold;
+    @include txt-element(cg-sidebar-header);
     margin-bottom: 1rem;
     span { padding: .4rem 0 .4rem 1rem; }
   }
