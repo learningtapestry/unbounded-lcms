@@ -11,6 +11,16 @@
 
   @include e(subheader) {
     @include txt-element(filter-subheader);
+
+    @include breakpoint(large) {
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+
+    @include breakpoint(xlarge) {
+      padding-left: 20%;
+      padding-right: 20%;
+    }
   }
 }
 
