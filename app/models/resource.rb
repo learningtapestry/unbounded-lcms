@@ -1,10 +1,8 @@
 class Resource < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
-
-  GRADES = ['prekindergarten', 'kindergarten', 'grade 1', 'grade 2', 'grade 3',
-            'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9',
-            'grade 10', 'grade 11', 'grade 12'].freeze
+  include CCSSStandardFilter
+  include GradeListHelper
 
   mount_uploader :image_file, ResourceImageUploader
 
@@ -159,7 +157,7 @@ class Resource < ActiveRecord::Base
         indices =
           r.taggings.map do |t|
             grade = t.tag.name if t.context == 'grades'
-            GRADES.index(grade)
+            GradeListHelper::GRADES.index(grade)
           end.compact
         [r.resource_type, indices.min || 0, indices.size]
       end
@@ -208,7 +206,12 @@ class Resource < ActiveRecord::Base
     ids = StandardLink.where(standard_end_id: common_core_standards.pluck(:id))
                       .where.not(link_type: 'c')
                       .pluck(:standard_begin_id)
-    Standard.where(id: ids).pluck(:alt_names).flatten.uniq.sort
+    Standard.where(id: ids).pluck(:alt_names).flatten.uniq
+            .map { |n| filter_ccss_standards(n) }.compact.sort
+  end
+
+  def bilingual_standards
+    standards.bilingual.distinct.order(:name)
   end
 
   def first_tree
@@ -283,6 +286,15 @@ class Resource < ActiveRecord::Base
       authors: reading_assignment_texts.map {|t| t.author.try(:name) }.compact.uniq,
       texts: reading_assignment_texts.map(&:name).uniq,
     }
+  end
+
+  def filtered_named_tags
+    filtered_named_tags = named_tags
+    filtered_named_tags.merge(
+      ccss_standards: named_tags[:ccss_standards]
+                        .map { |n| filter_ccss_standards(n) }
+                        .compact
+    )
   end
 
   def tag_standards

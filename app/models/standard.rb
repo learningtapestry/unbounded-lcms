@@ -1,5 +1,8 @@
 class Standard < ActiveRecord::Base
-  has_many :content_guide_standards
+  include CCSSStandardFilter
+  mount_uploader :language_progression_file, LanguageProgressionFileUploader
+
+  has_many :content_guide_standards, dependent: :destroy
   has_many :content_guides, through: :content_guide_standards
   has_many :resource_standards
   has_many :resources, through: :resource_standards
@@ -26,4 +29,27 @@ class Standard < ActiveRecord::Base
 
   scope :ela, ->{ where(subject: 'ela') }
   scope :math, ->{ where(subject: 'math') }
+
+  scope :bilingual, ->{ where(is_language_progression_standard: true) }
+
+  scope :search_by_name, ->(std) do
+    find_by_sql(
+      <<-SQL
+        SELECT DISTINCT ON (id) *
+        FROM (
+          SELECT *, unnest(alt_names) alt_name FROM standards
+        ) x
+        WHERE alt_name ILIKE '%#{std}%' OR name ILIKE '%#{std}%'
+        ORDER BY id ASC;
+      SQL
+    )
+  end
+
+  def attachment_url
+    language_progression_file.url if language_progression_file.present?
+  end
+
+  def short_name
+    alt_names.map { |n| filter_ccss_standards(n) }.compact.try(:first) || name
+  end
 end

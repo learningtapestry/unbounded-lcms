@@ -3,8 +3,8 @@ require 'google/apis/drive_v3'
 class ContentGuide < ActiveRecord::Base
   extend OrderAsSpecified
   include Searchable
+  include GradeListHelper
 
-  GRADES = ['prekindergarten', 'kindergarten', 'grade 1', 'grade 2', 'grade 3', 'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9', 'grade 10', 'grade 11', 'grade 12']
   ICON_VALUES = %w(complexity instruction volume)
 
   attr_accessor :update_metadata, :faq
@@ -85,7 +85,7 @@ class ContentGuide < ActiveRecord::Base
     indices =
       taggings.map do |t|
         grade = t.tag.name if t.context == 'grades'
-        GRADES.index(grade)
+        GradeListHelper::GRADES.index(grade)
       end.compact
 
     [indices.min || 0, indices.size]
@@ -157,7 +157,7 @@ class ContentGuide < ActiveRecord::Base
   end
 
   def sorted_grade_list
-    grade_list.sort_by { |g| GRADES.index(g) }
+    grade_list.sort_by { |g| GradeListHelper::GRADES.index(g) }
   end
 
   def validate_metadata

@@ -17,12 +17,14 @@ class ResourcesController < ApplicationController
     resource = Resource.find(params[:id])
     return redirect_to resource_path(resource) unless resource.media?
     @resource = MediaPresenter.new(resource)
+    @grade_color_code = resource.grade_avg
   end
 
   def generic
     resource = Resource.find(params[:id])
     return redirect_to resource_path(resource) unless resource.generic?
     @resource = GenericPresenter.new(resource)
+    @grade_color_code = resource.grade_avg
   end
 
   protected
