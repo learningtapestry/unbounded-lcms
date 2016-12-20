@@ -8,7 +8,7 @@ class Standard < ActiveRecord::Base
   has_many :resource_standards
   has_many :resources, through: :resource_standards
 
-  has_many :standard_emphases, dependent: :destroy
+  has_many :standard_emphasis, class_name: 'StandardEmphasis', dependent: :destroy
 
   scope :by_grade, ->(grade) {
     self.by_grades([grade])

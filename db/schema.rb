@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220133132) do
+ActiveRecord::Schema.define(version: 20161220142204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -347,7 +347,6 @@ ActiveRecord::Schema.define(version: 20161220133132) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "subject",                                          null: false
-    t.string   "emphasis"
     t.integer  "standard_strand_id"
     t.string   "asn_identifier"
     t.string   "description"
@@ -365,7 +364,6 @@ ActiveRecord::Schema.define(version: 20161220133132) do
   add_index "standards", ["asn_identifier"], name: "index_standards_on_asn_identifier", unique: true, using: :btree
   add_index "standards", ["cluster_id"], name: "index_standards_on_cluster_id", using: :btree
   add_index "standards", ["domain_id"], name: "index_standards_on_domain_id", using: :btree
-  add_index "standards", ["emphasis"], name: "index_standards_on_emphasis", using: :btree
   add_index "standards", ["is_language_progression_standard"], name: "index_standards_on_is_language_progression_standard", using: :btree
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
   add_index "standards", ["standard_strand_id"], name: "index_standards_on_standard_strand_id", using: :btree
@@ -412,6 +410,10 @@ ActiveRecord::Schema.define(version: 20161220133132) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "cms_section_images", "cms_images"
+  add_foreign_key "cms_section_images", "cms_sections"
+  add_foreign_key "cms_sections", "cms_versions"
+  add_foreign_key "cms_versions", "cms_entries"
   add_foreign_key "content_guide_standards", "content_guides", on_delete: :cascade
   add_foreign_key "content_guide_standards", "standards"
   add_foreign_key "copyright_attributions", "resources"
