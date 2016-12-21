@@ -98,7 +98,7 @@ class CommonCoreStandard < Standard
     end
 
     # add "clean" names: ela.r.1.2 -> elar12
-    alt_names = alt_names | alt_names.map {|n| n.gsub(/[\.-]/, '') }.uniq
+    alt_names.merge(alt_names.map { |n| n.gsub(/[\.-]/, '') })
 
     unless regenerate
       alt_names.merge(self.alt_names)
