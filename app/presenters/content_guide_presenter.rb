@@ -624,7 +624,7 @@ class ContentGuidePresenter < BasePresenter
           </span>
         )
         toggler = "<span class=c-cg-keyword data-toggle=#{id}>"
-        if (emphasis = standard.emphasis)
+        if (emphasis = standard.emphasis(grade_list.first))
           toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
         end
         toggler += "#{m}</span>"

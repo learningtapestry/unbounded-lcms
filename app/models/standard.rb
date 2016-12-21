@@ -4,8 +4,11 @@ class Standard < ActiveRecord::Base
 
   has_many :content_guide_standards, dependent: :destroy
   has_many :content_guides, through: :content_guide_standards
+
   has_many :resource_standards
   has_many :resources, through: :resource_standards
+
+  has_many :standard_emphases, class_name: 'StandardEmphasis', dependent: :destroy
 
   scope :by_grade, ->(grade) {
     self.by_grades([grade])
@@ -51,5 +54,16 @@ class Standard < ActiveRecord::Base
 
   def short_name
     alt_names.map { |n| filter_ccss_standards(n) }.compact.try(:first) || name
+  end
+
+  def emphasis(grade=nil)
+    # if we have a grade, grab first the emphasis for the corresponding grade,
+    # if it doesnt exists then grab the general emphasis (with grade=nil)
+    if grade.present?
+      standard_emphases.where(grade: [grade, nil]).order(:grade).first.try(:emphasis)
+
+    else
+      standard_emphases.first.try(:emphasis)
+    end
   end
 end
