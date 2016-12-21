@@ -1,4 +1,4 @@
-<% unless standards.empty? %>
+<% if (curriculum.unit? || curriculum.lesson?) && standards.present? %>
 <div class="o-resource__item">
   <h3>Bilingual Language Progressions</h3>
   <p>These resources, developed by the New York State Education Department, provide standard-level scaffolding suggestions for English Language Learners (ELLs) to help them meet grade-level demands. Each resource contains scaffolds at multiple levels of language acquisition and describes the linguistic demands of the standards to help ELA teachers as well as ESL/bilingual teachers scaffold content for their English learning students.</p>
