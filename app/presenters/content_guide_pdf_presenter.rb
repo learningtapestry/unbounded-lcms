@@ -83,7 +83,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
       if (standard = CommonCoreStandard.find_by_name_or_synonym(m))
         toggler = "<span class=c-cg-keyword>"
-        if (emphasis = standard.emphasis)
+        if (emphasis = standard.emphasis(grade_list.first))
           toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
         end
         toggler += "#{m}</span>"
