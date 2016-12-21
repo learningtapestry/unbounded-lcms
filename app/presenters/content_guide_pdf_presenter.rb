@@ -1,4 +1,4 @@
-xclass ContentGuidePdfPresenter < ContentGuidePresenter
+class ContentGuidePdfPresenter < ContentGuidePresenter
   FOOTNOTES_CLASS = 'contengGuide__footnotes'
 
   def initialize(content_guide, host, view_context, wrap_keywords = false)

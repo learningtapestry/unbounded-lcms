@@ -8,7 +8,7 @@ class StandardTest < ActiveSupport::TestCase
   end
 
   test 'has_many_emphases' do
-    assert @standard.standard_emphasis.count == 2
+    assert @standard.standard_emphases.count == 2
   end
 
   test 'emphasis leverages the grade' do
