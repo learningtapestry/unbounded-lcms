@@ -8,7 +8,7 @@ class Standard < ActiveRecord::Base
   has_many :resource_standards
   has_many :resources, through: :resource_standards
 
-  has_many :standard_emphasis, class_name: 'StandardEmphasis', dependent: :destroy
+  has_many :standard_emphases, class_name: 'StandardEmphasis', dependent: :destroy
 
   scope :by_grade, ->(grade) {
     self.by_grades([grade])
@@ -60,10 +60,10 @@ class Standard < ActiveRecord::Base
     # if we have a grade, grab first the emphasis for the corresponding grade,
     # if it doesnt exists then grab the general emphasis (with grade=nil)
     if grade.present?
-      standard_emphasis.where(grade: [grade, nil]).order(:grade).first.try(:emphasis)
+      standard_emphases.where(grade: [grade, nil]).order(:grade).first.try(:emphasis)
 
     else
-      standard_emphasis.first.try(:emphasis)
+      standard_emphases.first.try(:emphasis)
     end
   end
 end
