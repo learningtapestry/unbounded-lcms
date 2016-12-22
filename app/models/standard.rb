@@ -42,7 +42,7 @@ class Standard < ActiveRecord::Base
         FROM (
           SELECT *, unnest(alt_names) alt_name FROM standards
         ) x
-        WHERE alt_name ILIKE '%#{std}%' OR name ILIKE '%#{std}%'
+        WHERE (alt_name ILIKE '%#{std}%' OR name ILIKE '%#{std}%')
         ORDER BY id ASC;
       SQL
     )
