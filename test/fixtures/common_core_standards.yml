@@ -2,18 +2,22 @@ mp1:
   name: CCSS.Math.Practice.MP1
   subject: math
   type: CommonCoreStandard
+  alt_names: ['mp1']
 
 mp2:
   name: CCSS.Math.Practice.MP2
   subject: math
   type: CommonCoreStandard
+  alt_names: ['mp2']
 
 mp3:
   name: CCSS.Math.Practice.MP3
   subject: math
   type: CommonCoreStandard
+  alt_names: ['mp3']
 
 mp4:
   name: CCSS.Math.Practice.MP4
   subject: math
   type: CommonCoreStandard
+  alt_names: ['mp4']
