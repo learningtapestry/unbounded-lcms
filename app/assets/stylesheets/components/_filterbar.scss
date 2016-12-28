@@ -5,7 +5,7 @@
 
   h1, h2 { @include txt-element(filter-header); }
   h2 {
-    margin-bottom: .25rem;
+    margin-bottom: .5rem;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, .5);
   }
 

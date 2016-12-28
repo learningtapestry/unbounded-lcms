@@ -1,7 +1,11 @@
 .o-media {
   @include flex-grid-row;
-  @include add-gutter;
+  @include add-gutter($x: .5);
   border-radius: $panel-radius;
+
+  @include breakpoint(medium) {
+    @include add-gutter($x: 1);
+  }
 
   @include e(img) {
     @include flex-grid-column(12, 0);

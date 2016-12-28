@@ -78,13 +78,17 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
 }
 
 .c-hp-register {
-  @include add-gutter;
+  @include add-gutter($x: .5);
   @include txt-element(media-text);
   background-image: linear-gradient(to right, $c-hp-si-gradient, $c-hp-si-gradient), image-url('hp_si_bg.jpg');
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
   border-radius: $panel-radius;
   color: $ub-white;
+
+  @include breakpoint(medium) {
+    @include add-gutter($x: 1);
+  }
 
   @include e(wrap) {
     @include flex-align($y: middle);
@@ -146,8 +150,12 @@ $c-hp-math-gradient: rgba(map-get($ub-colorcodes, math-base), .9);
 .c-hp-panel {
   @include flex;
   @include flex-grid-column(12);
-  @include add-gutter;
+  @include add-gutter($x: .5);
   flex-shrink: 1;
+
+  @include breakpoint(medium) {
+    @include add-gutter($x: 1);
+  }
 
   @include breakpoint(medium) {
     @include flex-grid-column(6);

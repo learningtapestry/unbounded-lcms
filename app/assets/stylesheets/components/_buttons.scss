@@ -68,6 +68,12 @@
   @include m(expand) {
     @include button-expand(true);
   }
+
+  @include m(xs-full) {
+    @include breakpoint(small only) {
+      width: 100%;
+    }
+  }
 }
 
 .o-ub-btn {

@@ -2,8 +2,12 @@ $social-btn-color: map-get($ub-colorcodes, base);
 
 .o-social-sharing {
   @include menu-simple;
-  margin-bottom: 0;
+  margin-bottom: 1.25rem;
   margin-left: 0;
+
+  @include breakpoint(medium) {
+    margin-bottom: 0;
+  }
 
   li { margin-right: .35rem; }
   a {
