@@ -190,12 +190,10 @@ class Resource < ActiveRecord::Base
   end
 
   def download_categories
-    default_title = I18n.t('resources.title.download_category')
     resource_downloads
       .group_by { |d| d.download_category.try(:category_name) || '' }
       .sort_by { |k, _| k }.to_h
       .transform_values { |v| v.sort_by { |d| d.download.title } }
-      .transform_keys { |k| k.blank? ? default_title : k }
   end
 
   def pdf_downloads?
