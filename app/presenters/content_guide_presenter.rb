@@ -659,11 +659,19 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def remove_default_color
+    doc.css('p, p span').each do |p|
+      next unless p[:style].present?
+      p[:style] = p[:style].gsub(/;\s*color:\s*[#0]+\s*(;|$)/, ';')
+      p[:style] = p[:style].gsub(/^\s*color:\s*[#0]+\s*(;|$)/, '')
+    end
+  end
+
   def concatenate_spans
     span_meaning_styles_regex = /(text-decoration|display|width|font-style|font-weight|color)/
+    remove_default_color
     doc.css('p span').each do |span|
       # remove excessive spans
-      span[:style] = span[:style].gsub(/color:\s*[#0]+\s*(;|$)/, '') if span[:style].present?
       if span[:class].blank? && (span[:style] =~ span_meaning_styles_regex).nil?
         span.replace(span.inner_html)
       else

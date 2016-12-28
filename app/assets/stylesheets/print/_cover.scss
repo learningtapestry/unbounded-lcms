@@ -44,17 +44,17 @@ body {
 
   @include m(ela) {
     @extend %pdf-full-height;
-    background: map-get($ub-cg-ela-colors, btn-download-bg);
+    background: map-get($ub-cg-ela-colors, cover-bg);
   }
 
   @include m(math) {
     @extend %pdf-full-height;
-    background: map-get($ub-cg-math-colors, btn-download-bg);
+    background: map-get($ub-cg-math-colors, cover-bg);
   }
 
   @include m(lead) {
     @extend %pdf-full-height;
-    background: map-get($ub-cg-lead-colors, btn-download-bg);
+    background: map-get($ub-cg-lead-colors, cover-bg);
   }
 
   @include e(wrap) {
