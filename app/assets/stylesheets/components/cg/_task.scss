@@ -3,6 +3,11 @@
 
   @include e(body) {
     padding: 1.25rem 1.25rem .25rem;
+    span { text-decoration: none !important; }
+    a {
+      font-weight: bold;
+      text-decoration: none !important;
+    }
   }
 
   @include e(copyright) {
