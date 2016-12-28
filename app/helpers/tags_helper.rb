@@ -20,12 +20,8 @@ module TagsHelper
   end
 
   def each_tags_cloud!(tag_clouds)
-    no_tags = tag_clouds.values.none?(&:present?)
-    TAG_GROUPS.each do |group_id, group_name|
-      tags = tag_clouds.delete(group_id)
-      yield(tags, group_name) if tags.present?
-    end
-    tags = tag_clouds.values.flatten.compact.uniq
-    yield(tags, nil) if tags.present? || no_tags
+    tags = tag_clouds.keep_if { |k, v| TAG_GROUPS.key?(k) && v.present? }
+    tags.each { |k, v| yield(v, TAG_GROUPS[k]) }
+    yield([], nil) if tags.empty?
   end
 end
