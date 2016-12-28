@@ -9,14 +9,19 @@
 }
 
 .o-tab-menu {
+  display: flex;
+  flex-flow: row wrap;
   list-style-type: none;
   margin-bottom: 0;
   margin-left: 0;
+  min-width: 1px;
 
   @include e(item) {
     float: left;
+    margin-right: $ub-base-padding;
+    margin-top: $ub-base-padding;
     padding-bottom: $ub-xs-padding;
-    & + & { margin-left: $ub-base-padding; }
+
     > a:hover { color: $ub-heading-txt; }
     > a {
       @include txt-element(tab-title);
