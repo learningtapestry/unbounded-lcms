@@ -18,8 +18,9 @@ $media-img-height: 110px;
     height: $media-img-height;
     overflow: hidden;
     img {
-      width: 100%;
+      border-radius: $ub-material-radius $ub-material-radius 0 0;
       height: auto;
+      width: 100%;
     }
 
     @include breakpoint(small only) {
@@ -94,6 +95,7 @@ $media-img-height: 110px;
 
     @include e(img) {
       img {
+        border-radius: $ub-material-radius 0 0 $ub-material-radius;
         height: 100%;
         width: $guide-img-width;
       }

@@ -344,6 +344,8 @@ class ContentGuidePresenter < BasePresenter
       id = "content_guide_footnote_#{i}"
       footnote = doc.at_css(a[:href]).ancestors('div').first
       a['data-toggle'] = id
+      a['class'] = 'c-cg-sup'
+      a.inner_html = a.inner_html[/\d+/] || a.inner_html
       dropdown = doc.document.create_element('span', class: 'dropdown-pane c-cg-dropdown', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-delay' => 0, 'data-hover-pane' => true, id: id)
       dropdown.inner_html = footnote.at_css('p').inner_html
       dropdown.at_css(a[:href]).remove
@@ -363,6 +365,10 @@ class ContentGuidePresenter < BasePresenter
     all_next_elements_with_name(hr, 'div').each do |div|
       div[:class] = 'c-cg-footnote'
     end
+
+    h_endnote = doc.document.create_element('h1')
+    h_endnote.inner_html = t('content_guides.show.endnotes')
+    hr.replace h_endnote
   end
 
   def process_icons
