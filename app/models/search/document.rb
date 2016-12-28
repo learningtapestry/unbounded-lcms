@@ -20,6 +20,7 @@ module Search
     attribute :tag_texts, Array[String]
     attribute :tag_keywords, Array[String]
     attribute :tag_standards, Array[String]
+    attribute :position, String
 
     def grade_list
       grade
@@ -68,10 +69,7 @@ module Search
         query = repository.fts_query(term, options)
         repository.search query
       else
-        query = repository.fts_query('', options)
-        query[:query][:bool].delete(:should)
-        query[:query][:bool][:must] = { match_all: {} }
-
+        query = repository.all_query(options)
         repository.search query
       end
     end
@@ -89,7 +87,7 @@ module Search
     private
 
       def self.attrs_from_resource(model, curriculum=nil)
-        curriculum ||= model.curriculums.first
+        curriculum ||= model.curriculums.last
         if model.resource_type == 'resource'
           doc_type = curriculum.curriculum_type.name
         else
@@ -116,6 +114,7 @@ module Search
           tag_texts: tags[:texts],
           tag_keywords: tags[:keywords],
           tag_standards: tags[:ccss_standards],
+          position: curriculum.try(:hierarchical_position),
         }
       end
 
@@ -138,7 +137,7 @@ module Search
           tag_texts: [],
           tag_keywords: [],
           tag_standards: [],
-
+          position: nil,
         }
       end
   end

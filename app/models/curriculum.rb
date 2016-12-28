@@ -563,7 +563,7 @@ class Curriculum < ActiveRecord::Base
 
   def generate_hierarchical_position
     positions = {}.with_indifferent_access
-    self_and_ancestors.each { |curr| positions[curr.curriculum_type.name] = curr.position }
+    self_and_ancestors.each { |curr| positions[curr.curriculum_type.name] = curr.position + 1 }
 
     self.hierarchical_position =  [:grade, :module, :unit, :lesson].map { |level|
       positions.fetch(level, 0).to_s.rjust(2, '0')
