@@ -76,7 +76,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def faq_ref
-    @doc.css('h1.c-cg-heading').last.try(:attr, 'id')
+    doc.css('h1.c-cg-heading').last.try(:attr, 'id')
   end
 
   def html
@@ -413,15 +413,19 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
-  def process_standards_table
+  def process_standards_table(force_border: false)
     find_custom_tags('standards').each do |tag|
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
       return unless table
 
+      has_standards = force_border
       table.css('[data-toggle]').each do |dropdown|
         dropdown.delete('data-toggle')
+        has_standards = true
       end
+
+      add_css_class(table, 'c-cg-table--left-border') if has_standards
     end
   end
 
@@ -557,7 +561,7 @@ class ContentGuidePresenter < BasePresenter
   def reset_table_styles
     doc.css('table').each do |table|
       if table.xpath('tbody/tr/td').size == 1
-        table[:class] = 'c-cg-single-cell-table'
+        add_css_class(table, 'c-cg-single-cell-table')
         # remove inline borders style with width = 0 as they're not processing correct for pdf
         table.xpath('tbody/tr/td').each do |node|
           node_style = (node[:style] || '')
@@ -685,6 +689,11 @@ class ContentGuidePresenter < BasePresenter
   end
 
   protected
+
+  def add_css_class(el, *classes)
+    existing = (el[:class] || '').split(/\s+/)
+    el[:class] = existing.concat(classes).uniq.join(' ')
+  end
 
   def process_content
     content_ext = content + (faq.try(:description) || '')

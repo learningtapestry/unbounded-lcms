@@ -113,7 +113,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     process_icons
     process_pullquotes
     process_superscript_standards
-    process_standards_table
+    process_standards_table(force_border: true)
     process_tasks(with_break: false)
     add_nobreak_to_tasks
     remove_comments
