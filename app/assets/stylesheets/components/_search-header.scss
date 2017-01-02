@@ -26,17 +26,19 @@
 
     select {
       @include txt-element(search-select);
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><path fill="#929299" d="M21.228 14.067c-0.348-0.348-0.909-0.348-1.257 0l-4.26 4.26-4.26-4.26c-0.348-0.348-0.909-0.348-1.257 0s-0.348 0.909 0 1.257l4.889 4.889c0.173 0.173 0.401 0.26 0.628 0.26s0.455-0.087 0.628-0.26l4.889-4.889c0.347-0.347 0.347-0.909 0-1.257z"></path></svg>');
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="32" viewBox="0 0 32 24"><path fill="#929299" d="M31.322 9.965c-0.965-0.965-2.525-0.965-3.49 0l-11.83 11.83-11.83-11.83c-0.965-0.965-2.525-0.965-3.49 0s-0.965 2.525 0 3.49l13.575 13.575c0.481 0.481 1.113 0.723 1.745 0.723s1.264-0.242 1.745-0.723l13.575-13.575c0.963-0.963 0.963-2.525 0-3.49z"></path></svg>');
       background-origin: border-box;
       background-position: right top;
-      background-size: 28px 22px;
+      background-size: 12px;
       border: 0;
       height: auto;
       margin: 0;
       outline: 0;
-      padding-right: 16px;
+      padding: 0 .5rem;
+      padding-right: 8px;
 
       &:focus { border: 0; outline: 0;}
+      &:hover, &:focus { cursor: pointer; }
     }
   }
 

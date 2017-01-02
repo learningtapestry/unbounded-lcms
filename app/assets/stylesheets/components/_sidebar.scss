@@ -33,6 +33,11 @@
     visibility: visible;
     > div { display: block;}
   }
+  .o-sidebar-nav__sticky-title {
+    @include breakpoint(ipad) {
+      display: block;
+    }
+  }
 }
 
 .o-sidebar-xs {
@@ -88,6 +93,20 @@
     height: .375rem;
     margin: 0 1rem 1.5625rem;
     width: 3.5rem;
+  }
+
+  @include e(sticky-title) {
+    @include add-column-margin($x: -.5);
+    @include add-column-padding($x: .5);
+    color: $ub-white;
+    display: none;
+    margin-bottom: $ub-base-padding;
+    padding-bottom: $ub-base-padding;
+    padding-top: $ub-base-padding;
+
+    &, * {
+      @include txt-element(cg-sidebar-header);
+    }
   }
 
   @include e(item) {
