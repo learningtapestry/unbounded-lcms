@@ -9,7 +9,6 @@ module Search
     attribute :title, String
     attribute :teaser, String
     attribute :description, String
-    # attribute :misc, String
     attribute :doc_type, String
     attribute :grade, String
     attribute :subject, String
@@ -96,6 +95,12 @@ module Search
 
         id = curriculum ? "curriculum_#{curriculum.id}" : "resource_#{model.id}"
 
+        pos = if model.media? || model.generic?
+                grade_position(model)
+              else
+                curriculum.try(:hierarchical_position)
+              end
+
         tags = model.named_tags
         {
           id: id,
@@ -104,7 +109,6 @@ module Search
           title: model.title,
           teaser: model.teaser,
           description: model.description,
-          # misc: [model.short_title, model.subtitle, model.teaser].compact,
           doc_type: doc_type,
           subject: model.subject,
           grade: model.grade_list,
@@ -114,7 +118,7 @@ module Search
           tag_texts: tags[:texts],
           tag_keywords: tags[:keywords],
           tag_standards: tags[:ccss_standards],
-          position: curriculum.try(:hierarchical_position),
+          position: pos,
         }
       end
 
@@ -126,7 +130,6 @@ module Search
           title: model.title,
           teaser: model.teaser,
           description: model.description,
-          # misc: [model.name, model.teaser, model.content].compact,
           doc_type: 'content_guide',
           subject: model.subject,
           grade: model.grade_list,
@@ -137,8 +140,13 @@ module Search
           tag_texts: [],
           tag_keywords: [],
           tag_standards: [],
-          position: nil,
+          position: grade_position(model),
         }
+      end
+
+      def self.grade_position(model)
+        grade_pos = model.grade_avg_num.to_s.rjust(2, '0')  # format to always use 2 numbers
+        "99 #{grade_pos} 00 00 00" # place after lessons
       end
   end
 end
