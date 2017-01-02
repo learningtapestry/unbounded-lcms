@@ -36,13 +36,14 @@ $media-img-height: 110px;
   }
 
   @include e(title) {
-    @include clamp(2, media-card-title);
+    @include clamp(5, media-card-title);
     flex: 1 1 auto;
     order: 2;
     &, & > * {
       @include txt-element(media-card-title);
     }
     @include breakpoint(medium) {
+      @include clamp(2, media-card-title);
       order: 1;
     }
   }
