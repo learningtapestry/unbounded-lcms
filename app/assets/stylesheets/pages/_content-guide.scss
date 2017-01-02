@@ -1,19 +1,8 @@
 @mixin cg-page-color-scheme($map) {
-  // .c-cg-hero {
-  //   @include e(body) {
-  //     background: map-get($map, header-bg);
-  //   }
-  // }
-
   .c-cg-btn-download {
-    $background: map-get($map, btn-download-bg);
-    $color: map-get($map, link1);
-    @include button-style($background: $background, $background-hover: lighten($background, 20%), $color: $color);
-  }
-
-  .c-cg-btn-related {
-    border-color: map-get($map, btn-related-border);
-    color: map-get($map, btn-related);
+    $background: transparentize(#fff, .2);
+    $color: map-get($map, link);
+    @include button-style($background: $background, $background-hover: transparentize($background, .3),$color: $color);
   }
 
   .o-sidebar-nav {
@@ -132,7 +121,7 @@
 
     p, ol, ul {
       &, * {
-        color: $ub-txt;
+        color: $ub-txt-dark;
         font-family: $ub-sanserif !important;
         font-size: 1rem !important;
         line-height: 1.5 !important;
@@ -198,11 +187,6 @@
     margin-bottom: 0;
   }
 
-}
-
-.c-cg-btn-related {
-  border-style: solid;
-  border-width: 1px;
 }
 
 .o-page--cg-ela {

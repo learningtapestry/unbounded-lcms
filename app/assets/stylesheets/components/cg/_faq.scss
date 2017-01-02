@@ -3,6 +3,7 @@
   @include add-gutter(padding, bottom, 1);
   @include add-gutter(padding, top, 1.5);
   @include add-gutter(margin, bottom, 1, $grid-column-2xgutter);
+  background-color: $ub-faq-bg;
   border-radius: $global-radius;
   display: flex;
   flex-flow: row wrap;

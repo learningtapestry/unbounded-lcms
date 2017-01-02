@@ -9,7 +9,7 @@
   font-style: normal;
 }
 
-[class^='ub-'], [class*=' ub-'] {
+@mixin ub-icon {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'ubicons' !important;
   speak: none;
@@ -24,6 +24,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+[class^='ub-'], [class*=' ub-'] {
+  @include ub-icon;
+}
+
+.ub-microphone:before {
+  content: '\e049';
+}
 .ub-eye:before {
   content: '\e91e';
 }
@@ -61,7 +68,7 @@
   content: '\e90a';
 }
 .ub-angle-down:before {
-  content: '\e90b';
+  content: '\e91f';
 }
 .ub-facebook:before {
   content: '\e90c';
@@ -124,6 +131,7 @@
   content: '\e120';
 }
 
+$ub-microphone: '\e049';
 $ub-eye: "\e91e";
 $ub-angle-left: "\e900";
 $ub-cc-by: "\e901";

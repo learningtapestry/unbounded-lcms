@@ -21,6 +21,24 @@ function InstructionCard(props) {
   );
 
   const isInstruction = (item.instruction_type === 'instruction');
+  const instructionBody = isInstruction ?
+    (
+      <div className={cssBody}>
+        <div className="o-instruction-card__teaser">{item.teaser}</div>
+        <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>
+      </div>
+    ) :
+    (
+      <div className={cssBody}>
+        <div className={bemClass('title-wrap')}>
+          <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>
+          <i className={bemClass('icon')}></i>
+        </div>
+        <div className={bemClass('duration')}>
+          <MediaTime duration={item.time_to_teach} />
+        </div>
+      </div>
+    )
 
   return (
     <a className={cssInstruction} href={props.item.path}>
@@ -28,19 +46,7 @@ function InstructionCard(props) {
         <div className={cssImage}>
           <img src={item.img}/>
         </div>
-        <div className={cssBody}>
-          { isInstruction ?
-            <div className="o-instruction-card__teaser">{item.teaser}</div>
-            : null
-          }
-          <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>
-          { ! isInstruction ?
-            <div className={bemClass('duration')}>
-              <MediaTime duration={item.time_to_teach} />
-            </div>
-            : null
-          }
-        </div>
+        {instructionBody}
       </div>
     </a>
   );
