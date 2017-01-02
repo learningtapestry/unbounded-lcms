@@ -6,10 +6,13 @@ module GradeListHelper
 
   included do
     def grade_avg
+      grade_abbr(GRADES[grade_avg_num]) || 'base'
+    end
+
+    def grade_avg_num
       grade_list_f = grade_list & GRADES
-      avg = grade_list_f.map { |g| GRADES.index(g) }
-                        .sum / grade_list_f.size
-      grade_abbr(GRADES[avg]) || 'base'
+      grade_list_f.map { |g| GRADES.index(g) }
+                  .sum / grade_list_f.size
     end
 
     def grade_color_code
