@@ -144,19 +144,29 @@ module Search
         }
       end
 
+      # Position mask:
+      # - Since lessons uses 4 blocks of 2 numbers for (grade, mod, unit, lesson),
+      #   we use 5 blocks to place them after lessons.
+      # - the first position is realted to the resource type (always starting
+      #   with 9 to be placed after the lessons).
+      # - The second most significant is related to the grade
+      # - The last position is the number of different grades covered, i.e:
+      #   a resource with 3 different grades show after one with 2, (more specific
+      #   at the top, more generic at the bottom)
       def self.grade_position(model)
-        rtype = model.try(:[], :resource_type) if model.is_a?(Resource) && model.generic?
-        rtype ||= 0
-        grade_pos = model.grade_avg_num.to_s.rjust(2, '0')  # format to always use 2 numbers
-        # Position mask:
-        # - Since lessons uses 4 blocks of 2 numbers for (grade, mod, unit, lesson),
-        #   we use 5 blocks to place them after lessons.
-        # - the most significant is the resource type (default is: 0).
-        # - The second most significant is the grade average
-        # - The least significant is the number of different grades covered, i.e:
-        #   a resource with 3 different grades show after one with 2, (more specific
-        #   at the top, more generic at the bottom)
-        "9#{rtype} #{grade_pos} 00 00 #{model.grade_list.size}"
+        if model.is_a?(Resource) && model.generic?
+          rtype = model.try(:[], :resource_type) || 0
+          # for generic resource use the min grade, instead the avg
+          grade_pos = model.grade_list.map {|g| GradeListHelper::GRADES.index(g) }.compact.min || 0
+          last_pos = model.grade_list.size
+        else
+          rtype = 0
+          grade_pos = model.grade_avg_num
+          last_pos = 0
+        end
+        first_pos = 90 + rtype
+
+        [first_pos, grade_pos, 0, 0, last_pos].map { |n| n.to_s.rjust(2, '0') }.join(' ')
       end
   end
 end

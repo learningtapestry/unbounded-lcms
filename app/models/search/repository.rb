@@ -4,7 +4,8 @@ module Search
       type: 'multi_field', fields: {
         prop     => {type: 'string'},
         :full    => {type: 'string', analyzer: 'full_str'},
-        :partial => {type: 'string', analyzer: 'partial_str'}
+        :partial => {type: 'string', analyzer: 'partial_str'},
+        :key     => {type: 'string', analyzer: 'keyword_str'}
       }
     }
   end
@@ -83,6 +84,7 @@ module Search
         sort: [
           { subject: 'asc' },
           { position: 'asc' },
+          { 'title.key' => 'asc' },
         ],
         size: limit,
         from: (page - 1) * limit
