@@ -32,6 +32,7 @@ class EnhanceInstructionController < ApplicationController
             .where_subject(subject_params)
             .where_grade(grade_params)
             .distinct
+            .sort_by_subject_and_grade
             .paginate(pagination_params.slice(:page, :per_page))
   end
 
