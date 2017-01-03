@@ -78,7 +78,13 @@ $staff-img: 120px;
 
 .c-stp-media {
   @include media-object-container;
-  @include add-gutter(margin, top, 1.5);
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+
+  @include breakpoint(medium) {
+    @include add-gutter(margin, top, 1.5);
+    margin-bottom: 1rem;
+  }
 
   @include e(img) {
     @include media-object-section;
