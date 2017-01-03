@@ -1,4 +1,5 @@
 .c-cg-scroll-wrap {
+  clear: both;
   overflow-x: auto;
 
   @include breakpoint(ipad down) {
