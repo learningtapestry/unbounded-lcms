@@ -145,8 +145,18 @@ module Search
       end
 
       def self.grade_position(model)
+        rtype = model.try(:[], :resource_type) if model.is_a?(Resource) && model.generic?
+        rtype ||= 0
         grade_pos = model.grade_avg_num.to_s.rjust(2, '0')  # format to always use 2 numbers
-        "99 #{grade_pos} 00 00 00" # place after lessons
+        # Position mask:
+        # - Since lessons uses 4 blocks of 2 numbers for (grade, mod, unit, lesson),
+        #   we use 5 blocks to place them after lessons.
+        # - the most significant is the resource type (default is: 0).
+        # - The second most significant is the grade average
+        # - The least significant is the number of different grades covered, i.e:
+        #   a resource with 3 different grades show after one with 2, (more specific
+        #   at the top, more generic at the bottom)
+        "9#{rtype} #{grade_pos} 00 00 #{model.grade_list.size}"
       end
   end
 end
