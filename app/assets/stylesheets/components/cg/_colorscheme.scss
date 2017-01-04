@@ -53,7 +53,7 @@
 
   .c-cg-table--left-border {
     td {
-      border-left-color: map-get($map, pullquote-border) !important;
+      border-left-color: map-get($map, blockquote-border) !important;
     }
   }
 
