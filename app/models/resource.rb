@@ -163,6 +163,13 @@ class Resource < ActiveRecord::Base
       end
       includes(taggings: :tag).sort_by(&type_grade_score)
     end
+
+    def sort_by_subject_and_grade
+      subject_grade_score = lambda do |r|
+        [r.subject, r.grade_avg_num, r.title]
+      end
+      includes(taggings: :tag).sort_by(&subject_grade_score)
+    end
   end
 
   def text_description
