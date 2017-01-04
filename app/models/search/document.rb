@@ -9,7 +9,6 @@ module Search
     attribute :title, String
     attribute :teaser, String
     attribute :description, String
-    # attribute :misc, String
     attribute :doc_type, String
     attribute :grade, String
     attribute :subject, String
@@ -20,6 +19,7 @@ module Search
     attribute :tag_texts, Array[String]
     attribute :tag_keywords, Array[String]
     attribute :tag_standards, Array[String]
+    attribute :position, String
 
     def grade_list
       grade
@@ -68,10 +68,7 @@ module Search
         query = repository.fts_query(term, options)
         repository.search query
       else
-        query = repository.fts_query('', options)
-        query[:query][:bool].delete(:should)
-        query[:query][:bool][:must] = { match_all: {} }
-
+        query = repository.all_query(options)
         repository.search query
       end
     end
@@ -89,7 +86,7 @@ module Search
     private
 
       def self.attrs_from_resource(model, curriculum=nil)
-        curriculum ||= model.curriculums.first
+        curriculum ||= model.curriculums.last
         if model.resource_type == 'resource'
           doc_type = curriculum.curriculum_type.name
         else
@@ -97,6 +94,12 @@ module Search
         end
 
         id = curriculum ? "curriculum_#{curriculum.id}" : "resource_#{model.id}"
+
+        pos = if model.media? || model.generic?
+                grade_position(model)
+              else
+                curriculum.try(:hierarchical_position)
+              end
 
         tags = model.named_tags
         {
@@ -106,7 +109,6 @@ module Search
           title: model.title,
           teaser: model.teaser,
           description: model.description,
-          # misc: [model.short_title, model.subtitle, model.teaser].compact,
           doc_type: doc_type,
           subject: model.subject,
           grade: model.grade_list,
@@ -116,6 +118,7 @@ module Search
           tag_texts: tags[:texts],
           tag_keywords: tags[:keywords],
           tag_standards: tags[:ccss_standards],
+          position: pos,
         }
       end
 
@@ -127,7 +130,6 @@ module Search
           title: model.title,
           teaser: model.teaser,
           description: model.description,
-          # misc: [model.name, model.teaser, model.content].compact,
           doc_type: 'content_guide',
           subject: model.subject,
           grade: model.grade_list,
@@ -138,8 +140,33 @@ module Search
           tag_texts: [],
           tag_keywords: [],
           tag_standards: [],
-
+          position: grade_position(model),
         }
+      end
+
+      # Position mask:
+      # - Since lessons uses 4 blocks of 2 numbers for (grade, mod, unit, lesson),
+      #   we use 5 blocks to place them after lessons.
+      # - the first position is realted to the resource type (always starting
+      #   with 9 to be placed after the lessons).
+      # - The second most significant is related to the grade
+      # - The last position is the number of different grades covered, i.e:
+      #   a resource with 3 different grades show after one with 2, (more specific
+      #   at the top, more generic at the bottom)
+      def self.grade_position(model)
+        if model.is_a?(Resource) && model.generic?
+          rtype = model.try(:[], :resource_type) || 0
+          # for generic resource use the min grade, instead the avg
+          grade_pos = model.grade_list.map {|g| GradeListHelper::GRADES.index(g) }.compact.min || 0
+          last_pos = model.grade_list.size
+        else
+          rtype = 0
+          grade_pos = model.grade_avg_num
+          last_pos = 0
+        end
+        first_pos = 90 + rtype
+
+        [first_pos, grade_pos, 0, 0, last_pos].map { |n| n.to_s.rjust(2, '0') }.join(' ')
       end
   end
 end

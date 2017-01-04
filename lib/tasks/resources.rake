@@ -92,4 +92,30 @@ namespace :resources do
 
     puts("Resources data exported to #{filename}")
   end
+
+  desc 'Fix empty grades'
+  task fix_grades: :environment do
+    dataset = Curriculum.trees.lessons.with_resources
+
+    pbar = ProgressBar.create title: "Fix resource grades", total: dataset.count()
+
+    dataset.find_in_batches do |group|
+      group.each do |c|
+        res = c.resource
+        if res.grade_list.empty?
+          grade = c.self_and_ancestors
+                   .joins(:curriculum_type)
+                   .where(curriculum_types: {name: 'grade'})
+                   .first
+                   .resource
+                   .short_title
+
+          res.grade_list.add(grade)
+          res.save
+        end
+        pbar.increment
+      end
+    end
+    pbar.finish
+  end
 end

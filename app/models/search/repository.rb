@@ -4,7 +4,8 @@ module Search
       type: 'multi_field', fields: {
         prop     => {type: 'string'},
         :full    => {type: 'string', analyzer: 'full_str'},
-        :partial => {type: 'string', analyzer: 'partial_str'}
+        :partial => {type: 'string', analyzer: 'partial_str'},
+        :key     => {type: 'string', analyzer: 'keyword_str'}
       }
     }
   end
@@ -64,7 +65,32 @@ module Search
         indexes :tag_texts,     **::Search.ngrams_multi_field(:tag_texts)
         indexes :tag_keywords,  **::Search.ngrams_multi_field(:tag_keywords)
         indexes :tag_standards, type: 'string', analyzer: 'keyword_str'
+        indexes :position,      type: 'string', index: 'not_analyzed'
+        indexes :breadcrumbs,   type: 'string', index: 'not_analyzed'
       end
+    end
+
+    def all_query(options)
+      limit = options.fetch(:per_page, 20)
+      page = options.fetch(:page, 1)
+
+      query = {
+        query: {
+          bool: {
+            must: { match_all: {} },
+            filter: []
+          }
+        },
+        sort: [
+          { subject: 'asc' },
+          { position: 'asc' },
+          { 'title.key' => 'asc' },
+        ],
+        size: limit,
+        from: (page - 1) * limit
+      }
+
+      apply_filters(query, options)
     end
 
     def fts_query(term, options)
