@@ -2,10 +2,13 @@
 
  <g>
   <title>UnboundEd</title>
-  <rect fill="#ff7f00" stroke="#000000" stroke-width="0" x="0" width="640" height="480" id="svg_1" y="0"/>
+  <rect fill="<%= color_code %>" stroke="#000000" stroke-width="0" x="0" width="640" height="480" id="svg_1" y="0"/>
   <rect fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" x="0" y="379.99999" width="640" height="100" id="svg_2"/>
   <image xlink:href="<%= asset_path('logo.svg') %>" id="svg_8" height="41" width="267.00001" y="412" x="50"/>
-  <text font-weight="bold" xml:space="preserve" text-anchor="left" font-family="Serif" font-size="24" id="svg_9" y="42" x="42" fill="#ffffff">LESSON - <%= @resource.subject.upcase %> <%= @resource.grades.first.to_s.humanize %></text>
-  <text xml:space="preserve" text-anchor="left" font-family="Serif" font-size="64" id="svg_11" y="180" x="42" fill="#ffffff"><%= @resource.title %></text>
+  <text  xml:space="preserve" text-anchor="left" font-family=".SFNSDisplay-Regular, .SF NS Display Serif" font-size="24" id="svg_9" y="42" x="42" fill="#ffffff"><tspan font-weight="bold">LESSON</tspan> &middot; <%= @resource.subject.upcase %> <%= @resource.grades.first.to_s.humanize %></text>
+  <text text-anchor="left" font-family="Serif" font-size="64" id="svg_11" y="100" x="42" fill="#ffffff"><% title_sentences.each do |sentence| %>
+  <tspan x="42" dy="1.2em"><%= sentence %></tspan>
+  <%end%>
+  </text>
  </g>
 </svg>
