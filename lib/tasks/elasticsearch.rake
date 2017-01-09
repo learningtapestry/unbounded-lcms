@@ -15,7 +15,10 @@ namespace :es do
   task load: :environment do
     repo.create_index!
 
-    index_model 'Resources', Curriculum.trees.with_resources.includes(:resource_item)
+    index_model 'Resources', Curriculum.trees
+                                       .with_resources
+                                       .where.not(curriculum_type: CurriculumType.map)
+                                       .includes(:resource_item)
     index_model 'Media    ', Resource.media
     index_model 'Generic  ', Resource.generic_resources
     index_model 'Guide    ', ContentGuide.where(nil)
