@@ -42,8 +42,21 @@ class GenerateSVGThumbnailService
     @@size_map[media]
   end
 
+  def logo_size
+    proportion = footer_size / 100.0
+    {width: 280 * proportion, height: 50 * proportion}
+  end
+
+  def footer_size
+    case media
+    when :twitter then 50
+    else               100
+    end
+  end
+
   def em
     case media
+    when :twitter  then 14
     when :facebook then 28
     else                22
     end
@@ -52,7 +65,12 @@ class GenerateSVGThumbnailService
   def style
     # @@style ||=
     {
-      padding:       1.5 * em,
+      padding:       (
+        case media
+        when :twitter then em
+        else               1.5 * em
+        end
+      ),
       font_size:     em,
       font_size_big: 2.5 * em,
     }.with_indifferent_access
@@ -61,6 +79,7 @@ class GenerateSVGThumbnailService
   def number_of_lines
     case media
     when :pinterest then 7
+    when :twitter   then 3
     else                 5
     end
   end
@@ -74,7 +93,10 @@ class GenerateSVGThumbnailService
   end
 
   def title_width_threshold
-    21
+    case media
+    when :twitter then 25
+    else               21
+    end
   end
 
   def title_sentences
@@ -93,7 +115,6 @@ class GenerateSVGThumbnailService
   end
 
   def title_top_margin
-    # (1 +  6.0 / title_sentences.size) * style[:padding]
     case media
     when :pinterest then 3 * style[:padding]
     else                 2 * style[:padding]
