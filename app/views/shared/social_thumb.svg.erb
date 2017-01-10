@@ -1,14 +1,21 @@
-<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="<%= size[:width] %>" height="<%= size[:height] %>" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
  <g>
   <title>UnboundEd</title>
-  <rect fill="<%= color_code %>" stroke="#000000" stroke-width="0" x="0" width="640" height="480" id="svg_1" y="0"/>
-  <rect fill="#000000" stroke="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" x="0" y="379.99999" width="640" height="100" id="svg_2"/>
-  <image xlink:href="<%= asset_path('logo.svg') %>" id="svg_8" height="41" width="267.00001" y="412" x="50"/>
-  <text  xml:space="preserve" text-anchor="left" font-family=".SFNSDisplay-Regular, .SF NS Display Serif" font-size="24" id="svg_9" y="42" x="42" fill="#ffffff"><tspan font-weight="bold">LESSON</tspan> &middot; <%= @resource.subject.upcase %> <%= @resource.grades.first.to_s.humanize %></text>
-  <text text-anchor="left" font-family="Serif" font-size="64" id="svg_11" y="100" x="42" fill="#ffffff"><% title_sentences.each do |sentence| %>
-  <tspan x="42" dy="1.2em"><%= sentence %></tspan>
-  <%end%>
+  <rect fill="<%= color_code %>" x="0" y="0" width="<%= size[:width] %>" height="<%= size[:height] %>" />
+  <rect fill="#000000" opacity="0.3" x="0" y="<%= size[:height] - 100 %>" width="<%= size[:width] %>" height="100"/>
+  <image xlink:href="<%= asset_path('logo.svg') %>" x="<%= style[:padding] %>" y="<%= size[:height] - 75 %>" width="280" height="50" />
+  <text text-anchor="left" font-family="Serif" font-size="<%= style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 2 * style[:padding] %>">
+    <tspan font-weight="bolder"><%= content_type %></tspan> &middot;
+    <tspan><%= subject_and_grade %></tspan>
+  </text>
+  <text text-anchor="left" font-family="Serif" font-size="<%= style[:font_size_big] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= title_top_margin %>">
+    <% title_sentences[0...5].each do |sentence| %>
+      <tspan x="<%= style[:padding] %>" dy="1.2em"><%= sentence %></tspan>
+    <% end %>
+    <% if title_sentences.size > 5 %>
+      <tspan font-size="<%= 0.5 * style[:font_size_big] %>">...</tspan>
+    <% end %>
   </text>
  </g>
 </svg>
