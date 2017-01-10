@@ -1,10 +1,17 @@
 class GenerateSVGThumbnailService
   include ERB::Util
 
-  attr_reader :resource
+  attr_reader :resource, :curriculum, :media
 
-  def initialize(resource)
-    @resource = resource
+  def initialize(model, media: nil)
+    if model.is_a?(Curriculum)
+      @curriculum = model
+      @resource = model.resource
+    else
+      @curriculum = model.curriculums.last
+      @resource = model
+    end
+    @media = media
   end
 
   def run
@@ -12,32 +19,64 @@ class GenerateSVGThumbnailService
   end
 
   def template
-    # @@template ||=
-    File.read template_path
-  end
-
-  def template_path
     @@template_path ||= Rails.root.join('app', 'views', 'shared', 'social_thumb.svg.erb')
+    # @@template ||=
+    File.read @@template_path
   end
 
   def asset_path(asset)
     ActionController::Base.helpers.asset_path(asset)
   end
 
+  def size
+    @@size_map ||= {
+      all:       {width:  600, height: 600},
+      facebook:  {width: 1200, height: 627},
+      pinterest: {width:  600, height: 800},
+      twitter:   {width:  440, height: 220},
+    }.with_indifferent_access
+
+    @@size_map[media || :all]
+  end
+
+  def style
+    # @@style ||=
+    em = 22
+    {
+      padding:       1.5 * em,
+      font_size:     em,
+      font_size_big: 2.5 * em,
+    }.with_indifferent_access
+  end
+
+  def subject_and_grade
+    "#{resource.subject.upcase} #{resource.grades.first.to_s.humanize}"
+  end
+
+  def content_type
+    curriculum.curriculum_type.name.upcase
+  end
+
   def title_sentences
     buffer = ''
     sentences = []
-    threshold = 20
-    resource.title.split.each do |word|
+    threshold = 21
+    splited =
+    resource.title.gsub('-', '- ').split.each do |word|
       if (buffer + word).size < threshold
         buffer = [buffer, word].select(&:present?).join(' ')
+        buffer = buffer.gsub('- ', '-')
       else
         sentences << buffer
         buffer = word
       end
     end
     sentences << buffer if buffer.size > 0
-    sentences
+  end
+
+  def title_top_margin
+    # (1 +  6.0 / title_sentences.size) * style[:padding]
+    2 * style[:padding]
   end
 
   def color_code
