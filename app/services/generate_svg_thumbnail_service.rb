@@ -57,7 +57,7 @@ class GenerateSVGThumbnailService
   def em
     case media
     when :twitter  then 14
-    when :facebook then 28
+    when :facebook then 26
     else                22
     end
   end
@@ -85,7 +85,7 @@ class GenerateSVGThumbnailService
   end
 
   def subject_and_grade
-    "#{resource.subject.upcase} #{resource.grades.first.to_s.humanize}"
+    "#{resource.subject.upcase} #{resource.grades.last.to_s.humanize}"
   end
 
   def content_type
@@ -94,8 +94,9 @@ class GenerateSVGThumbnailService
 
   def title_width_threshold
     case media
-    when :twitter then 25
-    else               21
+    when :twitter  then 25
+    when :facebook then 38
+    else                21
     end
   end
 
@@ -116,8 +117,9 @@ class GenerateSVGThumbnailService
 
   def title_top_margin
     case media
-    when :pinterest then 3 * style[:padding]
-    else                 2 * style[:padding]
+    when :pinterest then 3   * style[:padding]
+    when :facebook  then 2.5 * style[:padding]
+    else                 2   * style[:padding]
     end
   end
 
