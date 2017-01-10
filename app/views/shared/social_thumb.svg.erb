@@ -5,7 +5,7 @@
   <rect fill="<%= color_code %>" x="0" y="0" width="<%= size[:width] %>" height="<%= size[:height] %>" />
   <rect fill="#000000" opacity="0.3" x="0" y="<%= size[:height] - footer_size %>" width="<%= size[:width] %>" height="<%= footer_size %>"/>
   <image xlink:href="<%= asset_path('logo.svg') %>" x="<%= style[:padding] %>" y="<%= size[:height] - logo_size[:height] * 3/2 %>" width="<%= logo_size[:width] %>" height="<%= logo_size[:height] %>" />
-  <text text-anchor="left" font-family="Serif" font-size="<%= style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 2 * style[:padding] %>">
+  <text text-anchor="left" font-family="Serif" font-size="<%= style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 1.5 * style[:padding] %>">
     <tspan font-weight="bolder"><%= content_type %></tspan> &middot;
     <tspan><%= subject_and_grade %></tspan>
   </text>
