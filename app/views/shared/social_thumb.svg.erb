@@ -10,10 +10,10 @@
     <tspan><%= subject_and_grade %></tspan>
   </text>
   <text text-anchor="left" font-family="Serif" font-size="<%= style[:font_size_big] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= title_top_margin %>">
-    <% title_sentences[0...5].each do |sentence| %>
+    <% title_sentences[0...number_of_lines].each do |sentence| %>
       <tspan x="<%= style[:padding] %>" dy="1.2em"><%= sentence %></tspan>
     <% end %>
-    <% if title_sentences.size > 5 %>
+    <% if title_sentences.size > number_of_lines %>
       <tspan font-size="<%= 0.5 * style[:font_size_big] %>">...</tspan>
     <% end %>
   </text>

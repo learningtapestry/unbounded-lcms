@@ -11,7 +11,7 @@ class GenerateSVGThumbnailService
       @curriculum = model.curriculums.last
       @resource = model
     end
-    @media = media
+    @media = media || :all
   end
 
   def run
@@ -23,6 +23,9 @@ class GenerateSVGThumbnailService
     # @@template ||=
     File.read @@template_path
   end
+
+  # =========================
+  # Helper methods
 
   def asset_path(asset)
     ActionController::Base.helpers.asset_path(asset)
@@ -36,17 +39,30 @@ class GenerateSVGThumbnailService
       twitter:   {width:  440, height: 220},
     }.with_indifferent_access
 
-    @@size_map[media || :all]
+    @@size_map[media]
+  end
+
+  def em
+    case media
+    when :facebook then 28
+    else                22
+    end
   end
 
   def style
     # @@style ||=
-    em = 22
     {
       padding:       1.5 * em,
       font_size:     em,
       font_size_big: 2.5 * em,
     }.with_indifferent_access
+  end
+
+  def number_of_lines
+    case media
+    when :pinterest then 7
+    else                 5
+    end
   end
 
   def subject_and_grade
@@ -57,13 +73,15 @@ class GenerateSVGThumbnailService
     curriculum.curriculum_type.name.upcase
   end
 
+  def title_width_threshold
+    21
+  end
+
   def title_sentences
     buffer = ''
     sentences = []
-    threshold = 21
-    splited =
     resource.title.gsub('-', '- ').split.each do |word|
-      if (buffer + word).size < threshold
+      if (buffer + word).size < title_width_threshold
         buffer = [buffer, word].select(&:present?).join(' ')
         buffer = buffer.gsub('- ', '-')
       else
@@ -76,7 +94,10 @@ class GenerateSVGThumbnailService
 
   def title_top_margin
     # (1 +  6.0 / title_sentences.size) * style[:padding]
-    2 * style[:padding]
+    case media
+    when :pinterest then 3 * style[:padding]
+    else                 2 * style[:padding]
+    end
   end
 
   def color_code
