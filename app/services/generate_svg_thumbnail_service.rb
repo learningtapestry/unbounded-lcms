@@ -4,7 +4,9 @@ class GenerateSVGThumbnailService
   attr_reader :resource, :curriculum, :media
 
   def initialize(model, media: nil)
-    if model.is_a?(Curriculum)
+    if model.is_a?(ContentGuide)
+      @resource = model
+    elsif model.is_a?(Curriculum)
       @curriculum = model
       @resource = model.resource
     else
@@ -94,14 +96,14 @@ class GenerateSVGThumbnailService
   end
 
   def content_type
-    if resource.generic?
+    if resource.is_a?(ContentGuide)
+      'CONTENT GUIDE'
+    elsif resource.generic?
       'OTHER RESOURCE'
     elsif resource.video?
       'VIDEO'
     elsif resource.podcast?
       'PODCAST'
-    elsif resource.is_a?(ContentGuide)
-      'CONTENT GUIDE'
     else
       curriculum.curriculum_type.name.upcase
     end

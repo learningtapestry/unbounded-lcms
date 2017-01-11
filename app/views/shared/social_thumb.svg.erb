@@ -31,11 +31,11 @@
   <rect fill="<%= color_code %>" x="0" y="0" width="<%= size[:width] %>" height="<%= size[:height] %>" />
   <rect fill="#000000" opacity="0.3" x="0" y="<%= size[:height] - footer_size %>" width="<%= size[:width] %>" height="<%= footer_size %>"/>
   <image xlink:href="<%= asset_path('logo.svg') %>" x="<%= style[:padding] %>" y="<%= size[:height] - logo_size[:height] * 3/2 %>" width="<%= logo_size[:width] %>" height="<%= logo_size[:height] %>" />
-  <text text-anchor="left" font-family="Caponi Slab Web" font-size="<%= style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 1.5 * style[:padding] %>">
+  <text text-anchor="left" font-family="Caponi Slab Web, serif" font-size="<%= style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 1.5 * style[:padding] %>">
     <tspan font-weight="bold"><%= content_type %></tspan> &middot;
     <tspan font-weight="lighter"><%= subject_and_grade %></tspan>
   </text>
-  <text text-anchor="left" font-family="Caponi Slab Web" font-size="<%= style[:font_size_big] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= title_top_margin %>">
+  <text text-anchor="left" font-family="Caponi Slab Web, serif" font-size="<%= style[:font_size_big] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= title_top_margin %>">
     <% title_sentences[0...number_of_lines].each do |sentence| %>
       <tspan x="<%= style[:padding] %>" dy="1.2em"><%= sentence %></tspan>
     <% end %>
