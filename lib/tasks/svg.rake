@@ -1,25 +1,29 @@
 namespace :svg do
-
   desc 'generate svg files'
   task generate: [:environment] do
-    qset = CommonCoreStandard.where(nil)
-    pbar = ProgressBar.create title: "Alt Names", total: qset.count()
+    generate_svgs 'Resources', Curriculum.trees
+                                         .with_resources
+                                         .includes(:resource_item)
+    generate_svgs 'Media    ', Resource.media
+    generate_svgs 'Generic  ', Resource.generic_resources
+    generate_svgs 'Guide    ', ContentGuide.where(nil)
+  end
+
+  def build_progressbar(name, qset)
+    ProgressBar.create title: "Generate SVG for #{name}", total: qset.count()
+  end
+
+  def generate_svgs(name, qset)
+    pbar = build_progressbar name, qset
 
     qset.find_in_batches do |group|
-      group.each do |std|
-        std.generate_alt_names
-        std.save
+      group.each do |item|
+        [:all, :facebook, :pinterest, :twitter].each do |media|
+          GenerateSVGThumbnailService.new(item, media: media).run
+        end
         pbar.increment
       end
     end
     pbar.finish
   end
 end
-
-    # index_model 'Resources', Curriculum.trees
-    #                                    .with_resources
-    #                                    .where.not(curriculum_type: CurriculumType.map)
-    #                                    .includes(:resource_item)
-    # index_model 'Media    ', Resource.media
-    # index_model 'Generic  ', Resource.generic_resources
-    # index_model 'Guide    ', ContentGuide.where(nil)
