@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class GenerateSVGThumbnailService
   include ERB::Util
 
@@ -16,14 +18,28 @@ class GenerateSVGThumbnailService
     @media = media || :all
   end
 
-  def run
+  def tmp_dir
+    @@tmp_dir ||= begin
+      dir = Rails.root.join('tmp', 'svgs')
+      FileUtils.mkdir_p dir
+      dir
+    end
+  end
+
+  def file_name
+    "#{resource_type}_#{resource.id}_#{media}.svg"
+  end
+
+  def rendered
     ERB.new(template).result(binding)
   end
 
+  def run
+    File.open(tmp_dir.join(file_name), 'w') { |f| f.write rendered }
+  end
+
   def template
-    @@template_path ||= Rails.root.join('app', 'views', 'shared', 'social_thumb.svg.erb')
-    # @@template ||=
-    File.read @@template_path
+    @@template ||= File.read(Rails.root.join 'app', 'views', 'shared', 'social_thumb.svg.erb')
   end
 
   # =========================
@@ -34,7 +50,11 @@ class GenerateSVGThumbnailService
   end
 
   def base64_encoded_asset(asset)
-    ApplicationController.helpers.base64_encoded_asset(asset)
+    @@base64_cache = {}
+    @@base64_cache.fetch asset do
+      encoded = ApplicationController.helpers.base64_encoded_asset(asset)
+      @@base64_cache[asset] = encoded
+    end
   end
 
   def size
@@ -69,12 +89,11 @@ class GenerateSVGThumbnailService
   end
 
   def style
-    # @@style ||=
-    {
+    @style ||= {
       padding:       (
         case media
         when :twitter then em
-        else               1.5 * em
+        else 1.5 * em
         end
       ),
       font_size:     em,
@@ -92,7 +111,16 @@ class GenerateSVGThumbnailService
 
   def subject_and_grade
     grades = GenericPresenter.new(resource).grades_to_str
-    "#{resource.subject.upcase} #{grades}"
+    if grades == 'Grade PK'
+      grades = 'Prekindergarten'
+    elsif grades == 'Grade K'
+      grades = 'Kindergarten'
+    end
+    "#{resource.subject.upcase}  #{grades}"
+  end
+
+  def resource_type
+    resource.class.name.underscore
   end
 
   def content_type
@@ -112,7 +140,7 @@ class GenerateSVGThumbnailService
   def title_width_threshold
     case media
     when :twitter  then 25
-    when :facebook then 38
+    when :facebook then 39
     else                21
     end
   end
@@ -141,7 +169,8 @@ class GenerateSVGThumbnailService
   end
 
   def color_code
-    color_codes[:"#{resource.subject}_#{resource.grade_avg}"]
+    grade = resource.grade_avg rescue :base
+    color_codes[:"#{resource.subject}_#{grade}"]
   end
 
   def color_codes
