@@ -1,15 +1,41 @@
 <svg width="<%= size[:width] %>" height="<%= size[:height] %>" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+   <style>
+     @font-face {
+       font-family: 'Caponi Slab Web';
+       src: url("<%= base64_encoded_asset('caponi/CaponiSlab-Regular-Web.ttf') %>");
+       font-weight:  300;
+       font-style:   normal;
+       font-stretch: normal;
+     }
 
+     @font-face {
+       font-family: 'Caponi Slab Web';
+       src: url("<%= base64_encoded_asset('caponi/CaponiSlab-Medium-Web.ttf') %>");
+       font-weight:  500;
+       font-style:   normal;
+       font-stretch: normal;
+     }
+
+     @font-face {
+       font-family: 'Caponi Slab Web';
+       src: url("<%= base64_encoded_asset('caponi/CaponiSlab-Semibold-Web.ttf') %>");
+       font-weight:  600;
+       font-style:   normal;
+       font-stretch: normal;
+     }
+   </style>
+ </defs>
  <g>
   <title>UnboundEd</title>
   <rect fill="<%= color_code %>" x="0" y="0" width="<%= size[:width] %>" height="<%= size[:height] %>" />
   <rect fill="#000000" opacity="0.3" x="0" y="<%= size[:height] - footer_size %>" width="<%= size[:width] %>" height="<%= footer_size %>"/>
   <image xlink:href="<%= asset_path('logo.svg') %>" x="<%= style[:padding] %>" y="<%= size[:height] - logo_size[:height] * 3/2 %>" width="<%= logo_size[:width] %>" height="<%= logo_size[:height] %>" />
-  <text text-anchor="left" font-family="Serif" font-size="<%= style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 1.5 * style[:padding] %>">
-    <tspan font-weight="bolder"><%= content_type %></tspan> &middot;
-    <tspan><%= subject_and_grade %></tspan>
+  <text text-anchor="left" font-family="Caponi Slab Web" font-size="<%= style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 1.5 * style[:padding] %>">
+    <tspan font-weight="bold"><%= content_type %></tspan> &middot;
+    <tspan font-weight="lighter"><%= subject_and_grade %></tspan>
   </text>
-  <text text-anchor="left" font-family="Serif" font-size="<%= style[:font_size_big] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= title_top_margin %>">
+  <text text-anchor="left" font-family="Caponi Slab Web" font-size="<%= style[:font_size_big] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= title_top_margin %>">
     <% title_sentences[0...number_of_lines].each do |sentence| %>
       <tspan x="<%= style[:padding] %>" dy="1.2em"><%= sentence %></tspan>
     <% end %>

@@ -28,7 +28,11 @@ class GenerateSVGThumbnailService
   # Helper methods
 
   def asset_path(asset)
-    ActionController::Base.helpers.asset_path(asset)
+    ApplicationController.helpers.asset_path(asset)
+  end
+
+  def base64_encoded_asset(asset)
+    ApplicationController.helpers.base64_encoded_asset(asset)
   end
 
   def size
@@ -85,11 +89,22 @@ class GenerateSVGThumbnailService
   end
 
   def subject_and_grade
-    "#{resource.subject.upcase} #{resource.grades.last.to_s.humanize}"
+    grades = GenericPresenter.new(resource).grades_to_str
+    "#{resource.subject.upcase} #{grades}"
   end
 
   def content_type
-    curriculum.curriculum_type.name.upcase
+    if resource.generic?
+      'OTHER RESOURCE'
+    elsif resource.video?
+      'VIDEO'
+    elsif resource.podcast?
+      'PODCAST'
+    elsif resource.is_a?(ContentGuide)
+      'CONTENT GUIDE'
+    else
+      curriculum.curriculum_type.name.upcase
+    end
   end
 
   def title_width_threshold
