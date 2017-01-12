@@ -10,8 +10,6 @@ Rails.application.routes.draw do
   get '/privacy'      => 'pages#show_slug', slug: 'privacy', as: :privacy_page
   get '/leadership'   => 'pages#leadership'
 
-  get '/svg/:resource_id' => 'svg#show'  # used only for testing, remove later
-
   get '/search' => 'search#index'
 
   mount PdfjsViewer::Rails::Engine => '/pdfjs', as: 'pdfjs'
