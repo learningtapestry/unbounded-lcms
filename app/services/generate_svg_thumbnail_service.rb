@@ -111,12 +111,11 @@ class GenerateSVGThumbnailService
 
   def subject_and_grade
     grades = GenericPresenter.new(resource).grades_to_str
-    if grades == 'Grade PK'
-      grades = 'Prekindergarten'
-    elsif grades == 'Grade K'
-      grades = 'Kindergarten'
+    case grades
+    when 'Grade PK' then 'Prekindergarten'
+    when 'Grade K'  then 'Kindergarten'
+    else "#{resource.subject.upcase}  #{grades}"
     end
-    "#{resource.subject.upcase}  #{grades}"
   end
 
   def resource_type
@@ -126,12 +125,8 @@ class GenerateSVGThumbnailService
   def content_type
     if resource.is_a?(ContentGuide)
       'CONTENT GUIDE'
-    elsif resource.generic?
-      'OTHER RESOURCE'
-    elsif resource.video?
-      'VIDEO'
-    elsif resource.podcast?
-      'PODCAST'
+    elsif resource.generic? || resource.media?
+      resource.resource_type.humanize.upcase
     else
       curriculum.curriculum_type.name.upcase
     end

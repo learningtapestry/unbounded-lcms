@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220142204) do
+ActiveRecord::Schema.define(version: 20170112142937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -302,6 +302,15 @@ ActiveRecord::Schema.define(version: 20161220142204) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
+
+  create_table "social_thumbnails", force: :cascade do |t|
+    t.integer "target_id",   null: false
+    t.string  "target_type", null: false
+    t.string  "image",       null: false
+    t.string  "media",       null: false
+  end
+
+  add_index "social_thumbnails", ["target_type", "target_id"], name: "index_social_thumbnails_on_target_type_and_target_id", using: :btree
 
   create_table "staff_members", force: :cascade do |t|
     t.string   "bio",        limit: 4096
