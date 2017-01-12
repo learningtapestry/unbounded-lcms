@@ -63,6 +63,8 @@ class Resource < ActiveRecord::Base
 
   has_many :copyright_attributions
 
+  has_many :social_thumbnails, as: :target
+
   validates :title, presence: true
   validates :url, presence: true, url: true, if: [:video?, :podcast?]
 

@@ -17,6 +17,8 @@ class ContentGuide < ActiveRecord::Base
   has_many :standards, through: :content_guide_standards
   has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
 
+  has_many :social_thumbnails, as: :target
+
   validates :date, :description, :subject, :teaser, :title, presence: true, if: :validate_metadata?
   validates :permalink, format: { with: /\A\w+\z/ }, uniqueness: { case_sensitive: false }
   validate :icon_values
