@@ -1,25 +1,27 @@
-<svg width="<%= size[:width] %>" height="<%= size[:height] %>" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" width="<%= size[:width] %>" height="<%= size[:height] %>" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
  <defs>
-   <style>
+   <style type="text/css">
      @font-face {
-       font-family: 'Caponi Slab Web';
-       src: url("<%= base64_encoded_asset('caponi/CaponiSlab-Regular-Web.ttf') %>");
+       font-family: 'Caponi Slab Regular';
+       src: url("<%= base64_encoded_asset('caponi/CaponiSlab-Regular-Web.ttf') %>") format('truetype');
        font-weight:  300;
        font-style:   normal;
        font-stretch: normal;
      }
 
      @font-face {
-       font-family: 'Caponi Slab Web';
-       src: url("<%= base64_encoded_asset('caponi/CaponiSlab-Medium-Web.ttf') %>");
+       font-family: 'Caponi Slab Medium';
+       src: url("<%= base64_encoded_asset('caponi/CaponiSlab-Medium-Web.ttf') %>") format('truetype');
        font-weight:  500;
        font-style:   normal;
        font-stretch: normal;
      }
 
      @font-face {
-       font-family: 'Caponi Slab Web';
-       src: url("<%= base64_encoded_asset('caponi/CaponiSlab-Semibold-Web.ttf') %>");
+       font-family: 'Caponi Slab Semibold';
+       src: url("<%= base64_encoded_asset('caponi/CaponiSlab-Semibold-Web.ttf') %>") format('truetype');
        font-weight:  600;
        font-style:   normal;
        font-stretch: normal;
@@ -31,11 +33,11 @@
   <rect fill="<%= color_code %>" x="0" y="0" width="<%= size[:width] %>" height="<%= size[:height] %>" />
   <rect fill="#000000" opacity="0.3" x="0" y="<%= size[:height] - footer_size %>" width="<%= size[:width] %>" height="<%= footer_size %>"/>
   <image xlink:href="<%= base64_encoded_asset('logo.svg') %>" x="<%= style[:padding] %>" y="<%= size[:height] - logo_size[:height] * 3/2 %>" width="<%= logo_size[:width] %>" height="<%= logo_size[:height] %>" />
-  <text text-anchor="left" font-family="Caponi Slab Web, serif" font-size="<%= style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 1.5 * style[:padding] %>">
-    <tspan font-weight="bold"><%= content_type %></tspan> ·
-    <tspan font-weight="lighter"><%= subject_and_grade %></tspan>
+  <text text-anchor="start" font-size="<%= style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 1.5 * style[:padding] %>">
+    <tspan font-family="Caponi Slab Semibold, serif"><%= content_type %></tspan> ·
+    <tspan font-family="Caponi Slab Regular, serif"><%= subject_and_grade %></tspan>
   </text>
-  <text text-anchor="left" font-family="Caponi Slab Web, serif" font-size="<%= style[:font_size_big] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= title_top_margin %>">
+  <text text-anchor="start" font-family="Caponi Slab Medium, serif" font-size="<%= style[:font_size_big] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= title_top_margin %>">
     <% title_sentences[0...number_of_lines].each do |sentence| %>
       <tspan x="<%= style[:padding] %>" dy="1.2em"><%= html_escape sentence %></tspan>
     <% end %>

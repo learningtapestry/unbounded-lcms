@@ -26,8 +26,8 @@ class GenerateSVGThumbnailService
     end
   end
 
-  def file_name
-    "#{resource_type}_#{resource.id}_#{media}.svg"
+  def file_path
+    tmp_dir.join("#{resource_type}_#{resource.id}_#{media}.svg")
   end
 
   def rendered
@@ -35,11 +35,12 @@ class GenerateSVGThumbnailService
   end
 
   def run
-    File.open(tmp_dir.join(file_name), 'w') { |f| f.write rendered }
+    File.open(file_path, 'w') { |f| f.write rendered }
   end
 
   def template
-    @@template ||= File.read(Rails.root.join 'app', 'views', 'shared', 'social_thumb.svg.erb')
+    # @@template ||=
+    File.read(Rails.root.join 'app', 'views', 'shared', 'social_thumb.svg.erb')
   end
 
   # =========================
@@ -53,6 +54,9 @@ class GenerateSVGThumbnailService
     @@base64_cache = {}
     @@base64_cache.fetch asset do
       encoded = ApplicationController.helpers.base64_encoded_asset(asset)
+      if asset =~ /\.ttf$/
+        encoded = encoded.gsub('data:application/x-font-ttf;base64,', 'data:font/truetype;charset=utf-8;base64,')
+      end
       @@base64_cache[asset] = encoded
     end
   end
