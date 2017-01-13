@@ -6,7 +6,7 @@
           is_last = ancestor.id == curriculum.id
           piece_full = titleize_roman_numerals((is_last ?
             curriculum.resource.short_title :
-            ancestor.resource.short_title).humanize)
+            ancestor.resource.short_title).try(:humanize))
           piece_short = is_last ?
             curriculum.resource.short_title :
             ancestor.breadcrumb_piece
