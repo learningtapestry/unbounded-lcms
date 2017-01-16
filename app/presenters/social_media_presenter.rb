@@ -7,11 +7,24 @@ class SocialMediaPresenter
   end
 
   def title
-    target.title.try(:html_safe)
+    view.strip_tags_and_squish(target.title.try(:html_safe)) if target
   end
 
   def description
-    target.teaser.try(:html_safe)
+    return nil unless target
+
+    if content_guide?
+      subject = target.subject == 'ela'? 'english language' : 'mathematics'
+      "These guides are designed to explain what new, high standards for #{subject} "\
+      "say about what students should learn in each grade, and what they mean for "\
+      "curriculum and instruction"
+    elsif
+      subject = target.subject == 'ela'? 'ELA' : 'Mathematics'
+      "This QRD outlines Elements of Aligned #{subject} Instruction and demonstrates "\
+      "relationships between the elements to assist educators."
+    else
+      target.teaser.try(:html_safe) if target
+    end
   end
 
   def default
@@ -29,25 +42,9 @@ class SocialMediaPresenter
   end
 
   def twitter
-    @twitter ||= begin
-      twitter_descr = if content_guide?
-        subject = target.subject == 'ela'? 'english language' : 'mathematics'
-        "These guides are designed to explain what new, high standards for #{subject} "\
-        "say about what students should learn in each grade, and what they mean for "\
-        "curriculum and instruction"
-      elsif
-        subject = target.subject == 'ela'? 'ELA' : 'Mathematics'
-        "This QRD outlines Elements of Aligned #{subject} Instruction and demonstrates "\
-        "relationships between the elements to assist educators."
-      else
-        description
-      end
-      byebug
-      OpenStruct.new default.to_h.merge(
-        image: thumbnails[:twitter],
-        description: twitter_descr
-      )
-    end
+    @twitter ||= OpenStruct.new default.to_h.merge(
+      image: thumbnails[:twitter]
+    )
   end
 
   def pinterest
