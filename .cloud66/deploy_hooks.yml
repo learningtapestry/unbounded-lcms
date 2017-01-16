@@ -59,6 +59,12 @@ production: &production
       run_on: all_servers
       apply_during: all
       sudo: true
+    - command: cd $STACK_PATH && mkdir -p tmp/svgs && chmod 777 -R tmp/svgs
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
+      sudo: true
     - source: /.cloud66/install_batik.sh
       destination: /tmp/install_batik.sh
       target: rails
