@@ -117,4 +117,11 @@ module ApplicationHelper
     controller.controller_name == 'resources' && controller.action_name == 'generic'
   end
 
+  def set_social_media_sharing(target)
+    @social_media_presenter = SocialMediaPresenter.new(target: target, view: self)
+  end
+
+  def social_media
+    @social_media_presenter || SocialMediaPresenter.new(target: nil, view: self)
+  end
 end

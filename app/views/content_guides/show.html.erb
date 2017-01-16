@@ -1,5 +1,5 @@
 <% set_page_title @content_guide.teaser.html_safe %>
-<% set_og_tags @content_guide.teaser.html_safe, @content_guide.title.try(:html_safe) %>
+<% set_social_media_sharing @content_guide %>
 
 <% if (permalink = @content_guide.permalink).present? %>
   <% set_canonical_url content_guide_path(permalink, slug: @content_guide.slug) %>
