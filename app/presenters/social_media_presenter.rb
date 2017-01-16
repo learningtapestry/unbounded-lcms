@@ -7,24 +7,35 @@ class SocialMediaPresenter
   end
 
   def title
-    view.strip_tags_and_squish(target.title.try(:html_safe)) if target
+    return nil unless target
+
+    title_ = if target.is_a?(ResourcePresenter)
+      g = target.grade_avg
+      grade_color_code = g.include?('k') ? g : "G#{g}"
+      "#{target.subject.try(:upcase)} #{grade_color_code.try(:upcase)}: #{target.title}"
+    else
+      target.title.try(:html_safe)
+    end
+    view.strip_tags_and_squish(title_) if target
   end
 
   def description
     return nil unless target
 
-    if content_guide?
-      subject = target.subject == 'ela'? 'english language' : 'mathematics'
-      "These guides are designed to explain what new, high standards for #{subject} "\
-      "say about what students should learn in each grade, and what they mean for "\
-      "curriculum and instruction"
-    elsif
-      subject = target.subject == 'ela'? 'ELA' : 'Mathematics'
-      "This QRD outlines Elements of Aligned #{subject} Instruction and demonstrates "\
-      "relationships between the elements to assist educators."
-    else
-      target.teaser.try(:html_safe) if target
-    end
+    # desc = if content_guide?
+    #   subject = target.subject == 'ela'? 'english language' : 'mathematics'
+    #   "These guides are designed to explain what new, high standards for #{subject} "\
+    #   "say about what students should learn in each grade, and what they mean for "\
+    #   "curriculum and instruction"
+    # elsif
+    #   subject = target.subject == 'ela'? 'ELA' : 'Mathematics'
+    #   "This QRD outlines Elements of Aligned #{subject} Instruction and demonstrates "\
+    #   "relationships between the elements to assist educators."
+    # else
+    #   target.teaser.try(:html_safe)
+    # end
+    desc = target.teaser.try(:html_safe)
+    view.strip_tags_and_squish(desc)
   end
 
   def default
