@@ -40,6 +40,13 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers
+    - source: /.cloud66/install_batik.sh
+      destination: /tmp/install_batik.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: build_only
+      run_on: all_servers
   after_rails:
     - command: cd $STACK_PATH && chgrp -R app_writers tmp && chown -R nginx:app_writers tmp && chmod 775 tmp && chmod g+s tmp && chmod -R g+rw tmp
       target: rails
