@@ -42,7 +42,16 @@ class GenerateThumbnails
   end
 
   def convert_to_png(file_path)
-    `batik-rasterizer #{file_path} -dpi 1200`
+    if mac?
+      `batik-rasterizer #{file_path} -dpi 1200`
+    else
+      batik_path = Rails.root.join('bin', 'batik', 'batik-rasterizer-1.8.jar')
+      `java -jar #{batik_path} #{file_path} -dpi 1200`
+    end
     file_path.to_s.gsub '.svg', '.png'
+  end
+
+  def mac?
+   (/darwin/ =~ RUBY_PLATFORM) != nil
   end
 end

@@ -86,12 +86,6 @@ module ApplicationHelper
     content_for(:canonical_url, value)
   end
 
-  def set_og_tags(title, description)
-    set_page_description(description)
-    content_for(:og_title, title)
-    content_for(:og_description, description)
-  end
-
   def base64_encoded_asset(path)
     asset, content_type = if (Rails.env.development? || Rails.env.test?)
       asset = Rails.application.assets.find_asset(path)
