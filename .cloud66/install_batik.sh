@@ -1,4 +1,6 @@
-if [ -d "/usr/local/bin/batik" ]; then
+if [ ! -d "/usr/local/bin/batik" ]; then
+  echo "Installing Batik-rasterizer"
+
   apt-get install libbatik-java -y
 
   wget http://www-us.apache.org/dist/xmlgraphics/batik/binaries/batik-bin-1.8.tar.gz
