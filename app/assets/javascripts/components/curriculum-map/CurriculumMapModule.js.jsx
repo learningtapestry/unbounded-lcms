@@ -23,6 +23,7 @@ class CurriculumMapModule extends React.Component {
       unit => <CurriculumMapUnit key={unit.resource.id}
                                  curriculum={unit}
                                  colorCode={props.colorCode}
+                                 isActiveBranch={_.first(props.active) == curriculum.id}
                                  active={props.active}
                                  handlePopupState={this._handlePopupState} />
     );

@@ -48,7 +48,7 @@ class ResourcesController < ApplicationController
     end
 
     def set_index_props
-      full_depth = @curriculum.unit? || @curriculum.lesson?
+      full_depth = @curriculum.unit? || @curriculum.lesson? || @curriculum.module? 
       active_branch = @curriculum.self_and_ancestor_ids
       target_branch = full_depth ? @curriculum.current_module.child_ids : []
       @props = { active: active_branch,

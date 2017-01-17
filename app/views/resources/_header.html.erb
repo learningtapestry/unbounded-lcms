@@ -4,14 +4,20 @@
       <%
         curriculum.self_and_ancestors.reverse.each_with_index do |ancestor, idx|
           is_last = ancestor.id == curriculum.id
-          piece = is_last ?
+          piece_full = titleize_roman_numerals((is_last ?
+            curriculum.resource.short_title :
+            ancestor.resource.short_title).try(:humanize))
+          piece_short = is_last ?
             curriculum.resource.short_title :
             ancestor.breadcrumb_piece
       %>
         <% if idx == 0 %>
-          <%= piece %>
+          <%= piece_full %>
         <% else %>
-          <%= link_to piece, show_with_slug_path(ancestor.slug.value) %>
+          <%= link_to show_with_slug_path(ancestor.slug.value) do %>
+            <span class="show-for-ipad"><%= piece_full %></span>
+            <span class="hide-for-ipad"><%= piece_short %></span>
+          <% end %>
         <% end %>
         <%= ' / ' if !is_last %>
       <% end %>
