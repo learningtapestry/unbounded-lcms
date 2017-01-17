@@ -17,16 +17,16 @@ class GenerateThumbnails
       # generate tmp svg file
       File.open(file_path, 'w') { |f| f.write(svg_content(media)) }
       # convert to png
-      png_path = convert_to_png(file_path)
+      # png_path = convert_to_png(file_path)
 
       # save thumbnail to s3
-      thumb = SocialThumbnail.find_or_initialize_by(media: media, target: resource)
-      thumb.image = File.open(png_path)
-      thumb.save
+      # thumb = SocialThumbnail.find_or_initialize_by(media: media, target: resource)
+      # thumb.image = File.open(png_path)
+      # thumb.save
     end
     # clean tmp image files
-    files = Dir.glob(tmp_dir.join "#{resource_type}_#{model.id}_*.*")
-    FileUtils.rm files
+    # files = Dir.glob(tmp_dir.join "#{resource_type}_#{model.id}_*.*")
+    # FileUtils.rm files
   end
 
   def tmp_dir
