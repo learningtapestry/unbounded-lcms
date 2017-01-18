@@ -40,13 +40,6 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers
-    - source: /.cloud66/fix_lang.sh
-      destination: /tmp/fix_lang.sh
-      target: rails
-      execute: true
-      sudo: true
-      apply_during: all
-      run_on: all_servers
   after_rails:
     - command: cd $STACK_PATH && chgrp -R app_writers tmp && chown -R nginx:app_writers tmp && chmod 775 tmp && chmod g+s tmp && chmod -R g+rw tmp
       target: rails
