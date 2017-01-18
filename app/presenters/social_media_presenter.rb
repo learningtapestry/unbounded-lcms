@@ -10,9 +10,13 @@ class SocialMediaPresenter
     return nil unless target
 
     title_ = if target.is_a?(ResourcePresenter)
-      g = target.grade_avg
-      grade_color_code = g.include?('k') ? g : "G#{g}"
-      "#{target.subject.try(:upcase)} #{grade_color_code.try(:upcase)}: #{target.title}"
+      g = target.grade_avg rescue nil
+      if g
+        grade_color_code = g.include?('k') ? g : "G#{g}"
+        "#{target.subject.try(:upcase)} #{grade_color_code.try(:upcase)}: #{target.title}"
+      else
+        "#{target.subject.try(:upcase)}: #{target.title}"
+      end
     else
       target.title.try(:html_safe)
     end
