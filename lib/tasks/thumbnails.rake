@@ -1,9 +1,9 @@
 namespace :thumbnails do
   desc 'generate thumbnail images'
   task generate: [:environment] do
-    # generate_thumbnails 'Resources', Curriculum.trees
-    #                                      .with_resources
-    #                                      .includes(:resource_item)
+    generate_thumbnails 'Resources', Curriculum.trees
+                                               .with_resources
+                                               .includes(:resource_item)
     generate_thumbnails 'Media    ', Resource.media
     generate_thumbnails 'Generic  ', Resource.generic_resources
     generate_thumbnails 'Guide    ', ContentGuide.where(nil)
