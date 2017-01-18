@@ -17,16 +17,16 @@ class GenerateThumbnails
       # generate tmp svg file
       File.open(file_path, 'w') { |f| f.write(svg_content(media)) }
       # convert to png
-      # png_path = convert_to_png(file_path)
+      png_path = convert_to_png(file_path)
 
       # save thumbnail to s3
-      # thumb = SocialThumbnail.find_or_initialize_by(media: media, target: resource)
-      # thumb.image = File.open(png_path)
-      # thumb.save
+      thumb = SocialThumbnail.find_or_initialize_by(media: media, target: resource)
+      thumb.image = File.open(png_path)
+      thumb.save
     end
     # clean tmp image files
-    # files = Dir.glob(tmp_dir.join "#{resource_type}_#{model.id}_*.*")
-    # FileUtils.rm files
+    files = Dir.glob(tmp_dir.join "#{resource_type}_#{model.id}_*.*")
+    FileUtils.rm files
   end
 
   def tmp_dir
@@ -42,16 +42,10 @@ class GenerateThumbnails
   end
 
   def convert_to_png(file_path)
-    if mac?
-      `batik-rasterizer #{file_path} -dpi 1200`
-    else
-      batik_path = '/usr/local/bin/batik/batik-rasterizer-1.8.jar'
-      `java -jar #{batik_path} #{file_path} -dpi 1200`
-    end
-    file_path.to_s.gsub '.svg', '.png'
-  end
-
-  def mac?
-   (/darwin/ =~ RUBY_PLATFORM) != nil
+    tmp_path = file_path.to_s.gsub('.svg', '.tmp.png')
+    png_path = file_path.to_s.gsub('.svg', '.png')
+    `svgexport #{file_path} #{tmp_path}`
+    `pngquant #{tmp_path} -o #{png_path} --speed=1 --force`
+    png_path
   end
 end

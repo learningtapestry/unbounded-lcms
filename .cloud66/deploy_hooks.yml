@@ -65,8 +65,8 @@ production: &production
       run_on: all_servers
       apply_during: all
       sudo: true
-    - source: /.cloud66/install_batik.sh
-      destination: /tmp/install_batik.sh
+    - source: /.cloud66/install_svgexport.sh
+      destination: /tmp/install_svgexport.sh
       target: rails
       execute: true
       sudo: true
