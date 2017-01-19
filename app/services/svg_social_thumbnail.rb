@@ -60,7 +60,7 @@ class SVGSocialThumbnail
 
   def logo_size
     proportion = footer_size / 100.0
-    {width: 280 * proportion, height: 50 * proportion}
+    {width: 220 * proportion, height: 30 * proportion}
   end
 
   def footer_size
@@ -72,39 +72,55 @@ class SVGSocialThumbnail
 
   def em
     case media
-    when :twitter  then 14
-    when :facebook then 26
-    else                22
+    when :twitter   then 12
+    when :facebook  then 26
+    else                 22
     end
   end
 
   def style
     @style ||= {
-      padding:       (
+      padding: 2*em,
+      font_size: em,
+      font_size_big: (
         case media
-        when :twitter then em
-        else 1.5 * em
+        when :facebook  then 3*em
+        when :pinterest then 3.25*em
+        else 2.5*em
         end
       ),
-      font_size:     em,
-      font_size_big: 2.5 * em,
     }.with_indifferent_access
+  end
+
+  def title_width_threshold
+    case media
+    when :twitter   then 31
+    when :facebook  then 32
+    when :pinterest then 16
+    else                 20
+    end
   end
 
   def number_of_lines
     case media
-    when :pinterest then 7
+    when :facebook  then 4
+    when :pinterest then 6
     when :twitter   then 3
     else                 5
     end
   end
 
+  def title_top_margin
+    2 * style[:padding]
+  end
+
   def subject_and_grade
     grades = GenericPresenter.new(resource).grades_to_str
+    subject = resource.subject == 'ela' ? 'ELA' : 'Math'
     case grades
     when 'Grade PK' then 'Prekindergarten'
     when 'Grade K'  then 'Kindergarten'
-    else "#{resource.subject.upcase}  #{grades}"
+    else "#{subject}  #{grades}"
     end
   end
 
@@ -122,14 +138,6 @@ class SVGSocialThumbnail
     end
   end
 
-  def title_width_threshold
-    case media
-    when :twitter  then 25
-    when :facebook then 39
-    else                21
-    end
-  end
-
   def title_sentences
     buffer = ''
     sentences = []
@@ -143,14 +151,6 @@ class SVGSocialThumbnail
       end
     end
     sentences << buffer if buffer.size > 0
-  end
-
-  def title_top_margin
-    case media
-    when :pinterest then 3   * style[:padding]
-    when :facebook  then 2.5 * style[:padding]
-    else                 2   * style[:padding]
-    end
   end
 
   def color_code

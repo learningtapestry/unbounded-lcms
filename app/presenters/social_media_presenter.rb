@@ -26,18 +26,6 @@ class SocialMediaPresenter
   def description
     return nil unless target
 
-    # desc = if content_guide?
-    #   subject = target.subject == 'ela'? 'english language' : 'mathematics'
-    #   "These guides are designed to explain what new, high standards for #{subject} "\
-    #   "say about what students should learn in each grade, and what they mean for "\
-    #   "curriculum and instruction"
-    # elsif
-    #   subject = target.subject == 'ela'? 'ELA' : 'Mathematics'
-    #   "This QRD outlines Elements of Aligned #{subject} Instruction and demonstrates "\
-    #   "relationships between the elements to assist educators."
-    # else
-    #   target.teaser.try(:html_safe)
-    # end
     desc = target.teaser.try(:html_safe)
     view.strip_tags_and_squish(desc)
   end
@@ -79,14 +67,5 @@ class SocialMediaPresenter
         {}
       end
     end
-  end
-
-  def content_guide?
-    target.class.name.match /ContentGuide/  # migth be a presenter
-  end
-
-  def quick_reference_guide?
-    # TODO fixme
-    target.is_a?(Resource) && target.quick_reference_guide?
   end
 end
