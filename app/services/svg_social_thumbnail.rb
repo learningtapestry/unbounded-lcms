@@ -97,16 +97,16 @@ class SVGSocialThumbnail
     when :twitter   then 31
     when :facebook  then 32
     when :pinterest then 16
-    else                 20
+    else                 21
     end
   end
 
   def number_of_lines
     case media
     when :facebook  then 4
-    when :pinterest then 6
+    when :pinterest then 7
     when :twitter   then 3
-    else                 5
+    else                 6
     end
   end
 
