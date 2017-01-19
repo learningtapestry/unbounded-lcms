@@ -60,7 +60,7 @@ class SocialMediaPresenter
     @thumbnails ||=  begin
       if target
         target.social_thumbnails.reduce({}) do |dict, thumb|
-          dict[thumb.media] = thumb.image.url
+          dict[thumb.media] = thumb.image.url + "?ts=#{Time.now.to_i}#{Random.rand(1_000_000)}"
           dict
         end.with_indifferent_access
       else

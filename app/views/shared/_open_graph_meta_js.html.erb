@@ -1,8 +1,12 @@
 <script type="text/javascript" data-turbolinks-eval="always">
-  // $("meta[property='og:title']").attr('content', "<%= page_og_title %>");
-  // $("meta[property='og:description'], meta[name='description']").attr('content', "<%= page_og_description %>");
-  // $("meta[property='og:url']").attr('content', "<%= request.original_url %>");
-  // $("meta[property='og:image']").attr('content', "<%= page_og_image %>");
+  $("meta[property='og:title']").attr('content', "<%= social_media.facebook.title %>");
+  $("meta[property='og:description'], meta[name='description']").attr('content', "<%= social_media.facebook.description %>");
+  $("meta[property='og:url']").attr('content', "<%= request.original_url %>");
+  $("meta[property='og:image']").attr('content', "<%= social_media.facebook.image %>");
+
+  $("meta[property='twitter:title']").attr('content', "<%= social_media.twitter.title %>");
+  $("meta[property='twitter:description'], meta[name='description']").attr('content', "<%= social_media.twitter.description %>");
+  $("meta[property='twitter:image']").attr('content', "<%= social_media.twitter.image %>");
 
   // if (typeof addthis_share === 'undefined') {
   //    addthis_share = {};
@@ -13,3 +17,4 @@
   // addthis_share['description'] = "<%= page_og_description %>";
   // addthis_share['image'] = "<%= page_og_image %>";
 </script>
+
