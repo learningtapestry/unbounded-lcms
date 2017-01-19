@@ -7,8 +7,6 @@ class SocialMediaPresenter
   end
 
   def title
-    return nil unless target
-
     title_ = if target.is_a?(ResourcePresenter)
       g = target.grade_avg rescue nil
       if g
@@ -18,23 +16,22 @@ class SocialMediaPresenter
         "#{target.subject.try(:upcase)}: #{target.title}"
       end
     else
-      target.title.try(:html_safe)
+      target.try(:title).try(:html_safe)
     end
-    view.strip_tags_and_squish(title_) if target
+    clean(title_) || clean(view.content_for(:og_title)) || view.page_title
   end
 
   def description
-    return nil unless target
-
-    desc = target.teaser.try(:html_safe)
-    view.strip_tags_and_squish(desc)
+    desc = target.try(:teaser).try(:html_safe)
+    clean(desc) || clean(view.content_for(:og_description)) || view.page_description
   end
 
   def default
     OpenStruct.new(
       image: thumbnails[:all] || view.page_og_image,
-      title: title || view.page_og_title,
-      description: description || view.page_og_description,
+      title: title,
+      description: description,
+,
     )
   end
 
@@ -67,5 +64,9 @@ class SocialMediaPresenter
         {}
       end
     end
+  end
+
+  def clean(str)
+    view.strip_tags_and_squish(str)
   end
 end

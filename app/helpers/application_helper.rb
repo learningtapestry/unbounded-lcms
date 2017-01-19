@@ -50,14 +50,6 @@ module ApplicationHelper
     page_og_image
   end
 
-  def page_og_title
-    strip_tags_and_squish(content_for(:og_title)) || page_title
-  end
-
-  def page_og_description
-    strip_tags_and_squish(content_for(:og_description)) || page_description
-  end
-
   # Render meta tag
   def redirect_meta_tag
     content_for(:redirect_meta_tag) if content_for?(:redirect_meta_tag)
