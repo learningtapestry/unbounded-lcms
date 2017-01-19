@@ -31,7 +31,6 @@ class SocialMediaPresenter
       image: thumbnails[:all] || view.page_og_image,
       title: title,
       description: description,
-,
     )
   end
 

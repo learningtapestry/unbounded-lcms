@@ -10,7 +10,7 @@ class SVGSocialThumbnail
       @curriculum = model
       @resource = model.resource
     else
-      @curriculum = model.curriculums.last
+      @curriculum = model.curriculums.trees.last
       @resource = model
     end
     @media = media || :all
@@ -129,12 +129,18 @@ class SVGSocialThumbnail
   end
 
   def content_type
+    curr_type = curriculum.try(:curriculum_type).try(:name)
+
     if resource.is_a?(ContentGuide)
       'CONTENT GUIDE'
     elsif resource.generic? || resource.media?
       resource.resource_type.humanize.upcase
+    elsif curr_type == 'unit' && resource.short_title.match(/topic/i)
+      'TOPIC'
+    elsif curr_type == 'lesson'
+      'LESSON PLAN'
     else
-      curriculum.curriculum_type.name.upcase
+      curr_type.upcase
     end
   end
 
