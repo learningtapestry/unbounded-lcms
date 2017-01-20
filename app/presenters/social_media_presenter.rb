@@ -42,7 +42,7 @@ class SocialMediaPresenter
 
   def twitter
     @twitter ||= OpenStruct.new default.to_h.merge(
-      image: thumbnails[:twitter]
+      image: thumbnails[:facebook] # experiment using a facebook sized image for twitter cards
     )
   end
 
