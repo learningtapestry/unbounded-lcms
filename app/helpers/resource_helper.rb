@@ -17,9 +17,11 @@ module ResourceHelper
     curriculum.curriculum_type.name.capitalize
   end
 
-  def titleize_roman_numerals(s)
+  def titleize_ub_titles(s)
     return unless s.present?
-    s.titleize.gsub(/\bM{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b/i, &:upcase)
+    s.titleize
+     .gsub(/\bM{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b/i, &:upcase)
+     .gsub(/\b[[:digit:]][[:alpha:]]\b/i, &:upcase)
   end
 
   def back_to_curriculum_path(curriculum)
