@@ -28,7 +28,8 @@ class SocialMediaPresenter
 
   def default
     OpenStruct.new(
-      image: thumbnails[:all] || view.page_og_image,
+      # use facebook image as default
+      image: thumbnails[:facebook] || view.page_og_image,
       title: title,
       description: description,
     )
@@ -42,7 +43,8 @@ class SocialMediaPresenter
 
   def twitter
     @twitter ||= OpenStruct.new default.to_h.merge(
-      image: thumbnails[:facebook] # experiment using a facebook sized image for twitter cards
+      # use same image as facebook for twitter
+      image: thumbnails[:facebook]
     )
   end
 

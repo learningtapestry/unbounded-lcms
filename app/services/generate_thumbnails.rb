@@ -8,7 +8,8 @@ class GenerateThumbnails
   end
 
   def medias
-    @@medias ||= [:all, :facebook, :pinterest, :twitter]
+    # @@medias ||= [:all, :facebook, :pinterest, :twitter]
+    @@medias ||= [:facebook, :pinterest]
   end
 
   def generate
