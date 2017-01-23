@@ -13,5 +13,17 @@ namespace :oneoff do
       puts "Standard fixed : #{right_std.name}"
     end
   end
+
+  desc "Fix missing tags on text sets (issue 497)"
+  task text_set_tags: :environment do
+    puts "==== Adding tags to Text Sets"
+    Resource.text_set.each do |resource|
+      resource.tag_list << 'Expert Packs'
+      resource.tag_list << 'Text Set'
+      saved =  resource.save
+      print(saved ?  '.' : 'F')
+    end
+    puts "\n"
+  end
 end
 
