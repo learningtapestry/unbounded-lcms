@@ -140,6 +140,7 @@ module Search
         query = {
           query: {
             bool: {
+              filter: [],
               should: [
                 { term: {tag_standards: term} },
                 { match_phrase_prefix: {tag_standards: {query: term}} }
