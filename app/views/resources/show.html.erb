@@ -1,5 +1,5 @@
 <% set_page_title @resource.page_title(@grade_color_code) %>
-<% set_og_tags @resource.page_title(@grade_color_code), @resource.teaser %>
+<% set_social_media_sharing @resource %>
 
 <% if (slug = @curriculum.slug) %>
   <% set_canonical_url show_with_slug_path(slug.value) %>
