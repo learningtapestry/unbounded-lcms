@@ -59,6 +59,20 @@ production: &production
       run_on: all_servers
       apply_during: all
       sudo: true
+    - command: cd $STACK_PATH && mkdir -p tmp/svgs && chmod 777 -R tmp/svgs
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
+      sudo: true
+    - source: /.cloud66/install_svgexport.sh
+      destination: /tmp/install_svgexport.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
+      run_on: all_servers
+
 staging:
   <<: *production
   after_symlink:

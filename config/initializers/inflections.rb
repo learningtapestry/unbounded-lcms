@@ -13,6 +13,7 @@
 
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'ELA'
+  inflect.acronym 'SVG'
 end
 
 # These inflection rules are supported but not enabled by default:

@@ -50,14 +50,6 @@ module ApplicationHelper
     page_og_image
   end
 
-  def page_og_title
-    strip_tags_and_squish(content_for(:og_title)) || page_title
-  end
-
-  def page_og_description
-    strip_tags_and_squish(content_for(:og_description)) || page_description
-  end
-
   # Render meta tag
   def redirect_meta_tag
     content_for(:redirect_meta_tag) if content_for?(:redirect_meta_tag)
@@ -86,12 +78,6 @@ module ApplicationHelper
     content_for(:canonical_url, value)
   end
 
-  def set_og_tags(title, description)
-    set_page_description(description)
-    content_for(:og_title, title)
-    content_for(:og_description, description)
-  end
-
   def base64_encoded_asset(path)
     asset, content_type = if (Rails.env.development? || Rails.env.test?)
       asset = Rails.application.assets.find_asset(path)
@@ -117,4 +103,11 @@ module ApplicationHelper
     controller.controller_name == 'resources' && controller.action_name == 'generic'
   end
 
+  def set_social_media_sharing(target)
+    @social_media_presenter = SocialMediaPresenter.new(target: target, view: self)
+  end
+
+  def social_media
+    @social_media_presenter || SocialMediaPresenter.new(target: nil, view: self)
+  end
 end
