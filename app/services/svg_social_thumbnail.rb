@@ -104,14 +104,14 @@ class SVGSocialThumbnail
   def number_of_lines
     case media
     when :facebook  then 4
-    when :pinterest then 7
+    when :pinterest then (header_with_two_lines? ? 6 : 7)
     when :twitter   then 3
     else                 6
     end
   end
 
   def title_top_margin
-    2 * style[:padding]
+    header_with_two_lines? ? 3*style[:padding] :  2*style[:padding]
   end
 
   def subject_and_grade
@@ -142,6 +142,10 @@ class SVGSocialThumbnail
     else
       curr_type.upcase
     end
+  end
+
+  def header_with_two_lines?
+    media == :pinterest && resource.try(:quick_reference_guide?)
   end
 
   def title_sentences

@@ -7,22 +7,23 @@ class SocialMediaPresenter
   end
 
   def title
-    title_ = if target.is_a?(ResourcePresenter)
-      g = target.grade_avg rescue nil
-      if g
-        grade_color_code = g.include?('k') ? g : "G#{g}"
-        "#{target.subject.try(:upcase)} #{grade_color_code.try(:upcase)}: #{target.title}"
-      else
-        "#{target.subject.try(:upcase)}: #{target.title}"
-      end
-    else
-      target.try(:title).try(:html_safe)
-    end
+    title_ = target.try(:title).try(:html_safe)
     clean(title_) || clean(view.content_for(:og_title)) || view.page_title
   end
 
   def description
-    desc = target.try(:teaser).try(:html_safe)
+    desc = if content_guide?
+      subject = target.subject == 'ela'? 'english language' : 'mathematics'
+      "These guides are designed to explain what new, high standards for #{subject} "\
+      "say about what students should learn in each grade, and what they mean for "\
+      "curriculum and instruction"
+    elsif quick_reference_guide?
+      subject = target.subject == 'ela'? 'ELA' : 'Mathematics'
+      "This QRD outlines Elements of Aligned #{subject} Instruction and demonstrates "\
+      "relationships between the elements to assist educators."
+    else
+      target.try(:teaser).try(:html_safe)
+    end
     clean(desc) || clean(view.content_for(:og_description)) || view.page_description
   end
 
@@ -69,5 +70,13 @@ class SocialMediaPresenter
 
   def clean(str)
     view.strip_tags_and_squish(str)
+  end
+
+  def content_guide?
+    target.is_a?(ContentGuide) || target.is_a?(ContentGuidePresenter)
+  end
+
+  def quick_reference_guide?
+    (target.is_a?(Resource) || target.is_a?(ResourcePresenter)) && target.quick_reference_guide?
   end
 end
