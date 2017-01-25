@@ -40,7 +40,7 @@
 
   <text text-anchor="start" font-size="<%= 1.5 * style[:font_size] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= 1.5 * style[:padding] %>">
     <tspan font-family="CaponiSlab Semibold"><%= content_type %></tspan> ·
-    <tspan font-family="CaponiSlab Regular" font-weight="lighter"><%= subject_and_grade %></tspan>
+    <tspan font-family="CaponiSlab Regular" font-weight="lighter" <%= header_with_two_lines? ? "x='#{style[:padding]}' dy='1.2em\'" : '' %>><%= subject_and_grade %></tspan>
   </text>
   <text text-anchor="start" font-family="CaponiSlab Medium" font-size="<%= style[:font_size_big] %>" fill="#ffffff" x="<%= style[:padding] %>" y="<%= title_top_margin %>">
     <% title_sentences[0...number_of_lines].each do |sentence| %>
