@@ -72,6 +72,8 @@ en:
     not_found:
       page_header: Page Not Found
       page_title: UnboundEd - Page Not Found
+  preview:
+    back: View Details
   resources:
     media:
       related_guides_subtitle: Guides that feature this %{type} will appear in this section.
