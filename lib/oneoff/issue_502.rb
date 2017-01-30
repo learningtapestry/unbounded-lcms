@@ -66,10 +66,11 @@ module Oneoff
     private
 
       class ResourceHandler
-        attr_reader :context
+        attr_reader :context, :files_path
 
         def initialize(context)
           @context = context
+          @files_path = File.join(ENV.fetch('FILES_PATH'), "grade #{context[:grade]}", "unit #{context[:unit]}")
         end
 
         def run
@@ -91,10 +92,13 @@ module Oneoff
         def unit_level_tasks
           remove_all_downloads
           update_description
+          create_zip_with_all_files
+          unit_level_downloads
         end
 
         def lesson_level_tasks
           update_description
+          lesson_level_downloads
         end
 
         def remove_all_downloads
@@ -110,6 +114,61 @@ module Oneoff
           # resource.save
           if description.present?
             puts "#{resource.id},#{context[:curriculum].breadcrumb_title},resource.title,update description"
+          end
+        end
+
+        def create_zip_with_all_files
+          zip_name = "ELA #{context[:grade]} Developing Core Proficiencies Unit #{context[:unit]} - All files"
+          FileUtils.cd(files_path) do
+            # create file to contain zipped files
+            FileUtils.mkdir_p zip_name
+
+            # copy relevant files to be zipped
+            FileUtils.cp_r(
+              Dir[
+                '*.pdf',                                     # All lesson files
+                File.join('Unit Level Downloads', '*.pdf'),  # Unit level downloads, without the folder
+                File.join('add to each lesson (part)', '*')  # All folders inside 'add to each lesson (part)'
+              ],
+              zip_name
+            )
+
+            # zip whole folder
+            `zip -r "#{zip_name}.zip" "#{zip_name}"`
+
+            # remove tmp folder
+            FileUtils.rm_r zip_name
+          end
+          File.open(File.join(files_path, zip_name + '.zip')) do |zipfile|
+            # download = Download.create(file: zipfile, title: zip_name)
+            # resource.downloads << download
+            # resource.save
+            puts "#{resource.id},#{context[:curriculum].breadcrumb_title},resource.title,attach: #{zip_name}.zip"
+          end
+        end
+
+        def unit_level_downloads
+          Dir[File.join(files_path, 'Unit Level Downloads', '*.pdf')].each do |path|
+            path = Pathname.new(path)
+            # download = Download.create(file: File.open(path), title: path.basename)
+            # resource.downloads << download
+            # resource.save
+
+            puts "#{resource.id},#{context[:curriculum].breadcrumb_title},resource.title,attach: #{path.basename}"
+          end
+        end
+
+        def lesson_level_downloads
+          Dir[File.join(files_path, '*.pdf')].select do |path|
+            path =~ /Part #{context[:lesson]}/
+
+          end.each do |path|
+            path = Pathname.new(path)
+            # download = Download.create(file: File.open(path), title: path.basename)
+            # resource.downloads << download
+            # resource.save
+
+            puts "#{resource.id},#{context[:curriculum].breadcrumb_title},resource.title,attach: #{path.basename}"
           end
         end
       end
