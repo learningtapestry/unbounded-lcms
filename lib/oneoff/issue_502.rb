@@ -99,12 +99,13 @@ module Oneoff
         def lesson_level_tasks
           update_description
           lesson_level_downloads
+          add_to_each_lesson_downloads
         end
 
         def remove_all_downloads
           # ResourceDownload.where(resource_id: resource.id).delete_all if resource
           if resource.downloads.count > 0
-            puts "#{resource.id},#{context[:curriculum].breadcrumb_title},resource.title,remove downloads"
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "remove downloads"
           end
         end
 
@@ -113,7 +114,7 @@ module Oneoff
           # resource.description = context[:row]['Description']
           # resource.save
           if description.present?
-            puts "#{resource.id},#{context[:curriculum].breadcrumb_title},resource.title,update description"
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "update description"
           end
         end
 
@@ -143,7 +144,8 @@ module Oneoff
             # download = Download.create(file: zipfile, title: zip_name)
             # resource.downloads << download
             # resource.save
-            puts "#{resource.id},#{context[:curriculum].breadcrumb_title},resource.title,attach: #{zip_name}.zip"
+
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{zip_name}.zip"
           end
         end
 
@@ -154,7 +156,7 @@ module Oneoff
             # resource.downloads << download
             # resource.save
 
-            puts "#{resource.id},#{context[:curriculum].breadcrumb_title},resource.title,attach: #{path.basename}"
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{path.basename}"
           end
         end
 
@@ -168,8 +170,27 @@ module Oneoff
             # resource.downloads << download
             # resource.save
 
-            puts "#{resource.id},#{context[:curriculum].breadcrumb_title},resource.title,attach: #{path.basename}"
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{path.basename}"
           end
+        end
+
+        def add_to_each_lesson_downloads
+          Dir[File.join(files_path, 'add to each lesson (part)', '**', '*.pdf')].each do |path|
+            path = Pathname.new(path)
+            dirname = path.dirname.split.last.to_s
+            category = dirname.parameterize.underscore
+            # download = Download.create(file: File.open(path), title: path.basename)
+            # resource.downloads << download
+            # resource.save
+            # dr = ResourceDownload.find_by(download_id: download.id)
+            # dr.update_attributes download_category_id: DownloadCategory.find_by(name: category_name).id
+
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title ,"attach (with category '#{dirname}'): #{path.basename}"
+          end
+        end
+
+        def csv(*attrs)
+          puts attrs.map { |attr| "\"#{attr}\"" }.join(',')
         end
       end
   end
