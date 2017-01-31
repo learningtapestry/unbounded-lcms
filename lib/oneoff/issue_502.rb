@@ -177,15 +177,24 @@ module Oneoff
         def add_to_each_lesson_downloads
           Dir[File.join(files_path, 'add to each lesson (part)', '**', '*.pdf')].each do |path|
             path = Pathname.new(path)
-            dirname = path.dirname.split.last.to_s
-            category = dirname.parameterize.underscore
+            category = find_download_category(path)
+
             # download = Download.create(file: File.open(path), title: path.basename)
             # resource.downloads << download
             # resource.save
             # dr = ResourceDownload.find_by(download_id: download.id)
-            # dr.update_attributes download_category_id: DownloadCategory.find_by(name: category_name).id
+            # dr.update_attributes download_category_id: category.id
 
-            csv resource.id, context[:curriculum].breadcrumb_title, resource.title ,"attach (with category '#{dirname}'): #{path.basename}"
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title ,"attach (with category '#{category.description}'): #{path.basename}"
+          end
+        end
+
+        def find_download_category(path)
+          dirname = path.dirname.split.last.to_s
+          category = dirname.parameterize.underscore
+
+          DownloadCategory.find_or_create_by(name: category) do |dc|
+            dc.description = dirname
           end
         end
 
