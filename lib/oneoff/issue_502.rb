@@ -122,7 +122,7 @@ module Oneoff
         def update_description
           description = context[:row]['Description']
           if description.present?
-            resource.description = context[:row]['Description']
+            resource.description = description.gsub(/\n/, '<br />')
             resource.save
             csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "update description"
           end
