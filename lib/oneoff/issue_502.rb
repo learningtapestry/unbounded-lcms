@@ -42,10 +42,6 @@ module Oneoff
       ctx
     end
 
-    def dbg(curr)
-      puts curr.curriculum_type.name, curr.id, curr.resource.id, curr.resource.title
-    end
-
     def find_curriculum(ctx)
       # Grade
       curr = Curriculum.trees
