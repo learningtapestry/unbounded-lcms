@@ -4,6 +4,8 @@ class Resource < ActiveRecord::Base
   include CCSSStandardFilter
   include GradeListHelper
 
+  DOWNLOAD_PER_CATEGORY_LIMIT = 5
+
   mount_uploader :image_file, ResourceImageUploader
 
   enum resource_type: {

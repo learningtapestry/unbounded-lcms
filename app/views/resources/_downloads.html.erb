@@ -5,11 +5,25 @@
   <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= resource.color_code %>">
     <% resource.download_categories.each do |k, downloads| %>
       <strong><%= k %></strong>
-      <% downloads.each do |download| %>
+      <% downloads.take(Resource::DOWNLOAD_PER_CATEGORY_LIMIT).each do |download| %>
         <%= render partial: 'resources/download',
                             locals: { download: download,
                                       curriculum: curriculum,
                                       indent: indent } %>
+      <% end %>
+      <% if downloads.size >= Resource::DOWNLOAD_PER_CATEGORY_LIMIT %>
+      <div class="o-resource-downloads">
+        <li class="o-resource-downloads__btn o-resource-downloads__btn--more"><%= t('ui.show_more') %></li>
+        <div class="o-resource-downloads__list">
+          <% downloads.take(Resource::DOWNLOAD_PER_CATEGORY_LIMIT).each do |download| %>
+            <%= render partial: 'resources/download',
+                                locals: { download: download,
+                                          curriculum: curriculum,
+                                          indent: indent } %>
+          <% end %>
+        </div>
+        <li class="o-resource-downloads__btn o-resource-downloads__btn--less"><%= t('ui.show_less') %></li>        
+      </div>
       <% end %>
     <% end %>
     <% if resource.downloads.empty? %>

@@ -1,3 +1,5 @@
+$li-downloads-indent: 33.44px;
+
 .o-resource-title {
   @include flex-grid-row(nest);
 
@@ -81,6 +83,24 @@
   border-bottom: 1px solid #b2b2b2;
 }
 
+.o-resource-downloads {
+  flex: 0 0 100%;
+  max-width: 100%;
+
+  @include e(btn) {
+    cursor: pointer;
+    padding-left: $li-downloads-indent;
+
+    @include m(less) {
+      display: none;
+    }
+  }
+
+  @include e(list) {
+    display: none;
+  }
+}
+
 .o-resource {
   @include e(item) {
     @include add-gutter;
@@ -142,7 +162,7 @@
       margin-right: 5px;
       &.fa-eye { padding-right: 2.25px; }
       &:not(.file-pdf):not(.fa-eye).u-li-indent {
-        padding-left: 33.44px;
+        padding-left: $li-downloads-indent;
       }
     }
 
