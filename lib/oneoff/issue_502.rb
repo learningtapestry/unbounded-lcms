@@ -76,7 +76,7 @@ module Oneoff
 
         def initialize(context)
           @context = context
-          @files_path = File.join(ENV.fetch('FILES_PATH'), "grade #{context[:grade]}", "unit #{context[:unit]}")
+          @files_path = File.join(ENV.fetch('FILES_PATH'), "grade #{context[:grade]}", "unit #{context[:unit].downcase}")
         end
 
         def run
