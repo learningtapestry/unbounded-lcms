@@ -6,7 +6,7 @@ module Oneoff
     end
 
     def run
-      csv_file = File.join(@input_path, 'ela_ckla_all.csv')
+      csv_file = File.join(@input_path, 'ela_ckla.csv')
       puts 'resource_id,breadcrumbs,resource_title,action'
       CSV.foreach(csv_file, headers: true) do |row|
         context = build_context(row)
@@ -106,7 +106,7 @@ module Oneoff
           case context[:level]
           when :grade  then grade_level_tasks
           when :module then module_level_tasks
-          # when :unit   then unit_level_tasks
+          when :unit   then unit_level_tasks
           # when :lesson then lesson_level_tasks
           end
         end
@@ -123,13 +123,13 @@ module Oneoff
         def module_level_tasks
           remove_all_downloads
           module_level_downloads
+          module_level_add_to_description
         end
 
         def unit_level_tasks
-          # remove_all_downloads
-          # update_description
-          # create_zip_with_all_files
-          # unit_level_downloads
+          remove_all_downloads
+          create_zip_with_all_files
+          unit_level_downloads
         end
 
         def lesson_level_tasks
@@ -154,53 +154,29 @@ module Oneoff
           # end
         end
 
-        def create_zip_with_all_files
-          # zip_name = "ELA #{context[:grade]} Developing Core Proficiencies Unit #{context[:unit]} - All files"
-          # FileUtils.cd(files_path) do
-          #   # create file to contain zipped files
-          #   FileUtils.mkdir_p zip_name
-
-          #   # copy relevant files to be zipped
-          #   FileUtils.cp_r(
-          #     Dir[
-          #       '*.pdf',                                     # All lesson files
-          #       File.join('Unit Level Downloads', '*.pdf'),  # Unit level downloads, without the folder
-          #       File.join('add to each lesson (part)', '*')  # All folders inside 'add to each lesson (part)'
-          #     ],
-          #     zip_name
-          #   )
-
-          #   # zip whole folder
-          #   `zip -r "#{zip_name}.zip" "#{zip_name}"`
-
-          #   # remove tmp folder
-          #   FileUtils.rm_r zip_name
-          # end
-          # File.open(File.join(files_path, zip_name + '.zip')) do |zipfile|
-          #   download = Download.create(file: zipfile, title: zip_name)
-          #   resource.downloads << download
-          #   resource.save
-
-          #   csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{zip_name}.zip"
-          # end
-        end
-
         def build_path(*pieces)
           File.join(files_path, *pieces)
         end
 
         def all_downloads(folder)
-          Dir[File.join(folder, '**', '*')].each do |path|
+          Dir[File.join(folder, '**/*')].each do |path|
             if File.file?(path)
-              fname = File.basename(path).gsub(/\.\w+$/, '')
+              fname = File.basename(path, '.*')
+              category = find_download_category(path)
 
               # download = Download.create(file: File.open(path), title: fname)
               # resource.downloads << download
               # resource.save
-              csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{fname}"
+              if category
+                # dr = ResourceDownload.find_by(download_id: download.id)
+                # dr.update_attributes download_category_id: category.id
+
+                csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach (with category '#{category}': #{fname}"
+              else
+                csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{fname}"
+              end
             end
           end
-
         end
 
         def grade_level_donwloads
@@ -212,16 +188,7 @@ module Oneoff
         end
 
         def unit_level_downloads
-          # Dir[File.join(files_path, 'Unit Level Downloads', '*.pdf')].each do |path|
-          #   path = Pathname.new(path)
-          #   fname = path.basename.to_s.gsub('.pdf', '')
-
-          #   download = Download.create(file: File.open(path), title: fname)
-          #   resource.downloads << download
-          #   resource.save
-
-          #   csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{fname}"
-          # end
+          all_downloads build_path(context[:module], "unit #{context[:unit]}", 'Unit Level Downloads')
         end
 
         def lesson_level_downloads
@@ -237,6 +204,41 @@ module Oneoff
           #   resource.save
 
           #   csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{fname}"
+          # end
+        end
+
+        def create_zip_with_all_files
+          grade = context[:grade].titleize.gsub(/grade /i, '')
+          strand = context[:module] =~ /skills/ ? 'Skills' : 'Listening and Learning'
+
+          zip_name = "ELA #{grade} #{strand}, Unit #{context[:unit]} - All files"
+
+          unit_path = build_path context[:module], "unit #{context[:unit]}"
+          FileUtils.cd(unit_path) do
+            # create file to contain zipped files
+            FileUtils.mkdir_p zip_name
+
+            # copy relevant files to be zipped
+            FileUtils.cp_r(
+              Dir[
+                File.join('Unit Level Downloads', '*'),  # Unit level downloads, without the folder
+                File.join('ADD TO ALL LESSON LEVELS', '*')  # All folders inside 'add to each lesson (part)'
+              ],
+              zip_name
+            )
+
+            # zip whole folder
+            `zip -r "#{zip_name}.zip" "#{zip_name}"`
+
+            # remove tmp folder
+            FileUtils.rm_r zip_name
+          end
+          # File.open(File.join(unit_path, zip_name + '.zip')) do |zipfile|
+          #   # download = Download.create(file: zipfile, title: zip_name)
+          #   # resource.downloads << download
+          #   # resource.save
+
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{zip_name}.zip"
           # end
         end
 
@@ -256,13 +258,30 @@ module Oneoff
           # end
         end
 
-        def find_download_category(path)
-          # dirname = path.dirname.split.last.to_s
-          # category = dirname.parameterize.underscore
+        def valid_categories
+          @@valid_categories ||= [
+            'Ancillary Components',
+          ]
+        end
 
-          # DownloadCategory.find_or_create_by(name: category) do |dc|
-          #   dc.description = dirname
-          # end
+        def find_download_category(path)
+          # path should contain both folders and the filename
+          dirname = path.split('/')[-2]
+
+          category_desc = valid_categories.select { |c| dirname.match(/#{c}/i) }.first
+          if category_desc
+            category_name = category_desc.parameterize.underscore
+
+            # DownloadCategory.find_or_create_by(name: category) do |dc|
+            #   dc.description = dirname
+            # end
+          end
+        end
+
+        def module_level_add_to_description
+          desc = context[:row]['add_to_description']
+          # resource.description += desc.gsub(/\n/, '<br />')
+          # resource.save
         end
 
         def csv(*attrs)
