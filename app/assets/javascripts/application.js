@@ -21,6 +21,7 @@
 //= require initializers/soundcloud
 //= require initializers/subscribe_placeholder
 //= require initializers/pdf_preview
+//= require initializers/resource_details
 
 ready(function() {
   $(document).initFoundation();
@@ -35,6 +36,7 @@ ready(function() {
   window.initializeSoundCloud();
   window.initializeSubscribePlaceholder();
   window.initializePDFPreview();
+  window.initializeResourceDetails();
 });
 
 $(document).on('page:before-unload', function(nodes) {
