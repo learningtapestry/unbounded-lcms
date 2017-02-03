@@ -7,13 +7,13 @@ module Oneoff
 
     def run
       csv_file = File.join(@input_path, 'ela_ckla.csv')
-      puts 'resource_id,breadcrumbs,resource_title,action'
+      # puts 'resource_id,breadcrumbs,resource_title,action'
       CSV.foreach(csv_file, headers: true) do |row|
         context = build_context(row)
         next if context.nil?
 
         ResourceHandler.new(context).run
-        # print '.'
+        print '.'
       end
     end
 
@@ -107,7 +107,7 @@ module Oneoff
           when :grade  then grade_level_tasks
           when :module then module_level_tasks
           when :unit   then unit_level_tasks
-          # when :lesson then lesson_level_tasks
+          when :lesson then lesson_level_tasks
           end
         end
 
@@ -130,12 +130,14 @@ module Oneoff
           remove_all_downloads
           create_zip_with_all_files
           unit_level_downloads
+          save_add_to_description_for_lessons
         end
 
         def lesson_level_tasks
-          # update_description
-          # lesson_level_downloads
-          # add_to_each_lesson_downloads
+          update_description
+          lesson_level_downloads
+          add_to_each_lesson_downloads
+          lesson_level_add_to_description
         end
 
         def remove_all_downloads
@@ -146,12 +148,15 @@ module Oneoff
         end
 
         def update_description
-          # description = context[:row]['Description']
-          # if description.present?
-          #   resource.description = description.gsub(/\n/, '<br />')
-          #   resource.save
-          #   csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "update description"
-          # end
+          desc = context[:row]['description']
+          if desc.match /^students will/i
+            desc = desc.gsub(/\n\s?/, "\n • ")                                        # add bullet points
+                       .gsub(/\n • (\d)\. /) { ["\n", "&nbsp;"*4, "• #{$1}. "].join } # fix for numbered sublist
+                       .gsub(/\n/, '<br />')                                          # preserve newlines on html
+            resource.description = desc
+            resource.save
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "fix description bullet lists"
+          end
         end
 
         def build_path(*pieces)
@@ -192,26 +197,17 @@ module Oneoff
         end
 
         def lesson_level_downloads
-          # Dir[File.join(files_path, '*.pdf')].select do |path|
-          #   path =~ /Part #{context[:lesson]}/
+          all_downloads build_path(context[:module], "unit #{context[:unit]}", "lesson #{context[:lesson]}")
+        end
 
-          # end.each do |path|
-          #   path = Pathname.new(path)
-          #   fname = path.basename.to_s.gsub('.pdf', '')
-
-          #   download = Download.create(file: File.open(path), title: fname)
-          #   resource.downloads << download
-          #   resource.save
-
-          #   csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{fname}"
-          # end
+        def add_to_each_lesson_downloads
+          all_downloads build_path(context[:module], "unit #{context[:unit]}", "ADD TO ALL LESSON LEVELS")
         end
 
         def create_zip_with_all_files
-          grade = context[:grade].titleize.gsub(/grade /i, '')
           strand = context[:module] =~ /skills/ ? 'Skills' : 'Listening and Learning'
 
-          zip_name = "ELA #{grade} #{strand}, Unit #{context[:unit]} - All files"
+          zip_name = "ELA #{context[:grade].titleize} #{strand}, Unit #{context[:unit]} - All files"
 
           unit_path = build_path context[:module], "unit #{context[:unit]}"
           FileUtils.cd(unit_path) do
@@ -242,22 +238,6 @@ module Oneoff
           # end
         end
 
-        def add_to_each_lesson_downloads
-          # Dir[File.join(files_path, 'add to each lesson (part)', '**', '*.pdf')].each do |path|
-          #   path = Pathname.new(path)
-          #   fname = path.basename.to_s.gsub('.pdf', '')
-          #   category = find_download_category(path)
-
-          #   download = Download.create(file: File.open(path), title: fname)
-          #   resource.downloads << download
-          #   resource.save
-          #   dr = ResourceDownload.find_by(download_id: download.id)
-          #   dr.update_attributes download_category_id: category.id
-
-          #   csv resource.id, context[:curriculum].breadcrumb_title, resource.title ,"attach (with category '#{category.description}'): #{fname}"
-          # end
-        end
-
         def valid_categories
           @@valid_categories ||= [
             'Ancillary Components',
@@ -280,12 +260,37 @@ module Oneoff
 
         def module_level_add_to_description
           desc = context[:row]['add_to_description']
-          # resource.description += desc.gsub(/\n/, '<br />')
-          # resource.save
+          if desc
+            resource.description += "<br /><br />" + clean_text(desc)
+            resource.save
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "add to description (module level)"
+          end
+        end
+
+        def save_add_to_description_for_lessons
+          @@add_to_description ||= {}
+          add_to_desc = context[:row]['add_to_description']
+          if add_to_desc
+            @@add_to_description[context[:unit]] = "<br /><br />" + clean_text(add_to_desc)
+          end
+        end
+
+        def lesson_level_add_to_description
+          if @@add_to_description[context[:unit]]
+            resource.description += @@add_to_description[context[:unit]]
+            resource.save
+            csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "add to description (lesson level)"
+          end
+        end
+
+        def clean_text(txt)
+          txt.gsub(/ADD TO ALL LESSONS IN THIS DOMAIN\n/i, '')
+             .gsub(/\u{10FC01}/, '')    # evil hidden char =/ .. that was hard to find
+             .gsub(/\n/, '<br />')
         end
 
         def csv(*attrs)
-          puts attrs.map { |attr| "\"#{attr}\"" }.join(',')
+          # puts attrs.map { |attr| "\"#{attr}\"" }.join(',')
         end
       end
   end
