@@ -88,6 +88,7 @@ $li-downloads-indent: 33.44px;
   max-width: 100%;
 
   @include e(btn) {
+    @include txt-element(resource-more);
     cursor: pointer;
     padding-left: $li-downloads-indent;
 
