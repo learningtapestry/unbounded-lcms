@@ -142,7 +142,7 @@ module Oneoff
 
         def remove_all_downloads
           if resource.downloads.count > 0
-            # ResourceDownload.where(resource_id: resource.id).delete_all if resource
+            ResourceDownload.where(resource_id: resource.id).delete_all if resource
             csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "remove downloads"
           end
         end
@@ -169,12 +169,12 @@ module Oneoff
               fname = File.basename(path, '.*')
               category = find_download_category(path)
 
-              # download = Download.create(file: File.open(path), title: fname)
-              # resource.downloads << download
-              # resource.save
+              download = Download.create(file: File.open(path), title: fname)
+              resource.downloads << download
+              resource.save
               if category
-                # dr = ResourceDownload.find_by(download_id: download.id)
-                # dr.update_attributes download_category_id: category.id
+                dr = ResourceDownload.find_by(download_id: download.id)
+                dr.update_attributes download_category_id: category.id
 
                 csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach (with category '#{category}': #{fname}"
               else
@@ -229,13 +229,13 @@ module Oneoff
             # remove tmp folder
             FileUtils.rm_r zip_name
           end
-          # File.open(File.join(unit_path, zip_name + '.zip')) do |zipfile|
-          #   # download = Download.create(file: zipfile, title: zip_name)
-          #   # resource.downloads << download
-          #   # resource.save
+          File.open(File.join(unit_path, zip_name + '.zip')) do |zipfile|
+            download = Download.create(file: zipfile, title: zip_name)
+            resource.downloads << download
+            resource.save
 
             csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "attach: #{zip_name}.zip"
-          # end
+          end
         end
 
         def valid_categories
@@ -252,9 +252,9 @@ module Oneoff
           if category_desc
             category_name = category_desc.parameterize.underscore
 
-            # DownloadCategory.find_or_create_by(name: category) do |dc|
-            #   dc.description = dirname
-            # end
+            DownloadCategory.find_or_create_by(name: category) do |dc|
+              dc.description = dirname
+            end
           end
         end
 
