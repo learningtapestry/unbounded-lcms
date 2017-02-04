@@ -59,7 +59,7 @@ module Oneoff
     def parse_module(row)
       hierarchy_title = row['hierarchy_title']
       if hierarchy_title =~ /learning/i
-        'listening and learning strand'
+        'learning strand'
       elsif hierarchy_title =~ /skills/i
         'skills strand'
       end
@@ -74,7 +74,7 @@ module Oneoff
                        .first
 
       # Module
-      mod = curr.children.select { |c| c.resource.short_title == ctx[:module] }.first
+      mod = curr.children.select { |c| c.resource.short_title =~ /#{ctx[:module]}/i }.first
       curr = mod if mod
 
       # Unit
