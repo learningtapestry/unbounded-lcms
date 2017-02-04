@@ -152,8 +152,7 @@ module Oneoff
           if desc.match /^students will/i
             desc = desc.gsub(/\n\s?/, "\n • ")                                        # add bullet points
                        .gsub(/\n • (\d)\. /) { ["\n", "&nbsp;"*4, "• #{$1}. "].join } # fix for numbered sublist
-                       .gsub(/\n/, '<br />')                                          # preserve newlines on html
-            resource.description = desc
+            resource.description = clean_text(desc)
             resource.save
             csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "fix description bullet lists"
           end
