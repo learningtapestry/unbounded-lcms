@@ -252,8 +252,8 @@ module Oneoff
           if category_desc
             category_name = category_desc.parameterize.underscore
 
-            DownloadCategory.find_or_create_by(name: category) do |dc|
-              dc.description = dirname
+            DownloadCategory.find_or_create_by(name: category_name) do |dc|
+              dc.description = category_desc
             end
           end
         end
