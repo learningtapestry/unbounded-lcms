@@ -74,8 +74,10 @@ module Oneoff
                        .first
 
       # Module
-      mod = curr.children.select { |c| c.resource.short_title =~ /#{ctx[:module]}/i }.first
-      curr = mod if mod
+      if ctx[:module]
+        mod = curr.children.select { |c| c.resource.short_title =~ /#{ctx[:module]}/i }.first
+        curr = mod if mod
+      end
 
       # Unit
       if ctx[:unit]
@@ -134,6 +136,7 @@ module Oneoff
         end
 
         def lesson_level_tasks
+          remove_all_downloads
           update_description
           lesson_level_downloads
           add_to_each_lesson_downloads
@@ -162,13 +165,13 @@ module Oneoff
           File.join(files_path, *pieces)
         end
 
-        def all_downloads(folder)
+        def all_downloads(folder, main: false)
           Dir[File.join(folder, '**/*')].each do |path|
             if File.file?(path)
               fname = File.basename(path, '.*')
               category = find_download_category(path)
 
-              download = Download.create(file: File.open(path), title: fname)
+              download = Download.create(file: File.open(path), title: fname, main: main)
               resource.downloads << download
               resource.save
               if category
@@ -196,7 +199,7 @@ module Oneoff
         end
 
         def lesson_level_downloads
-          all_downloads build_path(context[:module], "unit #{context[:unit]}", "lesson #{context[:lesson]}")
+          all_downloads build_path(context[:module], "unit #{context[:unit]}", "lesson #{context[:lesson]}"), main: true
         end
 
         def add_to_each_lesson_downloads
@@ -258,9 +261,9 @@ module Oneoff
         end
 
         def module_level_add_to_description
-          desc = context[:row]['add_to_description']
+          desc = context[:row]['add_to_description'].try(:strip)
           if desc
-            resource.description += "<br /><br />" + clean_text(desc)
+            resource.description += clean_text(desc)
             resource.save
             csv resource.id, context[:curriculum].breadcrumb_title, resource.title, "add to description (module level)"
           end
@@ -268,9 +271,9 @@ module Oneoff
 
         def save_add_to_description_for_lessons
           @@add_to_description ||= {}
-          add_to_desc = context[:row]['add_to_description']
+          add_to_desc = context[:row]['add_to_description'].try(:strip)
           if add_to_desc
-            @@add_to_description[context[:unit]] = "<br /><br />" + clean_text(add_to_desc)
+            @@add_to_description[context[:unit]] = "<br />" + clean_text(add_to_desc)
           end
         end
 

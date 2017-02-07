@@ -204,7 +204,7 @@ class Resource < ActiveRecord::Base
     resource_downloads
       .group_by { |d| d.download_category.try(:category_name) || '' }
       .sort_by { |k, _| k }.to_h
-      .transform_values { |v| v.sort_by { |d| d.download.title } }
+      .transform_values { |v| v.sort_by { |d| [d.download.main ? 0 : 1, d.download.title] } }
   end
 
   def pdf_downloads?
