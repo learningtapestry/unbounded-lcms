@@ -14,7 +14,7 @@ module Oneoff
         ResourceHandler.new(context).run
         print '.'
       end
-      puts '\n'
+      puts "\n"
     end
 
     def build_context(row)
@@ -116,7 +116,7 @@ module Oneoff
         end
 
         def update_description
-          description = context[:row]['Description']
+          description = context[:row]['Description'].try(:strip)
           if description.present?
             resource.description = description.gsub(/\n/, '<br />')
             resource.save
@@ -176,7 +176,7 @@ module Oneoff
             path = Pathname.new(path)
             fname = path.basename.to_s.gsub('.pdf', '')
 
-            download = Download.create(file: File.open(path), title: fname)
+            download = Download.create(file: File.open(path), title: fname, main: true)
             resource.downloads << download
             resource.save
 
