@@ -100,7 +100,7 @@ module Search
       else
         limit = options.fetch(:per_page, 20)
         page = options.fetch(:page, 1)
-        term = term.downcase
+        term = replace_synonyms term.downcase
 
         query = {
           min_score: 0.20,
@@ -172,6 +172,14 @@ module Search
 
     def accepted_filters
       [:model_type, :subject, :grade, :doc_type]
+    end
+
+    def replace_synonyms(term)
+      @@synonyms ||= {
+        'text sets'   => 'text set',
+        'expert pack' => 'expert packs',
+      }
+      @@synonyms[term] || term
     end
 
     def index_exists?
