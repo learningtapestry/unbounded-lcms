@@ -719,24 +719,24 @@ class ContentGuidePresenter < BasePresenter
 
     embed_audios
     embed_videos
-    # process_annotation_boxes
-    # process_blockquotes
-    # process_broken_images
-    # process_footnote_links
-    # process_footnotes
-    # process_icons
-    # process_pullquotes
-    # process_superscript_standards
-    # process_standards_table
-    # process_tasks
-    # process_links
-    # process_anchors
-    # remove_comments
-    # replace_guide_links
-    # reset_heading_styles
-    # reset_table_styles
-    # wrap_tables
-    # concatenate_spans
+    process_annotation_boxes
+    process_blockquotes
+    process_broken_images
+    process_footnote_links
+    process_footnotes
+    process_icons
+    process_pullquotes
+    process_superscript_standards
+    process_standards_table
+    process_tasks
+    process_links
+    process_anchors
+    remove_comments
+    replace_guide_links
+    reset_heading_styles
+    reset_table_styles
+    wrap_tables
+    concatenate_spans
 
     @doc_processed = true
   end
