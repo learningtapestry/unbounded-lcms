@@ -88,23 +88,8 @@ class ContentGuidePresenter < BasePresenter
     find_custom_tags('icon') + find_custom_tags('icon-small')
   end
 
-  def podcast_attribute(podcast, tag)
-    podcast.content.match(/#{tag}=.?\d+/).to_s[/\d+/]
-  end
-
   def podcast_links
-    find_custom_tags('podcast').map do |podcast|
-      start_time = podcast_attribute(podcast, :start)
-      stop_time = podcast_attribute(podcast, :stop)
-      s_link = next_element_with_name(podcast.parent, 'p')
-      podcast.remove
-      next unless s_link.present?
-      s_link = s_link.css('a[href*="soundcloud.com"]').try(:first)
-      next unless s_link.present?
-      s_link.set_attribute('start', start_time) if start_time
-      s_link.set_attribute('stop', stop_time) if stop_time
-      s_link
-    end
+    media_links(tag: 'podcast', url_selector: 'a[href*="soundcloud.com"]')
   end
 
   def tasks_without_break
@@ -119,7 +104,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def video_links
-    doc.css('a[href*="youtube.com/watch?"]')
+    media_links(tag: 'video', url_selector: 'a[href*="youtube.com/watch?"]')
   end
 
   def broken_ext_links
@@ -205,10 +190,20 @@ class ContentGuidePresenter < BasePresenter
 
       params = Rack::Utils.parse_query(url.query)
       video_id = params['v']
-      src = "https://www.youtube.com/embed/#{video_id}"
-      iframe = doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0, height: 315, src: src, width: 560)
+      url_params = {}
+      url_params.merge!({ start: a[:start] }) if a[:start].present?
+      url_params.merge!({ end: a[:stop] }) if a[:stop].present?
+      src =
+        if url_params.present?
+          "https://www.youtube.com/embed/#{video_id}?#{url_params.to_query}"
+        else
+          "https://www.youtube.com/embed/#{video_id}"
+        end
 
-      media = create_media_node(resource, iframe)
+      container = doc.document.create_element('div', class: 'o-media-video')
+      container << doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0, height: 315, src: src, width: 560)
+
+      media = create_media_node(resource, container)
 
       a.replace(media)
     end
@@ -690,6 +685,25 @@ class ContentGuidePresenter < BasePresenter
 
   protected
 
+  def media_attribute(media, tag)
+    media.content.match(/#{tag}=.?\d+/).to_s[/\d+/]
+  end
+
+  def media_links(tag:, url_selector:)
+    find_custom_tags(tag).map do |media|
+      start_time = media_attribute(media, :start)
+      stop_time = media_attribute(media, :stop)
+      s_link = next_element_with_name(media.parent, 'p')
+      media.remove
+      next unless s_link.present?
+      s_link = s_link.css(url_selector).try(:first)
+      next unless s_link.present?
+      s_link.set_attribute('start', start_time) if start_time
+      s_link.set_attribute('stop', stop_time) if stop_time
+      s_link
+    end
+  end
+
   def add_css_class(el, *classes)
     existing = (el[:class] || '').split(/\s+/)
     el[:class] = existing.concat(classes).uniq.join(' ')
@@ -705,24 +719,24 @@ class ContentGuidePresenter < BasePresenter
 
     embed_audios
     embed_videos
-    process_annotation_boxes
-    process_blockquotes
-    process_broken_images
-    process_footnote_links
-    process_footnotes
-    process_icons
-    process_pullquotes
-    process_superscript_standards
-    process_standards_table
-    process_tasks
-    process_links
-    process_anchors
-    remove_comments
-    replace_guide_links
-    reset_heading_styles
-    reset_table_styles
-    wrap_tables
-    concatenate_spans
+    # process_annotation_boxes
+    # process_blockquotes
+    # process_broken_images
+    # process_footnote_links
+    # process_footnotes
+    # process_icons
+    # process_pullquotes
+    # process_superscript_standards
+    # process_standards_table
+    # process_tasks
+    # process_links
+    # process_anchors
+    # remove_comments
+    # replace_guide_links
+    # reset_heading_styles
+    # reset_table_styles
+    # wrap_tables
+    # concatenate_spans
 
     @doc_processed = true
   end
