@@ -2,7 +2,7 @@
 
 [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=master)](https://codeship.com/projects/110252)
 
-unboundED CMS is a specialized content management system for high quality
+UnboundED CMS is a specialized content management system for high quality
 education materials.
 
 The application is built as a standard Rails project with an integrated React.js
