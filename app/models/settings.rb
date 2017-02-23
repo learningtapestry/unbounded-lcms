@@ -4,6 +4,10 @@ class Settings < ActiveRecord::Base
       settings.editing_enabled?
     end
 
+    def thumbnails_last_update
+      settings.thumbnails_last_update
+    end
+
     def settings
       last || Settings.create!
     end
