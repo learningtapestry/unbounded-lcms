@@ -118,8 +118,8 @@ class SVGSocialThumbnail
     grades = GenericPresenter.new(resource).grades_to_str
     subject = resource.subject == 'ela' ? 'ELA' : 'Math'
     case grades
-    when 'Grade PK' then 'Prekindergarten'
-    when 'Grade K'  then 'Kindergarten'
+    when 'Grade PK' then "#{subject}  Prekindergarten"
+    when 'Grade K'  then "#{subject}  Kindergarten"
     else "#{subject}  #{grades}"
     end
   end
