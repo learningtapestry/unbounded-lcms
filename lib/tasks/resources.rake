@@ -93,29 +93,57 @@ namespace :resources do
     puts("Resources data exported to #{filename}")
   end
 
-  desc 'Fix empty grades'
+  desc 'Fix resource Grade tags'
   task fix_grades: :environment do
-    dataset = Curriculum.trees.lessons.with_resources
+    valid_grades = GradeListHelper::GRADES
+    pbar = ProgressBar.create title: "Fix resource grades", total: Resource.count
+    changes = 0
 
-    pbar = ProgressBar.create title: "Fix resource grades", total: dataset.count()
+    Resource.all.find_in_batches do |group|
+      group.each do |resource|
+        resource_grades = resource.curriculums
+                                  .where.not(curriculum_type: CurriculumType.map)
+                                  .trees
+                                  .map { |cur| curriculum_grade(cur) }
+        resource_grades = resource_grades & valid_grades
 
-    dataset.find_in_batches do |group|
-      group.each do |c|
-        res = c.resource
-        if res.grade_list.empty?
-          grade = c.self_and_ancestors
-                   .joins(:curriculum_type)
-                   .where(curriculum_types: {name: 'grade'})
-                   .first
-                   .resource
-                   .short_title
+        next if resource_grades.empty?
 
-          res.grade_list.add(grade)
-          res.save
+        current_grades = resource.grade_list & valid_grades
+        to_be_removed  = current_grades  - resource_grades
+        to_be_added    = resource_grades - current_grades
+
+        if to_be_removed.present? || to_be_added.present?
+          to_be_removed.each { |g| resource.grade_list.remove(g) }
+          to_be_added.each   { |g| resource.grade_list.add(g)    }
+
+          resource.updated_at = DateTime.current
+          resource.save
+          changes += 1
         end
+
         pbar.increment
       end
     end
     pbar.finish
+    puts "#{changes} resources changed"
+  end
+
+  def curriculum_grade(curriculum)
+    @grade_names ||= {
+      'algebra i'   => 'grade 9',
+      'geometry'    => 'grade 10',
+      'algebra ii'  => 'grade 11',
+      'precalculus' => 'grade 12',
+    }
+
+    # retrieve the resource corresponding grade
+    grade = curriculum.self_and_ancestors
+                      .joins(:curriculum_type)
+                      .where(curriculum_types: {name: 'grade'})
+                      .first
+                      .resource
+                      .short_title
+    @grade_names[grade] || grade
   end
 end
