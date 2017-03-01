@@ -191,8 +191,8 @@ class ContentGuidePresenter < BasePresenter
       params = Rack::Utils.parse_query(url.query)
       video_id = params['v']
       url_params = {}
-      url_params.merge!({ start: a[:start] }) if a[:start].present?
-      url_params.merge!({ end: a[:stop] }) if a[:stop].present?
+      url_params[:start] = a[:start] if a[:start].present?
+      url_params[:end] = a[:stop] if a[:stop].present?
       src =
         if url_params.present?
           "https://www.youtube.com/embed/#{video_id}?#{url_params.to_query}"
@@ -701,7 +701,7 @@ class ContentGuidePresenter < BasePresenter
       s_link.set_attribute('start', start_time) if start_time
       s_link.set_attribute('stop', stop_time) if stop_time
       s_link
-    end
+    end.compact
   end
 
   def add_css_class(el, *classes)
