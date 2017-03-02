@@ -4,15 +4,20 @@ require 'google/apis/drive_v3'
 require 'googleauth'
 require 'googleauth/stores/redis_token_store'
 
+GDRIVE_APP    = ENV.fetch('GOOGLE_DRIVE_APP_NAME')
+GDRIVE_ID     = ENV.fetch('GOOGLE_DRIVE_CLIENT_ID')
+GDRIVE_SECRET = ENV.fetch('GOOGLE_DRIVE_CLIENT_SECRET')
+
+GDRIVE_FOLDER_REGEXP = %r{drive.google.com/drive/folders/(.*)/?}
+
 OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
-APPLICATION_NAME = 'UB GDrive - dev'
-SCOPE = Google::Apis::DriveV3::AUTH_DRIVE
+REDIS_URL = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
 
 class GoogleDriveFolders
   attr_reader :gdrive_key
 
   def initialize
-    root_id = ENV.fetch('GDRIVE_ROOT').match(%r{drive.google.com/drive/folders/(.*)/?}).try(:[], 1)
+    root_id = ENV.fetch('GDRIVE_ROOT').match(GDRIVE_FOLDER_REGEXP).try(:[], 1)
 
     # create persisted hash for the gdrive ids
     @gdrive_key = "gdrive:#{root_id}"
@@ -30,7 +35,7 @@ class GoogleDriveFolders
   end
 
   def redis
-    @redis ||= Redis.new(url: ENV.fetch('REDIS_URL', 'redis://localhost:6379'))
+    @redis ||= Redis.new(url: REDIS_URL)
   end
 
   def build_key(item)
@@ -69,7 +74,7 @@ class GoogleDriveFolders
   def gdrive_service
     @gdrive_service ||= begin
       service = Google::Apis::DriveV3::DriveService.new
-      service.client_options.application_name = APPLICATION_NAME
+      service.client_options.application_name = GDRIVE_APP
       service.authorization = authorize
       service
     end
@@ -80,10 +85,11 @@ class GoogleDriveFolders
   # files or intitiating an OAuth2 authorization. If authorization is required,
   # the user's default browser will be launched to approve the request.
   def authorize
-    client_id = Google::Auth::ClientId.new(ENV.fetch('GOOGLE_DRIVE_CLIENT_ID'),
-                                           ENV.fetch('GOOGLE_DRIVE_CLIENT_SECRET'))
+    scope = Google::Apis::DriveV3::AUTH_DRIVE
+
+    client_id   = Google::Auth::ClientId.new(GDRIVE_ID, GDRIVE_SECRET)
     token_store = Google::Auth::Stores::RedisTokenStore.new(redis: redis)
-    authorizer = Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
+    authorizer  = Google::Auth::UserAuthorizer.new(client_id, scope, token_store)
 
     user_id = 'default'
     credentials = authorizer.get_credentials(user_id)
