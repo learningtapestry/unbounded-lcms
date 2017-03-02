@@ -1,7 +1,7 @@
 namespace :oneoff do
-  desc "Add folder hierarchy structure to GDrive"
-  task issue_6: :environment do
-    Oneoff.fix '6'
-  end
+  # desc "Solve issue N"
+  # task issue_N: :environment do
+  #   Oneoff.fix 'N'
+  # end
 end
 

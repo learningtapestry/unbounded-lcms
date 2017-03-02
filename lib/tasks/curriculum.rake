@@ -16,4 +16,7 @@ namespace :curriculum do
 
   desc 'Updates time to teach across curriculums'
   task update_time_to_teach: [:environment] { CurriculumTasks.update_time_to_teach }
+
+  desc 'Create Google Drive folder hierarchy'
+  task gdrive_folders: [:environment] { GoogleDriveFolders.new.run }
 end
