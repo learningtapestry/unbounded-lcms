@@ -97,9 +97,9 @@ class GoogleDriveFolders
     if credentials.nil?
       url = authorizer.get_authorization_url(base_url: OOB_URI)
 
-      puts "Open the following URL in the browser and enter the resulting code after authorization:\n"
-      puts url
-      puts "\nEnter code below:"
+      puts "Open the following URL in the browser and enter the resulting code after authorization:"
+      puts "\n#{url}\n\n"
+      puts "Enter code below:"
       code = STDIN.gets.chomp
 
       credentials = authorizer.get_and_store_credentials_from_code(
