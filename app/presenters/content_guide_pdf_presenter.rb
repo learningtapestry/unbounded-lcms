@@ -95,6 +95,14 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     result
   end
 
+  def remove_media_tag(tag)
+    find_custom_tags(tag).each { |m| m.remove }
+  end
+
+  def remove_media_tags
+    remove_media_tag('podcast')
+    remove_media_tag('video')
+  end
 
   protected
 
@@ -117,6 +125,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     process_tasks(with_break: false)
     add_nobreak_to_tasks
     remove_comments
+    remove_media_tags
     replace_guide_links
     replace_image_sources
     reset_heading_styles
