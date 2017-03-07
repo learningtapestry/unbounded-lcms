@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  app:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - es
