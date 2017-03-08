@@ -96,10 +96,12 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def remove_media_tag(tag)
-    find_custom_tags(tag).each { |m| m.remove }
+    find_custom_tags(tag).each(&:remove)
   end
 
   def remove_media_tags
+    podcast_links.each(&:remove)
+    video_links.each(&:remove)
     remove_media_tag('podcast')
     remove_media_tag('video')
   end
