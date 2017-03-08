@@ -1,0 +1,9 @@
+.c-cg-video {
+  padding: 1rem;
+
+  @include e(title) {
+    font: 1.5rem $ub-sanserif-condensed;
+    font-weight: 500;
+    margin: 0 0 .5rem;
+  }
+}
