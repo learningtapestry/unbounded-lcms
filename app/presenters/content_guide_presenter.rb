@@ -147,15 +147,21 @@ class ContentGuidePresenter < BasePresenter
     nodes
   end
 
-  def create_media_node(resource, container, start_time = nil, stop_time = nil)
-    title = doc.document.create_element('a', class: 'c-cg-media__title', href: media_path(resource), target: '_blank')
+  def create_media_node(resource, container, start_time = nil, stop_time = nil, base_class: 'c-cg-media', with_description: false)
+    title = doc.document.create_element('a', class: "#{base_class}__title", href: media_path(resource), target: '_blank')
     title.content = resource.title
 
-    media = doc.document.create_element('div', class: 'c-cg-media')
+    media = doc.document.create_element('div', class: base_class)
     media.set_attribute('data-start', start_time) if start_time
     media.set_attribute('data-stop', stop_time) if stop_time
     media << title
     media << container
+
+    if with_description
+      description = doc.document.create_element('div', class: "#{base_class}__description")
+      description.inner_html = resource.description
+      media << description
+    end
 
     media
   end
@@ -203,7 +209,7 @@ class ContentGuidePresenter < BasePresenter
       container = doc.document.create_element('div', class: 'o-media-video')
       container << doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0, height: 315, src: src, width: 560)
 
-      media = create_media_node(resource, container)
+      media = create_media_node(resource, container, base_class: 'c-cg-video', with_description: true)
 
       a.replace(media)
     end
