@@ -151,10 +151,10 @@ class SVGSocialThumbnail
   def title_sentences
     buffer = ''
     sentences = []
-    resource.title.gsub('-', '- ').split.each do |word|
+    resource.title.gsub(/(\w)-(\w)/, '\1- \2' ).split.each do |word|
       if (buffer + word).size < title_width_threshold
         buffer = [buffer, word].select(&:present?).join(' ')
-        buffer = buffer.gsub('- ', '-')
+        buffer = buffer.gsub(/(\w)- (\w)/, '\1-\2')
       else
         sentences << buffer
         buffer = word
