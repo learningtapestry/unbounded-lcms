@@ -39,8 +39,10 @@ namespace :thumbnails do
     new_update_time = DateTime.now
 
     updated_ids = Resource.where('updated_at > ?', last_update).ids
-
     update_thumbs Curriculum.trees.where(item_id: updated_ids, item_type: 'Resource')
+
+    update_thumbs Resource.media.where('updated_at > ?', last_update)
+    update_thumbs Resource.generic_resources.where('updated_at > ?', last_update)
     update_thumbs ContentGuide.where('updated_at > ?', last_update)
 
     Settings.settings.update thumbnails_last_update: new_update_time
