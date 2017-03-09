@@ -31,7 +31,7 @@
     color: map-get($map, pullquote);
   }
 
-  .c-cg-task {
+  .c-cg-task, .c-cg-video {
     background: map-get($map, task-bg);
 
     @include e(toggler) {
