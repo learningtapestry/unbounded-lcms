@@ -12,7 +12,7 @@ module GradeListHelper
     def grade_avg_num
       grade_list_f = grade_list & GRADES
       grade_list_f.map { |g| GRADES.index(g) }
-                  .sum / grade_list_f.size
+                  .sum / (grade_list_f.size.nonzero? || 1)
     end
 
     def grade_color_code
