@@ -78,7 +78,7 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
     builder (3.2.2)
-    byebug (6.0.2)
+    byebug (9.0.6)
     capybara (2.5.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -128,6 +128,7 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    docile (1.1.5)
     domain_name (0.5.20160309)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.0.2)
@@ -452,6 +453,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.4.2)
+      byebug (~> 9.0)
+      pry (~> 0.10)
     puma (3.4.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
@@ -576,6 +580,11 @@ GEM
     simple_form (3.1.1)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
+    simplecov (0.13.0)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     slop (3.6.0)
     spring (1.3.6)
     sprockets (3.5.2)
@@ -649,7 +658,6 @@ DEPENDENCIES
   aws-sdk-rails (~> 1.0)
   axlsx (~> 2.1.0.pre)
   bootstrap-sass (~> 3.3.5.1)
-  byebug
   capybara
   carrierwave (~> 0.10.0)
   ckeditor
@@ -691,6 +699,7 @@ DEPENDENCIES
   pg (~> 0.18.2)
   poltergeist
   postgres_ext (~> 3.0)
+  pry-byebug
   puma (~> 3.4)
   quiet_assets (~> 1.1)
   rack-livereload (~> 0.3.16)
@@ -717,6 +726,7 @@ DEPENDENCIES
   seedbank (~> 0.3)
   shoulda
   simple_form
+  simplecov
   spring
   staccato (~> 0.4.7)
   truncate_html (~> 0.9.3)
@@ -731,4 +741,4 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 BUNDLED WITH
-   1.12.5
+   1.14.5
