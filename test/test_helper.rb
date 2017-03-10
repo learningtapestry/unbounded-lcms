@@ -1,4 +1,10 @@
 ENV['RAILS_ENV'] ||= 'test'
+
+if ENV["COVERAGE"] 
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
+
 require File.expand_path('../../config/environment', __FILE__)
 require 'database_cleaner'
 require 'rails/test_help'

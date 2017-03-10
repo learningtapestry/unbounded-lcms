@@ -62,7 +62,7 @@ gem 'pdfjs_viewer-rails', '~> 0.0.9'
 gem 'httparty', '~> 0.14.0'
 
 group :development, :test do
-  gem 'byebug'
+  gem 'pry-byebug'
   gem 'faker'
 end
 
@@ -88,6 +88,7 @@ group :test do
   gem 'poltergeist'
   gem 'shoulda', require: false
   gem 'webmock', '~> 1.21.0'
+  gem 'simplecov', require: false
 end
 
 source 'https://rails-assets.org' do
