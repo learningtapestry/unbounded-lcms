@@ -75,6 +75,10 @@ Rails.application.routes.draw do
     resources :standards, only: [:index, :edit, :update]
 
     resources :components, only: [:index, :show]
+
+    resource :sketch_compiler, path: 'sketch-compiler', only: [:show] do
+      post :compile
+    end
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug
