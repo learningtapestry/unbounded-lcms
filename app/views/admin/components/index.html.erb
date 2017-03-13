@@ -1,0 +1,39 @@
+<% set_page_title 'Components' %>
+
+<div class=o-page>
+
+  <h2 class=text-center>Lesson Components</h2>
+
+  <%= render 'search_form' %>
+
+  <div class=row>
+    <div class="col-md-12 o-admin-components-table">
+      <div class="o-admin-components-table--header">
+        <div class="o-admin-components-table--location">Location</div>
+        <div class="o-admin-components-table--component-type">Component Type</div>
+        <div class="o-admin-components-table--origin">Original File</div>
+        <div class="o-admin-components-table--identifier">Identifier</div>
+        <div class="o-admin-components-table--details">Details</div>
+      </div>
+      <div class="o-admin-components-table--entries">
+        <% @components.each do |component| %>
+          <div class="o-admin-components-table--entry">
+            <div class="o-admin-components-table--location"><%= component.resource_location %></div>
+            <div class="o-admin-components-table--component-type"><%= component.component_type.humanize %></div>
+            <div class="o-admin-components-table--origin"><%= link_to component.original_file_url, component.original_file_url, target: '_blank' %></div>
+            <div class="o-admin-components-table--identifier"><%= component.identifier %></div>
+            <div class="o-admin-components-table--details"><%= link_to content_tag(:i, nil, class: 'fa fa-eye').html_safe, admin_component_path(component.id), class: 'button small primary', target: '_blank' %></div>
+            <div class="o-admin-components-table--name"><b>Title:</b> <%= component.resource_name %><br /></div>
+            <div class="o-admin-components-table--content"><b>Content:</b><br /><%= truncate component.content, length: 400 %></div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class='col-sm-12 text-center'>
+      <%= will_paginate @components, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+</div>

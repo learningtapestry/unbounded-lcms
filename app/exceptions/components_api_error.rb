@@ -1,0 +1,2 @@
+class ComponentsAPIError < StandardError
+end
