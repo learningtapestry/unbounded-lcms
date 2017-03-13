@@ -1,0 +1,80 @@
+.o-admin-components-table {
+  width: 100%;
+
+  .o-admin-components-table--header {
+    font-weight: bold;
+    div { padding: 1em; text-align: center; }
+    border-bottom: solid 1px #5a5a5a;
+  }
+  .o-admin-components-table--info           { display: inline-block; vertical-align: top; }
+  .o-admin-components-table--location       { @extend .o-admin-components-table--info; width: 15%; }
+  .o-admin-components-table--component-type { @extend .o-admin-components-table--info; width: 15%; }
+  .o-admin-components-table--origin         { @extend .o-admin-components-table--info; width: 35%; }
+  .o-admin-components-table--identifier     { @extend .o-admin-components-table--info; width: 25%; }
+  .o-admin-components-table--details        { @extend .o-admin-components-table--info; width: 5%; }
+
+  .o-admin-components-table--entry {
+    padding: 1em;
+    margin-bottom: 1em;
+
+    &:nth-child(odd) { background-color: white; }
+  }
+
+  .o-admin-components-table--details .button {
+    margin-bottom: -0.5em;
+    margin-right: -2em;
+    float: right;
+  }
+  .o-admin-components-table--name {
+    margin-top: 2em;
+    b { margin-right: 1em; }
+  }
+}
+.o-admin-components-search {
+  border: solid 1px #ddd;
+  border-radius: 5px;
+  margin-bottom: 2em;
+  padding: 1em;
+
+  .row {
+    margin-top: 1em;
+  }
+
+  .o-admin-search-term {
+    width: 60%;
+    @include placeholder(#5a5a5a);
+  }
+  .o-admin-search-component-type, .o-admin-search-grades {
+
+  }
+
+  .dropdown-pane {
+    background-color: white;
+    box-shadow: 2px 2px 2px #aaa;
+  }
+
+  #component-type-selector, #component-grades {
+    select { height: 285px; }
+    aside { font-size: 0.8em; }
+  }
+  label {font-weight: bold; }
+}
+
+.o-admin-component-details {
+  .o-component-details--attribute {
+    padding: 1em;
+    border-bottom: solid 1px white;
+
+    .o-attr-key {
+      width: 250px;
+      font-weight: bold;
+    }
+    .o-attr-val {  }
+  }
+  .o-component-details--content {
+    margin: 2em;
+    padding: 1em;
+    background-color: white;
+    border-radius: 0.5em;
+  }
+}

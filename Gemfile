@@ -59,6 +59,7 @@ gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
 gem 'autoprefixer-rails', '~> 6.3.6'
 gem 'migration_data', '~> 0.2.1'
 gem 'pdfjs_viewer-rails', '~> 0.0.9'
+gem 'httparty', '~> 0.14.0'
 
 group :development, :test do
   gem 'byebug'

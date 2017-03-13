@@ -1,5 +1,5 @@
 module Search
-  def ngrams_multi_field(prop)
+  def self.ngrams_multi_field(prop)
     {
       type: 'multi_field', fields: {
         prop     => {type: 'string'},
@@ -10,7 +10,7 @@ module Search
     }
   end
 
-  def index_settings
+  def self.index_settings
     {
       analysis: {
         filter: {
@@ -38,14 +38,12 @@ module Search
     }
   end
 
-  module_function :ngrams_multi_field, :index_settings
-
   class Repository
     include Elasticsearch::Persistence::Repository
 
     client Elasticsearch::Client.new(host: ENV['ELASTICSEARCH_ADDRESS'])
 
-    index  options[:index] || :"unbounded_#{Rails.env}"
+    index  :"unbounded_documents_#{Rails.env}"
 
     type :documents
 
