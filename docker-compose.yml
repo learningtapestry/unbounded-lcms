@@ -17,6 +17,9 @@ services:
         soft: 65536
         hard: 65536
 
+  redis:
+    image: redis
+
   app:
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
@@ -27,3 +30,4 @@ services:
     depends_on:
       - db
       - es
+      - redis
