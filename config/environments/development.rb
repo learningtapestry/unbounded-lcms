@@ -1,3 +1,7 @@
+ENABLE_CACHING = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(
+  ENV.fetch('ENABLE_CACHING', true)
+)
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -46,12 +50,15 @@ Rails.application.configure do
     config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
   end
 
-  # redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
-  # config.cache_store = :readthis_store, {
-  #   expires_in: 1.hour.to_i,
-  #   namespace: 'unbounded',
-  #   redis: { url: redis_url, driver: :hiredis }
-  # }
-  config.cache_store = :null_store
+  if ENABLE_CACHING
+    redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
+    config.cache_store = :readthis_store, {
+      expires_in: 1.hour.to_i,
+      namespace: 'unbounded',
+      redis: { url: redis_url, driver: :hiredis }
+    }
+  else
+    config.cache_store = :null_store
+  end
 
 end
