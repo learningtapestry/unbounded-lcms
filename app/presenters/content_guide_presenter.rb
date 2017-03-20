@@ -696,7 +696,6 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def concatenate_media_spans(tag)
-    tag_regex = /<#{tag}(:?[^->]*>)?/i
     # need to concatenate media tags that gdoc splitted into several spans
     doc.css("p span:contains('<#{tag}')").each do |node|
       next unless (node[:style] || '') =~ /font-weight:\s*(bold|[5-9]00)/
