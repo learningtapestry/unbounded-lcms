@@ -3,6 +3,7 @@ require 'securerandom'
 class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
   include SoundcloudEmbed
+  include VideoEmbed
 
   ANNOTATION_COLOR = '#fff2cc'
 
@@ -106,7 +107,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def video_links
-    media_links(tag: 'video', url_selector: 'a[href*="youtube.com/watch?"]')
+    media_links(tag: 'video', url_selector: 'a[href*="youtu"]')
   end
 
   def broken_ext_links
@@ -192,12 +193,11 @@ class ContentGuidePresenter < BasePresenter
 
   def embed_videos
     video_links.each do |a|
-      url = URI(a[:href])
+      url = a[:href]
       resource = Resource.find_video_by_url(url)
       next unless resource
 
-      params = Rack::Utils.parse_query(url.query)
-      video_id = params['v']
+      video_id = video_id(url)
       url_params = {}
       url_params[:start] = a[:start] if a[:start].present?
       url_params[:end] = a[:stop] if a[:stop].present?
@@ -697,7 +697,20 @@ class ContentGuidePresenter < BasePresenter
     media.content.match(/#{tag}=.?\d+/).to_s[/\d+/]
   end
 
+  def concatenate_media_spans(tag)
+    # need to concatenate media tags that gdoc splitted into several spans
+    doc.css("p span:contains('<#{tag}')").each do |node|
+      next unless (node[:style] || '') =~ /font-weight:\s*(bold|[5-9]00)/
+      node.parent.css('span').each_with_index do |span, idx|
+        next if idx.zero?
+        node.inner_html += span.inner_html.to_s
+        span.remove
+      end
+    end
+  end
+
   def media_links(tag:, url_selector:)
+    concatenate_media_spans(tag)
     find_custom_tags(tag).map do |media|
       start_time = media_attribute(media, :start)
       stop_time = media_attribute(media, :stop)
@@ -724,6 +737,7 @@ class ContentGuidePresenter < BasePresenter
 
   def process_doc
     #return if @doc_processed
+
 
     embed_audios
     embed_videos
