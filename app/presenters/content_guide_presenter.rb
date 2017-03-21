@@ -751,6 +751,6 @@ class ContentGuidePresenter < BasePresenter
 
   def is_a_standard?(str)
     @@ccss_standards ||= CommonCoreStandard.pluck(:alt_names, :name).flatten.uniq
-    @@ccss_standards.include?(str)
+    @@ccss_standards.include?(str.downcase)
   end
 end
