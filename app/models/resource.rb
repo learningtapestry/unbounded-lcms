@@ -3,6 +3,7 @@ class Resource < ActiveRecord::Base
   include Searchable
   include CCSSStandardFilter
   include GradeListHelper
+  include VideoEmbed
 
   DOWNLOAD_PER_CATEGORY_LIMIT = 5
 
@@ -144,10 +145,8 @@ class Resource < ActiveRecord::Base
     end
 
     def find_video_by_url(url)
-      uri = URI(url)
-      query_params = Rack::Utils.parse_query(uri.query)
-      id = query_params['v']
-      video.where("url ~ 'youtube\.com.+v=#{id}(&|$)'").first
+      video_id = video_id(url)
+      video.where("url ~ '#{video_id}(&|$)'").first
     end
 
     def init_for_bulk_edit(resources)

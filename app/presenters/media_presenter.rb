@@ -1,5 +1,6 @@
 class MediaPresenter < ResourcePresenter
   include SoundcloudEmbed
+  include VideoEmbed
 
   def media_title
     [subject, resource_type].compact.join(' ').titleize
@@ -12,26 +13,19 @@ class MediaPresenter < ResourcePresenter
   end
 
   def embed_video_url
-    if /youtube/ =~ url
-      embed_video_youtube_url
-    elsif /vimeo/ =~ url
-      embed_video_vimeo_url
-    end
+    return embed_video_vimeo_url if /vimeo/ =~ url
+    embed_video_youtube_url
   end
 
   private
 
   def embed_video_youtube_url
-    params = Rack::Utils.parse_query(URI(url).query)
-    if id = params['v']
-      "//www.youtube.com/embed/#{id}"
-    end
+    video_id = video_id(url)
+    "//www.youtube.com/embed/#{video_id}" if video_id
   end
 
   def embed_video_vimeo_url
-    if result = url.match(/https?:\/\/(www\.)?vimeo.com\/(\d+)/)
-      "//player.vimeo.com/video/#{result[2]}"
-    end
+    video_id = video_id(url)
+    "//player.vimeo.com/video/#{video_id}" if video_id
   end
-
 end
