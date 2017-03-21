@@ -29,7 +29,7 @@
   <div class="o-page__module u-bg--light c-cg-content">
     <div class="o-page__wrap--row">
       <div class="c-cg-content__sidebar">
-        <%= render partial: 'nav', locals: { cg: @content_guide } %>
+        <%= content_guide_nav(@content_guide) %>
       </div>
       <div id="c-ch-content" class="c-cg-content__body">
         <% if @content_guide.broken_images.any? %>

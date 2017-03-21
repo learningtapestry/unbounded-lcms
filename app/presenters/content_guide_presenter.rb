@@ -80,8 +80,10 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def html
-    process_doc
-    doc.to_s.html_safe
+    Rails.cache.fetch("content_guides:#{id}") do
+      process_doc
+      doc.to_s.html_safe
+    end
   end
 
   def icons
@@ -615,7 +617,7 @@ class ContentGuidePresenter < BasePresenter
     end
 
     result.gsub!(/[[:alnum:]]+([\.-][[:alnum:]]+)+/) do |m|
-      if ((standard = CommonCoreStandard.find_by_name_or_synonym(m)) && standard.description.present?)
+      if (is_a_standard?(m) && (standard = CommonCoreStandard.find_by_name_or_synonym(m)) && standard.description.present?)
         id = "cg-k_#{SecureRandom.hex(4)}"
 
         # If the dropdown-pane doesn't have a toggler element, the plugin
@@ -745,5 +747,10 @@ class ContentGuidePresenter < BasePresenter
     concatenate_spans
 
     @doc_processed = true
+  end
+
+  def is_a_standard?(str)
+    @@ccss_standards ||= CommonCoreStandard.pluck(:alt_names, :name).flatten.uniq
+    @@ccss_standards.include?(str)
   end
 end
