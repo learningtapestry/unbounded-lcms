@@ -119,7 +119,7 @@ class ContentGuidePresenter < BasePresenter
     broken_links = []
     find_custom_tags('link-to') do |tag|
       link_data = tag.attr('data-value')
-      /(?:doc)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
+      /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
         tag_permalink = m[1].strip
         broken_links << tag_permalink unless ContentGuide.find_by_permalink(tag_permalink)
       end
