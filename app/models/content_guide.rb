@@ -24,6 +24,7 @@ class ContentGuide < ActiveRecord::Base
   validate :icon_values
   validate :media_exist
   validate :no_broken_ext_links
+  validate :no_broken_internal_links
 
   before_validation :process_content, unless: :update_metadata
   before_validation :downcase_permalink
@@ -106,10 +107,18 @@ class ContentGuide < ActiveRecord::Base
   end
 
   def non_existent_videos
+    @video_links ||= presenter.video_links
     @non_existent_videos ||= begin
-      presenter.video_links.map { |a| a[:href] }.select do |url|
+      @video_links.map { |a| a[:href] }.select do |url|
         !Resource.find_video_by_url(url)
       end
+    end
+  end
+
+  def broken_internal_links
+    @video_links ||= presenter.video_links
+    @broken_links ||= begin
+      presenter.internal_links_refs - @video_links.map { |a| a[:id] }.compact.uniq
     end
   end
 
@@ -255,6 +264,10 @@ class ContentGuide < ActiveRecord::Base
 
   def no_broken_ext_links
     errors.add(:base, :invalid) if broken_ext_links.any?
+  end
+
+  def no_broken_internal_links
+    errors.add(:base, :invalid) if broken_internal_links.any?
   end
 
   def presenter

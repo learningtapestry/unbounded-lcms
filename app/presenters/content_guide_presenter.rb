@@ -110,16 +110,25 @@ class ContentGuidePresenter < BasePresenter
     media_links(tag: 'video', url_selector: 'a[href*="youtu"]')
   end
 
+  def internal_links
+    concatenate_splitted_spans('link')
+    find_custom_tags('link')
+  end
+
   def broken_ext_links
     broken_links = []
     find_custom_tags('link-to') do |tag|
       link_data = tag.attr('data-value')
-      /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
+      /(?:doc)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
         tag_permalink = m[1].strip
         broken_links << tag_permalink unless ContentGuide.find_by_permalink(tag_permalink)
       end
     end
     broken_links # List of broken permalinks
+  end
+
+  def internal_links_refs
+    internal_links.map { |t| quoted_attribute(t, 'name') }.compact.uniq
   end
 
   private
@@ -182,13 +191,14 @@ class ContentGuidePresenter < BasePresenter
       embed_info = soundcloud_embed(url, try(:subject).try(:to_sym))
       next unless embed_info.present?
 
-      id = "sc_container_#{index}"
-      container = doc.document.create_element('div', id: id, class: 'c-cg-media__podcast')
+      container = doc.document.create_element('div', id: "sc_container_#{index}", class: 'c-cg-media__podcast')
       container << embed_info
       media = create_media_node(resource, container, a[:start], a[:stop])
 
       a.replace(media)
     end
+    # return unless podcast_processed
+    # doc << doc.document.create_element('script', src: 'https://w.soundcloud.com/player/api.js', async: 'async')
   end
 
   def embed_videos
@@ -210,8 +220,8 @@ class ContentGuidePresenter < BasePresenter
 
       container = doc.document.create_element('div', class: 'o-media-video')
       container << doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0, height: 315, src: src, width: 560)
-
       media = create_media_node(resource, container, base_class: 'c-cg-video', with_description: true)
+      media['id'] = ERB::Util.url_encode(a[:id].parameterize) if a[:id].present?
 
       a.replace(media)
     end
@@ -532,6 +542,17 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def process_internal_links
+    internal_links.each do |tag|
+      target = quoted_attribute(tag, 'name')
+      if target.present?
+        contents = quoted_attribute(tag, 'value') || target
+        anchor = doc.document.create_element('a', contents, href: "##{ERB::Util.url_encode(target.parameterize)}")
+        tag.replace(anchor)
+      end
+    end
+  end
+
   def remove_comments
     doc.css('[id^=cmnt]').each do |a|
       begin
@@ -697,23 +718,31 @@ class ContentGuidePresenter < BasePresenter
     media.content.match(/#{tag}=.?\d+/).to_s[/\d+/]
   end
 
-  def concatenate_media_spans(tag)
+  def quoted_attribute(value, tag)
+    /(?:#{tag}\s*=\s*[”"'])([^”"']+)(?:[”"'])/.match(value.content) do |m|
+      return m[1]
+    end
+  end
+
+  def concatenate_splitted_spans(tag)
     # need to concatenate media tags that gdoc splitted into several spans
     doc.css("p span:contains('<#{tag}')").each do |node|
-      next unless (node[:style] || '') =~ /font-weight:\s*(bold|[5-9]00)/
+      next unless !node.content.include?('>') && (node[:style] || '') =~ /font-weight:\s*(bold|[5-9]00)/
       node.parent.css('span').each_with_index do |span, idx|
         next if idx.zero?
         node.inner_html += span.inner_html.to_s
         span.remove
+        break if span.content.include?('>')
       end
     end
   end
 
   def media_links(tag:, url_selector:)
-    concatenate_media_spans(tag)
+    concatenate_splitted_spans(tag)
     find_custom_tags(tag).map do |media|
       start_time = media_attribute(media, :start)
       stop_time = media_attribute(media, :stop)
+      id = quoted_attribute(media, :name)
       s_link = next_element_with_name(media.parent, 'p')
       media.remove
       next unless s_link.present?
@@ -721,6 +750,7 @@ class ContentGuidePresenter < BasePresenter
       next unless s_link.present?
       s_link.set_attribute('start', start_time) if start_time
       s_link.set_attribute('stop', stop_time) if stop_time
+      s_link.set_attribute('id', id) if id
       s_link
     end.compact
   end
@@ -738,7 +768,6 @@ class ContentGuidePresenter < BasePresenter
   def process_doc
     #return if @doc_processed
 
-
     embed_audios
     embed_videos
     process_annotation_boxes
@@ -753,6 +782,7 @@ class ContentGuidePresenter < BasePresenter
     process_tasks
     process_links
     process_anchors
+    process_internal_links
     remove_comments
     replace_guide_links
     reset_heading_styles
