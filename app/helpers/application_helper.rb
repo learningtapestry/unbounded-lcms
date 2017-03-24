@@ -103,6 +103,10 @@ module ApplicationHelper
     controller.controller_name == 'resources' && controller.action_name == 'generic'
   end
 
+  def cg_page?
+    controller.controller_name == 'content_guides' && controller.action_name == 'show'
+  end
+
   def set_social_media_sharing(target)
     @social_media_presenter = SocialMediaPresenter.new(target: target, view: self)
   end

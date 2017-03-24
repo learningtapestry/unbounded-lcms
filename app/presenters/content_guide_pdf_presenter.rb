@@ -104,6 +104,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     video_links.each(&:remove)
     remove_media_tag('podcast')
     remove_media_tag('video')
+    remove_media_tag('link')
   end
 
   protected

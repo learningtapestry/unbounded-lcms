@@ -39,6 +39,8 @@
 
       <%= render 'broken_links_list', title: t('.broken_ext_links_error'), urls: @content_guide.broken_ext_links %>
 
+      <%= render 'broken_links_list', title: t('.broken_int_links_error'), urls: @content_guide.broken_internal_links %>
+
       <%= render 'broken_links_list', title: t('.non_existent_videos_error'), urls: @content_guide.non_existent_videos %>
 
       <%= render 'broken_links_list', title: t('.non_existent_podcasts_error'), urls: @content_guide.non_existent_podcasts %>
