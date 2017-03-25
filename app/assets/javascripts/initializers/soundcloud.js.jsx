@@ -1,7 +1,5 @@
 $(function () {
-  window.initializeSoundCloud = () => {
-    if (!$('.o-page--cg').length) return;
-
+  function initSCWidgets() {
     let arrWidgets = [];
     $('.c-cg-media__podcast').each((i, el) => {
       let id = el.id;
@@ -15,9 +13,6 @@ $(function () {
         start: start ? parseInt(start) : 0,
         stop: stop ? parseInt(stop) : 0
       });
-      // widget.unbind(SC.Widget.Events.READY);
-      // widget.unbind(SC.Widget.Events.PLAY);
-      // widget.unbind(SC.Widget.Events.PLAY_PROGRESS);
     });
 
     _.each(arrWidgets, (p) => {
@@ -40,5 +35,12 @@ $(function () {
           });
       });
     });
+  }
+
+  window.initializeSoundCloud = () => {
+    if (!$('.o-page--cg').length || !$('.c-cg-media__podcast').length) return;
+
+    let sc = window.loadJSAsync('//w.soundcloud.com/player/api.js');
+    sc.then(() => initSCWidgets());
   };
 });
