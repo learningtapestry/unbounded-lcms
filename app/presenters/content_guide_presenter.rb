@@ -197,8 +197,6 @@ class ContentGuidePresenter < BasePresenter
 
       a.replace(media)
     end
-    # return unless podcast_processed
-    # doc << doc.document.create_element('script', src: 'https://w.soundcloud.com/player/api.js', async: 'async')
   end
 
   def embed_videos
