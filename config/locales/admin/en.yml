@@ -74,6 +74,7 @@ en:
         non_existent_podcasts_error: "The following podcasts don't exist"
         non_existent_videos_error: "The following videos don't exist"
         broken_ext_links_error: "The following links don't exist"
+        broken_int_links_error: "The following internal links don't exist"
         page_title: "Errors when importing '%{name}'"
         success: "'%{name}' imported successfully."
         tasks_without_break_error: The following tasks have neither <no task break> nor <task break> tags
