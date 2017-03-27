@@ -9,3 +9,7 @@
 <meta name="twitter:title" content="<%= social_media.twitter.title %>">
 <meta name="twitter:description" content="<%= social_media.twitter.description %>">
 <meta name="twitter:image" content="<%= social_media.twitter.image %>">
+
+<% if Rails.env.production? %>
+  <meta name="p:domain_verify" content="9b540f8a1d6043c2a9d38b1b6d42e1c2"/>
+<% end %>

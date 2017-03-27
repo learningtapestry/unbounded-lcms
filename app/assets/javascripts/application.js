@@ -18,6 +18,7 @@
 //= require initializers/google_analytics
 //= require initializers/leadership
 //= require initializers/header_dropdown
+//= require initializers/loadasync
 //= require initializers/soundcloud
 //= require initializers/subscribe_placeholder
 //= require initializers/pdf_preview
