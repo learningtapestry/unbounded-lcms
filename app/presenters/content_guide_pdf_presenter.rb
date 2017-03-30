@@ -13,6 +13,11 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     "#{subject.try(:upcase)} #{grades_title}"
   end
 
+  def html
+    process_doc
+    doc.to_s.html_safe
+  end
+
   private
 
   def add_nobreak_to_heading

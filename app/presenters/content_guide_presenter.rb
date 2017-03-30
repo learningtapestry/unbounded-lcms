@@ -81,7 +81,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def html
-    Rails.cache.fetch("#{self.class.name.demodulize.underscore}:#{id}") do
+    Rails.cache.fetch("content_guides:#{id}") do
       process_doc
       doc.to_s.html_safe
     end
