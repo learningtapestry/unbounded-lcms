@@ -141,5 +141,6 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     reset_table_styles
     wrap_tables
     concatenate_spans
+    remove_style_nodes
   end
 end

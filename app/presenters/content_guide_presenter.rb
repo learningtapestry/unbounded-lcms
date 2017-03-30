@@ -693,6 +693,11 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  def remove_style_nodes
+    # remove inlined style elements from gdoc html
+    doc.css('style').each(&:remove)
+  end
+
   def concatenate_spans
     span_meaning_styles_regex = /(text-decoration|display|width|font-style|font-weight|color)/
     remove_default_color
@@ -787,6 +792,7 @@ class ContentGuidePresenter < BasePresenter
     reset_table_styles
     wrap_tables
     concatenate_spans
+    remove_style_nodes
 
     @doc_processed = true
   end
