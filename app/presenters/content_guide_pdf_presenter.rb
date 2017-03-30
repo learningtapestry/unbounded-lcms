@@ -96,6 +96,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def remove_media_tag(tag)
+    concatenate_splitted_spans(tag)
     find_custom_tags(tag).each(&:remove)
   end
 
