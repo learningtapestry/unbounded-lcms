@@ -1,5 +1,4 @@
 namespace :es do
-
   desc 'Reset Index'
   task reset: :environment do
     if repo.index_exists?
@@ -37,7 +36,7 @@ namespace :es do
 
     qset.find_in_batches do |group|
       group.each do |item|
-        Search::Document.build_from(item).index!
+        repo.klass.build_from(item).index!
         pbar.increment
       end
     end

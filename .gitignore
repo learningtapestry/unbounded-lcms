@@ -52,3 +52,6 @@ node_modules
 .byebug_history
 
 /bin/batik
+
+# Ignore IDE specific files
+.idea/

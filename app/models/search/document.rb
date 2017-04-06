@@ -1,5 +1,5 @@
 module Search
-  class Document
+  class Document < ElasticSearchDocument
     include Virtus.model
     include GradeListHelper
 
@@ -26,7 +26,6 @@ module Search
     end
 
     def self.build_from(model)
-
       if model.is_a?(Resource)
         self.new **attrs_from_resource(model)
 
@@ -41,22 +40,7 @@ module Search
       end
     end
 
-    def self.repository
-      @repository ||= ::Search::Repository.new
-    end
-
-    def repository
-      self.class.repository
-    end
-
-    def index!
-      repository.save self
-    end
-
-    def delete!
-      repository.delete self
-    end
-
+    # Overrides ElasticSearchDocument.search to include standards search
     def self.search(term, options={})
       return repository.empty_response unless repository.index_exists?
 
@@ -70,16 +54,6 @@ module Search
       else
         query = repository.all_query(options)
         repository.search query
-      end
-    end
-
-    # this is necessary for the ActiveModel::ArraySerializer#as_json method to work
-    # (used on the concerns/pagination => #serialize_with_pagination)
-    def read_attribute_for_serialization(key)
-      if key == :id || key == 'id'
-        attributes.fetch(key) { id }
-      else
-        attributes[key]
       end
     end
 
