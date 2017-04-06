@@ -1,0 +1,36 @@
+<%= simple_form_for :q, url: :admin_components, html: { class: 'form-inline well o-admin-components-search', method: :get } do |f| %>
+
+  <div class='row align-bottom align-justify'>
+    <%= f.input :search_term, label: false, required: false,
+                              placeholder: "Enter Search Terms (e.g: Euler's number, etc)" ,
+                              wrapper_html: { class: 'o-admin-search-term' } %>
+
+    <button class="button primary o-admin-search-grades float-right" type="button" data-toggle="component-grades">Select Grades</button>
+    <div class="dropdown-pane bottom" id="component-grades" data-dropdown data-auto-focus="true">
+      <%= f.input :grade, label: 'Grades',
+                          required: false,
+                          as: :select,
+                          include_blank: true,
+                          collection: GradeListHelper::GRADES,
+                          label_method: :humanize,
+                          input_html: {multiple: true} %>
+      <aside>Hold down the Ctrl (windows) / Cmd (Mac) button to select multiple options</aside>
+    </div>
+
+    <button class="button primary o-admin-search-component-type float-right" type="button" data-toggle="component-type-selector">Select Component Types</button>
+    <div class="dropdown-pane bottom" id="component-type-selector" data-dropdown data-auto-focus="true">
+      <%= f.input :component_type, label: 'Component Type',
+                                   required: false,
+                                   as: :select,
+                                   include_blank: true,
+                                   collection: Component.component_types.keys,
+                                   label_method: :humanize,
+                                   input_html: {multiple: true} %>
+      <aside>Hold down the Ctrl (windows) / Cmd (Mac) button to select multiple options</aside>
+    </div>
+
+
+    <%= f.button :submit, t('ui.search'), class: 'o-admin-search-submit', name: nil %>
+  </div>
+
+<% end %>

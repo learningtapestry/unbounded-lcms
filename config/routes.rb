@@ -73,6 +73,8 @@ Rails.application.routes.draw do
     resources :leadership_posts, except: :show
     resources :content_guide_faqs, except: :show
     resources :standards, only: [:index, :edit, :update]
+
+    resources :components, only: [:index, :show]
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug

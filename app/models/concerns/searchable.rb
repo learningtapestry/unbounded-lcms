@@ -11,24 +11,28 @@ module Searchable
 
     def index_document
       begin
-        doc = Search::Document.build_from self
+        doc = self.class.search_model.build_from self
         search_repo.save(doc)
       rescue Faraday::ConnectionFailed; end
     end
 
     def delete_document
       begin
-        doc = Search::Document.build_from self
+        doc = self.class.search_model.build_from self
         search_repo.delete(doc)
       rescue Faraday::ConnectionFailed; end
     end
 
     def search_repo
-      @@search_repo ||= Search::Repository.new
+      @search_repo ||= Search::Repository.new
+    end
+
+    def self.search_model
+      @search_model ||= Search::Document
     end
 
     def self.search(term, options={})
-      Search::Document.search term, options.merge!(model_type: self.name.underscore)
+      search_model.search term, options.merge!(model_type: self.name.underscore)
     end
 
     def should_index?

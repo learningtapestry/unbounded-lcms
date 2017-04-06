@@ -1,0 +1,36 @@
+<% set_page_title 'Components' %>
+
+<div class="o-page o-admin-component-details">
+  <%= link_to '<- Back', admin_components_path %>
+
+  <h2 class="text-center">Component Details</h2>
+
+  <div class="row o-component-details--attribute">
+    <span class="o-attr-key">Identifier:</span>
+    <span class="o-attr-val"><%= @component.identifier %></span>
+  </div>
+  <div class="row o-component-details--attribute">
+    <span class="o-attr-key">Component Type:</span>
+    <span class="o-attr-val"><%= @component.component_type.humanize %></span>
+  </div>
+  <div class="row o-component-details--attribute">
+    <span class="o-attr-key">Resource Location:</span>
+    <span class="o-attr-val"><%= @component.resource_location %></span>
+  </div>
+  <div class="row o-component-details--attribute">
+    <span class="o-attr-key">Resource Title:</span>
+    <span class="o-attr-val"><%= @component.resource_name %></span>
+  </div>
+  <div class="row o-component-details--attribute">
+    <span class="o-attr-key">Original File Name:</span>
+    <span class="o-attr-val"><%= @component.original_file_name %></span>
+  </div>
+  <div class="row o-component-details--attribute">
+    <span class="o-attr-key">Original File URL:</span>
+    <span class="o-attr-val"><%= link_to @component.original_file_url, @component.original_file_url %></span>
+  </div>
+
+  <div class="row o-component-details--content">
+    <%= @component.raw_content.html_safe %>
+  </div>
+</div>
