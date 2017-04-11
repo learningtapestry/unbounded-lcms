@@ -37,20 +37,20 @@ class SocialMediaPresenter
   end
 
   def facebook
-    @facebook ||= OpenStruct.new default.to_h.merge(
+    @facebook ||= extend_with_default(
       image: thumbnails[:facebook]
     )
   end
 
   def twitter
-    @twitter ||= OpenStruct.new default.to_h.merge(
+    @twitter ||= extend_with_default(
       # use same image as facebook for twitter
       image: thumbnails[:facebook]
     )
   end
 
   def pinterest
-    @pinterest ||= OpenStruct.new default.to_h.merge(
+    @pinterest ||= extend_with_default(
       image: thumbnails[:pinterest]
     )
   end
@@ -78,5 +78,11 @@ class SocialMediaPresenter
 
   def quick_reference_guide?
     (target.is_a?(Resource) || target.is_a?(ResourcePresenter)) && target.quick_reference_guide?
+  end
+
+  private
+
+  def extend_with_default(h)
+    OpenStruct.new default.to_h.merge(h.compact)
   end
 end
