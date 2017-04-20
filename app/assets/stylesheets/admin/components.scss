@@ -37,7 +37,20 @@
   padding: 1em;
 
   .row {
-    margin-top: 1em;
+    // margin-top: 1em;
+    .o-admin-ctx-filters {
+      padding-right: 2em;
+      label {
+        display: inline-block;
+        font-weight: normal;
+      }
+      input {
+        display: inline-block;
+        width: 6em;
+        margin-left: 1em;
+      }
+    }
+    input[type=submit] { margin-left: auto; }
   }
 
   .o-admin-search-term {
