@@ -2,7 +2,7 @@
   <% if message.present? %>
     <% klass = name == 'alert' ? 'alert' : 'success' %>
     <div class='callout <%= klass %>' data-closable>
-      <%= message %>
+      <%= raw message %>
       <button aria-label='Dismiss alert' class=close-button data-close type=button>
         <span aria-hidden=true>×</span>
       </button>

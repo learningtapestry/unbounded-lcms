@@ -255,6 +255,14 @@ en:
         resources: Resources
         staff_members: Staff Members
         users: Users
+    sketch_compilers:
+      compile:
+        compile_error: There was an error during compilation. Please contact administrator
+        error: Please specify the URL
+        success: Lesson has been compiled. You can see it in your <a href='%{url}' target='_blank'>Google Drive</a>
+      show:
+        page_title: Compile lesson sketch
+        submit: Compile
     standards:
       edit:
         page_title: "Edit Standard"
@@ -282,3 +290,4 @@ en:
       sign_out: Sign out
       standards: Standards
       component_search: Search Component
+      sketch_compilation: Compile lesson sketch
