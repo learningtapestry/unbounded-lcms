@@ -11,7 +11,8 @@ class Admin::SketchCompilersController < Admin::AdminController
     post_params = {
       body: {
         uid: current_user.id,
-        url: params[:url]
+        core_url: params[:core_url],
+        foundational_url: params[:foundational_url]
       },
       headers: {'Authorization' => %Q(Token token="#{ENV.fetch 'UB_COMPONENTS_API_TOKEN'}")}
     }
@@ -32,6 +33,6 @@ class Admin::SketchCompilersController < Admin::AdminController
   private
 
   def validate_params
-    redirect_to admin_sketch_compiler_path, alert: t('.error') unless params[:url].present?
+    redirect_to admin_sketch_compiler_path, alert: t('.error') unless params[:core_url].present?
   end
 end

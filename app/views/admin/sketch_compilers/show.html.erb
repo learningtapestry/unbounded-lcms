@@ -2,7 +2,10 @@
   <h2 class=text-center><%= t'.page_title' %></h2>
 
   <%= form_tag compile_admin_sketch_compiler_path do %>
-      <%= text_field_tag :url, nil, placeholder: 'Enter the URL for Sketch file located in Google drive' %>
+      <%= label_tag 'Core Sketch URL' %>
+      <%= text_field_tag :core_url, nil, placeholder: 'Enter the URL for Sketch file located in Google drive' %>
+      <%= label_tag 'Foundational Sketch URL' %>
+      <%= text_field_tag :foundational_url, nil, placeholder: 'Enter the URL for Sketch file located in Google drive' %>
       <%= submit_tag t('.submit'), disable_with: 'Compiling...' %>
   <% end %>
 </div>
