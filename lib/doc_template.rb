@@ -58,7 +58,6 @@ module DocTemplate
     def self.parse(nodes)
       doc = new
       doc.parse(nodes)
-      doc
     end
 
     def parse(nodes)
@@ -75,9 +74,12 @@ module DocTemplate
 
         # extract the fragment related to the tag
         # replace the current node with the parsed
-        node.replace(tag.parse(node).render)
+        # TODO: this replaces the nodes directly. ideally it should return a
+        # copy that we then node.replace
+        tag.parse(node).render
       end
 
+      self
     end
 
     def render
