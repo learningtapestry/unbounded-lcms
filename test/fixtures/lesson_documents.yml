@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  file_id: file_id_string
+  name: MyString
+  last_modified_at: 2017-04-10 18:20:47
+  last_author_email: MyString
+  last_author_name: MyString
+  original_content: MyText
+  version: MyString
+
+two:
+  file_id: file_id_string
+  name: MyString
+  last_modified_at: 2017-04-10 18:20:47
+  last_author_email: MyString
+  last_author_name: MyString
+  original_content: MyText
+  version: MyString
