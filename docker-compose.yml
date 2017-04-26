@@ -9,6 +9,7 @@ services:
     environment:
       - http.host=0.0.0.0
       - transport.host=127.0.0.1
+      - xpack.security.enabled=false
     ulimits:
       memlock:
         soft: -1
@@ -25,9 +26,13 @@ services:
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
       - .:/app
+      - gems:/usr/local/bundle
     ports:
       - "3000:3000"
     depends_on:
       - db
       - es
       - redis
+
+volumes:
+  gems:
