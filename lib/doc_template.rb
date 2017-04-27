@@ -1,6 +1,8 @@
 module DocTemplate
-  FULL_TAG = /\[([^\]]*)?\]/om
-  TAG_XPATH = 'p/*[contains(., "[")]'
+  FULL_TAG = /\[([^\]:]*)?:?\s*([^\]]*)?\]/mo
+  ROOT_XPATH = '*//'
+  STARTTAG_XPATH = 'span[contains(., "[")]'
+  ENDTAG_XPATH = 'span[contains(., "]")]'
 
   class Template
     # a registry for available tags and respective classes
@@ -36,7 +38,8 @@ module DocTemplate
     def parse(source)
       doc = Nokogiri::HTML(source)
       body_node = doc.xpath('//html/body/*').to_s
-      body_fragment = Nokogiri::HTML.fragment(body_node)
+      cleaned_body = merge_split_tags(body_node)
+      body_fragment = Nokogiri::HTML.fragment(cleaned_body)
       @root = Document.parse(body_fragment)
     end
 
@@ -51,6 +54,13 @@ module DocTemplate
     def render
       return '' if @root.nil?
       @root.render
+    end
+
+    private
+
+    def merge_split_tags(nodes)
+      nodes
+      #merge tags in a single tag if they are split
     end
   end
 
@@ -67,16 +77,18 @@ module DocTemplate
 
       # find all tags
       #
-      @nodes.xpath(TAG_XPATH).each do |node|
-        # extract the tag and the extra info
-        tag_name, tag_description = FULL_TAG.match(node.text).captures
+      @nodes.xpath(ROOT_XPATH + STARTTAG_XPATH).each do |node|
+        tag_node = node.parent
+        # skip invalid tags (not closing)
+        next if FULL_TAG.match(tag_node.text).nil?
+        tag_name, tag_description = FULL_TAG.match(tag_node.text).captures
         tag = registered_tags[tag_name]
 
         # extract the fragment related to the tag
         # replace the current node with the parsed
         # TODO: this replaces the nodes directly. ideally it should return a
         # copy that we then node.replace
-        tag.parse(node).render
+        tag.parse(tag_node).render
       end
 
       self
@@ -106,6 +118,12 @@ module DocTemplate
     def render
       raise NotImplementedError
     end
+
+    def selfremove
+      start_tag_index = @result.children.index(@result.at_xpath(STARTTAG_XPATH))
+      end_tag_index = @result.children.index(@result.at_xpath(ENDTAG_XPATH))
+      @result.children[start_tag_index..end_tag_index].remove
+    end
   end
 
   class SectionTag < Tag
@@ -118,9 +136,8 @@ module DocTemplate
 
   class DefaultTag < Tag
     def parse(node)
-      @node = node
-      @result = node.parent.parent
-      node.remove
+      @result = node
+      selfremove
       self
     end
 
