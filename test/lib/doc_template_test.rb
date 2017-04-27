@@ -18,6 +18,30 @@ describe DocTemplate do
   end
 
   describe 'tag rendering' do
+    describe 'capturing tags on multiple nodes' do
+      let(:tag) { '<span>[ATAG: </span><span>ending]</span>' }
+      let(:content) { "<p><span>stay</span>#{tag}</p><p>info to slice</p>" }
+      subject { DocTemplate::Template.parse(html_document) }
+      it 'renders the default' do
+        output = subject.render
+        expect(output).wont_include tag
+        expect(output.sub("\n",'')).must_include content.sub(tag, '')
+      end
+    end
+
+    describe 'nested tags' do
+      let(:tag) { '<span>[ATAG: </span><span>ending]</span>' }
+      let(:tag2) { '<span>[ATAG2: </span><span>an_ending]</span>' }
+      let(:content) { "<p><span>stay</span>#{tag}#{tag2}</p><p>info to slice</p>" }
+      subject { DocTemplate::Template.parse(html_document) }
+      it 'renders the default' do
+        output = subject.render
+        expect(output).wont_include tag
+        expect(output).wont_include tag2
+        expect(output.sub("\n",'')).must_include content.sub(tag, '').sub!(tag2, '')
+      end
+    end
+
     describe 'default tag' do
       let(:tag) { '<p><span>[ATAG some info]</span></p>' }
       let(:content) { "#{tag}<p>info to slice</p>" }
