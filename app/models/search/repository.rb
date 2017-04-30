@@ -4,7 +4,7 @@ module Search
       type: 'string', fields: {
         :full    => {type: 'string', analyzer: 'full_str'},
         :partial => {type: 'string', analyzer: 'partial_str'},
-        :key     => {type: 'string', analyzer: 'keyword_str'}
+        :key     => {type: 'string', index: 'not_analyzed'}
       }
     }
   end
