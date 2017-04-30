@@ -59,7 +59,7 @@ namespace :db do
       mkdir -p $BACKUP_FOLDER
 
       PGPASSWORD=#{config[:password]} pg_dump \
-          -h #{config[:host]} \
+          -h #{config[:host] || 'localhost'} \
           -U #{config[:username]} \
           --no-owner \
           --no-acl \

@@ -1,8 +1,7 @@
 module Search
   def self.ngrams_multi_field(prop)
     {
-      type: 'multi_field', fields: {
-        prop     => {type: 'string'},
+      type: 'string', fields: {
         :full    => {type: 'string', analyzer: 'full_str'},
         :partial => {type: 'string', analyzer: 'partial_str'},
         :key     => {type: 'string', analyzer: 'keyword_str'}
