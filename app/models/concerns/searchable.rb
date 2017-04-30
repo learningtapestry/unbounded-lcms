@@ -20,7 +20,8 @@ module Searchable
       begin
         doc = self.class.search_model.build_from self
         search_repo.delete(doc)
-      rescue Faraday::ConnectionFailed; end
+      rescue Faraday::ConnectionFailed,
+             Elasticsearch::Transport::Transport::Errors::NotFound; end
     end
 
     def search_repo

@@ -64,7 +64,7 @@ class Resource < ActiveRecord::Base
 
   has_many :content_guides, through: :unbounded_standards
 
-  has_many :copyright_attributions
+  has_many :copyright_attributions, dependent: :destroy
 
   has_many :social_thumbnails, as: :target
 
@@ -72,6 +72,8 @@ class Resource < ActiveRecord::Base
   validates :url, presence: true, url: true, if: [:video?, :podcast?]
 
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
+
+  before_destroy :destroy_additional_resources
 
   scope :lessons, -> {
     joins(:curriculums)
@@ -312,4 +314,10 @@ class Resource < ActiveRecord::Base
   def copyrights
     copyright_attributions
   end
+
+  private
+
+    def destroy_additional_resources
+      ResourceAdditionalResource.where(additional_resource_id: id).destroy_all
+    end
 end
