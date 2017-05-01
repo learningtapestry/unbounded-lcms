@@ -80,6 +80,7 @@ module DocTemplate
       @nodes.xpath(ROOT_XPATH + STARTTAG_XPATH).each do |node|
         tag_node = node.parent
         # skip invalid tags (not closing)
+        binding.pry if node.parent.nil?
         next if FULL_TAG.match(tag_node.text).nil?
         tag_name, tag_description = FULL_TAG.match(tag_node.text).captures
         tag = registered_tags[tag_name]
@@ -122,7 +123,14 @@ module DocTemplate
     def selfremove
       start_tag_index = @result.children.index(@result.at_xpath(STARTTAG_XPATH))
       end_tag_index = @result.children.index(@result.at_xpath(ENDTAG_XPATH))
-      @result.children[start_tag_index..end_tag_index].remove
+      @result.children[start_tag_index..end_tag_index].each do |node|
+        # closed and opened tag in the same node case
+        if node.content =~ /\].*?\[/
+          node.content = node.content.tr(']', '')
+        else
+          node.remove
+        end
+      end
     end
   end
 

@@ -33,6 +33,8 @@ services:
       - db
       - es
       - redis
+    stdin_open: true
+    tty: true
 
 volumes:
   gems:
