@@ -110,8 +110,6 @@ gem 'hiredis'
 gem 'readthis'
 
 # form/form models
-gem 'reform', '~> 2.2.4'
-gem 'reform-rails', '~> 0.1.7'
 gem 'nested_form'
 gem 'simple_form'
 gem 'virtus', '~> 1.0.5'
