@@ -26,8 +26,7 @@ module DocTemplate
     end
 
     def self.parse(source)
-      template = Template.new
-      template.parse(source)
+      new.parse(source)
     end
 
     def parse(source)

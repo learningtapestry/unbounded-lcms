@@ -1,24 +1,25 @@
 module DocTemplate
   class Tag
-    def self.parse(node)
-      tag = new
-      tag.parse(node)
+    def self.parse(node, opts = {})
+      new.parse(node, opts)
     end
 
-    def parse(node)
-      raise NotImplementedError
+    def parse(node, opts = {})
+      @result = node
+      remove_node
+      self
     end
 
     def render
-      raise NotImplementedError
+      @result or raise NotImplementedError
     end
 
-    def selfremove
+    def remove_node
       start_tag_index = @result.children.index(@result.at_xpath(STARTTAG_XPATH))
       end_tag_index = @result.children.index(@result.at_xpath(ENDTAG_XPATH))
       @result.children[start_tag_index..end_tag_index].each do |node|
         # closed and opened tag in the same node case
-        if node.content =~ /\].*?\[/
+        if node.content =~ /].*\[/
           node.content = node.content.tr(']', '')
         else
           node.remove

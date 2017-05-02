@@ -17,14 +17,10 @@ module DocTemplate
         tag_node = node.parent
         # skip invalid tags (not closing)
         next if FULL_TAG.match(tag_node.text).nil?
-        tag_name, tag_description = FULL_TAG.match(tag_node.text).captures
-        tag = registered_tags[tag_name]
+        tag_name, tag_value = FULL_TAG.match(tag_node.text).captures
+        next unless (tag = registered_tags[tag_name.downcase])
 
-        # extract the fragment related to the tag
-        # replace the current node with the parsed
-        # TODO: this replaces the nodes directly. ideally it should return a
-        # copy that we then node.replace
-        tag.parse(tag_node).render
+        tag.parse(tag_node, value: tag_value).render
       end
 
       self

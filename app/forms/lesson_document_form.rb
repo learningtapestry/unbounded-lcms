@@ -34,6 +34,5 @@ class LessonDocumentForm
     ).render
 
     @lesson.save
-    @lesson
   end
 end
