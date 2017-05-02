@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get '/other/:id' => 'resources#generic', as: :generic
   get '/content_guides/:id(/:slug)', as: :content_guide, to: 'content_guides#show'
 
+  resources :lesson_documents, only: :show
+
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
   }
@@ -75,10 +77,10 @@ Rails.application.routes.draw do
     resources :standards, only: [:index, :edit, :update]
 
     resources :components, only: [:index, :show]
-
     resource :sketch_compiler, path: 'sketch-compiler', only: [:show] do
       post :compile
     end
+    resource :lesson_documents, only: [:index, :create, :new]
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug

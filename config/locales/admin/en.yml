@@ -263,6 +263,13 @@ en:
       show:
         page_title: Compile lesson sketch
         submit: Compile
+    lesson_documents:
+      create:
+        error: Error
+        success: Lesson %{name} parsed successfully.
+      new:
+        page_title: Add a lesson
+        submit: Parse
     standards:
       edit:
         page_title: "Edit Standard"
