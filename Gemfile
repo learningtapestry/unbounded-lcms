@@ -44,7 +44,6 @@ gem 'pg', '~> 0.18.2'
 gem 'postgres_ext', '~> 3.0'
 # db search
 gem 'ransack', '~> 1.7.0'
-gem 'aws-sdk-rails', '~> 1.0'
 # data seeding
 gem 'seedbank', '~> 0.3'
 gem 'migration_data', '~> 0.2.1'
