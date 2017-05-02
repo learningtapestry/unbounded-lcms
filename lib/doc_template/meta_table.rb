@@ -3,8 +3,7 @@ module DocTemplate
     HEADER_LABEL = 'document-metadata'
 
     def self.parse(fragment)
-      table = new
-      table.parse(fragment)
+      new.parse(fragment)
     end
 
     def parse(fragment)
