@@ -1,0 +1,15 @@
+<h2> Core Vocabulary </h2>
+<table>
+  <% @sections.each do |section| %>
+    <tr>
+      <td colspan="2"><strong><%= section[:title] %></strong></td>
+    </tr>
+    <% section[:words].each do |word| %>
+      <tr>
+        <td><%= word[:name] %></td>
+        <td><%= word[:definition] %></td>
+      </tr>
+    <% end  %>
+    </tr>
+  <% end %>
+</table>

@@ -2,7 +2,7 @@
   <h2 class=text-center><%= t('.page_title') %></h2>
 
   <%= simple_form_for @lesson_document, url: [:admin, :lesson_documents] do |f| %>
-    <%= f.input :link, label: t('ui.url'), input_html: {value: 'https://docs.google.com/document/d/1TVk2RFb0QbZZjlDx08QwocoskRg9veeRAzNSRUEsabs/edit#'} %>
+    <%= f.input :link, label: t('ui.url') %>
     <%= f.button :submit, t('.submit') %>
   <% end %>
 </div>
