@@ -40,8 +40,6 @@ end
 
 MinitestVcr::Spec.configure!
 
-DatabaseCleaner.strategy = :transaction
-
 Dir[File.expand_path('test/support/helpers/**/*.rb')].each { |f| require(f) }
 
 Fog.mock!
@@ -116,9 +114,13 @@ class IntegrationDatabaseTestCase < ActionDispatch::IntegrationTest
   end
 end
 
-class Minitest::Test
-  def before_setup
-    DatabaseCleaner.clean
+
+class Minitest::Spec
+  before :each do
     DatabaseCleaner.start
+  end
+
+  after :each do
+    DatabaseCleaner.clean
   end
 end
