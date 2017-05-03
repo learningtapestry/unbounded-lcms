@@ -12,12 +12,14 @@ $(function () {
 
   function initSticky() {
     let $sidebar = $('#cg-sidebar');
-    let elem = new Foundation.Sticky($sidebar,
-                                    { checkEvery: 50,
-                                      stickyOn: 'small',
-                                      anchor: 'c-ch-content',
-                                      marginTop: 0
-                                    });
+    if (!$sidebar.length) return;
+    new Foundation.Sticky($sidebar,
+                          {
+                            checkEvery: 50,
+                            stickyOn: 'small',
+                            anchor: 'c-ch-content',
+                            marginTop: 0
+                          });
     $(window).trigger('load.zf.sticky');
     $(window).off('sticky.zf.unstuckfrom:top').on('sticky.zf.unstuckfrom:top', () => {
       handleSidebarMenuHide();
