@@ -26,5 +26,9 @@ module DocTemplate
         end
       end
     end
+
+    def template_path(name)
+      File.join Rails.root, 'lib', 'doc_template', 'templates', name
+    end
   end
 end

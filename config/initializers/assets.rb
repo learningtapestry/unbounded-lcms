@@ -15,17 +15,18 @@ end
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += [
-  'admin.css',
-  'ckeditor/*',
-  'main.css',
-  'i18n.js',
-  'generated/*',
-  'server_rendering.js',
-  'pdf.css',
-  'pdf_plain.css',
-  'vendor/pdf.worker.js',
-  'pdf_js_preview.js'
-]
+Rails.application.config.assets.precompile += %w(
+  admin.css
+  ckeditor/*
+  generated/*
+  i18n.js
+  initializers/lessons.js
+  main.css
+  pdf.css
+  pdf_js_preview.js
+  pdf_plain.css
+  server_rendering.js
+  vendor/pdf.worker.js
+)
 
 Rails.application.config.assets.paths << "#{Rails.root}/public/javascripts"
