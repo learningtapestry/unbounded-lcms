@@ -1,5 +1,5 @@
 module DocTemplate
-  FULL_TAG = /\[([^\]:]*)?:?\s*([^\]]*)?\]/mo
+  FULL_TAG = /\[([^]:]*)?:?\s*([^]]*)?]/mo
   ROOT_XPATH = '*//'
   STARTTAG_XPATH = 'span[contains(., "[")]'
   ENDTAG_XPATH = 'span[contains(., "]")]'
