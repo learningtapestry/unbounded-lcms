@@ -8,7 +8,6 @@ module Admin
       @lesson_document = LessonDocumentForm.new(LessonDocument)
     end
 
-    # GET /content_guides/import
     def create
       @lesson_document = LessonDocumentForm.new(LessonDocument, lesson_form_parameters, google_credentials)
       if @lesson_document.save
