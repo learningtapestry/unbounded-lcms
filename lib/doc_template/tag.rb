@@ -11,7 +11,7 @@ module DocTemplate
     end
 
     def render
-      @result or raise NotImplementedError
+      @result or ''
     end
 
     def remove_node

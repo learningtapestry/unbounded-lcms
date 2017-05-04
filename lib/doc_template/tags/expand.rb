@@ -7,7 +7,7 @@ module DocTemplate
     TEMPLATE = 'expand.html.erb'
 
     def parse(node, opts = {})
-      return unless (table = node.ancestors('table').first)
+      return self unless (table = node.ancestors('table').first)
 
       @content, @content_hidden = fetch_content table
 
