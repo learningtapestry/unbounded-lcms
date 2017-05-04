@@ -6,7 +6,7 @@ module DocTemplate
     TEMPLATE = 'vocabulary.html.erb'
 
     def parse(node, opts = {})
-      return unless (table = node.ancestors('table').first)
+      return self unless (table = node.ancestors('table').first)
 
       @sections = fetch_content table
 
