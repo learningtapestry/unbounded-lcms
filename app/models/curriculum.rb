@@ -111,6 +111,39 @@ class Curriculum < ActiveRecord::Base
     math.maps.trees.first
   end
 
+  # Find curriculum via introspection given a context
+  #
+  def self.find_by_context(context)
+    # Grade
+    curr = trees.with_resources
+                .where_subject(context[:subject])
+                .where_grade(context[:grade]).first
+
+    # Module
+    mod = curr.children.detect do |c|
+      c.resource.try(:short_title).try(:downcase) == context[:module].downcase
+    end
+    curr = mod if mod
+
+    # Unit
+    if context[:unit]
+      unit = curr.children.detect do |c|
+        c.resource.try(:short_title).try(:downcase) == context[:unit].downcase
+      end
+      curr = unit if unit
+    end
+
+    # Lesson
+    if context[:lesson]
+      lesson = curr.children.detect do |c|
+        c.resource.try(:short_title).try(:downcase) == context[:lesson].downcase
+      end
+      curr = lesson if lesson
+    end
+
+    curr
+  end
+
   def item_is_resource?; item_type == 'Resource'; end
   def item_is_curriculum?; item_type == 'Curriculum'; end
 
