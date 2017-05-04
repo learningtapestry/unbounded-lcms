@@ -25,19 +25,10 @@ module DocTemplate
       end
     end
 
+    attr_reader :activity_metadata
+
     def self.parse(source)
       new.parse(source)
-    end
-
-    def parse(source)
-      doc = Nokogiri::HTML(source)
-      # clean all the inline styles
-      body_node = HtmlSanitizer.sanitize(doc.xpath('//html/body/*').to_s)
-      body_fragment = Nokogiri::HTML.fragment(body_node)
-      @metadata = MetaTable.parse(body_fragment)
-      @agenda = AgendaTable.parse(body_fragment)
-      @root = Document.parse(body_fragment, metadata: metadata, agenda: agenda)
-      self
     end
 
     def self.register_tag(name, klass)
@@ -48,16 +39,28 @@ module DocTemplate
       @tags ||= TagRegistry.new
     end
 
-    def render
-      @root.render.presence || ''
+    def agenda
+      @agenda.data.presence || {}
     end
 
     def metadata
       @metadata.data.presence || {}
     end
 
-    def agenda
-      @agenda.data.presence || {}
+    def parse(source)
+      doc = Nokogiri::HTML(source)
+      # clean all the inline styles
+      body_node = HtmlSanitizer.sanitize(doc.xpath('//html/body/*').to_s)
+      body_fragment = Nokogiri::HTML.fragment(body_node)
+      @metadata = MetaTable.parse(body_fragment)
+      @agenda = AgendaTable.parse(body_fragment)
+      @activity_metadata = ActivityTable.parse(body_fragment)
+      @root = Document.parse(body_fragment, metadata: metadata, agenda: agenda)
+      self
+    end
+
+    def render
+      @root.render.presence || ''
     end
   end
 end

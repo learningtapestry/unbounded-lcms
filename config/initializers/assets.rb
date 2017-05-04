@@ -20,7 +20,6 @@ Rails.application.config.assets.precompile += %w(
   ckeditor/*
   generated/*
   i18n.js
-  initializers/lessons.js
   main.css
   pdf.css
   pdf_js_preview.js

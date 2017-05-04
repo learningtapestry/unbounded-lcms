@@ -1,6 +1,6 @@
 module DocTemplate
   class MetaTable
-    HEADER_LABEL = 'document-metadata'
+    HEADER_LABEL = 'document-metadata'.freeze
 
     def self.parse(fragment)
       new.parse(fragment)
@@ -8,7 +8,7 @@ module DocTemplate
 
     def parse(fragment)
       # get the metadata table
-      table = fragment.at_xpath("table[.//*[contains(text(), '#{HEADER_LABEL}')]]")
+      table = fragment.at_xpath("table//*[contains(., '#{HEADER_LABEL}')]")
       return self unless table
 
       table.search('br').each { |br| br.replace("\n") }
