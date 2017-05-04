@@ -37,11 +37,8 @@ class LessonDocumentForm
 
       # the parsed html document
       @lesson.content = parsed_document.render
-
       # add the metadata attributes
-      parsed_document.metadata.each do |attribute, value|
-        @lesson.send("#{attribute.underscore}=", value) if @lesson.respond_to?(attribute.underscore)
-      end
+      @lesson.metadata = parsed_document.metadata
 
       @lesson.save
     rescue => e

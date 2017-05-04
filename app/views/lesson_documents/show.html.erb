@@ -1,18 +1,13 @@
 <%= javascript_include_tag 'initializers/lessons' %>
 
-<% set_page_title @lesson_document.title.html_safe unless @lesson_document.title.blank? %>
-<%# set_social_media_sharing @lesson_document %>
+<% set_page_title @lesson_document.metadata['title'].to_s.html_safe %>
 
-<%# if (permalink = @lesson_document.permalink).present? %>
-  <%# set_canonical_url lesson_document_path(permalink, slug: @lesson_document.slug) %>
-<%# end %>
-
-<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @lesson_document.subject %>" data-scroll="cg-page" id="cg-page">
+<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @lesson_document.metadata['subject'] %>" data-scroll="cg-page" id="cg-page">
   <div class="o-page__module c-ch-hero">
     <div class="o-page__wrap--row">
-      <div class="c-cg-hero__body cs-bg--<%= @lesson_document.grade %>">
-        <div class=c-cg-teaser><%= @lesson_document.teaser %></div>
-        <h1 class=c-cg-title><%= simple_format @lesson_document.title %></h1>
+      <div class="c-cg-hero__body cs-bg--<%= @lesson_document.metadata['grade'] %>">
+        <div class=c-cg-teaser><%= @lesson_document.metadata['teaser'] %></div>
+        <h1 class=c-cg-title><%= simple_format @lesson_document.metadata['title'] %></h1>
       </div>
     </div>
   </div>
