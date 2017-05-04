@@ -9,6 +9,7 @@
 //= require foundation
 //= require jquery/foundation.magellanex
 //= require jquery/foundation.initialize
+//= require jquery/tabs
 //= require react
 //= require react_ujs
 //= require components
@@ -24,6 +25,7 @@
 //= require initializers/subscribe_placeholder
 //= require initializers/pdf_preview
 //= require initializers/resource_details
+//= require initializers/lessons
 
 ready(function() {
   $(document).initFoundation();
@@ -40,6 +42,8 @@ ready(function() {
   window.initializeSubscribePlaceholder();
   window.initializePDFPreview();
   window.initializeResourceDetails();
+  window.initializeTabs();
+  window.initializeLessons();
 });
 
 $(document).on('page:before-unload', function(nodes) {
