@@ -18,6 +18,7 @@
 //= require initializers/google_analytics
 //= require initializers/leadership
 //= require initializers/header_dropdown
+//= require initializers/lessons
 //= require initializers/loadasync
 //= require initializers/soundcloud
 //= require initializers/subscribe_placeholder
@@ -32,6 +33,7 @@ ready(function() {
   window.initializeAboutPeople();
   window.initializeSocialSharing();
   window.initializeLeadership();
+  window.initializeLessons();
   //window.initializeFreshdesk();
   window.initializeGoogleAnalytics();
   window.initializeSoundCloud();
