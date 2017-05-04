@@ -7,14 +7,11 @@ module DocTemplate
     end
 
     def parse(fragment)
-      # get the very first table available in the page
-      table = fragment.at_css('table')
+      # get the metadata table
+      table = fragment.xpath("table[.//*[contains(text(), '#{HEADER_LABEL}')]]")
       return self unless table
 
-      table_header = table.at_css('tr > td')
-      return self unless table_header.content.strip == HEADER_LABEL
-
-      table_header.remove
+      table.at_css('tr > td').remove
 
       table.search('br').each { |br| br.replace("\n") }
       data_collection = table.css('tr').map do |tr|
