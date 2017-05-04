@@ -16,7 +16,8 @@ class LessonDocumentForm
   def save
     if valid?
       persist!
-      true
+      # returns false if there were errors during the import
+      errors.empty?
     else
       false
     end
@@ -25,14 +26,26 @@ class LessonDocumentForm
   private
 
   def persist!
-    @lesson = DocumentDownloader::GDoc.new(
-      @credentials, link, @target_klass
-    ).import
+    begin
+      @lesson = DocumentDownloader::GDoc.new(
+        @credentials, link, @target_klass
+      ).import
 
-    @lesson.content = DocTemplate::Template.parse(
-      @lesson.original_content
-    ).render
+      parsed_document = DocTemplate::Template.parse(
+        @lesson.original_content
+      )
 
-    @lesson.save
+      # the parsed html document
+      @lesson.content = parsed_document.render
+
+      # add the metadata attributes
+      parsed_document.metadata.each do |attribute, value|
+        @lesson.send("#{attribute.underscore}=", value) if @lesson.respond_to?(attribute.underscore)
+      end
+
+      @lesson.save
+    rescue => e
+      errors.add(:link, e.message)
+    end
   end
 end

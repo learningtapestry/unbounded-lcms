@@ -31,6 +31,8 @@ module DocTemplate
 
     def parse(source)
       doc = Nokogiri::HTML(source)
+      # clean all the inline styles
+      doc.xpath('@style|.//@style').remove
       body_node = doc.xpath('//html/body/*').to_s
       body_fragment = Nokogiri::HTML.fragment(body_node)
       @metadata = MetaTable.parse(body_fragment)

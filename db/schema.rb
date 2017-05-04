@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501010402) do
+ActiveRecord::Schema.define(version: 20170503230856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,9 +162,33 @@ ActiveRecord::Schema.define(version: 20170501010402) do
     t.string   "last_author_name"
     t.text     "original_content"
     t.string   "version"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.text     "content"
+    t.string   "subject"
+    t.string   "unit"
+    t.string   "grade"
+    t.string   "topic"
+    t.string   "lesson"
+    t.string   "lesson_objective"
+    t.string   "lesson_standard"
+    t.string   "lesson_mathematial_practice"
+    t.string   "relationship_to_eny1"
+    t.string   "title"
+    t.string   "teaser"
+    t.string   "module"
+    t.text     "description"
+    t.string   "text_title"
+    t.string   "text_author"
+    t.string   "genre"
+    t.string   "text_type"
+    t.string   "writing_type"
+    t.string   "group_size"
+    t.string   "ccss_strand"
+    t.string   "ccss_sub_strand"
+    t.string   "cc_attribution"
+    t.string   "materials"
+    t.string   "preparation"
   end
 
   add_index "lesson_documents", ["file_id"], name: "index_lesson_documents_on_file_id", using: :btree
