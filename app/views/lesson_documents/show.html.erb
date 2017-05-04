@@ -1,6 +1,6 @@
 <%= javascript_include_tag 'initializers/lessons' %>
 
-<% set_page_title @lesson_document.title.html_safe %>
+<% set_page_title @lesson_document.title.html_safe unless @lesson_document.title.blank? %>
 <%# set_social_media_sharing @lesson_document %>
 
 <%# if (permalink = @lesson_document.permalink).present? %>
