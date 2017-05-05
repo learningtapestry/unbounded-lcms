@@ -1,8 +1,8 @@
 $(function () {
   const COMPONENT_PREFIX = '.c-lesson';
 
-  function initExpandToggler() {
-    let prefix = `${COMPONENT_PREFIX}-expand`;
+  function initToggler(component) {
+    let prefix = `${COMPONENT_PREFIX}-${component}`;
     $(`${prefix}__toggler`).click(function() {
       $(`${prefix}__hidden`, $(this).parent()).toggle();
       $(`${prefix}__toggler__hide`, $(this)).toggle();
@@ -10,5 +10,9 @@ $(function () {
     })
   }
 
-  initExpandToggler()
+  window.initializeLessons = function() {
+    if (!$('.o-page--cg').length) return;
+    initToggler('expand');
+    initToggler('materials');
+  }
 });

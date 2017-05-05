@@ -39,6 +39,8 @@ class LessonDocumentForm
       @lesson.content = parsed_document.render
       # add the metadata attributes
       @lesson.metadata = parsed_document.metadata
+      # add activities metadata
+      @lesson.update activity_metadata: parsed_document.activity_metadata
 
       @lesson.save
     rescue => e
