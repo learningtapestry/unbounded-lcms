@@ -8,6 +8,73 @@ describe DocTemplate do
     temp
   end
 
+  describe 'agenda table parsing' do
+    let(:group1) { 'opening' }
+    let(:group2) { 'closing' }
+    let(:section1) { 'example with % $*,chars' }
+    let(:content) do
+      <<-TABLE
+      <table><tbody>
+      <tr>
+        <td colspan="1" rowspan="1"><p><span>[agenda]</span></p></td>
+        <td colspan="1" rowspan="1"><p><span>[metacog]</span></p></td>
+      </tr>
+      <tr>
+        <td colspan="1" rowspan="1">
+          <p><span>[Group:</span><span>&nbsp;#{group1}</span><span>]</span></p>
+          <a id="t.260b97c46fbd646db79b6e0c1dc5a8c9fcfbc610"></a><a id="t.3"></a>
+          <table><tbody> <tr>
+            <td colspan="1" rowspan="1"><p><span>metadata</span></p></td>
+            <td colspan="1" rowspan="1"><p><span></span></p></td>
+            </tr> </tbody></table>
+        </td>
+        <td colspan="1" rowspan="1">
+          <p><span>[Group: #{group1}] </span></p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="1" rowspan="1">
+          <p><span>[Section:</span><span>&nbsp;#{section1}</span><span>]</span></p>
+          <a id="t.260b97c46fbd646db79b6e0c1dc5a8c9fcfbc610"></a><a id="t.3"></a>
+          <table><tbody> <tr>
+            <td colspan="1" rowspan="1"><p><span>metadata</span></p></td>
+            <td colspan="1" rowspan="1"><p><span></span></p></td>
+            </tr> </tbody></table>
+        </td>
+        <td colspan="1" rowspan="1">
+          <p><span>[Section: #{section1}] </span></p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="1" rowspan="1">
+          <p><span>[Group:</span><span>&nbsp;#{group2}</span><span>]</span></p>
+          <a id="t.260b97c46fbd646db79b6e0c1dc5a8c9fcfbc610"></a><a id="t.3"></a>
+          <table><tbody><tr>
+            <td colspan="1" rowspan="1"><p><span>metadata</span></p></td>
+            <td colspan="1" rowspan="1"><p><span></span></p></td>
+            </tr></tbody></table>
+          <p><span></span></p>
+        </td>
+        <td colspan="1" rowspan="1">
+          <p><span>[Group: #{group2}] </span></p>
+        </td>
+      </tr>
+      </tbody></table>
+      TABLE
+    end
+    subject { DocTemplate::Template.parse(html_document) }
+
+    it 'returns the agenda structure' do
+      expect(subject.agenda.count).must_equal 2
+      expect(subject.agenda.first[:id]).must_equal group1.parameterize
+      expect(subject.agenda.first[:children].count).must_equal 1
+      expect(subject.agenda.first[:children].first[:id]).must_equal section1.parameterize
+      expect(subject.agenda.last[:id]).must_equal group2.parameterize
+      expect(subject.agenda.last[:children].count).must_equal 0
+    end
+
+  end
+
   describe 'metadata parsing' do
     let(:content) do
       '<p>sample text</p>' \
