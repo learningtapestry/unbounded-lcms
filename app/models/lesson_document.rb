@@ -15,15 +15,14 @@ class LessonDocument < ActiveRecord::Base
     end
 
     def curriculum_context
-      context_keys = [:subject, :grade, :module, :unit, :lesson]
-      return nil unless context_keys.all?{ |key| metadata[key].present? }
-
+      context_keys = ['subject', 'grade', 'module', 'unit', 'lesson']
+      return nil unless metadata.present? && context_keys.all? { |key| metadata.key?(key) }
       {
-        subject: metadata[:subject],
-        grade:   (metadata[:grade] =~ /\d+/ ? "grade #{grade}" : metadata[:grade]),
-        module:  metadata[:module],
-        unit:    (metadata[:subject] =~ /ela/ ? "unit #{metadata[:unit]}" : "topic #{metadata[:unit]}"),
-        lesson:  "lesson #{metadata[:lesson]}",
+        subject: metadata['subject'],
+        grade:   (metadata['grade'] =~ /\d+/ ? "grade #{metadata['grade']}" : metadata['grade']),
+        module:  metadata['module'],
+        unit:    (metadata['subject'] =~ /ela/ ? "unit #{metadata['unit']}" : "topic #{metadata['unit']}"),
+        lesson:  "lesson #{metadata['lesson']}"
       }
     end
 end
