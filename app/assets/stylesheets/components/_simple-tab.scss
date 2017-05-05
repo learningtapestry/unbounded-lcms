@@ -40,3 +40,19 @@
     }
   }
 }
+
+
+.c-easytabs {
+  .o-tab-menu {
+    border-bottom: 1px solid $ub-txt;
+    margin-bottom: 1em;
+    display: flex;
+
+    @include e(item) {
+      &.active {
+        border-bottom: 4px solid $ub-heading-txt;
+        > a { color: $ub-heading-txt; }
+      }
+    }
+  }
+}
