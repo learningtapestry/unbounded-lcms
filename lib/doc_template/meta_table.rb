@@ -8,7 +8,7 @@ module DocTemplate
 
     def parse(fragment)
       # get the metadata table
-      table = fragment.xpath("table[.//*[contains(text(), '#{HEADER_LABEL}')]]")
+      table = fragment.at_xpath("table[.//*[contains(text(), '#{HEADER_LABEL}')]]")
       return self unless table
 
       table.at_css('tr > td').remove
