@@ -1,64 +1,69 @@
 class HtmlSanitizer
-  attr_accessor :config
-
-  def initialize
-    @config = default_config
-  end
-
-  def sanitize(html)
-    Sanitize.fragment(html, config)
-  end
-
-  def default_config
-    {
-      elements: %w(table td th tr tbody thead span a p h1 h2 h3 h4 h5 h6 ol ul li div img hr),
-      attributes: {
-        'a'    => %w(href title data-toggle id),
-        'img'  => %w(src alt),
-        'ol'   => %w(type style),
-        'p'    => %w(style),
-        'span' => %w(style),
-        'td'   => %w(colspan rowspan),
-        'th'   => %w(colspan rowspan)
-      },
-      protocols: {
-        'a' => { 'href' => ['http', 'https', :relative] }
-      },
-      css: {
-        properties: %w(list-style-type font-style text-decoration text-align vertical-align color
-                       background-color font-weight)
-      },
-      transformers: [ # These transformers Will be executed via .call(), as lambdas
-        method(:remove_black_color),
-        method(:remove_empty_paragraphs),
-        method(:remove_spans_wo_attrs)
-      ]
-    }
-  end
-
-  private
-
-  # Replace '<span>text</span>' with 'text'
-  def remove_spans_wo_attrs(env)
-    node = env[:node]
-    if node.element? && node.name == 'span' && node.attr('style').blank?
-      node.replace(Nokogiri::XML::Text.new(node.inner_html, node.document))
+  class << self
+    def sanitize(html)
+      Sanitize.fragment(html, default_config)
     end
-  end
 
-  # Remove '<p></p>'
-  def remove_empty_paragraphs(env)
-    node = env[:node]
-    if node.element? && node.name == 'p' && node.inner_html.blank?
-      node.unlink
+    def default_config
+      {
+        elements: %w(table td th tr tbody thead span a p h1 h2 h3 h4 h5 h6 ol ul li div img hr abbr b blockquote br cite code dd dfn dl dt em i kbd mark pre q s samp small strike strong sub sup time u var),
+        attributes: {
+          'a'    => %w(href title data-toggle id),
+          'img'  => %w(src alt),
+          'ol'   => %w(type style),
+          'p'    => %w(style),
+          'span' => %w(style),
+          'td'   => %w(colspan rowspan),
+          'th'   => %w(colspan rowspan)
+        },
+        protocols: {
+          'a' => { 'href' => ['http', 'https', :relative] }
+        },
+        css: {
+          properties: %w(list-style-type font-style text-decoration font-weight)
+        },
+        transformers: [ # These transformers Will be executed via .call(), as lambdas
+          method(:remove_meanless_styles),
+          method(:remove_empty_paragraphs),
+          # TODO need to change parsing tags xpath before, it's relying on spans
+          # method(:remove_spans_wo_attrs)
+        ]
+      }
     end
-  end
 
-  # Remove "color:#000000;" from inline styles
-  def remove_black_color(env)
-    node = env[:node]
-    if node.element? && node.attr('style').present?
-      node['style'] = node['style'].gsub(/(?<!background-)(color:#000000;?)/, '')
+    private
+
+    # Replace '<span>text</span>' with 'text'
+    def remove_spans_wo_attrs(env)
+      node = env[:node]
+      if node.element? && node.name == 'span' && node.attr('style').blank?
+        node.replace(node.inner_html)
+      end
+    end
+
+    # Remove '<p></p>' or '<span></span>'
+    def remove_empty_paragraphs(env)
+      node = env[:node]
+      if node.element? && (node.name == 'p' || node.name == 'span') && node.inner_html.blank?
+        node.unlink
+      end
+    end
+
+    def remove_meanless_styles(env)
+      node = env[:node]
+      if node.element? && node.attr('style').present?
+        node['style'] = node['style'].gsub(/font-weight:\s*(normal|[1-4]00;?)/, '')
+                                     .gsub(/font-style:\s*normal;?/, '')
+                                     .gsub(/text-decoration:\s*none;?/, '')
+      end
+    end
+
+    # Remove "color:#000000;" from inline styles
+    def remove_black_color(env)
+      node = env[:node]
+      if node.element? && node.attr('style').present?
+        node['style'] = node['style'].gsub(/(?<!background-)(color:#000000;?)/, '')
+      end
     end
   end
 end
