@@ -36,7 +36,7 @@ module DocTemplate
       body_node = doc.xpath('//html/body/*').to_s
       body_fragment = Nokogiri::HTML.fragment(body_node)
       @metadata = MetaTable.parse(body_fragment)
-      @root = Document.parse(body_fragment)
+      @root = Document.parse(body_fragment, metadata: metadata)
       self
     end
 
@@ -54,8 +54,7 @@ module DocTemplate
     end
 
     def metadata
-      return {} if @metadata.nil?
-      @metadata.render
+      @metadata.data.presence || {}
     end
   end
 end
