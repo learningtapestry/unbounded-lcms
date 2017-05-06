@@ -6,9 +6,9 @@ module DocTemplate
       section = opts[:activity].section_by_tag(opts[:value])
       node.replace(
         <<-HEADER
-          <h2 class='o-ld-title c-ld-toc' data-node-time="#{section.time}">
-            <span class='o-ld-title__title'>#{section.section_title}</span>
-            <span class='o-ld-title__time'>#{section.time} mins</span>
+          <h2 class='o-ld-title c-ld-toc u-margin-top--large' data-node-time="#{section.time}">
+            <span class='o-ld-title__title o-ld-title__title--h2'>#{section.section_title}</span>
+            <span class='o-ld-title__time o-ld-title__time--h2'>#{section.time} mins</span>
           </h2>
         HEADER
       )
