@@ -8,22 +8,28 @@ class LessonDocument < ActiveRecord::Base
   private
 
     def set_resource_from_metadata
-      if context = curriculum_context
+      if metadata.present? && context = curriculum_context
         curriculum = Curriculum.find_by_context(context)
-        self.resource_id = curriculum ? curriculum.item_id : nil
+        self.resource_id = curriculum && curriculum.lesson? ? curriculum.item_id : nil
       end
     end
 
     def curriculum_context
-      context_keys = [:subject, :grade, :module, :unit, :lesson]
-      return nil unless context_keys.all?{ |key| metadata[key].present? }
+      subject = metadata['subject'].try(:downcase)
+      grade = metadata['grade'] =~ /\d+/ ? "grade #{metadata['grade']}" : metadata['grade']
+      mod = ela? ? metadata['module'] : metadata['unit']
+      mod = "module #{mod}" if mod =~ /^\d+$/
+      unit = ela? ? "unit #{metadata['unit']}" : "topic #{metadata['topic']}"
+      lesson = "lesson #{metadata['lesson']}"
 
-      {
-        subject: metadata[:subject],
-        grade:   (metadata[:grade] =~ /\d+/ ? "grade #{grade}" : metadata[:grade]),
-        module:  metadata[:module],
-        unit:    (metadata[:subject] =~ /ela/ ? "unit #{metadata[:unit]}" : "topic #{metadata[:unit]}"),
-        lesson:  "lesson #{metadata[:lesson]}",
-      }
+      {subject: subject, grade: grade, module: mod, unit: unit, lesson: lesson}
+    end
+
+    def ela?
+      metadata['subject'] =~ /ela/
+    end
+
+    def math?
+      metadata['subject'] =~ /math/
     end
 end
