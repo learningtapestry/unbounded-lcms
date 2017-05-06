@@ -27,6 +27,7 @@ class HtmlSanitizer
           method(:remove_empty_paragraphs),
           # TODO need to change parsing tags xpath before, it's relying on spans
           # method(:remove_spans_wo_attrs)
+          method(:remove_gdocs_suggestions),
         ]
       }
     end
@@ -63,6 +64,17 @@ class HtmlSanitizer
       node = env[:node]
       if node.element? && node.attr('style').present?
         node['style'] = node['style'].gsub(/(?<!background-)(color:#000000;?)/, '')
+      end
+    end
+
+    def remove_gdocs_suggestions(env)
+      node = env[:node]
+      node.css('[id^=cmnt]').each do |a|
+        begin
+          a.ancestors('sup').first.remove
+        rescue
+          a.ancestors('div').first.remove
+        end
       end
     end
   end
