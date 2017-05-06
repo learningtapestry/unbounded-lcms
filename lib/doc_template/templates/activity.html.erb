@@ -1,0 +1,26 @@
+<div class="o-ld-activity">
+  <div class="u-text--uppercase cs-txt--math-base u-txt--title-type">
+    <%= @tmpl[:activity].activity_type %>
+  </div>
+  <h2 class="o-ld-title c-ld-toc" data-node-time="<%= @tmpl[:activity].activity_time %>">
+    <span class="o-ld-title__title"><%= @tmpl[:activity].activity_title %>
+      <% unless @tmpl[:activity].activity_priority.present? %>
+        <span class="o-ld-icon o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>"></span>
+      <% end %>
+    </span>
+    <span class="o-ld-title__time"><%= @tmpl[:activity].activity_time %> mins</span>
+  </h2>
+
+  <div class="o-ld-activity__metacognition u-txt--teaser">
+    <%= @tmpl[:activity].activity_metacognition %>
+  </div>
+  <p><strong>Guidance: </strong><%= @tmpl[:activity].activity_guidance %></p>
+  <p>
+    <strong>Standard: </strong><%= @tmpl[:activity].activity_standard %><br />
+    <strong>Mathematical Standards: </strong><%= @tmpl[:activity].activity_mathematical_practice %>
+  </p>
+
+  <div class="o-ld-activity__source">
+    <%= @tmpl[:source].html_safe %>
+  </div>
+</div>

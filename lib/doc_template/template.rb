@@ -1,3 +1,5 @@
+require_relative './objects/activity_metadata'
+
 module DocTemplate
   class Template
     # a registry for available tags and respective classes
@@ -55,7 +57,9 @@ module DocTemplate
       @metadata = MetaTable.parse(body_fragment)
       @agenda = AgendaTable.parse(body_fragment)
       @activity_metadata = ActivityTable.parse(body_fragment)
-      @root = Document.parse(body_fragment, metadata: metadata, agenda: agenda)
+      @root = Document.parse(body_fragment,
+                             metadata: metadata, agenda: agenda,
+                             activity: ActivityMetadata.build_from(@activity_metadata))
       self
     end
 

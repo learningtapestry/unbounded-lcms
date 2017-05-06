@@ -1,0 +1,9 @@
+.o-ld-title {
+  @include e(title) {
+
+  }
+  @include e(time) {
+    float: right;
+    font-style: italic;
+  }
+}

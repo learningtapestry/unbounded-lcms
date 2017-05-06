@@ -10,6 +10,10 @@ module DocTemplate
       self
     end
 
+    def parse_nested(node, opts = {})
+      Document.parse(Nokogiri::HTML(node), opts.merge(level: 1)).render
+    end
+
     def render
       @result or ''
     end
@@ -25,6 +29,12 @@ module DocTemplate
           node.remove
         end
       end
+    end
+
+    def parse_template(context, template_name)
+      @tmpl = context
+      template = File.read template_path(template_name)
+      ERB.new(template).result(binding)
     end
 
     def template_path(name)

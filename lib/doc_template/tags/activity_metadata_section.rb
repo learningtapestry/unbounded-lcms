@@ -3,7 +3,15 @@ module DocTemplate
     TAG_NAME = 'activity-metadata-section'.freeze
 
     def parse(node, opts = {})
-      node.replace "<h2 class='toc'>#{opts[:value]}</h2>"
+      section = opts[:activity].section_by_tag(opts[:value])
+      node.replace(
+        <<-HEADER
+          <h2 class='o-ld-title c-ld-toc' data-node-time="#{section.time}">
+            <span class='o-ld-title__title'>#{section.section_title}</span>
+            <span class='o-ld-title__time'>#{section.time} mins</span>
+          </h2>
+        HEADER
+      )
       @result = node
       self
     end
