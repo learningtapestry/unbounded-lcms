@@ -1,0 +1,13 @@
+.o-ld-icons {
+  background-size: contain;
+  display: inline-block;
+  height: .75rem;
+  margin-right: .25rem;
+  width: .75rem;
+
+  @for $i from 1 through 3 {
+    @include m(priority#{i}) {
+      background-image: asset-url('ld_p#{i}.svg');
+    }
+  }
+}

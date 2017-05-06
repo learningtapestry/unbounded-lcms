@@ -1,0 +1,10 @@
+.o-ld-activity {
+  @include add-column-padding($x: .5);
+  @include add-top-bottom-padding($y: .5);
+  background-color: map-get($ub-cg-math-colors, task-toggler-bg);
+  border-top: 2px solid map-get($ub-colorcodes, math-base);
+
+  @include e(source) {
+
+  }
+}
