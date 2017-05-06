@@ -39,8 +39,15 @@ module DocTemplate
       # Custom header for ELA G6
       if @opts[:metadata]['subject'].try(:downcase) == 'ela' and @opts[:metadata]['grade'] == '6'
         # Prepend the lesson with predefined element
-        # @nodes.prepend_child ela_6_teacher_guidance(@opts[:metadata])
+        @nodes.prepend_child ela_6_teacher_guidance(@opts[:metadata])
       end
+    end
+
+    def ela_6_teacher_guidance(metadata)
+      @data = metadata.slice(*%w(description materials preparation))
+      template_name = File.join Rails.root, 'lib', 'doc_template', 'templates', 'ela-6-teacher-guidance.html.erb'
+      template = File.read template_name
+      ERB.new(template).result(binding)
     end
 
     def registered_tags
