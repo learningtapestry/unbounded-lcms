@@ -1,27 +1,20 @@
-.c-lesson-materials {
-  background-color: rgba(0, 166, 153, .15);
-  clear: both;
-
+.o-lesson-materials {
   @include e(content) {
     padding: 10px;
-  }
 
-  @include e(hidden) {
-    display: none;
-    padding: 0 10px;
+    @include m(hidden) {
+      display: none;
+      padding: 0 10px;
+    }
   }
 
   @include e(toggler) {
-    @include txt-element(button);
-    background-color: rgba(0, 166, 153, .3);
-    color: #00a699;
+    @include txt-element(base);
+    color: map-get($ub-colorcodes, math-base);
     cursor: pointer;
-    display: block;
-    padding: .75rem 0;
-    text-align: center;
-  }
 
-  @include e(toggler__hide) {
-    display: none;
+    @include m(hide) {
+      display: none;
+    }
   }
 }

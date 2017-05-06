@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'doc_template.rb'
 
 describe DocTemplate do
   let(:html_document) do

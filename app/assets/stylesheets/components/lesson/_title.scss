@@ -1,9 +1,21 @@
 .o-ld-title {
-  @include e(title) {
+  @include flex;
+  @include flex-align($x: justify, $y: bottom);
 
+  @include e(title) {
+    @include m(h2) {
+      @include txt-heading(h1);
+    }
   }
+
   @include e(time) {
-    float: right;
     font-style: italic;
+
+    @include m(h2) {
+      @include txt-element(ld-activity-h2time);
+    }
+    @include m(h3) {
+      @include txt-element(ld-activity-h3time);
+    }
   }
 }
