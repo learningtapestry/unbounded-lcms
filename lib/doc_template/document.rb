@@ -39,7 +39,7 @@ module DocTemplate
       # Custom header for ELA G6
       if @opts[:metadata]['subject'].try(:downcase) == 'ela' and @opts[:metadata]['grade'] == '6'
         # Prepend the lesson with predefined element
-        @nodes.prepend_child ela_6_teacher_guidance(@opts[:metadata])
+        # @nodes.prepend_child ela_6_teacher_guidance(@opts[:metadata])
       end
     end
 
