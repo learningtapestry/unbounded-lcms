@@ -20,7 +20,12 @@ module DocTemplate
         # take the only two fields
         metadata, metacognition = tr.xpath('./td')
         # identify the referencing tag
-        tag_name, tag_value = FULL_TAG.match(metacognition.content).captures
+
+        if metacognition.content.present?
+          tag_name, tag_value = FULL_TAG.match(metacognition.content).captures
+        else
+          tag_name, tag_value = FULL_TAG.match(metadata.content).captures
+        end
 
         element = {
           id: tag_value.parameterize,
@@ -35,7 +40,7 @@ module DocTemplate
           @parent_index = index
           @data << element
         else
-          @data[@parent_index][:children] << element
+          @data[@parent_index][:children] << element if @parent_index && @data[@parent_index]
         end
       end
 
@@ -62,7 +67,8 @@ module DocTemplate
 
     def render_metacognition(fragment)
       # remove the tag
-      fragment.at_xpath(ROOT_XPATH + STARTTAG_XPATH).parent.remove
+      el = fragment.at_xpath(ROOT_XPATH + STARTTAG_XPATH)
+      el.parent.remove if el
       { content: fragment.content }
     end
   end

@@ -1,7 +1,7 @@
 <% set_page_title @lesson_document.metadata['title'].to_s.html_safe %>
 
 <div class="o-page">
-  <%= link_to '<- Go to Resource page', [@lesson_document.resource], class: 'o-btn o-btn--base o-btn--xs-full' %>
+  <%= link_to '<- Go to Resource page', [@lesson_document.resource], class: 'o-btn o-btn--base o-btn--xs-full' if @lesson_document.resource %>
 </div>
 
 <%= render partial: 'lesson_documents/content', locals: {lesson_document: @lesson_document} %>
