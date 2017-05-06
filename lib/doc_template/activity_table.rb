@@ -1,3 +1,6 @@
+require_relative './tags/activity_metadata_section'
+require_relative './tags/activity_metadata_type'
+
 module DocTemplate
   class ActivityTable
     HEADER_LABEL = 'activity-metadata'.freeze
