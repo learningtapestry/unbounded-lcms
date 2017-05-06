@@ -2,6 +2,7 @@ module DocTemplate
   class AgendaTable
     HEADER_LABEL = '[agenda]'
     METADATA_HEADER_LABEL = '[agenda]'
+    GENERAL_TAG = 'general'
 
     def self.parse(fragment)
       new.parse(fragment)
@@ -21,11 +22,7 @@ module DocTemplate
         metadata, metacognition = tr.xpath('./td')
         # identify the referencing tag
 
-        if metacognition.content.present?
-          tag_name, tag_value = FULL_TAG.match(metacognition.content).captures
-        else
-          tag_name, tag_value = FULL_TAG.match(metadata.content).captures
-        end
+        tag_name, tag_value = FULL_TAG.match(metadata.content).captures
 
         element = {
           id: tag_value.parameterize,
@@ -37,10 +34,12 @@ module DocTemplate
         # the group tags are parents and the following
         # sections after each group are children of that group
         if tag_name.downcase.include?('group')
-          @parent_index = index
           @data << element
+        elsif index.zero?
+          @data << { id: GENERAL_TAG, metadata: {}, metacognition: {}, children: [] }
+          @data.last[:children] << element
         else
-          @data[@parent_index][:children] << element if @parent_index && @data[@parent_index]
+          @data.last[:children] << element
         end
       end
 
@@ -66,6 +65,7 @@ module DocTemplate
     end
 
     def render_metacognition(fragment)
+      return nil unless fragment.at_xpath(ROOT_XPATH + STARTTAG_XPATH).present?
       # remove the tag
       el = fragment.at_xpath(ROOT_XPATH + STARTTAG_XPATH)
       el.parent.remove if el
