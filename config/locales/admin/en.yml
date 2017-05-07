@@ -264,6 +264,9 @@ en:
         page_title: Compile lesson sketch
         submit: Compile
     lesson_documents:
+      index:
+        new_lesson: Add new Lesson
+        title: Lesson Manager
       create:
         error: Error
         success: Lesson %{name} parsed successfully.
@@ -299,3 +302,4 @@ en:
       component_search: Search Component
       sketch_compilation: Compile lesson sketch
       import_lesson: Import Lesson
+      lessons: Lessons

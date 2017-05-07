@@ -4,6 +4,10 @@ module Admin
 
     before_action :obtain_google_credentials, only: [:create, :new]
 
+    def index
+      @lesson_documents = LessonDocument.all.order(:resource_id, updated_at: :desc).paginate(page: params[:page])
+    end
+
     def new
       @lesson_document = LessonDocumentForm.new(LessonDocument)
     end
