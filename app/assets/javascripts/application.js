@@ -35,7 +35,6 @@ ready(function() {
   window.initializeAboutPeople();
   window.initializeSocialSharing();
   window.initializeLeadership();
-  window.initializeLessons();
   //window.initializeFreshdesk();
   window.initializeGoogleAnalytics();
   window.initializeSoundCloud();

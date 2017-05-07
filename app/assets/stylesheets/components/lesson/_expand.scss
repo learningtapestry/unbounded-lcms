@@ -1,14 +1,14 @@
-.c-lesson-expand {
+.o-lesson-expand {
   background-color: rgba(0, 166, 153, .15);
   clear: both;
 
   @include e(content) {
     padding: 10px;
-  }
 
-  @include e(hidden) {
-    display: none;
-    padding: 0 10px;
+    @include m(hidden) {
+      display: none;
+      padding: 0 10px;
+    }
   }
 
   @include e(toggler) {
@@ -19,9 +19,9 @@
     display: block;
     padding: .75rem 0;
     text-align: center;
-  }
 
-  @include e(toggler__hide) {
-    display: none;
+    @include m(hide) {
+      display: none;
+    }
   }
 }
