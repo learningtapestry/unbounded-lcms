@@ -132,7 +132,10 @@ $ub-element-typography: (
   generic-card-teaser: ('font-size': 22px, 'line-height': 24px, 'font-family': $ub-serif, 'font-weight': 500),
   // about people
   staff-name: ('font-size': 22px, 'line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, color: $ub-primary),
-  staff-position: ('font-size': 18px, 'line-height': 22px, 'font-family': $ub-sanserif, 'font-weight': 300, 'font-style': italic, color: #666)
+  staff-position: ('font-size': 18px, 'line-height': 22px, 'font-family': $ub-sanserif, 'font-weight': 300, 'font-style': italic, color: #666),
+  ld-activity-h2time: ('font-size': 22px, 'line-height': 1, 'font-family': $ub-sanserif, 'font-weight': bold, 'font-style': italic),
+  ld-activity-h3time: ('font-size': 16px, 'line-height': 1, 'font-family': $ub-sanserif, 'font-weight': bold, 'font-style': italic),
+  ld-activity-teaser: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif, font-style: italic),
 );
 
 @each $element, $typo in $ub-element-typography {

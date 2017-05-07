@@ -18,7 +18,7 @@ module DocTemplate
           data = fetch table
 
           # Places activity type tags
-          title = [data['activity-type'], data['activity-title']].reject(&:blank?).join(': ')
+          title = "#{data['section-title']} #{data['activity-title']}".parameterize
           table.add_next_sibling "<p><span>[#{ActivityMetadataTypeTag::TAG_NAME}: #{title}]</span></p>"
 
           # Places new tags to markup future content injection
@@ -27,7 +27,7 @@ module DocTemplate
             table.remove
           else
             placed_sections << data['section-title']
-            table.replace "<p><span>[#{ActivityMetadataSectionTag::TAG_NAME}: #{data['section-title']}]</span></p>"
+            table.replace "<p><span>[#{ActivityMetadataSectionTag::TAG_NAME}: #{data['section-title'].parameterize}]</span></p>"
           end
 
           result << data
@@ -46,4 +46,3 @@ module DocTemplate
     end
   end
 end
-
