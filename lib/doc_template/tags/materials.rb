@@ -5,7 +5,7 @@ module DocTemplate
     TEMPLATE = 'materials.html.erb'.freeze
 
     def parse(node, opts = {})
-      # we have to collect all the nect siblings until next activity-metadata
+      # we have to collect all the next siblings until next activity-metadata
       content = [].tap do |result|
                     while (sibling = node.next_sibling) do
                       break if sibling.content =~ /\[\s*(#{ActivityMetadataSectionTag::TAG_NAME}|#{ActivityMetadataTypeTag::TAG_NAME})/
