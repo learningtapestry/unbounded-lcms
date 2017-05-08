@@ -3,6 +3,7 @@
 }
 
 .c-cg-lesson {
+  color: $ub-heading-txt;
   padding-bottom: $ub-large-padding * 2;
   padding-top: $ub-xlarge-padding;
 
@@ -29,7 +30,6 @@
 
     p, ol, ul {
       &, * {
-        color: $ub-heading-txt;
         font-family: $ub-sanserif;
         font-size: 1rem;
         line-height: 1.5;
