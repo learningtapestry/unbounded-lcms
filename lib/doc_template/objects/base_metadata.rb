@@ -2,10 +2,11 @@ module DocTemplate
   class BaseMetadata
     include Virtus.model
 
-    attribute :subject, String
     attribute :grade, String
-    attribute :title, String
+    attribute :subject, String
     attribute :teaser, String
+    attribute :title, String
+    attribute :unit, String
 
     attribute :description, String
     attribute :materials, String
