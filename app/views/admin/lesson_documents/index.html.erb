@@ -1,0 +1,40 @@
+<% set_page_title 'Lessons Manager' %>
+
+<div class=o-page>
+
+  <h1 class=text-center><%= t('.title') %></h1>
+
+  <div class=row>
+    <div class='flex-pull-right'>
+      <%= link_to t('.new_lesson'), :new_admin_lesson_document, class: 'button primary' %>
+    </div>
+    <table class=table>
+      <tr>
+        <th>Resource
+        <th>Name
+        <th>Metadata
+        <th>Last Update
+        <th>
+      </tr>
+
+      <% @lesson_documents.each do |lesson| %>
+        <tr id=lesson_<%= lesson.id %>>
+          <td><%= link_to lesson.resource.try(:title), lesson.resource if lesson.resource %>
+          <td><%= link_to lesson.name, lesson %>
+          <td><%= metadata_breadcrumbs(lesson) %>
+          <td><%= lesson.updated_at.to_s %>
+          <td>
+            <%= render partial: 'admin/lesson_documents/reimport', locals: {lesson: lesson} %>
+            <%= link_to content_tag(:i, nil, class: 'fa fa-eye').html_safe, [lesson], class: 'button small', target: '_blank' %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class='col-sm-12 text-center'>
+      <%= will_paginate @lesson_documents, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+
+</div>
