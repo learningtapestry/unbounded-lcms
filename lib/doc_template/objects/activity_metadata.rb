@@ -16,14 +16,23 @@ module DocTemplate
       attribute :activity_metacognition, String
       attribute :activity_guidance, String
       attribute :activity_content_development_notes, String
+
+      # aliases to build toc
+      attribute :title, String, default: ->(a, _) { a.activity_title }
+      attribute :time, Integer, default: ->(a, _) { a.activity_time }
+      attribute :id, String, default: ->(a, _) { a.activity_title.parameterize }
+      attribute :level, Integer, default: 2
     end
 
     class Section
       include Virtus.model
 
       attribute :time, Integer, default: 0
-      attribute :section_title, String
-      attribute :activities, Array[Activity]
+      attribute :title, String
+      attribute :children, Array[Activity]
+
+      attribute :id, String, default: ->(a, _) { a.title.parameterize }
+      attribute :level, Integer, default: 1
     end
 
     attribute :groups, Array[Section]
@@ -37,22 +46,22 @@ module DocTemplate
                 a['activity_time'] = '0' unless a.key?('activity_time')
                 a['activity_time'] = a['activity_time'][/\d+/].to_i || 0
               end
-              { section_title: section,
+              { title: section,
                 time: activity.sum { |a| a['activity_time'] },
-                activities: activity }
+                children: activity }
             end
       new(groups: activity_data)
     end
 
     def section_by_tag(title)
-      groups.find { |s| s.section_title.parameterize == title }
+      groups.find { |s| s.title.parameterize == title }
     end
 
     def activity_by_tag(title)
       groups.each do |s|
-        next unless title.starts_with?(s.section_title.parameterize)
-        activity = s.activities.find do |a|
-          "#{s.section_title} #{a.activity_title}".parameterize == title
+        next unless title.starts_with?(s.title.parameterize)
+        activity = s.children.find do |a|
+          "#{s.title} #{a.activity_title}".parameterize == title
         end
         return activity if activity
       end
