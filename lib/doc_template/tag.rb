@@ -15,7 +15,7 @@ module DocTemplate
     end
 
     def render
-      @result or ''
+      @result || ''
     end
 
     def remove_node
@@ -39,6 +39,10 @@ module DocTemplate
 
     def template_path(name)
       File.join Rails.root, 'lib', 'doc_template', 'templates', name
+    end
+
+    def ela6?(metadata)
+      metadata.resource_subject == 'ela' && metadata.grade == '6'
     end
   end
 end
