@@ -26,7 +26,7 @@ class LessonDocumentForm
   private
 
   def persist!
-    # begin
+    begin
       @lesson = DocumentDownloader::GDoc.new(
         @credentials, link, @target_klass
       ).import
@@ -43,8 +43,8 @@ class LessonDocumentForm
       @lesson.update activity_metadata: parsed_document.activity_metadata
 
       @lesson.save
-    # rescue => e
-    #   errors.add(:link, e.message)
-    # end
+    rescue => e
+      errors.add(:link, e.message)
+    end
   end
 end
