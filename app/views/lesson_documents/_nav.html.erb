@@ -1,0 +1,29 @@
+<div id="cg-sidebar-container" class="o-sidebar" data-sticky-container>
+  <nav id="cg-sidebar" class="o-sidebar__wrap sticky">
+    <div id="cg-sidebar-xs" class="o-sidebar-xs hide-for-ipad cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base">
+      <div class="o-sidebar-xs__header">
+        <div class="u-txt--cg-sidebar-title-type u-text--uppercase">
+          <%= lesson_document.metadata['title'] %>
+        </div>
+        <div class="u-txt--cg-sidebar-title">
+          <%= lesson_document.metadata['title'] %>
+        </div>
+      </div>
+      <div id="cg-sidebar-xs__action" class="o-sidebar-xs__action">
+        <a><i class="ub-ellipsis fa-3x"></i></a>
+      </div>
+    </div>
+    <div class="o-sidebar-nav__sticky-title cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base">
+      <%= simple_format lesson_document.metadata['title'] %>
+    </div>
+    <ul class="o-sidebar-nav o-sidebar-nav__menu show-for-ipad">
+      <li class=o-sidebar-nav__header><span>Lesson Summary</span></li>
+      <li><div class=o-sidebar-nav__sep></div></li>
+      <% lesson_document.toc.groups.each do |heading| %>
+        <%= render 'nav_item', heading: heading %>
+      <% end %>
+    </ul>
+  </nav>
+</div>
+
+<%= render partial: 'nav_modal', locals: { lesson_document: lesson_document } %>

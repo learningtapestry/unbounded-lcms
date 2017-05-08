@@ -56,6 +56,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def path
+    return lesson_document_path(object.resource.lesson_document) if object.resource.lesson_document.present?
     show_resource_path(object.resource, object)
   end
 

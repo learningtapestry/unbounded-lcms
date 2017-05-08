@@ -23,11 +23,12 @@ describe DocTemplate::ActivityMetadata do
 
         it 'returns valid object' do
           expect(subject.groups.size).must_equal 1
-          expect(subject.groups[0].section_title).must_equal 'Opening'
+          expect(subject.groups[0].title).must_equal 'Opening'
           expect(subject.groups[0].time).must_equal 5
-          expect(subject.groups[0].activities.size).must_equal 3
-          expect(subject.groups[0].activities[1].activity_time).must_equal 0
-          expect(subject.groups[0].activities[2].activity_time).must_equal 3
+          expect(subject.groups[0].children.size).must_equal 3
+          expect(subject.groups[0].children[1].activity_time).must_equal 0
+          expect(subject.groups[0].children[2].activity_time).must_equal 3
+          expect(subject.groups[0].children[2].time).must_equal 3
         end
       end
       describe 'with multiple section' do
@@ -39,12 +40,12 @@ describe DocTemplate::ActivityMetadata do
 
         it 'returns valid object' do
           expect(subject.groups.size).must_equal 2
-          expect(subject.groups[0].section_title).must_equal 'Opening'
-          expect(subject.groups[1].section_title).must_equal 'Opening 2'
+          expect(subject.groups[0].title).must_equal 'Opening'
+          expect(subject.groups[1].title).must_equal 'Opening 2'
           expect(subject.groups[0].time).must_equal 2
           expect(subject.groups[1].time).must_equal 3
-          expect(subject.groups[0].activities.size).must_equal 2
-          expect(subject.groups[1].activities.size).must_equal 1
+          expect(subject.groups[0].children.size).must_equal 2
+          expect(subject.groups[1].children.size).must_equal 1
         end
       end
     end
