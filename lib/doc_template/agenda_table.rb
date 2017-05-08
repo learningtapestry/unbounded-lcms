@@ -1,15 +1,15 @@
 module DocTemplate
   class AgendaTable
-    HEADER_LABEL = '[agenda]'
-    METADATA_HEADER_LABEL = '[agenda]'
-    GENERAL_TAG = 'general'
+    HEADER_LABEL = '[agenda]'.freeze
+    METADATA_HEADER_LABEL = 'metadata'.freeze
+    GENERAL_TAG = 'general'.freeze
 
     def self.parse(fragment)
       new.parse(fragment)
     end
 
     def parse(fragment)
-      table = fragment.at_xpath("table[.//*[contains(text(), '#{HEADER_LABEL}')]]")
+      table = fragment.at_xpath("table[.//*[case_insensitive_contains(text(), '#{HEADER_LABEL}')]]", XpathFunctions.new)
       return self unless table
 
       # retain new lines
@@ -26,6 +26,7 @@ module DocTemplate
 
         element = {
           id: tag_value.parameterize,
+          title: tag_value.gsub(/^\p{Space}*/, ''),
           metadata: render_metadata(metadata),
           metacognition: render_metacognition(metacognition),
           children: []
@@ -36,7 +37,7 @@ module DocTemplate
         if tag_name.downcase.include?('group')
           @data << element
         elsif index.zero?
-          @data << { id: GENERAL_TAG, metadata: {}, metacognition: {}, children: [] }
+          @data << { id: GENERAL_TAG, title: GENERAL_TAG.humanize, metadata: {}, metacognition: {}, children: [] }
           @data.last[:children] << element
         else
           @data.last[:children] << element
@@ -48,13 +49,13 @@ module DocTemplate
     end
 
     def data
-      @data
+      @data || []
     end
 
     private
 
     def render_metadata(fragment)
-      table = fragment.at_xpath("table[.//*[contains(text(), '#{METADATA_HEADER_LABEL}')]]")
+      table = fragment.at_xpath("table[.//*[case_insensitive_contains(text(), '#{METADATA_HEADER_LABEL}')]]", XpathFunctions.new)
       return {} unless table
 
       data_collection = table.css('tr').map do |tr|
@@ -62,6 +63,7 @@ module DocTemplate
       end.compact
 
       data_collection.select(&:present?).to_h
+                     .transform_keys { |k| k.to_s.underscore }
     end
 
     def render_metacognition(fragment)

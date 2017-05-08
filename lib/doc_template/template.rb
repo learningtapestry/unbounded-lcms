@@ -1,5 +1,3 @@
-require_relative './objects/activity_metadata'
-
 module DocTemplate
   class Template
     # a registry for available tags and respective classes
@@ -28,6 +26,7 @@ module DocTemplate
     end
 
     attr_reader :activity_metadata
+    attr_reader :toc
 
     def self.parse(source)
       new.parse(source)
@@ -42,7 +41,7 @@ module DocTemplate
     end
 
     def agenda
-      @agenda.data.presence || {}
+      @agenda.data.presence || []
     end
 
     def metadata
@@ -57,10 +56,19 @@ module DocTemplate
       @metadata = MetaTable.parse(body_fragment)
       @agenda = AgendaTable.parse(body_fragment)
       @activity_metadata = ActivityTable.parse(body_fragment)
-      @root = Document.parse(body_fragment,
-                             metadata: metadata, agenda: agenda,
-                             activity: ActivityMetadata.build_from(@activity_metadata))
+      opts = meta_options
+      @root = Document.parse(body_fragment, opts)
+      @toc = DocumentTOC.parse(opts)
       self
+    end
+
+    def meta_options
+      opts_metadata = BaseMetadata.new(@metadata.data)
+      opts_agenda   = AgendaMetadata.build_from(@agenda.data)
+      opts_activity = ActivityMetadata.build_from(@activity_metadata)
+      { metadata: opts_metadata,
+        agenda:   opts_agenda,
+        activity: opts_activity }
     end
 
     def render

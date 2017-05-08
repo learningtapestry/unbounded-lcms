@@ -1,5 +1,5 @@
 .o-lesson-expand {
-  background-color: rgba(0, 166, 153, .15);
+  background-color: map-get($ub-ld-colorcodes, ela-expand-bg);
   clear: both;
 
   @include e(content) {
@@ -13,8 +13,8 @@
 
   @include e(toggler) {
     @include txt-element(button);
-    background-color: rgba(0, 166, 153, .3);
-    color: #00a699;
+    background-color: map-get($ub-ld-colorcodes, ela-toggler-bg);
+    color: map-get($ub-colorcodes, ela-base);
     cursor: pointer;
     display: block;
     padding: .75rem 0;

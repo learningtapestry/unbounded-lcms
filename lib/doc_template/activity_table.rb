@@ -13,7 +13,7 @@ module DocTemplate
       placed_sections = []
 
       [].tap do |result|
-        fragment.xpath(".//table/*/tr[1]/td//*[text() = '#{HEADER_LABEL}']").each do |el|
+        fragment.xpath(".//table/*/tr[1]/td//*[case_insensitive_equals(text(),'#{HEADER_LABEL}')]", XpathFunctions.new).each do |el|
           table = el.ancestors('table').first
           data = fetch table
 

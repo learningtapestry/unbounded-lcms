@@ -2,7 +2,7 @@
   <div class="u-text--uppercase cs-txt--math-base u-txt--title-type u-margin-bottom--xs">
     <%= @tmpl[:activity].activity_type %>
   </div>
-  <h3 class="o-ld-title c-ld-toc" data-node-time="<%= @tmpl[:activity].activity_time %>">
+  <h3 id="<%= @tmpl[:activity].id %>" class="o-ld-title c-ld-toc" data-node-time="<%= @tmpl[:activity].activity_time %>">
     <span class="o-ld-title__title o-ld-title__title--h3"><%= @tmpl[:activity].activity_title %>
       <% if @tmpl[:activity].activity_priority.present? %>
         <span class="o-ld-icon o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>"></span>

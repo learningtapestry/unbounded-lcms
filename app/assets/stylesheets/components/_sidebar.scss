@@ -68,6 +68,13 @@
   }
 }
 
+.o-sidebar-nav-item {
+  @include e(time) {
+    float: right;
+    font-style: italic;
+  }
+}
+
 //TODO - refactor sidebar classes
 .o-sidebar-nav {
   @include menu-base;

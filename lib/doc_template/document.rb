@@ -44,7 +44,7 @@ module DocTemplate
     end
 
     def ela_6_teacher_guidance(metadata)
-      @data = metadata.slice(*%w(description materials preparation))
+      @data = metadata
       template_name = File.join Rails.root, 'lib', 'doc_template', 'templates', 'ela-6-teacher-guidance.html.erb'
       template = File.read template_name
       ERB.new(template).result(binding)

@@ -1,3 +1,5 @@
+require 'doc_template'
+
 class LessonDocumentForm
   include Virtus.model
   include ActiveModel::Model
@@ -41,6 +43,8 @@ class LessonDocumentForm
       @lesson.metadata = parsed_document.metadata
       # add activities metadata
       @lesson.update activity_metadata: parsed_document.activity_metadata
+      # add toc
+      @lesson.toc = parsed_document.toc
 
       @lesson.save
     rescue => e
