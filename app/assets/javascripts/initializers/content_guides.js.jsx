@@ -121,7 +121,7 @@ $(function () {
 
   window.initializeContentGuide = function() {
     if (!$('.o-page--cg').length) return;
-    const headings = $.makeArray($('.c-cg-heading'));
+    const headings = $.makeArray($('.c-cg-heading, .c-ld-toc'));
     clearStates();
     initSticky();
     initTopScrollButton();

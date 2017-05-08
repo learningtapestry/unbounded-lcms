@@ -1,3 +1,7 @@
+.c-cg-lesson-hero {
+  @include flex-grid-column(12, 2 * 1.5rem);
+}
+
 .c-cg-lesson {
   padding-bottom: $ub-large-padding * 2;
   padding-top: $ub-xlarge-padding;

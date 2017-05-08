@@ -1,0 +1,13 @@
+<li class="o-sidebar-nav__item">
+  <%= link_to '', class: "o-sidebar-nav__item--level#{heading.level}" do %>
+    <% if heading.children.any? %>
+      <div class=o-sidebar-nav__item__icon>▸</div>
+    <% end %>
+    <div href="#<%= heading.id %>" class="o-sidebar-nav__item__content"><%= heading.title %></div>
+  <% end %>
+  <ul class="o-sidebar-nav menu vertical nested">
+    <% heading.children.each do |heading| %>
+      <%= render 'nav_item_modal', heading: heading %>
+    <% end %>
+  </ul>
+</li>

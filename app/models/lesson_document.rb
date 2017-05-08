@@ -4,6 +4,7 @@ class LessonDocument < ActiveRecord::Base
   before_save :set_resource_from_metadata
 
   store_accessor :metadata
+  serialize :toc, DocTemplate::TOCMetadata
 
   def file_url
     "https://docs.google.com/document/d/#{file_id}"

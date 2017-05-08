@@ -1,16 +1,19 @@
-<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= lesson_document.metadata['subject'] %>" data-scroll="cg-page" id="cg-page">
-  <div class="o-page__module c-ch-hero">
-    <div class="o-page__wrap--row">
-      <div class="c-cg-hero__body cs-bg--<%= lesson_document.metadata['grade'] %>">
-        <div class=c-cg-teaser><%= lesson_document.metadata['teaser'] %></div>
-        <h1 class=c-cg-title><%= simple_format lesson_document.metadata['title'] %></h1>
-      </div>
+<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= lesson_document.metadata['subject'].downcase %>" data-scroll="cg-page" id="cg-page">
+  <%if @lesson_document.resource %>
+    <div class="o-page__module u-margin-bottom--gutter">
+      <%= link_to [@lesson_document.resource], class: 'o-btn o-btn--base o-btn--xs-full' do %>
+        <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Resource page
+      <% end %>
     </div>
+  <% end %>
+  <div class="c-cg-lesson-hero u-pd-content--xlarge cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base">
+    <div class=c-cg-teaser><%= lesson_document.metadata['teaser'] %></div>
+    <h1 class=c-cg-title><%= simple_format lesson_document.metadata['title'] %></h1>
   </div>
-  <div class="o-page__module u-bg--light">
+  <div class="o-page__module u-bg--light c-cg-lesson">
     <div class="o-page__wrap--row">
       <div class="c-cg-lesson__sidebar">
-        <%#= lesson_document_nav(lesson_document) %>
+        <%= render 'nav', lesson_document: lesson_document %>
       </div>
       <div id="c-ch-content" class="c-cg-lesson__body">
         <%= lesson_document.content.html_safe %>
@@ -18,3 +21,4 @@
     </div>
   </div>
 </div>
+<a href="#" class="o-top-scroll-button"><i class="ub-angle-down"></i></a>
