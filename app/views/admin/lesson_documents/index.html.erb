@@ -4,28 +4,32 @@
 
   <h1 class=text-center><%= t('.title') %></h1>
 
+  <%= render 'search_form' %>
+
   <div class=row>
     <div class='flex-pull-right'>
       <%= link_to t('.new_lesson'), :new_admin_lesson_document, class: 'button primary' %>
     </div>
     <table class=table>
       <tr>
+        <th>Curriculum
         <th>Resource
-        <th>Name
-        <th>Metadata
+        <th>File Name
         <th>Last Update
+        <th>
+        <th>
         <th>
       </tr>
 
       <% @lesson_documents.each do |lesson| %>
         <tr id=lesson_<%= lesson.id %>>
+          <td><%= curriculum_breadcrumbs(lesson) %>
           <td><%= link_to lesson.resource.try(:title), lesson.resource if lesson.resource %>
           <td><%= link_to lesson.name, lesson %>
-          <td><%= metadata_breadcrumbs(lesson) %>
           <td><%= lesson.updated_at.to_s %>
-          <td>
-            <%= render partial: 'admin/lesson_documents/reimport', locals: {lesson: lesson} %>
-            <%= link_to content_tag(:i, nil, class: 'fa fa-eye').html_safe, [lesson], class: 'button small', target: '_blank' %>
+          <td><%= link_to content_tag(:i, nil, class: 'fa fa-eye').html_safe, [lesson], class: 'button small', target: '_blank' %>
+          <td><%= render partial: 'admin/lesson_documents/reimport', locals: {lesson: lesson} %>
+          <td><%= button_to t('ui.delete'), admin_lesson_document_path(lesson), class: 'button small alert', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
         </tr>
       <% end %>
     </table>

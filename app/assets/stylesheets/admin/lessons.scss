@@ -1,0 +1,37 @@
+.o-admin-lessons-search {
+  border: solid 1px #ddd;
+  border-radius: 5px;
+  margin-bottom: 2em;
+  padding: 2em 1em 1em;
+
+  .row {
+    // margin-top: 1em;
+    .o-admin-ctx-filters {
+      padding-right: 2em;
+      label {
+        display: inline-block;
+        font-weight: normal;
+      }
+      input {
+        display: inline-block;
+        width: 6em;
+        margin-left: 1em;
+      }
+    }
+    // input[type=submit] { margin-left: auto; }
+  }
+  .o-admin-search-term {
+    width: 60%;
+    @include placeholder(#5a5a5a);
+  }
+  .dropdown-pane {
+    background-color: white;
+    box-shadow: 2px 2px 2px #aaa;
+  }
+
+  // #lesson-grades {
+  //   select { height: 285px; }
+  //   aside { font-size: 0.8em; }
+  // }
+  label {font-weight: bold; }
+}
