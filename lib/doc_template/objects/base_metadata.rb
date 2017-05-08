@@ -12,6 +12,6 @@ module DocTemplate
     attribute :materials, String
     attribute :preparation, String
 
-    attribute :resource_subject, String, default: -> (m, _) { m.subject.downcase }
+    attribute :resource_subject, String, default: -> (m, _) { m.subject.try(:downcase) }
   end
 end
