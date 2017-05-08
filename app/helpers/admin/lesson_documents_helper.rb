@@ -11,5 +11,4 @@ module Admin::LessonDocumentsHelper
     end.compact.join(' | ')
      "#{lesson.metadata['subject'].try(:upcase)} | #{breadcrumbs}".html_safe
   end
-
 end
