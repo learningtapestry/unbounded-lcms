@@ -48,6 +48,7 @@ class LessonDocumentForm
 
       @lesson.save
     rescue => e
+      Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
       errors.add(:link, e.message)
     end
   end
