@@ -80,7 +80,7 @@ Rails.application.routes.draw do
     resource :sketch_compiler, path: 'sketch-compiler', only: [:show] do
       post :compile
     end
-    resource :lesson_documents, only: [:index, :create, :new]
+    resources :lesson_documents, only: [:index, :create, :new]
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug

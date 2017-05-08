@@ -5,6 +5,10 @@ class LessonDocument < ActiveRecord::Base
 
   store_accessor :metadata
 
+  def file_url
+    "https://docs.google.com/document/d/#{file_id}"
+  end
+
   private
 
     def set_resource_from_metadata
