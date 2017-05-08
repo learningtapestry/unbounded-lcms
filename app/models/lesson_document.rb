@@ -23,7 +23,7 @@ class LessonDocument < ActiveRecord::Base
       subject = metadata['subject'].try(:downcase)
       grade = metadata['grade'] =~ /\d+/ ? "grade #{metadata['grade']}" : metadata['grade']
       mod = ela? ? metadata['module'] : metadata['unit']
-      mod = "module #{mod}" if mod =~ /^\d+$/
+      mod = "module #{mod}" unless mod.include?('strand')
       unit = ela? ? "unit #{metadata['unit']}" : "topic #{metadata['topic']}"
       lesson = "lesson #{metadata['lesson']}"
 
@@ -31,10 +31,10 @@ class LessonDocument < ActiveRecord::Base
     end
 
     def ela?
-      metadata['subject'] =~ /ela/
+      metadata['subject'].try(:downcase) == 'ela'
     end
 
     def math?
-      metadata['subject'] =~ /math/
+      metadata['subject'].try(:downcase) == 'math'
     end
 end
