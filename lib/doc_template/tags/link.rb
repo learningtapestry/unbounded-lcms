@@ -9,6 +9,8 @@ module DocTemplate
       self
     end
 
+    private
+
     def link(value)
       title, text = value.split(';').map &:strip
       # If we don't have a text, use the fa-book icon
