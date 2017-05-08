@@ -7,8 +7,8 @@ module DocTemplate
       activity = opts[:activity].activity_by_tag(opts[:value])
       activity_src =
         [].tap do |result|
-          while (sibling = node.next_sibling) do
-            break if sibling.content =~ /\[\s*(#{ActivityMetadataSectionTag::TAG_NAME}|#{ActivityMetadataTypeTag::TAG_NAME}|#{MaterialsTag::TAG_NAME})/
+          while (sibling = node.next_sibling)
+            break if sibling.content =~ /\[\s*(#{ActivityMetadataSectionTag::TAG_NAME}|#{ActivityMetadataTypeTag::TAG_NAME}|#{MaterialsTag::TAG_NAME})/i
             result << sibling.to_html
             sibling.remove
           end
