@@ -1,12 +1,12 @@
 module Admin::LessonDocumentsHelper
-  def metadata_breadcrumbs(lesson)
+  def curriculum_breadcrumbs(lesson)
     return unless lesson.metadata.present?
     breadcrumbs = %w(grade module topic unit lesson).map do |k|
       if lesson.metadata[k]
         if k == 'module' && lesson.metadata[k].include?('strand')
           lesson.metadata[k].gsub(' strand', '')
         else
-          "#{k.first.upcase} #{lesson.metadata[k]}"
+          "#{k.first.upcase}#{lesson.metadata[k]}"
         end
       end
     end.compact.join(' | ')
