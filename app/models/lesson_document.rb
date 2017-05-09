@@ -3,6 +3,7 @@ require 'doc_template/objects/toc_metadata'
 class LessonDocument < ActiveRecord::Base
   belongs_to :resource
 
+  before_save :clean_curriculum_metadata
   before_save :set_resource_from_metadata
 
   store_accessor :metadata
@@ -22,10 +23,7 @@ class LessonDocument < ActiveRecord::Base
 
   scope :filter_by_subject, ->(subject) { where_metadata(:subject, subject) }
 
-  scope :filter_by_grade, ->(grade) do
-    grade_value = grade.match(/grade (\d+)/).try(:[], 1) || grade
-    where_metadata(:grade, grade_value)
-  end
+  scope :filter_by_grade, ->(grade) { where_metadata(:grade, grade) }
 
   def file_url
     "https://docs.google.com/document/d/#{file_id}"
@@ -33,10 +31,23 @@ class LessonDocument < ActiveRecord::Base
 
   private
 
-    def set_resource_from_metadata
+    def clean_curriculum_metadata
       if metadata.present?
+        # downcase subjects
         metadata['subject'] = metadata['subject'].try(:downcase)
 
+        # parse to a valid GradesListHelper::GRADES value
+        metadata['grade'] = metadata['grade'] =~ /\d+/ ? "grade #{metadata['grade']}" : metadata['grade']
+
+        # store only the lesson number
+        if metadata['lesson'].present?
+          metadata['lesson'] = metadata['lesson'].match(/lesson (\d+)/i).try(:[], 1) || metadata['lesson']
+        end
+      end
+    end
+
+    def set_resource_from_metadata
+      if metadata.present?
         context = curriculum_context
         curriculum = Curriculum.find_by_context(context)
         self.resource_id = curriculum && curriculum.lesson? ? curriculum.item_id : nil
@@ -45,7 +56,7 @@ class LessonDocument < ActiveRecord::Base
 
     def curriculum_context
       subject = metadata['subject']
-      grade = metadata['grade'] =~ /\d+/ ? "grade #{metadata['grade']}" : metadata['grade']
+      grade = metadata['grade']
       mod = ela? ? metadata['module'] : metadata['unit']
       mod = "module #{mod}" unless mod.include?('strand')
       unit = ela? ? "unit #{metadata['unit']}" : "topic #{metadata['topic']}"
