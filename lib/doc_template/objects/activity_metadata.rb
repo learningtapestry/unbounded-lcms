@@ -43,8 +43,7 @@ module DocTemplate
             .group_by { |d| d['section_title'] }
             .map do |section, activity|
               activity.each do |a|
-                a['activity_time'] = '0' unless a.key?('activity_time')
-                a['activity_time'] = a['activity_time'][/\d+/].to_i || 0
+                a['activity_time'] = a['activity_time'].to_str[/\d+/].to_i || 0
               end
               { title: section,
                 time: activity.sum { |a| a['activity_time'] },

@@ -72,6 +72,21 @@
   @include e(time) {
     float: right;
     font-style: italic;
+
+    @include m(summary) {
+      font-style: normal;
+    }
+  }
+
+  @include e(hr) {
+    border-top: 2px solid $ub-hr;
+    margin: .5rem 1rem 1rem;
+  }
+
+  @include e(summary) {
+    color: $ub-hr;
+    line-height: 1.2;
+    padding: 0 1rem .5rem 0;
   }
 }
 
