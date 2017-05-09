@@ -1,29 +1,23 @@
 module DocTemplate
   class GroupTag < Tag
     TAG_NAME = 'group'.freeze
+    TEMPLATE = 'h2-header.html.erb'.freeze
 
     def parse(node, opts = {})
       group = opts[:agenda].group_by_id(opts[:value].parameterize)
       return parse_ela6(node, group) if ela6?(opts[:metadata])
-      node.replace(tag_html(group))
+      node.replace(parse_template(group, TEMPLATE))
       @result = node
       self
     end
 
     private
 
-    def tag_html(group)
-      <<-HEADER
-        <h2 id="#{group.id}" class='o-ld-title c-ld-toc u-margin-top--large' data-node-time="#{group.metadata.time}">
-          <span class='o-ld-title__title o-ld-title__title--h2'>#{group.title}</span>
-          <span class='o-ld-title__time o-ld-title__time--h2'>#{group.metadata.time} mins</span>
-        </h2>
-      HEADER
-    end
-
     def parse_ela6(node, group)
-      @result = node.ancestors('table').before(tag_html(group))
-      node.remove
+      table = node.ancestors('table')
+      @result = node.ancestors('table').before(parse_template(group, TEMPLATE))
+      # remove table if it was last group without sections in a table
+      node.ancestors('tr').first.next_element ? node.remove : table.remove
       self
     end
   end
