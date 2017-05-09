@@ -3,6 +3,7 @@ module DocTemplate
     HEADER_LABEL = '[agenda]'.freeze
     METADATA_HEADER_LABEL = 'metadata'.freeze
     GENERAL_TAG = 'general'.freeze
+    HTML_VALUE_FIELDS = %w(materials).freeze
 
     def self.parse(fragment)
       new.parse(fragment)
@@ -59,7 +60,15 @@ module DocTemplate
       return {} unless table
 
       data_collection = table.css('tr').map do |tr|
-        tr.xpath('./td').map(&:content).map(&:strip)
+        key = tr.at_xpath('./td[1]').text.strip.downcase
+        next if key.blank?
+        value = if HTML_VALUE_FIELDS.include? key
+                  tr.at_xpath('./td[2]').inner_html
+                else
+                  tr.at_xpath('./td[2]').text.strip
+                end
+
+        [key, value]
       end.compact
 
       data_collection.select(&:present?).to_h
