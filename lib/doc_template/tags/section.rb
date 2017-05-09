@@ -1,19 +1,13 @@
 module DocTemplate
   class SectionTag < Tag
-    TAG_NAME = 'section'.freeze
-    TEMPLATE = 'ela-6-section.html.erb'.freeze
+    TAG_NAME    = 'section'.freeze
+    TEMPLATE    = 'ela-6-section.html.erb'.freeze
+    TEMPLATE_H3 = 'h3-header.html.erb'.freeze
 
     def parse(node, opts = {})
       section = opts[:agenda].section_by_id(opts[:value].parameterize)
       return parse_ela6(node, section) if ela6?(opts[:metadata])
-      node.replace(
-        <<-HEADER
-          <h3 id="#{section.id}" class='o-ld-title c-ld-toc u-margin-top--large' data-node-time="#{section.metadata.time}">
-            <span class='o-ld-title__title o-ld-title__title--h3'>#{section.title}</span>
-            <span class='o-ld-title__time o-ld-title__time--h3'>#{section.metadata.time} mins</span>
-          </h3>
-        HEADER
-      )
+      node.replace(parse_template(section, TEMPLATE_H3))
       @result = node
       self
     end
@@ -38,7 +32,7 @@ module DocTemplate
         )
       )
       # remove table only if there are no more rows
-      table.remove unless content_node.next_sibling
+      table.remove unless content_node.next_element
       self
     end
 

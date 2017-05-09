@@ -13,6 +13,7 @@ module DocTemplate
     end
 
     attribute :groups, Array[Heading]
+    attribute :total_time, Integer, default: -> (t, _) { t.groups.sum(&:time) }
 
     class << self
       def dump(data)
