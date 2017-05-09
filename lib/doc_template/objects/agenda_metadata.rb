@@ -44,8 +44,7 @@ module DocTemplate
       agenda_data =
         data.map do |d|
           d[:children].each do |s|
-            s[:metadata]['time'] = '0' unless s[:metadata].key?('time')
-            s[:metadata]['time'] = s[:metadata]['time'][/\d+/].to_i || 0
+            s[:metadata]['time'] = s[:metadata]['time'].to_s[/\d+/].to_i || 0
           end
           d.deep_merge(metadata: { time: d[:children].sum { |s| s[:metadata]['time'] } })
         end

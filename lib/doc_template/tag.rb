@@ -22,9 +22,9 @@ module DocTemplate
       start_tag_index = @result.children.index(@result.at_xpath(STARTTAG_XPATH))
       end_tag_index = @result.children.index(@result.at_xpath(ENDTAG_XPATH))
       @result.children[start_tag_index..end_tag_index].each do |node|
-        # closed and opened tag in the same node case or there is other stuff after closing
-        if node.content =~ /].*\[/ || node.content =~ /]\s*[[:graph:]]+/
-          node.content = node.content.gsub(/\[?.*\]/, '')
+        # a tag followed or preceeded by anything else
+        if node.content =~ /.+\[[^\]]+\]|\[[^\]]+\].+/
+          node.content = node.content.gsub(/\[?[^\[]+\]|\[[^\]]+\]?/, '')
         else
           node.remove
         end
