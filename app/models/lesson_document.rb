@@ -37,7 +37,9 @@ class LessonDocument < ActiveRecord::Base
         metadata['subject'] = metadata['subject'].try(:downcase)
 
         # parse to a valid GradesListHelper::GRADES value
-        metadata['grade'] = metadata['grade'] =~ /\d+/ ? "grade #{metadata['grade']}" : metadata['grade']
+        /(\d+)/.match(metadata['grade']) do |m|
+          metadata['grade'] = "grade #{m[1]}"
+        end
 
         # store only the lesson number
         if metadata['lesson'].present?
