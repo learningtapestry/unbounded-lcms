@@ -22,6 +22,15 @@
       <% lesson_document.toc.groups.each do |heading| %>
         <%= render 'nav_item', heading: heading %>
       <% end %>
+      <li class=o-sidebar-nav__item><div class="o-sidebar-nav-item__hr"></div></li>
+      <li class=o-sidebar-nav__item>
+        <div class="o-sidebar-nav__item__content o-sidebar-nav__item--level1 o-sidebar-nav-item__summary">
+          Total Lesson Time
+          <span class="o-sidebar-nav-item__time o-sidebar-nav-item__time--summary">
+            <%= toc_time(lesson_document.toc.total_time) %>
+          </span>
+        </div>
+      </li>
     </ul>
   </nav>
 </div>
