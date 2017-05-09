@@ -56,19 +56,17 @@ module DocTemplate
       @metadata = MetaTable.parse(body_fragment)
       @agenda = AgendaTable.parse(body_fragment)
       @activity_metadata = ActivityTable.parse(body_fragment)
-      opts = meta_options
-      @root = Document.parse(body_fragment, opts)
-      @toc = DocumentTOC.parse(opts)
+      @toc = DocumentTOC.parse(meta_options)
+      @root = Document.parse(body_fragment, meta_options)
       self
     end
 
     def meta_options
-      opts_metadata = BaseMetadata.new(@metadata.data)
-      opts_agenda   = AgendaMetadata.build_from(@agenda.data)
-      opts_activity = ActivityMetadata.build_from(@activity_metadata)
-      { metadata: opts_metadata,
-        agenda:   opts_agenda,
-        activity: opts_activity }
+      {
+        metadata: BaseMetadata.new(@metadata.data),
+        agenda:   AgendaMetadata.build_from(@agenda.data),
+        activity: ActivityMetadata.build_from(@activity_metadata)
+      }
     end
 
     def render
