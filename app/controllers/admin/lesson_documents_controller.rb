@@ -8,9 +8,9 @@ module Admin
       @q = OpenStruct.new(params[:q])
       lessons = LessonDocument.all.order_by_curriculum.paginate(page: params[:page])
 
-      lessons = filter_by_term(lessons, @q.search_term) if @q.search_term.present?
-      lessons = filter_by_subject(lessons, @q.subject) if @q.subject.present?
-      lessons = filter_by_grade(lessons, @q.grade) if @q.grade.present?
+      lessons = lessons.filter_by_term(@q.search_term) if @q.search_term.present?
+      lessons = lessons.filter_by_subject(@q.subject) if @q.subject.present?
+      lessons = lessons.filter_by_grade(@q.grade) if @q.grade.present?
 
       @lesson_documents = lessons
     end
@@ -38,21 +38,6 @@ module Admin
 
     def lesson_form_parameters
       params.require(:lesson_document_form).permit(:link)
-    end
-
-    def filter_by_term(lessons, search_term)
-      term = "%#{search_term}%"
-      lessons.joins(:resource)
-             .where('resources.title ILIKE ? OR name ILIKE ?', term, term)
-    end
-
-    def filter_by_subject(lessons, subject)
-      lessons.where_metadata(:subject, subject)
-    end
-
-    def filter_by_grade(lessons, grade)
-      grade_value = grade.match(/grade (\d+)/).try(:[], 1) || grade
-      lessons.where_metadata(:grade, grade_value)
     end
   end
 end

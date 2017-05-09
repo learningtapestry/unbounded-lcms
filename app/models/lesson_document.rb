@@ -15,6 +15,18 @@ class LessonDocument < ActiveRecord::Base
     order(keys.map{ |k| "lesson_documents.metadata -> '#{k}'" }.join(', '))
   end
 
+  scope :filter_by_term, ->(search_term) do
+    term = "%#{search_term}%"
+    joins(:resource).where('resources.title ILIKE ? OR name ILIKE ?', term, term)
+  end
+
+  scope :filter_by_subject, ->(subject) { where_metadata(:subject, subject) }
+
+  scope :filter_by_grade, ->(grade) do
+    grade_value = grade.match(/grade (\d+)/).try(:[], 1) || grade
+    where_metadata(:grade, grade_value)
+  end
+
   def file_url
     "https://docs.google.com/document/d/#{file_id}"
   end
@@ -22,9 +34,10 @@ class LessonDocument < ActiveRecord::Base
   private
 
     def set_resource_from_metadata
-      metadata['subject'] = metadata['subject'].try(:downcase)
+      if metadata.present?
+        metadata['subject'] = metadata['subject'].try(:downcase)
 
-      if metadata.present? && context = curriculum_context
+        context = curriculum_context
         curriculum = Curriculum.find_by_context(context)
         self.resource_id = curriculum && curriculum.lesson? ? curriculum.item_id : nil
       end
