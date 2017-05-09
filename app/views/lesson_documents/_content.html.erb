@@ -4,6 +4,11 @@
       <%= link_to [@lesson_document.resource], class: 'o-btn o-btn--base o-btn--xs-full' do %>
         <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Resource page
       <% end %>
+      <% if user_signed_in? %>
+        <%= link_to [:admin, :lesson_documents], class: 'o-btn o-btn--base o-btn--xs-full' do %>
+          <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Lessons Admin
+        <% end %>
+      <% end %>
     </div>
   <% end %>
   <div class="c-cg-lesson-hero u-pd-content--xlarge cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base">

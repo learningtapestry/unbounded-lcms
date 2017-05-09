@@ -5,7 +5,14 @@ module Admin
     before_action :obtain_google_credentials, only: [:create, :new]
 
     def index
-      @lesson_documents = LessonDocument.all.order(:resource_id, updated_at: :desc).paginate(page: params[:page])
+      @q = OpenStruct.new(params[:q])
+      lessons = LessonDocument.all.order_by_curriculum.paginate(page: params[:page])
+
+      lessons = lessons.filter_by_term(@q.search_term) if @q.search_term.present?
+      lessons = lessons.filter_by_subject(@q.subject) if @q.subject.present?
+      lessons = lessons.filter_by_grade(@q.grade) if @q.grade.present?
+
+      @lesson_documents = lessons
     end
 
     def new
@@ -19,6 +26,12 @@ module Admin
       else
         render :new, alert: t('.error')
       end
+    end
+
+    def destroy
+      @lesson_document = LessonDocument.find(params[:id])
+      @lesson_document.destroy
+      redirect_to :admin_lesson_documents, notice: t('.success')
     end
 
     private
