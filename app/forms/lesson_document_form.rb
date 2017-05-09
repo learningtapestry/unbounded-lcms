@@ -42,7 +42,7 @@ class LessonDocumentForm
       # add the metadata attributes
       @lesson.metadata = parsed_document.metadata
       # add activities metadata
-      @lesson.update activity_metadata: parsed_document.activity_metadata
+      @lesson.activity_metadata = parsed_document.activity_metadata
       # add toc
       @lesson.toc = parsed_document.toc
 
@@ -50,6 +50,7 @@ class LessonDocumentForm
     rescue => e
       Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
       errors.add(:link, e.message)
+      raise
     end
   end
 end
