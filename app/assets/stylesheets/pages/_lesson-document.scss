@@ -2,10 +2,38 @@
   @include flex-grid-column(12, 2 * 1.5rem);
 }
 
+.c-ld-header {
+  @include flex-grid-row(nest);
+
+  @include e(map) {
+    @include flex-grid-column(shrink);
+    margin-top: -$ub-small-margin;
+    width: map-get($curriculum-map-width, base) + 30px;
+
+    @include breakpoint(small only) {
+      @include flex-grid-column(12);
+      text-align: center;
+    }
+  }
+  @include e(content) {
+    @include flex-grid-column;
+
+    @include breakpoint(small only) {
+      margin-top: $ub-base-margin;
+      @include flex-grid-column(12);
+    }
+  }
+
+  @include e(hr) {
+    @include add-gutter($subtype: top, $x: 4/3);
+    border-bottom: 1px solid #b2b2b2;
+  }
+}
+
 .c-cg-lesson {
+  @include add-gutter($type: padding, $subtype: top, $x: 4/3);
   color: $ub-heading-txt;
   padding-bottom: $ub-large-padding * 2;
-  padding-top: $ub-xlarge-padding;
 
   @include e(sidebar) {
     @include breakpoint(medium down) {
@@ -27,6 +55,9 @@
       @include flex-grid-column(9);
       padding: 0 2.125rem 0 2.25rem !important;
     }
+
+    h2 { clear: both; }
+    h2 { @include txt-heading(h1); }
 
     p, ol, ul {
       &, * {

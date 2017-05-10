@@ -1,0 +1,1 @@
+class DocTemplateError < StandardError; end

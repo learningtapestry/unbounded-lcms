@@ -1,29 +1,14 @@
-<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= lesson_document.metadata['subject'].downcase %>" data-scroll="cg-page" id="cg-page">
-  <%if @lesson_document.resource %>
-    <div class="o-page__module u-margin-bottom--gutter">
-      <%= link_to [@lesson_document.resource], class: 'o-btn o-btn--base o-btn--xs-full' do %>
-        <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Resource page
-      <% end %>
-      <% if user_signed_in? %>
-        <%= link_to [:admin, :lesson_documents], class: 'o-btn o-btn--base o-btn--xs-full' do %>
-          <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Lessons Admin
-        <% end %>
-      <% end %>
+<div class="o-page__module u-bg--light c-cg-lesson">
+  <div class="o-page__wrap--row">
+    <div class="c-cg-lesson__sidebar">
+      <%= render 'nav', lesson_document: lesson_document %>
     </div>
-  <% end %>
-  <div class="c-cg-lesson-hero u-pd-content--xlarge cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base">
-    <div class=c-cg-teaser><%= lesson_document.metadata['teaser'] %></div>
-    <h1 class=c-cg-title><%= simple_format lesson_document.metadata['title'] %></h1>
-  </div>
-  <div class="o-page__module u-bg--light c-cg-lesson">
-    <div class="o-page__wrap--row">
-      <div class="c-cg-lesson__sidebar">
-        <%= render 'nav', lesson_document: lesson_document %>
-      </div>
-      <div id="c-ch-content" class="c-cg-lesson__body">
-        <%= lesson_document.content.html_safe %>
-      </div>
+    <div id="c-ch-content" class="c-cg-lesson__body">
+      <% if lesson_document.description.present? %>
+        <h2>Lesson Summary</h2>
+        <p><%= raw(lesson_document.description) %></p>
+      <% end %>
+      <%= raw(lesson_document.content) %>
     </div>
   </div>
 </div>
-<a href="#" class="o-top-scroll-button"><i class="ub-angle-down"></i></a>

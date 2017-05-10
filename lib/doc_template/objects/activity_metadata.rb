@@ -1,68 +1,73 @@
 module DocTemplate
-  class ActivityMetadata
-    include Virtus.model
-
-    class Activity
+  module Objects
+    class ActivityMetadata
       include Virtus.model
 
-      attribute :activity_type, String
-      attribute :activity_title, String
-      attribute :activity_source, String
-      attribute :activity_materials, String
-      attribute :activity_standard, String
-      attribute :activity_mathematical_practice, String
-      attribute :activity_time, Integer, default: 0
-      attribute :activity_priority, Integer, default: 0
-      attribute :activity_metacognition, String
-      attribute :activity_guidance, String
-      attribute :activity_content_development_notes, String
+      class Activity
+        include Virtus.model
 
-      # aliases to build toc
-      attribute :title, String, default: ->(a, _) { a.activity_title }
-      attribute :time, Integer, default: ->(a, _) { a.activity_time }
-      attribute :id, String, default: ->(a, _) { a.activity_title.parameterize }
-      attribute :level, Integer, default: 2
-    end
+        attribute :activity_type, String
+        attribute :activity_title, String
+        attribute :activity_source, String
+        attribute :activity_materials, String
+        attribute :activity_standard, String
+        attribute :activity_mathematical_practice, String
+        attribute :activity_time, Integer, default: 0
+        attribute :activity_priority, Integer, default: 0
+        attribute :activity_metacognition, String
+        attribute :activity_guidance, String
+        attribute :activity_content_development_notes, String
 
-    class Section
-      include Virtus.model
+        # aliases to build toc
+        attribute :title, String, default: ->(a, _) { a.activity_title }
+        attribute :time, Integer, default: ->(a, _) { a.activity_time }
+        attribute :id, String, default: ->(a, _) { a.activity_title.parameterize }
+        attribute :level, Integer, default: 2
+      end
 
-      attribute :time, Integer, default: 0
-      attribute :title, String
-      attribute :children, Array[Activity]
+      class Section
+        include Virtus.model
 
-      attribute :id, String, default: ->(a, _) { a.title.parameterize }
-      attribute :level, Integer, default: 1
-    end
+        attribute :time, Integer, default: 0
+        attribute :title, String
+        attribute :children, Array[Activity]
 
-    attribute :groups, Array[Section]
+        attribute :id, String, default: ->(a, _) { a.title.parameterize }
+        attribute :level, Integer, default: 1
+      end
 
-    def self.build_from(data)
-      activity_data =
-        data.each { |d| d.transform_keys! { |k| k.to_s.underscore } }
-            .group_by { |d| d['section_title'] }
-            .map do |section, activity|
-              activity.each { |a| a['activity_time'] = a['activity_time'].to_s[/\d+/].to_i }
-              {
-                children: activity,
-                time: activity.sum { |a| a['activity_time'] },
-                title: section
-              }
-            end
-      new(groups: activity_data)
-    end
+      attribute :groups, Array[Section]
 
-    def section_by_tag(title)
-      groups.find { |s| s.title.parameterize == title }
-    end
+      def self.build_from(data)
+        activity_data =
+          data.each { |d| d.transform_keys! { |k| k.to_s.underscore } }
+              .group_by { |d| d['section_title'] }
+              .map do |section, activity|
+                activity.each { |a| a['activity_time'] = a['activity_time'].to_s[/\d+/].to_i }
+                {
+                  children: activity,
+                  time: activity.sum { |a| a['activity_time'] },
+                  title: section
+                }
+              end
+        new(groups: activity_data)
+      end
 
-    def activity_by_tag(title)
-      groups.each do |s|
-        next unless title.starts_with?(s.title.parameterize)
-        activity = s.children.find do |a|
-          "#{s.title} #{a.activity_title}".parameterize == title
+      def section_by_tag(title)
+        g = groups.find { |s| s.title.parameterize == title }
+        raise DocTemplateError, "Section #{title} not found at activity-metadata" unless g.present?
+        g
+      end
+
+      def activity_by_tag(title)
+        groups.each do |s|
+          next unless title.starts_with?(s.title.parameterize)
+          activity = s.children.find do |a|
+            "#{s.title} #{a.activity_title}".parameterize == title
+          end
+          return activity if activity
         end
-        return activity if activity
+        raise DocTemplateError, "Activity #{title} not found at activity-metadata"
       end
     end
   end
