@@ -1,9 +1,11 @@
 class ExploreCurriculumCardItem extends React.Component {
   componentDidMount() {
-    new Foundation.DropdownMenu($(this._dropdown),
-                                { 'alignment': 'right',
-                                  'forceFollow': false,
-                                  'closingTime': Modernizr.touchevents ? 0 : 5000 });
+    if (this._dropdown) {
+      new Foundation.DropdownMenu($(this._dropdown),
+                                  { 'alignment': 'right',
+                                    'forceFollow': false,
+                                    'closingTime': Modernizr.touchevents ? 0 : 5000 });
+    }
   }
 
   componentWillUnmount() {
@@ -48,7 +50,13 @@ class ExploreCurriculumCardItem extends React.Component {
 
     const cssActionClasses = classNames(
       "o-cur-card__actions",
-      {"o-cur-card__actions--short": !props.shouldItemExpand }
+      {"o-cur-card__actions--short": !props.shouldItemExpand },
+      {"u-hidden": _.includes(['grade', 'module'], props.curriculum.type)}
+    );
+
+    const cssActionDropdownClasses = classNames(
+      "o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short",
+      {"u-hidden": _.includes(['grade', 'module'], props.curriculum.type)}
     );
 
     const cssDownloadBtnClasses = classNames(
@@ -115,7 +123,7 @@ class ExploreCurriculumCardItem extends React.Component {
           <div className={`${cssHeaderClasses} u-text--uppercase hide-for-ipad`}>
             {resource.short_title}
           </div>
-          <ul className="o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short" ref={(ref) => this._dropdown = ref}>
+          <ul className={cssActionDropdownClasses} ref={(ref) => this._dropdown = ref}>
             <li>
               <a href="" data-no-turbolink="true" className="o-cur-card__ellipsis"><i className="ub-ellipsis fa-3x"></i></a>
               <ul className="menu">
