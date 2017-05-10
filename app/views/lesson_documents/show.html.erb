@@ -1,3 +1,14 @@
 <% set_page_title @lesson_document.metadata['title'].to_s.html_safe %>
 
-<%= render partial: 'lesson_documents/content', locals: {lesson_document: @lesson_document} %>
+<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @lesson_document.subject %>" data-scroll="cg-page" id="cg-page">
+  <%if user_signed_in? %>
+    <div class="o-page__module u-margin-bottom--gutter">
+      <%= link_to [:admin, :lesson_documents], class: 'o-btn o-btn--base o-btn--xs-full' do %>
+        <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Lessons Admin
+      <% end %>
+    </div>
+  <% end %>
+  <%= render 'header', lesson_document: @lesson_document, curriculum: @curriculum, props: @props if @curriculum.present? %>
+  <%= render 'content', lesson_document: @lesson_document %>
+</div>
+<a href="#" class="o-top-scroll-button"><i class="ub-angle-down"></i></a>
