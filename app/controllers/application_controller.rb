@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   # require auth for acessing the pilot
-  http_basic_authenticate_with name: ENV['HTTP_AUTH_NAME'], password: ENV['HTTP_AUTH_PASS'] if Rails.env.production?
+  before_action :pilot_authentication if Rails.env.production?
 
   rescue_from ActiveRecord::RecordNotFound do
     render 'pages/not_found', status: :not_found
@@ -14,5 +14,15 @@ class ApplicationController < ActionController::Base
   def t(key, options = {})
     options[:raise] = true
     translate(key, options)
+  end
+
+  protected
+
+  def pilot_authentication
+    if request.html?
+      authenticate_or_request_with_http_basic('Administration') do |username, password|
+        username ==  ENV['HTTP_AUTH_NAME'] && password == ENV['HTTP_AUTH_PASS']
+      end
+    end
   end
 end
