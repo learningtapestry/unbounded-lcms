@@ -42,12 +42,12 @@ module DocTemplate
         data.each { |d| d.transform_keys! { |k| k.to_s.underscore } }
             .group_by { |d| d['section_title'] }
             .map do |section, activity|
-              activity.each do |a|
-                a['activity_time'] = a['activity_time'].to_str[/\d+/].to_i || 0
-              end
-              { title: section,
+              activity.each { |a| a['activity_time'] = a['activity_time'].to_s[/\d+/].to_i }
+              {
+                children: activity,
                 time: activity.sum { |a| a['activity_time'] },
-                children: activity }
+                title: section
+              }
             end
       new(groups: activity_data)
     end
