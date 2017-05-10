@@ -17,10 +17,13 @@ module DocTemplate
         # skip invalid tags (not closing)
         next if FULL_TAG.match(tag_node.text).nil?
 
-        tag_name, tag_value = FULL_TAG.match(tag_node.text).captures
-        next unless (tag = registered_tags[tag_name.downcase])
+        # how many open tags are in the current node?
+        node.text.count('[').times do
+          tag_name, tag_value = FULL_TAG.match(tag_node.text).captures
+          next unless (tag = registered_tags[tag_name.downcase])
 
-        tag.parse(tag_node, @opts.merge(value: tag_value)).render
+          tag.parse(tag_node, @opts.merge(value: tag_value)).render
+        end
       end
 
       add_custom_nodes unless opts.key?(:level)
