@@ -13,7 +13,7 @@ module DocTemplate
       @nodes.xpath(ROOT_XPATH + STARTTAG_XPATH).each do |node|
         # identify the tag, take the siblings or enclosing and send it to the
         # relative tag class to render it
-        tag_node = node.parent
+        next unless (tag_node = node.parent)
         # skip invalid tags (not closing)
         next if FULL_TAG.match(tag_node.text).nil?
 
