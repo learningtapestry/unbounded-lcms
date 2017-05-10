@@ -22,9 +22,18 @@ module DocTemplate
       start_tag_index = @result.children.index(@result.at_xpath(STARTTAG_XPATH))
       end_tag_index = @result.children.index(@result.at_xpath(ENDTAG_XPATH))
       @result.children[start_tag_index..end_tag_index].each do |node|
-        # a tag followed or preceeded by anything else
         if node.content =~ /.+\[[^\]]+\]|\[[^\]]+\].+/
-          node.content = node.content.gsub(/\[?[^\[]+\]|\[[^\]]+\]?/, '')
+          # a tag followed or preceeded by anything else
+          # removes the tag itself - everything between `[` and `]`
+          node.content = node.content.gsub(/\[?[^\[]+\]|\[[^\]]+\]/, '')
+        elsif (data = node.content.match /^([^\[]*)\[|\]([^\[]*)$/)
+          # if node contains open or closing tag bracket with general
+          # text outside the bracket itself
+          if (new_content = data[1].presence || data[2]).blank?
+            node.remove
+          else
+            node.content = new_content
+          end
         else
           node.remove
         end
