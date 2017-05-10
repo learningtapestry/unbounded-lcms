@@ -10,7 +10,8 @@ class HtmlSanitizer
         attributes: {
           'a'    => %w(href title data-toggle id),
           'img'  => %w(src alt),
-          'ol'   => %w(type style),
+          'ol'   => %w(type style start),
+          'ul'   => %w(type style start),
           'p'    => %w(style),
           'span' => %w(style),
           'td'   => %w(colspan rowspan),

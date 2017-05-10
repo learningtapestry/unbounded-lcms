@@ -27,8 +27,14 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     object.id
   end
 
+  def ld_metadata
+    return nil unless object.resource.lesson_document.present?
+    @ld_metadata ||= LessonDocumentPresenter.new(object.resource.lesson_document)
+                                            .ld_metadata
+  end
+
   def title
-    object.resource.title
+    ld_metadata.try(:title) || object.resource.title
   end
 
   def short_title
@@ -36,7 +42,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def teaser
-    object.resource.teaser
+    ld_metadata.try(:teaser) || object.resource.teaser
   end
 
   def time_to_teach

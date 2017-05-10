@@ -56,7 +56,7 @@
       padding: 0 2.125rem 0 2.25rem !important;
     }
 
-    h2 { clear: both; }
+    h2, h3 { clear: both; }
     h2 { @include txt-heading(h1); }
 
     p, ol, ul {
