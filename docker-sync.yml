@@ -1,0 +1,9 @@
+version: "2"
+options:
+  verbose: true
+syncs:
+  unbounded-native-osx-sync:
+    src: '.'
+    sync_strategy: 'native_osx'
+    sync_excludes: []
+

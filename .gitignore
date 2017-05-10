@@ -58,3 +58,4 @@ node_modules
 # simplecov reports
 coverage
 .pryrc
+.docker-sync/
