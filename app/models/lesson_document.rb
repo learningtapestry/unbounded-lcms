@@ -1,5 +1,3 @@
-require 'doc_template/objects/toc_metadata'
-
 class LessonDocument < ActiveRecord::Base
   belongs_to :resource
 
@@ -7,7 +5,7 @@ class LessonDocument < ActiveRecord::Base
   before_save :set_resource_from_metadata
 
   store_accessor :metadata
-  serialize :toc, DocTemplate::TOCMetadata
+  serialize :toc, DocTemplate::Objects::TOCMetadata
 
   scope :where_metadata, ->(key, val) { where('metadata @> hstore(:key, :val)', key: key, val: val) }
 
@@ -27,6 +25,14 @@ class LessonDocument < ActiveRecord::Base
 
   def file_url
     "https://docs.google.com/document/d/#{file_id}"
+  end
+
+  def ela?
+    metadata['subject'].try(:downcase) == 'ela'
+  end
+
+  def math?
+    metadata['subject'].try(:downcase) == 'math'
   end
 
   private
@@ -65,13 +71,5 @@ class LessonDocument < ActiveRecord::Base
       lesson = "lesson #{metadata['lesson']}"
 
       {subject: subject, grade: grade, module: mod, unit: unit, lesson: lesson}
-    end
-
-    def ela?
-      metadata['subject'].try(:downcase) == 'ela'
-    end
-
-    def math?
-      metadata['subject'].try(:downcase) == 'math'
     end
 end
