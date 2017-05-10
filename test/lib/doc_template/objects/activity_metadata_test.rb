@@ -1,9 +1,9 @@
 require 'test_helper'
 require 'doc_template/objects/activity_metadata'
 
-describe DocTemplate::ActivityMetadata do
+describe DocTemplate::Objects::ActivityMetadata do
   describe '.build_from' do
-    subject { DocTemplate::ActivityMetadata.build_from(activity_table) }
+    subject { DocTemplate::Objects::ActivityMetadata.build_from(activity_table) }
 
     describe 'empty data' do
       let(:activity_table)  { [] }

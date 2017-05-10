@@ -63,9 +63,9 @@ module DocTemplate
 
     def meta_options
       {
-        metadata: BaseMetadata.new(@metadata.data),
-        agenda:   AgendaMetadata.build_from(@agenda.data),
-        activity: ActivityMetadata.build_from(@activity_metadata)
+        metadata: Objects::BaseMetadata.new(@metadata.data),
+        agenda:   Objects::AgendaMetadata.build_from(@agenda.data),
+        activity: Objects::ActivityMetadata.build_from(@activity_metadata)
       }
     end
 

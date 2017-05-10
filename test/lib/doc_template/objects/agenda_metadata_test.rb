@@ -1,9 +1,9 @@
 require 'test_helper'
 require 'doc_template/objects/agenda_metadata'
 
-describe DocTemplate::AgendaMetadata do
+describe DocTemplate::Objects::AgendaMetadata do
   describe '.build_from' do
-    subject { DocTemplate::AgendaMetadata.build_from(agenda_table) }
+    subject { DocTemplate::Objects::AgendaMetadata.build_from(agenda_table) }
 
     describe 'empty data' do
       let(:agenda_table)  { [] }

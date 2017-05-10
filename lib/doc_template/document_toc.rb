@@ -7,8 +7,8 @@ module DocTemplate
 
     def self.parse(opts = {})
       subject = opts[:metadata].subject.try(:downcase)
-      return TOCMetadata.new unless REGISTERED_SUBJECTS.key?(subject)
-      TOCMetadata.new(opts[REGISTERED_SUBJECTS[subject]])
+      return Objects::TOCMetadata.new unless REGISTERED_SUBJECTS.key?(subject)
+      Objects::TOCMetadata.new(opts[REGISTERED_SUBJECTS[subject]])
     end
   end
 end
