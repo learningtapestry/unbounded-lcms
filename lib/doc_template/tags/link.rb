@@ -2,7 +2,8 @@ module DocTemplate
   class LinkTag < Tag
     def parse(node, opts = {})
       # preserve the node content and replace only the tag by the link
-      content = node.content.gsub /\[#{self.class::TAG_NAME}: .*\]/i, link(opts[:value])
+      content = node.content.gsub("\n", '<br />')
+                            .gsub(/\[#{self.class::TAG_NAME}: .*\]/i, link(opts[:value]))
       node.replace content
 
       @result = node
@@ -14,7 +15,7 @@ module DocTemplate
     def link(value)
       title, text = value.split(';').map &:strip
       # If we don't have a text, use the fa-book icon
-      text ||= '<i class="fa fa-book"></i>'
+      text = text.present? ? "<b>#{text}</b>" : '<i class="fa fa-book"></i>'
 
       # TODO: get links from mapping, as metioned here:
       # https://github.com/learningtapestry/unbounded/issues/78
