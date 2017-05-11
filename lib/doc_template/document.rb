@@ -19,7 +19,10 @@ module DocTemplate
 
         # how many open tags are in the current node?
         node.text.count('[').times do
-          tag_name, tag_value = FULL_TAG.match(tag_node.text).captures
+          matches = FULL_TAG.match(tag_node.text)
+          break if matches.nil?
+
+          tag_name, tag_value = matches.captures
           next unless (tag = registered_tags[tag_name.downcase])
 
           tag.parse(tag_node, @opts.merge(value: tag_value)).render
