@@ -29,6 +29,7 @@ class HtmlSanitizer
           # TODO need to change parsing tags xpath before, it's relying on spans
           # method(:remove_spans_wo_attrs)
           method(:remove_gdocs_suggestions),
+          method(:replace_charts_urls),
         ]
       }
     end
@@ -76,6 +77,13 @@ class HtmlSanitizer
         rescue
           a.ancestors('div').first.remove
         end
+      end
+    end
+
+    def replace_charts_urls(env)
+      node = env[:node]
+      node.css('img[src^="https://www.google.com/chart"]').each do |img|
+        img[:src] = img[:src].gsub('www.google', 'chart.googleapis')
       end
     end
   end
