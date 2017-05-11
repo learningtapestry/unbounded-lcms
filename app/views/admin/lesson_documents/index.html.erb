@@ -16,6 +16,7 @@
         <th>Resource
         <th>File Name
         <th>Last Update
+        <th>Status
         <th>
         <th>
         <th>
@@ -27,6 +28,7 @@
           <td><%= link_to lesson.resource.try(:title), lesson.resource if lesson.resource %>
           <td><%= link_to lesson.name, lesson.file_url %>
           <td><%= lesson.updated_at.to_s %>
+          <td><%= lesson.active? ? 'active' : 'inactive' %>
           <td><%= link_to content_tag(:i, nil, class: 'fa fa-eye').html_safe, [lesson], class: 'button small primary', target: '_blank', title: 'show lesson' %>
           <td><%= render partial: 'admin/lesson_documents/reimport', locals: {lesson: lesson} %>
           <td><%= button_to t('ui.delete'), admin_lesson_document_path(lesson), class: 'button small alert', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
