@@ -6,7 +6,7 @@ module DocTemplate
 
     def parse(node, opts = {})
       section = opts[:agenda].section_by_id(opts[:value].parameterize)
-      return parse_ela6(node, section) if ela6?(opts[:metadata])
+      return parse_ela6(node, section, opts) if ela6?(opts[:metadata])
       node.replace(parse_template(section, TEMPLATE_H3))
       @result = node
       self
@@ -14,7 +14,7 @@ module DocTemplate
 
     private
 
-    def parse_ela6(node, section)
+    def parse_ela6(node, section, opts)
       table = node.ancestors('table').first
       return self unless table.present?
       # section is in same cell as content
@@ -28,7 +28,8 @@ module DocTemplate
           parse_template({ section: section,
                            content: content,
                            blockquote: strip_quote(blockquote) },
-                         TEMPLATE)
+                         TEMPLATE),
+          opts
         )
       )
       # remove table only if there are no more rows
