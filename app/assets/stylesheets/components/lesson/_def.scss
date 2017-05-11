@@ -1,0 +1,17 @@
+.c-lesson-keyword {
+  cursor: help;
+  font-weight: bold !important;
+  white-space: nowrap;
+}
+
+.c-lesson-dropdown {
+  background: #fff8e5;
+  border: none;
+  font-size: 1rem !important;
+  line-height: 1.2 !important;
+  padding: 1rem;
+
+  * {
+    word-wrap: break-word;
+  }
+}
