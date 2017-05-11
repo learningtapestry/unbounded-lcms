@@ -3,7 +3,7 @@ module DocTemplate
     include ERB::Util
 
     TAG_NAME = 'vocabulary'.freeze
-    TEMPLATE = 'vocabulary.html.erb'
+    TEMPLATE = 'vocabulary.html.erb'.freeze
 
     def parse(node, opts = {})
       return self unless (table = node.ancestors('table').first)

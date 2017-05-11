@@ -4,7 +4,7 @@ module DocTemplate
 
     TAG_NAME = 'def'.freeze
     TAG_SEPARATOR = '[separator]'.freeze
-    TEMPLATE = 'def.html.erb'
+    TEMPLATE = 'def.html.erb'.freeze
 
     def parse(node, opts = {})
       # preserving text around tag

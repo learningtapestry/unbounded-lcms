@@ -56,6 +56,7 @@ module DocTemplate
       @metadata = MetaTable.parse(body_fragment)
       @agenda = AgendaTable.parse(body_fragment)
       @activity_metadata = ActivityTable.parse(body_fragment)
+      FoundationalMetaTable.parse(body_fragment)
       @toc = DocumentTOC.parse(meta_options)
       @root = Document.parse(body_fragment, meta_options)
       self

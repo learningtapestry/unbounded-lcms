@@ -4,11 +4,12 @@ module DocTemplate
 
     BREAK_TAG_NAME = 'break'.freeze
     TAG_NAME = 'expand'.freeze
-    TEMPLATE = 'expand.html.erb'
+    TEMPLATE = 'expand.html.erb'.freeze
 
     def parse(node, opts = {})
       return self unless (table = node.ancestors('table').first)
 
+      @subject = (opts[:metadata].try(:[], 'subject').presence || 'ela').downcase
       @content, @content_hidden = fetch_content table
 
       # we should replace the whole table with new content
