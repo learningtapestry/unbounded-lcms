@@ -6,8 +6,9 @@ module Admin
 
     def index
       @q = OpenStruct.new(params[:q])
-      lessons = LessonDocument.all.order_by_curriculum.paginate(page: params[:page])
+      lessons = LessonDocument.all.order_by_curriculum.order(active: :desc).paginate(page: params[:page])
 
+      lessons = lessons.actives unless @q.inactive == '1'
       lessons = lessons.filter_by_term(@q.search_term) if @q.search_term.present?
       lessons = lessons.filter_by_subject(@q.subject) if @q.subject.present?
       lessons = lessons.filter_by_grade(@q.grade) if @q.grade.present?

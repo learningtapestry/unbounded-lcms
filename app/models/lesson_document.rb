@@ -7,6 +7,9 @@ class LessonDocument < ActiveRecord::Base
   store_accessor :metadata
   serialize :toc, DocTemplate::Objects::TOCMetadata
 
+  scope :actives,   ->{ where(active: true) }
+  scope :inactives, ->{ where(active: false) }
+
   scope :where_metadata, ->(key, val) { where('metadata @> hstore(:key, :val)', key: key, val: val) }
 
   scope :order_by_curriculum, -> do
@@ -33,6 +36,18 @@ class LessonDocument < ActiveRecord::Base
 
   def math?
     metadata['subject'].try(:downcase) == 'math'
+  end
+
+  def activate!
+    self.class.transaction do
+      # deactive all other lessons for this resource
+      self.class.where(resource_id: resource_id)
+                .where.not(id: self.id)
+                .update_all active: false
+      # activate this lesson
+      # obs: were we want a simple sql update statement, without rails callbacks
+      update_columns active: true
+    end
   end
 
   private
