@@ -24,6 +24,10 @@
     width: 60%;
     @include placeholder(#5a5a5a);
   }
+  .input.boolean.q_inactive {
+    margin-bottom: 0.75em;
+    label { font-weight: normal; }
+  }
   .dropdown-pane {
     background-color: white;
     box-shadow: 2px 2px 2px #aaa;

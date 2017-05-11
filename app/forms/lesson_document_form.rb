@@ -46,7 +46,7 @@ class LessonDocumentForm
       # add toc
       @lesson.toc = parsed_document.toc
 
-      @lesson.save
+      @lesson.save && @lesson.activate!
     rescue => e
       Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
       errors.add(:link, e.message)
