@@ -1,0 +1,21 @@
+<p>
+  <% id = "cg-k_#{SecureRandom.hex(4)}" %>
+  <% if @data[:prepend] %>
+    <span><%= @data[:prepend] %></span>
+  <% end %>
+  <span class="c-lesson-keyword" data-toggle="<%= id %>">(<%= @standard_shortcut %>)</span>
+  <% if @description.present? && @definition.present? %>
+    <span class="dropdown-pane c-lesson-dropdown"
+    data-dropdown
+    data-hover="true"
+    data-hover-delay="0"
+    data-hover-pane="true"
+    id="<%= id %>">
+      <span><%= @definition %></span>
+      <span><%= @description %></span>
+    </span>
+  <% end %>
+  <% if @data[:append] %>
+    <span><%= @data[:append] %></span>
+  <% end %>
+</p>

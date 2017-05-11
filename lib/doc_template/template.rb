@@ -18,6 +18,10 @@ module DocTemplate
         @tags[tag_name] = klass
       end
 
+      def keys
+        @tags.keys
+      end
+
       private
 
       def load_class(klass_name)
@@ -33,7 +37,8 @@ module DocTemplate
     end
 
     def self.register_tag(name, klass)
-      self.tags[name.to_s] = klass
+      key = name.is_a?(Regexp) ? name : name.to_s
+      tags[key] = klass
     end
 
     def self.tags
