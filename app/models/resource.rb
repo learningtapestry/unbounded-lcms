@@ -318,7 +318,7 @@ class Resource < ActiveRecord::Base
   end
 
   def lesson_document
-    lesson_documents.order(updated_at: :desc).first
+    lesson_documents.actives.order(updated_at: :desc).first
   end
 
   private

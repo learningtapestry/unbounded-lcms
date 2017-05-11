@@ -25,6 +25,7 @@
                           collection: GradeListHelper::GRADES,
                           label_method: :humanize %>
     </div>
+    <%= f.input :inactive, label: 'Show inactive', required: false, as: :boolean %>
 
     <%= f.button :submit, t('ui.search'), class: 'o-admin-search-submit primary', name: nil %>
   </div>
