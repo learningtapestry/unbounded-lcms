@@ -1,5 +1,12 @@
 .o-lesson-expand {
-  background-color: map-get($ub-ld-colorcodes, ela-expand-bg);
+  &.o-lesson-expand-math {
+    background-color: map-get($ub-ld-colorcodes, math-expand-bg);
+  }
+
+  &.o-lesson-expand-ela {
+    background-color: map-get($ub-ld-colorcodes, ela-expand-bg);
+  }
+
   clear: both;
 
   @include e(content) {
@@ -13,8 +20,6 @@
 
   @include e(toggler) {
     @include txt-element(button);
-    background-color: map-get($ub-ld-colorcodes, ela-toggler-bg);
-    color: map-get($ub-colorcodes, ela-base);
     cursor: pointer;
     display: block;
     padding: .75rem 0;
@@ -23,5 +28,15 @@
     @include m(hide) {
       display: none;
     }
+  }
+
+  @include e(ela-toggler) {
+    background-color: map-get($ub-ld-colorcodes, ela-toggler-bg);
+    color: map-get($ub-colorcodes, ela-base);
+  }
+
+  @include e(math-toggler) {
+    background-color: map-get($ub-ld-colorcodes, math-toggler-bg);
+    color: map-get($ub-colorcodes, math-base);
   }
 }

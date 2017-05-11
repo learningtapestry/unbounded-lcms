@@ -1,6 +1,8 @@
 $ub-ld-colorcodes: (
-  math-activity-bg: transparentize(map-get($ub-colorcodes, math-base), .85),
   ela-expand-bg: transparentize(map-get($ub-colorcodes, ela-base), .85),
   ela-toggler-bg: transparentize(map-get($ub-colorcodes, ela-base), .7),
   ela6-section-bg: transparentize(map-get($ub-colorcodes, ela-base), .85),
+  math-activity-bg: transparentize(map-get($ub-colorcodes, math-base), .85),
+  math-expand-bg: transparentize(map-get($ub-colorcodes, math-base), .85),
+  math-toggler-bg: transparentize(map-get($ub-colorcodes, math-base), .7)
 )
