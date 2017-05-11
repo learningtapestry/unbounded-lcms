@@ -2,8 +2,7 @@ module DocTemplate
   class LinkTag < Tag
     def parse(node, opts = {})
       # preserve the node content and replace only the tag by the link
-      content = node.content.gsub("\n", '<br />')
-                            .gsub(/\[#{self.class::TAG_NAME}: .*\]/i, link(opts[:value]))
+      content = node.to_s.gsub /\[#{self.class::TAG_NAME}: .*\]/i, link(opts)
       node.replace content
 
       @result = node
@@ -12,16 +11,26 @@ module DocTemplate
 
     private
 
-    def link(value)
-      title, text = value.split(';').map &:strip
+    def link(opts)
+      title, text = opts[:value].split(';').map &:strip
       # If we don't have a text, use the fa-book icon
       text = text.present? ? "<b>#{text}</b>" : '<i class="fa fa-book"></i>'
-
-      # TODO: get links from mapping, as metioned here:
-      # https://github.com/learningtapestry/unbounded/issues/78
-      href = '#'
+      href = build_href(title, opts[:metadata])
 
       "<a href=\"#{href}\" target=\"_blank\" title=\"#{title}\">#{text}</a>"
+    end
+
+    def build_href(title, metadata)
+      return '#' unless metadata
+
+      path = [:subject, :grade, :module, :unit, :topic].map do |key|
+        if metadata[key].present?
+          # if its a number return `key-number` else return the parameterized value
+          /^(\d+)$/.match(metadata[key]){ |num| "#{key}-#{num}" } || metadata[key].try(:parameterize)
+        end
+      end.compact.join('/')
+      filename = title.ends_with?('.pdf') ? title : "#{title}.pdf"
+      "https://unbounded-supplemental-materials.s3.amazonaws.com/#{path}/#{filename}"
     end
   end
 
