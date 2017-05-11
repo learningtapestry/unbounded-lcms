@@ -3,6 +3,13 @@ class ResourcesController < ApplicationController
 
   def show
     find_resource_and_curriculum
+
+    # redirect grade and module to explore_curriculum
+    # according to issue #122
+    if @curriculum.grade? || @curriculum.module?
+      return redirect_to explore_curriculum_index_path(p: @curriculum.slug.value, e: 1)
+    end
+
     if params[:id].present? && slug = @curriculum.slug
       return redirect_to show_with_slug_path(slug.value), status: 301
     end
