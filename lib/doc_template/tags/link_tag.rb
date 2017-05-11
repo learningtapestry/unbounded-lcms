@@ -21,8 +21,13 @@ module DocTemplate
     end
 
     def build_href(title, metadata)
+      # if the first param is a url, then use it directly
+      return title if title =~ URI::regexp
+
+      # if we don't have proper metadata info, just use a placeholder
       return '#' unless metadata
 
+      # build the path for unbounded-supplemental-materials on s3
       path = [:subject, :grade, :module, :unit, :topic].map do |key|
         if metadata[key].present?
           # if its a number return `key-number` else return the parameterized value
