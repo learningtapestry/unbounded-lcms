@@ -3,7 +3,7 @@ module DocTemplate
     include ERB::Util
 
     TAG_NAME = 'image'.freeze
-    TEMPLATE = 'image.html.erb'
+    TEMPLATE = 'image.html.erb'.freeze
 
     def parse(node, opts = {})
       return self unless (table = node.ancestors('table').first)

@@ -14,7 +14,7 @@ module DocTemplate
                     end
                   end.join
 
-      node.replace(parse_template(parse_nested(content), TEMPLATE))
+      node.replace(parse_template(parse_nested(content, opts), TEMPLATE))
       @result = node
       self
     end
