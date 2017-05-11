@@ -13,7 +13,7 @@ module DocTemplate
             sibling.remove
           end
         end.join
-      activity_src = parse_nested(activity_src)
+      activity_src = parse_nested(activity_src, opts)
       @result = node.replace(parse_template({ source: activity_src, activity: activity }, TEMPLATE))
       self
     end
