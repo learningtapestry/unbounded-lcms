@@ -13,13 +13,13 @@ module DocTemplate
         @subject = (opts[:metadata].try(:[], 'subject').presence || 'ela').downcase
         @content, @content_hidden = fetch_content table
 
-      # we should replace the whole table with new content
-      template = File.read template_path(TEMPLATE)
-      content = ERB.new(template).result(binding)# Handle internal tags
-      table.replace parse_nested(content)
-      @result = table
-      self
-    end
+        # we should replace the whole table with new content
+        template = File.read template_path(TEMPLATE)
+        content = ERB.new(template).result(binding) # Handle internal tags
+        table.replace parse_nested(content)
+        @result = table
+        self
+      end
 
       private
 
