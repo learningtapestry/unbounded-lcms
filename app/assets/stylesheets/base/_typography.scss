@@ -137,6 +137,7 @@ $ub-element-typography: (
   ld-activity-h3time: ('font-size': 16px, 'line-height': 1, 'font-family': $ub-sanserif, 'font-weight': bold, 'font-style': italic),
   ld-activity-teaser: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif, font-style: italic),
   ld-callout-header: ('font-size': 20px, 'line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, font-style: normal),
+  ld-optbreak: ('font-size': 20px, 'line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, font-style: normal),
 );
 
 @each $element, $typo in $ub-element-typography {

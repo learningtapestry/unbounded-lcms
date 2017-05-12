@@ -56,6 +56,11 @@ module DocTemplate
           end
         new(set_index(children: agenda_data))
       end
+
+      def add_break(group)
+        idx = children.index { |c| c.idx == group.idx }
+        children.insert(idx, Group.new(title: 'optbreak', anchor: 'optbreak', time: 0, children: []))
+      end
     end
   end
 end
