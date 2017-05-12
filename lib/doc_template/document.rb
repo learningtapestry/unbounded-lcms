@@ -13,6 +13,7 @@ module DocTemplate
       @nodes.xpath(ROOT_XPATH + STARTTAG_XPATH).each do |node|
         # identify the tag, take the siblings or enclosing and send it to the
         # relative tag class to render it
+
         next unless (tag_node = node.parent)
         # skip invalid tags (not closing)
         next if FULL_TAG.match(tag_node.text).nil?
@@ -23,7 +24,7 @@ module DocTemplate
           break if matches.nil?
 
           tag_name, tag_value = matches.captures
-          next unless (tag = registered_tags[tag_name.downcase])
+          tag = registered_tags[tag_name.downcase]
 
           tag.parse(tag_node, @opts.merge(value: tag_value)).render
         end
