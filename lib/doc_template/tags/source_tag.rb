@@ -1,13 +1,15 @@
 module DocTemplate
-  class SourceTag < Tag
-    TAG_NAME = 'source'.freeze
+  module Tags
+    class SourceTag < BaseTag
+      TAG_NAME = 'source'.freeze
 
-    def parse(node, opts = {})
-      node.remove
-      @result = ''
-      self
+      def parse(node, opts = {})
+        node.remove
+        @result = ''
+        self
+      end
     end
   end
 
-  Template.register_tag(SourceTag::TAG_NAME, SourceTag)
+  Template.register_tag(Tags::SourceTag::TAG_NAME, Tags::SourceTag)
 end
