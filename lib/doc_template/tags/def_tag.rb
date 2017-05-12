@@ -11,11 +11,12 @@ module DocTemplate
         # preserving text around tag
         # TODO: Extract to the parent class@data = {}
         @data = {}
-        if (data = node.content.sub(/\[[^\]]*\]/, TAG_SEPARATOR).split(TAG_SEPARATOR, 2))
+        if (data = node.content.sub(/\[[^\]]*\]/, TAG_SEPARATOR).split(TAG_SEPARATOR, 2).map(&:strip))
           @data[:append] = data[1]
           @data[:prepend] = data[0]
         end
 
+        @subject = (opts[:metadata].try(:[], 'subject').presence || 'ela').downcase
         @definition, @description = opts[:value].split(';').map(&:strip)
 
         template = File.read template_path(TEMPLATE)
