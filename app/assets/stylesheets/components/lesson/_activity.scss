@@ -2,8 +2,11 @@
   @include add-column-padding($x: 1);
   @include add-top-bottom-padding($y: 1);
   @include add-top-bottom-margin($y: .5);
+  @include flex;
+  @include clearfix;
   background-color: map-get($ub-ld-colorcodes, math-activity-bg);
   border-top: 4px solid map-get($ub-colorcodes, math-base);
+  flex-flow: row wrap;
 
   @include e(source) {
 
