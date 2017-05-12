@@ -1,6 +1,7 @@
 .o-ld-title {
   @include flex;
   @include flex-align($x: justify, $y: bottom);
+  width: 100%;
 
   @include e(title) {
     @include m(h2) {

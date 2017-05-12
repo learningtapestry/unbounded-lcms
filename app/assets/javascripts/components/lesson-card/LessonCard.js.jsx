@@ -10,7 +10,7 @@ function LessonCard(props) {
         </div>
         <div className="o-lesson-card__content o-lesson-card__content--base cs-bg--light">
           <h3 className="o-lesson-card__dsc o-lesson-card__dsc--short">{props.lesson.title}</h3>
-          <div className="o-lesson-card__duration">
+          <div className="o-lesson-card__duration u-hidden">
             <TimeToTeach duration={props.lesson.time_to_teach} />
           </div>
         </div>
