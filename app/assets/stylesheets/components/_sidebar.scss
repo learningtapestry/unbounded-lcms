@@ -72,6 +72,7 @@
   @include e(time) {
     float: right;
     font-style: italic;
+    text-transform: none;
 
     @include m(summary) {
       font-style: normal;
@@ -103,10 +104,20 @@
     display: flex;
   }
 
+  @include e(toggle) {
+    @include txt-element(button);
+    cursor: pointer;
+    float: right;
+    line-height: 1;
+    padding-top: 7px;
+
+    @include m(hide) { display: none; }
+  }
+
   @include e(header) {
     @include txt-element(cg-sidebar-header);
     margin-bottom: 1rem;
-    span { padding: .4rem 0 .4rem 1rem; }
+    padding: .4rem 0 .4rem 1rem;
   }
 
   @include e(sep) {
@@ -125,7 +136,9 @@
     margin-bottom: $ub-base-padding;
     padding-bottom: $ub-base-padding;
     padding-top: $ub-base-padding;
+  }
 
+  @include e(sticky-header) {
     &, * {
       @include txt-element(cg-sidebar-header);
     }

@@ -5,7 +5,7 @@ module DocTemplate
       TEMPLATE = 'h2-header.html.erb'.freeze
 
       def parse(node, opts = {})
-        section = opts[:activity].section_by_tag(opts[:value])
+        section = opts[:activity].level1_by_title(opts[:value])
         node.replace(parse_template(section, TEMPLATE))
         @result = node
         self

@@ -2,6 +2,7 @@ module DocTemplate
   module Objects
     class ActivityMetadata
       include Virtus.model
+      include DocTemplate::Objects::TocHelpers
 
       class Activity
         include Virtus.model
@@ -21,8 +22,10 @@ module DocTemplate
         # aliases to build toc
         attribute :title, String, default: ->(a, _) { a.activity_title }
         attribute :time, Integer, default: ->(a, _) { a.activity_time }
-        attribute :id, String, default: ->(a, _) { a.activity_title.parameterize }
+        attribute :anchor, String, default: ->(a, _) { "#{a.idx} #{a.activity_title}".parameterize }
+        attribute :idx, Integer
         attribute :level, Integer, default: 2
+        attribute :active, Boolean, default: false
       end
 
       class Section
@@ -32,11 +35,14 @@ module DocTemplate
         attribute :title, String
         attribute :children, Array[Activity]
 
-        attribute :id, String, default: ->(a, _) { a.title.parameterize }
+        attribute :anchor, String, default: ->(a, _) { "#{a.idx} #{a.title}".parameterize }
         attribute :level, Integer, default: 1
+        attribute :idx, Integer
+        attribute :active, Boolean, default: false
       end
 
-      attribute :groups, Array[Section]
+      attribute :children, Array[Section]
+      attribute :idx, Integer
 
       def self.build_from(data)
         activity_data =
@@ -50,24 +56,7 @@ module DocTemplate
                   title: section
                 }
               end
-        new(groups: activity_data)
-      end
-
-      def section_by_tag(title)
-        g = groups.find { |s| s.title.parameterize == title }
-        raise DocTemplateError, "Section #{title} not found at activity-metadata" unless g.present?
-        g
-      end
-
-      def activity_by_tag(title)
-        groups.each do |s|
-          next unless title.starts_with?(s.title.parameterize)
-          activity = s.children.find do |a|
-            "#{s.title} #{a.activity_title}".parameterize == title
-          end
-          return activity if activity
-        end
-        raise DocTemplateError, "Activity #{title} not found at activity-metadata"
+        new(set_index(children: activity_data))
       end
     end
   end

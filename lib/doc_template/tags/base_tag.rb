@@ -54,6 +54,11 @@ module DocTemplate
       def ela6?(metadata)
         metadata.resource_subject == 'ela' && metadata.grade == '6'
       end
+
+      def strip_html_element(element)
+        return '' if Sanitize.fragment(element, elements: []).strip.empty?
+        element
+      end
     end
   end
 end
