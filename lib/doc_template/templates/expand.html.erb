@@ -1,10 +1,10 @@
-<div class="o-lesson-expand o-lesson-expand-<%= @subject %>">
-  <div class="o-lesson-expand__content"><%= @content %></div>
+<div class="o-ld-expand o-ld-expand-<%= @subject %>">
+  <div class="o-ld-expand__content"><%= @content %></div>
   <% if @content_hidden.present? %>
-    <div class="o-lesson-expand__content--hidden"><%= @content_hidden %></div>
-    <div class="o-lesson-expand__toggler o-lesson-expand__<%= @subject %>-toggler">
-      <span class="o-lesson-expand__toggler--hide">Show less</span>
-      <span class="o-lesson-expand__toggler--show">Show more</span>
+    <div class="o-ld-expand__content--hidden"><%= @content_hidden %></div>
+    <div class="o-ld-expand__toggler o-ld-expand__<%= @subject %>-toggler">
+      <span class="o-ld-expand__toggler--hide">Show less</span>
+      <span class="o-ld-expand__toggler--show">Show more</span>
     </div>
   <% end %>
 </div>

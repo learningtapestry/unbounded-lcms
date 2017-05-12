@@ -1,16 +1,16 @@
-.o-lesson-image {
-  .o-lesson-image-clearfix {
+.o-ld-image {
+  .o-ld-image-clearfix {
     clear: both;
   }
 
-  .o-lesson-image-container {
+  .o-ld-image-container {
     background-color: map-get($ub-ld-colorcodes, default-image-bg);
 
-    &.o-lesson-image-math {
+    &.o-ld-image-math {
       background-color: map-get($ub-ld-colorcodes, math-image-bg);
     }
 
-    &.o-lesson-image-ela {
+    &.o-ld-image-ela {
       background-color: map-get($ub-ld-colorcodes, ela-image-bg);
     }
 
