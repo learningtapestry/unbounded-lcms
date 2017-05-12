@@ -10,5 +10,8 @@
   <% end %>
   <%= render 'header', lesson_document: @lesson_document, curriculum: @curriculum, props: @props if @curriculum.present? %>
   <%= render 'content', lesson_document: @lesson_document %>
+  <div class="c-footer__item u-txt--footer-links">
+    <%= @lesson_document.metadata['cc-attribution'] %>
+  </div>
 </div>
 <a href="#" class="o-top-scroll-button"><i class="ub-angle-down"></i></a>
