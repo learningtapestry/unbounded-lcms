@@ -35,6 +35,9 @@ class Admin::PagesController < Admin::AdminController
     redirect_to :admin_pages, notice: t('.success')
   end
 
+  def forthcoming
+  end
+
   private
     def find_resource
       @page = Page.find(params[:id])

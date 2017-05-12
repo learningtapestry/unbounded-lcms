@@ -1,6 +1,8 @@
 module DocTemplate
   module Tags
     class LinkTag < BaseTag
+      FORTHCOMING_PATH = '/forthcoming'
+
       def parse(node, opts = {})
         # preserve the node content and replace only the tag by the link
         content = node.to_s.gsub /\[#{self.class::TAG_NAME}: .*\]/i, link(opts)
@@ -23,7 +25,7 @@ module DocTemplate
 
       def build_href(title, metadata)
         # if the first param is a url, then use it directly
-        return title if title =~ URI::regexp
+        return title if title =~ URI::regexp || title.strip == FORTHCOMING_PATH
 
         # if we don't have proper metadata info, just use a placeholder
         return '#' unless metadata
