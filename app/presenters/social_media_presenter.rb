@@ -38,34 +38,35 @@ class SocialMediaPresenter
 
   def facebook
     @facebook ||= extend_with_default(
-      image: thumbnails[:facebook]
+      image: thumbnails[:facebook] || view.page_og_image
     )
   end
 
   def twitter
     @twitter ||= extend_with_default(
       # use same image as facebook for twitter
-      image: thumbnails[:facebook]
+      image: thumbnails[:facebook] || view.page_og_image
     )
   end
 
   def pinterest
     @pinterest ||= extend_with_default(
-      image: thumbnails[:pinterest]
+      image: thumbnails[:pinterest] || view.page_og_image
     )
   end
 
   def thumbnails
-    @thumbnails ||=  begin
-      if target
-        target.social_thumbnails.reduce({}) do |dict, thumb|
-          dict[thumb.media] = thumb.image.url + "?ts=#{Time.now.to_i}#{Random.rand(1_000_000)}"
-          dict
-        end.with_indifferent_access
-      else
-        {}
-      end
-    end
+    {}
+    # @thumbnails ||=  begin
+    #   if target
+    #     target.social_thumbnails.reduce({}) do |dict, thumb|
+    #       dict[thumb.media] = thumb.image.url + "?ts=#{Time.now.to_i}#{Random.rand(1_000_000)}"
+    #       dict
+    #     end.with_indifferent_access
+    #   else
+    #     {}
+    #   end
+    # end
   end
 
   def clean(str)
