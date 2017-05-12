@@ -24,7 +24,7 @@ module DocTemplate
           break if matches.nil?
 
           tag_name, tag_value = matches.captures
-          next unless (tag = registered_tags[tag_name.downcase])
+          next unless (tag = find_tag tag_name.downcase)
 
           tag.parse(tag_node, @opts.merge(value: tag_value)).render
         end
@@ -54,6 +54,11 @@ module DocTemplate
       template_name = File.join Rails.root, 'lib', 'doc_template', 'templates', 'ela-6-teacher-guidance.html.erb'
       template = File.read template_name
       ERB.new(template).result(binding)
+    end
+
+    def find_tag(name)
+      key = registered_tags.keys.detect { |k| k.is_a?(Regexp) ? name =~ k : k == name }
+      registered_tags[key]
     end
 
     def registered_tags
