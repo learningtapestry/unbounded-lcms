@@ -12,7 +12,7 @@ module DocTemplate
       end
 
       def parse_nested(node, opts = {})
-        Document.parse(Nokogiri::HTML(node), opts.merge(level: 1)).render
+        Document.parse(Nokogiri::HTML.fragment(node), opts.merge(level: 1)).render
       end
 
       def render
