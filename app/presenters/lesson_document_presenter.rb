@@ -1,5 +1,6 @@
 class LessonDocumentPresenter < BasePresenter
   TOPIC_FULL   = { 'ela' => 'Unit', 'math' => 'Topic' }.freeze
+  TOPIC_SHORT  = { 'ela' => 'U', 'math' => 'T' }.freeze
   SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
 
   def ld_metadata
@@ -10,12 +11,26 @@ class LessonDocumentPresenter < BasePresenter
     "#{subject}-base"
   end
 
+  def color_code_grade
+    "#{subject}-#{grade}"
+  end
+
   def full_breadcrumb
     [
       SUBJECT_FULL[subject] || subject,
       grade.to_i.zero? ? grade : "Grade #{grade}",
       ll_strand? ? ld_module : "Module #{ld_module.try(:upcase)}",
       "#{TOPIC_FULL[subject]} #{topic.try(:upcase)}",
+      "Lesson #{ld_metadata.lesson}"
+    ].join(' / ')
+  end
+
+  def short_breadcrumb
+    [
+      SUBJECT_FULL[subject] || subject,
+      grade.to_i.zero? ? grade : "G#{grade}",
+      ll_strand? ? 'LL' : "M#{ld_module.try(:upcase)}",
+      "#{TOPIC_SHORT[subject]}#{topic.try(:upcase)}",
       "Lesson #{ld_metadata.lesson}"
     ].join(' / ')
   end

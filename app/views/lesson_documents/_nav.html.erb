@@ -3,7 +3,7 @@
     <div id="cg-sidebar-xs" class="o-sidebar-xs hide-for-ipad cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base">
       <div class="o-sidebar-xs__header">
         <div class="u-txt--cg-sidebar-title-type u-text--uppercase">
-          <%= lesson_document.metadata['title'] %>
+          <%= lesson_document.short_breadcrumb %>
         </div>
         <div class="u-txt--cg-sidebar-title">
           <%= lesson_document.metadata['title'] %>
@@ -14,13 +14,22 @@
       </div>
     </div>
     <div class="o-sidebar-nav__sticky-title cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base">
-      <%= simple_format lesson_document.metadata['title'] %>
+      <div class="u-txt--cg-sidebar-title-type u-text--uppercase">
+        <%= lesson_document.short_breadcrumb %>
+      </div>
+      <div class="o-sidebar-nav__sticky-header">
+        <%= simple_format lesson_document.metadata['title'] %>
+      </div>
     </div>
     <ul class="o-sidebar-nav o-sidebar-nav__menu show-for-ipad">
-      <li class=o-sidebar-nav__header><span>Lesson Summary</span></li>
+      <li class=o-sidebar-nav__header>
+        <span>Lesson Summary</span>
+        <span class="o-sidebar-nav__toggle o-sidebar-nav__toggle--show">Show All</span>
+        <span class="o-sidebar-nav__toggle o-sidebar-nav__toggle--hide">Hide All</span>
+      </li>
       <li><div class=o-sidebar-nav__sep></div></li>
-      <% lesson_document.toc.groups.each do |heading| %>
-        <%= render 'nav_item', heading: heading %>
+      <% lesson_document.toc.children.each do |heading| %>
+        <%= render('nav_item', heading: heading) unless heading.anchor == '1-general' %>
       <% end %>
       <li class=o-sidebar-nav__item><div class="o-sidebar-nav-item__hr"></div></li>
       <li class=o-sidebar-nav__item>

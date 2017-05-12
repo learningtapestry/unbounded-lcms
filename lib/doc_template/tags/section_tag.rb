@@ -6,7 +6,7 @@ module DocTemplate
       TEMPLATE_H3 = 'h3-header.html.erb'.freeze
 
       def parse(node, opts = {})
-        section = opts[:agenda].section_by_id(opts[:value].parameterize)
+        section = opts[:agenda].level2_by_title(opts[:value].parameterize)
         return parse_ela6(node, section, opts) if ela6?(opts[:metadata])
         node.replace(parse_template(section, TEMPLATE_H3))
         @result = node
@@ -28,9 +28,9 @@ module DocTemplate
           parse_nested(
             parse_template({ section: section,
                              content: content,
-                             blockquote: strip_quote(blockquote) },
-          TEMPLATE),
-          opts
+                             blockquote: strip_html_element(blockquote) },
+                           TEMPLATE),
+            opts
           )
         )
         # remove table only if there are no more rows
@@ -50,11 +50,6 @@ module DocTemplate
             sibling = node.next_sibling
           end
         end
-      end
-
-      def strip_quote(blockquote)
-        return '' if Sanitize.fragment(blockquote, elements: []).strip.empty?
-        blockquote
       end
     end
   end

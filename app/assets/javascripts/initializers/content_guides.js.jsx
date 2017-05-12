@@ -68,6 +68,8 @@ $(function () {
       $item.parent('a').addClass('active');
       $item.parents('.o-sidebar-nav__item').addClass('expanded');
     }
+    
+    sidebarShowShowAll();
   }
 
   function updateModalMenu() {
@@ -119,6 +121,23 @@ $(function () {
     $('#cg-contents-modal').foundation('close');
   }
 
+  function sidebarShowShowAll() {
+    $('.o-sidebar-nav__toggle--show').show();
+    $('.o-sidebar-nav__toggle--hide').hide();
+  }
+
+  function initSidebarToggler(headings) {
+    $('.o-sidebar-nav__toggle--show').click(function() {
+      $('.o-sidebar-nav__item').addClass('expanded');
+      $('.o-sidebar-nav__toggle--show').toggle();
+      $('.o-sidebar-nav__toggle--hide').toggle();
+    });
+    $('.o-sidebar-nav__toggle--hide').click(function() {
+      $('.o-sidebar-nav__item').removeClass('expanded');
+      updateMenu(headings);
+    });
+  }
+
   window.initializeContentGuide = function() {
     if (!$('.o-page--cg').length) return;
     const headings = $.makeArray($('.c-cg-heading, .c-ld-toc'));
@@ -126,6 +145,7 @@ $(function () {
     initSticky();
     initTopScrollButton();
     initTasksToggler();
+    initSidebarToggler(headings);
     updateMenu(headings);
     $('.o-page--cg, #cg-contents-modal').smoothscrolling(setScrollingState);
     $('#cg-page').off('scrollme.zf.trigger').on('scrollme.zf.trigger', handleScroll.bind(this, headings));
