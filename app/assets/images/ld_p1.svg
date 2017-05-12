@@ -1,25 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="9px" viewBox="0 0 16 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
-    <title>F1/P1</title>
-    <desc>Created with Sketch.</desc>
-    <defs>
-        <polygon id="path-1" points="3.33066907e-16 8.999925 3.33066907e-16 0 8.999925 0 8.999925 8.999925 0 8.999925"></polygon>
-    </defs>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="F1/P1">
-            <g id="Page-1">
-                <path d="M4.5,0 C6.985125,0 9,2.014875 9,4.5 C9,6.985125 6.985125,9 4.5,9 C2.014875,9 0,6.985125 0,4.5 C0,2.014875 2.014875,0 4.5,0" id="Fill-1" fill="#FEFEFE"></path>
-                <g id="Group-5">
-                    <mask id="mask-2" fill="white">
-                        <use xlink:href="#path-1"></use>
-                    </mask>
-                    <g id="Clip-4"></g>
-                    <path d="M5.2218,2.98005 L4.7358,5.280675 L4.272675,5.280675 L3.779175,2.98005 C3.6423,2.349675 4.05255,2.01555 4.5003,2.01555 C4.948425,2.01555 5.3583,2.349675 5.2218,2.98005 M4.5003,7.004175 C4.1133,7.004175 3.832425,6.7233 3.832425,6.3363 C3.832425,5.948925 4.1133,5.66805 4.5003,5.66805 C4.887675,5.66805 5.16855,5.948925 5.16855,6.3363 C5.16855,6.7233 4.887675,7.004175 4.5003,7.004175 M4.499925,-7.5e-05 C2.0148,-7.5e-05 -7.5e-05,2.0148 -7.5e-05,4.499925 C-7.5e-05,6.985425 2.0148,8.999925 4.499925,8.999925 C6.98505,8.999925 8.999925,6.985425 8.999925,4.499925 C8.999925,2.0148 6.98505,-7.5e-05 4.499925,-7.5e-05" id="Fill-3" fill="#FEBE0F" mask="url(#mask-2)"></path>
-                </g>
-                <path d="M4.500375,7.004325 C4.113375,7.004325 3.8325,6.72345 3.8325,6.336075 C3.8325,5.949075 4.113375,5.6682 4.500375,5.6682 C4.88775,5.6682 5.168625,5.949075 5.168625,6.336075 C5.168625,6.72345 4.88775,7.004325 4.500375,7.004325" id="Fill-6" fill="#FEFEFE"></path>
-                <path d="M5.2218,2.98005 L4.7358,5.280675 L4.272675,5.280675 L3.779175,2.98005 C3.6423,2.349675 4.05255,2.01555 4.5003,2.01555 C4.948425,2.01555 5.3583,2.349675 5.2218,2.98005" id="Fill-8" fill="#FEFEFE"></path>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="16px" height="9px" viewBox="0 0 16 9" enable-background="new 0 0 16 9" xml:space="preserve">
+<title>F1/P1</title>
+<desc>Created with Sketch.</desc>
+<g id="Symbols">
+	<g id="F1_x2F_P1">
+		<circle id="Oval-9" fill="#FFBF00" cx="4.5" cy="4.5" r="4.5"/>
+		<g>
+			<g enable-background="new    ">
+				<path fill="#404040" d="M5.238,7H4.25V3.188L3.071,3.551V2.755l2.061-0.738h0.106V7z"/>
+			</g>
+		</g>
+	</g>
+</g>
 </svg>
