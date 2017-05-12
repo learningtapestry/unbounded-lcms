@@ -62,13 +62,13 @@ module DocTemplate
       @agenda = AgendaTable.parse(body_fragment)
       @activity_metadata = ActivityTable.parse(body_fragment)
       FoundationalMetaTable.parse(body_fragment)
-      @toc = DocumentTOC.parse(meta_options)
       @root = Document.parse(body_fragment, meta_options)
+      @toc = DocumentTOC.parse(meta_options)
       self
     end
 
     def meta_options
-      {
+      @meta_options ||= {
         metadata: Objects::BaseMetadata.new(@metadata.data),
         agenda:   Objects::AgendaMetadata.build_from(@agenda.data),
         activity: Objects::ActivityMetadata.build_from(@activity_metadata)
