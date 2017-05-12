@@ -17,10 +17,10 @@ module DocTemplate
       def link(opts)
         title, text = opts[:value].split(';').map &:strip
         # If we don't have a text, use the fa-book icon
-        text = text.present? ? "<b>#{text}</b>" : '<i class="fa fa-book"></i>'
+        label =  text.present? ? "<b>#{text}</b>" : ''
         href = build_href(title, opts[:metadata])
 
-        "<a href=\"#{href}\" target=\"_blank\" title=\"#{title}\">#{text}</a>"
+        "<a href=\"#{href}\" target=\"_blank\" title=\"#{title}\"><i class=\"fa fa-book\"></i> #{label}</a>"
       end
 
       def build_href(title, metadata)
