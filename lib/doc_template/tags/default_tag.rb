@@ -1,6 +1,7 @@
 module DocTemplate
-  class DefaultTag < Tag
+  module Tags
+    class DefaultTag < BaseTag; end
   end
 
-  Template.register_tag('default'.freeze, DefaultTag)
+  Template.register_tag('default'.freeze, Tags::DefaultTag)
 end
