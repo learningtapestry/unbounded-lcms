@@ -1,5 +1,5 @@
 $(function () {
-  const COMPONENT_PREFIX = '.o-lesson';
+  const COMPONENT_PREFIX = '.o-ld';
 
   function initToggler(component) {
     let prefix = `${COMPONENT_PREFIX}-${component}`;

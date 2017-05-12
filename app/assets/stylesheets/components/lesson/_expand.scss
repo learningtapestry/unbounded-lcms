@@ -1,9 +1,9 @@
-.o-lesson-expand {
-  &.o-lesson-expand-math {
+.o-ld-expand {
+  &.o-ld-expand-math {
     background-color: map-get($ub-ld-colorcodes, math-expand-bg);
   }
 
-  &.o-lesson-expand-ela {
+  &.o-ld-expand-ela {
     background-color: map-get($ub-ld-colorcodes, ela-expand-bg);
   }
 
