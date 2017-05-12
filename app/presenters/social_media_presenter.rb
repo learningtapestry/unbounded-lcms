@@ -56,7 +56,6 @@ class SocialMediaPresenter
   end
 
   def thumbnails
-    {}
     # @thumbnails ||=  begin
     #   if target
     #     target.social_thumbnails.reduce({}) do |dict, thumb|
@@ -67,6 +66,10 @@ class SocialMediaPresenter
     #     {}
     #   end
     # end
+
+    # According to issue 140 (https://github.com/learningtapestry/unbounded/issues/140)
+    # we are commenting out social_thumbnails for now, until we can fix the titles and reparse the images.
+    {}
   end
 
   def clean(str)
