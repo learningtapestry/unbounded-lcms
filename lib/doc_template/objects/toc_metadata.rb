@@ -6,15 +6,15 @@ module DocTemplate
       class Heading
         include Virtus.model
 
-        attribute :id, String
+        attribute :anchor, String
         attribute :time, Integer
         attribute :title, String
         attribute :level, Integer
         attribute :children, Array[Heading], default: []
       end
 
-      attribute :groups, Array[Heading]
-      attribute :total_time, Integer, default: -> (t, _) { t.groups.sum(&:time) }
+      attribute :children, Array[Heading]
+      attribute :total_time, Integer, default: -> (t, _) { t.children.sum(&:time) }
 
       class << self
         def dump(data)

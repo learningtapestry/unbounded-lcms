@@ -9,7 +9,7 @@ module DocTemplate
         return self unless table.present?
         header, content = fetch_content(table)
 
-        @result = table.before(
+        @result = (table.previous_element || table).before(
           parse_nested(
             parse_template({ header: header,
                              content: content,

@@ -3,7 +3,7 @@
     <% if heading.children.any? %>
       <div class=o-sidebar-nav__item__icon>▸</div>
     <% end %>
-    <div href="#<%= heading.id %>" class="o-sidebar-nav__item__content">
+    <div href="#<%= heading.anchor %>" class="o-sidebar-nav__item__content">
       <%= heading.title %>
       <span class="o-sidebar-nav-item__time"><%= toc_time(heading.time) %></span>
     </div>

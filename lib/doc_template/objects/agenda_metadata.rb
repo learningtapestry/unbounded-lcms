@@ -2,6 +2,7 @@ module DocTemplate
   module Objects
     class AgendaMetadata
       include Virtus.model
+      include DocTemplate::Objects::TocHelpers
 
       class MetaCognition
         include Virtus.model
@@ -18,28 +19,32 @@ module DocTemplate
       class Section
         include Virtus.model
 
-        attribute :id, String
         attribute :title, String
         attribute :metacognition, MetaCognition
         attribute :metadata, MetaData
 
         attribute :time, Integer, default: ->(s, _) { s.metadata.time }
+        attribute :anchor, String, default: ->(s, _) { "#{s.idx} #{s.title}".parameterize }
         attribute :level, Integer, default: 2
+        attribute :idx, Integer
+        attribute :active, Boolean, default: false
       end
 
       class Group
         include Virtus.model
 
-        attribute :id, String
         attribute :title, String
         attribute :metadata, MetaData
         attribute :children, Array[Section]
 
         attribute :time, Integer, default: ->(g, _) { g.metadata.time }
+        attribute :anchor, String, default: ->(g, _) { "#{g.idx} #{g.title}".parameterize }
         attribute :level, Integer, default: 1
+        attribute :idx, Integer
+        attribute :active, Boolean, default: false
       end
 
-      attribute :groups, Array[Group]
+      attribute :children, Array[Group]
 
       def self.build_from(data)
         agenda_data =
@@ -49,21 +54,7 @@ module DocTemplate
             end
             d.deep_merge(metadata: { time: d[:children].sum { |s| s[:metadata]['time'] } })
           end
-        new(groups: agenda_data)
-      end
-
-      def group_by_id(id)
-        g = groups.find { |s| s.id == id }
-        raise DocTemplateError, "Group #{id} not found at agenda" unless g.present?
-        g
-      end
-
-      def section_by_id(id)
-        groups.each do |g|
-          section = g.children.find { |s| s.id == id }
-          return section if section
-        end
-        raise DocTemplateError, "Section #{id} not found at agenda"
+        new(set_index(children: agenda_data))
       end
     end
   end
