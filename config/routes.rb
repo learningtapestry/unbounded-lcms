@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get '/tos'          => 'pages#show_slug', slug: 'tos',     as: :tos_page
   get '/privacy'      => 'pages#show_slug', slug: 'privacy', as: :privacy_page
   get '/leadership'   => 'pages#leadership'
+  get '/forthcoming' => 'pages#forthcoming'
 
   get '/search' => 'search#index'
 
