@@ -84,6 +84,10 @@ class ExploreCurriculumCardItem extends React.Component {
       {"u-txt--card-title-short": !props.shouldItemExpand }
     );
 
+    const cssShow = classNames(
+      "u-hidden"
+    )
+
     const resourceType = resource.type.name == 'grade' ? 'curriculum' : resource.type.name;
     const downloadBtnLabel = `Download ${_.capitalize(resourceType)}`;
     const downloadModalId = `downloads-modal-${resource.id}`;
@@ -94,10 +98,10 @@ class ExploreCurriculumCardItem extends React.Component {
         <div className={cssBodyClasses}>
           <div className="o-title u-text--uppercase show-for-ipad">
             <span className={cssHeaderClasses}>{resource.short_title}</span>
-            <span className="o-title__duration o-cur-card--show-medium"><TimeToTeach duration={resource.time_to_teach} /></span>
+            <span className={`${cssShow} o-title__duration o-cur-card--show-medium`}><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
           <h3 className={cssTitleClasses}>{resource.title}</h3>
-          <div className="o-title u-text--uppercase hide-for-ipad u-padding-top--xs">
+          <div className={`${cssShow} o-title u-text--uppercase hide-for-ipad u-padding-top--xs`}>
             <span className="o-title__duration u-float-none"><TimeToTeach duration={resource.time_to_teach} /></span>
           </div>
           <div className="o-cur-card--show-medium o-cur-card__dsc">{resource.teaser}</div>
