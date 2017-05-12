@@ -4,8 +4,29 @@
   }
 
   .o-lesson-image-container {
-    float: left;
-    text-align: center;
-    width: 30%;
+    background-color: map-get($ub-ld-colorcodes, default-image-bg);
+
+    &.o-lesson-image-math {
+      background-color: map-get($ub-ld-colorcodes, math-image-bg);
+    }
+
+    &.o-lesson-image-ela {
+      background-color: map-get($ub-ld-colorcodes, ela-image-bg);
+    }
+
+    figure {
+      margin: 0;
+
+      img {
+        width: 30%;
+        margin-top: -5px;
+      }
+      figcaption {
+        width: 69%;
+        display: inline-block;
+        padding: 1.5em;
+        font-weight: bold;
+      }
+    }
   }
 }
