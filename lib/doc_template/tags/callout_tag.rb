@@ -1,6 +1,6 @@
 module DocTemplate
   module Tags
-    class CalloutTag < Tag
+    class CalloutTag < BaseTag
       TAG_NAME = 'callout'.freeze
       TEMPLATE = 'callout.html.erb'.freeze
 

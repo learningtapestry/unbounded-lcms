@@ -17,7 +17,7 @@ module DocTemplate
 
           # Places activity type tags
           title = "#{data['section-title']} #{data['activity-title']}".parameterize
-          table.add_next_sibling "<p><span>[#{ActivityMetadataTypeTag::TAG_NAME}: #{title}]</span></p>"
+          table.add_next_sibling "<p><span>[#{Tags::ActivityMetadataTypeTag::TAG_NAME}: #{title}]</span></p>"
 
           # Places new tags to markup future content injection
           # Inserts only once
@@ -25,7 +25,7 @@ module DocTemplate
             table.remove
           else
             placed_sections << data['section-title']
-            table.replace "<p><span>[#{ActivityMetadataSectionTag::TAG_NAME}: #{data['section-title'].parameterize}]</span></p>"
+            table.replace "<p><span>[#{Tags::ActivityMetadataSectionTag::TAG_NAME}: #{data['section-title'].parameterize}]</span></p>"
           end
 
           result << data
