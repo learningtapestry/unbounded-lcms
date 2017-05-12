@@ -24,7 +24,7 @@ module DocTemplate
           break if matches.nil?
 
           tag_name, tag_value = matches.captures
-          tag = registered_tags[tag_name.downcase]
+          next unless (tag = registered_tags[tag_name.downcase])
 
           tag.parse(tag_node, @opts.merge(value: tag_value)).render
         end

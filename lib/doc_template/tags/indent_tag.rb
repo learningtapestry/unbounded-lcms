@@ -6,7 +6,7 @@ module DocTemplate
       def parse(node, opts = {})
         @result = node
         classes = node['class'].to_s.split(/\s+/)
-        node['class'] = classes.push('indented').uniq.join " "
+        node['class'] = classes.push('indented').uniq.join ' '
         remove_node
         self
       end
