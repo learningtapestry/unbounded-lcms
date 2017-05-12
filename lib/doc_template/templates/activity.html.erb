@@ -1,33 +1,35 @@
 <div class="o-ld-activity">
-  <div class="u-text--uppercase cs-txt--math-base u-txt--title-type u-margin-bottom--xs">
-    <%= @tmpl[:activity].activity_type %>
-  </div>
-  <h3 id="<%= @tmpl[:activity].id %>" class="o-ld-title c-ld-toc">
-    <span class="o-ld-title__title o-ld-title__title--h3"><%= @tmpl[:activity].activity_title %>
-      <% if @tmpl[:activity].activity_priority.present? %>
-        <span class="o-ld-icon o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>"></span>
-      <% end %>
-    </span>
-    <span class="o-ld-title__time o-ld-title__time--h3"><%= @tmpl[:activity].time.zero? ? '&mdash;' : "#{@tmpl[:activity].time} mins" %></span>
-  </h3>
-
-  <% if @tmpl[:activity].activity_metacognition.present? %>
-    <div class="o-ld-activity__metacognition u-txt--ld-activity-teaser u-margin-bottom--base">
-      <%= @tmpl[:activity].activity_metacognition %>
+  <div>
+    <div class="u-text--uppercase cs-txt--math-base u-txt--title-type u-margin-bottom--xs">
+      <%= @tmpl[:activity].activity_type %>
     </div>
-  <% end %>
+    <h3 id="<%= @tmpl[:activity].anchor %>" class="o-ld-title c-ld-toc">
+      <span class="o-ld-title__title o-ld-title__title--h3"><%= @tmpl[:activity].activity_title %>
+        <% if @tmpl[:activity].activity_priority.present? %>
+          <span class="o-ld-icon o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>"></span>
+        <% end %>
+      </span>
+      <span class="o-ld-title__time o-ld-title__time--h3"><%= @tmpl[:activity].time.zero? ? '&mdash;' : "#{@tmpl[:activity].time} mins" %></span>
+    </h3>
 
-  <% if @tmpl[:activity].activity_guidance.present? %>
-    <p><strong>Guidance: </strong><%= @tmpl[:activity].activity_guidance %></p>
-  <% end %>
-  <% if @tmpl[:activity].activity_standard.present? %>
-    <p><strong>Standard: </strong><%= @tmpl[:activity].activity_standard %></p>
-  <% end %>
-  <% if @tmpl[:activity].activity_mathematical_practice.present?  %>
-    <p><strong>Standards for Mathematical Practice: </strong><%= @tmpl[:activity].activity_mathematical_practice %></p>
-  <% end %>
+    <% if @tmpl[:activity].activity_metacognition.present? %>
+      <div class="o-ld-activity__metacognition u-txt--ld-activity-teaser u-margin-bottom--base">
+        <%= @tmpl[:activity].activity_metacognition %>
+      </div>
+    <% end %>
 
-  <div class="o-ld-activity__source">
-    <%= @tmpl[:source].html_safe %>
+    <% if @tmpl[:activity].activity_guidance.present? %>
+      <div><strong>Guidance: </strong><%= @tmpl[:activity].activity_guidance %></div>
+    <% end %>
+    <% if @tmpl[:activity].activity_standard.present? %>
+      <p><strong>Standard: </strong><%= @tmpl[:activity].activity_standard %></p>
+    <% end %>
+    <% if @tmpl[:activity].activity_mathematical_practice.present?  %>
+      <p><strong>Standards for Mathematical Practice: </strong><%= @tmpl[:activity].activity_mathematical_practice %></p>
+    <% end %>
+
+    <div class="o-ld-activity__source">
+      <%= @tmpl[:source].html_safe %>
+    </div>    
   </div>
 </div>

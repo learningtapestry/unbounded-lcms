@@ -9,7 +9,7 @@ describe DocTemplate::Objects::AgendaMetadata do
       let(:agenda_table)  { [] }
 
       it 'returns empty object' do
-        expect(subject.groups.size).must_equal 0
+        expect(subject.children.size).must_equal 0
       end
     end
 
@@ -20,12 +20,12 @@ describe DocTemplate::Objects::AgendaMetadata do
         end
 
         it 'returns valid object' do
-          expect(subject.groups.size).must_equal 1
-          expect(subject.groups[0].title).must_equal 'Work Time A'
-          expect(subject.groups[0].metadata.time).must_equal 40
-          expect(subject.groups[0].children.size).must_equal 4
-          expect(subject.groups[0].children[1].metadata.time).must_equal 10
-          expect(subject.groups[0].children[3].metadata.time).must_equal 0
+          expect(subject.children.size).must_equal 1
+          expect(subject.children[0].title).must_equal 'Work Time A'
+          expect(subject.children[0].metadata.time).must_equal 40
+          expect(subject.children[0].children.size).must_equal 4
+          expect(subject.children[0].children[1].metadata.time).must_equal 10
+          expect(subject.children[0].children[3].metadata.time).must_equal 0
         end
       end
     end

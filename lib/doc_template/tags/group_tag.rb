@@ -5,7 +5,7 @@ module DocTemplate
       TEMPLATE = 'h2-header.html.erb'.freeze
 
       def parse(node, opts = {})
-        group = opts[:agenda].group_by_id(opts[:value].parameterize)
+        group = opts[:agenda].level1_by_title(opts[:value].parameterize)
         return parse_ela6(node, group) if ela6?(opts[:metadata])
         node.replace(parse_template(group, TEMPLATE))
         @result = node

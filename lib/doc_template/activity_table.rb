@@ -16,8 +16,7 @@ module DocTemplate
           data = fetch table
 
           # Places activity type tags
-          title = "#{data['section-title']} #{data['activity-title']}".parameterize
-          table.add_next_sibling "<p><span>[#{Tags::ActivityMetadataTypeTag::TAG_NAME}: #{title}]</span></p>"
+          table.add_next_sibling "<p><span>[#{Tags::ActivityMetadataTypeTag::TAG_NAME}: #{data['activity-title'].parameterize}]</span></p>"
 
           # Places new tags to markup future content injection
           # Inserts only once
