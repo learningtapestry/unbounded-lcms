@@ -91,6 +91,25 @@
   }
 }
 
+.o-sidebar-nav-break {
+  @include flex;
+  @include flex-align($x: spaced, $y: middle);
+  color: $ub-hr;
+  padding: 0 1rem .5rem;
+
+  @include e(delimeter) {
+    border: 1px dotted $ub-hr;
+    flex: 1 1 auto;
+  }
+
+  @include e(text) {
+    @include txt-element(cg-sidebar-l1);
+    font-style: italic;
+    padding-left: $ub-small-padding;
+    padding-right: $ub-small-padding;
+  }
+}
+
 //TODO - refactor sidebar classes
 .o-sidebar-nav {
   @include menu-base;
