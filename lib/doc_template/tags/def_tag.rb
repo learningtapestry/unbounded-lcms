@@ -11,7 +11,7 @@ module DocTemplate
         # preserving text around tag
         # TODO: Extract to the parent class@data = {}
         @data = {}
-        if (data = node.content.sub(/\[[^\]]*\]/, TAG_SEPARATOR).split(TAG_SEPARATOR, 2).map(&:strip))
+        if (data = node.content.sub(/\[[^\]]*\]/, TAG_SEPARATOR).split(TAG_SEPARATOR, 2).map(&:squish))
           @data[:append] = data[1]
           @data[:prepend] = data[0]
         end
