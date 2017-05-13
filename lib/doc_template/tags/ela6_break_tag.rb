@@ -6,7 +6,7 @@ module DocTemplate
 
       def parse(node, opts = {})
         table = node.ancestors('table')
-        content_node = node.ancestors('td').first
+        content_node = node.ancestors('tr').first
         node.remove
         return self unless table.present?
         @result = table.before(
@@ -16,17 +16,16 @@ module DocTemplate
           )
         )
         # remove table if it's last tr
-        end_of_table = content_node.ancestors('tr').first.try(:next_element).nil?
-        # we need it while next group tag processing
-        content_node.replace("<td>#{Tags::GroupTag::OPT_BREAK}</td>")
-        table.remove if end_of_table
+        content_node.next_element ? content_node.remove : table.remove
+        # add break to agenda
+        opts[:agenda].add_break
         self
       end
 
       private
 
       def fetch_content(node)
-        node.try(:inner_html) || ''
+        node.at_xpath('./td[1]').try(:inner_html) || ''
       end
     end
 
