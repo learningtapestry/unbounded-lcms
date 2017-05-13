@@ -1,5 +1,9 @@
-.c-cg-lesson-hero {
-  @include flex-grid-column(12, 2 * 1.5rem);
+.c-ld {
+  @include m(ela-2) {
+    h2.o-ld-title {
+      margin-top: $ub-large-margin * 2 !important;
+    }
+  }
 }
 
 .c-ld-header {

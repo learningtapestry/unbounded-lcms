@@ -1,4 +1,4 @@
-<% if !curriculum.lesson? %>
+<% unless curriculum.lesson? %>
   <h3><%= t('resources.title.children', type: curriculum.type_name) %></h3>
   <%= 'No children items.' if curriculum.children.blank? %>
   <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code %>">
@@ -6,9 +6,17 @@
       <li>
         <i class="fa fa-square"></i>
         <span>
-          <%= link_to show_with_slug_path(item.slug.value) do %>
-            <span class="u-text--capitalized"><%= item.resource.short_title + ': ' %></span>
-            <%= item.resource.title %>
+          <% title = "#{item.resource.short_title}: " %>
+          <% if item.resource.lesson_document.present? %>
+            <%= link_to lesson_document_path(item.resource.lesson_document) do %>
+              <span class="u-text--capitalized"><%= title %></span>
+              <%= item.resource.lesson_document[:metadata]['title'] %>
+            <% end%>
+          <% else %>
+            <%= link_to show_with_slug_path(item.slug.value) do %>
+              <span class="u-text--capitalized"><%= title %></span>
+              <%= item.resource.title %>
+            <% end%>
           <% end%>
         </span>
       </li>
