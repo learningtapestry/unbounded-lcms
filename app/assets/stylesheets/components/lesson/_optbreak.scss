@@ -1,6 +1,6 @@
 .o-ld-optbreak {
   @include flex;
-  @include flex-align($x: stretch, $y: middle);
+  @include flex-align($x: spaced, $y: middle);
   color: $ub-hr;
   margin-bottom: $ub-base-padding;
 

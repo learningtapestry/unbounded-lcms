@@ -93,7 +93,7 @@
 
 .o-sidebar-nav-break {
   @include flex;
-  @include flex-align($x: stretch, $y: middle);
+  @include flex-align($x: spaced, $y: middle);
   color: $ub-hr;
   padding: 0 1rem .5rem;
 
