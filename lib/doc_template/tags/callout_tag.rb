@@ -9,7 +9,7 @@ module DocTemplate
         return self unless table.present?
         header, content = fetch_content(table)
 
-        @result = (table.previous_element || table).before(
+        @result = (previous_non_empty(table.previous_element) || table).before(
           parse_nested(
             parse_template({ header: header,
                              content: content,
@@ -22,12 +22,19 @@ module DocTemplate
         self
       end
 
-      def fetch_content(node)
-        ['', ''].tap do |result|
-          node.xpath('.//tr[position() > 1]/td').children.each_with_index do |child, idx|
-            result[idx % 2] += child.inner_html
-          end
+      private
+
+      def previous_non_empty(node)
+        while node
+          break unless node.content.squish.blank?
+          node = node.previous_element
         end
+        node
+      end
+
+      def fetch_content(node)
+        [node.at_xpath('.//tr[2]/td').try(:content) || '',
+         node.at_xpath('.//tr[3]/td').try(:inner_html) || '']
       end
     end
 
