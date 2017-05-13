@@ -6,9 +6,16 @@
       <li>
         <i class="fa fa-square"></i>
         <span>
-          <%= link_to show_with_slug_path(item.slug.value) do %>
-            <span class="u-text--capitalized"><%= item.resource.short_title + ': ' %></span>
-            <%= item.resource.title %>
+          <% if item.resource.lesson_document.present? %>
+            <%= link_to lesson_document_path(item.resource.lesson_document) do %>
+              <span class="u-text--capitalized"><%= item.resource.short_title + ': ' %></span>
+              <%= item.resource.lesson_document[:metadata]['title'] %>
+            <% end%>
+          <% else %>
+            <%= link_to show_with_slug_path(item.slug.value) do %>
+              <span class="u-text--capitalized"><%= item.resource.short_title + ': ' %></span>
+              <%= item.resource.title %>
+            <% end%>
           <% end%>
         </span>
       </li>
