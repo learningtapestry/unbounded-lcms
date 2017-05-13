@@ -16,7 +16,8 @@
     <li class=o-sidebar-nav__header><span>Lesson Summary</span></li>
     <li><div class=o-sidebar-nav__sep></div></li>
     <% lesson_document.toc.children.each do |heading| %>
-      <%= render('nav_item_modal', heading: heading) unless heading.anchor == '1-general' %>
+      <%= render('nav_item_modal', heading: heading) unless heading.anchor == '1-general' || heading.anchor == 'optbreak' %>
+      <%= render('nav_opt_break') if heading.anchor == 'optbreak' %>
     <% end %>
   </ul>
 </div>
