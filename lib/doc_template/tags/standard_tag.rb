@@ -51,16 +51,16 @@ module DocTemplate
           { definition: 'Speaking & Listening', description: 'Presentation of Knowledge and Ideas' }
         ],
         w: [
-          { definition: 'Writing ', description: 'Text Types and Purposes' },
-          { definition: 'Writing ', description: 'Text Types and Purposes' },
-          { definition: 'Writing ', description: 'Text Types and Purposes' },
-          { definition: 'Writing ', description: 'Production and Distribution of Writing' },
-          { definition: 'Writing ', description: 'Production and Distribution of Writing' },
-          { definition: 'Writing ', description: 'Production and Distribution of Writing' },
-          { definition: 'Writing ', description: 'Research to Build and Present Knowledge' },
-          { definition: 'Writing ', description: 'Research to Build and Present Knowledge' },
-          { definition: 'Writing ', description: 'Research to Build and Present Knowledge' },
-          { definition: 'Writing ', description: 'Range of Writing' }
+          { definition: 'Writing', description: 'Text Types and Purposes' },
+          { definition: 'Writing', description: 'Text Types and Purposes' },
+          { definition: 'Writing', description: 'Text Types and Purposes' },
+          { definition: 'Writing', description: 'Production and Distribution of Writing' },
+          { definition: 'Writing', description: 'Production and Distribution of Writing' },
+          { definition: 'Writing', description: 'Production and Distribution of Writing' },
+          { definition: 'Writing', description: 'Research to Build and Present Knowledge' },
+          { definition: 'Writing', description: 'Research to Build and Present Knowledge' },
+          { definition: 'Writing', description: 'Research to Build and Present Knowledge' },
+          { definition: 'Writing', description: 'Range of Writing' }
         ]
       }.freeze
       STANDARD_RE = /[^\[\]]*\[(ela\.)?(rl|ri|rf|w|sl|l)\.\d+\.(\d{1,2})\]/i
