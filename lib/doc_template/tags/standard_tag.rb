@@ -76,7 +76,13 @@ module DocTemplate
           content = render_template Nokogiri::HTML.fragment(content), preserve_html: true
         end
 
-        node.replace content
+        # preserve `li` element
+        if node.name == 'li'
+          node.replace "<li>#{content}</li>"
+        else
+          node.replace content
+        end
+
         @result = node
         self
       end
