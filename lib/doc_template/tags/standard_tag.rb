@@ -73,7 +73,7 @@ module DocTemplate
         content = render_template node
         loop do
           break unless STANDARD_RE =~ content
-          content = render_template Nokogiri::HTML.fragment(content), preserve_html: true
+          content = render_template Nokogiri::HTML.fragment(content)
         end
 
         # preserve `li` element
@@ -92,14 +92,15 @@ module DocTemplate
       # Extracting content outside the tag
       # TODO: Extract to the parent class
       def fetch_data(source)
+        @preserved_style = %r{<span (style=[^.>]*)>[^<]+</span>$}.match(source).try(:[], 1)
         {}.tap do |result|
           data = source.squish
                    .sub(TAG_RE, TAG_SEPARATOR)
                    .split(TAG_SEPARATOR, 2)
                    .reject(&:blank?)
           break unless data
-          result[:append] = data[1]
           result[:prepend] = data[0]
+          result[:append] = data[1]
         end
       end
 
@@ -111,9 +112,8 @@ module DocTemplate
         TAG_DATA[standard_name].try(:[], standard_num)
       end
 
-      def render_template(node, preserve_html: false)
-        content = preserve_html ? node.to_html : node.content
-        @data = fetch_data content
+      def render_template(node)
+        @data = fetch_data node.inner_html
         @standard_shortcut = TAG_RE.match(node.content).try(:[], 0).try(:gsub, /\[|\]/, '')
 
         standard_data = fetch_standard node.content

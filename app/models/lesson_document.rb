@@ -52,39 +52,39 @@ class LessonDocument < ActiveRecord::Base
 
   private
 
-    def clean_curriculum_metadata
-      if metadata.present?
-        # downcase subjects
-        metadata['subject'] = metadata['subject'].try(:downcase)
+  def clean_curriculum_metadata
+    return unless metadata.present?
 
-        # parse to a valid GradesListHelper::GRADES value
-        /(\d+)/.match(metadata['grade']) do |m|
-          metadata['grade'] = "grade #{m[1]}"
-        end
+    # downcase subjects
+    metadata['subject'] = metadata['subject'].try(:downcase)
 
-        # store only the lesson number
-        if metadata['lesson'].present?
-          metadata['lesson'] = metadata['lesson'].match(/lesson (\d+)/i).try(:[], 1) || metadata['lesson']
-        end
-      end
+    # parse to a valid GradesListHelper::GRADES value
+    /(\d+)/.match(metadata['grade']) do |m|
+      metadata['grade'] = "grade #{m[1]}"
     end
 
-    def set_resource_from_metadata
-      if metadata.present?
-        context = curriculum_context
-        curriculum = Curriculum.find_by_context(context)
-        self.resource_id = curriculum && curriculum.lesson? ? curriculum.item_id : nil
-      end
+    # store only the lesson number
+    if metadata['lesson'].present?
+      metadata['lesson'] = metadata['lesson'].match(/lesson (\d+)/i).try(:[], 1) || metadata['lesson']
     end
+  end
 
-    def curriculum_context
-      subject = metadata['subject']
-      grade = metadata['grade']
-      mod = ela? ? metadata['module'] : metadata['unit']
-      mod = "module #{mod}" unless mod.include?('strand')
-      unit = ela? ? "unit #{metadata['unit']}" : "topic #{metadata['topic']}"
-      lesson = "lesson #{metadata['lesson']}"
+  def set_resource_from_metadata
+    return unless metadata.present?
 
-      {subject: subject, grade: grade, module: mod, unit: unit, lesson: lesson}
-    end
+    context = curriculum_context
+    curriculum = Curriculum.find_by_context(context)
+    self.resource_id = curriculum && (curriculum.lesson? ? curriculum.item_id : nil)
+  end
+
+  def curriculum_context
+    subject = metadata['subject']
+    grade = metadata['grade']
+    mod = ela? ? metadata['module'] : metadata['unit']
+    mod = "module #{mod}" unless mod.include?('strand')
+    unit = ela? ? "unit #{metadata['unit']}" : "topic #{metadata['topic']}"
+    lesson = "lesson #{metadata['lesson']}"
+
+    { subject: subject, grade: grade, module: mod, unit: unit, lesson: lesson }
+  end
 end

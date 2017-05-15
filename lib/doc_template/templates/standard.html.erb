@@ -3,7 +3,7 @@
   <% if @data[:prepend] %>
     <span><%= @data[:prepend] %></span>
   <% end %>
-  <span class="c-ld-keyword" data-toggle="<%= id %>">(<%= @standard_shortcut %>)</span>
+  <span class="c-ld-keyword" data-toggle="<%= id %>" <%= @preserved_style %>>(<%= @standard_shortcut %>)</span>
   <% if @description.present? && @definition.present? %>
     <span class="dropdown-pane c-ld-dropdown"
     data-dropdown
@@ -16,6 +16,6 @@
     </span>
   <% end %>
   <% if @data[:append] %>
-    <span><%= @data[:append] %></span>
+    <span <%= @preserved_style %>><%= @data[:append] %></span>
   <% end %>
 </p>
