@@ -29,8 +29,7 @@ module DocTemplate
       end
     end
 
-    attr_reader :activity_metadata
-    attr_reader :toc
+    attr_reader :activity_metadata, :toc
 
     def self.parse(source)
       new.parse(source)
@@ -49,6 +48,10 @@ module DocTemplate
       @agenda.data.presence || []
     end
 
+    def foundational_metadata
+      @foundational_metadata.data.presence || {}
+    end
+
     def metadata
       @metadata.data.presence || {}
     end
@@ -58,10 +61,10 @@ module DocTemplate
       # clean all the inline styles
       body_node = HtmlSanitizer.sanitize(doc.xpath('//html/body/*').to_s)
       body_fragment = Nokogiri::HTML.fragment(body_node)
-      @metadata = MetaTable.parse(body_fragment)
-      @agenda = AgendaTable.parse(body_fragment)
-      @activity_metadata = ActivityTable.parse(body_fragment)
-      FoundationalMetaTable.parse(body_fragment)
+      @metadata = Tables::Metadata.parse(body_fragment)
+      @agenda = Tables::Agenda.parse(body_fragment)
+      @activity_metadata = Tables::Activity.parse(body_fragment)
+      @foundational_metadata = Tables::FoundationalMetadata.parse(body_fragment)
       @root = Document.parse(body_fragment, meta_options)
       @toc = DocumentTOC.parse(meta_options)
       self
@@ -69,9 +72,10 @@ module DocTemplate
 
     def meta_options
       @meta_options ||= {
-        metadata: Objects::BaseMetadata.new(@metadata.data),
+        activity: Objects::ActivityMetadata.build_from(@activity_metadata),
         agenda:   Objects::AgendaMetadata.build_from(@agenda.data),
-        activity: Objects::ActivityMetadata.build_from(@activity_metadata)
+        foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
+        metadata: Objects::BaseMetadata.build_from(@metadata.data)
       }
     end
 
