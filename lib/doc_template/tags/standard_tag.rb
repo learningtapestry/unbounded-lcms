@@ -123,7 +123,7 @@ module DocTemplate
         end
 
         template = File.read template_path(TEMPLATE)
-        ERB.new(template).result(binding)
+        ERB.new(template).result(binding).gsub(/\s{2,}</, '<')
       end
     end
   end
