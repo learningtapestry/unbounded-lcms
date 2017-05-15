@@ -9,11 +9,19 @@ module DocTemplate
 
       def parse(node, opts = {})
         # preserving text around tag
-        # TODO: Extract to the parent class@data = {}
+        # TODO: Extract to the parent class
+
+        # Need to extract the Tag and preserves all the styling inside it
+        node_html = node.inner_html
+        start_pos = node_html.index '['
+        end_pos = node_html.rindex ']'
+        needle = node_html[start_pos..end_pos]
+        @preserved_style = /<span (style=[^.>]*)>[^<]*$/.match(needle).try(:[], 1)
+
         @data = {}
-        if (data = node.content.sub(/\[[^\]]*\]/, TAG_SEPARATOR).split(TAG_SEPARATOR, 2).map(&:squish))
-          @data[:append] = data[1]
+        if (data = node_html.sub(needle, TAG_SEPARATOR).split(TAG_SEPARATOR, 2).map(&:squish))
           @data[:prepend] = data[0]
+          @data[:append] = data[1]
         end
 
         @subject = (opts[:metadata].try(:[], 'subject').presence || 'ela').downcase

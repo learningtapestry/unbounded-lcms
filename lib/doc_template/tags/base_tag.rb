@@ -5,7 +5,11 @@ module DocTemplate
         new.parse(node, opts)
       end
 
-      def parse(node, opts = {})
+      def ela6?(metadata)
+        metadata.resource_subject == 'ela' && metadata.grade == '6'
+      end
+
+      def parse(node, _ = {})
         @result = node
         remove_node
         self
@@ -15,8 +19,10 @@ module DocTemplate
         Document.parse(Nokogiri::HTML.fragment(node), opts.merge(level: 1)).render
       end
 
-      def render
-        @result || ''
+      def parse_template(context, template_name)
+        @tmpl = context
+        template = File.read template_path(template_name)
+        ERB.new(template).result(binding)
       end
 
       def remove_node
@@ -27,7 +33,7 @@ module DocTemplate
             # a tag followed or preceeded by anything else
             # removes the tag itself - everything between `[` and `]`
             node.content = node.content.gsub(/\[?[^\[]+\]|\[[^\]]+\]/, '')
-          elsif (data = node.content.match /^([^\[]*)\[|\]([^\[]*)$/)
+          elsif (data = node.content.match(/^([^\[]*)\[|\]([^\[]*)$/))
             # if node contains open or closing tag bracket with general
             # text outside the bracket itself
             if (new_content = data[1].presence || data[2]).blank?
@@ -41,23 +47,17 @@ module DocTemplate
         end
       end
 
-      def parse_template(context, template_name)
-        @tmpl = context
-        template = File.read template_path(template_name)
-        ERB.new(template).result(binding)
-      end
-
-      def template_path(name)
-        File.join Rails.root, 'lib', 'doc_template', 'templates', name
-      end
-
-      def ela6?(metadata)
-        metadata.resource_subject == 'ela' && metadata.grade == '6'
+      def render
+        @result || ''
       end
 
       def strip_html_element(element)
         return '' if Sanitize.fragment(element, elements: []).strip.empty?
         element
+      end
+
+      def template_path(name)
+        File.join Rails.root, 'lib', 'doc_template', 'templates', name
       end
     end
   end
