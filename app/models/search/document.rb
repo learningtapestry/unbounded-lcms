@@ -35,6 +35,9 @@ module Search
       elsif model.is_a?(ContentGuide)
         self.new **attrs_from_content_guide(model)
 
+      elsif model.is_a?(LessonDocument)
+        new(**attrs_from_resource(model.resource)) if model.resource.present?
+
       else
         raise "Unsupported Type for Search : #{model.class.name}"
       end
@@ -60,6 +63,7 @@ module Search
     private
 
       def self.attrs_from_resource(model, curriculum=nil)
+        model = SearchDocumentPresenter.new(model)
         curriculum ||= model.curriculums.last
         if model.resource_type == 'resource'
           doc_type = curriculum.curriculum_type.name
@@ -75,10 +79,11 @@ module Search
                 curriculum.try(:hierarchical_position)
               end
 
-        tags = model.named_tags
+        tags = model.lesson_document? ? {} : model.named_tags
+
         {
           id: id,
-          model_type: :resource,
+          model_type: model.model_type,
           model_id: model.id,
           title: model.title,
           teaser: model.teaser,
@@ -88,10 +93,10 @@ module Search
           grade: model.grade_list,
           breadcrumbs: curriculum.try(:breadcrumb_title),
           slug: (curriculum.slugs.first.value rescue nil),
-          tag_authors: tags[:authors],
-          tag_texts: tags[:texts],
-          tag_keywords: tags[:keywords],
-          tag_standards: tags[:ccss_standards],
+          tag_authors: tags[:authors] || [],
+          tag_texts: tags[:texts] || [],
+          tag_keywords: tags[:keywords] || [],
+          tag_standards: tags[:ccss_standards] || [],
           position: pos,
         }
       end
