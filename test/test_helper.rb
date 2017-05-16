@@ -114,7 +114,6 @@ class IntegrationDatabaseTestCase < ActionDispatch::IntegrationTest
   end
 end
 
-
 class Minitest::Spec
   before :each do
     DatabaseCleaner.start

@@ -27,8 +27,8 @@ module DocumentDownloader
       document.attributes = {
         name: file.name,
         last_modified_at: file.modified_time,
-        last_author_email: file.last_modifying_user.email_address,
-        last_author_name: file.last_modifying_user.display_name,
+        last_author_email: file.last_modifying_user.try(:email_address),
+        last_author_name: file.last_modifying_user.try(:display_name),
         original_content: content,
         version: file.version
       }

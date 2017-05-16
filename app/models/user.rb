@@ -9,9 +9,4 @@ class User < ActiveRecord::Base
     self.password = pwd
     self.password_confirmation = pwd
   end
-
-  def admin?
-    admin
-  end
-
 end
