@@ -15,19 +15,7 @@ module DocTemplate
         return self unless table
 
         table.search('br').each { |br| br.replace("\n") }
-        @data = {}.tap do |result|
-          table.xpath('.//tr[position() > 1]').each do |tr|
-            key = tr.at_xpath('./td[1]').text.strip.downcase
-            next if key.blank?
-            value = if self.class::HTML_VALUE_FIELDS.include? key
-                      tr.at_xpath('./td[2]').inner_html
-                    else
-                      tr.at_xpath('./td[2]').text.strip
-                    end
-
-            result[key] = value
-          end
-        end
+        @data = fetch table
 
         table.remove
         self
@@ -37,7 +25,7 @@ module DocTemplate
 
       def fetch(table)
         {}.tap do |result|
-          table.xpath('.//*/tr[position() > 1]').each do |row|
+          table.xpath('.//tr[position() > 1]').each do |row|
             key = row.at_xpath('./td[1]').text.strip.downcase
             next if key.blank?
             value = if self.class::HTML_VALUE_FIELDS.include? key
