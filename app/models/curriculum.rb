@@ -119,6 +119,9 @@ class Curriculum < ActiveRecord::Base
                 .where_subject(context[:subject])
                 .where_grade(context[:grade]).first
 
+    # TODO: Added to simplify testing, maybe need to rewrite or refactor
+    return unless curr
+
     # Module
     mod = curr.children.detect do |c|
       c.resource.try(:short_title).try(:downcase) == context[:module].downcase

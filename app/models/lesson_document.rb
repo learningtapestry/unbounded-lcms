@@ -10,20 +10,21 @@ class LessonDocument < ActiveRecord::Base
   store_accessor :metadata
   serialize :toc, DocTemplate::Objects::TOCMetadata
 
-  scope :actives,   ->{ where(active: true) }
-  scope :inactives, ->{ where(active: false) }
+  scope :actives,   -> { where(active: true) }
+  scope :inactives, -> { where(active: false) }
 
   scope :where_metadata, ->(key, val) { where('metadata @> hstore(:key, :val)', key: key, val: val) }
 
-  scope :order_by_curriculum, -> do
-    keys = [:subject, :grade, :module, :unit, :topic, :lesson]
-    order(keys.map{ |k| "lesson_documents.metadata -> '#{k}'" }.join(', '))
-  end
+  scope :order_by_curriculum, lambda {
+    keys = %i(subject grade module unit topic lesson)
+    order(keys.map { |k| "lesson_documents.metadata -> '#{k}'" }.join(', '))
+  }
 
-  scope :filter_by_term, ->(search_term) do
+  scope :filter_by_term, lambda { |search_term|
+    p search_term
     term = "%#{search_term}%"
     joins(:resource).where('resources.title ILIKE ? OR name ILIKE ?', term, term)
-  end
+  }
 
   scope :filter_by_subject, ->(subject) { where_metadata(:subject, subject) }
 
@@ -45,8 +46,8 @@ class LessonDocument < ActiveRecord::Base
     self.class.transaction do
       # deactive all other lessons for this resource
       self.class.where(resource_id: resource_id)
-                .where.not(id: self.id)
-                .update_all active: false
+        .where.not(id: id)
+        .update_all active: false
       # activate this lesson
       # obs: were we want a simple sql update statement, without rails callbacks
       update_columns active: true
@@ -67,9 +68,8 @@ class LessonDocument < ActiveRecord::Base
     end
 
     # store only the lesson number
-    if metadata['lesson'].present?
-      metadata['lesson'] = metadata['lesson'].match(/lesson (\d+)/i).try(:[], 1) || metadata['lesson']
-    end
+    return unless metadata['lesson'].present?
+    metadata['lesson'] = metadata['lesson'].match(/lesson (\d+)/i).try(:[], 1) || metadata['lesson']
   end
 
   def set_resource_from_metadata
