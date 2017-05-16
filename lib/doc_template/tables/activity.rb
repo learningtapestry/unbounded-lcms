@@ -13,7 +13,6 @@ module DocTemplate
             data = fetch table
 
             # Places activity type tags
-            # Places activity type tags
             value = data['activity-title'].parameterize
             header = "<p><span>[#{::DocTemplate::Tags::ActivityMetadataTypeTag::TAG_NAME}: #{value}]</span></p>"
             table.add_next_sibling header
