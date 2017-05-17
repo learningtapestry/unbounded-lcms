@@ -1,4 +1,6 @@
 class LessonDocument < ActiveRecord::Base
+  include Searchable
+
   belongs_to :resource
 
   before_save :clean_curriculum_metadata

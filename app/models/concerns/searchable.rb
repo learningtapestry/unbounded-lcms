@@ -12,7 +12,7 @@ module Searchable
     def index_document
       begin
         doc = self.class.search_model.build_from self
-        search_repo.save(doc)
+        search_repo.save(doc) if doc.present?
       rescue Faraday::ConnectionFailed; end
     end
 

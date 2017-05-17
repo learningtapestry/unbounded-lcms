@@ -2,7 +2,10 @@ class ResourcesController < ApplicationController
   include CurriculumMapProps
 
   def show
-    find_resource_and_curriculum
+    # redirect to lesson_document if resource has it #161
+    resource, curriculum = find_resource
+    return redirect_to lesson_document_path(resource.lesson_document) if resource.lesson_document?
+    find_curriculum(resource, curriculum)
 
     # redirect grade and module to explore_curriculum
     # according to issue #122
@@ -38,15 +41,16 @@ class ResourcesController < ApplicationController
 
   protected
 
-    def find_resource_and_curriculum
+    def find_resource
       if params[:slug].present?
         slug = ResourceSlug.find_by_value!(params[:slug])
-        resource = slug.resource
-        curriculum = slug.curriculum
-      else
-        resource = Resource.find(params[:id])
-        curriculum = resource.first_tree
+        return slug.resource, slug.curriculum
       end
+      Resource.find(params[:id])
+    end
+
+    def find_curriculum(resource, curriculum)
+      curriculum ||= resource.first_tree unless params[:slug].present?
 
       @resource = ResourcePresenter.new(resource)
       @grade_color_code = curriculum.try(:grade_color_code)

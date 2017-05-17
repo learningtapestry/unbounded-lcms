@@ -321,6 +321,10 @@ class Resource < ActiveRecord::Base
     lesson_documents.actives.order(updated_at: :desc).first
   end
 
+  def lesson_document?
+    lesson_document.present?
+  end
+
   private
 
     def destroy_additional_resources
