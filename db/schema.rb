@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170511044653) do
+ActiveRecord::Schema.define(version: 20170515114611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,14 +163,15 @@ ActiveRecord::Schema.define(version: 20170511044653) do
     t.string   "last_author_name"
     t.text     "original_content"
     t.string   "version"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.text     "content"
     t.hstore   "metadata"
     t.jsonb    "activity_metadata"
     t.integer  "resource_id"
     t.jsonb    "toc"
-    t.boolean  "active",            default: true, null: false
+    t.boolean  "active",                default: true, null: false
+    t.hstore   "foundational_metadata"
   end
 
   add_index "lesson_documents", ["file_id"], name: "index_lesson_documents_on_file_id", using: :btree

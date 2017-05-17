@@ -20,7 +20,7 @@ module DocTemplate
       attribute :lesson_standard, String
       attribute :lesson_mathematical_practice, String, default: ''
 
-      attribute :resource_subject, String, default: -> (m, _) { m.subject.try(:downcase) }
+      attribute :resource_subject, String, default: ->(m, _) { m.subject.try(:downcase) }
 
       def self.build_from(data)
         new(data.transform_keys { |k| k.to_s.underscore })

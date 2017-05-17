@@ -39,11 +39,9 @@ class LessonDocumentForm
 
       # the parsed html document
       @lesson.content = parsed_document.render
-      # add the metadata attributes
       @lesson.metadata = parsed_document.metadata
-      # add activities metadata
       @lesson.activity_metadata = parsed_document.activity_metadata
-      # add toc
+      @lesson.foundational_metadata = parsed_document.foundational_metadata
       @lesson.toc = parsed_document.toc
 
       @lesson.save && @lesson.activate!
