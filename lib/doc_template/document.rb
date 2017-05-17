@@ -36,7 +36,7 @@ module DocTemplate
     end
 
     def render
-      @nodes.to_html
+      HtmlSanitizer.post_processing(@nodes).to_html
     end
 
     private

@@ -6,6 +6,20 @@
   }
 }
 
+.c-ld-table {
+  tbody tr {
+    background-color: $ub-white;
+  }
+  td, th {
+    border: 1px solid $ub-hr;
+  }
+
+  @include e(wrap) {
+    clear: both;
+    overflow-x: auto;
+  }
+}
+
 .c-ld-header {
   @include flex-grid-row(nest);
 
@@ -76,7 +90,7 @@
     }
 
     img, span, td, table {
-      max-width: 100%;
+      //max-width: 100%;
     }
     img { height: auto; }
 
