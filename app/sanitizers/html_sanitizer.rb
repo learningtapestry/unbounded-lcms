@@ -4,6 +4,11 @@ class HtmlSanitizer
       Sanitize.fragment(html, default_config)
     end
 
+    def post_processing(nodes)
+      wrap_tables(nodes)
+      nodes
+    end
+
     def default_config
       {
         elements: %w(table td th tr tbody thead span a p h1 h2 h3 h4 h5 h6 ol ul li div img hr abbr b blockquote br cite code dd dfn dl dt em i kbd mark pre q s samp small strike strong sub sup time u var),
@@ -35,6 +40,14 @@ class HtmlSanitizer
     end
 
     private
+
+    # add style to table for consistent view
+    # wrap for horizontal scrolling on small screens
+    def wrap_tables(nodes)
+      nodes.xpath('table')
+           .add_class('c-ld-table')
+           .wrap('<div class="c-ld-table__wrap"></div>')
+    end
 
     # Replace '<span>text</span>' with 'text'
     def remove_spans_wo_attrs(env)

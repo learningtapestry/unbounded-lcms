@@ -15,7 +15,7 @@ $(function () {
     if (!$sidebar.length) return;
     new Foundation.Sticky($sidebar,
                           {
-                            checkEvery: 50,
+                            checkEvery: 0,
                             stickyOn: 'small',
                             anchor: 'c-ch-content',
                             marginTop: 0
