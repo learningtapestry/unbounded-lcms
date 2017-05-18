@@ -11,7 +11,7 @@ Lint/AmbiguousBlockAssociation:
   Enabled: false
 
 Metrics/BlockLength:
-  ExcludedMethods: ['context', 'describe', 'feature', 'guard']
+  ExcludedMethods: ['context', 'describe', 'feature', 'guard', 'included']
 
 Metrics/AbcSize:
   Max: 39

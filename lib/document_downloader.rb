@@ -1,25 +1,11 @@
 require 'google/apis/drive_v3'
 
 module DocumentDownloader
-  class FileNotFound < StandardError; end
-
   class GDoc
     def initialize(credentials, file_url, klass)
       @credentials = credentials
       @file_url = file_url
       @klass = klass
-    end
-
-    def file
-      @_file ||= service.get_file(
-        file_id, fields: 'lastModifyingUser,modifiedTime,name,version'
-      )
-    end
-
-    def content
-      @_content ||= service.export_file(
-        file_id, 'text/html'
-      ).encode('ASCII-8BIT').force_encoding('UTF-8')
     end
 
     def import
@@ -38,15 +24,27 @@ module DocumentDownloader
 
     private
 
+    def content
+      @_content ||= service.export_file(
+        file_id, 'text/html'
+      ).encode('ASCII-8BIT').force_encoding('UTF-8')
+    end
+
+    def file
+      @_file ||= service.get_file(
+        file_id, fields: 'lastModifyingUser,modifiedTime,name,version'
+      )
+    end
+
+    def file_id
+      @_file_id ||= @file_url.scan(%r{/d/([^\/]+)/?}).first.first
+    end
+
     def service
       return @_service if @_service.present?
       @_service = Google::Apis::DriveV3::DriveService.new
       @_service.authorization = @credentials
       @_service
-    end
-
-    def file_id
-      @_file_id ||= @file_url.scan(/\/d\/([^\/]+)\/?/).first.first
     end
   end
 end

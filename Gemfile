@@ -148,7 +148,9 @@ group :test do
   gem 'minitest-rails-capybara'
   gem 'minitest-vcr'
   gem 'poltergeist'
-  gem 'shoulda', require: false
+  # TODO: Remove after we get rid of MiniTest
+  gem 'shoulda-context'
+  gem 'shoulda-matchers', '~> 3.1'
   gem 'simplecov', require: false
   gem 'webmock', '~> 3.0'
 end
