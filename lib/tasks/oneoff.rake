@@ -4,4 +4,3 @@ namespace :oneoff do
   #   Oneoff.fix 'N'
   # end
 end
-
