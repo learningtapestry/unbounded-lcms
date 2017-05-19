@@ -20,18 +20,23 @@ Rails.application.routes.draw do
       get :preview
     end
   end
-  get '/downloads/:id/pdf_proxy(/:s3)', as: :pdf_proxy_download, to: 'downloads#pdf_proxy', constraints: { s3: /[^\/]+/ }
-  get '/downloads/content_guides/:id(/:slug)', as: :content_guide_pdf, to: 'content_guides#show_pdf'
-  resources :explore_curriculum, only: [:index, :show]
+  get '/downloads/:id/pdf_proxy(/:s3)',
+      as: :pdf_proxy_download, to: 'downloads#pdf_proxy',
+      constraints: { s3: %r{[^\/]+} }
+  get '/downloads/content_guides/:id(/:slug)',
+      as: :content_guide_pdf, to: 'content_guides#show_pdf'
+  resources :explore_curriculum, only: %i(index show)
   resources :enhance_instruction, only: :index
   resources :find_lessons, only: :index
   resources :pages, only: :show
   resources :resources, only: :show
 
-  get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
+  get '/resources/:id/related_instruction' => 'resources#related_instruction',
+      as: :related_instruction
   get '/media/:id' => 'resources#media', as: :media
   get '/other/:id' => 'resources#generic', as: :generic
-  get '/content_guides/:id(/:slug)', as: :content_guide, to: 'content_guides#show'
+  get '/content_guides/:id(/:slug)',
+      as: :content_guide, to: 'content_guides#show'
 
   resources :lesson_documents, only: :show
 
@@ -58,7 +63,7 @@ Rails.application.routes.draw do
     resource :curriculum_export, only: %i(new create)
     resources :curriculums
     resources :reading_assignment_texts
-    resource :resource_bulk_edits, only: [:new, :create]
+    resource :resource_bulk_edits, only: %i(new create)
     resources :resource_children, only: :create
     get '/resource_picker' => 'resource_picker#index'
     get '/curriculum_picker' => 'resource_picker#curriculum'
@@ -75,13 +80,14 @@ Rails.application.routes.draw do
     end
     resources :leadership_posts, except: :show
     resources :content_guide_faqs, except: :show
-    resources :standards, only: [:index, :edit, :update]
+    resources :standards, only: %i(index edit update)
 
-    resources :components, only: [:index, :show]
+    resources :components, only: %i(index show)
     resource :sketch_compiler, path: 'sketch-compiler', only: [:show] do
       post :compile
     end
-    resources :lesson_documents, only: [:index, :create, :new, :destroy]
+    resources :lesson_documents, only: %i(index create new destroy)
+    resources :curriculum_trees
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug
