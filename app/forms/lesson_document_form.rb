@@ -16,39 +16,33 @@ class LessonDocumentForm
   end
 
   def save
-    if valid?
-      persist!
-      # returns false if there were errors during the import
-      errors.empty?
-    else
-      false
-    end
+    return false unless valid?
+
+    persist!
+    errors.empty? # returns false if there were errors during the import
   end
 
   private
 
   def persist!
-    begin
-      @lesson = DocumentDownloader::GDoc.new(
-        @credentials, link, @target_klass
-      ).import
+    @lesson = DocumentDownloader::GDoc
+                .new(@credentials, link, @target_klass)
+                .import
 
-      parsed_document = DocTemplate::Template.parse(
-        @lesson.original_content
-      )
+    parsed_document = DocTemplate::Template.parse@lesson.original_content
 
-      # the parsed html document
-      @lesson.content = parsed_document.render
-      @lesson.metadata = parsed_document.metadata
-      @lesson.activity_metadata = parsed_document.activity_metadata
-      @lesson.foundational_metadata = parsed_document.foundational_metadata
-      @lesson.toc = parsed_document.toc
+    @lesson.update!(
+      activity_metadata: parsed_document.activity_metadata,
+      content: parsed_document.render,
+      foundational_metadata: parsed_document.foundational_metadata,
+      metadata: parsed_document.metadata,
+      toc: parsed_document.toc
+    )
 
-      @lesson.save && @lesson.activate!
-    rescue => e
-      Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
-      errors.add(:link, e.message)
-      raise
-    end
+    @lesson.activate!
+  rescue => e
+    Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
+    errors.add(:link, e.message)
+    raise
   end
 end

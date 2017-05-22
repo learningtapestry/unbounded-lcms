@@ -1,11 +1,14 @@
-class Admin::AdminController < ApplicationController
-  layout 'admin'
-  before_action :authenticate_admin!
+module Admin
+  class AdminController < ApplicationController
+    layout 'admin'
 
-  private
+    before_action :authenticate_admin!
+
+    private
 
     def authenticate_admin!
       authenticate_user!
-      raise "User is not an admin." unless current_user.admin?
+      raise 'User is not an admin.' unless current_user.admin?
     end
+  end
 end
