@@ -3,7 +3,7 @@ module DocTemplate
     class SourceTag < BaseTag
       TAG_NAME = 'source'.freeze
 
-      def parse(node, opts = {})
+      def parse(node, _ = {})
         node.remove
         @result = ''
         self
