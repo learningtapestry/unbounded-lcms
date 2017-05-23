@@ -18,8 +18,10 @@ module GoogleAuth
     remove_expired_token(redis, user_id)
 
     credentials =
-      begin authorizer.get_credentials(user_id, request)
-      rescue Signet::AuthorizationError
+      begin
+        authorizer.get_credentials(user_id, request)
+      rescue Signet::AuthorizationError => e
+        Rails.logger.warn e.message
       end
 
     if credentials

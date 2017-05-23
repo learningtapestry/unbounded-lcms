@@ -5,15 +5,16 @@ module Admin
     before_action :obtain_google_credentials, only: [:create, :new]
 
     def index
-      @param_obj = OpenStruct.new(params[:q])
-      lessons = LessonDocument.order_by_curriculum.order(active: :desc).paginate(page: params[:page])
+      @query = OpenStruct.new(params[:query])
 
-      lessons = lessons.actives unless @param_obj.inactive == '1'
-      lessons = lessons.filter_by_term(@param_obj.search_term) if @param_obj.search_term.present?
-      lessons = lessons.filter_by_subject(@param_obj.subject) if @param_obj.subject.present?
-      lessons = lessons.filter_by_grade(@param_obj.grade) if @param_obj.grade.present?
+      scope = LessonDocument.order_by_curriculum.order(active: :desc).paginate(page: params[:page])
 
-      @lesson_documents = lessons
+      scope = scope.actives unless @query.inactive == '1'
+      scope = scope.filter_by_term(@query.search_term) if @query.search_term.present?
+      scope = scope.filter_by_subject(@query.subject) if @query.subject.present?
+      scope = scope.filter_by_grade(@query.grade) if @query.grade.present?
+
+      @lesson_documents = scope
     end
 
     def new
