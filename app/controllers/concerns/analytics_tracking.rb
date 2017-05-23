@@ -22,13 +22,13 @@ module AnalyticsTracking
 
     def ga_track_download(action:, label:, category: nil)
       return if ga_client_id.blank?
-      return if is_googlebot?(ua: request.user_agent)
+      return if googlebot?(ua: request.user_agent)
 
       category ||= 'download'
       ga_tracker.event(category: category, action: action, label: label)
     end
 
-    def is_googlebot?(ua:)
+    def googlebot?(ua:)
       ua.to_s.downcase.include?('googlebot')
     end
 
@@ -41,12 +41,10 @@ module AnalyticsTracking
           c.adapter = Staccato::Adapter::Logger.new(
             Staccato.ga_collection_uri,
             Logger.new(STDOUT),
-            lambda {|params| JSON.dump(params)}
+            ->(params) { JSON.dump(params) }
           )
         end
       end
     end
-
-  end # ... included
-
+  end
 end
