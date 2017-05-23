@@ -6,7 +6,7 @@
 
 .o-ld-smp-figure {
   background-color: map-get($ub-colorcodes, math-base);
-  padding: 20px;
+  padding: 5px;
 
   @include e(name) {
     color: #fff;
@@ -17,7 +17,7 @@
 }
 
 .o-ld-smp-content {
-  margin-left: 120px;
+  margin-right: 120px;
 }
 
 .o-ld-smp-lines {
@@ -25,6 +25,7 @@
   flex-direction: column;
   height: 100%;
   position: absolute;
+  right: 0;
 }
 
 .o-ld-smp-vline {
@@ -42,10 +43,10 @@
   width: 100px;
 
   @include m(bottom) {
-    background-position: left 50px top 0;
+    background-position: right 50px top 0;
   }
 
   @include m(top) {
-    background-position: left 50px bottom 0;
+    background-position: bottom 0 right 50px;
   }
 }
