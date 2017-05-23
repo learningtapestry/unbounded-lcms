@@ -1,0 +1,16 @@
+<div class="o-ld-smp">
+  <div class="o-ld-smp-lines">
+    <div class="o-ld-smp-hline o-ld-smp-hline--top"></div>
+    <div class="o-ld-smp-vline">
+      <div class="o-ld-smp-figure">
+        <% @smp.each do |smp| %>
+          <p class="o-ld-smp-figure__name"><%= smp %></p>
+        <% end %>
+      </div>
+    </div>
+    <div class="o-ld-smp-hline o-ld-smp-hline--bottom"></div>
+  </div>
+  <div class="o-ld-smp-content">
+    <%= @content %>
+  </div>
+</div>
