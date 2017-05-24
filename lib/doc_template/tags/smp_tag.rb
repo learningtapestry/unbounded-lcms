@@ -29,7 +29,6 @@ module DocTemplate
       private
 
       def nodes_to_wrap(node)
-        node = node.previous_sibling
         [].tap do |result|
           while (node = node.try(:previous_sibling))
             if node.has_attribute?('smp-start')
