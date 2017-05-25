@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170515114611) do
+ActiveRecord::Schema.define(version: 20170519023356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,6 +101,14 @@ ActiveRecord::Schema.define(version: 20170515114611) do
 
   add_index "curriculum_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "curriculum_anc_desc_idx", unique: true, using: :btree
   add_index "curriculum_hierarchies", ["descendant_id"], name: "curriculum_desc_idx", using: :btree
+
+  create_table "curriculum_trees", force: :cascade do |t|
+    t.string   "name",                       null: false
+    t.jsonb    "tree",       default: {},    null: false
+    t.boolean  "default",    default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
 
   create_table "curriculum_types", force: :cascade do |t|
     t.string "name", null: false

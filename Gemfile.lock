@@ -503,6 +503,8 @@ GEM
     rails-assets-eventemitter3 (1.2.0)
     rails-assets-fetch (0.11.0)
     rails-assets-jquery (2.2.2)
+    rails-assets-jstree (3.3.4)
+      rails-assets-jquery (>= 1.9.1)
     rails-assets-knockout (3.3.0)
     rails-assets-lodash (3.9.3)
     rails-assets-microplugin (0.0.3)
@@ -753,6 +755,7 @@ DEPENDENCIES
   rails-assets-es6-promise (~> 3.1.2)!
   rails-assets-eventemitter3 (~> 1.2.0)!
   rails-assets-fetch (~> 0.11.0)!
+  rails-assets-jstree (~> 3.3.4)!
   rails-assets-knockout (~> 3.3.0)!
   rails-assets-lodash (~> 3.9.3)!
   rails-assets-selectize (~> 0.12.1)!

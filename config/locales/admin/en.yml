@@ -90,6 +90,10 @@ en:
         success: "'%{name}' updated successfully."
     common:
       editing_disabled: Resource editing is disabled. Turn editing on in order to edit resources.
+    curriculum_trees:
+      update:
+        success: Curriculum Tree saved successfully.
+        error: An error occured trying to save this entry.
     download_categories:
       create:
         success: "Download category created successfully."
@@ -305,3 +309,4 @@ en:
       sketch_compilation: Compile lesson sketch
       import_lesson: Import Lesson
       lessons: Lessons
+      curriculum_trees: Curriculum Trees
