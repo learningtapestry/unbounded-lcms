@@ -159,18 +159,28 @@ class ContentGuidePresenter < BasePresenter
     nodes
   end
 
-  def create_media_node(resource, container, start_time = nil, stop_time = nil, base_class: 'c-cg-media', with_description: false)
-    title = doc.document.create_element('a', class: "#{base_class}__title", href: media_path(resource), target: '_blank')
+  def create_media_node(resource, container, opts = {})
+    opts = {
+      base_class: 'c-cg-media',
+      start_time: nil,
+      stop_time: nil,
+      with_description: false
+    }.merge(opts)
+
+    title = doc.document.create_element('a',
+                                        class: "#{opts[:base_class]}__title",
+                                        href: media_path(resource),
+                                        target: '_blank')
     title.content = resource.title
 
-    media = doc.document.create_element('div', class: base_class)
-    media.set_attribute('data-start', start_time) if start_time
-    media.set_attribute('data-stop', stop_time) if stop_time
+    media = doc.document.create_element('div', class: opts[:base_class])
+    media.set_attribute('data-start', opts[:start_time]) if opts[:start_time]
+    media.set_attribute('data-stop', opts[:stop_time]) if opts[:stop_time]
     media << title
     media << container
 
-    if with_description
-      description = doc.document.create_element('div', class: "#{base_class}__description")
+    if opts[:with_description]
+      description = doc.document.create_element('div', class: "#{opts[:base_class]}__description")
       description.inner_html = resource.description
       media << description
     end
@@ -193,7 +203,7 @@ class ContentGuidePresenter < BasePresenter
 
       container = doc.document.create_element('div', id: "sc_container_#{index}", class: 'c-cg-media__podcast')
       container << embed_info
-      media = create_media_node(resource, container, a[:start], a[:stop])
+      media = create_media_node(resource, container, start_time: a[:start], stop_time: a[:stop])
 
       a.replace(media)
     end

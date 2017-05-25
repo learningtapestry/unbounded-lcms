@@ -133,11 +133,14 @@ $ub-element-typography: (
   // about people
   staff-name: ('font-size': 22px, 'line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, color: $ub-primary),
   staff-position: ('font-size': 18px, 'line-height': 22px, 'font-family': $ub-sanserif, 'font-weight': 300, 'font-style': italic, color: #666),
+  // Lessons
   ld-activity-h2time: ('font-size': 22px, 'line-height': 1, 'font-family': $ub-sanserif, 'font-weight': bold, 'font-style': italic),
   ld-activity-h3time: ('font-size': 16px, 'line-height': 1, 'font-family': $ub-sanserif, 'font-weight': bold, 'font-style': italic),
   ld-activity-teaser: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif, font-style: italic),
   ld-callout-header: ('font-size': 20px, 'line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, font-style: normal),
   ld-optbreak: ('font-size': 20px, 'line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, font-style: normal),
+  ld-pd-caption: (font-size: smaller !important, font-weight: 600, text-transform: uppercase),
+  ld-pd-title: (font-size: x-large !important, font-weight: 700, text-transform: capitalize),
   ld-smp: ('font-size': 16px, 'line-height': 1, 'font-family': $ub-serif, 'font-weight': 600, color: #fff),
 );
 
