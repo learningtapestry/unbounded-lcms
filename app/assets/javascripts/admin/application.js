@@ -10,6 +10,7 @@
 //= require react
 //= require react_ujs
 //= require vendor/html.sortable.min
+//= require jstree
 //= require ../ready
 //= require ../components
 //= require ./components

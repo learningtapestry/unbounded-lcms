@@ -1,0 +1,40 @@
+<% set_page_title 'Curriculum Tree Manager' %>
+
+<div class=o-page>
+
+  <h1 class=text-center>Curriculum Trees</h1>
+
+  <div class=row>
+    <div class='flex-pull-right'>
+      <%#= link_to t('.new_tree'), :new_admin_curriculum_tree, class: 'button primary' %>
+    </div>
+    <table class=table>
+      <tr>
+        <th>Name
+        <th>Last Update
+        <th>Default
+        <th>
+        <th>
+      </tr>
+
+      <% @curriculums.each do |curr| curriculum = curr.presenter %>
+        <tr id=curriculum_<%= curriculum.id %>>
+          <td><%= curriculum.name %>
+          <td><%= curriculum.updated_at.to_s %>
+          <td><%= curriculum.default? ? '(Default)' : '-' %>
+          <td><%= link_to [:edit, :admin, curriculum], class: 'button small primary', target: '_blank' do %>
+                <i class='fa fa-pencil'></i>
+              <% end %>
+          <td><%= button_to t('ui.delete'), admin_curriculum_tree_path(curriculum), class: 'button small alert', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class='col-sm-12 text-center'>
+      <%= will_paginate @curriculums, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+
+</div>

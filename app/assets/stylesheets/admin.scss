@@ -1,10 +1,12 @@
 @import 'main';
+@import 'selectize';
+@import 'jstree';
 @import 'admin/resources';
-@import 'admin/curriculums.scss';
+@import 'admin/curriculums';
 @import 'admin/standards';
 @import 'admin/components';
 @import 'admin/lessons';
-@import 'selectize';
+
 
 .button {
   white-space: nowrap;
