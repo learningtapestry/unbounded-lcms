@@ -18,6 +18,7 @@ module DocTemplate
         attribute :activity_metacognition, String
         attribute :activity_guidance, String
         attribute :activity_content_development_notes, String
+        attribute :task_count, Integer, default: 0
 
         # aliases to build toc
         attribute :title, String, default: ->(a, _) { a.activity_title }

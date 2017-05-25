@@ -2,6 +2,7 @@ module DocTemplate
   module Tags
     class ActivityMetadataTypeTag < BaseTag
       TAG_NAME = 'activity-metadata-type'.freeze
+      TASK_RE = /(\[task:\s(#)\])/i
       TEMPLATE = 'activity.html.erb'.freeze
 
       def parse(node, opts = {})
@@ -10,7 +11,11 @@ module DocTemplate
           [].tap do |result|
             while (sibling = node.next_sibling)
               break if sibling.content =~ /\[\s*(#{ActivityMetadataSectionTag::TAG_NAME}|#{ActivityMetadataTypeTag::TAG_NAME}|#{MaterialsTag::TAG_NAME})/i
-              result << sibling.to_html
+
+              # Substitutes task tags
+              html = handle_tasks_for activity, sibling.to_html
+
+              result << html
               sibling.remove
             end
           end.join
@@ -18,6 +23,15 @@ module DocTemplate
         activity[:activity_guidance] = strip_html_element(activity[:activity_guidance])
         @result = node.replace(parse_template({ source: activity_src, activity: activity }, TEMPLATE))
         self
+      end
+
+      private
+
+      def handle_tasks_for(activity, html)
+        return html unless TASK_RE =~ html
+
+        activity[:task_count] += 1
+        html.sub /\[task:\s#\]/i, "[task: #{activity[:task_count]}]"
       end
     end
   end
