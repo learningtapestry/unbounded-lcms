@@ -18,7 +18,6 @@ module DocTemplate
         attribute :activity_metacognition, String
         attribute :activity_guidance, String
         attribute :activity_content_development_notes, String
-        attribute :task_count, Integer, default: 0
 
         # aliases to build toc
         attribute :title, String, default: ->(a, _) { a.activity_title }
@@ -44,6 +43,7 @@ module DocTemplate
 
       attribute :children, Array[Section]
       attribute :idx, Integer
+      attribute :task_counter, Hash[String => Integer], default: {}
 
       def self.build_from(data)
         activity_data =
