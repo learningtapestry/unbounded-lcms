@@ -2,6 +2,8 @@ require 'google/apis/drive_v3'
 
 module DocumentDownloader
   class GDoc
+    GOOGLE_DRAWING_RE = %r{https?://docs\.google\.com/drawings/image[^"]*}i
+
     def initialize(credentials, file_url, klass)
       @credentials = credentials
       @file_url = file_url
@@ -25,9 +27,13 @@ module DocumentDownloader
     private
 
     def content
-      @_content ||= service.export_file(
-        file_id, 'text/html'
-      ).encode('ASCII-8BIT').force_encoding('UTF-8')
+      html = service
+               .export_file(file_id, 'text/html')
+               .encode('ASCII-8BIT')
+               .force_encoding('UTF-8')
+
+      # Replaces all google drawings by their Base64 encoded values
+      handle_drawings html
     end
 
     def file
@@ -38,6 +44,20 @@ module DocumentDownloader
 
     def file_id
       @_file_id ||= @file_url.scan(%r{/d/([^\/]+)/?}).first.first
+    end
+
+    def handle_drawings(html)
+      return html unless (match = GOOGLE_DRAWING_RE.match html)
+
+      headers = { 'Authorization' => "Bearer #{@credentials.access_token}" }
+
+      match.to_a.uniq.each do |url|
+        response = HTTParty.get CGI.unescapeHTML(url), headers: headers
+        new_src = "data:#{response.content_type};base64, #{Base64.encode64(response)}"
+        html = html.gsub(url, new_src)
+      end
+
+      html
     end
 
     def service
