@@ -1,0 +1,44 @@
+.o-ld-pd {
+  color: $ub-white;
+  @include add-gutter(margin, bottom);
+  padding: $ub-base-padding;
+
+  @include e(description) {
+    margin-top: 20px;
+  }
+
+  @include e(expander) {
+    @include flex;
+
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  @include e(title) {
+    @include txt-element(ld-pd-title);
+  }
+
+  @include m(collapsed) {
+    float: right;
+    @include add-gutter(margin, left);
+    width: 35%;
+  }
+
+  @include m(expanded) {
+    @include add-gutter(margin, top);
+  }
+}
+
+.o-ld-pd-caption {
+  @include txt-element(ld-pd-caption);
+
+  margin: 0;
+
+  @include m(hidden){
+    display: none;
+  }
+}
+
+.o-ld-pd-toggler {
+  cursor: pointer;
+}
