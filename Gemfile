@@ -14,7 +14,7 @@ gem 'carrierwave', '~> 0.10.0'
 
 # system
 gem 'daemons', '~> 1.2', '>= 1.2.3'
-gem 'dotenv-rails', '~> 2.0.2', groups: %i(development integration test)
+gem 'dotenv-rails', '~> 2.2', '>= 2.2.1', groups: %i(development integration test)
 gem 'foreman', '~> 0.78.0'
 gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
 
