@@ -4,9 +4,22 @@ class HtmlSanitizer
       Sanitize.fragment(html, default_config)
     end
 
+    def sanitize_css(css)
+      Sanitize::CSS.stylesheet(css, css_config)
+    end
+
     def post_processing(nodes)
       wrap_tables(nodes)
       nodes
+    end
+
+    # config to keep list-style-type bc gdoc is doing this trough content/counter
+    def css_config
+      {
+        css: {
+          properties: %w(content counter-increment counter-reset counter-set list-style-type)
+        }
+      }
     end
 
     def default_config
@@ -15,8 +28,9 @@ class HtmlSanitizer
         attributes: {
           'a'    => %w(href title data-toggle id),
           'img'  => %w(src alt),
-          'ol'   => %w(type style start),
-          'ul'   => %w(type style start),
+          'ol'   => %w(type style start list-style-type class),
+          'ul'   => %w(type style start list-style-type),
+          'li'   => %w(class),
           'p'    => %w(style),
           'span' => %w(style),
           'td'   => %w(colspan rowspan),
@@ -31,10 +45,11 @@ class HtmlSanitizer
         transformers: [ # These transformers Will be executed via .call(), as lambdas
           method(:remove_meanless_styles),
           method(:remove_empty_paragraphs),
-          # TODO need to change parsing tags xpath before, it's relying on spans
+          # TODO: need to change parsing tags xpath before, it's relying on spans
           # method(:remove_spans_wo_attrs)
           method(:remove_gdocs_suggestions),
           method(:replace_charts_urls),
+          method(:keep_bullets_level)
         ]
       }
     end
@@ -45,8 +60,8 @@ class HtmlSanitizer
     # wrap for horizontal scrolling on small screens
     def wrap_tables(nodes)
       nodes.xpath('table')
-           .add_class('c-ld-table')
-           .wrap('<div class="c-ld-table__wrap"></div>')
+        .add_class('c-ld-table')
+        .wrap('<div class="c-ld-table__wrap"></div>')
     end
 
     # Replace '<span>text</span>' with 'text'
@@ -69,8 +84,8 @@ class HtmlSanitizer
       node = env[:node]
       if node.element? && node.attr('style').present?
         node['style'] = node['style'].gsub(/font-weight:\s*(normal|[1-4]00;?)/, '')
-                                     .gsub(/font-style:\s*normal;?/, '')
-                                     .gsub(/text-decoration:\s*none;?/, '')
+                          .gsub(/font-style:\s*normal;?/, '')
+                          .gsub(/text-decoration:\s*none;?/, '')
       end
     end
 
@@ -98,6 +113,18 @@ class HtmlSanitizer
       node.css('img[src^="https://www.google.com/chart"]').each do |img|
         img[:src] = img[:src].gsub('www.google', 'chart.googleapis')
       end
+    end
+
+    def keep_bullets_level(env)
+      node = env[:node]
+      return unless node.element? && node.name == 'li' && node['style'].to_s.include?('margin-left')
+      indent = /margin-left\s*:\s*(\d+)/.match(node['style']).try(:[], 1).to_i
+      add_css_class(node, "u-ld-indent--l#{(indent - 50) / 30 + 2}") if indent >= 50
+    end
+
+    def add_css_class(el, *classes)
+      existing = (el[:class] || '').split(/\s+/)
+      el[:class] = existing.concat(classes).uniq.join(' ')
     end
   end
 end

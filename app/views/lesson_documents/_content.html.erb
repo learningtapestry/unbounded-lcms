@@ -1,9 +1,9 @@
-<div class="o-page__module u-bg--light c-cg-lesson">
+<div class="o-page__module u-bg--light c-ld">
   <div class="o-page__wrap--row">
-    <div class="c-cg-lesson__sidebar">
+    <div class="c-ld__sidebar">
       <%= render 'nav', lesson_document: lesson_document %>
     </div>
-    <div id="c-ch-content" class="c-cg-lesson__body">
+    <div id="c-ch-content" class="c-ld__body">
       <% if lesson_document.description.present? %>
         <h2>Lesson Summary</h2>
         <p><%= raw(lesson_document.description) %></p>
