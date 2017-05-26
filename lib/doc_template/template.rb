@@ -29,7 +29,7 @@ module DocTemplate
       end
     end
 
-    attr_reader :activity_metadata, :toc
+    attr_reader :activity_metadata, :toc, :css_styles
 
     def self.parse(source)
       new.parse(source)
@@ -58,6 +58,8 @@ module DocTemplate
 
     def parse(source)
       doc = Nokogiri::HTML(source)
+      # get css styles from head to keep classes for lists (preserve list-style-type)
+      @css_styles = HtmlSanitizer.sanitize_css(doc.xpath('//html/head/style/text()').to_s)
       # clean all the inline styles
       body_node = HtmlSanitizer.sanitize(doc.xpath('//html/body/*').to_s)
       body_fragment = Nokogiri::HTML.fragment(body_node)

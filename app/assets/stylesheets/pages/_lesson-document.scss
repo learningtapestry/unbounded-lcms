@@ -1,11 +1,3 @@
-.c-ld {
-  @include m(ela-2) {
-    h2.o-ld-title {
-      margin-top: $ub-large-margin * 2 !important;
-    }
-  }
-}
-
 .c-ld-table {
   tbody tr {
     background-color: $ub-white;
@@ -48,7 +40,7 @@
   }
 }
 
-.c-cg-lesson {
+.c-ld {
   @include add-gutter($type: padding, $subtype: top, $x: 4/3);
   color: $ub-heading-txt;
   padding-bottom: $ub-large-padding * 2;
@@ -85,8 +77,16 @@
       }
     }
 
+    ol, ul {
+      margin-bottom: 0;
+    }
+
     ul li {
       text-indent: 0;
+    }
+
+    ol {
+      margin-left: .25rem;
     }
 
     img, span, td, table {
@@ -105,7 +105,21 @@
     }
 
     i.fa { font: normal normal normal 14px/1 FontAwesome; }
-    .indented { text-indent: 25px; }
+    .indented { text-indent: $list-side-margin * 2; }
   }
 
+
+  @include m(ela-2) {
+    h2.o-ld-title {
+      margin-top: $ub-large-margin * 2 !important;
+    }
+  }
+}
+
+.u-ld-indent {
+  @for $i from 2 through 3 {
+    @include m('l#{$i}') {
+      margin-left: $list-side-margin * $i;
+    }
+  }
 }

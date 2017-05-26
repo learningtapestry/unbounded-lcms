@@ -12,6 +12,7 @@
     </div>
     <table class=table>
       <tr>
+        <th>ID
         <th>Curriculum
         <th>Resource
         <th>File Name
@@ -24,6 +25,7 @@
 
       <% @lesson_documents.each do |lesson| %>
         <tr id=lesson_<%= lesson.id %>>
+          <td class='u-text--right'><%= lesson.id %>
           <td><%= curriculum_breadcrumbs(lesson) %>
           <td><%= link_to lesson.resource.try(:title), lesson.resource if lesson.resource %>
           <td><%= link_to lesson.name, lesson.file_url, target: '_blank' %>
