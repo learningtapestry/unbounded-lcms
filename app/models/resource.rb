@@ -18,11 +18,13 @@ class Resource < ActiveRecord::Base
   }
 
   acts_as_taggable_on :content_sources,
-    :download_types,
-    :grades,
-    :resource_types,
-    :tags,
-    :topics
+                      :download_types,
+                      :grades,
+                      :resource_types,
+                      :tags,
+                      :topics
+
+  belongs_to :curriculum_tree
 
   # Additional resources
   has_many :resource_additional_resources, dependent: :destroy
@@ -31,8 +33,10 @@ class Resource < ActiveRecord::Base
   # Standards.
   has_many :resource_standards, dependent: :destroy
   has_many :standards, through: :resource_standards
-  has_many :common_core_standards, ->{ where(type: 'CommonCoreStandard') }, source: :standard, through: :resource_standards
-  has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :resource_standards
+  has_many :common_core_standards, -> { where(type: 'CommonCoreStandard') },
+           source: :standard, through: :resource_standards
+  has_many :unbounded_standards, -> { where(type: 'UnboundedStandard') },
+           source: :standard, through: :resource_standards
 
   # Downloads.
   has_many :resource_downloads, dependent: :destroy
@@ -50,9 +54,9 @@ class Resource < ActiveRecord::Base
   has_many :resource_related_resources, dependent: :destroy
   has_many :related_resources, through: :resource_related_resources, class_name: 'Resource'
   has_many :resource_related_resources_as_related,
-    class_name: 'ResourceRelatedResource',
-    foreign_key: 'related_resource_id',
-    dependent: :destroy
+           class_name: 'ResourceRelatedResource',
+           foreign_key: 'related_resource_id',
+           dependent: :destroy
 
   # Requirements
   has_many :resource_requirements, dependent: :destroy
@@ -71,51 +75,59 @@ class Resource < ActiveRecord::Base
   has_many :lesson_documents
 
   validates :title, presence: true
-  validates :url, presence: true, url: true, if: [:video?, :podcast?]
+  validates :url, presence: true, url: true, if: %i(video? podcast?)
 
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
   before_destroy :destroy_additional_resources
 
-  scope :lessons, -> {
-    joins(:curriculums)
-    .where(curriculums: { curriculum_type: CurriculumType.lesson })
-    .where.not(curriculums: { seed_id: nil })
+  scope :tree, lambda { |name = nil|
+    if name
+      joins(:curriculum_tree).where(curriculum_tree: { name: name })
+    else
+      where(curriculum_tree_id: CurriculumTree.default.id)
+    end
   }
 
-  scope :where_subject, ->(subjects) {
+  scope :where_curriculum, lambda { |*dir|
+    where('curriculum_directory @> ?', "{#{dir.join(',')}}")
+  }
+
+  scope :lessons, lambda {
+    joins(:curriculums)
+      .where(curriculums: { curriculum_type: CurriculumType.lesson })
+      .where.not(curriculums: { seed_id: nil })
+  }
+
+  scope :where_subject, lambda { |subjects|
     subjects = Array.wrap(subjects)
     return where(nil) unless subjects.any?
 
     where(subject: subjects)
   }
 
-  scope :where_tag, ->(context, value) {
+  scope :where_tag, lambda { |context, value|
     value = Array.wrap(value)
     return where(nil) unless value.any?
 
     joins(taggings: [:tag])
-    .where(taggings: { context: context })
-    .where(tags: { name: value })
+      .where(taggings: { context: context })
+      .where(tags: { name: value })
   }
 
-  scope :where_grade, ->(grades) {
-    where_tag('grades', grades)
-  }
+  scope :where_grade, ->(grades) { where_tag('grades', grades) }
 
   scope :asc, -> { order(created_at: :asc) }
   scope :desc, -> { order(created_at: :desc) }
 
-  scope :videos, -> { where(resource_type: self.resource_types[:video]) }
-  scope :podcasts, -> { where(resource_type: self.resource_types[:podcast]) }
-  scope :media, -> { where(resource_type: [self.resource_types[:video], self.resource_types[:podcast]])}
+  scope :videos, -> { where(resource_type: resource_types[:video]) }
+  scope :podcasts, -> { where(resource_type: resource_types[:podcast]) }
+  scope :media, -> { where(resource_type: [resource_types[:video], resource_types[:podcast]]) }
 
-  scope :generic_resources, -> do
-    where(resource_type: [
-      self.resource_types[:text_set],
-      self.resource_types[:quick_reference_guide]
-    ])
-  end
+  scope :generic_resources, lambda {
+    where(resource_type: [resource_types[:text_set],
+                          resource_types[:quick_reference_guide]])
+  }
 
   class << self
     def by_title(title)
@@ -129,7 +141,11 @@ class Resource < ActiveRecord::Base
       transaction do
         resources.each do |resource|
           # Standards
-          resource.resource_standards.where(standard_id: before.standard_ids).where.not(standard_id: after.standard_ids).destroy_all
+          resource.resource_standards
+            .where(standard_id: before.standard_ids)
+            .where.not(standard_id: after.standard_ids)
+            .destroy_all
+
           (after.standard_ids - before.standard_ids).each do |standard_id|
             resource.resource_standards.find_or_create_by!(standard_id: standard_id)
           end
@@ -155,7 +171,7 @@ class Resource < ActiveRecord::Base
 
     def init_for_bulk_edit(resources)
       resource = new
-      resource.standard_ids = resources.map(&:standard_ids).inject { |memo, ids| memo &= ids }
+      resource.standard_ids = resources.map(&:standard_ids).inject { |memo, ids| memo & ids }
       resource
     end
 
@@ -189,9 +205,9 @@ class Resource < ActiveRecord::Base
 
   def related_resources
     @related_resources ||= resource_related_resources
-      .includes(:related_resource)
-      .order(:position)
-      .map(&:related_resource)
+                             .includes(:related_resource)
+                             .order(:position)
+                             .map(&:related_resource)
   end
 
   def downloads_by_category
@@ -215,11 +231,13 @@ class Resource < ActiveRecord::Base
   end
 
   def prerequisites_standards
-    ids = StandardLink.where(standard_end_id: common_core_standards.pluck(:id))
-                      .where.not(link_type: 'c')
-                      .pluck(:standard_begin_id)
-    Standard.where(id: ids).pluck(:alt_names).flatten.uniq
-            .map { |n| filter_ccss_standards(n) }.compact.sort
+    ids = StandardLink
+            .where(standard_end_id: common_core_standards.pluck(:id))
+            .where.not(link_type: 'c')
+            .pluck(:standard_begin_id)
+    Standard
+      .where(id: ids).pluck(:alt_names).flatten.uniq
+      .map { |n| filter_ccss_standards(n) }.compact.sort
   end
 
   def bilingual_standards
@@ -243,11 +261,11 @@ class Resource < ActiveRecord::Base
   end
 
   def generate_content_sources
-    unless self.content_source_list.any?
+    unless content_source_list.any?
       content_source = engageny_url.present? ? 'engageny' : 'unbounded'
-      self.content_source_list.add(content_source)
+      content_source_list.add(content_source)
     end
-    self.content_source_list
+    content_source_list
   end
 
   # Tags
@@ -274,14 +292,14 @@ class Resource < ActiveRecord::Base
   end
 
   def media?
-    ['video', 'podcast'].include? resource_type
+    %w(video podcast).include? resource_type
   end
 
   def generic?
-    ['text_set', 'quick_reference_guide'].include?(resource_type)
+    %w(text_set quick_reference_guide).include?(resource_type)
   end
 
-  alias :do_not_skip_indexing? :should_index?
+  alias do_not_skip_indexing? should_index?
   def should_index?
     # index only videos and podcast (other resources are indexed via Curriculum)
     do_not_skip_indexing? && (media? || generic?)
@@ -293,10 +311,10 @@ class Resource < ActiveRecord::Base
       resource_type: resource_type,
       ell_appropriate: ell_appropriate,
       ccss_standards: tag_standards,
-      ccss_domain: nil,  # resource.standards.map { |std| std.domain.try(:name) }.uniq
-      ccss_cluster: nil,  #  resource.standards.map { |std| std.cluster.try(:name) }.uniq
-      authors: reading_assignment_texts.map {|t| t.author.try(:name) }.compact.uniq,
-      texts: reading_assignment_texts.map(&:name).uniq,
+      ccss_domain: nil, # resource.standards.map { |std| std.domain.try(:name) }.uniq
+      ccss_cluster: nil, #  resource.standards.map { |std| std.cluster.try(:name) }.uniq
+      authors: reading_assignment_texts.map { |t| t.author.try(:name) }.compact.uniq,
+      texts: reading_assignment_texts.map(&:name).uniq
     }
   end
 
@@ -327,7 +345,7 @@ class Resource < ActiveRecord::Base
 
   private
 
-    def destroy_additional_resources
-      ResourceAdditionalResource.where(additional_resource_id: id).destroy_all
-    end
+  def destroy_additional_resources
+    ResourceAdditionalResource.where(additional_resource_id: id).destroy_all
+  end
 end

@@ -14,7 +14,7 @@ class CurriculumTree < ActiveRecord::Base
   end
 
   def self.default_tree
-    @default_tree ||= default.tree
+    @default_tree ||= default.try(:tree)
   end
 
   def ela
