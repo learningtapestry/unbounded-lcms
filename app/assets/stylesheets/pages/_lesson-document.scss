@@ -61,9 +61,21 @@
   @include e(body) {
     @include flex-grid-column(12, 2 * 1.75rem);
 
-    @include breakpoint(ipad) {
-      @include flex-grid-column(9);
-      padding: 0 2.125rem 0 2.25rem !important;
+    @include m(general) {
+      @include breakpoint(ipad) {
+        @include flex-grid-column(9);
+        padding: 0 2.125rem 0 2.25rem !important;
+      }
+
+      @include breakpoint(ipad down) {
+        p { margin: 0; text-indent: 0; }
+        li { margin-left: 15px;}
+
+        table {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
     }
 
     h2, h3 { clear: both; }
@@ -93,16 +105,6 @@
       //max-width: 100%;
     }
     img { height: auto; }
-
-    @include breakpoint(ipad down) {
-      p { margin: 0; text-indent: 0; }
-      li { margin-left: 15px;}
-
-      table {
-        margin-left: 0;
-        margin-right: 0;
-      }
-    }
 
     i.fa { font: normal normal normal 14px/1 FontAwesome; }
     .indented { text-indent: $list-side-margin * 2; }

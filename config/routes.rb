@@ -86,7 +86,9 @@ Rails.application.routes.draw do
     resource :sketch_compiler, path: 'sketch-compiler', only: [:show] do
       post :compile
     end
-    resources :lesson_documents, only: %i(index create new destroy)
+    resources :lesson_documents, only: %i(index create new destroy) do
+      get :export, on: :member
+    end
     resources :curriculum_trees
   end
 
