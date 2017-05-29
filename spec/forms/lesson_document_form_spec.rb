@@ -22,6 +22,7 @@ describe LessonDocumentForm do
       let(:parsed_document) do
         stubs = {
           activity_metadata: '',
+          css_styles: '',
           foundational_metadata: '',
           metadata: '',
           render: '',
