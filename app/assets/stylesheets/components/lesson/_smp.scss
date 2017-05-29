@@ -9,7 +9,7 @@
 
   @include e(lines) {
     @include flex;
-    @include flex-align($x: center, $y: center);
+    @include flex-align($x: center, $y: middle);
     flex: 0 0 100px;
     flex-direction: column;
     margin-bottom: 10px;
