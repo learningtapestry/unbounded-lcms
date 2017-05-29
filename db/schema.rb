@@ -299,7 +299,7 @@ ActiveRecord::Schema.define(version: 20170526183416) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "indexed_at"
-    t.boolean  "hidden",          default: false
+    t.boolean  "hidden",               default: false
     t.string   "engageny_url"
     t.string   "engageny_title"
     t.string   "description"
@@ -309,13 +309,17 @@ ActiveRecord::Schema.define(version: 20170526183416) do
     t.string   "teaser"
     t.integer  "time_to_teach"
     t.string   "subject"
-    t.boolean  "ell_appropriate", default: false, null: false
+    t.boolean  "ell_appropriate",      default: false, null: false
     t.datetime "deleted_at"
-    t.integer  "resource_type",   default: 1,     null: false
+    t.integer  "resource_type",        default: 1,     null: false
     t.string   "url"
     t.string   "image_file"
+    t.string   "curriculum_type"
+    t.text     "curriculum_directory", default: [],    null: false, array: true
+    t.integer  "curriculum_tree_id"
   end
 
+  add_index "resources", ["curriculum_tree_id"], name: "index_resources_on_curriculum_tree_id", using: :btree
   add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
   add_index "resources", ["resource_type"], name: "index_resources_on_resource_type", using: :btree
