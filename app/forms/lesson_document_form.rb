@@ -33,6 +33,7 @@ class LessonDocumentForm
 
     @lesson.update!(
       activity_metadata: parsed_document.activity_metadata,
+      css_styles: parsed_document.css_styles,
       content: parsed_document.render,
       foundational_metadata: parsed_document.foundational_metadata,
       metadata: parsed_document.metadata,
