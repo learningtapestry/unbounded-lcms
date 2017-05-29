@@ -6,11 +6,15 @@ module DocTemplate
       TEMPLATE = 'activity.html.erb'.freeze
 
       def parse(node, opts = {})
-        activity = opts[:activity].level2_by_title(opts[:value])
+        @metadata = opts[:activity]
+        activity = @metadata.level2_by_title(opts[:value])
+
+        re = /\[\s*(#{ActivityMetadataSectionTag::TAG_NAME}|#{ActivityMetadataTypeTag::TAG_NAME}|#{MaterialsTag::TAG_NAME})/i
+
         activity_src =
           [].tap do |result|
             while (sibling = node.next_sibling)
-              break if sibling.content =~ /\[\s*(#{ActivityMetadataSectionTag::TAG_NAME}|#{ActivityMetadataTypeTag::TAG_NAME}|#{MaterialsTag::TAG_NAME})/i
+              break if sibling.content =~ re
 
               # Substitutes task tags
               html = handle_tasks_for activity, sibling.to_html
@@ -30,8 +34,10 @@ module DocTemplate
       def handle_tasks_for(activity, html)
         return html unless TASK_RE =~ html
 
-        activity[:task_count] += 1
-        html.sub /\[task:\s#\]/i, "[task: #{activity[:task_count]}]"
+        next_task_id = @metadata.task_counter[activity.activity_type].to_i + 1
+        @metadata.task_counter[activity.activity_type] = next_task_id
+
+        html.sub /\[task:\s#\]/i, "[task: #{next_task_id}]"
       end
     end
   end
