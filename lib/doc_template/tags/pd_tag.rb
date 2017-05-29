@@ -11,15 +11,16 @@ module DocTemplate
       TYPE_YOUTUBE = 'youtube'.freeze
 
       def parse(node, opts = {})
-        url, @title, @description = opts[:value].split(';').map(&:strip)
+        @opts = opts
+        url, @title, @description = @opts[:value].split(';').map(&:strip)
 
-        if (@title.blank? || @description.blank?) && (resource = Resource.find_by url: url)
-          @title = resource.title if @title.blank?
-          @description = resource.teaser if @description.blank?
+        fetch_data_for url
+
+        unless @embeded.present?
+          node.remove
+          @result = node
+          return self
         end
-
-        @subject = opts[:metadata].resource_subject
-        @embeded = embeded_object_for url, @subject
 
         template = File.read template_path(TEMPLATE)
         node.replace ERB.new(template).result(binding)
@@ -41,6 +42,16 @@ module DocTemplate
             type: TYPE_YOUTUBE
           }
         end
+      end
+
+      def fetch_data_for(url)
+        if (@title.blank? || @description.blank?) && (resource = Resource.find_by url: url)
+          @title = resource.title if @title.blank?
+          @description = resource.teaser if @description.blank?
+        end
+
+        @subject = @opts[:metadata].resource_subject
+        @embeded = embeded_object_for url, @subject
       end
     end
   end
