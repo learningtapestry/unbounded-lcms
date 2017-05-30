@@ -11,6 +11,10 @@ module DocTemplate
         new.parse(node, opts)
       end
 
+      def self.template_path_for(name)
+        File.join Rails.root, 'lib', 'doc_template', 'templates', name
+      end
+
       def ela6?(metadata)
         metadata.resource_subject == 'ela' && metadata.grade == '6'
       end
@@ -63,7 +67,7 @@ module DocTemplate
       end
 
       def template_path(name)
-        File.join Rails.root, 'lib', 'doc_template', 'templates', name
+        self.class.template_path_for name
       end
     end
   end
