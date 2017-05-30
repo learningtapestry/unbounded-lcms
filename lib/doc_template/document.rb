@@ -42,11 +42,11 @@ module DocTemplate
     private
 
     def add_custom_nodes
+      return unless @opts[:metadata]['subject'].try(:downcase) == 'ela'
+      return unless @opts[:metadata]['grade'] == '6' # || @opts[:metadata]['grade'] == '2'
+
       # Custom header for ELA G6
-      if @opts[:metadata]['subject'].try(:downcase) == 'ela' and @opts[:metadata]['grade'] == '6'
-        # Prepend the lesson with predefined element
-        @nodes.prepend_child ela_6_teacher_guidance(@opts[:metadata])
-      end
+      @nodes.prepend_child ela_6_teacher_guidance(@opts[:metadata])
     end
 
     def ela_6_teacher_guidance(metadata)
