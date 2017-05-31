@@ -44,7 +44,7 @@ class HtmlSanitizer
                      code dd dfn dl dt em i kbd mark pre q s samp small strike strong sub sup time u var),
         attributes: {
           'a'    => %w(href title data-toggle id),
-          'img'  => %w(src alt style),
+          'img'  => %w(alt src style),
           'ol'   => %w(type style start list-style-type class),
           'ul'   => %w(type style start list-style-type),
           'li'   => %w(class),

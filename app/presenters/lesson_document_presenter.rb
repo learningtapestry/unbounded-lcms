@@ -72,7 +72,7 @@ class LessonDocumentPresenter < BasePresenter
   end
 
   def subject
-    ld_metadata.resource_subject
+    ld_metadata.try(:resource_subject)
   end
 
   def subject_to_str
@@ -80,7 +80,7 @@ class LessonDocumentPresenter < BasePresenter
   end
 
   def title
-    ld_metadata.title
+    ld_metadata.try(:title)
   end
 
   def teaser
