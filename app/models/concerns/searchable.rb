@@ -6,22 +6,21 @@ module Searchable
   included do
     attr_accessor :skip_indexing
 
-    after_commit :index_document, on: [:create, :update], if: :should_index?
+    after_commit :index_document,  on: %i(create update), if: :should_index?
     after_commit :delete_document, on: :destroy, if: :should_index?
 
     def index_document
-      begin
-        doc = self.class.search_model.build_from self
-        search_repo.save(doc) if doc.present?
-      rescue Faraday::ConnectionFailed; end
+      doc = self.class.search_model.build_from self
+      search_repo.save(doc) if doc.present?
+    rescue Faraday::ConnectionFailed => e
+      Rails.logger.warn("index_document failed: #{e.message}")
     end
 
     def delete_document
-      begin
-        doc = self.class.search_model.build_from self
-        search_repo.delete(doc)
-      rescue Faraday::ConnectionFailed,
-             Elasticsearch::Transport::Transport::Errors::NotFound; end
+      doc = self.class.search_model.build_from self
+      search_repo.delete(doc)
+    rescue Faraday::ConnectionFailed, Elasticsearch::Transport::Transport::Errors::NotFound => e
+      Rails.logger.warn("index_document failed: #{e.message}")
     end
 
     def search_repo
@@ -32,13 +31,12 @@ module Searchable
       @search_model ||= Search::Document
     end
 
-    def self.search(term, options={})
-      search_model.search term, options.merge!(model_type: self.name.underscore)
+    def self.search(term, options = {})
+      search_model.search term, options.merge!(model_type: name.underscore)
     end
 
     def should_index?
       !skip_indexing && search_repo.index_exists?
     end
-
   end
 end

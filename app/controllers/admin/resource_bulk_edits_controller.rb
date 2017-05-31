@@ -1,32 +1,33 @@
-class Admin::ResourceBulkEditsController < Admin::AdminController
-  before_action :load_resources
+module Admin
+  class ResourceBulkEditsController < AdminController
+    before_action :load_resources
 
-  def new
-    if @resources.any?
-      @resource = Resource.init_for_bulk_edit(@resources)
-    else
-      redirect_to :admin_resources, alert: t('.no_resources')
+    def new
+      if @resources.any?
+        @resource = BulkEditResourcesService.new(@resources).init_sample
+      else
+        redirect_to :admin_resources, alert: t('.no_resources')
+      end
     end
-  end
 
-  def create
-    resource_params = params.require(:resource).permit(
-      standard_ids: [],
-      grades_list: [],
-      resource_types_list: [],
-      tags_list: []
-    )
-    sample = Resource.new(resource_params)
-    Resource.bulk_edit(sample, @resources)
-    redirect_to :admin_resources, notice: t('.success',
-      count: @resources.count,
-      resources_count: t(:resources_count, count: @resources.count)
-    )
-  end
+    def create
+      BulkEditResourcesService.new(@resources, resource_params).edit!
+      resources_count_msg = t(:resources_count, count: @resources.count)
+      redirect_to :admin_resources, notice: t('.success', count: @resources.count, resources_count: resources_count_msg)
+    end
 
-  private
+    private
+
     def load_resources
-      @resources = Resource.where(id: params[:ids])
-      .includes(:standards, :taggings)
+      @resources = Resource.where(id: params[:ids]).includes(:standards, :taggings)
     end
+
+    def resource_params
+      params.require(:resource)
+        .permit(standard_ids: [],
+                grades: [],
+                resource_type_list: [],
+                tag_list: [])
+    end
+  end
 end

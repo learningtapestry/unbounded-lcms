@@ -1,11 +1,6 @@
 class Resource < ActiveRecord::Base
-  extend OrderAsSpecified
   include Searchable
-  include CCSSStandardFilter
-  include GradeListHelper
-  include VideoEmbed
-
-  DOWNLOAD_PER_CATEGORY_LIMIT = 5
+  include Navigable
 
   mount_uploader :image_file, ResourceImageUploader
 
@@ -16,13 +11,10 @@ class Resource < ActiveRecord::Base
     quick_reference_guide: 4,
     text_set: 5
   }
+  MEDIA_TYPES = %i(video podcast).map { |t| resource_types[t] }.freeze
+  GENERIC_TYPES = %i(text_set quick_reference_guide).map { |t| resource_types[t] }.freeze
 
-  acts_as_taggable_on :content_sources,
-                      :download_types,
-                      :grades,
-                      :resource_types,
-                      :tags,
-                      :topics
+  acts_as_taggable_on :content_sources, :download_types, :resource_types, :tags, :topics
 
   belongs_to :curriculum_tree
 
@@ -62,10 +54,6 @@ class Resource < ActiveRecord::Base
   has_many :resource_requirements, dependent: :destroy
   has_many :requirements, through: :resource_requirements
 
-  # Slugs
-  has_many :resource_slugs, dependent: :destroy
-  alias_attribute :slugs, :resource_slugs
-
   has_many :content_guides, through: :unbounded_standards
 
   has_many :copyright_attributions, dependent: :destroy
@@ -79,128 +67,127 @@ class Resource < ActiveRecord::Base
 
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
+  before_save :update_slug, :update_position
   before_destroy :destroy_additional_resources
 
   scope :tree, lambda { |name = nil|
     if name
       joins(:curriculum_tree).where(curriculum_tree: { name: name })
     else
-      where(curriculum_tree_id: CurriculumTree.default.id)
+      where(curriculum_tree_id: CurriculumTree.default.try(:id))
     end
   }
 
-  scope :where_curriculum, lambda { |*dir|
-    where('curriculum_directory @> ?', "{#{dir.join(',')}}")
+  scope :where_curriculum, ->(*dir) { where('curriculum_directory @> ?', "{#{dir.join(',')}}") }
+
+  scope :where_curriculum_in, lambda { |arr, constraints = nil|
+    arr = Array.wrap(arr)
+    arr &= constraints if constraints
+
+    arr.empty? ? where(nil) : where('curriculum_directory && ?', "{#{arr.join(',')}}")
   }
 
-  scope :lessons, lambda {
-    joins(:curriculums)
-      .where(curriculums: { curriculum_type: CurriculumType.lesson })
-      .where.not(curriculums: { seed_id: nil })
-  }
+  scope :subjects, -> { where(curriculum_type: 'subject') }
+  scope :grades, -> { where(curriculum_type: 'grade') }
+  scope :modules, -> { where(curriculum_type: 'module') }
+  scope :units, -> { where(curriculum_type: 'unit') }
+  scope :lessons, -> { where(curriculum_type: 'lesson') }
 
-  scope :where_subject, lambda { |subjects|
-    subjects = Array.wrap(subjects)
-    return where(nil) unless subjects.any?
+  scope :media, -> { where(resource_type: MEDIA_TYPES) }
+  scope :generic_resources, -> { where(resource_type: GENERIC_TYPES) }
 
-    where(subject: subjects)
-  }
+  scope :where_subject, ->(subjects) { where_curriculum_in(subjects, CurriculumTree::SUBJECTS) }
+  scope :where_grade, ->(grades) { where_curriculum_in(grades, Grades::GRADES) }
 
   scope :where_tag, lambda { |context, value|
     value = Array.wrap(value)
     return where(nil) unless value.any?
 
-    joins(taggings: [:tag])
-      .where(taggings: { context: context })
-      .where(tags: { name: value })
+    joins(taggings: [:tag]).where(taggings: { context: context }, tags: { name: value })
   }
 
-  scope :where_grade, ->(grades) { where_tag('grades', grades) }
+  scope :ordered, -> { order(:hierarchical_position, :title) }
 
-  scope :asc, -> { order(created_at: :asc) }
-  scope :desc, -> { order(created_at: :desc) }
-
-  scope :videos, -> { where(resource_type: resource_types[:video]) }
-  scope :podcasts, -> { where(resource_type: resource_types[:podcast]) }
-  scope :media, -> { where(resource_type: [resource_types[:video], resource_types[:podcast]]) }
-
-  scope :generic_resources, lambda {
-    where(resource_type: [resource_types[:text_set],
-                          resource_types[:quick_reference_guide]])
-  }
-
-  class << self
-    def by_title(title)
-      where(title: title)
-    end
-
-    def bulk_edit(sample, resources)
-      before = init_for_bulk_edit(resources)
-      after  = sample
-
-      transaction do
-        resources.each do |resource|
-          # Standards
-          resource.resource_standards
-            .where(standard_id: before.standard_ids)
-            .where.not(standard_id: after.standard_ids)
-            .destroy_all
-
-          (after.standard_ids - before.standard_ids).each do |standard_id|
-            resource.resource_standards.find_or_create_by!(standard_id: standard_id)
-          end
-
-          resource.grades_list = sample.grades_list
-          resource.tags_list = sample.tags_list
-          resource.resource_types_list = sample.resource_types_list
-
-          resource.save!
-          resource
-        end
-      end
-    end
-
-    def find_podcast_by_url(url)
-      podcast.where(url: url).first
-    end
-
-    def find_video_by_url(url)
-      video_id = video_id(url)
-      video.where("url ~ '#{video_id}(&|$)'").first
-    end
-
-    def init_for_bulk_edit(resources)
-      resource = new
-      resource.standard_ids = resources.map(&:standard_ids).inject { |memo, ids| memo & ids }
-      resource
-    end
-
-    def sort_by_type_and_grade
-      type_grade_score = lambda do |r|
-        indices =
-          r.taggings.map do |t|
-            grade = t.tag.name if t.context == 'grades'
-            GradeListHelper::GRADES.index(grade)
-          end.compact
-        [r.resource_type, indices.min || 0, indices.size]
-      end
-      includes(taggings: :tag).sort_by(&type_grade_score)
-    end
-
-    def sort_by_subject_and_grade
-      subject_grade_score = lambda do |r|
-        [r.subject, r.grade_avg_num, r.title]
-      end
-      includes(taggings: :tag).sort_by(&subject_grade_score)
-    end
+  def self.find_podcast_by_url(url)
+    podcast.where(url: url).first
   end
 
-  def text_description
-    # doc = Nokogiri::HTML(description)
-    # doc.xpath('//p/text()').text
-    Nokogiri::HTML(description).text
-  rescue
-    nil
+  def self.find_video_by_url(url)
+    video_id = MediaEmbed.video_id(url)
+    video.where("url ~ '#{video_id}(&|$)'").first
+  end
+
+  # used for ransack search on the admin
+  def self.ransackable_scopes(_auth_object = nil)
+    %i(grades)
+  end
+
+  def tree?
+    curriculum_tree_id.present? && curriculum_tree_id == CurriculumTree.default.try(:id)
+  end
+
+  def type_is?(type)
+    curriculum_type.present? && curriculum_type.casecmp(type.to_s).zero?
+  end
+
+  # Define predicate methods for subjects.
+  # I,e: #ela?, #math?, ..
+  CurriculumTree::SUBJECTS.each do |subject_name|
+    define_method(:"#{subject_name}?") { subject == subject_name.to_s }
+  end
+
+  # Define predicate methods for hierarchy levels.
+  # I,e: #subject?, #grade?, #lesson?, ...
+  CurriculumTree::HIERARCHY.each do |level|
+    define_method(:"#{level}?") { type_is?(level) }
+  end
+
+  def assessment?
+    # tag_list.include?('assessment')
+    curriculum_tags_for(:lesson).include?('assessment')
+  end
+
+  def generic?
+    %w(text_set quick_reference_guide).include?(resource_type)
+  end
+
+  def media?
+    %w(video podcast).include? resource_type
+  end
+
+  def curriculum_tags_for(type)
+    case type.to_sym
+    when :subject
+      curriculum_directory & CurriculumTree::SUBJECTS
+    when :grade
+      curriculum_directory & Grades::GRADES
+    when :module
+      # TODO: handle special case modules (when/if needed).
+      #       Check Breadcrumbs#module_abbrv for more
+      curriculum_directory.select { |v| v.match(/module /) }
+    when :unit
+      curriculum_directory.select { |v| v.match(/unit|topic /) }
+    when :lesson
+      curriculum_directory.select { |v| v.match(/lesson|part|assessment/) }
+    end.uniq.compact
+  end
+
+  def curriculum
+    @curriculum ||= CurriculumTree::HIERARCHY.map do |key|
+      key == :grade ? grades.average(abbr: false) : curriculum_tags_for(key).first
+    end.compact
+  end
+
+  def subject
+    curriculum_tags_for(:subject).first
+  end
+
+  def grades
+    Grades.new(self)
+  end
+
+  def grades=(gds)
+    curriculum_directory.concat Array.wrap(gds)
   end
 
   def related_resources
@@ -208,15 +195,6 @@ class Resource < ActiveRecord::Base
                              .includes(:related_resource)
                              .order(:position)
                              .map(&:related_resource)
-  end
-
-  def downloads_by_category
-    by_category = {}
-    resource_downloads.group_by { |d| d.download_category.try(:name) }.each do |key, dl_group|
-      by_category[key] = dl_group.map(&:download)
-      yield key, by_category[key] if block_given?
-    end
-    by_category
   end
 
   def download_categories
@@ -230,83 +208,13 @@ class Resource < ActiveRecord::Base
     downloads.any? { |d| d.attachment_content_type == 'pdf' }
   end
 
-  def prerequisites_standards
-    ids = StandardLink
-            .where(standard_end_id: common_core_standards.pluck(:id))
-            .where.not(link_type: 'c')
-            .pluck(:standard_begin_id)
-    Standard
-      .where(id: ids).pluck(:alt_names).flatten.uniq
-      .map { |n| filter_ccss_standards(n) }.compact.sort
-  end
-
   def bilingual_standards
     standards.bilingual.distinct.order(:name)
   end
 
-  def first_tree
-    curriculums.trees.first
-  end
-
-  def curriculums_as_parent
-    curriculums.seeds.where(parent_id: nil)
-  end
-
-  def ela?
-    subject == 'ela'
-  end
-
-  def math?
-    subject == 'math'
-  end
-
-  def generate_content_sources
-    unless content_source_list.any?
-      content_source = engageny_url.present? ? 'engageny' : 'unbounded'
-      content_source_list.add(content_source)
-    end
-    content_source_list
-  end
-
-  # Tags
-
-  def update_download_types
-    self.download_type_list = resource_downloads.map do |resource_download|
-      download = resource_download.download
-      case download.content_type
-      when 'application/zip'
-        'zip'
-      when 'application/pdf'
-        'pdf'
-      when 'application/vnd.ms-excel',
-           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        'excel'
-      when 'application/vnd.ms-powerpoint',
-           'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-        'powerpoint'
-      when 'application/msword',
-           'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        'doc'
-      end
-    end.uniq.compact
-  end
-
-  def media?
-    %w(video podcast).include? resource_type
-  end
-
-  def generic?
-    %w(text_set quick_reference_guide).include?(resource_type)
-  end
-
-  def assessment?
-    tag_list.include?('assessment')
-  end
-
   alias do_not_skip_indexing? should_index?
   def should_index?
-    # index only videos and podcast (other resources are indexed via Curriculum)
-    do_not_skip_indexing? && (media? || generic?)
+    do_not_skip_indexing? && (tree? || media? || generic?)
   end
 
   def named_tags
@@ -326,7 +234,7 @@ class Resource < ActiveRecord::Base
     filtered_named_tags = named_tags
     filtered_named_tags.merge(
       ccss_standards: named_tags[:ccss_standards]
-                        .map { |n| filter_ccss_standards(n) }
+                        .map { |n| Standard.filter_ccss_standards(n) }
                         .compact
     )
   end
@@ -348,6 +256,14 @@ class Resource < ActiveRecord::Base
   end
 
   private
+
+  def update_slug
+    self.slug = Slug.new(self).value if tree?
+  end
+
+  def update_position
+    self.hierarchical_position = HierarchicalPosition.new(self).position
+  end
 
   def destroy_additional_resources
     ResourceAdditionalResource.where(additional_resource_id: id).destroy_all

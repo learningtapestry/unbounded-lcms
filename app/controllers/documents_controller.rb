@@ -1,5 +1,4 @@
 class DocumentsController < ApplicationController
-  include CurriculumMapProps
   include GoogleAuth
 
   before_action :set_document
@@ -14,9 +13,7 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    @curriculum = @document.resource.try(:first_tree)
-    # set props to build Curriculum Map
-    set_index_props
+    @props = CurriculumMap.new(@document.resource).props
     respond_to do |format|
       format.html
     end

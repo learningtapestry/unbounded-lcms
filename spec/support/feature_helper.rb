@@ -6,4 +6,8 @@ module FeatureHelper
     click_button 'Log in'
     expect(page).to have_no_link 'Log In'
   end
+
+  def logout
+    visit destroy_user_session_path
+  end
 end

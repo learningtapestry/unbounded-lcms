@@ -2,7 +2,7 @@ module Admin
   class DocumentsController < AdminController
     include GoogleAuth
 
-    before_action :obtain_google_credentials, only: [:create, :new]
+    before_action :obtain_google_credentials, only: %i(create new)
 
     def index
       @query = OpenStruct.new(params[:query])

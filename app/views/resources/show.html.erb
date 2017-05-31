@@ -1,26 +1,24 @@
-<% set_page_title @resource.page_title(@grade_color_code) %>
+<% set_page_title @resource.page_title %>
 <% set_social_media_sharing @resource %>
 
-<% if (slug = @curriculum.slug) %>
-  <% set_canonical_url show_with_slug_path(slug.value) %>
-<% end %>
+<% set_canonical_url(show_with_slug_path @resource.slug) if @resource.slug %>
 
 <div class="o-page o-page--margin-to-bottom o-page--resource">
   <div class="o-page__sticky">
-    <div class="o-sticky o-sticky--left <%= 'o-sticky--disabled' unless @curriculum.previous_of_type %>">
-      <a class="o-sticky__btn o-sticky--left__btn" href="<%= @curriculum.previous_of_type ? show_with_slug_path(@curriculum.previous_of_type.slug.value) : '#' %>">
+    <div class="o-sticky o-sticky--left <%= 'o-sticky--disabled' unless @resource.previous %>">
+      <a class="o-sticky__btn o-sticky--left__btn" href="<%= @resource.previous ? show_with_slug_path(@resource.previous.slug) : '#' %>">
         <div class="o-page__wrap--row o-sticky__wrap o-sticky__wrap--left">
-          <div class="o-sticky__icon <%= 'u-link--disabled' unless @curriculum.previous_of_type %>">
+          <div class="o-sticky__icon <%= 'u-link--disabled' unless @resource.previous %>">
             <i class="fa-3x ub-angle-left"></i>
           </div>
-          <% if @curriculum.previous_of_type %>
+          <% if @resource.previous %>
             <div class="o-sticky__txt hide-for-small-only">
-              <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow', dir: 'Previous', type: type_name(@curriculum.previous_of_type)) %></div>
-              <div class="o-sticky__arrow-header"><%= @curriculum.previous_of_type.resource.title %></div>
+              <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow', dir: 'Previous', type: type_name(@resource.previous)) %></div>
+              <div class="o-sticky__arrow-header"><%= @resource.previous.title %></div>
             </div>
           <% end %>
-          <div class="o-sticky__txt show-for-small-only <%= 'u-link--disabled' unless @curriculum.previous_of_type %>">
-            <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow-small', dir: 'Previous', type:  @curriculum.current_level.capitalize) %></div>
+          <div class="o-sticky__txt show-for-small-only <%= 'u-link--disabled' unless @resource.previous %>">
+            <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow-small', dir: 'Previous', type:  type_name(@resource)) %></div>
             <div class="o-sticky__arrow-header"><%= t('resources.btn.arrow-txt-small') %></div>
           </div>
         </div>
@@ -30,7 +28,7 @@
   <div class="o-page__module">
     <div class="o-page__wrap--row">
       <div class="o-page__module u-margin-bottom--gutter">
-        <%= link_to back_to_curriculum_path(@curriculum), class: 'o-btn o-btn--base o-btn--xs-full' do %>
+        <%= link_to back_to_resource_path(@resource), class: 'o-btn o-btn--base o-btn--xs-full' do %>
           <i class="fa-lg ub-arrow-left u-text--middled"></i> <%= t('resources.btn.back') %>
         <% end %>
         <% if user_signed_in? %>
@@ -39,14 +37,12 @@
           <% end %>
         <% end %>
       </div>
-      <%= render partial: 'resources/header', locals: { curriculum: @curriculum,
-                                                             resource: @resource,
-                                                             color_code: @resource.color_code(@grade_color_code) } %>
+      <%= render partial: 'resources/header', locals: { resource: @resource } %>
       <div class="o-page__section u-padding-top--gutter u-bg--light u-br-top-right--base u-br-bottom--base">
         <div class="o-resource-title">
           <div class="o-resource-title__title">
             <div class="o-title u-text--uppercase">
-              <span class="o-title__type cs-txt--<%= @resource.color_code(@grade_color_code) %>"><%= @resource.short_title %></span>
+              <span class="o-title__type cs-txt--<%= color_code(@resource) %>"><%= @resource.short_title %></span>
               <span class="o-title__duration u-hidden"><%= react_component('TimeToTeach', {duration: @resource.time_to_teach}, prerender: true) %></span>
             </div>
             <h1><%= @resource.title %></h1>
@@ -57,9 +53,9 @@
           <div class="o-resource-title__links">
             <div>
               <a class="o-ub-btn o-ub-btn--yellow <%= 'o-ub-btn--disabled' if @resource.downloads.empty? %>" data-open="downloads-modal">
-                <%= t('resources.btn.download', title: @curriculum.type_name) %>
+                <%= t('resources.btn.download', title: type_name(@resource)) %>
               </a>
-              <!-- <a class="o-ub-btn o-ub-btn--yellow" href="#resource-downloads-list"><%= t('resources.btn.download', title: @curriculum.type_name) %></a> -->
+              <!-- <a class="o-ub-btn o-ub-btn--yellow" href="#resource-downloads-list"><%= t('resources.btn.download', title: type_name(@resource)) %></a> -->
             </div>
             <div>
               <%= link_to t('resources.btn.related'), '#related-instruction', class: 'o-ub-btn o-ub-btn--2bordered-gray' %>
@@ -70,7 +66,7 @@
         <div class="o-resource-summary u-padding-bottom--gutter">
           <div class="o-resource-summary__map">
             <div class="o-resource-summary__title">
-              <strong><%= @curriculum.subject_and_grade_title %> Curriculum Map</strong>
+              <strong><%= @resource.subject_and_grade_title %> Curriculum Map</strong>
             </div>
             <%= react_component('CurriculumMap', @props, prerender: true) %>
             <%= render partial: 'shared/social_sharing', locals: { resource: @resource, cl: 'u-margin-top--base' } %>
@@ -80,45 +76,45 @@
               <h3>Description</h3>
               <%= @resource.description.try(:html_safe) %>
             </div>
-            <%= render partial: 'resources/downloads', locals: { resource: @resource, curriculum: @curriculum } %>
-            <%= render partial: 'resources/prerequisites_standards', locals: { standards: @resource.prerequisites_standards, color_code: @resource.color_code } %>
-            <%= render partial: 'resources/bilingual_standards', locals: { standards: @resource.bilingual_standards, color_code: @resource.color_code, curriculum: @curriculum } %>
-            <%= render_tag_clouds(@curriculum.filtered_named_tags, @resource.color_code) %>
+            <%= render partial: 'resources/downloads', locals: { resource: @resource } %>
+            <%= render partial: 'resources/prerequisites_standards', locals: { resource: @resource } %>
+            <%= render partial: 'resources/bilingual_standards', locals: { resource: @resource, standards: @resource.bilingual_standards, color_code: color_code(@resource, base: true) } %>
+            <%= render_tag_clouds(@resource) %>
             <% if @resource.engageny_url %>
             <div class="o-resource__item  o-resource__item--credits">
               <h3>Credits</h3>
-              <%= render partial: 'resources/engageny', locals: { curriculum: @curriculum, resource: @resource, color_code: @resource.color_code(@grade_color_code) } %>
+              <%= render partial: 'resources/engageny', locals: { resource: @resource, color_code: color_code(@resource) } %>
             </div>
             <% end %>
           </div>
         </div>
-        <% if !@curriculum.lesson? %>
-          <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= @resource.color_code(@grade_color_code) %> u-br-bottom--base">
+        <% if !@resource.lesson? %>
+          <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= color_code(@resource) %> u-br-bottom--base">
             <div class="o-resource-summary__map o-resource-summary__map--2x"></div>
             <div class="o-resource-summary__content--2x">
-              <%= render partial: 'resources/children_list', locals: { curriculum: @curriculum, color_code: @resource.color_code } %>
+              <%= render partial: 'resources/children_list', locals: { resource: @resource, color_code: color_code(@resource, base: true) } %>
             </div>
           </div>
         <% end %>
       </div>
     </div>
-    <%= render partial: 'resources/download_form', locals: { resource: @resource, curriculum: @curriculum } %>
+    <%= render partial: 'resources/download_form', locals: { resource: @resource } %>
   </div>
   <div class="o-page__sticky">
-    <div class="o-sticky o-sticky--right <%= 'o-sticky--disabled' unless @curriculum.next_of_type %>">
-      <a class="o-sticky__btn o-sticky--right__btn" href="<%= @curriculum.next_of_type ? show_with_slug_path(@curriculum.next_of_type.slug.value) : '#' %>">
+    <div class="o-sticky o-sticky--right <%= 'o-sticky--disabled' unless @resource.next %>">
+      <a class="o-sticky__btn o-sticky--right__btn" href="<%= @resource.next ? show_with_slug_path(@resource.next.slug) : '#' %>">
         <div class="o-page__wrap--row o-sticky__wrap o-sticky__wrap--right">
-          <% if  @curriculum.next_of_type %>
+          <% if  @resource.next %>
             <div class="o-sticky__txt hide-for-small-only">
-              <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow', dir: 'Next', type: type_name(@curriculum.next_of_type)) %></div>
-              <div class="o-sticky__arrow-header"><%= @curriculum.next_of_type.resource.title %></div>
+              <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow', dir: 'Next', type: type_name(@resource.next)) %></div>
+              <div class="o-sticky__arrow-header"><%= @resource.next.title %></div>
             </div>
           <% end %>
-          <div class="o-sticky__txt show-for-small-only <%= 'u-link--disabled' unless @curriculum.next_of_type %>">
-            <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow-small', dir: 'Next', type: @curriculum.current_level.capitalize) %></div>
+          <div class="o-sticky__txt show-for-small-only <%= 'u-link--disabled' unless @resource.next %>">
+            <div class="o-sticky__arrow-subheader"><%= t('resources.btn.arrow-small', dir: 'Next', type: type_name(@resource)) %></div>
             <div class="o-sticky__arrow-header"><%= t('resources.btn.arrow-txt-small') %></div>
           </div>
-          <div class="o-sticky__icon <%= 'u-link--disabled' unless @curriculum.next_of_type %>">
+          <div class="o-sticky__icon <%= 'u-link--disabled' unless @resource.next %>">
             <i class="fa-3x ub-angle-right"></i>
           </div>
         </div>
@@ -130,9 +126,9 @@
   <div class="o-page">
      <%= react_component('RelatedInstruction',
                         { id: @resource.id,
-                          resource_type: @curriculum.curriculum_type.name,
-                          has_more: @has_more,
-                          instructions: @instructions },
+                          resource_type: @resource.curriculum_type,
+                          has_more: @related_instructions.has_more,
+                          instructions: @related_instructions.instructions },
                           prerender: true) %>
   </div>
 </div>

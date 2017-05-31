@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get '/tos'          => 'pages#show_slug', slug: 'tos',     as: :tos_page
   get '/privacy'      => 'pages#show_slug', slug: 'privacy', as: :privacy_page
   get '/leadership'   => 'pages#leadership'
-  get '/forthcoming' => 'pages#forthcoming'
+  get '/forthcoming'  => 'pages#forthcoming'
 
   get '/search' => 'search#index'
 
@@ -21,22 +21,18 @@ Rails.application.routes.draw do
     end
   end
   get '/downloads/:id/pdf_proxy(/:s3)',
-      as: :pdf_proxy_download, to: 'downloads#pdf_proxy',
-      constraints: { s3: %r{[^\/]+} }
-  get '/downloads/content_guides/:id(/:slug)',
-      as: :content_guide_pdf, to: 'content_guides#show_pdf'
+      as: :pdf_proxy_download, to: 'downloads#pdf_proxy', constraints: { s3: %r{[^\/]+} }
+  get '/downloads/content_guides/:id(/:slug)', as: :content_guide_pdf, to: 'content_guides#show_pdf'
   resources :explore_curriculum, only: %i(index show)
   resources :enhance_instruction, only: :index
   resources :find_lessons, only: :index
   resources :pages, only: :show
   resources :resources, only: :show
 
-  get '/resources/:id/related_instruction' => 'resources#related_instruction',
-      as: :related_instruction
+  get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
   get '/media/:id' => 'resources#media', as: :media
   get '/other/:id' => 'resources#generic', as: :generic
-  get '/content_guides/:id(/:slug)',
-      as: :content_guide, to: 'content_guides#show'
+  get '/content_guides/:id(/:slug)', as: :content_guide, to: 'content_guides#show'
 
   resources :documents, only: :show do
     member do
@@ -44,9 +40,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, class_name: 'User', controllers: {
-    registrations: 'registrations'
-  }
+  devise_for :users, class_name: 'User', controllers: { registrations: 'registrations' }
 
   authenticate :user do
     mount Resque::Server, at: '/queue'
@@ -56,8 +50,6 @@ Rails.application.routes.draw do
     get '/' => 'welcome#index'
     get 'google_oauth2_callback' => 'google_oauth2#callback'
     get '/association_picker' => 'association_picker#index'
-    resources :collection_types
-    resources :collections
     resources :content_guide_definitions, only: %i(index new) do
       get :import, on: :collection
     end
@@ -68,13 +60,9 @@ Rails.application.routes.draw do
         post :reset_pdfs
       end
     end
-    resource :curriculum_export, only: %i(new create)
-    resources :curriculums
     resources :reading_assignment_texts
     resource :resource_bulk_edits, only: %i(new create)
-    resources :resource_children, only: :create
     get '/resource_picker' => 'resource_picker#index'
-    get '/curriculum_picker' => 'resource_picker#curriculum'
     resources :resources, except: :show
     resources :download_categories, except: :show
     resources :pages, except: :show
@@ -82,7 +70,6 @@ Rails.application.routes.draw do
       patch :toggle_editing_enabled, on: :collection
     end
     resources :staff_members, except: :show
-    resources :tags, only: :create
     resources :users, except: :show do
       post :reset_password, on: :member
     end

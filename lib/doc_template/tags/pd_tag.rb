@@ -2,8 +2,6 @@ module DocTemplate
   module Tags
     class PdTag < BaseTag
       include ERB::Util
-      include SoundcloudEmbed
-      include VideoEmbed
 
       TAG_NAME = 'pd'.freeze
       TEMPLATE = 'pd.html.erb'.freeze
@@ -33,12 +31,13 @@ module DocTemplate
       def embeded_object_for(url, subject)
         if url.index('soundcloud.com')
           {
-            content: soundcloud_embed(url, subject),
+            content: MediaEmbed.soundcloud(url, subject),
             type: TYPE_PODCAST
           }
         elsif url.index('youtube.com')
+          video_id = MediaEmbed.video_id(url)
           {
-            content: "https://www.youtube.com/embed/#{video_id(url)}",
+            content: "https://www.youtube.com/embed/#{video_id}",
             type: TYPE_YOUTUBE
           }
         end

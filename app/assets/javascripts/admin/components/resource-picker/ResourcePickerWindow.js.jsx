@@ -4,7 +4,7 @@ class ResourcePickerWindow extends React.Component {
     super(props);
 
     this.typeOptions = [
-      ['map', 'map'],
+      ['subject', 'subject'],
       ['grade', 'grade'],
       ['module', 'module'],
       ['unit', 'unit']
