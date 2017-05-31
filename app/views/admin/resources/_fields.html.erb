@@ -6,13 +6,17 @@
 
 <%= f.input :teaser, as: :text %>
 
+<%= f.input :resource_type, as: :select, collection: Resource.resource_types, value_method: :first %>
+
+<%= f.input :tree?, label: 'Belongs to Curriculum Tree?', as: :boolean %>
+
+<%= f.input :curriculum_type, as: :select, collection: CurriculumTree::HIERARCHY %>
+
+<%= react_component('CurriculumTreePicker', curriculum_picker_props(resource), prerender: true) %>
+
 <%= f.input :time_to_teach %>
 
-<%= f.input :subject, as: :select, collection: ['ela', 'math', 'lead'], include_blank: false %>
-
 <%= f.input :ell_appropriate %>
-
-<%= f.input :resource_type, as: :select, collection: Resource.resource_types, value_method: :first %>
 
 <%= f.input :hidden %>
 
@@ -25,8 +29,6 @@
 <%= association_picker_field(f, resource.reading_assignment_texts, path: :reading_assignment_texts, name: :reading_assignment_text_ids, allow_create: false, allow_multiple: true) %>
 
 <%= association_picker_field(f, resource.content_sources, path: :content_sources, name: :content_source_ids, create_name: :new_content_source_names, allow_create: true, allow_multiple: true) %>
-
-<%= association_picker_field(f, resource.grades, path: :grades, name: :grade_ids, create_name: :new_grade_names, allow_create: true) %>
 
 <%= association_picker_field(f, resource.topics, path: :topics, name: :topic_ids, create_name: :new_topic_names, allow_create: true) %>
 

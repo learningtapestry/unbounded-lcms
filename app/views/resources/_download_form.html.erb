@@ -10,13 +10,13 @@
       <% resource.download_categories.each do |k, downloads| %>
         <strong><%= k %></strong>
         <% downloads.each do |download| %>
-          <%= render partial: 'resources/download', locals: { download: download, curriculum: @curriculum, indent: indent } %>
+          <%= render partial: 'resources/download', locals: { download: download, resource: @resource, indent: indent } %>
         <% end %>
       <% end %>
     </ul>
     <div class="o-resource__cc u-margin-top--base u-margin-bottom--zero u-txt--download-copyright">
       <%= render partial: 'resources/copyright_icons_generic', locals: { resource: resource } if resource.generic? %>
-      <%= copyrights_text(curriculum || resource) %>
+      <%= copyrights_text(resource) %>
     </div>
   </div>
   <button class="close-button ub-close-button" data-close aria-label="Close modal" type="button">

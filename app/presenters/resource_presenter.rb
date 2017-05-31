@@ -1,7 +1,12 @@
 class ResourcePresenter < SimpleDelegator
-  def page_title(g = 'base')
-    grade_color_code = g.include?('k') ? g : "G#{g}"
-    "#{subject.try(:upcase)} #{grade_color_code.try(:upcase)}: #{title}"
+  def subject_and_grade_title
+    "#{subject.try(:titleize)} #{grades.list.first.try(:titleize)}"
+  end
+
+  def page_title
+    grade_avg = grades.average || 'base'
+    grade_code = grade_avg.include?('k') ? grade_avg : "G#{grade_avg}"
+    "#{subject.try(:upcase)} #{grade_code.try(:upcase)}: #{title}"
   end
 
   def downloads_indent

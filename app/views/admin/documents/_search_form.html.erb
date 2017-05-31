@@ -22,7 +22,7 @@
                           required: false,
                           as: :select,
                           include_blank: true,
-                          collection: GradeListHelper::GRADES,
+                          collection: Grades::GRADES,
                           label_method: :humanize %>
     </div>
     <%= f.input :inactive, label: 'Show inactive', required: false, as: :boolean %>

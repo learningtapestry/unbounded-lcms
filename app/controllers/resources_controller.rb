@@ -1,119 +1,59 @@
 class ResourcesController < ApplicationController
-  include CurriculumMapProps
-
   def show
-    # redirect to document if resource has it #161
-    resource, curriculum = find_resource
-    return redirect_to document_path(resource.document) if resource.document?
-    find_curriculum(resource, curriculum)
+    @resource = find_resource
 
-    # redirect grade and module to explore_curriculum
-    # according to issue #122
-    if @curriculum.grade? || @curriculum.module?
-      return redirect_to explore_curriculum_index_path(p: @curriculum.slug.value, e: 1)
-    end
+    # redirect to document if resource has it (#161)
+    return redirect_to document_path(@resource.document) if @resource.document?
 
-    if params[:id].present? && slug = @curriculum.slug
-      return redirect_to show_with_slug_path(slug.value), status: 301
-    end
+    # redirect grade and module to explore_curriculum (#122)
+    return redirect_to explore_curriculum_index_path(p: @resource.slug, e: 1) if grade_or_module?
+
+    # redirect to the path with slug if we are using just the id
+    return redirect_to show_with_slug_path(@resource.slug), status: 301 if using_id?
+
+    @related_instructions = related_instructions
+    @props = CurriculumMap.new(@resource).props
   end
 
   def related_instruction
     @resource = Resource.find params[:id]
-    @instructions = find_related_instructions
-
-    render json: {instructions: @instructions}
+    @related_instructions = related_instructions
+    render json: { instructions: @instructions }
   end
 
   def media
     resource = Resource.find(params[:id])
     return redirect_to resource_path(resource) unless resource.media?
     @resource = MediaPresenter.new(resource)
-    @grade_color_code = resource.grade_avg
   end
 
   def generic
     resource = Resource.find(params[:id])
     return redirect_to resource_path(resource) unless resource.generic?
     @resource = GenericPresenter.new(resource)
-    @grade_color_code = resource.grade_avg
   end
 
   protected
 
-    def find_resource
-      if params[:slug].present?
-        slug = ResourceSlug.find_by_value!(params[:slug])
-        return slug.resource, slug.curriculum
-      end
-      Resource.find(params[:id])
-    end
+  def find_resource
+    res = if params[:slug].present?
+            Resource.find_by! slug: params[:slug]
+          else
+            Resource.find(params[:id])
+          end
+    ResourcePresenter.new(res)
+  end
 
-    def find_curriculum(resource, curriculum)
-      curriculum ||= resource.first_tree unless params[:slug].present?
+  def grade_or_module?
+    @resource.type_is?(:grade) || @resource.type_is?(:module)
+  end
 
-      @resource = ResourcePresenter.new(resource)
-      @grade_color_code = curriculum.try(:grade_color_code)
-      @curriculum = CurriculumPresenter.new(curriculum)
-      @instructions = find_related_instructions
+  def using_id?
+    params[:id].present? && @resource.slug
+  end
 
-      set_index_props
-    end
-
-    def expanded?
-      params[:expanded] == 'true'
-    end
-
-    def find_related_instructions
-      videos = find_related_videos
-      guides = find_related_guides
-
-      instructions = []
-      if expanded?
-        instructions = guides + videos
-
-      else
-        if guides.size > 1  # show 2 guides
-          instructions = guides[0...2]
-
-        elsif guides.size == 1  # show 1 guide and 2 videos
-
-          instructions = guides[0...1] + videos[0...2]
-
-        else  # show 4 videos
-          instructions = videos[0...4]
-
-        end
-      end
-      @has_more = true if (videos + guides).size > instructions.size
-      instructions.map { |inst|
-        inst.is_a?(ContentGuide) ? InstructionSerializer.new(inst) : VideoInstructionSerializer.new(inst)
-      }
-    end
-
-    def find_related_videos
-      find_related_through_standards(limit: 4) do |standard|
-        standard.resources.media.distinct
-      end
-    end
-
-    def find_related_guides
-      find_related_through_standards(limit: 2) do |standard|
-        standard.content_guides
-      end
-    end
-
-    def find_related_through_standards(limit:, &block)
-      related = @resource.unbounded_standards.flat_map { |standard|
-        qset = yield standard
-        qset = qset.limit(limit) unless expanded? # limit each part
-        qset
-      }.uniq
-      if expanded?
-        related
-      else
-        @has_more = true if related.count > limit
-        related[0...limit]  # limit total
-      end
-    end
+  def related_instructions
+    expanded = params[:expanded] == 'true'
+    RelatedInstructionsService.new(@resource, expanded)
+  end
 end

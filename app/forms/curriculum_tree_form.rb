@@ -7,7 +7,8 @@ class CurriculumTreeForm
   attribute :tree, Array[Hash], presence: true
   attribute :change_log, Array[Hash]
 
-  def initialize(id, params)
+  def initialize(id, params = nil)
+    params ||= {}
     attrs = parse_attrs(params).merge(id: id)
     super(attrs)
   end
@@ -19,18 +20,25 @@ class CurriculumTreeForm
     errors.empty?
   end
 
+  def curriculum_tree
+    @curriculum_tree ||= CurriculumTree.find(id)
+  end
+
+  def presenter
+    CurriculumTreePresenter.new(curriculum_tree)
+  end
+
   private
 
   def persist!
-    curriculum = CurriculumTree.find(id)
-    curriculum.update!(tree: tree)
+    curriculum_tree.update!(tree: tree) if tree.present?
     # TODO: after we refactor the resources, implement the  handle_change_log
     #       method and uncomment the call bellow
     # handle_change_log
   end
 
   def parse_attrs(params)
-    { tree: parse_tree(params), change_log: JSON.parse(params[:change_log]) }
+    { tree: parse_tree(params), change_log: parse_change_log(params) }
   end
 
   # Parse tree from the jstree json input data
@@ -40,6 +48,8 @@ class CurriculumTreeForm
   # OUTPUT:
   #  [{name: "node name", children: [...]}]
   def parse_tree(params)
+    return nil unless params[:tree].present?
+
     tree_data = JSON.parse(params[:tree])
     tree_data.map { |node| parse_tree_node(node) }
   end
@@ -49,6 +59,12 @@ class CurriculumTreeForm
       name: node['text'],
       children: node['children'].map { |child| parse_tree_node(child) }
     }
+  end
+
+  def parse_change_log(params)
+    return nil unless params[:change_log].present?
+
+    JSON.parse(params[:change_log])
   end
 
   # Reflect curriculum changes on corresponding resources

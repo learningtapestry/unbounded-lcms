@@ -4,8 +4,31 @@ namespace :resources do
   desc 'Fixes formatting for resources'
   task fix_formatting: [:environment] { ResourceTasks.fix_formatting }
 
+  desc 'Fix lessons metadata'
+  task fix_lessons_metadata: [:environment] { ResourceTasks.fix_lessons_metadata }
+
+  desc 'Generate hierarchical positions for resources'
+  task generate_positions: [:environment] { GenerateHierarchicalPositions.new.generate! }
+
+  desc 'Generate slugs'
+  task generate_slugs: [:environment] { Slug.generate_resources_slugs }
+
+  desc 'Updates time to teach resources'
+  task update_time_to_teach: [:environment] { ResourceTasks.update_time_to_teach }
+
+  desc 'Sync reading assignment'
+  task sync_reading_assignments: [:environment] { ResourceTasks.sync_reading_assignments }
+
+  desc 'Load curriculum directory data'
+  task curriculum_directories: :environment do
+    require_relative '../../db/data/curriculum_directory_migrator'
+    CurriculumDirectoryMigrator.new.migrate!
+  end
+
   desc 'Export to CSV' # Usage: $ bin/rake resources:export[tmp/resources.csv]
-  task :export, %i[filename] => %i[environment] do |task, args|
+  task :export, [:filename] => [:environment] do |task, args|
+    # TODO: check whether its deprecated
+
     filename = args[:filename]
     if filename.blank?
       puts('No filename given')
@@ -91,75 +114,5 @@ namespace :resources do
     end
 
     puts("Resources data exported to #{filename}")
-  end
-
-  desc 'Fix resource Grade tags'
-  task fix_grades: :environment do
-    valid_grades = GradeListHelper::GRADES
-    pbar = ProgressBar.create title: "Fix resource grades", total: Resource.count
-    changes = 0
-
-    Resource.all.find_in_batches do |group|
-      group.each do |resource|
-        resource_grades = resource.curriculums
-                                  .where.not(curriculum_type: CurriculumType.map)
-                                  .trees
-                                  .map { |cur| curriculum_grade(cur) }
-        resource_grades = resource_grades & valid_grades
-
-        next if resource_grades.empty?
-
-        current_grades = resource.grade_list & valid_grades
-        to_be_removed  = current_grades  - resource_grades
-        to_be_added    = resource_grades - current_grades
-
-        if to_be_removed.present? || to_be_added.present?
-          to_be_removed.each { |g| resource.grade_list.remove(g) }
-          to_be_added.each   { |g| resource.grade_list.add(g)    }
-
-          resource.updated_at = DateTime.current
-          resource.save
-          changes += 1
-        end
-
-        pbar.increment
-      end
-    end
-    pbar.finish
-    puts "#{changes} resources changed"
-  end
-
-  def curriculum_grade(curriculum)
-    @grade_names ||= {
-      'algebra i'   => 'grade 9',
-      'geometry'    => 'grade 10',
-      'algebra ii'  => 'grade 11',
-      'precalculus' => 'grade 12',
-    }
-
-    # retrieve the resource corresponding grade
-    grade = curriculum.self_and_ancestors
-                      .joins(:curriculum_type)
-                      .where(curriculum_types: {name: 'grade'})
-                      .first
-                      .resource
-                      .short_title
-    @grade_names[grade] || grade
-  end
-
-  desc 'Fix lessons metadata'
-  task fix_lessons_metadata: :environment do
-    Resource.lessons.each do |res|
-      next unless res.document?
-
-      md = res.document.metadata
-
-      attrs = {}
-      attrs[:title] = md['title'] if md['title'].present?
-      attrs[:teaser] = md['teaser'] if md['teaser'].present?
-      attrs[:description] = md['description'] if md['description'].present?
-
-      res.update(**attrs) if attrs.present?
-    end
   end
 end

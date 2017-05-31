@@ -1,103 +1,65 @@
 class CurriculumResourceSerializer < ActiveModel::Serializer
-  include TruncateHtmlHelper
-  include ResourceHelper
-
   self.root = false
 
-  attributes :id,
-    :curriculum_id,
-    :title,
-    :short_title,
-    :teaser,
-    :time_to_teach,
-    :type,
-    :path,
-    :downloads,
-    :subject,
-    :grade,
-    :breadcrumb_title,
-    :copyright,
-    :has_related
+  attributes :id, :resource, :children, :type, :lesson_count, :unit_count,
+             :module_count, :module_sizes, :unit_sizes
 
-  def id
-    object.resource.id
+  def initialize(object, options = {})
+    super(object, options)
+    @depth = options[:depth] || 0
+    @depth_branch = options[:depth_branch]
   end
 
-  def curriculum_id
-    object.id
-  end
-
-  def ld_metadata
-    return nil unless object.resource.document?
-    @ld_metadata ||= DocumentPresenter.new(object.resource.document)
-                                            .ld_metadata
-  end
-
-  def title
-    ld_metadata.try(:title).presence || object.resource.title
-  end
-
-  def short_title
-    object.resource.short_title
-  end
-
-  def teaser
-    ld_metadata.try(:teaser).presence || object.resource.teaser
-  end
-
-  def time_to_teach
-    object.resource.time_to_teach
+  def resource
+    ResourceSerializer.new(object).as_json
   end
 
   def type
     object.curriculum_type
   end
 
-  def subject
-    object.resource.subject
-  end
+  def children
+    return [] if @depth.zero?
+    return [] if @depth_branch && !@depth_branch.include?(object.id)
 
-  def grade
-    object.grade_color_code
-  end
+    level_idx = CurriculumTree::HIERARCHY.index(object.curriculum_type.try(:to_sym))
+    children_type = CurriculumTree::HIERARCHY[level_idx + 1].to_s.pluralize
 
-  def path
-    return document_path(object.resource.document) if object.resource.document?
-    show_resource_path(object.resource, object)
-  end
-
-  def downloads
-    indent = object.resource.pdf_downloads?
-    serialize_download = lambda do |download|
-      {
-        id: download.id,
-        icon: h.file_icon(download.download.attachment_content_type),
-        title: download.download.title,
-        url: download_path(download, slug_id: object.try(:slug).try(:id)),
-        preview_url: preview_download_path(id: download,
-                                           slug_id: object.try(:slug).try(:id)),
-        indent: indent
-      }
-    end
-    object.resource.download_categories.map do |k, v|
-      [k, v.map(&serialize_download)]
+    child_resources(object, children_type).ordered.map do |res|
+      CurriculumResourceSerializer.new(
+        res,
+        depth: @depth - 1,
+        depth_branch: @depth_branch
+      ).as_json
     end
   end
 
-  def copyright
-    copyrights_text(object)
+  def lesson_count
+    child_resources(object, :lessons).count
   end
 
-  def has_related
-    # based on 'find_related_instructions' method from 'ResourcesController'
-    object.resource.unbounded_standards.any? do |standard|
-      standard.content_guides.exists? || standard.resources.media.exists?
+  def unit_count
+    child_resources(object, :units).count
+  end
+
+  def module_count
+    child_resources(object, :modules).count
+  end
+
+  def module_sizes
+    child_resources(object, :modules).ordered.map do |mod|
+      child_resources(mod, :lessons).count
     end
   end
 
-  protected
-
-    def h
-      ApplicationController.helpers
+  def unit_sizes
+    child_resources(object, :units).ordered.map do |unit|
+      child_resources(unit, :lessons).count
     end
+  end
+
+  def child_resources(parent, type)
+    return Resource.none if type.blank?
+    Resource.tree.send(type).where_curriculum(parent.curriculum)
+  end
 end

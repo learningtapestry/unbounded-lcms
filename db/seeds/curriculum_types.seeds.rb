@@ -1,5 +1,0 @@
-CurriculumType.find_or_create_by!(name: 'map')
-CurriculumType.find_or_create_by!(name: 'grade')
-CurriculumType.find_or_create_by!(name: 'module')
-CurriculumType.find_or_create_by!(name: 'unit')
-CurriculumType.find_or_create_by!(name: 'lesson')

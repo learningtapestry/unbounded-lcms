@@ -462,8 +462,6 @@ GEM
       rack (>= 1.2, < 3)
     oj (2.12.12)
     oj_mimic_json (1.0.1)
-    order_as_specified (0.1.0)
-      activerecord (~> 4.0)
     orm_adapter (0.5.0)
     os (0.9.6)
     pandoc-ruby (2.0.1)
@@ -774,7 +772,6 @@ DEPENDENCIES
   nokogiri (~> 1.6.0)
   oj (~> 2.12.12)
   oj_mimic_json (~> 1.0.1)
-  order_as_specified (~> 0.1.0)
   pandoc-ruby
   pdfjs_viewer-rails (~> 0.0.9)
   pg (~> 0.18.2)

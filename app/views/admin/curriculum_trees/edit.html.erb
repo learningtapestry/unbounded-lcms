@@ -2,9 +2,9 @@
 
 <div class=o-page>
 
-  <h1 class=text-center>Curriculum Tree : <%= @curriculum.name %></h1>
+  <h1 class=text-center>Curriculum Tree : <%= @curriculum_tree.name %></h1>
 
   <div class=row>
-    <%= react_component('CurriculumTreeEditor', @curriculum.editor_props.merge(form_token: form_authenticity_token), prerender: true) %>
+    <%= react_component('CurriculumTreeEditor', @curriculum_tree.editor_props.merge(form_token: form_authenticity_token), prerender: true) %>
   </div>
 </div>

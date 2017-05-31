@@ -62,5 +62,4 @@ Rails.application.configure do
   else
     config.cache_store = :null_store
   end
-
 end

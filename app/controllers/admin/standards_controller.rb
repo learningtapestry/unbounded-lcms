@@ -1,5 +1,5 @@
 module Admin
-  class StandardsController < Admin::AdminController
+  class StandardsController < AdminController
     before_action :find_standard, except: [:index]
 
     def index

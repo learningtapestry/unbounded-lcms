@@ -1,45 +1,5 @@
 en:
   admin:
-    collection_types:
-      create:
-        success: Collection Type created successfully.
-      destroy:
-        success: Collection Type deleted successfully.
-      edit:
-        page_title: "Edit %{collection_type} Collection Type"
-      index:
-        new_collection_type: Add Collection Type
-        page_title: Collection Types
-      new:
-        page_title: New Collection Type
-      update:
-        success: Collection Type updated successfully.
-    collections:
-      create:
-        success: Resource Collection created successfully.
-      destroy:
-        success: "Resource Collection #%{collection_id} was deleted successfully."
-      edit:
-        add_node: Add node
-        manage_resources: Manage Resources
-        page_title: "Edit %{collection} Collection"
-      editable_tree:
-        add_node: Add node
-        delete_subtree: Delete subtree
-        restore_subtree: Restore subtree
-      index:
-        items_count: Items count
-        new_collection: Add Resource Collection
-        page_title: Collections
-      new:
-        page_title: New Collection
-      show:
-        page_title: "%{collection} Collection"
-      update:
-        success: Resource Collection was updated successfully.
-    curriculum_exports:
-      new:
-        page_title: Export Resources
     content_guide_definitions:
       import:
         success: Glossary imported successfully.
@@ -60,9 +20,6 @@ en:
         page_title: New Content Guide Faq
       update:
         success: Content Guide Faq updated successfully.
-    content_guide_standards:
-      index:
-        page_title: Content Guide Standards
     content_guides:
       destroy:
         success: "'%{name}' deleted successfully."
@@ -114,9 +71,6 @@ en:
       new:
         no_resources: No resources were selected.
         page_title: Edit Tags
-    resource_children:
-      create:
-        success: New Node added into Collection successfully.
     resources:
       destroy:
         success: "Resource #%{resource_id} was deleted successfully."
@@ -151,6 +105,7 @@ en:
         resource_types: Resource Types
         standards: Standards
         subjects: Subjects
+        tags: Tags
         title: Title
         url_slug: URL slug
       create:
@@ -199,15 +154,6 @@ en:
         page_title: New Leadership Post
       update:
         success: Leadership Post updated successfully.
-    subtitles_imports:
-      index:
-        no_results: Nothing was imported
-        page_title: Import results
-        results_count: '%{count} resource(s) updated'
-      new:
-        import: Import
-        spreadsheet: Spreadsheet
-        page_title: 'Import subtitles & descriptions'
     users:
       create:
         success: "User %{user} was created successfully."
@@ -309,4 +255,3 @@ en:
       sketch_compilation: Compile lesson sketch %{version}
       import_lesson: Import Lesson
       lessons: Lessons
-      curriculum_trees: Curriculum Trees

@@ -66,14 +66,13 @@ describe DocTemplate do
     subject { DocTemplate::Template.parse(html_document) }
 
     it 'returns the agenda structure' do
-      expect(subject.agenda.count).to eq  2
-      expect(subject.agenda.first[:id]).to eq  group1.parameterize
-      expect(subject.agenda.first[:children].count).to eq  1
-      expect(subject.agenda.first[:children].first[:id]).to eq  section1.parameterize
-      expect(subject.agenda.last[:id]).to eq  group2.parameterize
-      expect(subject.agenda.last[:children].count).to eq  0
+      expect(subject.agenda.count).to eq 2
+      expect(subject.agenda.first[:id]).to eq group1.parameterize
+      expect(subject.agenda.first[:children].count).to eq 1
+      expect(subject.agenda.first[:children].first[:id]).to eq section1.parameterize
+      expect(subject.agenda.last[:id]).to eq group2.parameterize
+      expect(subject.agenda.last[:children].count).to eq 0
     end
-
   end
 
   describe 'metadata parsing' do
@@ -85,7 +84,7 @@ describe DocTemplate do
     subject { DocTemplate::Template.parse(html_document) }
 
     it 'returns the values hash' do
-      expect(subject.metadata.keys).to include 'subject'
+      expect(subject.metadata.keys).to include('subject')
     end
   end
 
@@ -94,7 +93,7 @@ describe DocTemplate do
     subject { DocTemplate::Template.parse(html_document) }
 
     it 'renders an html document' do
-    expect(subject.render).to include content
+      expect(subject.render).to include(content)
     end
   end
 
@@ -106,7 +105,7 @@ describe DocTemplate do
 
       it 'renders the default' do
         output = subject.render
-        expect(output).not_to include tag
+        expect(output).to_not include(tag)
       end
     end
 
@@ -117,8 +116,8 @@ describe DocTemplate do
       subject { DocTemplate::Template.parse(html_document) }
       it 'renders the default' do
         output = subject.render
-        expect(output).not_to include tag
-        expect(output).not_to include tag2
+        expect(output).not_to include(tag)
+        expect(output).not_to include(tag2)
       end
     end
 
@@ -143,7 +142,7 @@ describe DocTemplate do
 
       it 'replaces nested tags with placeholders' do
         skip
-        expect(subject.render).to match /(.?default_tag_\w+){2}/
+        expect(subject.render).to match(/(.?default_tag_\w+){2}/)
       end
     end
 

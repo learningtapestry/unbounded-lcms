@@ -1,12 +1,12 @@
 class ContentGuidePdfPresenter < ContentGuidePresenter
-  FOOTNOTES_CLASS = 'contengGuide__footnotes'
+  FOOTNOTES_CLASS = 'contengGuide__footnotes'.freeze
 
   def initialize(content_guide, host, view_context, wrap_keywords = false)
     super(content_guide, host, view_context, wrap_keywords)
   end
 
   def footer_title
-    "#{title}"
+    title
   end
 
   def header_title
@@ -55,7 +55,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def grades_title
-    g = grade_numbers
+    g = grades.range
     g.include?('k') ? g.try(:titleize) : "#{t('ui.grade')} #{g}"
   end
 
@@ -78,7 +78,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def reset_styles
-    doc.css("[style]").each do |node|
+    doc.css('[style]').each do |node|
       node.remove_attribute('style')
     end
   end
@@ -87,8 +87,8 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
     result = content.dup
     result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
       if (standard = CommonCoreStandard.find_by_name_or_synonym(m))
-        toggler = "<span class=c-cg-keyword>"
-        if (emphasis = standard.emphasis(grade_list.first))
+        toggler = '<span class=c-cg-keyword>'
+        if (emphasis = standard.emphasis(grades.list.first))
           toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
         end
         toggler += "#{m}</span>"

@@ -2,10 +2,8 @@ require 'securerandom'
 
 class ContentGuidePresenter < BasePresenter
   include Rails.application.routes.url_helpers
-  include SoundcloudEmbed
-  include VideoEmbed
 
-  ANNOTATION_COLOR = '#fff2cc'
+  ANNOTATION_COLOR = '#fff2cc'.freeze
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:anchor, :children, :level, :text)
@@ -22,7 +20,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def sticky_title
-    "#{t('ui.unbounded')} #{subject} #{t('ui.guide')} #{grade_numbers}"
+    "#{t('ui.unbounded')} #{subject} #{t('ui.guide')} #{grades.range}"
   end
 
   def broken_images
@@ -53,7 +51,7 @@ class ContentGuidePresenter < BasePresenter
       level = h.name.tr('h', '')
       heading = Heading.new(id, [], level, text)
 
-      # TODO find a better way to organize this
+      # TODO: find a better way to organize this
       if headings.any?
         case h.name
         when 'h2'
@@ -133,19 +131,6 @@ class ContentGuidePresenter < BasePresenter
 
   private
 
-  def grade_numbers
-    first_grade = grade_number(grade_list.first)
-    return first_grade if grade_list.size < 2
-    "#{first_grade}-#{grade_number(grade_list.last)}"
-  end
-
-  def grade_number(g)
-    grade = g.downcase
-    return 'k' if grade == 'kindergarten'
-    return 'pk' if grade == 'prekindergarten'
-    return grade[/\d+/] if grade[/\d+/]
-  end
-
   def all_next_elements_with_name(tag, name)
     nodes = []
     next_node = tag.try(:next)
@@ -198,7 +183,7 @@ class ContentGuidePresenter < BasePresenter
       resource = Resource.find_podcast_by_url(url)
       next unless resource
 
-      embed_info = soundcloud_embed(url, try(:subject).try(:to_sym))
+      embed_info = MediaEmbed.soundcloud(url, try(:subject).try(:to_sym))
       next unless embed_info.present?
 
       container = doc.document.create_element('div', id: "sc_container_#{index}", class: 'c-cg-media__podcast')
@@ -215,16 +200,13 @@ class ContentGuidePresenter < BasePresenter
       resource = Resource.find_video_by_url(url)
       next unless resource
 
-      video_id = video_id(url)
+      video_id = MediaEmbed.video_id(url)
       url_params = {}
       url_params[:start] = a[:start] if a[:start].present?
       url_params[:end] = a[:stop] if a[:stop].present?
-      src =
-        if url_params.present?
-          "https://www.youtube.com/embed/#{video_id}?#{url_params.to_query}"
-        else
-          "https://www.youtube.com/embed/#{video_id}"
-        end
+
+      query = url_params.present? ? "?#{url_params.to_query}" : ''
+      src = "https://www.youtube.com/embed/#{video_id}#{query}"
 
       container = doc.document.create_element('div', class: 'o-media-video')
       container << doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0, height: 315, src: src, width: 560)
@@ -646,7 +628,7 @@ class ContentGuidePresenter < BasePresenter
     end
 
     result.gsub!(/[[:alnum:]]+([\.-][[:alnum:]]+)+/) do |m|
-      if (is_a_standard?(m) && (standard = CommonCoreStandard.find_by_name_or_synonym(m)) && standard.description.present?)
+      if is_a_standard?(m) && (standard = CommonCoreStandard.find_by_name_or_synonym(m)) && standard.description.present?
         id = "cg-k_#{SecureRandom.hex(4)}"
 
         # If the dropdown-pane doesn't have a toggler element, the plugin
@@ -654,7 +636,7 @@ class ContentGuidePresenter < BasePresenter
         # For some standard references we're removing the dropdown behavior
         # because that's undesirable, thus prompting this exception.
         # Add a hidden toggle button that is always present, so this doesn't happen.
-        dropdowns << %Q(
+        dropdowns << %(
           <span class=hide data-toggle=#{id}></span>
           <span class='dropdown-pane c-cg-dropdown'
                 data-dropdown
@@ -666,7 +648,7 @@ class ContentGuidePresenter < BasePresenter
           </span>
         )
         toggler = "<span class=c-cg-keyword data-toggle=#{id}>"
-        if (emphasis = standard.emphasis(grade_list.first))
+        if (emphasis = standard.emphasis(grades.list.first))
           toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
         end
         toggler += "#{m}</span>"

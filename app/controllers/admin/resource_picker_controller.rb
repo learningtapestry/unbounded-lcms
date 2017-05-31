@@ -1,119 +1,52 @@
-class Admin::ResourcePickerController < Admin::AdminController
-  include Pagination
+module Admin
+  class ResourcePickerController < AdminController
+    def index
+      @resources = Resource.where(nil)
 
-  class ResourcePickerSerializer < ActiveModel::Serializer
-    self.root = false
-    attributes :id, :title
-  end
+      @resources = @resources.where_subject(index_params[:subject]) if index_params[:subject].present?
+      @resources = @resources.where(curriculum_type: index_params[:type]) if index_params[:type].present?
+      @resources = @resources.where_grade(grade_name) if index_params[:grade].present?
+      @resources = @resources.where('title ilike ?', "%#{params[:q]}%") if index_params[:q].present?
 
-  class CurriculumPickerSerializer < ActiveModel::Serializer
-    self.root = false
-    attributes :id, :title, :curriculum_type
+      @resources = @resources.paginate(pagination.params(strict: true)).order('resources.title asc')
 
-    def curriculum_type
-      object.current_level
+      respond_to do |format|
+        format.json { render json: pagination.serialize(@resources, ResourcePickerSerializer) }
+      end
     end
 
-    def title
-      object.resource.title
-    end
-  end
+    def index_params
+      @index_params ||= begin
+        default_params = { type: nil, subject: nil, grade: nil, q: nil }
+        expected_params = params.slice(:type, :subject, :grade, :q).symbolize_keys
+        index_p = default_params.merge(expected_params)
 
-  def index
-    @resources = Resource
+        grade_ok = index_p[:grade].blank? || Filterbar::GRADES.include?(index_p[:grade])
+        type_ok = index_p[:type].blank? || CurriculumTree::HIERARCHY.include?(index_p[:type].to_sym)
+        subject_ok = index_p[:subject].blank? || CurriculumTree::SUBJECTS.include?(index_p[:subject])
 
-    if index_params[:subject].present?
-      @resources = @resources.where_subject(index_params[:subject])
-    end
+        raise StandardError unless grade_ok && type_ok && subject_ok
 
-    if index_params[:type].present?
-      @resources = @resources.joins(:curriculums)
-      .where(curriculums: {
-        curriculum_type: FilterParamsConstants.curriculum_types[index_params[:type]]
-      })
-      .where(curriculums: { seed_id: nil })
+        index_p
+      end
     end
 
-    if index_params[:grade].present?
-      @resources = @resources.where_grade(
-        FilterParamsConstants.grades[index_params[:grade]]
-      )
+    private
+
+    def pagination
+      @pagination ||= Pagination.new(params)
     end
 
-    if index_params[:q].present?
-      @resources = @resources.where('title ilike ?', "%#{params[:q]}%")
-    end
-
-    @resources = @resources
-      .paginate(page: pagination_params[:page], per_page: 10)
-      .order("resources.title asc")
-
-    respond_to do |format|
-      format.json {
-        json_response = serialize_with_pagination(@resources,
-          pagination: pagination_params,
-          each_serializer: ResourcePickerSerializer
-        )
-        render json: json_response
-      }
-    end
-  end
-
-  def curriculum
-    @curriculums = Curriculum.seeds.where(parent: nil)
-
-    if index_params[:subject].present?
-      @curriculums = @curriculums.where_subject(index_params[:subject])
-    end
-
-    if index_params[:type].present?
-      @curriculums = @curriculums.where(
-        curriculum_type: FilterParamsConstants.curriculum_types[index_params[:type]]
-      )
-    end
-
-    if index_params[:grade].present?
-      @curriculums = @curriculums.where_grade(
-        FilterParamsConstants.grades[index_params[:grade]]
-      )
-    end
-
-    if index_params[:q].present?
-      @curriculums = @curriculums.with_resources.where('resources.title ilike ?', "%#{params[:q]}%")
-    end
-
-    @curriculums = @curriculums
-      .paginate(page: pagination_params[:page], per_page: 10)
-
-    respond_to do |format|
-      format.json {
-        json_response = serialize_with_pagination(@curriculums,
-          pagination: pagination_params,
-          each_serializer: CurriculumPickerSerializer
-        )
-        render json: json_response
-      }
-    end
-  end
-
-  def index_params
-    @index_params ||= begin
-      default_params = { type: nil, subject: nil, grade: nil, q: nil }
-      expected_params = params.slice(:type, :subject, :grade, :q).symbolize_keys
-      index_p = default_params.merge(expected_params)
-
-      grade_ok = index_p[:grade].blank? ||
-        FilterParamsConstants.grades.keys.include?(index_p[:grade])
-
-      type_ok = index_p[:type].blank? ||
-        FilterParamsConstants.curriculum_types.keys.include?(index_p[:type])
-
-      subject_ok = index_p[:subject].blank? ||
-        FilterParamsConstants.subjects.include?(index_p[:subject])
-
-      raise StandardError unless grade_ok && type_ok && subject_ok
-
-      index_p
+    def grade_name
+      if index_params[:grade].casecmp('K').zero?
+        'kindergarten'
+      elsif index_params[:grade].casecmp('PK').zero?
+        'prekindergarten'
+      elsif !index_params[:grade].start_with?('grade')
+        "grade #{index_params[:grade]}"
+      else
+        index_params[:grade]
+      end
     end
   end
 end
