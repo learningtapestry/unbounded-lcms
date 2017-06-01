@@ -1,0 +1,20 @@
+<div class="o-ld-pv">
+  <div>
+    <p class="o-ld-pv--header"><%= @data['text_header'] %></p>
+  </div>
+  <table class="o-ld-pv o-ld-pv-content">
+    <tbody>
+      <% @data['row_count'].times do %>
+        <tr>
+          <% @data['column_count'].times do |idx| %>
+              <% width = @data.try(:[], 'column_width').try(:[], idx).presence || '50%' %>
+              <td style="width: <%= width %>"></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div>
+      <p class="o-ld-pv--footer"><%= @data['text_footer'] %></p>
+    </div>
+</div>

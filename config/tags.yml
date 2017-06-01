@@ -1,0 +1,24 @@
+pv:
+  hundreds:
+    column_count: 1
+    row_count: 3
+    text_header: 'Unlabeled Hundreds Place Value Chart Template'
+    text_footer: 'unlabeled hundreds place value chart'
+  millions:
+    column_count: 2
+    row_count: 7
+    text_footer: 'unlabeled millions place value chart'
+    text_header: 'Unlabeled Millions Place Value Chart Template'
+  thousands:
+    column_count: 1
+    row_count: 4
+    text_footer: 'unlabeled thousands place value chart'
+    text_header: 'Unlabeled Thousands Place Value Chart Template'
+  hundred-thousands:
+    column_count: 2
+    column_width:
+      - 10%
+      - 85%
+    row_count: 6
+    text_footer: 'unlabeled hundred thousands place value chart'
+    text_header: 'Unlabeled Hundred Thousands Place Value Chart Template'
