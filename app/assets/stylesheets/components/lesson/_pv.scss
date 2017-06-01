@@ -1,0 +1,15 @@
+.o-ld-pv-content {
+  thead, tbody {
+    border: none;
+    background-color: initial !important;
+  }
+
+  tr {
+    background-color: initial !important;
+  }
+
+  td {
+    border: 1px solid;
+    @include add-top-bottom-padding()
+  }
+}
