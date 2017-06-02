@@ -2,16 +2,7 @@ module Admin
   class LessonDocumentsController < AdminController
     include GoogleAuth
 
-    before_action :obtain_google_credentials, only: [:create, :export, :new]
-
-    def export
-      @lesson_document = LessonDocumentPresenter.new LessonDocument.find(params[:id])
-      content = render_to_string layout: 'ld_gdoc'
-      exporter = DocumentExporter::GDoc
-                   .new(google_credentials)
-                   .export(@lesson_document.title, content)
-      redirect_to exporter.url
-    end
+    before_action :obtain_google_credentials, only: [:create, :new]
 
     def index
       @query = OpenStruct.new(params[:query])

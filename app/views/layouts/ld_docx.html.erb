@@ -3,10 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <%= stylesheet_link_tag 'main', media: 'all' %>
     <title><%= "#{t('ui.unbounded')} - #{page_title}" %></title>
-    <style>
-      <%= asset_to_string('main.css').html_safe %>
-    </style>
   </head>
   <body>
     <div class="u-page-wrap c-admin u-supported">
