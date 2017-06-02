@@ -83,6 +83,9 @@ gem 'rest-client', '~> 1.8'
 # spreadsheet
 gem 'roo', '~> 2.2'
 
+# markup converters
+gem 'pandoc-ruby'
+
 # documentation
 gem 'sdoc', '~> 0.4.0', group: :doc
 
