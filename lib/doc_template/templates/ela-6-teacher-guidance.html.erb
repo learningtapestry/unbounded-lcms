@@ -1,21 +1,17 @@
-<h2>Teacher Guidance</h2>
-<table>
-  <tr>
-    <td>Pacing</td>
-    <td>
-      <ul>
-        <li>Teacher can do a minimally scaffolded version of the lesson and then the students who need support get specific skill work using text from the lesson in a later class period (that teacher would pull out the activities for scaffolding that were not done from the ELA class)</li>
-        <li>The teacher can do the lesson over a period of two days (45 minute classes) using all of the embedded scaffolds</li>
-        <li>The teacher can do the lesson in one day (90 minute class)</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td>Materials</td>
-    <td><%= @data.materials %></td>
-  </tr>
-  <tr>
-    <td>Preparation</td>
-    <td><%= @data.preparation %></td>
-  </tr>
-</table>
+<div class="o-ld-teacher-guidance">
+  <h2>Teacher Guidance</h2>
+  <h3>Pacing</h3>
+  <ul>
+    <li>Teacher can do a minimally scaffolded version of the lesson and then the students who need support get specific skill work using text from the lesson in a later class period (that teacher would pull out the activities for scaffolding that were not done from the ELA class)</li>
+    <li>The teacher can do the lesson over a period of two days (45 minute classes) using all of the embedded scaffolds</li>
+    <li>The teacher can do the lesson in one day (90 minute class)</li>
+  </ul>
+  <h3>Materials</h3>
+  <div>
+    <%= @data.materials %>
+  </div>
+  <h3>Preparation</h3>
+  <div>
+    <%= @data.preparation %>
+  </div>
+</div>
