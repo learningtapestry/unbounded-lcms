@@ -1,6 +1,12 @@
 module DocTemplate
   module Tags
     class BaseTag
+      CONFIG_PATH = Rails.root.join('config', 'tags.yml')
+
+      def self.config
+        @config ||= YAML.load_file(CONFIG_PATH)
+      end
+
       def self.parse(node, opts = {})
         new.parse(node, opts)
       end
