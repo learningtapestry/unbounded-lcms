@@ -10,6 +10,9 @@
       <%= link_to [:admin, :lesson_documents], class: 'o-btn o-btn--base o-btn--xs-full' do %>
         <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Lessons Admin
       <% end %>
+      <%= link_to [:export, :admin, :lesson_document, { id: @lesson_document.id }], class: 'o-btn o-btn--base o-btn--xs-full', target: '_blank' do %>
+        <i class="u-text--middled"></i> Export to Google Documents
+      <% end %>
     </div>
   <% end %>
   <%= render 'header', lesson_document: @lesson_document, curriculum: @curriculum, props: @props if @curriculum.present? %>
