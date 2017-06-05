@@ -30,7 +30,7 @@ module DocTemplate
         end
       end
 
-      add_custom_nodes unless opts.key?(:level)
+      add_custom_nodes unless @opts.key?(:level)
 
       self
     end
@@ -42,6 +42,7 @@ module DocTemplate
     private
 
     def add_custom_nodes
+      return unless @opts[:metadata].present?
       return unless @opts[:metadata]['subject'].try(:downcase) == 'ela'
       return unless @opts[:metadata]['grade'] == '6' # || @opts[:metadata]['grade'] == '2'
 

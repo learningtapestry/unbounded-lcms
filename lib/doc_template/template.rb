@@ -60,13 +60,14 @@ module DocTemplate
       doc = Nokogiri::HTML(source)
       # get css styles from head to keep classes for lists (preserve list-style-type)
       @css_styles = HtmlSanitizer.sanitize_css(doc.xpath('//html/head/style/text()').to_s)
+
       # clean all the inline styles
       body_node = HtmlSanitizer.sanitize(doc.xpath('//html/body/*').to_s)
       body_fragment = Nokogiri::HTML.fragment(body_node)
-      @metadata = Tables::Metadata.parse(body_fragment)
-      @agenda = Tables::Agenda.parse(body_fragment)
-      @activity_metadata = Tables::Activity.parse(body_fragment)
-      @foundational_metadata = Tables::FoundationalMetadata.parse(body_fragment)
+
+      # parse tables
+      parse_tables body_fragment
+
       @root = Document.parse(body_fragment, meta_options)
       @toc = DocumentTOC.parse(meta_options)
       self
@@ -83,6 +84,16 @@ module DocTemplate
 
     def render
       @root.render.presence || ''
+    end
+
+    private
+
+    def parse_tables(html)
+      @metadata = Tables::Metadata.parse html
+      @agenda = Tables::Agenda.parse html
+      @activity_metadata = Tables::Activity.parse html
+      @foundational_metadata = Tables::FoundationalMetadata.parse html
+      Tables::Target.parse(html) if @metadata.data['subject'].try(:downcase) == 'ela' && @metadata.data['grade'] == '6'
     end
   end
 end
