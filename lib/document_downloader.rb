@@ -47,7 +47,7 @@ module DocumentDownloader
     end
 
     def handle_drawings(html)
-      return html unless (match = GOOGLE_DRAWING_RE.match html)
+      return html unless (match = html.scan(GOOGLE_DRAWING_RE))
 
       headers = { 'Authorization' => "Bearer #{@credentials.access_token}" }
 

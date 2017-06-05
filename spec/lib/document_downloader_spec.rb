@@ -48,7 +48,6 @@ describe DocumentDownloader::GDoc do
       let(:drawing_encoded) { 'body' }
       let(:drawing_url) { 'https://docs.google.com/drawings/image?id=s_uiJ2KNBacy7Mt2DqQn5aQ&amp;rev=1&amp;h=125&amp;w=345&amp;ac=1' }
       let(:drawing_url_clear) { CGI.unescapeHTML drawing_url }
-      let(:file_content) { %( <p><span><img alt="" src="#{drawing_url}" title=""></span></p> ) }
       let(:headers) { { 'Authorization' => "Bearer #{access_token}" } }
       let(:response) { OpenStruct.new content_type: 'image/png' }
       let(:service) { double export_file: file_content }
@@ -61,21 +60,51 @@ describe DocumentDownloader::GDoc do
         allow(Base64).to receive(:encode64).with(response).and_return(drawing_encoded)
       end
 
-      it 'fetches them' do
-        expect(HTTParty).to receive(:get).with(drawing_url_clear, headers: headers)
-        subject
+      context 'with single url' do
+        let(:file_content) { %( <p><span><img alt="" src="#{drawing_url}" title=""></span></p><div> ) }
+
+        it 'fetches them' do
+          expect(HTTParty).to receive(:get).with(drawing_url_clear, headers: headers)
+          subject
+        end
+
+        it 'encodes them using Base64' do
+          expect(Base64).to receive(:encode64).with(response)
+          subject
+        end
+
+        it 'substitutes the original URL' do
+          subject
+          expect(document.original_content).to_not include(drawing_url)
+          expect(document.original_content).to_not include(drawing_url_clear)
+          expect(document.original_content).to include(drawing_encoded)
+        end
       end
 
-      it 'encodes them using Base64' do
-        expect(Base64).to receive(:encode64).with(response)
-        subject
-      end
+      context 'with multiple url' do
+        let(:drawing_url1)       { 'https://docs.google.com/drawings/image?id=s_23J2KNBacy7Mt2DqQn5aQ&amp;rev=1&amp;h=345' }
+        let(:drawing_url1_clear) { CGI.unescapeHTML drawing_url1 }
+        let(:file_content) do
+          <<-HTML
+            <span><img src="#{drawing_url}">
+            </span><div><img src="#{drawing_url1}">
+            </div><div><img src="#{drawing_url}"></div>
+          HTML
+        end
 
-      it 'substitutes the original URL' do
-        subject
-        expect(document.original_content).to_not include(drawing_url)
-        expect(document.original_content).to_not include(drawing_url_clear)
-        expect(document.original_content).to include(drawing_encoded)
+        before do
+          allow(HTTParty).to receive(:get).with(drawing_url1_clear, headers: headers).and_return(response)
+        end
+
+        it 'substitutes the original URLS' do
+          expect(HTTParty).to receive(:get).twice
+          subject
+          expect(document.original_content).to_not include(drawing_url)
+          expect(document.original_content).to_not include(drawing_url_clear)
+          expect(document.original_content).to_not include(drawing_url1)
+          expect(document.original_content).to_not include(drawing_url1_clear)
+          expect(document.original_content.scan(drawing_encoded).size).to eq 3
+        end
       end
     end
   end
