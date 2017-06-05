@@ -5,7 +5,6 @@
 }
 
 .c-pdf-footer {
-  @include txt-element(footer, $ub-pdf-typography);
   border: 0;
   border-collapse: separate;
   border-radius: 0;
@@ -17,6 +16,14 @@
   padding: 0;
   padding-top: $ub-small-padding;
   width: 100%;
+
+  @include m(cg) {
+    @include txt-pdf-element(footer);
+  }
+
+  @include m(ld) {
+    @include txt-pdf-element(ld-footer);
+  }
 
   @include e(wrap) {
     margin-left: $pdf-margin;

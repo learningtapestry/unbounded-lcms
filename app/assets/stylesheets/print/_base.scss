@@ -1,9 +1,3 @@
-@mixin cg-pdf-color-scheme($map) {
-  h1 {
-    color: map-get($map, link);
-  }
-}
-
 // Unbounded specific
 html, body {
   background: none;
@@ -14,6 +8,11 @@ html, body {
   size: letter;
 }
 
+.o-page--pdf {
+  padding-left: $pdf-margin;
+  padding-right: $pdf-margin;
+}
+
 header, footer, o-sidebar-nav {
   display: none;
 }
@@ -22,15 +21,6 @@ tr, img, table, pre, blockquote, .callout { page-break-inside: avoid; }
 
 // Avoid page breaks after a heading
 h1, h2, h3, h4, h5 { page-break-after: avoid; }
-.c-cg-content__body h1, .c-cg-task { page-break-before: always; }
-.c-cg-blockquote, .c-cg-pullquote { page-break-inside: avoid; }
-.c-cg-content__body {
-  padding-left: $pdf-margin;
-  padding-right: $pdf-margin;
-}
-.contengGuide__footnotes {
-  page-break-before: always;
-}
 
 h1, h2, h3, h4 {
   font-weight: bold;
@@ -71,21 +61,6 @@ h4 {
   padding-top: 1.25rem;
 }
 
-.c-cg-content__body {
-  p, ol, ul {
-    &, * {
-      $typo: map-get($ub-pdf-typography, base);
-      @each $style, $value in $typo {
-        #{$style}: $value !important;
-      }
-      font-weight: normal;
-      orphans: 2;
-      widows: 2;
-    }
-  }
-  .c-cg-sup { font-size: 7pt !important; }
-}
-
 ul li {
   text-indent: 0 !important;
 }
@@ -95,28 +70,3 @@ img, td, span, table {
 }
 
 img { height: auto !important; }
-
-.c-cg-content__body {
-  table td {
-    padding-right: $ub-large-padding !important;
-  }
-}
-
-.nobreak {
-  page-break-before: avoid !important;
-}
-
-.o-page--cg-ela {
-  @include cg-color-scheme($ub-cg-ela-colors);
-  @include cg-pdf-color-scheme($ub-cg-ela-colors);
-}
-
-.o-page--cg-math {
-  @include cg-color-scheme($ub-cg-math-colors);
-  @include cg-pdf-color-scheme($ub-cg-math-colors);
-}
-
-.o-page--cg-lead {
-  @include cg-color-scheme($ub-cg-lead-colors);
-  @include cg-pdf-color-scheme($ub-cg-lead-colors);
-}

@@ -20,6 +20,16 @@ class LessonDocumentsController < ApplicationController
     redirect_to exporter.url
   end
 
+  def export_pdf
+    exporter = DocumentExporter::PDF.new(@lesson_document)
+    if params.key?('nocache') || (params.key?('debug') && Rails.env.development?)
+      cover = render_to_string exporter.cover_params
+      render exporter.pdf_params(cover, debug: params.key?('debug'))
+    else
+      redirect_to exporter.export(url_for(nocache: '')).url
+    end
+  end
+
   def show
     @curriculum = @lesson_document.resource.try(:first_tree)
     # set props to build Curriculum Map
