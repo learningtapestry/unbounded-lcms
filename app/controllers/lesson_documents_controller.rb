@@ -13,8 +13,8 @@ class LessonDocumentsController < ApplicationController
   end
 
   def export_gdoc
-    content = render_to_string layout: 'ld_gdoc'
-    exporter = DocumentExporter::GDoc
+    content = render_to_string 'export', layout: 'ld_gdoc'
+    exporter = DocumentExporter::Gdoc
                  .new(google_credentials)
                  .export(@lesson_document.title, content)
     redirect_to exporter.url

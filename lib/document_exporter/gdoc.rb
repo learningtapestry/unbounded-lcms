@@ -1,7 +1,7 @@
 require 'google/apis/drive_v3'
 
 module DocumentExporter
-  class GDoc
+  class Gdoc
     def self.url_for(file_id)
       "https://drive.google.com/open?id=#{file_id}"
     end
