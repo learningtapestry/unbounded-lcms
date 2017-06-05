@@ -1,0 +1,54 @@
+p, ol, ul {
+  &, * {
+    @include txt-pdf-element(ld-base);
+    font-weight: normal;
+    orphans: 2;
+    widows: 2;
+  }
+  i.fa { font: normal normal normal 14px/1 FontAwesome; }
+}
+
+h1, h2, h3, h4, h5 {
+  @extend %u-pdf-nobreak;
+  padding-top: 0;
+}
+
+h2 { @include txt-pdf-element(ld-h2); }
+h3 { @include txt-pdf-element(ld-h3); }
+h4 { @include txt-pdf-element(ld-h4); }
+
+ol, ul {
+  margin-bottom: 0;
+}
+
+ul li {
+  text-indent: 0;
+}
+
+ol {
+  margin-left: .25rem;
+}
+
+.indented { text-indent: $list-side-margin * 2; }
+
+.c-ld {
+  @include m(ela-2) {
+    h2.o-ld-title {
+      margin-top: $ub-large-margin * 2 !important;
+    }
+  }
+}
+
+.c-ld-table {
+  tbody tr {
+    background-color: $ub-white;
+  }
+  td, th {
+    border: 1px solid $ub-hr;
+  }
+
+  @include e(wrap) {
+    clear: both;
+    overflow-x: auto;
+  }
+}

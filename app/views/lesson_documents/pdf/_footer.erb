@@ -1,14 +1,13 @@
+<!DOCTYPE html>
 <body onload="subst()">
   <div class="c-pdf-footer__wrap">
-    <table class="c-pdf-footer c-pdf-footer--cg">
+    <table class="c-pdf-footer c-pdf-footer--ld">
       <tr>
         <td class="c-pdf-footer__left">
-          <span class="c-pdf-footer__left--draft">[DRAFT]</span>
+          <span>Created by</span>
           <strong>Unbound</strong>Ed
-          <span class="pdf-bullet"></span>
-          <strong>
-            <%= title.split("\n").select(&:present?).join(' | ') %>
-          </strong>
+          <span> | </span>
+          <span><%= lesson_document.pdf_footer %></span>
         </td>
         <td class="c-pdf-footer__right">
           <span class="page"></span>

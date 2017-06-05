@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     member do
       get 'export/gdoc', to: 'lesson_documents#export_gdoc'
       get 'export/docx', to: 'lesson_documents#export_docx'
+      get 'export/pdf', to: 'lesson_documents#export_pdf'
     end
   end
 

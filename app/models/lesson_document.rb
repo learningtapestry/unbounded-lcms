@@ -1,5 +1,6 @@
 class LessonDocument < ActiveRecord::Base
   include Searchable
+  include PDFDownloadable
 
   belongs_to :resource
 
@@ -9,6 +10,8 @@ class LessonDocument < ActiveRecord::Base
   store_accessor :foundational_metadata
   store_accessor :metadata
   serialize :toc, DocTemplate::Objects::TOCMetadata
+
+  mount_uploader :pdf, LessonDocumentPdfUploader
 
   scope :actives,   -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
@@ -51,6 +54,10 @@ class LessonDocument < ActiveRecord::Base
       # obs: were we want a simple sql update statement, without rails callbacks
       update_columns active: true
     end
+  end
+
+  def title
+    metadata['title']
   end
 
   private

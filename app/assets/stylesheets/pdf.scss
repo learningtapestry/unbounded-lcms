@@ -4,7 +4,8 @@
   'utils/variables',
   'utils/mixins',
   'base/colors',
-  'base/cg-colors';
+  'base/cg-colors',
+  'base/ld-colors';
 
 @import
   'themes/settings';
@@ -36,7 +37,13 @@
   'components/cg/task',
   'components/cg/hacks';
 
-  @import
+@import
+  'components/lesson-base';
+
+@import
   'print/base',
+  'print/cg-base',
+  'print/colorscheme',
   'print/hacks',
-  'print/elements_typography';
+  'print/helpers',
+  'print/lesson-base';
