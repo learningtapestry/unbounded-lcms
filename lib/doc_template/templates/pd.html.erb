@@ -1,7 +1,6 @@
 <div class="cs-bg--<%= @subject %>-base o-ld-pd o-ld-pd--collapsed">
   <div class="o-ld-pd__expander">
-    <div class="o-ld-pd-caption">Inline resource collapsed</div>
-    <div class="o-ld-pd-caption o-ld-pd-caption--hidden">Inline resource expanded</div>
+    <div class="o-ld-pd-caption">professional development</div>
     <div class="o-ld-pd-toggler"><i class="fa fa-expand"></i></div>
   </div>
   <% if @title.present? %>
@@ -23,6 +22,9 @@
   <% end %>
 
   <% if @description.present? %>
-    <p class="o-ld-pd__description"><%= @description %></p>
+    <div class="o-ld-pd__description o-ld-pd__description--hidden">
+      <h4>Description</h4>
+      <p><%= @description %></p>
+    </div>
   <% end %>
 </div>
