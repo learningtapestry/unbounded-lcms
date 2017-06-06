@@ -20,7 +20,7 @@ module Admin
       res = HTTParty.post url, post_params
 
       if res.code == 200
-        url = DocumentExporter::GDoc.url_for JSON.parse(res.body)['id']
+        url = DocumentExporter::Gdoc.url_for JSON.parse(res.body)['id']
         redirect_to admin_sketch_compiler_path, notice: t('.success', url: url)
       else
         redirect_to admin_sketch_compiler_path, alert: t('.compile_error')

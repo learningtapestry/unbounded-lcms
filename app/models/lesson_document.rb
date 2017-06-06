@@ -21,7 +21,6 @@ class LessonDocument < ActiveRecord::Base
   }
 
   scope :filter_by_term, lambda { |search_term|
-    p search_term
     term = "%#{search_term}%"
     joins(:resource).where('resources.title ILIKE ? OR name ILIKE ?', term, term)
   }
