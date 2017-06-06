@@ -1,8 +1,10 @@
 <div class="o-page__module u-bg--light c-ld">
   <div class="o-page__wrap--row">
-    <div class="c-ld__sidebar">
-      <%= render 'nav', lesson_document: lesson_document %>
-    </div>
+    <% unless request[:action].index('export') %>
+      <div class="c-ld__sidebar">
+        <%= render 'nav', lesson_document: lesson_document %>
+      </div>
+    <% end %>
     <div id="c-ch-content" class="c-ld__body c-ld__body--general">
       <% if lesson_document.description.present? %>
         <h2>Lesson Summary</h2>

@@ -13,7 +13,7 @@ module GoogleAuth
     token_store = Google::Auth::Stores::RedisTokenStore.new(redis: redis)
     authorizer = Google::Auth::WebUserAuthorizer.new(client_id, scope, token_store, admin_google_oauth2_callback_path)
 
-    user_id = current_user.id.to_s
+    user_id = current_user.try(:id).to_s
 
     remove_expired_token(redis, user_id)
 

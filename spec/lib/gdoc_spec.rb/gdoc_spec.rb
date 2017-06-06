@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe DocumentExporter::GDoc do
+describe DocumentExporter::Gdoc do
   let(:url) { "https://drive.google.com/open?id=#{file_id}" }
 
   describe '.url_for' do

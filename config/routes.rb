@@ -38,7 +38,12 @@ Rails.application.routes.draw do
   get '/content_guides/:id(/:slug)',
       as: :content_guide, to: 'content_guides#show'
 
-  resources :lesson_documents, only: :show
+  resources :lesson_documents, only: :show do
+    member do
+      get 'export/gdoc', to: 'lesson_documents#export_gdoc'
+      get 'export/docx', to: 'lesson_documents#export_docx'
+    end
+  end
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
@@ -86,9 +91,7 @@ Rails.application.routes.draw do
     resource :sketch_compiler, path: 'sketch-compiler', only: [:show] do
       post :compile
     end
-    resources :lesson_documents, only: %i(index create new destroy) do
-      get :export, on: :member
-    end
+    resources :lesson_documents, only: %i(index create new destroy)
     resources :curriculum_trees
   end
 
