@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526183416) do
+ActiveRecord::Schema.define(version: 20170605144737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 20170526183416) do
     t.boolean  "active",                default: true, null: false
     t.hstore   "foundational_metadata"
     t.text     "css_styles"
+    t.string   "pdf"
   end
 
   add_index "lesson_documents", ["file_id"], name: "index_lesson_documents_on_file_id", using: :btree

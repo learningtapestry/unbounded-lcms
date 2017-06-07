@@ -4,12 +4,12 @@
       <%= @tmpl[:activity].activity_type %>
     </div>
     <h3 id="<%= @tmpl[:activity].anchor %>" class="o-ld-title c-ld-toc">
-      <span class="o-ld-title__title o-ld-title__title--h3"><%= @tmpl[:activity].activity_title %>
+      <div class="o-ld-title__title o-ld-title__title--h3"><%= @tmpl[:activity].activity_title %>
         <% if @tmpl[:activity].activity_priority.present? %>
           <span class="o-ld-icon o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>"></span>
         <% end %>
-      </span>
-      <span class="o-ld-title__time o-ld-title__time--h3"><%= @tmpl[:activity].time.zero? ? '&mdash;' : "#{@tmpl[:activity].time} mins" %></span>
+      </div>
+      <div class="o-ld-title__time o-ld-title__time--h3"><%= @tmpl[:activity].time.zero? ? '&mdash;' : "#{@tmpl[:activity].time} mins" %></div>
     </h3>
 
     <% if @tmpl[:activity].activity_metacognition.present? %>
@@ -30,6 +30,6 @@
 
     <div class="o-ld-activity__source">
       <%= @tmpl[:source].html_safe %>
-    </div>    
+    </div>
   </div>
 </div>
