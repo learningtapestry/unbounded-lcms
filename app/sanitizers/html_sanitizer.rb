@@ -11,8 +11,13 @@ class HtmlSanitizer
     def post_processing(html)
       nodes = Nokogiri::HTML.parse html
 
-      # removes all `p` style attributes
-      nodes.xpath('//p').remove_attr('style')
+      # removes all style attributes allowed earlier
+      %w(p span).each do |tag|
+        nodes.xpath("//#{tag}").each do |node|
+          next if node.ancestors('td').present?
+          node.delete('style')
+        end
+      end
 
       # add style to table for consistent view
       # wrap for horizontal scrolling on small screens
@@ -35,7 +40,8 @@ class HtmlSanitizer
 
     def default_config
       {
-        elements: %w(table td th tr tbody thead span a p h1 h2 h3 h4 h5 h6 ol ul li div img hr abbr b blockquote br cite code dd dfn dl dt em i kbd mark pre q s samp small strike strong sub sup time u var),
+        elements: %w(table td th tr tbody thead span a p h1 h2 h3 h4 h5 h6 ol ul li div img hr abbr b blockquote br cite
+                     code dd dfn dl dt em i kbd mark pre q s samp small strike strong sub sup time u var),
         attributes: {
           'a'    => %w(href title data-toggle id),
           'img'  => %w(src alt style),
@@ -44,14 +50,15 @@ class HtmlSanitizer
           'li'   => %w(class),
           'p'    => %w(class style),
           'span' => %w(style),
-          'td'   => %w(colspan rowspan),
+          'td'   => %w(colspan rowspan style),
           'th'   => %w(colspan rowspan)
         },
         protocols: {
           'a' => { 'href' => ['http', 'https', :relative] }
         },
         css: {
-          properties: %w(height font-style font-weight list-style-type text-align text-decoration width)
+          properties: %w(background-color height font-style font-weight list-style-type text-align text-decoration
+                         vertical-align width)
         },
         transformers: [ # These transformers Will be executed via .call(), as lambdas
           method(:remove_meanless_styles),

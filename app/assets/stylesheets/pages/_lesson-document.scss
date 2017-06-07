@@ -4,6 +4,10 @@
   }
   td, th {
     border: 1px solid $ub-hr;
+
+    p {
+      margin-bottom: initial !important;
+    }
   }
 
   @include e(wrap) {
