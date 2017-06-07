@@ -3,16 +3,16 @@ class LessonDocumentPresenter < BasePresenter
   TOPIC_SHORT  = { 'ela' => 'U', 'math' => 'T' }.freeze
   SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
 
-  def ld_metadata
-    @ld_metadata ||= DocTemplate::Objects::BaseMetadata.build_from(metadata)
-  end
-
   def color_code
     "#{subject}-base"
   end
 
   def color_code_grade
     "#{subject}-#{grade}"
+  end
+
+  def description
+    ld_metadata.lesson_objective || ld_metadata.description
   end
 
   def full_breadcrumb
@@ -23,6 +23,34 @@ class LessonDocumentPresenter < BasePresenter
       "#{TOPIC_FULL[subject]} #{topic.try(:upcase)}",
       "Lesson #{ld_metadata.lesson}"
     ].join(' / ')
+  end
+
+  def grade
+    ld_metadata.grade[/\d+/] || ld_metadata.grade
+  end
+
+  def ld_metadata
+    @ld_metadata ||= DocTemplate::Objects::BaseMetadata.build_from(metadata)
+  end
+
+  def ld_module
+    ela? ? ld_metadata.module : ld_metadata.unit
+  end
+
+  def ll_strand?
+    ld_metadata.module =~ /strand/i
+  end
+
+  def math_practice
+    ld_metadata.lesson_mathematical_practice.squish
+  end
+
+  def pdf_header
+    "UNBOUNDED #{full_breadcrumb}"
+  end
+
+  def pdf_footer
+    "Common Core #{subject_to_str} Curriculum | #{short_breadcrumb}"
   end
 
   def short_breadcrumb
@@ -43,8 +71,12 @@ class LessonDocumentPresenter < BasePresenter
     ld_metadata.standard || ld_metadata.lesson_standard
   end
 
-  def math_practice
-    ld_metadata.lesson_mathematical_practice.squish
+  def subject
+    ld_metadata.resource_subject
+  end
+
+  def subject_to_str
+    SUBJECT_FULL[subject] || subject
   end
 
   def title
@@ -55,27 +87,7 @@ class LessonDocumentPresenter < BasePresenter
     ld_metadata.teaser
   end
 
-  def description
-    ld_metadata.lesson_objective || ld_metadata.description
-  end
-
-  def subject
-    ld_metadata.resource_subject
-  end
-
-  def grade
-    ld_metadata.grade[/\d+/] || ld_metadata.grade
-  end
-
-  def ld_module
-    ela? ? ld_metadata.module : ld_metadata.unit
-  end
-
   def topic
     ela? ? ld_metadata.unit : ld_metadata.topic
-  end
-
-  def ll_strand?
-    ld_metadata.module =~ /strand/i
   end
 end

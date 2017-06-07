@@ -11,7 +11,7 @@ module DocTemplate
 
         @image_src = image_src opts
         @caption = table.at_xpath('.//tr[2]/td').text
-      @subject = opts[:metadata].try(:[], 'subject')
+        @subject = opts[:metadata].try(:[], 'subject')
 
         # we should replace the whole table with new content
         template = File.read template_path(TEMPLATE)

@@ -34,6 +34,18 @@
     }
   }
 
+  @include e(links) {
+    @include flex-grid-column(shrink);
+
+    @include breakpoint(ipad down) {
+      @include flex;
+      @include flex-grid-column(12);
+      flex-flow: row wrap;
+      margin-top: $ub-xs-padding;
+      > div { margin-right: $ub-xs-padding;}
+    }
+  }
+
   @include e(hr) {
     @include add-gutter($subtype: top, $x: 4/3);
     border-bottom: 1px solid #b2b2b2;
@@ -107,21 +119,12 @@
     img { height: auto; }
 
     i.fa { font: normal normal normal 14px/1 FontAwesome; }
-    .indented { text-indent: $list-side-margin * 2; }
   }
 
 
   @include m(ela-2) {
     h2.o-ld-title {
       margin-top: $ub-large-margin * 2 !important;
-    }
-  }
-}
-
-.u-ld-indent {
-  @for $i from 2 through 3 {
-    @include m('l#{$i}') {
-      margin-left: $list-side-margin * $i;
     }
   }
 }
