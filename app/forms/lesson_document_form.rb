@@ -41,6 +41,9 @@ class LessonDocumentForm
     )
 
     @lesson.activate!
+
+    LessonGenerateDocxJob.perform_later @lesson
+    LessonGeneratePdfJob.perform_later @lesson
   rescue => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)
