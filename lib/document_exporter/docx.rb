@@ -1,12 +1,22 @@
 module DocumentExporter
   class Docx
-    MIME_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'.freeze
+    def initialize(lesson_document)
+      @lesson_document = LessonDocumentPresenter.new lesson_document
+    end
 
-    attr_reader :data
+    def export
+      PandocRuby.convert content, from: :html, to: :docx
+    end
 
-    def export(content)
-      @data = PandocRuby.convert content, from: :html, to: :docx
-      self
+    private
+
+    def content
+      # Using backport of Rails 5 Renderer here
+      @content ||= ApplicationController.render(
+        layout: 'ld_docx',
+        locals: { :@lesson_document => @lesson_document },
+        template: 'lesson_documents/docx/export'
+      )
     end
   end
 end

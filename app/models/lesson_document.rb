@@ -1,6 +1,5 @@
 class LessonDocument < ActiveRecord::Base
   include Searchable
-  include PDFDownloadable
 
   belongs_to :resource
 
@@ -10,8 +9,6 @@ class LessonDocument < ActiveRecord::Base
   store_accessor :foundational_metadata
   store_accessor :metadata
   serialize :toc, DocTemplate::Objects::TOCMetadata
-
-  mount_uploader :pdf, LessonDocumentPdfUploader
 
   scope :actives,   -> { where(active: true) }
   scope :inactives, -> { where(active: false) }

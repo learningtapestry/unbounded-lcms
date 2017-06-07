@@ -92,6 +92,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # google analytics
 gem 'staccato', '~> 0.4.7'
 
+# job runner
+gem 'resque', '~> 1.27', require: 'resque/server'
+
+# NOTE: Need to remove after upgrade to Rails 5
+# backports
+gem 'backport_new_renderer', '~> 1.0.0'
+
 # pdf
 gem 'pdfjs_viewer-rails', '~> 0.0.9'
 gem 'wicked_pdf', '~> 1.0'

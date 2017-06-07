@@ -34,6 +34,8 @@ describe LessonDocumentForm do
       before do
         allow(DocumentDownloader::GDoc).to receive(:new).with(nil, link, LessonDocument).and_return(downloader)
         allow(DocTemplate::Template).to receive(:parse).and_return(parsed_document)
+        allow(LessonGenerateDocxJob).to receive(:perform_later)
+        allow(LessonGeneratePdfJob).to receive(:perform_later)
       end
 
       it 'downloads the document' do
@@ -46,6 +48,14 @@ describe LessonDocumentForm do
 
       it 'activates the document' do
         expect(document).to receive(:activate!)
+      end
+
+      it 'queues job to generate Docx' do
+        expect(LessonGenerateDocxJob).to receive(:perform_later).with(document)
+      end
+
+      it 'queues job to generate PDF' do
+        expect(LessonGeneratePdfJob).to receive(:perform_later).with(document)
       end
 
       after { subject }
