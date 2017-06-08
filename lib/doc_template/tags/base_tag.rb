@@ -15,6 +15,14 @@ module DocTemplate
         File.join Rails.root, 'lib', 'doc_template', 'templates', name
       end
 
+      def include_break?(value)
+        tags =
+          self.class.config[self.class::TAG_NAME.downcase]['stop_tags'].map do |stop_tag|
+            Tags.const_get(stop_tag)::TAG_NAME
+          end.join('|')
+        value =~ /#{START_TAG}(#{tags})/i
+      end
+
       def ela6?(metadata)
         metadata.resource_subject == 'ela' && metadata.grade == '6'
       end
