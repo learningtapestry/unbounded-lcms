@@ -1,11 +1,11 @@
-<div id="cg-contents-modal" class="o-contents-modal o-page--cg-<%= lesson_document.metadata['subject'].downcase %>" data-reveal>
-  <div class="o-sidebar-xs cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base o-sidebar-xs--modal">
+<div id="cg-contents-modal" class="o-contents-modal o-page--cg-<%= lesson_document.subject.try(:downcase) %>" data-reveal>
+  <div class="o-sidebar-xs cs-bg--<%= lesson_document.subject.try(:downcase) %>-base o-sidebar-xs--modal">
     <div class="o-sidebar-xs__header">
       <div class="u-txt--cg-sidebar-title-type u-text--uppercase">
         <%= lesson_document.short_breadcrumb %>
       </div>
       <div class="u-txt--cg-sidebar-title">
-        <%= lesson_document.metadata['title'] %>
+        <%= lesson_document.title %>
       </div>
     </div>
     <div class="o-sidebar-xs__action">
