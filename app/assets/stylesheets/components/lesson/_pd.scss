@@ -5,6 +5,14 @@
 
   @include e(description) {
     margin-top: 20px;
+
+    @include m(hidden){
+      display: none;
+    }
+
+    h4 {
+      @include txt-element(ld-pd-description-title);
+    }
   }
 
   @include e(expander) {
@@ -33,10 +41,6 @@
   @include txt-element(ld-pd-caption);
 
   margin: 0;
-
-  @include m(hidden){
-    display: none;
-  }
 }
 
 .o-ld-pd-toggler {
