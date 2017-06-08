@@ -1,6 +1,6 @@
 <div id="cg-sidebar-container" class="o-sidebar" data-sticky-container>
   <nav id="cg-sidebar" class="o-sidebar__wrap sticky">
-    <div id="cg-sidebar-xs" class="o-sidebar-xs hide-for-ipad cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base">
+    <div id="cg-sidebar-xs" class="o-sidebar-xs hide-for-ipad cs-bg--<%= lesson_document.subject.try(:downcase) %>-base">
       <div class="o-sidebar-xs__header">
         <div class="u-txt--cg-sidebar-title-type u-text--uppercase">
           <%= lesson_document.short_breadcrumb %>
@@ -13,7 +13,7 @@
         <a><i class="ub-ellipsis fa-3x"></i></a>
       </div>
     </div>
-    <div class="o-sidebar-nav__sticky-title cs-bg--<%= lesson_document.metadata['subject'].downcase %>-base">
+    <div class="o-sidebar-nav__sticky-title cs-bg--<%= lesson_document.subject.try(:downcase) %>-base">
       <div class="u-txt--cg-sidebar-title-type u-text--uppercase">
         <%= lesson_document.short_breadcrumb %>
       </div>
