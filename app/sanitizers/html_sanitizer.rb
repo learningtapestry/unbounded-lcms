@@ -8,9 +8,20 @@ class HtmlSanitizer
       Sanitize::CSS.stylesheet(css, css_config)
     end
 
-    def post_processing(nodes)
-      wrap_tables(nodes)
+    def post_processing(html)
+      nodes = Nokogiri::HTML.parse html
+
+      # removes all `p` style attributes
+      nodes.xpath('//p').remove_attr('style')
+
+      # add style to table for consistent view
+      # wrap for horizontal scrolling on small screens
       nodes
+        .xpath('//table')
+        .add_class('c-ld-table')
+        .wrap('<div class="c-ld-table__wrap"></div>')
+
+      nodes.to_html
     end
 
     # config to keep list-style-type bc gdoc is doing this trough content/counter
@@ -55,14 +66,6 @@ class HtmlSanitizer
     end
 
     private
-
-    # add style to table for consistent view
-    # wrap for horizontal scrolling on small screens
-    def wrap_tables(nodes)
-      nodes.xpath('table')
-        .add_class('c-ld-table')
-        .wrap('<div class="c-ld-table__wrap"></div>')
-    end
 
     # Replace '<span>text</span>' with 'text'
     def remove_spans_wo_attrs(env)
