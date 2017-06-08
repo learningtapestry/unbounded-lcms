@@ -19,6 +19,9 @@ class HtmlSanitizer
         end
       end
 
+      # adjusts `class` attributes for all `ol` elements inside tables
+      nodes.xpath('//table//ol').each { |ol| ol['class'] = 'c-ld-ol' }
+
       # wrap all images for match except those inside table
       nodes
         .css('img:not([src*=googleapis])')
@@ -60,14 +63,15 @@ class HtmlSanitizer
           'p'    => %w(class style),
           'span' => %w(style),
           'td'   => %w(colspan rowspan style),
-          'th'   => %w(colspan rowspan)
+          'th'   => %w(colspan rowspan),
+          'tr'   => %w(style)
         },
         protocols: {
           'a' => { 'href' => ['http', 'https', :relative] }
         },
         css: {
-          properties: %w(background-color height font-style font-weight list-style-type text-align text-decoration
-                         vertical-align width)
+          properties: %w(background-color border-bottom-width border-left-width border-right-width border-top-width
+                         height font-style font-weight list-style-type text-align text-decoration vertical-align width)
         },
         transformers: [ # These transformers Will be executed via .call(), as lambdas
           method(:remove_meanless_styles),
