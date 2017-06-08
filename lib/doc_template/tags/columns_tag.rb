@@ -18,8 +18,6 @@ module DocTemplate
           nodes = fetch_content node
           nodes.map(&:remove)
 
-          # p @images
-
           data = nodes
                    .map { |n| n.content.squish }
                    .join
@@ -48,9 +46,10 @@ module DocTemplate
       # for nested tags and images to revert them back later on
       #
       def fetch_content(node)
+        re = /\[#{TAG_NAME}:\s*#{END_VALUE}\]/
         [].tap do |result|
           while (node = node.next_sibling)
-            node.remove && break if node.content.downcase.index("[#{TAG_NAME}: #{END_VALUE}]").present?
+            node.remove && break if node.content.downcase.index(re).present?
 
             fetch_images(node)
             fetch_tags(node)
