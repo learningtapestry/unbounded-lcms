@@ -299,6 +299,10 @@ class Resource < ActiveRecord::Base
     %w(text_set quick_reference_guide).include?(resource_type)
   end
 
+  def assessment?
+    tag_list.include?('assessment')
+  end
+
   alias do_not_skip_indexing? should_index?
   def should_index?
     # index only videos and podcast (other resources are indexed via Curriculum)

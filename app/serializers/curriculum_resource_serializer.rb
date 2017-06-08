@@ -34,7 +34,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def title
-    ld_metadata.try(:title) || object.resource.title
+    ld_metadata.try(:title).presence || object.resource.title
   end
 
   def short_title
@@ -42,7 +42,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def teaser
-    ld_metadata.try(:teaser) || object.resource.teaser
+    ld_metadata.try(:teaser).presence || object.resource.teaser
   end
 
   def time_to_teach
