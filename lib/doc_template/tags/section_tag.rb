@@ -42,7 +42,7 @@ module DocTemplate
         sibling = node
         ['', ''].tap do |result|
           while sibling
-            break if sibling.inner_html =~ /\[\s*(#{SectionTag::TAG_NAME}|#{GroupTag::TAG_NAME}|#{Ela6BreakTag::TAG_NAME})/i
+            break if sibling.content =~ /\[\s*(#{SectionTag::TAG_NAME}|#{GroupTag::TAG_NAME}|#{Ela6BreakTag::TAG_NAME})/i
             sibling.xpath('./td').each_with_index do |child, idx|
               result[idx % 2] += child.inner_html
             end
