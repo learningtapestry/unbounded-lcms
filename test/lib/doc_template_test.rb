@@ -94,7 +94,7 @@ describe DocTemplate do
     subject { DocTemplate::Template.parse(html_document) }
 
     it 'renders an html document' do
-      expect(subject.render).must_equal content
+      expect(subject.render).must_include content
     end
   end
 
@@ -106,7 +106,7 @@ describe DocTemplate do
       it 'renders the default' do
         output = subject.render
         expect(output).wont_include tag
-        expect(output.sub("\n",'')).must_include content.sub(tag, '')
+        expect(output.delete("\n")).must_include content.sub(tag, '')
       end
     end
 
@@ -119,7 +119,7 @@ describe DocTemplate do
         output = subject.render
         expect(output).wont_include tag
         expect(output).wont_include tag2
-        expect(output.sub("\n",'')).must_include content.sub(tag, '').sub!(tag2, '')
+        expect(output.delete("\n")).must_include content.sub(tag, '').sub(tag2, '')
       end
     end
 
@@ -131,9 +131,5 @@ describe DocTemplate do
         expect(subject.render).must_include content.sub(tag, '')
       end
     end
-
-    it 'renders sections'
-    it 'renders groups'
   end
-
 end
