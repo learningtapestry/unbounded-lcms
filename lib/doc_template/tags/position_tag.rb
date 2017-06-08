@@ -21,5 +21,6 @@ module DocTemplate
     end
   end
 
-  Template.register_tag(Tags::PositionTag::TAG_NAME, Tags::PositionTag)
+  # TODO: Uncomment if we need to return position tag back in work
+  # Template.register_tag(Tags::PositionTag::TAG_NAME, Tags::PositionTag)
 end

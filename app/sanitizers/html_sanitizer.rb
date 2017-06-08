@@ -8,7 +8,7 @@ class HtmlSanitizer
       Sanitize::CSS.stylesheet(css, css_config)
     end
 
-    def post_processing(html)
+    def post_processing(html, subject)
       nodes = Nokogiri::HTML.parse html
 
       # removes all style attributes allowed earlier
@@ -18,6 +18,15 @@ class HtmlSanitizer
           node.delete('style')
         end
       end
+
+      # wrap all images for match except those inside table
+      nodes
+        .css('img:not([src*=googleapis])')
+        .wrap("<div class='o-ld-image-wrap--#{subject.to_s.downcase}'></div>")
+
+      nodes
+        .css("table .o-ld-image-wrap--#{subject.to_s.downcase}")
+        .remove_attr('class')
 
       # add style to table for consistent view
       # wrap for horizontal scrolling on small screens
