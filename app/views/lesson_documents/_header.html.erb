@@ -33,17 +33,9 @@
       </div>
     </div>
     <div class="c-ld-header__links">
-      <% @lesson_document.links.each do |type, link| %>
-        <div>
-          <%= link_to t('resources.btn.download', title: type.capitalize), link, class: 'o-ub-btn o-ub-btn--yellow',
-                      data: { no_turbolink: true }, target: '_blank' %>
-        </div>
-      <% end %>
-      <%# TODO: Turn on back after June 15th %>
-      <!--<div>-->
-        <%#= link_to t('resources.btn.download', title: 'Google Doc'), export_gdoc_lesson_document_path(lesson_document),
-                    class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true }, target: '_blank' %>
-      <!--</div>-->
+      <div>
+        <%= link_to t('ui.print'), '#print-export-all', class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true } %>
+      </div>
     </div>
   </div>
 

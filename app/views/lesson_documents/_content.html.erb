@@ -11,6 +11,7 @@
         <p><%= raw lesson_document.description %></p>
       <% end %>
       <%= raw lesson_document.content %>
+      <%= render 'print_export', lesson_document: lesson_document %>
     </div>
   </div>
 </div>

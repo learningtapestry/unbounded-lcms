@@ -1,0 +1,23 @@
+<h2 class="u-padding-top--xlarge" id="print-export-all">Print / Export All</h2>
+<p>Printing/Exporting is a feature that allows you to download a copy of this lesson in PDF or Word Doc format. You can print or adjust the document as needed.
+</p>
+<div>
+<% lesson_document.links.each do |type, link| %>
+  <% next unless type == 'pdf' %>
+  <%= link_to t("ui.export_#{type}"), link, class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true }, target: '_blank' %>
+<% end %>
+  <%# TODO: Turn on back after June 15th %>
+  <%#= link_to t('resources.btn.download', title: 'Google Doc'), export_gdoc_lesson_document_path(lesson_document),
+              class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true }, target: '_blank' %>
+</div>
+
+<h2 class="u-padding-top--xlarge">Print / Export Teacher Materials</h2>
+<p>Printing/Exporting is a feature that allows you to download a copy of this lesson in PDF or Word Doc format. You can print or adjust the document as needed.
+</p>
+<%= link_to t('ui.export_pdf'), '', class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true } %>
+
+
+<h2 class="u-padding-top--xlarge">Print / Export Student Materials</h2>
+<p>Printing/Exporting is a feature that allows you to download a copy of this lesson in PDF or Word Doc format. You can print or adjust the document as needed.
+</p>
+<%= link_to t('ui.export_pdf'), '', class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true } %>
