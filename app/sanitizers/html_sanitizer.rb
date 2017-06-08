@@ -22,7 +22,7 @@ class HtmlSanitizer
       # add style to table for consistent view
       # wrap for horizontal scrolling on small screens
       nodes
-        .xpath('//table')
+        .css('table:not(.o-ld-columns-table)')
         .add_class('c-ld-table')
         .wrap('<div class="c-ld-table__wrap"></div>')
 
