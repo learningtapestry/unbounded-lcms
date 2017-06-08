@@ -13,7 +13,8 @@ module DocTemplate
         @position = opts[:value].strip
 
         template = File.read template_path(TEMPLATE)
-        table.replace ERB.new(template).result(binding)
+        new_content = ERB.new(template).result(binding)
+        table.replace parse_nested new_content
         @result = table
         self
       end

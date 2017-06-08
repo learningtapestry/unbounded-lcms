@@ -38,7 +38,7 @@ class HtmlSanitizer
         elements: %w(table td th tr tbody thead span a p h1 h2 h3 h4 h5 h6 ol ul li div img hr abbr b blockquote br cite code dd dfn dl dt em i kbd mark pre q s samp small strike strong sub sup time u var),
         attributes: {
           'a'    => %w(href title data-toggle id),
-          'img'  => %w(src alt),
+          'img'  => %w(src alt style),
           'ol'   => %w(type style start list-style-type class),
           'ul'   => %w(type style start list-style-type),
           'li'   => %w(class),
@@ -51,7 +51,7 @@ class HtmlSanitizer
           'a' => { 'href' => ['http', 'https', :relative] }
         },
         css: {
-          properties: %w(list-style-type font-style text-align text-decoration font-weight)
+          properties: %w(height font-style font-weight list-style-type text-align text-decoration width)
         },
         transformers: [ # These transformers Will be executed via .call(), as lambdas
           method(:remove_meanless_styles),
