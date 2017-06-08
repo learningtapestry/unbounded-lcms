@@ -4,13 +4,11 @@ $(function () {
   function initPdToggler() {
     let prefix = `${COMPONENT_PREFIX}-pd`;
     $(`${prefix}-toggler`).click(function() {
-      $(`${prefix}-caption`, $(this).parent()).toggle();
-
-      console.log($(this).closest(prefix));
-
       $(this)
         .closest(prefix)
-        .toggleClass(`o-ld-pd--collapsed o-ld-pd--expanded`);
+        .toggleClass(`o-ld-pd--collapsed o-ld-pd--expanded`)
+        .find('.o-ld-pd__description')
+        .toggleClass('o-ld-pd__description--hidden');
 
       $(this)
         .find('i')
