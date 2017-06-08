@@ -29,7 +29,7 @@ class LessonDocumentForm
                 .new(@credentials, link, @target_klass)
                 .import
 
-    parsed_document = DocTemplate::Template.parse@lesson.original_content
+    parsed_document = DocTemplate::Template.parse @lesson.original_content
 
     @lesson.update!(
       activity_metadata: parsed_document.activity_metadata,

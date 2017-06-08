@@ -82,8 +82,19 @@ class LessonDocument < ActiveRecord::Base
     return unless metadata.present?
 
     context = curriculum_context
-    curriculum = Curriculum.find_by_context(context)
-    self.resource_id = curriculum && (curriculum.lesson? ? curriculum.item_id : nil)
+    if metadata['type'] =~ /assessment/
+      assessment = Assessment.new(context, metadata)
+                     .fix_metadata!
+                     .find_or_create
+      self.resource_id = assessment.id
+    else
+      curriculum = Curriculum.find_by_context(context)
+      if curriculum && curriculum.lesson?
+        resource = curriculum.resource
+        resource.update(**resource_update_attrs)
+        self.resource_id = resource.id
+      end
+    end
   end
 
   def curriculum_context
@@ -95,5 +106,13 @@ class LessonDocument < ActiveRecord::Base
     lesson = "lesson #{metadata['lesson']}"
 
     { subject: subject, grade: grade, module: mod, unit: unit, lesson: lesson }
+  end
+
+  def resource_update_attrs
+    update_attrs = {}
+    update_attrs[:title] = metadata['title'] if metadata['title'].present?
+    update_attrs[:teaser] = metadata['teaser'] if metadata['teaser'].present?
+    update_attrs[:description] = metadata['description'] if metadata['description'].present?
+    update_attrs
   end
 end

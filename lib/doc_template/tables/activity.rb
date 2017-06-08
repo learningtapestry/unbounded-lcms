@@ -13,9 +13,11 @@ module DocTemplate
             data = fetch table
 
             # Places activity type tags
-            value = data['activity-title'].parameterize
-            header = "<p><span>[#{::DocTemplate::Tags::ActivityMetadataTypeTag::TAG_NAME}: #{value}]</span></p>"
-            table.add_next_sibling header
+            if data['activity-title'].present?
+              value = data['activity-title'].parameterize
+              header = "<p><span>[#{::DocTemplate::Tags::ActivityMetadataTypeTag::TAG_NAME}: #{value}]</span></p>"
+              table.add_next_sibling header
+            end
 
             # Places new tags to markup future content injection
             # Inserts only once
