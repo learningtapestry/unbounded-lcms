@@ -9,12 +9,10 @@ module DocTemplate
         @metadata = opts[:activity]
         activity = @metadata.level2_by_title(opts[:value])
 
-        re = /\[\s*(#{ActivityMetadataSectionTag::TAG_NAME}|#{ActivityMetadataTypeTag::TAG_NAME}|#{MaterialsTag::TAG_NAME})/i
-
         activity_src =
           [].tap do |result|
             while (sibling = node.next_sibling)
-              break if sibling.content =~ re
+              break if include_break?(sibling.content)
 
               # Substitutes task tags
               html = handle_tasks_for activity, sibling.to_html

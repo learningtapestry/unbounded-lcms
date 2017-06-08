@@ -22,3 +22,17 @@ pv:
     row_count: 6
     text_footer: 'unlabeled hundred thousands place value chart'
     text_header: 'Unlabeled Hundred Thousands Place Value Chart Template'
+section:
+  stop_tags:
+    - Ela6BreakTag
+    - GroupTag
+    - SectionTag
+activity-metadata-type:
+  stop_tags:
+    - ActivityMetadataSectionTag
+    - ActivityMetadataTypeTag
+    - MaterialsTag
+materials:
+  stop_tags:
+    - ActivityMetadataSectionTag
+    - ActivityMetadataTypeTag
