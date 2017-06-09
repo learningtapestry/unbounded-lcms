@@ -117,6 +117,10 @@
       margin-left: .25rem;
     }
 
+    ol.c-ld-ol {
+      margin-left: 1.3rem;
+    }
+
     img, span, td, table {
       //max-width: 100%;
     }
@@ -124,7 +128,6 @@
 
     i.fa { font: normal normal normal 14px/1 FontAwesome; }
   }
-
 
   @include m(ela-2) {
     h2.o-ld-title {
