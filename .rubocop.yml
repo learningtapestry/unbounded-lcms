@@ -10,11 +10,11 @@ AllCops:
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 
-Metrics/BlockLength:
-  ExcludedMethods: ['context', 'describe', 'feature', 'guard', 'included']
-
 Metrics/AbcSize:
   Max: 39
+
+Metrics/BlockLength:
+  ExcludedMethods: ['context', 'describe', 'feature', 'guard', 'included']
 
 Metrics/ClassLength:
   Max: 150
@@ -23,7 +23,7 @@ Metrics/LineLength:
   Max: 120
 
 Metrics/MethodLength:
-  Max: 30
+  Max: 50
 
 Style/AndOr:
   Enabled: false

@@ -5,33 +5,6 @@ describe LessonDocumentsController do
   let(:metadata) { instance_double 'DocTemplate::Objects::BaseMetadata', title: title }
   let(:title) { 'title' }
 
-  describe '#export_docx' do
-    let(:exported_data) { 'data' }
-    let(:exporter) { instance_double 'DocumentExporter::Docx', data: exported_data }
-
-    before do
-      allow(DocTemplate::Objects::BaseMetadata).to receive(:build_from).and_return(metadata)
-      allow(DocumentExporter::Docx).to receive_message_chain(:new, :export).and_return(exporter)
-    end
-
-    subject { get :export_docx, id: document.id }
-
-    it 'renders document content into a string' do
-      expect(controller).to receive(:render_to_string).with('export', layout: 'ld_docx')
-      subject
-    end
-
-    it 'calls DocumentExporter' do
-      expect(DocumentExporter::Docx).to receive_message_chain(:new, :export)
-      subject
-    end
-
-    it 'sends generated data' do
-      expect(controller).to receive(:send_data).with(exported_data, any_args).and_call_original
-      subject
-    end
-  end
-
   describe '#export_gdoc' do
     let(:exporter) { instance_double 'DocumentExporter::Gdoc', url: url }
     let(:file_id) { 'fileid' }
