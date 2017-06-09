@@ -19,29 +19,31 @@ module DocTemplate
       class Section
         include Virtus.model
 
-        attribute :title, String
         attribute :metacognition, MetaCognition
         attribute :metadata, MetaData
+        attribute :title, String
 
-        attribute :time, Integer, default: ->(s, _) { s.metadata.time }
-        attribute :anchor, String, default: ->(s, _) { "#{s.idx} #{s.title}".parameterize }
-        attribute :level, Integer, default: 2
-        attribute :idx, Integer
+        # aliases to build toc
         attribute :active, Boolean, default: false
+        attribute :anchor, String, default: ->(s, _) { "#{s.idx} #{s.title}".parameterize }
+        attribute :idx, Integer
+        attribute :level, Integer, default: 2
+        attribute :time, Integer, default: ->(s, _) { s.metadata.time }
       end
 
       class Group
         include Virtus.model
 
-        attribute :title, String
-        attribute :metadata, MetaData
         attribute :children, Array[Section]
+        attribute :metadata, MetaData
+        attribute :title, String
 
-        attribute :time, Integer, default: ->(g, _) { g.metadata.time }
-        attribute :anchor, String, default: ->(g, _) { "#{g.idx} #{g.title}".parameterize }
-        attribute :level, Integer, default: 1
-        attribute :idx, Integer
+        # aliases to build toc
         attribute :active, Boolean, default: false
+        attribute :anchor, String, default: ->(g, _) { "#{g.idx} #{g.title}".parameterize }
+        attribute :idx, Integer
+        attribute :level, Integer, default: 1
+        attribute :time, Integer, default: ->(g, _) { g.metadata.time }
       end
 
       attribute :children, Array[Group]
