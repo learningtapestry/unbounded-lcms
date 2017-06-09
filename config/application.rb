@@ -30,6 +30,8 @@ module Content
 
     config.react.addons = true
 
+    config.active_job.queue_adapter = :resque
+
     config.middleware.insert_before ::ActionDispatch::Cookies, 'RemoveSession'
   end
 end

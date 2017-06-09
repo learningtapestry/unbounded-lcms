@@ -5,16 +5,6 @@
 </div>
 <div class="o-page__section u-padding-top--gutter u-bg--light u-br-top-right--base u-br-bottom--base">
   <div class="c-ld-header">
-    <div class="c-ld-header__map">
-      <% unless request[:action].index('export') %>
-        <%= react_component('CurriculumMap', props, prerender: true) %>
-        <div class="u-margin-top--xs">
-          <%= link_to back_to_curriculum_path(curriculum), class: 'u-txt--button cs-txt-link--base-txt' do %>
-            <i class="fa ub-angle-left u-text--middled u-text--bolded"></i><%= t('resources.btn.back') %>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
     <div class="c-ld-header__content">
       <div class="o-title u-text--uppercase">
         <span class="o-title__type cs-txt--<%= lesson_document.color_code %>"><%= lesson_document.short_title %></span>
@@ -30,11 +20,6 @@
         <% if lesson_document.math_practice.present? %>
           <p><strong>Mathematical Practice Standards: </strong><%= lesson_document.math_practice %></p>
         <% end %>
-      </div>
-    </div>
-    <div class="c-ld-header__links">
-      <div>
-        <%= link_to t('ui.print'), '#print-export-all', class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true } %>
       </div>
     </div>
   </div>

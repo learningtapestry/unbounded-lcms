@@ -11,12 +11,6 @@
           <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Lessons Admin
         <% end %>
       <% end %>
-      <%= link_to export_gdoc_lesson_document_path(@lesson_document), class: 'o-btn o-btn--base o-btn--xs-full', target: '_blank' do %>
-        <i class="u-text--middled"></i> Export to Google Documents
-      <% end %>
-      <%= link_to export_docx_lesson_document_path(@lesson_document), class: 'o-btn o-btn--base o-btn--xs-full', data: {'no-turbolink' => true } do %>
-          <i class="u-text--middled"></i> Export to Docx
-      <% end %>
     </div>
   <%= render 'header', lesson_document: @lesson_document, curriculum: @curriculum, props: @props if @curriculum.present? %>
   <%= render 'content', lesson_document: @lesson_document %>

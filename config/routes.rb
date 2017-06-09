@@ -41,14 +41,16 @@ Rails.application.routes.draw do
   resources :lesson_documents, only: :show do
     member do
       get 'export/gdoc', to: 'lesson_documents#export_gdoc'
-      get 'export/docx', to: 'lesson_documents#export_docx'
-      get 'export/pdf', to: 'lesson_documents#export_pdf'
     end
   end
 
   devise_for :users, class_name: 'User', controllers: {
     registrations: 'registrations'
   }
+
+  authenticate :user do
+    mount Resque::Server, at: '/queue'
+  end
 
   namespace :admin do
     get '/' => 'welcome#index'

@@ -5,29 +5,12 @@ class LessonDocumentsController < ApplicationController
   before_action :set_lesson_document
   before_action :obtain_google_credentials, only: :export_gdoc
 
-  def export_docx
-    content = render_to_string 'export', layout: 'ld_docx'
-    file_name = "#{@lesson_document.title.parameterize}.docx"
-    exporter = DocumentExporter::Docx.new.export(content)
-    send_data exporter.data, filename: file_name, type: DocumentExporter::Docx::MIME_TYPE, status: :ok
-  end
-
   def export_gdoc
-    content = render_to_string 'export', layout: 'ld_gdoc'
+    content = render_to_string layout: 'ld_gdoc'
     exporter = DocumentExporter::Gdoc
                  .new(google_credentials)
                  .export(@lesson_document.title, content)
     redirect_to exporter.url
-  end
-
-  def export_pdf
-    exporter = DocumentExporter::PDF.new(@lesson_document)
-    if params.key?('nocache') || (params.key?('debug') && Rails.env.development?)
-      cover = render_to_string exporter.cover_params
-      render exporter.pdf_params(cover, debug: params.key?('debug'))
-    else
-      redirect_to exporter.export(url_for(nocache: '')).url
-    end
   end
 
   def show
