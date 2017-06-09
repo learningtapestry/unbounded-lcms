@@ -16,7 +16,7 @@ module DocTemplate
         # we should replace the whole table with new content
         template = File.read template_path(TEMPLATE)
         content = ERB.new(template).result(binding) # Handle internal tags
-        table.replace parse_nested(content)
+        table.replace parse_nested(content, opts)
         @result = table
         self
       end

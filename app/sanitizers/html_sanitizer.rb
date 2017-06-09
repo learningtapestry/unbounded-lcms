@@ -22,14 +22,16 @@ class HtmlSanitizer
       # adjusts `class` attributes for all `ol` elements inside tables
       nodes.xpath('//table//ol').each { |ol| ol['class'] = 'c-ld-ol' }
 
-      # wrap all images for match except those inside table
-      nodes
-        .css('img:not([src*=googleapis])')
-        .wrap("<div class='o-ld-image-wrap--#{subject.to_s.downcase}'></div>")
+      if subject.to_s.casecmp('math').zero?
+        # wrap all images for match except those inside table
+        nodes
+          .css('img:not([src*=googleapis])')
+          .wrap('<div class="o-ld-image-wrap--math"></div>')
 
-      nodes
-        .css("table .o-ld-image-wrap--#{subject.to_s.downcase}")
-        .remove_attr('class')
+        nodes
+          .css('table .o-ld-image-wrap--math')
+          .remove_attr('class')
+      end
 
       # add style to table for consistent view
       # wrap for horizontal scrolling on small screens

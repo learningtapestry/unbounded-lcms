@@ -10,7 +10,7 @@ module DocTemplate
 
       # find all tags
       #
-      @nodes.xpath(ROOT_XPATH + STARTTAG_XPATH).each do |node|
+      while (node = @nodes.at_xpath ROOT_XPATH + STARTTAG_XPATH)
         # identify the tag, take the siblings or enclosing and send it to the
         # relative tag class to render it
 

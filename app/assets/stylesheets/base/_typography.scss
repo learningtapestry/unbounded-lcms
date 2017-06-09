@@ -143,6 +143,8 @@ $ub-element-typography: (
   ld-pd-title: (font-size: x-large !important, font-weight: 700, text-transform: capitalize),
   ld-pd-description-title: (color: $ub-white, font-style: initial !important, font-weight: bolder),
   ld-smp: ('font-size': 16px, 'line-height': 1, 'font-family': $ub-serif, 'font-weight': 600, color: #fff),
+  ld-white-placeholder-title: ('font-size': 1.2rem !important, 'font-weight': 600),
+  ld-white-placeholder-colored-title: ('font-size': initial !important, 'font-weight': bold, color: initial !important)
 );
 
 @each $element, $typo in $ub-element-typography {
