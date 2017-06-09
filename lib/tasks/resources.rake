@@ -146,4 +146,20 @@ namespace :resources do
                       .short_title
     @grade_names[grade] || grade
   end
+
+  desc 'Fix lessons metadata'
+  task fix_lessons_metadata: :environment do
+    Resource.lessons.each do |res|
+      next unless res.lesson_document?
+
+      md = res.lesson_document.metadata
+
+      attrs = {}
+      attrs[:title] = md['title'] if md['title'].present?
+      attrs[:teaser] = md['teaser'] if md['teaser'].present?
+      attrs[:description] = md['description'] if md['description'].present?
+
+      res.update(**attrs) if attrs.present?
+    end
+  end
 end
