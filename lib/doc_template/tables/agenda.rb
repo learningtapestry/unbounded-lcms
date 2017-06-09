@@ -12,14 +12,13 @@ module DocTemplate
 
         # retain new lines
         table.search('br').each { |br| br.replace("\n") }
-        # skip the header
         @data = []
 
+        # skip the header
         table.xpath('./*/tr[position() > 1]').each_with_index do |tr, index|
           # take the only two fields
           metadata, metacognition = tr.xpath('./td')
           # identify the referencing tag
-
           tag_name, tag_value = FULL_TAG.match(metadata.content).captures
 
           element = {
