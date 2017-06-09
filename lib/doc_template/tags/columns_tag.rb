@@ -1,6 +1,6 @@
 module DocTemplate
   module Tags
-    class ColumnsTag < BaseTag
+    class ColumnsTag < BlockTag
       include ERB::Util
 
       END_VALUE = 'end'.freeze
@@ -26,8 +26,11 @@ module DocTemplate
                    .reject(&:blank?)
                    .in_groups_of(opts[:value].to_i, '')
 
-          data = substitute_images data
-          @rows = substitute_tags data
+          @rows = substitute_images(data).map do |row|
+                    row.map do |td|
+                      substitute_tags_in td, @tags
+                    end
+                  end
 
           if @rows.any?
             template = File.read template_path(TEMPLATE)
@@ -51,8 +54,8 @@ module DocTemplate
           while (node = node.next_sibling)
             node.remove && break if node.content.downcase.index(re).present?
 
-            fetch_images(node)
-            fetch_tags(node)
+            fetch_images node
+            add_tags_from node, @tags
 
             result << node
           end
@@ -69,36 +72,12 @@ module DocTemplate
         end
       end
 
-      def fetch_tags(node)
-        re = DocTemplate::Tags::StandardTag::TAG_RE
-        return [] unless (m = re.match node.inner_html)
-
-        m.to_a.each do |tag|
-          @tags << tag
-          node.content = node.content.sub re, "{tag: #{@tags.size - 1}}"
-        end
-      end
-
       def substitute_images(data)
         re = /{image: (\d)+}/
         data.map do |row|
           row.map do |td|
             if (m = re.match td) && (img = @images[m[1].to_i]).present?
               td = td.sub re, %(<img src="#{img[:src]}" style="#{img[:style]}" />)
-            end
-            td
-          end
-        end
-      end
-
-      def substitute_tags(data)
-        re = /{tag: (\d)+}/
-        data.map do |row|
-          row.map do |td|
-            if (m = re.match td) && (tag = @tags[m[1].to_i]).present?
-              # render tag
-              content = parse_nested "<p><span>#{tag}</span></p>"
-              td = td.sub re, content
             end
             td
           end
