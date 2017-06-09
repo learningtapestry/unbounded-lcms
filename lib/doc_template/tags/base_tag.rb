@@ -23,6 +23,10 @@ module DocTemplate
         value =~ /#{START_TAG}(#{tags})/i
       end
 
+      def ela2?(metadata)
+        metadata.resource_subject == 'ela' && metadata.grade == '2'
+      end
+
       def ela6?(metadata)
         metadata.resource_subject == 'ela' && metadata.grade == '6'
       end

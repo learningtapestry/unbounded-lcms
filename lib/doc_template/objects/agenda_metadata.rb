@@ -29,6 +29,7 @@ module DocTemplate
         attribute :idx, Integer
         attribute :level, Integer, default: 2
         attribute :time, Integer, default: ->(s, _) { s.metadata.time }
+        attribute :use_color, Boolean, default: false
       end
 
       class Group
@@ -53,6 +54,8 @@ module DocTemplate
           data.map do |d|
             d[:children].each do |s|
               s[:metadata]['time'] = s[:metadata]['time'].to_s[/\d+/].to_i || 0
+              use_color = s[:metadata]['color']
+              s[:use_color] = use_color.present? ? use_color.casecmp('yes').zero? : false
             end
             d.deep_merge(metadata: { time: d[:children].sum { |s| s[:metadata]['time'] } })
           end
