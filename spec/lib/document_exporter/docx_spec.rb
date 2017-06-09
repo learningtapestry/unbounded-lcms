@@ -7,7 +7,7 @@ describe DocumentExporter::Docx do
     let(:lesson_document) { create :lesson_document }
 
     before do
-      allow(ApplicationController).to receive_message_chain(:new, :render_to_string).and_return(content)
+      allow(ApplicationController).to receive(:render).and_return(content)
       allow(PandocRuby).to receive(:convert).and_return(generated_content)
     end
 

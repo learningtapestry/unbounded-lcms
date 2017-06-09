@@ -19,7 +19,7 @@ describe LessonDocumentsController do
     subject { get :export_gdoc, id: document.id }
 
     it 'renders document content into a string' do
-      expect(controller).to receive(:render_to_string).with('export', layout: 'ld_gdoc')
+      expect(controller).to receive(:render_to_string).with(layout: 'ld_gdoc')
       subject
     end
 
