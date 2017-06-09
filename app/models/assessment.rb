@@ -30,9 +30,11 @@ class Assessment
   def unit
     @unit ||= begin
       if mid?
+        # when 'mid', we get the unit refered on 'after-topic'
         context[:unit] = "topic #{metadata['after-topic']}"
         Curriculum.find_by_context(context)
       else
+        # when 'end', we get the last unit on the module
         mod = Curriculum.find_by_context(context)
         mod.children.last
       end
@@ -44,17 +46,11 @@ class Assessment
   end
 
   def default_title
-    (mid? ? 'Mid-Unit Assessment' : 'End-Unit Assessment')
+    mid? ? 'Mid-Unit Assessment' : 'End-Unit Assessment'
   end
 
   def create_resource
     resource = Resource.create!(
-      resource_type: Resource.resource_types[:resource],
-      title: metadata['title'],
-      teaser: metadata['teaser'],
-      subject: context[:subject],
-      short_title: 'assessment',
-      grade_list: [context[:grade]],
       curriculum_directory: [
         context[:subject],
         context[:grade],
@@ -62,7 +58,13 @@ class Assessment
         context[:unit],
         metadata['type']
       ].compact,
-      tag_list: ['assessment', metadata['type']]
+      grade_list: [context[:grade]],
+      resource_type: Resource.resource_types[:resource],
+      short_title: 'assessment',e
+      subject: context[:subject],
+      tag_list: ['assessment', metadata['type']],
+      teaser: metadata['teaser'],
+      title: metadata['title']
     )
     unit.children.create!(item: resource, curriculum_type: CurriculumType.lesson)
     resource
