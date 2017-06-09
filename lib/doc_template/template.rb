@@ -83,7 +83,7 @@ module DocTemplate
     end
 
     def render
-      HtmlSanitizer.post_processing(@root.render.presence || '')
+      HtmlSanitizer.post_processing(@root.render.presence || '', @metadata.data['subject'])
     end
 
     private
