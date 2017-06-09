@@ -1,11 +1,11 @@
 .o-ld-image-student-worksheet {
-  position: relative;
   overflow: hidden;
-}
+  position: relative;
 
-.o-ld-image-student-worksheet__img {
-  position: absolute;
-  margin: auto;
-  top: 50%;
-  transform: translate(0, -50%);
+  @include e(img) {
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
 }

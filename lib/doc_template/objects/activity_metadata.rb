@@ -20,25 +20,26 @@ module DocTemplate
         attribute :activity_content_development_notes, String
 
         # aliases to build toc
-        attribute :title, String, default: ->(a, _) { a.activity_title }
-        attribute :time, Integer, default: ->(a, _) { a.activity_time }
+        attribute :active, Boolean, default: false
         attribute :anchor, String, default: ->(a, _) { "#{a.idx} #{a.activity_title}".parameterize }
         attribute :idx, Integer
         attribute :level, Integer, default: 2
-        attribute :active, Boolean, default: false
+        attribute :title, String, default: ->(a, _) { a.activity_title }
+        attribute :time, Integer, default: ->(a, _) { a.activity_time }
       end
 
       class Section
         include Virtus.model
 
+        attribute :children, Array[Activity]
         attribute :time, Integer, default: 0
         attribute :title, String
-        attribute :children, Array[Activity]
 
-        attribute :anchor, String, default: ->(a, _) { "#{a.idx} #{a.title}".parameterize }
-        attribute :level, Integer, default: 1
-        attribute :idx, Integer
+        # aliases to build toc
         attribute :active, Boolean, default: false
+        attribute :anchor, String, default: ->(a, _) { "#{a.idx} #{a.title}".parameterize }
+        attribute :idx, Integer
+        attribute :level, Integer, default: 1
       end
 
       attribute :children, Array[Section]
@@ -48,15 +49,15 @@ module DocTemplate
       def self.build_from(data)
         activity_data =
           data.each { |d| d.transform_keys! { |k| k.to_s.underscore } }
-              .group_by { |d| d['section_title'] }
-              .map do |section, activity|
-                activity.each { |a| a['activity_time'] = a['activity_time'].to_s[/\d+/].to_i }
-                {
-                  children: activity,
-                  time: activity.sum { |a| a['activity_time'] },
-                  title: section
-                }
-              end
+            .group_by { |d| d['section_title'] }
+            .map do |section, activity|
+              activity.each { |a| a['activity_time'] = a['activity_time'].to_s[/\d+/].to_i }
+              {
+                children: activity,
+                time: activity.sum { |a| a['activity_time'] },
+                title: section
+              }
+            end
         new(set_index(children: activity_data))
       end
     end
