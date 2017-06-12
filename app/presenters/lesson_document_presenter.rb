@@ -21,7 +21,7 @@ class LessonDocumentPresenter < BasePresenter
       grade.to_i.zero? ? grade : "Grade #{grade}",
       ll_strand? ? ld_module : "Module #{ld_module.try(:upcase)}",
       topic.present? ? "#{TOPIC_FULL[subject]} #{topic.try(:upcase)}" : nil,
-      resource.assessment? ? 'Assessment' : "Lesson #{ld_metadata.lesson}"
+      resource.try(:assessment?) ? 'Assessment' : "Lesson #{ld_metadata.lesson}"
     ].compact.join(' / ')
   end
 
@@ -59,7 +59,7 @@ class LessonDocumentPresenter < BasePresenter
       grade.to_i.zero? ? grade : "G#{grade}",
       ll_strand? ? 'LL' : "M#{ld_module.try(:upcase)}",
       topic.present? ? "#{TOPIC_SHORT[subject]}#{topic.try(:upcase)}" : nil,
-      resource.assessment? ? 'Assessment' : "Lesson #{ld_metadata.lesson}"
+      resource.try(:assessment?) ? 'Assessment' : "Lesson #{ld_metadata.lesson}"
     ].compact.join(' / ')
   end
 
