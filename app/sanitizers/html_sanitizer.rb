@@ -15,23 +15,17 @@ class HtmlSanitizer
       %w(p span).each do |tag|
         nodes.xpath("//#{tag}").each do |node|
           next if node.ancestors('td').present?
-          node.delete('style')
+          node['style'] = Sanitize::CSS.properties(node['style'], css_inline_config)
+          node.delete('style') if node['style'].blank?
         end
       end
 
       # adjusts `class` attributes for all `ol` elements inside tables
       nodes.xpath('//table//ol').each { |ol| ol['class'] = 'c-ld-ol' }
 
-      if subject.to_s.casecmp('math').zero?
-        # wrap all images for match except those inside table
-        nodes
-          .css('img:not([src*=googleapis])')
-          .wrap('<div class="o-ld-image-wrap--math"></div>')
-
-        nodes
-          .css('table .o-ld-image-wrap--math')
-          .remove_attr('class')
-      end
+      # wrap all images for match except those inside table
+      # handle images that should be cropped
+      post_processing_images(nodes) if subject.to_s.casecmp('math').zero?
 
       # add style to table for consistent view
       # wrap for horizontal scrolling on small screens
@@ -48,6 +42,15 @@ class HtmlSanitizer
       {
         css: {
           properties: %w(content counter-increment counter-reset counter-set list-style-type)
+        }
+      }
+    end
+
+    # config to preserve inline styling that we want to keep at p&span
+    def css_inline_config
+      {
+        css: {
+          properties: %w(font-style font-weight text-decoration)
         }
       }
     end
@@ -88,6 +91,20 @@ class HtmlSanitizer
     end
 
     private
+
+    def post_processing_images(nodes)
+      nodes
+        .css(':not(.o-ld-image-student-worksheet) > img:not([src*=googleapis])')
+        .wrap('<div class="o-ld-image-wrap--math u-text--centered"></div>')
+
+      nodes
+        .css('.o-ld-image-student-worksheet')
+        .wrap('<div class="o-ld-image-wrap--math"></div>')
+
+      nodes
+        .css('table .o-ld-image-wrap--math')
+        .remove_attr('class')
+    end
 
     # Replace '<span>text</span>' with 'text'
     def remove_spans_wo_attrs(env)
