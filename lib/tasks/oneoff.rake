@@ -6,7 +6,7 @@ namespace :oneoff do
 
   task fix_assessments_tree: :environment do
     LessonDocument.all.each do |l|
-      if l.resource.assessment?
+      if l.resource.try(:assessment?)
         curr = l.resource.curriculums.first
         curr.update seed_id: curr.parent.seed_id
       end
