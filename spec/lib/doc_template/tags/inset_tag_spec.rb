@@ -22,12 +22,12 @@ describe DocTemplate::Tags::InsetTag do
     expect(subject).to_not include('[inset]')
   end
 
-  it 'adds inset class to paragraphs' do
-    expect(subject).to match(/class=".*inset.*"/)
+  it 'adds inset wrapper to paragraphs' do
+    expect(subject).to match(/^<div class="o-ld-inset">/)
   end
 
   it 'does not includes nodes after the end tag' do
-    expect(subject).to_not include('<p class=" inset">NOT THIS!</p>')
+    expect(subject).to_not include('<p>NOT THIS!</p>')
   end
 
   it 'preserves styling' do
