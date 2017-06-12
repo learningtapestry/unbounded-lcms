@@ -44,15 +44,19 @@ module DocTemplate
     def add_custom_nodes
       return unless @opts[:metadata].present?
       return unless @opts[:metadata]['subject'].try(:downcase) == 'ela'
-      return unless @opts[:metadata]['grade'] == '6' # || @opts[:metadata]['grade'] == '2'
+      return unless @opts[:metadata]['grade'] == '6' || @opts[:metadata]['grade'] == '2'
 
-      # Custom header for ELA G6
-      @nodes.prepend_child ela_6_teacher_guidance(@opts[:metadata])
+      # TODO: Remove later on when other units will be ready
+      return unless @opts[:metadata]['grade'] == '2' && @opts[:metadata]['module'] == '1' &&
+                    @opts[:metadata]['unit'] == '2'
+
+      @nodes.prepend_child ela_teacher_guidance(@opts[:metadata])
     end
 
-    def ela_6_teacher_guidance(metadata)
+    def ela_teacher_guidance(metadata)
       @data = metadata
-      template_name = File.join Rails.root, 'lib', 'doc_template', 'templates', 'ela-6-teacher-guidance.html.erb'
+      template = "ela-#{@opts[:metadata]['grade']}-teacher-guidance.html.erb"
+      template_name = File.join Rails.root, 'lib', 'doc_template', 'templates', template
       template = File.read template_name
       ERB.new(template).result(binding)
     end
