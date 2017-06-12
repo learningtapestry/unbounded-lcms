@@ -1,8 +1,8 @@
-.c-ld__body {
-  .o-ld-multiple-choice {
-    p {
+.c-ld {
+  @include e(body) {
+    .o-ld-multiple-choice {
       margin-left: $list-side-margin * 2;
-      line-height: 2;
+      p { line-height: 2; }
     }
-  }  
+  }
 }

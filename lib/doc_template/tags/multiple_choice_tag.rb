@@ -22,16 +22,13 @@ module DocTemplate
 
       def block_nodes(node)
         # we have to collect all nodes until the we find the end tag
+        end_regexp = /\[#{TAG_NAME}:\s*#{END_VALUE}\]/
         [].tap do |result|
           while (node = node.next_sibling)
-            break if end?(node)
+            break if node.content.downcase =~ end_regexp
             result << node
           end
         end
-      end
-
-      def end?(node)
-        node.content.downcase =~ /\[#{TAG_NAME}:\s*#{END_VALUE}\]/
       end
     end
   end

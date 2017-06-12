@@ -1,12 +1,12 @@
 module DocTemplate
   module Tags
     class InsetTag < BaseTag
-      TAG_NAME = 'inset'.freeze
       END_VALUE = 'end'.freeze
       STYLES_REGEXP = {
         bold: /font-weight:[6-9]00/i,
         italic: /font-style:italic/i
       }.freeze
+      TAG_NAME = 'inset'.freeze
 
       def parse(node, opts = {})
         if opts[:value] == END_VALUE
@@ -26,17 +26,14 @@ module DocTemplate
 
       def block_nodes(node)
         # we have to collect all nodes until the we find the end tag
+        end_regexp = /\[#{TAG_NAME}:\s*#{END_VALUE}\]/
         [].tap do |result|
           while (node = node.next_sibling)
-            break if end?(node)
+            break if node.content.downcase =~ end_regexp
             node = preserve_styles(node)
             result << node
           end
         end
-      end
-
-      def end?(node)
-        node.content.downcase =~ /\[#{TAG_NAME}:\s*#{END_VALUE}\]/
       end
 
       def preserve_styles(node)
