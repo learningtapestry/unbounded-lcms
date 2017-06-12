@@ -4,10 +4,9 @@
     @include clearfix;
     background: $ub-white;
     display: inline-block;
-    text-align: center;
     width: 100%;
 
-    img {
+    > img {
       height: auto !important;
       max-width: 70%;
     }
