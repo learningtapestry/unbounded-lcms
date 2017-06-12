@@ -45,7 +45,7 @@ module DocTemplate
 
       def fetch_title(data)
         css_class, title = (data.presence || '').split(';').map(&:strip)
-        unless css_class.casecmp('colored').zero?
+        unless css_class.to_s.casecmp('colored').zero?
           title = css_class
           css_class = nil
         end
