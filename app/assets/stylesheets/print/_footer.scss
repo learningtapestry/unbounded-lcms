@@ -22,12 +22,17 @@
   }
 
   @include m(ld) {
-    @include txt-pdf-element(ld-footer);
+    &, a { @include txt-pdf-element(ld-footer); }
   }
 
   @include e(wrap) {
     margin-left: $pdf-margin;
     margin-right: $pdf-margin;
+
+    @include m(ld) {
+      margin-left: $pdf-margin-ld;
+      margin-right: $pdf-margin-ld;
+    }
   }
 
   @include e(left) {

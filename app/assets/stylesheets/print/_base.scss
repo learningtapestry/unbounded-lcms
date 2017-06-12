@@ -8,9 +8,16 @@ html, body {
   size: letter;
 }
 
-.o-page--pdf {
-  padding-left: $pdf-margin;
-  padding-right: $pdf-margin;
+.o-page {
+  @include m(pdf) {
+    padding-left: $pdf-margin;
+    padding-right: $pdf-margin;
+  }
+
+  @include m(pdf-ld) {
+    padding-left: $pdf-margin-ld;
+    padding-right: $pdf-margin-ld;
+  }
 }
 
 header, footer, o-sidebar-nav {

@@ -12,9 +12,7 @@ module DocumentExporter
     private
 
     def pdf_params
-      xsl = Rails.root.join 'app', 'views', 'lesson_documents', 'pdf', "_toc--#{@lesson_document.subject}.xsl"
       {
-        cover: render_template('_cover'),
         disable_internal_links: false,
         disable_external_links: false,
         disposition: 'attachment',
@@ -24,27 +22,14 @@ module DocumentExporter
           spacing: 2
         },
         javascript_delay: 5000,
-        header: {
-          content: render_template('_header'),
-          line: false,
-          spacing: 2
-        },
         margin: {
-          bottom: 18,
-          left: 8,
-          right: 8,
-          top: 18
+          bottom: 15,
+          left: 8.46,
+          right: 8.46,
+          top: 8.46
         },
-        outline: { outline_depth: 3 },
         page_size: 'Letter',
-        print_media_type: false,
-        toc: {
-          disable_dotted_lines: true,
-          disable_links: false,
-          disable_toc_links: false,
-          disable_back_links: false,
-          xsl_style_sheet: xsl
-        }
+        print_media_type: false
       }
     end
 

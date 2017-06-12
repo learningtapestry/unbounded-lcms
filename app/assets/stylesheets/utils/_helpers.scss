@@ -84,7 +84,7 @@ $paddings: (
   'large': $ub-large-margin,
   'xlarge': $ub-xlarge-margin
 );
-$paddings-align: (top, bottom);
+$paddings-align: (top, bottom, left, right);
 
 @each $padding-type, $padding-value in $paddings {
   @each $align in $paddings-align {

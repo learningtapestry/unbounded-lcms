@@ -33,5 +33,7 @@ module Content
     config.active_job.queue_adapter = :resque
 
     config.middleware.insert_before ::ActionDispatch::Cookies, 'RemoveSession'
+
+    routes.default_url_options = { host: ENV['UNBOUNDED_DOMAIN'] }
   end
 end
