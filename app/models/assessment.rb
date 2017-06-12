@@ -66,7 +66,11 @@ class Assessment
       teaser: metadata['teaser'],
       title: metadata['title']
     )
-    unit.children.create!(item: resource, curriculum_type: CurriculumType.lesson)
+    unit.children.create!(
+      curriculum_type: CurriculumType.lesson,
+      item: resource,
+      seed_id: unit.seed_id
+    )
     resource
   end
 end
