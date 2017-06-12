@@ -16,6 +16,7 @@ h1, h2, h3, h4, h5 {
 h2 { @include txt-pdf-element(ld-h2); }
 h3 { @include txt-pdf-element(ld-h3); }
 h4 { @include txt-pdf-element(ld-h4); }
+h5 { @include txt-pdf-element(ld-h5); }
 
 ol, ul {
   margin-bottom: 0;

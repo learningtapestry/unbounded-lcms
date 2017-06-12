@@ -113,6 +113,8 @@ gem 'truncate_html', '~> 0.9.3'
 gem 'validate_url', '~> 1.0'
 # remove tags and styles not in whitelist
 gem 'sanitize', '~> 4.2'
+# shorten urls
+gem 'bitly', '~> 1.0'
 
 # redis
 gem 'hiredis'

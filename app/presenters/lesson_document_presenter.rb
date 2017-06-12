@@ -46,11 +46,11 @@ class LessonDocumentPresenter < BasePresenter
   end
 
   def pdf_header
-    "UNBOUNDED #{full_breadcrumb}"
+    "UnboundEd/#{full_breadcrumb}"
   end
 
   def pdf_footer
-    "Common Core #{subject_to_str} Curriculum | #{short_breadcrumb}"
+    full_breadcrumb
   end
 
   def short_breadcrumb
@@ -65,6 +65,12 @@ class LessonDocumentPresenter < BasePresenter
 
   def short_title
     "Lesson #{ld_metadata.lesson}"
+  end
+
+  def short_url
+    @short_url ||= Bitly.client
+                     .shorten(Rails.application.routes.url_helpers.lesson_document_url(self))
+                     .short_url
   end
 
   def standards
