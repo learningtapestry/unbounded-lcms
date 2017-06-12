@@ -60,7 +60,7 @@ class Assessment
       ].compact,
       grade_list: [context[:grade]],
       resource_type: Resource.resource_types[:resource],
-      short_title: 'assessment',e
+      short_title: 'assessment',
       subject: context[:subject],
       tag_list: ['assessment', metadata['type']],
       teaser: metadata['teaser'],
