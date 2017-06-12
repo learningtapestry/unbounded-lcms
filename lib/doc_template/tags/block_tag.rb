@@ -16,7 +16,7 @@ module DocTemplate
       def substitute_tags_in(content, tags = [])
         re = /{tag: (\d)+}/
         content.scan(re).each do |idx|
-          next unless (tag = tags[idx.to_i]).present?
+          next unless (tag = tags[idx.first.to_i]).present?
           parsed_tag = parse_nested "<p><span>#{tag}</span></p>"
           content = content.sub re, parsed_tag
         end
