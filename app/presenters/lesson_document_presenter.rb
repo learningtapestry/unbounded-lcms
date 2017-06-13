@@ -1,7 +1,8 @@
 class LessonDocumentPresenter < BasePresenter
+  SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
+  PDF_SUBTITLES = { full: '', sm: '_student_materials', tm: '_teacher_materials' }.freeze
   TOPIC_FULL   = { 'ela' => 'Unit', 'math' => 'Topic' }.freeze
   TOPIC_SHORT  = { 'ela' => 'U', 'math' => 'T' }.freeze
-  SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
 
   def color_code
     "#{subject}-base"
@@ -49,8 +50,10 @@ class LessonDocumentPresenter < BasePresenter
     "UnboundEd/#{full_breadcrumb}"
   end
 
-  def pdf_filename(subtitle: '')
-    "#{short_breadcrumb(join_with: '_', with_short_lesson: true)}#{subtitle}_v#{version.presence || 1}"
+  def pdf_filename(type:)
+    name = short_breadcrumb(join_with: '_', with_short_lesson: true)
+    name += PDF_SUBTITLES[type.to_sym]
+    "#{name}_v#{version.presence || 1}.pdf"
   end
 
   def pdf_footer
