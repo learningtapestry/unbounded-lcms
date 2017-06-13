@@ -1,9 +1,7 @@
 module DocumentExporter
   class PDF
-    PDF_SUBTITLES = { full: '', sm: '_student_materials', tm: '_teacher_materials' }.freeze
-
     def initialize(lesson_document, pdf_type: 'full')
-      @lesson_document = LessonDocumentPresenter.new lesson_document
+      @lesson_document = lesson_document
       @pdf_type = pdf_type
     end
 
@@ -11,10 +9,6 @@ module DocumentExporter
       pdf_template = @pdf_type == 'full' ? 'show' : 'show_materials'
       content = render_template pdf_template, layout: 'cg_pdf'
       WickedPdf.new.pdf_from_string(content, pdf_params)
-    end
-
-    def filename
-      "#{@lesson_document.pdf_filename(subtitle: PDF_SUBTITLES[@pdf_type.to_sym])}.pdf"
     end
 
     private
