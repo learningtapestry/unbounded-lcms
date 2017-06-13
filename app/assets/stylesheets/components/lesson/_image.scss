@@ -1,23 +1,23 @@
-// TODO: should be refactored, inconsistent with BEM
 .o-ld-image {
-  .o-ld-image-clearfix {
-    clear: both;
+  @include m(clearfix) {
+    @include clearfix;
   }
 
-  .o-ld-image-container {
+  @include e(container) {
     background-color: map-get($ub-ld-colorcodes, default-image-bg);
 
-    &.o-ld-image-math {
+    @include m(math) {
       background-color: map-get($ub-ld-colorcodes, math-image-bg);
     }
 
-    &.o-ld-image-ela {
+    @include m(ela) {
       background-color: map-get($ub-ld-colorcodes, ela-image-bg);
     }
 
     figure {
       margin: 0;
-
+      overflow: hidden;
+      
       img {
         margin-top: -5px;
         width: 100%;
@@ -27,10 +27,10 @@
         }
       }
       figcaption {
-        width: 69%;
         display: inline-block;
-        padding: 1.5em;
         font-weight: bold;
+        padding: 1.5em;
+        width: 69%;
       }
     }
   }
