@@ -50,9 +50,11 @@ describe LessonDocumentForm do
         expect(document).to receive(:activate!)
       end
 
-      it 'queues job to generate Docx' do
-        expect(LessonGenerateDocxJob).to receive(:perform_later).with(document)
-      end
+      # NOTE: Temporary disable DOCX generation - need to solve
+      # few issues on the server side
+      # it 'queues job to generate Docx' do
+      #   expect(LessonGenerateDocxJob).to receive(:perform_later).with(document)
+      # end
 
       it 'queues job to generate PDF' do
         expect(LessonGeneratePdfJob).to receive(:perform_later).with(document)
