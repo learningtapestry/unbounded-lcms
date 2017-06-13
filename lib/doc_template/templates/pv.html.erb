@@ -5,7 +5,7 @@
   <table class="o-ld-pv o-ld-pv-content">
     <tbody>
       <% @data['row_count'].times do %>
-        <tr>
+        <tr class="o-ld-pv__row--<%= @data['row_count'] %>">
           <% @data['column_count'].times do |idx| %>
               <% width = @data.try(:[], 'column_width').try(:[], idx).presence || '50%' %>
               <td style="width: <%= width %>"></td>

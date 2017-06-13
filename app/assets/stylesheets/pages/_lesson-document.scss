@@ -96,6 +96,7 @@
 
     h2, h3 { clear: both; }
     h2 { @include txt-heading(h1); }
+    h5 { @include txt-element(ld-h5); }
 
     p, ol, ul {
       &, * {

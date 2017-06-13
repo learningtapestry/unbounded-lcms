@@ -29,11 +29,15 @@ $ub-pdf-typography: (
   ld-activity-teaser: ('font-size': 13.5pt, 'line-height': 1.3, 'font-family': $ub-sanserif, font-style: italic),
   ld-base: ('font-size': 16px, 'line-height': 1.5, 'font-family': $ub-sanserif),
   ld-callout-header: ('font-size': 14.5pt, 'line-height': 1.4, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, font-style: normal),
-  ld-footer: ('font-size': 10pt, 'line-height': 1.2, 'font-family': $ub-serif, color: $ub-pdf-gray),
+  ld-footer: ('font-size': 10pt, 'line-height': 1.2, 'font-family': $ub-sanserif, color: $ub-pdf-gray),
+  ld-footer-logo: ('font-size': 10pt, 'line-height': 1.2, 'font-family': $ub-serif, color: $ub-pdf-gray),
+  ld-footer-page: ('font-size': 10pt, 'line-height': 1.2, 'font-family': $ub-sanserif, font-weight: 500, color: $ub-pdf-gray),
+  ld-h1: (font-size: 30pt, 'line-height': 30pt, 'font-family': $ub-serif, 'font-weight': 500, 'font-style': normal),
   ld-h2: (font-size: 26pt, 'line-height': 1.05, 'font-family': $ub-serif, 'font-weight': 500, font-style: normal),
   ld-h3: (font-size: 20pt, 'line-height': 1.07, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, font-style: normal),
   ld-h4: ('font-size': 15pt, 'line-height': 1.23, 'font-family': $ub-sanserif, 'font-style': italic),
-  ld-header: ('font-size': 10pt, 'line-height': 1.2, 'font-family': $ub-serif, color: $ub-pdf-gray),
+  ld-h5: ('font-size': 13pt, 'line-height': 1, 'font-family': $ub-sanserif, 'font-weight': bold),
+  ld-header: ('font-size': 12pt, 'line-height': 1.2, 'font-family': $ub-serif, color: $ub-white),
   ld-optbreak: ('font-size': 14.5pt, 'line-height': 1.4, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, font-style: normal),
   ld-smp: ('font-size': 12pt, 'line-height': 1, 'font-family': $ub-serif, 'font-weight': 600, color: #fff),
 );
@@ -42,4 +46,10 @@ p {
   font-feature-settings: "kern" 1;
   font-kerning: normal;
   text-rendering: optimizeSpeed; //optimize-speed
+}
+
+@each $element, $typo in $ub-pdf-typography {
+  .u-pdf-txt--#{$element} {
+    @include txt-pdf-element($element);
+  }
 }
