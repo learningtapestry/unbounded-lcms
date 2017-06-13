@@ -6,4 +6,4 @@ if [ -f "$PIDFILE" ]; then
     kill -s QUIT `cat ${PIDFILE}`
 fi
 
-cd $STACK_PATH && RAILS_ENV=development PIDFILE=${PIDFILE} BACKGROUND=yes QUEUE=* bundle exec rake resque:work
+cd $STACK_PATH && PIDFILE=${PIDFILE} BACKGROUND=yes QUEUE=* bundle exec rake resque:work
