@@ -1,0 +1,32 @@
+$ela-student-tags: (assess, et, js, photo, rubric, sh, ela2-sm);
+$ela-teacher-tags: (key, th);
+
+&.c-ld__body--math-tm {
+  .o-ld-materials { display: none; }
+}
+
+&.c-ld__body--math-sm {
+  * { display: none; }
+  .o-ld-materials
+  {
+    &, * { display: block; }
+  }
+}
+
+&.c-ld__body--ela-tm {
+  @each $tag in $ela-student-tags {
+    .o-ld-ela-#{$tag} {
+      display: none;
+    }
+  }
+}
+
+&.c-ld__body--ela-sm {
+  * { display: none; }
+
+  @each $tag in $ela-student-tags {
+    .o-ld-ela-#{$tag} {
+      &, * { display: initial; }
+    }
+  }
+}

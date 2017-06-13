@@ -36,3 +36,107 @@ materials:
   stop_tags:
     - ActivityMetadataSectionTag
     - ActivityMetadataTypeTag
+rubric:
+  stop_tags:
+    - AssessTag
+    - EtTag
+    - Ela6BreakTag
+    - GroupTag
+    - JsTag
+    - KeyTag
+    - PhotoTag
+    - RubricTag
+    - SectionTag
+    - ShTag
+    - ThTag
+js:
+  stop_tags:
+    - AssessTag
+    - EtTag
+    - Ela6BreakTag
+    - GroupTag
+    - JsTag
+    - KeyTag
+    - PhotoTag
+    - RubricTag
+    - SectionTag
+    - ShTag
+    - ThTag
+et:
+  stop_tags:
+    - AssessTag
+    - EtTag
+    - Ela6BreakTag
+    - GroupTag
+    - JsTag
+    - KeyTag
+    - PhotoTag
+    - RubricTag
+    - SectionTag
+    - ShTag
+    - ThTag
+photo:
+  stop_tags:
+    - AssessTag
+    - EtTag
+    - Ela6BreakTag
+    - GroupTag
+    - JsTag
+    - KeyTag
+    - PhotoTag
+    - RubricTag
+    - SectionTag
+    - ShTag
+    - ThTag
+assess:
+  stop_tags:
+    - AssessTag
+    - EtTag
+    - Ela6BreakTag
+    - GroupTag
+    - JsTag
+    - KeyTag
+    - PhotoTag
+    - RubricTag
+    - SectionTag
+    - ShTag
+    - ThTag
+sh:
+  stop_tags:
+    - AssessTag
+    - EtTag
+    - Ela6BreakTag
+    - GroupTag
+    - JsTag
+    - KeyTag
+    - PhotoTag
+    - RubricTag
+    - SectionTag
+    - ShTag
+    - ThTag
+key:
+  stop_tags:
+    - AssessTag
+    - EtTag
+    - Ela6BreakTag
+    - GroupTag
+    - JsTag
+    - KeyTag
+    - PhotoTag
+    - RubricTag
+    - SectionTag
+    - ShTag
+    - ThTag
+th:
+  stop_tags:
+    - AssessTag
+    - EtTag
+    - Ela6BreakTag
+    - GroupTag
+    - JsTag
+    - KeyTag
+    - PhotoTag
+    - RubricTag
+    - SectionTag
+    - ShTag
+    - ThTag

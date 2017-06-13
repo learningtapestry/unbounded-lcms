@@ -1,0 +1,14 @@
+<style type="text/css">
+  <%= raw lesson_document.css_styles %>
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="o-page--cg-<%= lesson_document.subject %>">
+  <div class="c-ld__body o-page--pdf-ld c-ld__body--pdf c-ld__body--<%= "#{lesson_document.subject}-#{pdf_type}"%>">
+    <%= raw lesson_document.content %>
+    <div class="o-ld-license u-margin-top--xlarge">
+      <%= lesson_document.ld_metadata.cc_attribution %>
+    </div>
+  </div>
+</div>
