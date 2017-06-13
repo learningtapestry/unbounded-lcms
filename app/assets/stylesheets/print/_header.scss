@@ -1,15 +1,9 @@
-body.u-pdf-not-100height {
-  height: auto !important;
-}
-
 .c-pdf-header {
   @include m(ld) {
     @include txt-pdf-element(ld-header);
   }
 
   @include e(wrap) {
-    margin-left: $pdf-margin;
-    margin-right: $pdf-margin;
+    @include add-top-bottom-padding;
   }
-
 }
