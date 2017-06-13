@@ -81,6 +81,16 @@ module DocTemplate
       def template_path(name)
         self.class.template_path_for name
       end
+
+      def wrap_content(node)
+        [].tap do |result|
+          while (sibling = node.next_sibling) do
+            break if include_break?(sibling.content)
+            result << sibling.to_html
+            sibling.remove
+          end
+        end.join
+      end
     end
   end
 end

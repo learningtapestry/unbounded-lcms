@@ -8,6 +8,6 @@
   }
 
   @include e(toggler) {
-    display: none;
+    display: none !important;
   }
 }
