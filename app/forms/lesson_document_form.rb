@@ -42,7 +42,9 @@ class LessonDocumentForm
 
     @lesson.activate!
 
-    LessonGenerateDocxJob.perform_later @lesson
+    # NOTE: Temporary disable DOCX generation - need to solve
+    # few issues on the server side
+    # LessonGenerateDocxJob.perform_later @lesson
     LessonGeneratePdfJob.perform_later @lesson
   rescue => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
