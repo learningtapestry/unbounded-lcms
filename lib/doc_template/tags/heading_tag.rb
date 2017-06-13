@@ -1,8 +1,18 @@
 module DocTemplate
   module Tags
     class HeadingTag < BaseTag
+      TEMPLATE = 'ela-headings.html.erb'.freeze
+
       def parse(node, opts = {})
-        node.replace "<h3>#{heading opts[:value]}</h3>"
+        # we have to collect all the next siblings until next stop-tag
+        content = wrap_content(node)
+
+        node = node.replace(
+          parse_template({ content: parse_nested(content, opts),
+                           heading: "<h3>#{heading(opts[:value])}</h3>",
+                           tag: self.class::TAG_NAME },
+                         TEMPLATE)
+        )
         @result = node
         self
       end

@@ -1,11 +1,13 @@
 module DocumentExporter
   class PDF
-    def initialize(lesson_document)
-      @lesson_document = LessonDocumentPresenter.new lesson_document
+    def initialize(lesson_document, pdf_type: 'full')
+      @lesson_document = lesson_document
+      @pdf_type = pdf_type
     end
 
     def export
-      content = render_template 'show', layout: 'cg_pdf'
+      pdf_template = @pdf_type == 'full' ? 'show' : 'show_materials'
+      content = render_template pdf_template, layout: 'cg_pdf'
       WickedPdf.new.pdf_from_string(content, pdf_params)
     end
 
@@ -38,7 +40,7 @@ module DocumentExporter
       ApplicationController.render(
         template: File.join('lesson_documents', 'pdf', name),
         layout: layout,
-        locals: { lesson_document: @lesson_document }
+        locals: { lesson_document: @lesson_document, pdf_type: @pdf_type }
       )
     end
   end

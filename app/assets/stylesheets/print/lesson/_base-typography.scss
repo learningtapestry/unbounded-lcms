@@ -32,6 +32,8 @@ ol {
 
 .indented { text-indent: $list-side-margin * 2; }
 
+thead, tbody, tfoot { border: 0; }
+
 .c-ld {
   @include m(ela-2) {
     h2.o-ld-title {
