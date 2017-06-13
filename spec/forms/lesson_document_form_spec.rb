@@ -57,7 +57,9 @@ describe LessonDocumentForm do
       # end
 
       it 'queues job to generate PDF' do
-        expect(LessonGeneratePdfJob).to receive(:perform_later).with(document)
+        expect(LessonGeneratePdfJob).to receive(:perform_later).with(document, pdf_type: 'full')
+        expect(LessonGeneratePdfJob).to receive(:perform_later).with(document, pdf_type: 'sm')
+        expect(LessonGeneratePdfJob).to receive(:perform_later).with(document, pdf_type: 'tm')
       end
 
       after { subject }

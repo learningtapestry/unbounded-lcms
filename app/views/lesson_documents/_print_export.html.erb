@@ -14,10 +14,14 @@
 <h2 class="u-padding-top--xlarge">Print / Export Teacher Materials</h2>
 <p>Printing/Exporting is a feature that allows you to download a copy of this lesson in PDF or Word Doc format. You can print or adjust the document as needed.
 </p>
-<%= link_to t('ui.export_pdf'), '', class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true } %>
+<% if lesson_document.links['pdf_tm'].present? %>
+  <%= link_to t('ui.export_pdf'), lesson_document.links['pdf_tm'], class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true } %>
+<% end %>
 
 
 <h2 class="u-padding-top--xlarge">Print / Export Student Materials</h2>
 <p>Printing/Exporting is a feature that allows you to download a copy of this lesson in PDF or Word Doc format. You can print or adjust the document as needed.
 </p>
-<%= link_to t('ui.export_pdf'), '', class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true } %>
+<% if lesson_document.links['pdf_sm'].present? %>
+  <%= link_to t('ui.export_pdf'), lesson_document.links['pdf_sm'], class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true } %>
+<% end %>

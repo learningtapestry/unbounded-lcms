@@ -4,10 +4,16 @@ module DocTemplate
       TAG_NAME = 'section'.freeze
       TEMPLATE_ELA = 'ela-2-6-section.html.erb'.freeze
       TEMPLATE = 'section.html.erb'.freeze
+      TEMPLATE_SM = 'ela-headings.html.erb'.freeze
 
       def parse(node, opts = {})
         @opts = opts
         section = @opts[:agenda].level2_by_title(@opts[:value].parameterize)
+        # TODO: need to be refactored, maybe wrap all structure tags with content
+        # into divs (or sections) with css classes, will be easy to iterate and
+        # split document into chunks
+        # Anyway line below is for build ela2 tm/sm for now
+        return parse_ela2_sm(node, section) if ela2?(@opts[:metadata]) && student_material?(section)
         return parse_ela2(node, section) if ela2?(@opts[:metadata]) && section.use_color
         return parse_ela6(node, section) if ela6?(@opts[:metadata])
         @result = node.replace(parse_template(section, TEMPLATE))
@@ -23,6 +29,19 @@ module DocTemplate
         }
         parsed_template = parse_template(params, TEMPLATE_ELA)
         @result = node.replace parse_nested(parsed_template, @opts)
+        self
+      end
+
+      def parse_ela2_sm(node, section)
+        content = wrap_content(node)
+
+        node = node.replace(
+          parse_template({ content: parse_nested(content, @opts),
+                           heading: parse_template(section, TEMPLATE),
+                           tag: 'ela2-sm' },
+                         TEMPLATE_SM)
+        )
+        @result = node
         self
       end
 
@@ -72,6 +91,10 @@ module DocTemplate
             sibling = node.next_sibling
           end
         end
+      end
+
+      def student_material?(section)
+        section.title =~ /^\s*student\s*resources\s*$/i
       end
     end
   end

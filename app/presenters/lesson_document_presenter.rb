@@ -49,18 +49,28 @@ class LessonDocumentPresenter < BasePresenter
     "UnboundEd/#{full_breadcrumb}"
   end
 
+  def pdf_filename(subtitle: '')
+    "#{short_breadcrumb(join_with: '_', with_short_lesson: true)}#{subtitle}_v#{version.presence || 1}"
+  end
+
   def pdf_footer
     full_breadcrumb
   end
 
-  def short_breadcrumb
+  def short_breadcrumb(join_with: ' / ', with_short_lesson: false)
+    lesson_abbr =
+      if resource.try(:assessment?)
+        with_short_lesson ? 'A' : 'Assessment'
+      else
+        with_short_lesson ? "L#{ld_metadata.lesson}" : "Lesson #{ld_metadata.lesson}"
+      end
     [
       SUBJECT_FULL[subject] || subject,
       grade.to_i.zero? ? grade : "G#{grade}",
       ll_strand? ? 'LL' : "M#{ld_module.try(:upcase)}",
       topic.present? ? "#{TOPIC_SHORT[subject]}#{topic.try(:upcase)}" : nil,
-      resource.try(:assessment?) ? 'Assessment' : "Lesson #{ld_metadata.lesson}"
-    ].compact.join(' / ')
+      lesson_abbr
+    ].compact.join(join_with)
   end
 
   def short_title

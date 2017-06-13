@@ -7,15 +7,9 @@ module DocTemplate
 
       def parse(node, opts = {})
         # we have to collect all the next siblings until next activity-metadata
-        content = [].tap do |result|
-          while (sibling = node.next_sibling) do
-            break if include_break?(sibling.content)
-            result << sibling.to_html
-            sibling.remove
-          end
-        end.join
+        content = wrap_content(node)
 
-        node.replace(parse_template(parse_nested(content, opts), TEMPLATE))
+        node = node.replace(parse_template(parse_nested(content, opts), TEMPLATE))
         @result = node
         self
       end
