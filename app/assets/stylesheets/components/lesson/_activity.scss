@@ -8,6 +8,17 @@
   flex-flow: row wrap;
 
   @include e(source) {
+  }
 
+  @include e(guidance) {
+    @include add-column-padding($x: 1);
+    @include add-gutter(margin, bottom, 1);
+    @include add-top-bottom-padding($y: 0.5);
+    background-color: map-get($ub-ld-colorcodes, math-activity-guidance-bg);
+
+    @include m(title) {
+      @include add-gutter(margin, bottom, 0.5);
+      display: block;
+    }
   }
 }
