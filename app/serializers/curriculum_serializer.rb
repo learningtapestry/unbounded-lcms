@@ -1,4 +1,4 @@
-class CurriculumSerializer < ActiveModel::Serializer  
+class CurriculumSerializer < ActiveModel::Serializer
   self.root = false
 
   attributes :id,
@@ -27,7 +27,7 @@ class CurriculumSerializer < ActiveModel::Serializer
       object.children.order(position: :asc)
     end
 
-    kids.map do |c| 
+    kids.map do |c|
       CurriculumSerializer.new(c,
         depth: @depth - 1,
         depth_branch: @depth_branch
@@ -60,7 +60,12 @@ class CurriculumSerializer < ActiveModel::Serializer
   end
 
   def resource
-    CurriculumResourceSerializer.new(object).as_json
+    # As requested:
+    #   Do a fix, which would not show Teaser on card hover (in explore curriculum)
+    #   from old Resources, if lesson-document doesnt have a teaser
+    res = CurriculumResourceSerializer.new(object)
+    hash = res.as_json
+    res.ld_metadata ? hash.merge(teaser: res.ld_metadata['teaser']) : hash
   end
 
   def type
