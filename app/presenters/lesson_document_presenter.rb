@@ -13,7 +13,7 @@ class LessonDocumentPresenter < BasePresenter
   end
 
   def description
-    ld_metadata.lesson_objective || ld_metadata.description
+    ld_metadata.lesson_objective.presence || ld_metadata.description
   end
 
   def full_breadcrumb
@@ -87,7 +87,7 @@ class LessonDocumentPresenter < BasePresenter
   end
 
   def standards
-    ld_metadata.standard || ld_metadata.lesson_standard
+    ld_metadata.standard.presence || ld_metadata.lesson_standard
   end
 
   def subject
