@@ -1,6 +1,7 @@
 module DocTemplate
   module Tags
     class SectionTag < BaseTag
+      STUDENT_RE = /^\s*student\s*resources\s*$/i
       TAG_NAME = 'section'.freeze
       TEMPLATE_ELA = 'ela-2-6-section.html.erb'.freeze
       TEMPLATE = 'section.html.erb'.freeze
@@ -71,7 +72,7 @@ module DocTemplate
       def fetch_ela2_content(node)
         nodes = [].tap do |result|
           while (node = node.next_sibling)
-            break if include_break?(node.content)
+            break if include_break?(node)
             result << node
           end
         end
@@ -83,7 +84,7 @@ module DocTemplate
         sibling = node
         ['', ''].tap do |result|
           while sibling
-            break if include_break?(sibling.content)
+            break if include_break?(sibling)
             sibling.xpath('./td').each_with_index do |child, idx|
               result[idx % 2] += child.inner_html
             end
@@ -94,7 +95,7 @@ module DocTemplate
       end
 
       def student_material?(section)
-        section.title =~ /^\s*student\s*resources\s*$/i
+        section.title =~ STUDENT_RE
       end
     end
   end
