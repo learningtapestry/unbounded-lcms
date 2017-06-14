@@ -18,9 +18,9 @@ namespace :oneoff do
     with_curriculum = Rails.env.development?
 
     # ELA Grade 2 UNIT 2 Lessons 1-17 (unit + lessons)
-    create_unit2_resources(2, 17, with_curriculum: with_curriculum)
+    create_unit2_resources(2, 17, with_curriculum)
     # ELA Grade 6 UNIT 2 Lessons 1-14 (unit + lessons)
-    create_unit2_resources(6, 14, with_curriculum: with_curriculum)
+    create_unit2_resources(6, 14, with_curriculum)
   end
 
   def create_unit2_resources(grade, lessons, with_curriculum)
