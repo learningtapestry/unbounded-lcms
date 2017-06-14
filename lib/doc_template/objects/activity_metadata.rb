@@ -27,12 +27,15 @@ module DocTemplate
         attribute :title, String, default: ->(a, _) { a.activity_title }
         attribute :time, Integer, default: ->(a, _) { a.activity_time }
 
-        def activity_standard_with_description
+        def activity_standard_info
+          return [] if activity_standard.blank?
           activity_standard.split(/[,;]/).map do |standard|
             value = standard.strip
-            {standard: value, description: fetch_standard_description(value) }
+            { standard: value, description: fetch_standard_description(value) }
           end
         end
+
+        private
 
         def fetch_standard_description(text)
           return unless text

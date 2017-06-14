@@ -26,7 +26,7 @@
 
     <% if @tmpl[:activity].activity_standard.present? %>
       <p><strong>Standard: </strong>
-        <% @tmpl[:activity].activity_standard_with_description.each do |activity| %>
+        <% @tmpl[:activity].activity_standard_info.each do |activity| %>
           <% id = "cg-k_#{SecureRandom.hex(4)}" %>
           <span class="c-ld-keyword" data-toggle="<%= id %>"><%= activity[:standard] %></span>
           <% if activity[:description] %>
