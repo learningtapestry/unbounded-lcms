@@ -83,9 +83,7 @@
 
     p, ol, ul {
       &, * {
-        font-family: $ub-sanserif;
-        font-size: 1rem;
-        line-height: 1.5;
+        @include txt-element(ld-base);
       }
     }
 
