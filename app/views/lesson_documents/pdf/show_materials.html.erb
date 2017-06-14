@@ -6,7 +6,7 @@
 
 <div class="o-page--cg-<%= lesson_document.subject %>">
   <div class="c-ld__body o-page--pdf-ld c-ld__body--pdf c-ld__body--<%= "#{lesson_document.subject}-#{pdf_type}"%>">
-    <%= raw lesson_document.content %>
+    <%= raw lesson_document.pdf_content(pdf_type: pdf_type) %>
     <div class="o-ld-license u-margin-top--xlarge">
       <%= lesson_document.ld_metadata.cc_attribution %>
     </div>
