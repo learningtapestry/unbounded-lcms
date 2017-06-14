@@ -51,8 +51,8 @@ class Admin::CurriculumsController < Admin::AdminController
         index_p = default_params.merge(expected_params)
 
         subjects = ['ela', 'math']
-        
-        grade_ok = index_p[:grade].blank? || 
+
+        grade_ok = index_p[:grade].blank? ||
           param_constants[:grades].keys.include?(index_p[:grade])
         type_ok = param_constants[:curriculum_types].keys.include?(index_p[:type])
         subject_ok = subjects.include?(index_p[:subject])
@@ -77,7 +77,7 @@ class Admin::CurriculumsController < Admin::AdminController
       p = curriculum_params
       Curriculum.transaction do
         is_unit = p[:curriculum_type_id].to_i == CurriculumType.unit.id
-        new_children_ids = p.delete(:child_ids).map(&:to_i)
+        new_children_ids = (p.delete(:child_ids) || []).map(&:to_i)
         new_children = is_unit ?
                          Resource.where(id: new_children_ids) :
                          Curriculum.where(id: new_children_ids)
