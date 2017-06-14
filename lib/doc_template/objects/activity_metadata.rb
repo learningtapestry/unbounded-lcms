@@ -26,6 +26,19 @@ module DocTemplate
         attribute :level, Integer, default: 2
         attribute :title, String, default: ->(a, _) { a.activity_title }
         attribute :time, Integer, default: ->(a, _) { a.activity_time }
+
+        def activity_standard_with_description
+          activity_standard.split(/[,;]/).map do |standard|
+            value = standard.strip
+            {standard: value, description: fetch_standard_description(value) }
+          end
+        end
+
+        def fetch_standard_description(text)
+          return unless text
+          name = text.downcase.to_sym
+          Standard.search_by_name(name).first.try(:description)
+        end
       end
 
       class Section
