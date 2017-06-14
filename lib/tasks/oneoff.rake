@@ -12,4 +12,61 @@ namespace :oneoff do
       end
     end
   end
+
+  task unit2_resources: :environment do
+    # ELA Grade 2 UNIT 2 Lessons 1-17 (unit + lessons)
+    create_unit2_resources(2, 17)
+    # ELA Grade 6 UNIT 2 Lessons 1-14 (unit + lessons)
+    create_unit2_resources(6, 14)
+  end
+
+  def create_unit2_resources(grade, lessons)
+    mod = Curriculum.trees.ela.where_grade("grade #{grade}").first.children.first
+
+    # Create unit
+    resource = Resource.create!(
+      curriculum_directory: ['ela', "grade #{grade}", 'module 1', 'unit 2'],
+      curriculum_type: 'unit',
+      grade_list: ["grade #{grade}"],
+      resource_type: Resource.resource_types[:resource],
+      short_title: 'unit 2',
+      subject: 'ela',
+      title: "ELA G#{grade} M1 U2"
+    )
+    unit = mod.children.create!(
+      curriculum_type: CurriculumType.unit,
+      item: resource,
+      seed_id: mod.seed_id,
+      position: 1,
+      breadcrumb_title: "ELA / G#{grade} / M1 / unit 2",
+      breadcrumb_short_title: "EL / G#{grade} / M1 / U2",
+      breadcrumb_piece: 'U2',
+      breadcrumb_short_piece: 'U2',
+      hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} 00"
+    )
+
+    lessons.times do |i|
+      num = i + 1
+      resource = Resource.create!(
+        curriculum_directory: ['ela', "grade #{grade}", 'module 1', 'unit 2', "lesson #{num}"],
+        curriculum_type: 'lesson',
+        grade_list: ["grade #{grade}"],
+        resource_type: Resource.resource_types[:resource],
+        short_title: "lesson #{num}",
+        subject: 'ela',
+        title: "ELA G#{grade} M1 U2 L#{num}"
+      )
+      unit.children.create!(
+        curriculum_type: CurriculumType.lesson,
+        item: resource,
+        seed_id: unit.seed_id,
+        position: num,
+        breadcrumb_title: "ELA / G#{grade} / M1 / U2 / lesson #{num}",
+        breadcrumb_short_title: "EL / G#{grade} / M1 / U2 / L#{num}",
+        breadcrumb_piece: "L#{num}",
+        breadcrumb_short_piece: "L#{num}",
+        hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} #{num.to_s.rjust(2, '0')}"
+      )
+    end
+  end
 end
