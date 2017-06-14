@@ -9,15 +9,14 @@ module DocTemplate
         return self unless table.present?
         header, content = fetch_content(table)
 
-        @result = (previous_non_empty(table.previous_element) || table).before(
-          parse_nested(
-            parse_template({ header: header,
-                             content: content,
-                             subject: opts[:metadata].resource_subject },
-                           TEMPLATE),
-            opts
-          )
-        )
+        params = {
+          content: content,
+          header: header,
+          subject: opts[:metadata].resource_subject
+        }
+        new_content = parse_template(params, TEMPLATE)
+        parsed_content = parse_nested(new_content, opts)
+        @result = (previous_non_empty(table.previous_element) || table).before(parsed_content)
         table.remove
         self
       end

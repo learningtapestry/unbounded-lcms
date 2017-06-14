@@ -1,6 +1,6 @@
 module DocTemplate
   module Tags
-    class ColumnsTag < BlockTag
+    class ColumnsTag < BaseTag
       include ERB::Util
 
       END_VALUE = 'end'.freeze
@@ -44,6 +44,18 @@ module DocTemplate
 
       private
 
+      def add_tags_from(node, tags = [])
+        re = DocTemplate::Tags::StandardTag::TAG_RE
+        return unless (m = re.match node.inner_html)
+
+        m.to_a.each do |tag|
+          tags << tag
+          node.content = node.content.sub re, "{tag: #{tags.size - 1}}"
+        end
+
+        tags
+      end
+
       #
       # Going down the DOM tree until the end tag. Placing own markers
       # for nested tags and images to revert them back later on
@@ -82,6 +94,16 @@ module DocTemplate
             td
           end
         end
+      end
+
+      def substitute_tags_in(content, tags = [])
+        re = /{tag: (\d)+}/
+        content.scan(re).each do |idx|
+          next unless (tag = tags[idx.first.to_i]).present?
+          parsed_tag = parse_nested "<p><span>#{tag}</span></p>"
+          content = content.sub re, parsed_tag
+        end
+        content
       end
     end
   end
