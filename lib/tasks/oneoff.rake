@@ -24,7 +24,14 @@ namespace :oneoff do
   end
 
   def create_unit2_resources(grade, lessons, with_curriculum)
-    mod = Curriculum.trees.ela.where_grade("grade #{grade}").first.children.first
+    mod = Curriculum.ela.seeds.grades
+      .where_grade("grade #{grade}")
+      .first # The grade
+      .children # The modules
+      .first # The first module
+      .curriculum_item # The curriculum item for the first module
+
+    puts "Found module #{mod.id} - #{mod.resource.title}"
 
     # Create unit
     resource = Resource.create!(
@@ -36,11 +43,20 @@ namespace :oneoff do
       subject: 'ela',
       title: "ELA G#{grade} M1 U2"
     )
+
     if with_curriculum
-      unit = mod.children.create!(
+      unit = Curriculum.create!(
         curriculum_type: CurriculumType.unit,
         item: resource,
-        seed_id: mod.seed_id,
+        breadcrumb_title: "ELA / G#{grade} / M1 / unit 2",
+        breadcrumb_short_title: "EL / G#{grade} / M1 / U2",
+        breadcrumb_piece: 'U2',
+        breadcrumb_short_piece: 'U2',
+        hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} 00"
+      )
+      mod.children.create!(
+        curriculum_type: CurriculumType.unit,
+        item: unit,
         position: 1,
         breadcrumb_title: "ELA / G#{grade} / M1 / unit 2",
         breadcrumb_short_title: "EL / G#{grade} / M1 / U2",
@@ -75,5 +91,7 @@ namespace :oneoff do
         )
       end
     end
+
+    Curriculum.maps.seeds.each { |c| c.create_tree(force: true) }
   end
 end
