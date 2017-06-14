@@ -23,7 +23,14 @@ module DocTemplate
           end.join
         activity_src = parse_nested(activity_src, opts)
         activity[:activity_guidance] = strip_html_element(activity[:activity_guidance])
-        @result = node.replace(parse_template({ source: activity_src, activity: activity }, TEMPLATE))
+
+        params = {
+          source: activity_src,
+          activity: activity,
+          priority_description: priority_description(activity)
+        }
+        node = node.replace(parse_template(params, TEMPLATE))
+        @result = node
         self
       end
 
@@ -36,6 +43,12 @@ module DocTemplate
         @metadata.task_counter[activity.activity_type] = next_task_id
 
         html.sub /\[task:\s#\]/i, "[task: #{next_task_id}]"
+      end
+
+      def priority_description(activity)
+        return unless activity.activity_priority.present?
+        config = self.class.config[TAG_NAME.downcase]
+        config['priority_descriptions'][activity.activity_priority - 1]
       end
     end
   end
