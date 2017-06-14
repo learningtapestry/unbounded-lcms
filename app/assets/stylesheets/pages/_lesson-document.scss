@@ -83,7 +83,7 @@
 
     p, ol, ul {
       &, * {
-        @include txt-element(ld-base);
+        @include txt-element-strict(ld-base);
       }
     }
 

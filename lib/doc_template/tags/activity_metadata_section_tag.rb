@@ -11,6 +11,8 @@ module DocTemplate
           # Extend object to store `lesson_objective` (#162)
           section.class.attribute :lesson_objective, String
           section.lesson_objective = opts[:foundational_metadata].lesson_objective
+          # add break to activities
+          opts[:activity].add_break
         end
 
         node.replace(parse_template(section, TEMPLATE))

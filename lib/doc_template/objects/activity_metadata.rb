@@ -76,6 +76,11 @@ module DocTemplate
             end
         new(set_index(children: activity_data))
       end
+
+      def add_break
+        idx = children.index { |c| !c.active } || -1
+        children.insert(idx - 1, Section.new(title: 'Foundational Skills Lesson', anchor: 'optbreak', time: 0, children: []))
+      end
     end
   end
 end
