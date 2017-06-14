@@ -18,19 +18,19 @@ module DocTemplate
       def content_until_break(node)
         [].tap do |result|
           while (sibling = node.next_sibling) do
-            break if include_break?(sibling.content)
+            break if include_break?(sibling)
             result << sibling.to_html
             sibling.remove
           end
         end.join
       end
 
-      def include_break?(value)
+      def include_break?(node)
         tags =
           self.class.config[self.class::TAG_NAME.downcase]['stop_tags'].map do |stop_tag|
             Tags.const_get(stop_tag)::TAG_NAME
           end.join('|')
-        value =~ /#{START_TAG}(#{tags})/i
+        node.content =~ /\[\s*(#{tags})/i
       end
 
       def ela2?(metadata)
