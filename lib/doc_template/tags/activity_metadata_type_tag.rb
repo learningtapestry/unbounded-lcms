@@ -12,7 +12,7 @@ module DocTemplate
         activity_src =
           [].tap do |result|
             while (sibling = node.next_sibling)
-              break if include_break?(sibling.content)
+              break if include_break?(sibling)
 
               # Substitutes task tags
               html = handle_tasks_for activity, sibling.to_html
