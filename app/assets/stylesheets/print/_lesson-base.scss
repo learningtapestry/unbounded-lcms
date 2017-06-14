@@ -1,4 +1,6 @@
 .c-ld__body--pdf {
+  @include ld-custom-styles;
+  
   @import
     'print/lesson/base-typography',
     'print/lesson/callout',

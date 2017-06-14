@@ -1,21 +1,3 @@
-.c-ld-table {
-  tbody tr {
-    background-color: $ub-white;
-  }
-  td, th {
-    border: 1px solid $ub-hr;
-
-    p {
-      margin-bottom: initial !important;
-    }
-  }
-
-  @include e(wrap) {
-    clear: both;
-    overflow-x: auto;
-  }
-}
-
 .c-ld-header {
   @include flex-grid-row(nest);
 
@@ -76,6 +58,7 @@
 
   @include e(body) {
     @include flex-grid-column(12, 2 * 1.75rem);
+    @include ld-custom-styles;
 
     @include m(general) {
       @include breakpoint(ipad) {
@@ -106,35 +89,11 @@
       }
     }
 
-    ol, ul {
-      margin-bottom: 0;
-    }
-
-    ul li {
-      text-indent: 0;
-    }
-
-    ol {
-      margin-left: .25rem;
-    }
-
-    ol.c-ld-ol {
-      margin-left: 1.3rem;
-    }
-
     img, span, td, table {
       //max-width: 100%;
     }
     img { height: auto; }
 
     i.fa { font: normal normal normal 14px/1 FontAwesome; }
-
-    thead, tbody, tfoot { border: 0; }
-  }
-
-  @include m(ela-2) {
-    h2.o-ld-title {
-      margin-top: $ub-large-margin * 2 !important;
-    }
   }
 }
