@@ -1,0 +1,47 @@
+@mixin ld-custom-styles {
+  ol, ul {
+    margin-bottom: 0;
+  }
+
+  ul li {
+    text-indent: 0;
+  }
+
+  ol {
+    margin-left: .25rem;
+  }
+
+  ol.c-ld-ol {
+    margin-left: 1.3rem;
+  }
+
+  thead, tbody, tfoot { border: 0; }
+
+  .indented { text-indent: $list-side-margin * 2; }
+}
+
+.c-ld {
+  @include m(ela-2) {
+    h2.o-ld-title {
+      margin-top: $ub-large-margin * 2 !important;
+    }
+  }
+}
+
+.c-ld-table {
+  tbody tr {
+    background-color: $ub-white;
+  }
+  td, th {
+    border: 1px solid $ub-hr;
+
+    p {
+      margin-bottom: initial !important;
+    }
+  }
+
+  @include e(wrap) {
+    clear: both;
+    overflow-x: auto;
+  }
+}

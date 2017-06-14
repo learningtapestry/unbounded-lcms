@@ -10,8 +10,6 @@ module DocTemplate
         return super unless opts[:parent_tags].try(:include?, Tags::MaterialsTag::TAG_NAME)
         return self unless (table = node.ancestors('table').first)
 
-        # added this class to avoid image wrapping
-        table.xpath('.//*').add_class('u-ld-not-image-wrap')
         @content = table.at_xpath('.//tr[2]/td').inner_html
         @position = opts[:value].strip
 
