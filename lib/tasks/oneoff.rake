@@ -14,13 +14,16 @@ namespace :oneoff do
   end
 
   task unit2_resources: :environment do
+    # do NOT load curriculums on production
+    with_curriculum = Rails.env.development?
+
     # ELA Grade 2 UNIT 2 Lessons 1-17 (unit + lessons)
-    create_unit2_resources(2, 17)
+    create_unit2_resources(2, 17, with_curriculum: with_curriculum)
     # ELA Grade 6 UNIT 2 Lessons 1-14 (unit + lessons)
-    create_unit2_resources(6, 14)
+    create_unit2_resources(6, 14, with_curriculum: with_curriculum)
   end
 
-  def create_unit2_resources(grade, lessons)
+  def create_unit2_resources(grade, lessons, with_curriculum)
     mod = Curriculum.trees.ela.where_grade("grade #{grade}").first.children.first
 
     # Create unit
@@ -33,17 +36,19 @@ namespace :oneoff do
       subject: 'ela',
       title: "ELA G#{grade} M1 U2"
     )
-    unit = mod.children.create!(
-      curriculum_type: CurriculumType.unit,
-      item: resource,
-      seed_id: mod.seed_id,
-      position: 1,
-      breadcrumb_title: "ELA / G#{grade} / M1 / unit 2",
-      breadcrumb_short_title: "EL / G#{grade} / M1 / U2",
-      breadcrumb_piece: 'U2',
-      breadcrumb_short_piece: 'U2',
-      hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} 00"
-    )
+    if with_curriculum
+      unit = mod.children.create!(
+        curriculum_type: CurriculumType.unit,
+        item: resource,
+        seed_id: mod.seed_id,
+        position: 1,
+        breadcrumb_title: "ELA / G#{grade} / M1 / unit 2",
+        breadcrumb_short_title: "EL / G#{grade} / M1 / U2",
+        breadcrumb_piece: 'U2',
+        breadcrumb_short_piece: 'U2',
+        hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} 00"
+      )
+    end
 
     lessons.times do |i|
       num = i + 1
@@ -56,17 +61,19 @@ namespace :oneoff do
         subject: 'ela',
         title: "ELA G#{grade} M1 U2 L#{num}"
       )
-      unit.children.create!(
-        curriculum_type: CurriculumType.lesson,
-        item: resource,
-        seed_id: unit.seed_id,
-        position: num,
-        breadcrumb_title: "ELA / G#{grade} / M1 / U2 / lesson #{num}",
-        breadcrumb_short_title: "EL / G#{grade} / M1 / U2 / L#{num}",
-        breadcrumb_piece: "L#{num}",
-        breadcrumb_short_piece: "L#{num}",
-        hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} #{num.to_s.rjust(2, '0')}"
-      )
+      if with_curriculum
+        unit.children.create!(
+          curriculum_type: CurriculumType.lesson,
+          item: resource,
+          seed_id: unit.seed_id,
+          position: num,
+          breadcrumb_title: "ELA / G#{grade} / M1 / U2 / lesson #{num}",
+          breadcrumb_short_title: "EL / G#{grade} / M1 / U2 / L#{num}",
+          breadcrumb_piece: "L#{num}",
+          breadcrumb_short_piece: "L#{num}",
+          hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} #{num.to_s.rjust(2, '0')}"
+        )
+      end
     end
   end
 end
