@@ -1,3 +1,12 @@
+activity-metadata-type:
+  stop_tags:
+    - ActivityMetadataSectionTag
+    - ActivityMetadataTypeTag
+    - MaterialsTag
+  priority_descriptions:
+    - 'Need to do - It is tightly connected to the Daily Objective and important in giving students access to that learning.'
+    - 'Should do - It may not be as tightly connected to the Daily Objective as Priority 1, but would still be beneficial to supporting the learning within the lesson. In the interest of time, a teacher might skip a Priority 2 activity, but it is not encouraged.'
+    - 'Optional - While these activities are optional, they often target skills that ensure students are ready for the in-depth work of upcoming lessons/units. These activities may appear more frequently at the end of units in anticipation of upcoming work. It’s possible for students to engage with these activities during times outside of the math block because the activities are not essential for the Daily Objective.'
 pv:
   hundreds:
     column_count: 1
@@ -27,11 +36,6 @@ section:
     - Ela6BreakTag
     - GroupTag
     - SectionTag
-activity-metadata-type:
-  stop_tags:
-    - ActivityMetadataSectionTag
-    - ActivityMetadataTypeTag
-    - MaterialsTag
 materials:
   stop_tags:
     - ActivityMetadataSectionTag
