@@ -14,8 +14,7 @@ namespace :oneoff do
   end
 
   task unit2_resources: :environment do
-    # do NOT load curriculums on production
-    with_curriculum = Rails.env.development?
+    with_curriculum = true
 
     # ELA Grade 2 UNIT 2 Lessons 1-17 (unit + lessons)
     create_unit2_resources(2, 17, with_curriculum)
