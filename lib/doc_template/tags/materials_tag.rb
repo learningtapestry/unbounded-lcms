@@ -9,7 +9,13 @@ module DocTemplate
         # we have to collect all the next siblings until next activity-metadata
         content = wrap_content(node)
 
-        node = node.replace(parse_template(parse_nested(content, opts), TEMPLATE))
+        # TODO: maybe we need to expand parent tags approach to all nested tags
+        node = node.replace(
+          parse_template(
+            parse_nested(content, opts.merge(parent_tags: [self.class::TAG_NAME])),
+            TEMPLATE
+          )
+        )
         @result = node
         self
       end
