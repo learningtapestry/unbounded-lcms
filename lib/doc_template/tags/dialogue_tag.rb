@@ -1,6 +1,6 @@
 module DocTemplate
   module Tags
-    class DialogueTag < BlockTag
+    class DialogueTag < BaseTag
       include ERB::Util
 
       END_VALUE = 'end'.freeze
@@ -16,9 +16,8 @@ module DocTemplate
           nodes = fetch_content node
           nodes.map(&:remove)
 
-          @phrases = format_phrases nodes
-          template = File.read template_path(TEMPLATE)
-          node = node.replace ERB.new(template).result(binding)
+          params = { phrases: format_phrases(nodes) }
+          node = node.replace parse_template(params, TEMPLATE)
         end
 
         @result = node
@@ -36,7 +35,6 @@ module DocTemplate
         [].tap do |result|
           while (node = node.next_sibling)
             node.remove && break if node.content.downcase.index(re).present?
-            add_tags_from node, @tags
             result << node
           end
         end
@@ -49,16 +47,14 @@ module DocTemplate
         s_re = /S:/
         mixed_re = %r{T/S:}
 
-        content = nodes.map(&:inner_html)
-                    .join(delimiter)
-                    .sub(t_re, '<strong>Teacher:</strong>')
-                    .sub(s_re, '<strong>Student:</strong>')
-                    .gsub(mixed_re, '<strong>T/S:</strong>')
-                    .gsub(t_re, '<strong>T:</strong>')
-                    .gsub(s_re, '<strong>S:</strong>')
-                    .squish
-
-        substitute_tags_in(content, @tags)
+        nodes.map(&:to_html)
+          .join(delimiter)
+          .sub(t_re, '<strong>Teacher:</strong>')
+          .sub(s_re, '<strong>Student:</strong>')
+          .gsub(mixed_re, '<strong>T/S:</strong>')
+          .gsub(t_re, '<strong>T:</strong>')
+          .gsub(s_re, '<strong>S:</strong>')
+          .squish
           .split(delimiter)
           .reject(&:blank?)
       end
