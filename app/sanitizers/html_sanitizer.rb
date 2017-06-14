@@ -94,7 +94,7 @@ class HtmlSanitizer
 
     def post_processing_images(nodes)
       nodes
-        .css(':not(.o-ld-image-student-worksheet) > img:not([src*=googleapis])')
+        .css(':not(.u-ld-not-image-wrap) > img:not([src*=googleapis])')
         .wrap('<div class="o-ld-image-wrap--math u-text--centered"></div>')
 
       nodes
