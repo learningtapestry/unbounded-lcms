@@ -3,39 +3,30 @@ module DocTemplate
     class ColumnsTag < BaseTag
       include ERB::Util
 
+      ALIGNMENT_RE = /^align-right\s/i
       END_VALUE = 'end'.freeze
       SPLIT_SYMBOL = ';'.freeze
       TAG_NAME = 'columns'.freeze
       TEMPLATE = 'columns.html.erb'.freeze
 
       def parse(node, opts = {})
-        if opts[:value] == END_VALUE
+        @opts = opts
+        if @opts[:value] == END_VALUE
           node.remove
         else
           @images = []
           @tags = []
 
-          nodes = fetch_content node
-          nodes.map(&:remove)
+          data = fetch_content node
 
-          data = nodes
-                   .map { |n| n.content.squish }
-                   .join
-                   .split(SPLIT_SYMBOL)
-                   .map(&:strip)
-                   .reject(&:blank?)
-                   .in_groups_of(opts[:value].to_i, '')
-
-          @rows = substitute_images(data).map do |row|
-                    row.map do |td|
-                      substitute_tags_in td, @tags
-                    end
-                  end
-
-          if @rows.any?
-            template = File.read template_path(TEMPLATE)
-            node = node.replace ERB.new(template).result(binding)
+          rows = substitute_images(data).map do |row|
+            row.map do |td|
+              substitute_tags_in td, @tags
+              handle_alignment_for td
+            end
           end
+
+          node = node.replace parse_template({ rows: rows }, TEMPLATE) if rows.any?
         end
 
         @result = node
@@ -62,7 +53,7 @@ module DocTemplate
       #
       def fetch_content(node)
         re = /\[#{TAG_NAME}:\s*#{END_VALUE}\]/
-        [].tap do |result|
+        nodes = [].tap do |result|
           while (node = node.next_sibling)
             node.remove && break if node.content.downcase.index(re).present?
 
@@ -72,6 +63,22 @@ module DocTemplate
             result << node
           end
         end
+
+        nodes.map(&:remove)
+
+        # Handles alignment.
+        # Content team places ` r;` to make right alignment for the next column
+        # Just swap position of the ` r` and `;` to simplify the alogorithm
+        data = nodes
+                 .map { |n| n.content.squish }
+                 .join
+                 .gsub(' r;', ';align-right ')
+
+        data
+          .split(SPLIT_SYMBOL)
+          .map(&:strip)
+          .reject(&:blank?)
+          .in_groups_of(@opts[:value].to_i, '')
       end
 
       def fetch_images(node)
@@ -81,6 +88,13 @@ module DocTemplate
             style: img['style']
           }
           img.replace "{image: #{@images.size - 1}}"
+        end
+      end
+
+      def handle_alignment_for(td)
+        {}.tap do |result|
+          result[:content] = td.sub ALIGNMENT_RE, ''
+          result[:css_class] = 'text-right' if td =~ ALIGNMENT_RE
         end
       end
 
