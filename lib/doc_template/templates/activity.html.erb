@@ -8,7 +8,16 @@
     <h3 id="<%= @tmpl[:activity].anchor %>" class="o-ld-title c-ld-toc">
       <div class="o-ld-title__title o-ld-title__title--h3"><%= @tmpl[:activity].activity_title %>
         <% if @tmpl[:activity].activity_priority.present? %>
-          <span class="o-ld-icon o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>"></span>
+          <% priority_id = "o-ld-p_#{SecureRandom.hex(4)}" %>
+          <span class="o-ld-icon o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>" data-toggle="<%= priority_id %>"></span>
+          <span class="dropdown-pane c-ld-dropdown u-txt--ld-base"
+            data-dropdown
+            data-hover="true"
+            data-hover-delay="0"
+            data-hover-pane="true"
+            id="<%= priority_id %>">
+              <%= @tmpl[:priority_description] %>
+          </span>
         <% end %>
       </div>
       <div class="o-ld-title__time o-ld-title__time--h3"><%= @tmpl[:activity].time.zero? ? '&mdash;' : "#{@tmpl[:activity].time} mins" %></div>
