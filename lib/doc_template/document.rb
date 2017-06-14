@@ -44,11 +44,11 @@ module DocTemplate
     def add_custom_nodes
       return unless @opts[:metadata].present?
       return unless @opts[:metadata]['subject'].try(:downcase) == 'ela'
-      return unless @opts[:metadata]['grade'] == '6' || @opts[:metadata]['grade'] == '2'
 
-      # TODO: Remove later on when other units will be ready
-      return unless @opts[:metadata]['grade'] == '2' && @opts[:metadata]['module'] == '1' &&
-                    @opts[:metadata]['unit'] == '2'
+      # only for G6 or G2 U2 .
+      # As stated on issue #240 and here https://github.com/learningtapestry/unbounded/pull/267#issuecomment-307870881
+      return unless @opts[:metadata]['grade'] == '6' ||
+                    (@opts[:metadata]['grade'] == '2' && @opts[:metadata]['unit'] == '2')
 
       @nodes.prepend_child ela_teacher_guidance(@opts[:metadata])
     end
@@ -56,7 +56,7 @@ module DocTemplate
     def ela_teacher_guidance(metadata)
       @data = metadata
       template = "ela-#{@opts[:metadata]['grade']}-teacher-guidance.html.erb"
-      template_name = File.join Rails.root, 'lib', 'doc_template', 'templates', template
+      template_name = Rails.root.join 'lib', 'doc_template', 'templates', template
       template = File.read template_name
       ERB.new(template).result(binding)
     end
