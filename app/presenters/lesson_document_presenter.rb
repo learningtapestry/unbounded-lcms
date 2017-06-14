@@ -46,6 +46,10 @@ class LessonDocumentPresenter < BasePresenter
     ld_metadata.lesson_mathematical_practice.squish
   end
 
+  def pdf_content(pdf_type:)
+    LDPdfContent.generate(self, pdf_type: pdf_type)
+  end
+
   def pdf_header
     "UnboundEd/#{full_breadcrumb}"
   end
