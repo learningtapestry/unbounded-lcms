@@ -30,6 +30,7 @@ module DocumentExporter
           right: 8.46,
           top: 8.46
         },
+        outline: { outline_depth: 3 },
         page_size: 'Letter',
         print_media_type: false
       }
