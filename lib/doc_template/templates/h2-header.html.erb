@@ -1,10 +1,18 @@
-<hr class='o-ld-hr--l1'>
+<% if @tmpl.title.parameterize == 'foundational-skills' %>
+  <div class="o-ld-optbreak">
+    <div class="o-ld-optbreak__delimeter"></div>
+    <div class="o-ld-optbreak__text">Foundational Skills Lesson</div>
+    <div class="o-ld-optbreak__delimeter"></div>
+  </div>
+<% else %>
+  <hr class='o-ld-hr--l1'>
+<% end %>
 
 <h2 id="<%= @tmpl.anchor %>" class='o-ld-title c-ld-toc'>
   <div class='o-ld-title__title o-ld-title__title--h2'><%= @tmpl.title %></div>
   <div class='o-ld-title__time o-ld-title__time--h2'><%= @tmpl.time.zero? ? '&mdash;' : "#{@tmpl.time} mins" %></div>
 </h2>
 <% if @tmpl.try(:lesson_objective) %>
-  <h3>Foundational Skills Lesson Summary:</h3>
+  <h3>Lesson Summary:</h3>
   <p><%= @tmpl.lesson_objective %></p>
 <% end %>
