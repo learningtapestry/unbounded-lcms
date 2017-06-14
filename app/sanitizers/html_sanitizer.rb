@@ -76,7 +76,8 @@ class HtmlSanitizer
         },
         css: {
           properties: %w(background-color border-bottom-width border-left-width border-right-width border-top-width
-                         height font-style font-weight list-style-type text-align text-decoration vertical-align width)
+                         border-bottom border-left border-right border-top height font-style font-weight
+                         list-style-type text-align text-decoration vertical-align width)
         },
         transformers: [ # These transformers Will be executed via .call(), as lambdas
           method(:remove_meanless_styles),
@@ -85,7 +86,8 @@ class HtmlSanitizer
           # method(:remove_spans_wo_attrs)
           method(:remove_gdocs_suggestions),
           method(:replace_charts_urls),
-          method(:keep_bullets_level)
+          method(:keep_bullets_level),
+          method(:replace_table_border_styles)
         ]
       }
     end
@@ -119,6 +121,19 @@ class HtmlSanitizer
       node = env[:node]
       if node.element? && (node.name == 'p' || node.name == 'span') && node.inner_html.blank?
         node.unlink
+      end
+    end
+
+    # replace inline borders style with width = 0 as they're not processing correct for pdf
+    def replace_table_border_styles(env)
+      node = env[:node]
+      return unless node.element? && node.name == 'table'
+      node.xpath('tbody/tr/td').each do |el|
+        next unless el[:style] =~ /border-\w+-width:\s*0\w+;?/
+        %w(bottom left right top).each do |b|
+          el[:style] = el[:style].gsub(/border-#{b}-width:\s*[\#\w]+;?\s*/i,
+                                       "border-#{b}:0;")
+        end
       end
     end
 

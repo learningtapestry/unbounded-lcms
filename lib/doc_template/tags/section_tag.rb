@@ -33,7 +33,7 @@ module DocTemplate
       end
 
       def parse_ela2_sm(node, section)
-        content = wrap_content(node)
+        content = content_until_break(node)
 
         node = node.replace(
           parse_template({ content: parse_nested(content, @opts),
