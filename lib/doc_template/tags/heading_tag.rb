@@ -5,7 +5,7 @@ module DocTemplate
 
       def parse(node, opts = {})
         # we have to collect all the next siblings until next stop-tag
-        content = wrap_content(node)
+        content = content_until_break(node)
 
         node = node.replace(
           parse_template({ content: parse_nested(content, opts),

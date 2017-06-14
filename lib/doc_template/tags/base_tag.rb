@@ -15,6 +15,16 @@ module DocTemplate
         File.join Rails.root, 'lib', 'doc_template', 'templates', name
       end
 
+      def content_until_break(node)
+        [].tap do |result|
+          while (sibling = node.next_sibling) do
+            break if include_break?(sibling.content)
+            result << sibling.to_html
+            sibling.remove
+          end
+        end.join
+      end
+
       def include_break?(value)
         tags =
           self.class.config[self.class::TAG_NAME.downcase]['stop_tags'].map do |stop_tag|
@@ -80,16 +90,6 @@ module DocTemplate
 
       def template_path(name)
         self.class.template_path_for name
-      end
-
-      def wrap_content(node)
-        [].tap do |result|
-          while (sibling = node.next_sibling) do
-            break if include_break?(sibling.content)
-            result << sibling.to_html
-            sibling.remove
-          end
-        end.join
       end
     end
   end
