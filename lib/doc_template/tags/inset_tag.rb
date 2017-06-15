@@ -13,7 +13,7 @@ module DocTemplate
           node.remove
         else
           nodes = block_nodes(node)
-          content = parse_nested nodes.map(&:to_html).join
+          content = parse_nested nodes.map(&:to_html).join, opts
           nodes.each(&:remove)
           node = node.replace "<div class='o-ld-inset'>#{content}</div>"
         end
