@@ -11,9 +11,9 @@ module Filterbar
 
       names.map! do |name|
         name = name.to_s
-        if name.upcase.casecmp?('K')
+        if name.upcase.casecmp('K')
           name = 'kindergarten'
-        elsif name.upcase.casecmp?('PK')
+        elsif name.upcase.casecmp('PK')
           name = 'prekindergarten'
         elsif !name.start_with?('grade')
           name = "grade #{name}"
