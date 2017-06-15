@@ -112,6 +112,7 @@ en:
     are_you_sure: Are you sure?
     close: Close
     contents: Contents
+    contents_of: '%{type} Contents'
     delete: Delete
     edit: Edit
     export: Export

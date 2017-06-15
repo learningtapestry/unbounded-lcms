@@ -13,7 +13,7 @@
     </div>
   </div>
   <ul id="cg-menu-modal" class="o-sidebar-nav o-sidebar-nav--show o-sidebar-nav__menu o-contents-modal__content vertical menu" data-accordion-menu>
-    <li class=o-sidebar-nav__header><span>Lesson Summary</span></li>
+    <li class=o-sidebar-nav__header><span><%= t('ui.contents_of', type: lesson_document.doc_type.capitalize) %></span></li>
     <li><div class=o-sidebar-nav__sep></div></li>
     <% lesson_document.toc.children.each do |heading| %>
       <%= render('nav_item_modal', heading: heading) unless heading.anchor == '1-general' || heading.anchor == 'optbreak' %>
