@@ -64,7 +64,7 @@ module DocTemplate
 
       def add_break
         idx = children.index { |c| !c.active } || -1
-        children.insert(idx, Group.new(title: 'optbreak', anchor: 'optbreak', time: 0, children: []))
+        children.insert(idx, Group.new(title: '45 Minute Mark', anchor: 'optbreak', time: 0, children: []))
       end
     end
   end

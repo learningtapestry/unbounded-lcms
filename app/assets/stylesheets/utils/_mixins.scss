@@ -36,6 +36,12 @@
   }
 }
 
+@mixin txt-element-base-strict($typo) {
+  @each $style, $value in $typo {
+    #{$style}: $value;
+  }
+}
+
 @mixin txt-element($element, $ub-map: $ub-element-typography) {
   $typo: map-get($ub-map, $element);
   @if map-has-key($typo, small) {
@@ -46,6 +52,19 @@
     }
   } @else {
     @include txt-element-base($typo);
+  }
+}
+
+@mixin txt-element-strict($element, $ub-map: $ub-element-typography) {
+  $typo: map-get($ub-map, $element);
+  @if map-has-key($typo, small) {
+    @each $breakpoint, $value in $typo {
+      @include breakpoint($breakpoint) {
+        @include txt-element-base-strict($value);
+      }
+    }
+  } @else {
+    @include txt-element-base-strict($typo);
   }
 }
 

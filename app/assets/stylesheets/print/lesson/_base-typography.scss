@@ -1,7 +1,6 @@
 p, ol, ul {
   &, * {
-    @include txt-pdf-element(ld-base);
-    font-weight: normal;
+    @include txt-element-strict(ld-base, $ub-pdf-typography);
     orphans: 2;
     widows: 2;
   }
