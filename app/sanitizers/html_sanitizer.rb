@@ -131,7 +131,7 @@ class HtmlSanitizer
       node.xpath('tbody/tr/td').each do |el|
         next unless el[:style] =~ /border-\w+-width:\s*0\w+;?/
         %w(bottom left right top).each do |b|
-          el[:style] = el[:style].gsub(/border-#{b}-width:\s*[\#\w]+;?\s*/i,
+          el[:style] = el[:style].gsub(/border-#{b}-width:\s*0\w+;?\s*/i,
                                        "border-#{b}:0;")
         end
       end
