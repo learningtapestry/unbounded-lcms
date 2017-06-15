@@ -3,10 +3,10 @@ module DocTemplate
     class IndentTag < BaseTag
       TAG_NAME = 'indent'.freeze
 
-      def parse(node, _opts = {})
+      def parse(node, _ = {})
         @result = node
         classes = node['class'].to_s.split(/\s+/)
-        node['class'] = classes.push('indented').uniq.join ' '
+        node['class'] = classes.push('u-ld-indented').uniq.join ' '
         remove_node
         self
       end

@@ -6,4 +6,6 @@
   }
 }
 
-.indented { text-indent: $list-side-margin * 2; }
+.u-ld-indented:not(li) {
+  text-indent: $list-side-margin * 2;
+}
