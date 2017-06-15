@@ -31,8 +31,8 @@ module DocTemplate
             value = if self.class::HTML_VALUE_FIELDS.include? key
                       row.at_xpath('./td[2]').inner_html
                     else
-                      row.at_xpath('./td[2]').text.squish
-                    end
+                      row.at_xpath('./td[2]').text
+                    end.squish
 
             result[key] = value
           end
