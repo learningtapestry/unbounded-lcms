@@ -16,13 +16,17 @@ class LessonDocumentPresenter < BasePresenter
     ld_metadata.lesson_objective.presence || ld_metadata.description
   end
 
+  def doc_type
+    assessment? ? 'assessment' : 'lesson'
+  end
+
   def full_breadcrumb
     [
       SUBJECT_FULL[subject] || subject,
       grade.to_i.zero? ? grade : "Grade #{grade}",
       ll_strand? ? ld_module : "Module #{ld_module.try(:upcase)}",
       topic.present? ? "#{TOPIC_FULL[subject]} #{topic.try(:upcase)}" : nil,
-      resource.try(:assessment?) ? 'Assessment' : "Lesson #{ld_metadata.lesson}"
+      assessment? ? 'Assessment' : "Lesson #{ld_metadata.lesson}"
     ].compact.join(' / ')
   end
 
@@ -66,7 +70,7 @@ class LessonDocumentPresenter < BasePresenter
 
   def short_breadcrumb(join_with: ' / ', with_short_lesson: false)
     lesson_abbr =
-      if resource.try(:assessment?)
+      if assessment?
         with_short_lesson ? 'A' : 'Assessment'
       else
         with_short_lesson ? "L#{ld_metadata.lesson}" : "Lesson #{ld_metadata.lesson}"
@@ -81,7 +85,7 @@ class LessonDocumentPresenter < BasePresenter
   end
 
   def short_title
-    "Lesson #{ld_metadata.lesson}"
+    assessment? ? doc_type : "Lesson #{ld_metadata.lesson}"
   end
 
   def short_url
