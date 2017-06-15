@@ -10,7 +10,7 @@ module DocTemplate
         if opts[:value] == 'foundational-skills'
           # Extend object to store `lesson_objective` (#162)
           section.class.attribute :lesson_objective, String
-          section.lesson_objective = opts[:foundational_metadata].lesson_objective
+          section.lesson_objective = strip_html_element(opts[:foundational_metadata].lesson_objective)
           # add break to activities
           opts[:activity].add_break
         end
