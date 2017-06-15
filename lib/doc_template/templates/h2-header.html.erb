@@ -12,7 +12,7 @@
   <div class='o-ld-title__title o-ld-title__title--h2'><%= @tmpl.title %></div>
   <div class='o-ld-title__time o-ld-title__time--h2'><%= @tmpl.time.zero? ? '&mdash;' : "#{@tmpl.time} mins" %></div>
 </h2>
-<% if @tmpl.try(:lesson_objective) %>
+<% if @tmpl.try(:lesson_objective).try(:present?) %>
   <h3>Lesson Summary:</h3>
   <p><%= @tmpl.lesson_objective %></p>
 <% end %>
