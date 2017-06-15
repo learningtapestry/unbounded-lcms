@@ -3,6 +3,7 @@
   @include flex-align($x: spaced, $y: middle);
   color: $ub-hr;
   margin-bottom: $ub-base-padding;
+  margin-top: $ub-base-padding;
 
   @include e(delimeter) {
     border-bottom: 1px solid $ub-hr;

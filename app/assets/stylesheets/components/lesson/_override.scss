@@ -42,6 +42,7 @@
 
   @include e(wrap) {
     clear: both;
-    overflow-x: auto;
+    // TODO: comment for now to avoid scrolling, need to rethink approach
+    // overflow-x: auto;
   }
 }
