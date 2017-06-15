@@ -29,6 +29,10 @@ class LessonDocument < ActiveRecord::Base
 
   scope :filter_by_grade, ->(grade) { where_metadata(:grade, grade) }
 
+  def assessment?
+    resource.try(:assessment?)
+  end
+
   def file_url
     "https://docs.google.com/document/d/#{file_id}"
   end

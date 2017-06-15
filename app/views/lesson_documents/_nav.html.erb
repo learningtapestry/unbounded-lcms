@@ -23,7 +23,7 @@
     </div>
     <ul class="o-sidebar-nav o-sidebar-nav__menu show-for-ipad">
       <li class=o-sidebar-nav__header>
-        <span>Lesson Summary</span>
+        <span><%= t('ui.contents_of', type: lesson_document.doc_type.capitalize) %></span>
         <span class="o-sidebar-nav__toggle o-sidebar-nav__toggle--show">Show All</span>
         <span class="o-sidebar-nav__toggle o-sidebar-nav__toggle--hide">Hide All</span>
       </li>
@@ -32,15 +32,17 @@
         <%= render('nav_item', heading: heading) unless heading.anchor == '1-general' || heading.anchor == 'optbreak' %>
         <%= render('nav_opt_break', heading: heading) if heading.anchor == 'optbreak' %>
       <% end %>
-      <li class=o-sidebar-nav__item><div class="o-sidebar-nav-item__hr"></div></li>
-      <li class=o-sidebar-nav__item>
-        <div class="o-sidebar-nav__item__content o-sidebar-nav__item--level1 o-sidebar-nav-item__summary">
-          Total Lesson Time
-          <span class="o-sidebar-nav-item__time o-sidebar-nav-item__time--summary">
-            <%= toc_time(lesson_document.toc.total_time) %>
-          </span>
-        </div>
-      </li>
+      <% unless lesson_document.assessment? %>
+        <li class=o-sidebar-nav__item><div class="o-sidebar-nav-item__hr"></div></li>
+        <li class=o-sidebar-nav__item>
+          <div class="o-sidebar-nav__item__content o-sidebar-nav__item--level1 o-sidebar-nav-item__summary">
+            Total Lesson Time
+            <span class="o-sidebar-nav-item__time o-sidebar-nav-item__time--summary">
+              <%= toc_time(lesson_document.toc.total_time) %>
+            </span>
+          </div>
+        </li>
+      <% end %>
     </ul>
   </nav>
 </div>
