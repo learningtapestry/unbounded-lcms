@@ -48,7 +48,11 @@ module DocTemplate
       # only for G6 or G2 U2 .
       # As stated on issue #240 and here https://github.com/learningtapestry/unbounded/pull/267#issuecomment-307870881
       return unless @opts[:metadata]['grade'] == '6' ||
-                    (@opts[:metadata]['grade'] == '2' && @opts[:metadata]['unit'] == '2')
+                    (g2_u2 = @opts[:metadata]['grade'] == '2' && @opts[:metadata]['unit'] == '2')
+
+      # Additional filter for lessons
+      # https://github.com/learningtapestry/unbounded/issues/311
+      return if g2_u2 && %w(8 16 17 18).include?(@opts[:metadata]['lesson'])
 
       @nodes.prepend_child ela_teacher_guidance(@opts[:metadata])
     end
