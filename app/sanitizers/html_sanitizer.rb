@@ -96,16 +96,16 @@ class HtmlSanitizer
 
     def post_processing_images(nodes)
       nodes
+        .xpath('//table//img/..')
+        .add_class('u-ld-not-image-wrap')
+
+      nodes
         .css(':not(.u-ld-not-image-wrap) > img:not([src*=googleapis])')
         .wrap('<div class="o-ld-image-wrap--math u-text--centered"></div>')
 
       nodes
         .css('.o-ld-image-student-worksheet')
         .wrap('<div class="o-ld-image-wrap--math"></div>')
-
-      nodes
-        .css('table .o-ld-image-wrap--math')
-        .remove_attr('class')
     end
 
     # Replace '<span>text</span>' with 'text'
