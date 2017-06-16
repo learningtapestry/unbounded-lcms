@@ -6,8 +6,7 @@ module DocumentExporter
     end
 
     def export
-      pdf_template = @pdf_type == 'full' ? 'show' : 'show_materials'
-      content = render_template pdf_template, layout: 'cg_pdf'
+      content = render_template 'show', layout: 'cg_pdf'
       WickedPdf.new.pdf_from_string(content, pdf_params)
     end
 

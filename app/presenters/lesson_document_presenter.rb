@@ -55,7 +55,7 @@ class LessonDocumentPresenter < BasePresenter
   end
 
   def pdf_header
-    "UnboundEd/#{full_breadcrumb}"
+    "UnboundEd / #{full_breadcrumb}"
   end
 
   def pdf_filename(type:)
