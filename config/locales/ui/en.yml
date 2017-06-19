@@ -44,6 +44,8 @@ en:
     lessons_html: <span>Find</span><span>Lessons</span>
     instructions_html: <span>Enhance</span><span>Instruction</span>
     leadership_html: <span>Advance</span><span>Leadership</span>
+    read_the_blog_html: <span>Read</span><span>The Blog</span>
+    read_the_blog: Read The Blog
     about_dropdown:
       mission: Mission & Vision
       institute: Standards Institute

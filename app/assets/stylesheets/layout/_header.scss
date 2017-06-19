@@ -12,8 +12,8 @@
   }
 
   @media screen and #{breakpoint(large)} and (max-width: 1110px) {
-    padding-left: .8rem;
-    padding-right: .8rem;
+    padding-left: .7rem;
+    padding-right: .7rem;
   }
 }
 
@@ -49,6 +49,7 @@
     @include menu-direction(horizontal);
     @include add-column-padding;
     background-color: rgba($ub-primary, .8) !important;
+    display: none;
     @include breakpoint($topbar-unstack-breakpoint) {
       @include menu-direction(vertical);
       @include add-column-padding(0);
@@ -145,6 +146,10 @@
     @include add-column-padding;
     @include breakpoint($topbar-unstack-breakpoint) {
       img { margin-top: .4rem; }
+    }
+
+    @include breakpoint(large only) {
+      padding-right: 1rem;
     }
   }
 
