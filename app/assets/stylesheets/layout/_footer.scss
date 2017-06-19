@@ -40,7 +40,7 @@ $footer-padding: 5px;
       margin-top: $ub-small-margin;
     }
 
-    @include breakpoint(large) {
+    @include breakpoint(xlarge) {
       @include flex-grid-column(shrink);
 
       @include m(full) {
@@ -50,7 +50,7 @@ $footer-padding: 5px;
       }
     }
 
-    @include breakpoint(ipad only) {
+    @media screen and #{breakpoint(ipad)} and #{breakpoint(large down)} {
       @include flex-grid-column(null);
 
       @include m(full) {
@@ -69,6 +69,7 @@ $footer-padding: 5px;
     @include menu-base;
     @include menu-direction(horizontal);
     color: $ub-whitesmoke;
+    flex-wrap: wrap;
     li a { padding: 0 $footer-padding; }
 
     @include breakpoint(medium down) {

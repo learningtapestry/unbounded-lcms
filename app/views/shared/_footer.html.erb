@@ -18,6 +18,10 @@
         <li class="t-bullet"></li>
         <li><%= link_to t('nav.about'), about_path, class: 'c-footer__link' %></li>
         <li class="t-bullet"></li>
+        <% if ENV['UB_WP_BLOG'].present? %>
+          <li><%= link_to t('nav.read_the_blog'), ENV['UB_WP_BLOG'], class: 'c-footer__link' %></li>
+          <li class="t-bullet"></li>
+        <% end %>
         <li><%= link_to t('footer.privacy'), :privacy_page, class: 'c-footer__link' %></li>
         <li class="t-bullet"></li>
 		  	<li><%= link_to t('footer.terms'), :tos_page, class: 'c-footer__link' %></li>

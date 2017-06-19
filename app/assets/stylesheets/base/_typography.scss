@@ -47,8 +47,16 @@ $ub-element-typography: (
   media-text: ('font-size': 24px, 'line-height': 30px, 'font-family': $ub-serif),
   subscribe-header: ('font-size': 27px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 600),
   subscribe-text: ('font-size': 21px, 'line-height': 24px, 'font-family': $ub-sanserif),
-  nav-base: ('font-size': 16px, 'line-height': 20px, 'font-family': $ub-serif),
-  nav-span: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 600),
+  nav-base: (
+    small: ('font-size': 16px, 'line-height': 20px, 'font-family': $ub-serif),
+    ipad: ('font-size': 16px, 'line-height': 20px, 'font-family': $ub-serif),
+    large: ('font-size': 16px, 'line-height': 20px, 'font-family': $ub-serif),
+  ),
+  nav-span: (
+    small: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 600),
+    large: ('font-size': 18px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 600),
+    xlarge: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-serif, 'font-weight': 600),
+  ),
   footer-links: ('font-size': 13px, 'line-height': 19px, 'font-family': $ub-sanserif),
   related-header: ('font-size': 30px, 'line-height': 36px, 'font-family': $ub-serif, 'font-weight': 500, color: #555),
   page-header: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif),
