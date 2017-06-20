@@ -2,12 +2,13 @@ module DocTemplate
   module Tags
     class IndentTag < BaseTag
       TAG_NAME = 'indent'.freeze
+      TEMPLATE = 'indent.html.erb'.freeze
 
-      def parse(node, _ = {})
-        @result = node
-        classes = node['class'].to_s.split(/\s+/)
-        node['class'] = classes.push('u-ld-indented').uniq.join ' '
-        remove_node
+      def parse(node, opts = {})
+        params = {
+          content: parse_nested(remove_tag_from(node), opts)
+        }
+        @result = node.replace parse_template(params, TEMPLATE)
         self
       end
     end

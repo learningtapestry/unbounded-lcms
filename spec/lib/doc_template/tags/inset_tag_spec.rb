@@ -36,7 +36,7 @@ describe DocTemplate::Tags::InsetTag do
     expect(subject).to match(/class=".*text-italic.*"/)
   end
 
-  it 'parsed nested tags' do
+  it 'parses nested tags' do
     expect(subject).to match(%r{<a href="https://google.com"})
   end
 end

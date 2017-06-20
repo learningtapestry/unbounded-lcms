@@ -1,0 +1,2 @@
+class LessonDocumentError < StandardError
+end

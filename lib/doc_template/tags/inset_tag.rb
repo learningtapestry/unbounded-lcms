@@ -1,7 +1,6 @@
 module DocTemplate
   module Tags
-    class InsetTag < BaseTag
-      END_VALUE = 'end'.freeze
+    class InsetTag < BlockTag
       STYLES_REGEXP = {
         bold: /font-weight:[6-9]00/i,
         italic: /font-style:italic/i
@@ -9,32 +8,14 @@ module DocTemplate
       TAG_NAME = 'inset'.freeze
 
       def parse(node, opts = {})
-        if opts[:value] == END_VALUE
-          node.remove
-        else
-          nodes = block_nodes(node)
-          content = parse_nested nodes.map(&:to_html).join, opts
-          nodes.each(&:remove)
-          node = node.replace "<div class='o-ld-inset'>#{content}</div>"
-        end
-
-        @result = node
+        nodes = block_nodes(node) { |n| preserve_styles n }
+        content = parse_nested nodes.map(&:to_html).join, opts
+        nodes.each(&:remove)
+        @result = node.replace "<div class='o-ld-inset'>#{content}</div>"
         self
       end
 
       private
-
-      def block_nodes(node)
-        # we have to collect all nodes until the we find the end tag
-        end_regexp = /\[#{TAG_NAME}:\s*#{END_VALUE}\]/
-        [].tap do |result|
-          while (node = node.next_sibling)
-            break if node.content.downcase =~ end_regexp
-            node = preserve_styles(node)
-            result << node
-          end
-        end
-      end
 
       def preserve_styles(node)
         node.children.each do |el|

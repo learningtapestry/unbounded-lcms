@@ -1,21 +1,13 @@
 module DocTemplate
   module Tags
-    class VocabularyTag < BaseTag
-      include ERB::Util
-
+    class VocabularyTag < TableTag
       TAG_NAME = 'vocabulary'.freeze
       TEMPLATE = 'vocabulary.html.erb'.freeze
 
-      def parse(node, opts = {})
-        return self unless (table = node.ancestors('table').first)
-
-        @sections = fetch_content table
-
-        # we should replace the whole table with new content
-        template = File.read template_path(TEMPLATE)
-        table.replace ERB.new(template).result(binding)
-        @result = table
-        self
+      def parse_table(table)
+        params = { sections: fetch_content(table) }
+        content = parse_template params, TEMPLATE
+        @result = table.replace parse_nested(content, @opts)
       end
 
       private
