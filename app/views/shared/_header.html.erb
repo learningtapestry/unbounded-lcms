@@ -22,6 +22,7 @@
             <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: "c-header__link #{add_class_for_action(:resources, :media, 'active')} #{add_class_for_action(:content_guides, :show, 'active')}" %>
             <%= nav_link t('nav.leadership_html'), leadership_path, class: "c-header__link" %>
             <%= nav_link t('nav.about_html'), about_path, class: "c-header__link #{add_class_for_path(about_people_path, 'active')}" %>
+            <%= nav_link t('nav.read_the_blog_html'), ENV['UB_WP_BLOG'], class: "c-header__link" if ENV['UB_WP_BLOG'].present? %>
           </ul>
         </div>
         <div class="o-top-bar__item">
