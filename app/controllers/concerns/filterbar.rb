@@ -7,21 +7,15 @@ module Filterbar
     end
 
     def grade_params
-      names = untranslated_grade_params
-
-      names.map! do |name|
-        name = name.to_s
-        if name.upcase.casecmp('K')
-          name = 'kindergarten'
-        elsif name.upcase.casecmp('PK')
-          name = 'prekindergarten'
+      untranslated_grade_params.map do |name|
+        if name.casecmp('k').zero?
+          'kindergarten'
+        elsif name.casecmp('pk').zero?
+          'prekindergarten'
         elsif !name.start_with?('grade')
-          name = "grade #{name}"
+          "grade #{name}"
         end
-        name
       end
-
-      names
     end
 
     def subject_params
