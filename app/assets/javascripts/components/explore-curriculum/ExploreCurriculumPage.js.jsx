@@ -8,7 +8,8 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   updateUrl($active) {
-    if ( !$active && !/p=/.test(location.search) ) return;
+    if (!$active && !/p=/.test(location.search)) return;
+    if ($active && !$active.length) return;
 
     let query = {p: null, e: null};
     if ($active) {
