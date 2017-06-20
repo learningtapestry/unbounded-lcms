@@ -29,8 +29,7 @@ module DocTemplate
           activity: activity,
           priority_description: priority_description(activity)
         }
-        node = node.replace(parse_template(params, TEMPLATE))
-        @result = node
+        @result = node.replace(parse_template(params, TEMPLATE))
         self
       end
 

@@ -2,11 +2,12 @@ module DocTemplate
   module Tags
     class GlsTag < BaseTag
       TAG_NAME = 'gls'.freeze
+      TEMPLATE = 'gls.html.erb'.freeze
 
       def parse(node, opts = {})
+        content = parse_template({ content: opts[:value] }, TEMPLATE)
+        node.inner_html = replace_tag_in node, content
         @result = node
-        @result.at_xpath(STARTTAG_XPATH).before("<em>#{opts[:value]}</em>")
-        remove_node
         self
       end
     end
