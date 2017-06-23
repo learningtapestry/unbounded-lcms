@@ -1,0 +1,17 @@
+<div class="o-page__module u-bg--light c-ld">
+  <div class="o-page__wrap--row">
+    <% unless request[:action].index('export') %>
+      <div class="c-ld__sidebar">
+        <%= render 'documents/nav', document: document %>
+      </div>
+    <% end %>
+    <div id="c-ch-content" class="c-ld__body c-ld__body--general">
+      <% if document.description.present? %>
+        <h2>Lesson Summary</h2>
+        <p><%= raw document.description %></p>
+      <% end %>
+      <%= raw(document.render_lesson) %>
+      <%= render 'print_export', document: document %>
+    </div>
+  </div>
+</div>

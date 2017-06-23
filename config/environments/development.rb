@@ -46,7 +46,7 @@ Rails.application.configure do
 
   config.action_controller.action_on_unpermitted_parameters = :raise
 
-  config.web_console.whitelisted_ips = %w(127.0.0.1/32 172.18.0.0/16)
+  config.web_console.whitelisted_ips = %w(127.0.0.1/32 172.0.0.0/8)
 
   if ENV['ENABLE_LIVERELOAD']
     config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload

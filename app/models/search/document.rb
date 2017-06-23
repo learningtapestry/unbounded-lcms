@@ -35,7 +35,7 @@ module Search
       elsif model.is_a?(ContentGuide)
         self.new **attrs_from_content_guide(model)
 
-      elsif model.is_a?(LessonDocument)
+      elsif model.is_a?(Document)
         new(**attrs_from_resource(model.resource)) if model.resource.present?
 
       else
@@ -79,7 +79,7 @@ module Search
                 curriculum.try(:hierarchical_position)
               end
 
-        tags = model.lesson_document? ? {} : model.named_tags
+        tags = model.document? ? {} : model.named_tags
 
         {
           id: id,

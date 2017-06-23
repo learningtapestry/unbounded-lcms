@@ -68,7 +68,7 @@ module DocTemplate
       # parse tables
       parse_tables body_fragment
 
-      @root = Document.parse(body_fragment, meta_options)
+      @document = DocTemplate::Document.parse(body_fragment, meta_options)
       @toc = DocumentTOC.parse(meta_options)
       self
     end
@@ -76,14 +76,18 @@ module DocTemplate
     def meta_options
       @meta_options ||= {
         activity: Objects::ActivityMetadata.build_from(@activity_metadata),
-        agenda:   Objects::AgendaMetadata.build_from(@agenda.data),
+        agenda: Objects::AgendaMetadata.build_from(@agenda.data),
         foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
         metadata: Objects::BaseMetadata.build_from(@metadata.data)
       }
     end
 
+    def parts
+      @document.parts
+    end
+
     def render
-      HtmlSanitizer.post_processing(@root.render.presence || '', @metadata.data['subject'])
+      HtmlSanitizer.post_processing(@document.render.presence || '', @metadata.data['subject'])
     end
 
     private

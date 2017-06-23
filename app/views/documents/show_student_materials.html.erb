@@ -1,0 +1,36 @@
+<% set_page_title @document.metadata['title'].to_s.html_safe %>
+
+<style type="text/css">
+  <%= raw(@document.css_styles) %>
+</style>
+
+<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @document.subject %> c-ld--<%= @document.color_code_grade %>" data-scroll="cg-page" id="cg-page">
+    <div class="o-page__module u-margin-bottom--gutter">
+      <%if user_signed_in? %>
+        <%= link_to [:admin, :documents], class: 'o-btn o-btn--base o-btn--xs-full' do %>
+          <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Lessons Admin
+        <% end %>
+      <% end %>
+    </div>
+  <%= render 'header', document: @document, curriculum: @curriculum, props: @props if @curriculum.present? %>
+  <div class="o-page__module u-bg--light c-ld">
+    <div class="o-page__wrap--row">
+      <% unless request[:action].index('export') %>
+        <div class="c-ld__sidebar">
+          <%= render 'documents/nav', document: @document %>
+        </div>
+      <% end %>
+      <div id="c-ch-content" class="c-ld__body c-ld__body--general">
+        <% if @document.description.present? %>
+          <h2>Lesson Summary</h2>
+          <p><%= raw document.description %></p>
+        <% end %>
+        <%= raw @document.render_student_materials %>
+      </div>
+    </div>
+  </div>
+  <div class="c-footer__item u-txt--footer-links">
+    <%= @document.metadata['cc-attribution'] %>
+  </div>
+</div>
+<a href="#" class="o-top-scroll-button"><i class="ub-angle-down"></i></a>

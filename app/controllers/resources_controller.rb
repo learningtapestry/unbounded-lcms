@@ -2,9 +2,9 @@ class ResourcesController < ApplicationController
   include CurriculumMapProps
 
   def show
-    # redirect to lesson_document if resource has it #161
+    # redirect to document if resource has it #161
     resource, curriculum = find_resource
-    return redirect_to lesson_document_path(resource.lesson_document) if resource.lesson_document?
+    return redirect_to document_path(resource.document) if resource.document?
     find_curriculum(resource, curriculum)
 
     # redirect grade and module to explore_curriculum

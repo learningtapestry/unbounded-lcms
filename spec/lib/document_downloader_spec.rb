@@ -6,7 +6,7 @@ describe DocumentDownloader::GDoc do
   let(:downloader) { described_class.new credentials, file_url, target_class }
   let(:file_id) { '16sDahoxlTIoGwp8SrtrGDao98GQuZMQnoc-7PKOUxUM' }
   let(:file_url) { "https://docs.google.com/document/d/#{file_id}/edit" }
-  let(:target_class) { LessonDocument }
+  let(:target_class) { Document }
 
   describe '#import' do
     let(:content) { 'content' }
@@ -44,7 +44,7 @@ describe DocumentDownloader::GDoc do
     end
 
     context 'when document contains Google Drawings objects' do
-      let(:document) { LessonDocument.last }
+      let(:document) { Document.last }
       let(:drawing_encoded) { 'body' }
       let(:drawing_url) { 'https://docs.google.com/drawings/image?id=s_uiJ2KNBacy7Mt2DqQn5aQ&amp;rev=1&amp;h=125&amp;w=345&amp;ac=1' }
       let(:drawing_url_clear) { CGI.unescapeHTML drawing_url }

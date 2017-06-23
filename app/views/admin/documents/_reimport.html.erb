@@ -1,0 +1,4 @@
+<%= form_tag(admin_documents_path, method: :post, class: 'inline-form-btn', target: '_blank') do %>
+  <%= hidden_field_tag('document_form[link]', lesson.file_url) %>
+  <%= submit_tag 'reimport', class: 'button small primary' %>
+<% end %>
