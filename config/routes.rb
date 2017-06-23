@@ -91,8 +91,10 @@ Rails.application.routes.draw do
     resources :standards, only: %i(index edit update)
 
     resources :components, only: %i(index show)
-    resource :sketch_compiler, path: 'sketch-compiler', only: [:show] do
-      post :compile
+    resource :sketch_compiler, path: 'sketch-compiler', only: [] do
+      get '/', to: 'sketch_compilers#new', defaults: { version: 'v1' }
+      get '/:version/new', to: 'sketch_compilers#new', as: :new
+      post '/:version/compile', to: 'sketch_compilers#compile', as: :compile
     end
     resources :lesson_documents, only: %i(index create new destroy)
     resources :curriculum_trees

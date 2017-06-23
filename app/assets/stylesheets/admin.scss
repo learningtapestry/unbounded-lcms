@@ -32,10 +32,6 @@
   }
 }
 
-.is-dropdown-submenu {
-  z-index: 2;
-}
-
 .c-admin .o-page {
   display: block;
 }
@@ -69,6 +65,7 @@
 }
 
 .is-dropdown-submenu {
+  min-width: 250px;
   z-index: 2;
 }
 
