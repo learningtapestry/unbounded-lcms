@@ -12,7 +12,7 @@ class SearchDocumentSerializer < ActiveModel::Serializer
       if (slug = object.slug)
         show_with_slug_path(slug)
       else
-        model_type == 'resource' ? resource_permalink : lesson_document_permalink
+        model_type == 'resource' ? resource_permalink : document_permalink
       end
     end
   end
@@ -41,9 +41,9 @@ class SearchDocumentSerializer < ActiveModel::Serializer
     object.doc_type == 'content_guide'
   end
 
-  def lesson_document_permalink
-    lesson_document = Resource.find(object.model_id).lesson_document
-    lesson_document_path(lesson_document.id)
+  def document_permalink
+    document = Resource.find(object.model_id).document
+    document_path(document.id)
   end
 
   def resource_permalink

@@ -1,5 +1,12 @@
 module DocTemplate
   class Document
+    # TODO: post june 15th
+    # the parts needs to move into Template and be accessible at any level of
+    # nested parsing otherwise, when we call "parse_nested", we initialise a new
+    # Document parsing and we loose the parts: they will not be collected
+    # and we will be left with orphan placeholders
+    attr_accessor :parts
+
     def self.parse(nodes, opts = {})
       new.parse(nodes, opts)
     end
@@ -7,6 +14,7 @@ module DocTemplate
     def parse(nodes, opts = {})
       @nodes = nodes
       @opts = opts
+      @parts = []
 
       # find all tags
       #
@@ -20,6 +28,9 @@ module DocTemplate
       end
 
       add_custom_nodes unless @opts.key?(:level)
+
+      # add the layout
+      @parts << { placeholder: nil, part_type: :layout, content: @nodes.to_s }
 
       self
     end
@@ -82,7 +93,13 @@ module DocTemplate
         tag_name, tag_value = matches.captures
         next unless (tag = find_tag tag_name.downcase)
 
-        tag.parse(node, @opts.merge(value: tag_value)).render
+        parsed_tag = tag.parse(tag_node, @opts.merge(parent_document: self, value: tag_value))
+
+        @parts << {
+          placeholder: parsed_tag.placeholder,
+          part_type: tag_name,
+          content: parsed_tag.render.to_s
+        }
       end
     end
 

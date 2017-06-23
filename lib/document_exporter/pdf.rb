@@ -1,7 +1,7 @@
 module DocumentExporter
   class PDF
-    def initialize(lesson_document, pdf_type: 'full')
-      @lesson_document = lesson_document
+    def initialize(document, pdf_type: 'full')
+      @document = document
       @pdf_type = pdf_type
     end
 
@@ -38,9 +38,9 @@ module DocumentExporter
     def render_template(name, layout: 'cg_plain_pdf')
       # Using backport of Rails 5 Renderer here
       ApplicationController.render(
-        template: File.join('lesson_documents', 'pdf', name),
+        template: File.join('documents', 'pdf', name),
         layout: layout,
-        locals: { lesson_document: @lesson_document, pdf_type: @pdf_type }
+        locals: { document: @document, pdf_type: @pdf_type }
       )
     end
   end

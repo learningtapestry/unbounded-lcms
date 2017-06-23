@@ -1,15 +1,15 @@
 class SearchDocumentPresenter < SimpleDelegator
   def data_object
     @data_object ||=
-      if lesson_document?
-        LessonDocumentPresenter.new(lesson_document)
+      if document?
+        DocumentPresenter.new(document)
       else
         __getobj__
       end
   end
 
   def model_type
-    lesson_document? ? :lesson_document : :resource
+    document? ? :document : :resource
   end
 
   def description

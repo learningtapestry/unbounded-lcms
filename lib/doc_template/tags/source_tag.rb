@@ -3,9 +3,17 @@ module DocTemplate
     class SourceTag < BaseTag
       TAG_NAME = 'source'.freeze
 
-      def parse(node, _ = {})
-        node.remove
-        @result = ''
+      def parse(node, opts = {})
+        content = [].tap do |result|
+          while (sibling = node.next_sibling) do
+            break if include_break?(sibling.content)
+            result << sibling.to_html
+            sibling.remove
+          end
+        end.join
+
+        node.replace placeholder_tag
+        @result = parse_nested(content, opts)
         self
       end
     end

@@ -1,7 +1,6 @@
 module DocTemplate
   module Tags
     class MaterialsTag < BaseTag
-      # BREAK_TAG_NAME = 'break'.freeze
       TAG_NAME = 'materials'.freeze
       TEMPLATE = 'materials.html.erb'.freeze
 
