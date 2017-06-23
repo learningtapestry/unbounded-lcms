@@ -50,7 +50,8 @@
                 <%= nav_link t('admin.nav.export_resources'), :new_admin_curriculum_export %>
                 <%= nav_link t('admin.nav.reading_assignment_texts'), :admin_reading_assignment_texts %>
                 <%= nav_link t('admin.nav.component_search'), :admin_components %>
-                <%= nav_link t('admin.nav.sketch_compilation'), :admin_sketch_compiler %>
+                <%= nav_link t('admin.nav.sketch_compilation', version: 'v1'), new_admin_sketch_compiler_path(:v1) %>
+                <%= nav_link t('admin.nav.sketch_compilation', version: 'v2'), new_admin_sketch_compiler_path(:v2) %>
                 <%= nav_link t('admin.nav.lessons'), :admin_lesson_documents  %>
               </ul>
             </li>
