@@ -13,21 +13,10 @@ module DocTemplate
       while (node = @nodes.at_xpath ROOT_XPATH + STARTTAG_XPATH)
         # identify the tag, take the siblings or enclosing and send it to the
         # relative tag class to render it
-
         next unless (tag_node = node.parent)
-        # skip invalid tags (not closing)
-        next if FULL_TAG.match(tag_node.text).nil?
 
-        # how many open tags are in the current node?
-        node.text.count('[').times do
-          matches = FULL_TAG.match(tag_node.text)
-          break if matches.nil?
-
-          tag_name, tag_value = matches.captures
-          next unless (tag = find_tag tag_name.downcase)
-
-          tag.parse(tag_node, @opts.merge(value: tag_value)).render
-        end
+        handle_invalid_tag tag_node
+        parse_node tag_node
       end
 
       add_custom_nodes unless @opts.key?(:level)
@@ -44,15 +33,7 @@ module DocTemplate
     def add_custom_nodes
       return unless @opts[:metadata].present?
       return unless @opts[:metadata]['subject'].try(:downcase) == 'ela'
-
-      # only for G6 or G2 U2 .
-      # As stated on issue #240 and here https://github.com/learningtapestry/unbounded/pull/267#issuecomment-307870881
-      return unless @opts[:metadata]['grade'] == '6' ||
-                    (g2_u2 = @opts[:metadata]['grade'] == '2' && @opts[:metadata]['unit'] == '2')
-
-      # Additional filter for lessons
-      # https://github.com/learningtapestry/unbounded/issues/311
-      return if g2_u2 && %w(8 16 17 18).include?(@opts[:metadata]['lesson'])
+      return unless ela_teacher_guidance_allowed?
 
       @nodes.prepend_child ela_teacher_guidance(@opts[:metadata])
     end
@@ -65,9 +46,44 @@ module DocTemplate
       ERB.new(template).result(binding)
     end
 
+    def ela_teacher_guidance_allowed?
+      # only for G6 or G2 U2 .
+      # As stated on issue #240 and here https://github.com/learningtapestry/unbounded/pull/267#issuecomment-307870881
+      g6 = @opts[:metadata]['grade'] == '6'
+      g2_u2 = @opts[:metadata]['grade'] == '2' && @opts[:metadata]['unit'] == '2'
+      return false unless g6 || g2_u2
+
+      # Additional filter for lessons
+      # https://github.com/learningtapestry/unbounded/issues/311
+      return false if g2_u2 && %w(8 16 17 18).include?(@opts[:metadata]['lesson'])
+
+      true
+    end
+
     def find_tag(name)
       key = registered_tags.keys.detect { |k| k.is_a?(Regexp) ? name =~ k : k == name }
       registered_tags[key]
+    end
+
+    #
+    # catch invalid tags and report about them
+    #
+    def handle_invalid_tag(node)
+      return if FULL_TAG.match(node.text).present?
+      raise LessonDocumentError, "No closing bracket for node:<br>#{node.to_html}"
+    end
+
+    def parse_node(node)
+      # how many open tags are in the current node?
+      node.text.count('[').times do
+        matches = FULL_TAG.match(node.text)
+        break if matches.nil?
+
+        tag_name, tag_value = matches.captures
+        next unless (tag = find_tag tag_name.downcase)
+
+        tag.parse(node, @opts.merge(value: tag_value)).render
+      end
     end
 
     def registered_tags
