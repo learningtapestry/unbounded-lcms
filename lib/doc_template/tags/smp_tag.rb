@@ -1,45 +1,19 @@
 module DocTemplate
   module Tags
-    class SmpTag < BaseTag
-      END_VALUE = 'end'.freeze
+    class SmpTag < BlockTag
       TAG_NAME = 'smp'.freeze
       TEMPLATE = 'smp.html.erb'.freeze
 
       def parse(node, opts = {})
-        if opts[:value] != END_VALUE
-          # If this is start tag - replace the tag with custom mark
-          node = node.replace %( <div smp-start smp-value="#{opts[:value]}"></div> )
-        else
-          # End tag - need to find previous start mark and wrap all what's in between
-          nodes = nodes_to_wrap node
-          nodes.each(&:remove)
+        nodes = block_nodes node
+        nodes.each(&:remove)
 
-          @content = nodes.reverse.map(&:to_html).join
-
-          if @smp.present?
-            template = File.read template_path(TEMPLATE)
-            node.replace ERB.new(template).result(binding)
-          end
-        end
-
-        @result = node
+        params = {
+          content: parse_nested(nodes.map(&:to_html).join, opts),
+          smp: opts[:value].split(';').map(&:strip)
+        }
+        @result = node.replace parse_template(params, TEMPLATE)
         self
-      end
-
-      private
-
-      def nodes_to_wrap(node)
-        [].tap do |result|
-          while (node = node.try(:previous_sibling))
-            if node.has_attribute?('smp-start')
-              @smp = node.attributes['smp-value'].value.split(';').map(&:strip)
-              node.remove
-              break
-            end
-
-            result << node
-          end
-        end
       end
     end
   end

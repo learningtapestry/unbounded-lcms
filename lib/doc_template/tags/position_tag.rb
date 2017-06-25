@@ -1,23 +1,19 @@
 module DocTemplate
   module Tags
-    class PositionTag < BaseTag
-      include ERB::Util
-
+    class PositionTag < TableTag
       TAG_NAME = 'position'.freeze
       TEMPLATE = 'position.html.erb'.freeze
 
-      def parse(node, opts = {})
-        return super unless opts[:parent_tags].try(:include?, Tags::MaterialsTag::TAG_NAME)
-        return self unless (table = node.ancestors('table').first)
+      def parse_table(table)
+        table.remove && return unless @opts[:parent_tags].try(:include?, Tags::MaterialsTag::TAG_NAME)
 
-        @content = table.at_xpath('.//tr[2]/td').inner_html
-        @position = opts[:value].strip
+        params = {
+          content: table.at_xpath('.//tr[2]/td').inner_html,
+          position: @opts[:value].strip
+        }
 
-        template = File.read template_path(TEMPLATE)
-        new_content = ERB.new(template).result(binding)
-        table.replace parse_nested new_content
-        @result = table
-        self
+        content = parse_template params, TEMPLATE
+        @result = table.replace parse_nested(content, @opts)
       end
     end
   end

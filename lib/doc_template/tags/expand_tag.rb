@@ -1,24 +1,16 @@
 module DocTemplate
   module Tags
-    class ExpandTag < BaseTag
-      include ERB::Util
-
+    class ExpandTag < TableTag
       BREAK_TAG_NAME = 'break'.freeze
       TAG_NAME = 'expand'.freeze
       TEMPLATE = 'expand.html.erb'.freeze
 
-      def parse(node, opts = {})
-        return self unless (table = node.ancestors('table').first)
+      def parse_table(table)
+        params = { subject: (@opts[:metadata].try(:[], 'subject').presence || 'ela').downcase }
+        params[:content], params[:content_hidden] = fetch_content table
 
-        @subject = (opts[:metadata].try(:[], 'subject').presence || 'ela').downcase
-        @content, @content_hidden = fetch_content table
-
-        # we should replace the whole table with new content
-        template = File.read template_path(TEMPLATE)
-        content = ERB.new(template).result(binding) # Handle internal tags
-        table.replace parse_nested(content, opts)
-        @result = table
-        self
+        content = parse_template params, TEMPLATE
+        @result = table.replace parse_nested(content, @opts)
       end
 
       private

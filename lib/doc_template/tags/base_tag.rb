@@ -12,7 +12,7 @@ module DocTemplate
       end
 
       def self.template_path_for(name)
-        File.join Rails.root, 'lib', 'doc_template', 'templates', name
+        Rails.root.join 'lib', 'doc_template', 'templates', name
       end
 
       def content_until_break(node)
@@ -64,7 +64,7 @@ module DocTemplate
           if node.content =~ /.+\[[^\]]+\]|\[[^\]]+\].+/
             # a tag followed or preceeded by anything else
             # removes the tag itself - everything between `[` and `]`
-            node.content = node.content.gsub(/\[?[^\[]+\]|\[[^\]]+\]/, '')
+            node.content = node.content.sub /\[[^\[\]]+\]/, ''
           elsif (data = node.content.match(/^([^\[]*)\[|\]([^\[]*)$/))
             # if node contains open or closing tag bracket with general
             # text outside the bracket itself
@@ -77,6 +77,14 @@ module DocTemplate
             node.remove
           end
         end
+      end
+
+      def remove_tag_from(node)
+        node.inner_html.sub FULL_TAG, ''
+      end
+
+      def replace_tag_in(node, value)
+        node.inner_html.sub FULL_TAG, value
       end
 
       def render
