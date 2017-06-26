@@ -3,32 +3,40 @@ module DocTemplate
     class DefTag < BaseTag
       include ERB::Util
 
+      STYLE_RE = /<span (style=[^.>]*)>[^<]*$/i
       TAG_NAME = 'def'.freeze
       TAG_SEPARATOR = '[separator]'.freeze
       TEMPLATE = 'def.html.erb'.freeze
 
       def parse(node, opts = {})
-        # preserving text around tag
-        # TODO: Extract to the parent class
-
         # Need to extract the Tag and preserves all the styling inside it
         node_html = node.inner_html
         start_pos = node_html.index '['
         end_pos = node_html.rindex ']'
         needle = node_html[start_pos..end_pos]
-        @preserved_style = /<span (style=[^.>]*)>[^<]*$/.match(needle).try(:[], 1)
 
-        @data = {}
-        if (data = node_html.sub(needle, TAG_SEPARATOR).split(TAG_SEPARATOR, 2).map(&:squish))
-          @data[:prepend] = data[0]
-          @data[:append] = data[1]
+        preserved_style = STYLE_RE.match(needle).try(:[], 1)
+        subject = (opts[:metadata].try(:[], 'subject').presence || 'ela').downcase
+        definition, description = opts[:value].split(';').map(&:strip)
+
+        data = node_html.sub(needle, TAG_SEPARATOR).split(TAG_SEPARATOR, 2).map(&:squish)
+
+        params = {
+          append: data[1],
+          definition: definition,
+          description: description,
+          prepend: data[0],
+          preserved_style: preserved_style,
+          subject: subject
+        }
+
+        content = parse_template params, TEMPLATE
+
+        if node.name == 'li'
+          node.inner_html = content
+        else
+          node = node.replace "<p>#{content}</p>"
         end
-
-        @subject = (opts[:metadata].try(:[], 'subject').presence || 'ela').downcase
-        @definition, @description = opts[:value].split(';').map(&:strip)
-
-        template = File.read template_path(TEMPLATE)
-        node.replace ERB.new(template).result(binding)
         @result = node
         self
       end
