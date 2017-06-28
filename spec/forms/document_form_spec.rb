@@ -12,7 +12,8 @@ describe DocumentForm do
         stubs = {
           activate!: nil,
           original_content: nil,
-          update!: nil
+          update!: nil,
+          document_parts: double("parts", delete_all: true)
         }
         instance_double Document, stubs
       end
