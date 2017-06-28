@@ -118,35 +118,38 @@ class DocumentPresenter < BasePresenter
     ela? ? ld_metadata.unit : ld_metadata.topic
   end
 
-  def render_part(part)
-    rendered = part.content
-    while rendered.count('{{') > 0
-      rendered.sub!(/\{\{.+\}\}/) do |match|
-        placeholder = match.match(/[^\{\}]+/)[0]
-        subpart = document_parts.find_by(placeholder: placeholder, active: true)
-        subpart.try(:content).presence || ''
-      end
-    end
-    rendered
-  end
-
-  def render_teacher_materials
-    sources = document_parts.where(part_type: :source)
-    sources.inject('') do |rendered, part|
-      rendered << render_part(part)
-    end
-  end
-
-  def render_student_materials
-    materials = document_parts.where(part_type: :materials)
-    materials.inject('') do |rendered, part|
-      rendered << render_part(part)
-    end
-  end
-
-  def render_lesson
-    # a layout can be anywhere and anything that includes placeholders
-    layout = document_parts.find_by(part_type: :layout)
-    render_part(layout)
-  end
+  # NOTE: These methods need to be refactored and be used after our tags will
+  # be subtituted with placeholders
+  #
+  # def render_part(part)
+  #   rendered = part.content
+  #   while rendered.count('{{') > 0
+  #     rendered.sub!(/\{\{.+\}\}/) do |match|
+  #       placeholder = match.match(/[^\{\}]+/)[0]
+  #       subpart = document_parts.find_by(placeholder: placeholder, active: true)
+  #       subpart.try(:content).presence || ''
+  #     end
+  #   end
+  #   rendered
+  # end
+  #
+  # def render_teacher_materials
+  #   sources = document_parts.where(part_type: :source)
+  #   sources.inject('') do |rendered, part|
+  #     rendered << render_part(part)
+  #   end
+  # end
+  #
+  # def render_student_materials
+  #   materials = document_parts.where(part_type: :materials)
+  #   materials.inject('') do |rendered, part|
+  #     rendered << render_part(part)
+  #   end
+  # end
+  #
+  # def render_lesson
+  #   # a layout can be anywhere and anything that includes placeholders
+  #   layout = document_parts.where(part_type: :layout).last
+  #   render_part(layout)
+  # end
 end

@@ -141,6 +141,7 @@ end
 
 group :development do
   gem 'guard-livereload', '~> 2.5', '>= 2.5.2'
+  gem 'pry-rails', '~> 0.3.5'
   gem 'puma', '~> 3.4'
   gem 'quiet_assets', '~> 1.1'
   gem 'rack-livereload', '~> 0.3.16'

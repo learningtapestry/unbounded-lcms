@@ -41,8 +41,6 @@ Rails.application.routes.draw do
   resources :documents, only: :show do
     member do
       get 'export/gdoc', to: 'documents#export_gdoc'
-      get 'materials/teacher', to: 'documents#show_teacher_materials'
-      get 'materials/student', to: 'documents#show_student_materials'
     end
   end
 
