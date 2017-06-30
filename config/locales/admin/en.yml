@@ -264,8 +264,8 @@ en:
         compile_error: There was an error during compilation. Please contact administrator
         error: Please specify the URL
         success: Lesson has been compiled. You can see it in your <a href='%{url}' target='_blank'>Google Drive</a>
-      show:
-        page_title: Compile lesson sketch
+      new:
+        page_title: Compile lesson sketch %{version}
         submit: Compile
     lesson_documents:
       index:
@@ -306,7 +306,7 @@ en:
       sign_out: Sign out
       standards: Standards
       component_search: Search Component
-      sketch_compilation: Compile lesson sketch
+      sketch_compilation: Compile lesson sketch %{version}
       import_lesson: Import Lesson
       lessons: Lessons
       curriculum_trees: Curriculum Trees
