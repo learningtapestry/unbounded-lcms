@@ -4,14 +4,14 @@ describe DocumentExporter::Docx do
   describe '#export' do
     let(:content) { 'content' }
     let(:generated_content) { 'generated content' }
-    let(:lesson_document) { create :lesson_document }
+    let(:document) { create :document }
 
     before do
       allow(ApplicationController).to receive(:render).and_return(content)
       allow(PandocRuby).to receive(:convert).and_return(generated_content)
     end
 
-    subject { described_class.new(lesson_document).export }
+    subject { described_class.new(document).export }
 
     it 'calls Pandoc wrapper' do
       expect(PandocRuby).to receive(:convert).with(content, from: :html, to: :docx)

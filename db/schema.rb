@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170608100817) do
+ActiveRecord::Schema.define(version: 20170612234459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,6 +133,44 @@ ActiveRecord::Schema.define(version: 20170608100817) do
   add_index "curriculums", ["item_type"], name: "index_curriculums_on_item_type", using: :btree
   add_index "curriculums", ["parent_id"], name: "index_curriculums_on_parent_id", using: :btree
 
+  create_table "document_parts", force: :cascade do |t|
+    t.integer  "document_id"
+    t.text     "content"
+    t.string   "part_type"
+    t.boolean  "active"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "placeholder"
+  end
+
+  add_index "document_parts", ["document_id"], name: "index_document_parts_on_document_id", using: :btree
+  add_index "document_parts", ["placeholder"], name: "index_document_parts_on_placeholder", using: :btree
+
+  create_table "documents", force: :cascade do |t|
+    t.string   "file_id"
+    t.string   "name"
+    t.datetime "last_modified_at"
+    t.string   "last_author_email"
+    t.string   "last_author_name"
+    t.text     "original_content"
+    t.string   "version"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.text     "content"
+    t.hstore   "metadata"
+    t.jsonb    "activity_metadata"
+    t.integer  "resource_id"
+    t.jsonb    "toc"
+    t.boolean  "active",                default: true, null: false
+    t.hstore   "foundational_metadata"
+    t.text     "css_styles"
+    t.hstore   "links",                 default: {}
+  end
+
+  add_index "documents", ["file_id"], name: "index_documents_on_file_id", using: :btree
+  add_index "documents", ["metadata"], name: "index_documents_on_metadata", using: :gist
+  add_index "documents", ["resource_id"], name: "index_documents_on_resource_id", using: :btree
+
   create_table "download_categories", force: :cascade do |t|
     t.string "name",        null: false
     t.string "description"
@@ -162,31 +200,6 @@ ActiveRecord::Schema.define(version: 20170608100817) do
   end
 
   add_index "leadership_posts", ["order", "last_name"], name: "index_leadership_posts_on_order_and_last_name", using: :btree
-
-  create_table "lesson_documents", force: :cascade do |t|
-    t.string   "file_id"
-    t.string   "name"
-    t.datetime "last_modified_at"
-    t.string   "last_author_email"
-    t.string   "last_author_name"
-    t.text     "original_content"
-    t.string   "version"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.text     "content"
-    t.hstore   "metadata"
-    t.jsonb    "activity_metadata"
-    t.integer  "resource_id"
-    t.jsonb    "toc"
-    t.boolean  "active",                default: true, null: false
-    t.hstore   "foundational_metadata"
-    t.text     "css_styles"
-    t.hstore   "links",                 default: {}
-  end
-
-  add_index "lesson_documents", ["file_id"], name: "index_lesson_documents_on_file_id", using: :btree
-  add_index "lesson_documents", ["metadata"], name: "index_lesson_documents_on_metadata", using: :gist
-  add_index "lesson_documents", ["resource_id"], name: "index_lesson_documents_on_resource_id", using: :btree
 
   create_table "pages", force: :cascade do |t|
     t.text     "body",       null: false
@@ -300,7 +313,7 @@ ActiveRecord::Schema.define(version: 20170608100817) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "indexed_at"
-    t.boolean  "hidden",                default: false
+    t.boolean  "hidden",               default: false
     t.string   "engageny_url"
     t.string   "engageny_title"
     t.string   "description"
@@ -310,15 +323,14 @@ ActiveRecord::Schema.define(version: 20170608100817) do
     t.string   "teaser"
     t.integer  "time_to_teach"
     t.string   "subject"
-    t.boolean  "ell_appropriate",       default: false, null: false
+    t.boolean  "ell_appropriate",      default: false, null: false
     t.datetime "deleted_at"
-    t.integer  "resource_type",         default: 1,     null: false
+    t.integer  "resource_type",        default: 1,     null: false
     t.string   "url"
     t.string   "image_file"
     t.string   "curriculum_type"
-    t.text     "curriculum_directory",  default: [],    null: false, array: true
+    t.text     "curriculum_directory", default: [],    null: false, array: true
     t.integer  "curriculum_tree_id"
-    t.string   "hierarchical_position"
   end
 
   add_index "resources", ["curriculum_tree_id"], name: "index_resources_on_curriculum_tree_id", using: :btree
@@ -465,6 +477,7 @@ ActiveRecord::Schema.define(version: 20170608100817) do
   add_foreign_key "curriculums", "curriculum_types"
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
   add_foreign_key "curriculums", "curriculums", column: "seed_id"
+  add_foreign_key "document_parts", "documents"
   add_foreign_key "reading_assignment_texts", "reading_assignment_authors"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"

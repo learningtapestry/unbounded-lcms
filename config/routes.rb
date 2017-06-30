@@ -38,9 +38,9 @@ Rails.application.routes.draw do
   get '/content_guides/:id(/:slug)',
       as: :content_guide, to: 'content_guides#show'
 
-  resources :lesson_documents, only: :show do
+  resources :documents, only: :show do
     member do
-      get 'export/gdoc', to: 'lesson_documents#export_gdoc'
+      get 'export/gdoc', to: 'documents#export_gdoc'
     end
   end
 
@@ -96,7 +96,7 @@ Rails.application.routes.draw do
       get '/:version/new', to: 'sketch_compilers#new', as: :new
       post '/:version/compile', to: 'sketch_compilers#compile', as: :compile
     end
-    resources :lesson_documents, only: %i(index create new destroy)
+    resources :documents, only: %i(index create new destroy)
     resources :curriculum_trees
   end
 

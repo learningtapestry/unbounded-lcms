@@ -1,5 +1,12 @@
 module DocTemplate
   class Document
+    # TODO: post june 15th
+    # the parts needs to move into Template and be accessible at any level of
+    # nested parsing otherwise, when we call "parse_nested", we initialise a new
+    # Document parsing and we loose the parts: they will not be collected
+    # and we will be left with orphan placeholders
+    attr_accessor :parts, :nodes
+
     def self.parse(nodes, opts = {})
       new.parse(nodes, opts)
     end
@@ -7,6 +14,7 @@ module DocTemplate
     def parse(nodes, opts = {})
       @nodes = nodes
       @opts = opts
+      @parts = []
 
       # find all tags
       #
@@ -31,8 +39,7 @@ module DocTemplate
     private
 
     def add_custom_nodes
-      return unless @opts[:metadata].present?
-      return unless @opts[:metadata]['subject'].try(:downcase) == 'ela'
+      return unless @opts[:metadata].try(:subject).to_s.casecmp('ela').zero?
       return unless ela_teacher_guidance_allowed?
 
       @nodes.prepend_child ela_teacher_guidance(@opts[:metadata])
@@ -60,8 +67,14 @@ module DocTemplate
       true
     end
 
-    def find_tag(name)
-      key = registered_tags.keys.detect { |k| k.is_a?(Regexp) ? name =~ k : k == name }
+    def find_tag(name, value = '')
+      key = registered_tags.keys.detect do |k|
+        if k.is_a?(Regexp)
+          name =~ k
+        else
+          k == name or k == [name, value].join(' ')
+        end
+      end
       registered_tags[key]
     end
 
@@ -80,9 +93,16 @@ module DocTemplate
         break if matches.nil?
 
         tag_name, tag_value = matches.captures
-        next unless (tag = find_tag tag_name.downcase)
+        next unless (tag = find_tag tag_name.downcase, tag_value.downcase)
 
-        tag.parse(node, @opts.merge(value: tag_value)).render
+        parsed_tag = tag.parse(node, @opts.merge(parent_document: self, value: tag_value))
+        sanitized_content = HtmlSanitizer.post_processing(parsed_tag.render.to_s, @opts[:metadata].try(:subject))
+
+        @parts << {
+          placeholder: parsed_tag.placeholder,
+          part_type: tag_name.underscore,
+          content: sanitized_content
+        }
       end
     end
 

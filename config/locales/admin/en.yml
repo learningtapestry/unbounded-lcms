@@ -267,7 +267,7 @@ en:
       new:
         page_title: Compile lesson sketch %{version}
         submit: Compile
-    lesson_documents:
+    documents:
       index:
         new_lesson: Add new Lesson
         title: Lesson Manager

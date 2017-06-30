@@ -28,8 +28,8 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def ld_metadata
-    return nil unless object.resource.lesson_document?
-    @ld_metadata ||= LessonDocumentPresenter.new(object.resource.lesson_document)
+    return nil unless object.resource.document?
+    @ld_metadata ||= DocumentPresenter.new(object.resource.document)
                                             .ld_metadata
   end
 
@@ -62,7 +62,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def path
-    return lesson_document_path(object.resource.lesson_document) if object.resource.lesson_document?
+    return document_path(object.resource.document) if object.resource.document?
     show_resource_path(object.resource, object)
   end
 
