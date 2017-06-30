@@ -150,9 +150,9 @@ namespace :resources do
   desc 'Fix lessons metadata'
   task fix_lessons_metadata: :environment do
     Resource.lessons.each do |res|
-      next unless res.lesson_document?
+      next unless res.document?
 
-      md = res.lesson_document.metadata
+      md = res.document.metadata
 
       attrs = {}
       attrs[:title] = md['title'] if md['title'].present?

@@ -15,7 +15,7 @@ module DocTemplate
         self
       end
     end
-  end
 
-  Template.register_tag(Tags::CoreContentObjectivesTag::TAG_NAME, Tags::CoreContentObjectivesTag)
+    Template.register_tag(Tags::CoreContentObjectivesTag::TAG_NAME, Tags::CoreContentObjectivesTag)
+  end
 end

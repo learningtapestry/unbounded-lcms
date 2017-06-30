@@ -31,23 +31,23 @@ feature 'Admin adds a lesson' do
     sign_in user
 
     # stub Google Auth
-    allow_any_instance_of(Admin::LessonDocumentsController).to receive(:obtain_google_credentials)
+    allow_any_instance_of(Admin::DocumentsController).to receive(:obtain_google_credentials)
   end
 
   scenario 'admin adds sample lessons', :js do
     sample_lessons.each_with_index do |data, idx|
-      visit new_admin_lesson_document_path
-      expect(page).to have_field :lesson_document_form_link
+      visit new_admin_document_path
+      expect(page).to have_field :document_form_link
 
       # stub GDoc download
       file_content = File.read File.join(SAMPLE_LESSON_PATH, data[:file_name])
       allow_any_instance_of(DocumentDownloader::GDoc).to receive(:file).and_return(DownloadedFile.new(nil, nil, idx))
       allow_any_instance_of(DocumentDownloader::GDoc).to receive(:content).and_return(file_content)
 
-      fill_in :lesson_document_form_link, with: data[:url]
+      fill_in :document_form_link, with: data[:url]
       click_button 'Parse'
 
-      expect(LessonDocument.last.name).to eql(idx.to_s)
+      expect(Document.last.name).to eql(idx.to_s)
     end
   end
 end

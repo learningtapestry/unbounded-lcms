@@ -17,7 +17,7 @@ module DocTemplate
 
       def content_until_break(node)
         [].tap do |result|
-          while (sibling = node.next_sibling) do
+          while (sibling = node.next_sibling)
             break if include_break?(sibling)
             result << sibling.to_html
             sibling.remove
@@ -42,13 +42,17 @@ module DocTemplate
       end
 
       def parse(node, _ = {})
+        # generate the new content
         @result = node
-        remove_node
+        remove_tag
         self
       end
 
       def parse_nested(node, opts = {})
-        Document.parse(Nokogiri::HTML.fragment(node), opts.merge(level: 1)).render
+        parsed = Document.parse(Nokogiri::HTML.fragment(node), opts.merge(level: 1))
+        # add the parts to the parent document
+        opts[:parent_document].parts += parsed.parts if opts[:parent_document]
+        parsed.render
       end
 
       def parse_template(context, template_name)
@@ -57,7 +61,14 @@ module DocTemplate
         ERB.new(template).result(binding)
       end
 
-      def remove_node
+      def placeholder
+        @_placeholder ||= begin
+          random = SecureRandom.hex(10)
+          "#{self.class.name.demodulize.underscore}_#{random}"
+        end
+      end
+
+      def remove_tag
         start_tag_index = @result.children.index(@result.at_xpath(STARTTAG_XPATH))
         end_tag_index = @result.children.index(@result.at_xpath(ENDTAG_XPATH))
         @result.children[start_tag_index..end_tag_index].each do |node|

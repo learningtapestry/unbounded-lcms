@@ -7,10 +7,10 @@
         <i class="fa fa-square"></i>
         <span>
           <% title = "#{item.resource.short_title}: " %>
-          <% if item.resource.lesson_document.present? %>
-            <%= link_to lesson_document_path(item.resource.lesson_document) do %>
+          <% if item.resource.document.present? %>
+            <%= link_to document_path(item.resource.document) do %>
               <span class="u-text--capitalized"><%= title %></span>
-              <%= item.resource.lesson_document[:metadata]['title'] %>
+              <%= item.resource.document[:metadata]['title'] %>
             <% end%>
           <% else %>
             <%= link_to show_with_slug_path(item.slug.value) do %>

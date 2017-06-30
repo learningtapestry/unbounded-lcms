@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<body onload="subst()">
+  <div class="c-pdf-footer__wrap--ld">
+    <table class="c-pdf-footer c-pdf-footer--ld">
+      <tr>
+        <td class="c-pdf-footer__left">
+          <span class="c-pdf-footer__left--draft">[DRAFT]</span>
+          <span class="c-pdf-footer__left--logo u-padding-right--xs u-pdf-txt--ld-footer-logo">
+            <strong>Unbound</strong>Ed
+          </span>
+          <span class="u-padding-right--xs u-text--capitalized"><%= document.pdf_footer %></span>
+          <span><%= link_to document.short_url, document.short_url %></span>
+        </td>
+        <td class="c-pdf-footer__right">
+          <span class="page u-pdf-txt--ld-footer-page">Page </span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>

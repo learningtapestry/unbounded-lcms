@@ -72,7 +72,7 @@ class Resource < ActiveRecord::Base
 
   has_many :social_thumbnails, as: :target
 
-  has_many :lesson_documents
+  has_many :documents
 
   validates :title, presence: true
   validates :url, presence: true, url: true, if: %i(video? podcast?)
@@ -339,12 +339,12 @@ class Resource < ActiveRecord::Base
     copyright_attributions
   end
 
-  def lesson_document
-    lesson_documents.actives.order(updated_at: :desc).first
+  def document
+    documents.actives.order(updated_at: :desc).first
   end
 
-  def lesson_document?
-    lesson_document.present?
+  def document?
+    document.present?
   end
 
   private

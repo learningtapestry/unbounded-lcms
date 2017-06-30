@@ -144,3 +144,6 @@ th:
     - SectionTag
     - ShTag
     - ThTag
+source:
+  stop_tags:
+    - MaterialsTag
