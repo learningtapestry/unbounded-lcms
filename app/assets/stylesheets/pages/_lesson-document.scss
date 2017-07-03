@@ -44,15 +44,12 @@
   padding-bottom: $ub-large-padding * 2;
 
   @include e(sidebar) {
-    @include breakpoint(medium down) {
-      @include add-gutter(margin, left, -.5);
-      @include add-gutter(margin, right, -.5);
-      @include flex-grid-column(12, 0);
-    }
+    display: none;
 
-    @include breakpoint(ipad) {
-      @include flex-grid-column(3);
-      border-right: 1px dotted $light-gray;
+    @include breakpoint(large) {
+      @include flex-grid-column(3, 0);
+      @include add-gutter(padding, left);
+      display: block;
     }
   }
 

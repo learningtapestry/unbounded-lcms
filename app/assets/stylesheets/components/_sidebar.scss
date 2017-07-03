@@ -21,15 +21,14 @@
   }
 
   @include m(tiny) {
-    height: 1px !important;
     margin-left: 0;
     margin-right: 0;
+    min-height: 1px;
   }
 }
 
 .o-sidebar__wrap.is-stuck {
   .o-sidebar-xs--show {
-    @include add-top-bottom-padding;
     visibility: visible;
     > div { display: block;}
   }
@@ -44,20 +43,17 @@
   @extend %base-shadow;
   @include flex-grid-row;
   @include flex-align($x: justify, $y: middle);
+  @include add-top-bottom-padding;
   color: $ub-white;
-  //flex: 0 0 100%;
   min-height: 1px;
-  //min-width: 100%;
   visibility: hidden;
 
   @include e(header) {
     @include flex-grid-column;
-    display: none;
   }
 
   @include e(action) {
     @include flex-grid-column(shrink);
-    display: none;
     i { color: $ub-white; }
   }
 
@@ -65,48 +61,6 @@
     @include add-top-bottom-padding;
     visibility: visible;
     > div { display: block;}
-  }
-}
-
-.o-sidebar-nav-item {
-  @include e(time) {
-    float: right;
-    font-style: italic;
-    text-transform: none;
-
-    @include m(summary) {
-      font-style: normal;
-    }
-  }
-
-  @include e(hr) {
-    border-top: 2px solid $ub-hr;
-    margin: .5rem 1rem 1rem;
-  }
-
-  @include e(summary) {
-    color: $ub-hr;
-    line-height: 1.2;
-    padding: 0 1rem .5rem 0;
-  }
-}
-
-.o-sidebar-nav-break {
-  @include flex;
-  @include flex-align($x: spaced, $y: middle);
-  color: $ub-hr;
-  padding: 0 1rem .5rem;
-
-  @include e(delimeter) {
-    border: 1px dotted $ub-hr;
-    flex: 1 1 auto;
-  }
-
-  @include e(text) {
-    @include txt-element(cg-sidebar-l1);
-    font-style: italic;
-    padding-left: $ub-small-padding;
-    padding-right: $ub-small-padding;
   }
 }
 
@@ -123,16 +77,6 @@
     display: flex;
   }
 
-  @include e(toggle) {
-    @include txt-element(button);
-    cursor: pointer;
-    float: right;
-    line-height: 1;
-    padding-top: 7px;
-
-    @include m(hide) { display: none; }
-  }
-
   @include e(header) {
     @include txt-element(cg-sidebar-header);
     margin-bottom: 1rem;
@@ -141,7 +85,6 @@
 
   @include e(sep) {
     border-radius: .1875rem;
-    //display: inline-block;
     height: .375rem;
     margin: 0 1rem 1.5625rem;
     width: 3.5rem;
