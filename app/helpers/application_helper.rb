@@ -1,18 +1,11 @@
 module ApplicationHelper
-  def display_style(condition)
-    if condition
-      "style='display: block'"
-    else
-      "style='display: none'"
-    end.html_safe
-  end
-
   def add_class_for_path(link_path, klass, klass_prefix = nil)
     "#{klass_prefix} #{klass if current_page?(link_path)}"
   end
 
   def add_class_for_action(controller_name, action_name, klass, klass_prefix = nil)
-    "#{klass_prefix} #{klass if controller.controller_name == controller_name.to_s && controller.action_name == action_name.to_s}"
+    sufix = klass if controller.controller_name == controller_name.to_s && controller.action_name == action_name.to_s
+    "#{klass_prefix} #{sufix}"
   end
 
   def nav_link(link_text, link_path, attrs = {})
@@ -56,9 +49,9 @@ module ApplicationHelper
   end
 
   # Use in views as redirection directive
-  def redirect_via_meta_tag(to_url:, delay:5)
+  def redirect_via_meta_tag(to_url:, delay: 5)
     content_for(:redirect_meta_tag) do
-      content_tag(:meta, nil, {content: "#{delay};url=#{to_url}", "http-equiv" => "refresh"}, true)
+      content_tag(:meta, nil, { content: "#{delay};url=#{to_url}", 'http-equiv' => 'refresh' }, true)
     end
   end
 
@@ -79,15 +72,13 @@ module ApplicationHelper
   end
 
   def base64_encoded_asset(path)
-    asset, content_type = if (Rails.env.development? || Rails.env.test?)
+    if Rails.env.development? || Rails.env.test?
       asset = Rails.application.assets.find_asset(path)
       content_type = asset.content_type
-      [asset, content_type]
     else
       filesystem_path = Rails.application.assets_manifest.assets[path]
       asset = File.read(Rails.root.join('public', 'assets', filesystem_path))
       content_type = Mime::Type.lookup_by_extension(File.extname(path).split('.').last)
-      [asset, content_type]
     end
     raise "Could not find asset '#{path}'" if asset.nil?
     base64 = Base64.encode64(asset.to_s).gsub(/\s+/, '')
@@ -113,5 +104,11 @@ module ApplicationHelper
 
   def social_media
     @social_media_presenter || SocialMediaPresenter.new(target: nil, view: self)
+  end
+
+  def color_code(model, base: false)
+    subject_color_code = model.try(:subject) || 'default'
+    grade_avg = base ? 'base' : model.grades.average
+    "#{subject_color_code}-#{grade_avg}"
   end
 end

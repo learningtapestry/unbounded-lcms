@@ -10,7 +10,7 @@ describe DocumentDownloader::GDoc do
 
   describe '#import' do
     let(:content) { 'content' }
-    let(:file) { double 'Hash', params}
+    let(:file) { double 'Hash', params }
     let(:params) do
       {
         name: 'name',
@@ -46,7 +46,9 @@ describe DocumentDownloader::GDoc do
     context 'when document contains Google Drawings objects' do
       let(:document) { Document.last }
       let(:drawing_encoded) { 'body' }
-      let(:drawing_url) { 'https://docs.google.com/drawings/image?id=s_uiJ2KNBacy7Mt2DqQn5aQ&amp;rev=1&amp;h=125&amp;w=345&amp;ac=1' }
+      let(:drawing_url) do
+        'https://docs.google.com/drawings/image?id=s_uiJ2KNBacy7Mt2DqQn5aQ&amp;rev=1&amp;h=125&amp;w=345&amp;ac=1'
+      end
       let(:drawing_url_clear) { CGI.unescapeHTML drawing_url }
       let(:headers) { { 'Authorization' => "Bearer #{access_token}" } }
       let(:response) { OpenStruct.new content_type: 'image/png' }
@@ -82,7 +84,7 @@ describe DocumentDownloader::GDoc do
       end
 
       context 'with multiple url' do
-        let(:drawing_url1)       { 'https://docs.google.com/drawings/image?id=s_23J2KNBacy7Mt2DqQn5aQ&amp;rev=1&amp;h=345' }
+        let(:drawing_url1) { 'https://docs.google.com/drawings/image?id=s_23J2KNBacy7Mt2DqQn5aQ&amp;rev=1&amp;h=345' }
         let(:drawing_url1_clear) { CGI.unescapeHTML drawing_url1 }
         let(:file_content) do
           <<-HTML

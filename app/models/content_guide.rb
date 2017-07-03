@@ -1,22 +1,22 @@
 require 'google/apis/drive_v3'
 
 class ContentGuide < ActiveRecord::Base
-  extend OrderAsSpecified
   include Searchable
-  include GradeListHelper
   include PDFDownloadable
 
-  ICON_VALUES = %w(complexity instruction volume)
+  ICON_VALUES = %w(complexity instruction volume).freeze
 
   attr_accessor :update_metadata, :faq
 
   acts_as_taggable_on :grades
 
   has_many :content_guide_standards
-  has_many :common_core_standards, ->{ where(type: 'CommonCoreStandard') }, source: :standard, through: :content_guide_standards
+  has_many :common_core_standards, -> { where(type: 'CommonCoreStandard') },
+           source: :standard, through: :content_guide_standards
   has_many :resources, through: :unbounded_standards
   has_many :standards, through: :content_guide_standards
-  has_many :unbounded_standards, ->{ where(type: 'UnboundedStandard') }, source: :standard, through: :content_guide_standards
+  has_many :unbounded_standards, -> { where(type: 'UnboundedStandard') },
+           source: :standard, through: :content_guide_standards
 
   has_many :social_thumbnails, as: :target
 
@@ -35,18 +35,18 @@ class ContentGuide < ActiveRecord::Base
   mount_uploader :pdf, ContentGuidePdfUploader
   mount_uploader :small_photo, ContentGuidePhotoUploader
 
-  scope :where_subject, ->(subjects) {
+  scope :where_subject, lambda { |subjects|
     subjects = Array.wrap(subjects)
-    if subjects.any? then where(subject: subjects) else where(nil) end
+    subjects.any? ? where(subject: subjects) : where(nil)
   }
 
-  scope :where_grade, ->(value) {
+  scope :where_grade, lambda { |value|
     value = Array.wrap(value)
     return where(nil) unless value.any?
 
     joins(taggings: [:tag])
-    .where(taggings: { context: 'grades' })
-    .where(tags: { name: value })
+      .where(taggings: { context: 'grades' })
+      .where(tags: { name: value })
   }
 
   delegate :broken_ext_links, :tasks_without_break, to: :presenter
@@ -81,6 +81,10 @@ class ContentGuide < ActiveRecord::Base
     end
   end
 
+  def grades
+    @grades ||= Grades.new(self)
+  end
+
   def faq
     ContentGuideFaq.where_subject(subject).try(:first)
   end
@@ -89,7 +93,7 @@ class ContentGuide < ActiveRecord::Base
     indices =
       taggings.map do |t|
         grade = t.tag.name if t.context == 'grades'
-        GradeListHelper::GRADES.index(grade)
+        Grades::GRADES.index(grade)
       end.compact
 
     [indices.min || 0, indices.size]
@@ -101,8 +105,8 @@ class ContentGuide < ActiveRecord::Base
 
   def non_existent_podcasts
     @non_existent_podcasts ||= begin
-      presenter.podcast_links.map { |a| a[:href] }.select do |url|
-        !Resource.find_podcast_by_url(url)
+      presenter.podcast_links.map { |a| a[:href] }.reject do |url|
+        Resource.find_podcast_by_url(url)
       end
     end
   end
@@ -110,8 +114,8 @@ class ContentGuide < ActiveRecord::Base
   def non_existent_videos
     @video_links ||= presenter.video_links
     @non_existent_videos ||= begin
-      @video_links.map { |a| a[:href] }.select do |url|
-        !Resource.find_video_by_url(url)
+      @video_links.map { |a| a[:href] }.reject do |url|
+        Resource.find_video_by_url(url)
       end
     end
   end
@@ -142,10 +146,6 @@ class ContentGuide < ActiveRecord::Base
     else
       id
     end
-  end
-
-  def sorted_grade_list
-    grade_list.sort_by { |g| GradeListHelper::GRADES.index(g) }
   end
 
   def validate_metadata
@@ -230,21 +230,19 @@ class ContentGuide < ActiveRecord::Base
   end
 
   def icon_values
-    errors.add(:base, :invalid) if paragraphs_with_invalid_icons.any?
+    errors.add(:base, 'paragraphs with invalid icons') if paragraphs_with_invalid_icons.any?
   end
 
   def media_exist
-    if non_existent_podcasts.any? || non_existent_videos.any?
-      errors.add(:base, :invalid)
-    end
+    errors.add(:base, 'media does not exist') if non_existent_podcasts.any? || non_existent_videos.any?
   end
 
   def no_broken_ext_links
-    errors.add(:base, :invalid) if broken_ext_links.any?
+    errors.add(:base, 'broken ext links') if broken_ext_links.any?
   end
 
   def no_broken_internal_links
-    errors.add(:base, :invalid) if broken_internal_links.any?
+    errors.add(:base, 'broken internal links') if broken_internal_links.any?
   end
 
   def presenter
@@ -253,13 +251,12 @@ class ContentGuide < ActiveRecord::Base
 
   def process_list_styles(doc)
     doc.xpath('//style').each do |stylesheet|
-      stylesheet.text.scan(/\.lst-(\S+)[^\{\}]+>\s*(?:li:before)\s*{\s*content[^\{\}]+counter\(lst-ctn-\1\,([^\)]+)\)/) do |match|
-
-        list_selector, counter_type = "ol.lst-#{match[0]}", match[1]
+      re = /\.lst-(\S+)[^\{\}]+>\s*(?:li:before)\s*{\s*content[^\{\}]+counter\(lst-ctn-\1\,([^\)]+)\)/
+      stylesheet.text.scan(re) do |match|
+        list_selector = "ol.lst-#{match[0]}"
+        counter_type = match[1]
         doc.css(list_selector).each do |element|
-
           element['style'] = [element['style'], "list-style-type: #{counter_type}"].join(';')
-
         end
       end
     end

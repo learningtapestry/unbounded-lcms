@@ -50,11 +50,8 @@ class ResourceBackup < ActiveRecord::Base
         #{config[:database]} > #{path}
     CMD
 
-    if (result = system(command))
-      @path_to_dump = path
-    else
-      raise 'Failed to dump resources'
-    end
+    raise 'Failed to dump resources' unless system(command)
+    @path_to_dump = path
   end
 
   def upload_dump!

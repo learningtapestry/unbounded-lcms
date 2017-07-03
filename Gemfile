@@ -50,8 +50,6 @@ gem 'seedbank', '~> 0.3'
 # tree data structure
 gem 'closure_tree', '~> 6.0'
 gem 'rubytree', '~> 0.9.6'
-# ordering
-gem 'order_as_specified', '~> 0.1.0'
 # tags
 gem 'acts-as-taggable-on', '~> 3.5'
 

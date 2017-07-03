@@ -12,7 +12,7 @@
         <% end %>
       <% end %>
     </div>
-  <%= render 'header', document: @document, curriculum: @curriculum, props: @props if @curriculum.present? %>
+  <%= render 'header', document: @document, props: @props if @props[:results].present? %>
   <%= render 'content', document: @document %>
   <div class="c-footer__item u-txt--footer-links">
     <%= @document.metadata['cc-attribution'] %>

@@ -47,8 +47,4 @@ describe CurriculumTree do
       expect(CurriculumTree.default_tree).to eq(empty_tree)
     end
   end
-
-  it 'has a presenter' do
-    expect(curriculum.presenter.class).to eq(CurriculumTreePresenter)
-  end
 end

@@ -3,9 +3,9 @@ class CommonCoreStandard < Standard
   belongs_to :cluster, class_name: 'CommonCoreStandard'
   belongs_to :domain, class_name: 'CommonCoreStandard'
 
-  scope :clusters, ->{ where(label: 'cluster') }
-  scope :domains, ->{ where(label: 'domain') }
-  scope :standards, ->{ where(label: 'standard') }
+  scope :clusters, -> { where(label: 'cluster') }
+  scope :domains, -> { where(label: 'domain') }
+  scope :standards, -> { where(label: 'standard') }
 
   def self.find_by_name_or_synonym(name)
     name = name.downcase
@@ -35,11 +35,12 @@ class CommonCoreStandard < Standard
           asn_identifier = data['asnIdentifier'].downcase
           name = data['statementNotation'].try(:downcase)
 
-          standard = name.present? ? find_or_initialize_by(name: name) : find_or_initialize_by(asn_identifier: asn_identifier)
+          std_params = name.present? ? { name: name } : { asn_identifier: asn_identifier }
+          standard = find_or_initialize_by(**std_params)
 
           standard.generate_alt_names
 
-          if alt_name = data['altStatementNotation'].try(:downcase)
+          if (alt_name = data['altStatementNotation'].try(:downcase))
             standard.alt_names << alt_name unless standard.alt_names.include?(alt_name)
           end
 
@@ -63,9 +64,9 @@ class CommonCoreStandard < Standard
 
     # ccss.ela-literacy.1.2 -> 1.2
     short_name = name
-      .gsub('ccss.ela-literacy.', '')
-      .gsub('ccss.math.content.', '')
-      .gsub('ccss.math.practice.', '')
+                   .gsub('ccss.ela-literacy.', '')
+                   .gsub('ccss.math.content.', '')
+                   .gsub('ccss.math.practice.', '')
 
     base_names = Set.new([short_name, short_name.gsub('ccra', 'ra')])
 
@@ -100,9 +101,7 @@ class CommonCoreStandard < Standard
     # add "clean" names: ela.r.1.2 -> elar12
     alt_names.merge(alt_names.map { |n| n.gsub(/[\.-]/, '') })
 
-    unless regenerate
-      alt_names.merge(self.alt_names)
-    end
+    alt_names.merge(self.alt_names) unless regenerate
 
     self.alt_names = alt_names.to_a
   end

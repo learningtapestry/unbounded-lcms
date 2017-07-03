@@ -1,5 +1,8 @@
 class Standard < ActiveRecord::Base
-  include CCSSStandardFilter
+  ALT_NAME_REGEX = {
+    'ela' => /^[[:alpha:]]+\.(k|pk|\d+)\.\d+(\.[[:alnum:]]+)?$/,
+    'math' => /^(k|pk|\d+)\.[[:alpha:]]+(\.[[:alpha:]]+)?\.\d+(\.[[:alpha:]]+)?$/
+  }.freeze
 
   validates_presence_of :subject
 
@@ -14,12 +17,6 @@ class Standard < ActiveRecord::Base
   has_many :standard_emphases, class_name: 'StandardEmphasis', dependent: :destroy
 
   scope :bilingual, -> { where(is_language_progression_standard: true) }
-
-  scope :by_collection, ->(collection) { by_collection([collection]) }
-  scope :by_collections, lambda { |collections|
-    joins(resource_standards: { resource: [:resource_children] })
-      .where('resource_children.resource_collection_id' => collections.map(&:id))
-  }
 
   scope :by_grade, ->(grade) { by_grades [grade] }
   scope :by_grades, lambda { |grades|
@@ -44,12 +41,16 @@ class Standard < ActiveRecord::Base
     )
   end
 
+  def self.filter_ccss_standards(name)
+    name.upcase if name =~ (ALT_NAME_REGEX[subject] || /.*/)
+  end
+
   def attachment_url
     language_progression_file.url if language_progression_file.present?
   end
 
   def short_name
-    alt_names.map { |n| filter_ccss_standards(n) }.compact.try(:first) || name
+    alt_names.map { |n| self.class.filter_ccss_standards(n) }.compact.try(:first) || name
   end
 
   def emphasis(grade = nil)

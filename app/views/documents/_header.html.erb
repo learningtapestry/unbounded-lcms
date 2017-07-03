@@ -9,7 +9,7 @@
       <% unless request[:action].index('export') %>
         <%= react_component('CurriculumMap', props, prerender: true) %>
         <div class="u-margin-top--xs">
-          <%= link_to back_to_curriculum_path(curriculum), class: 'u-txt--button cs-txt-link--base-txt' do %>
+          <%= link_to back_to_resource_path(document.resource), class: 'u-txt--button cs-txt-link--base-txt' do %>
             <i class="fa ub-angle-left u-text--middled u-text--bolded"></i><%= t('resources.btn.back') %>
           <% end %>
         </div>

@@ -9,11 +9,11 @@ class Component < OpenStruct
 
     def find(id)
       resp = api_request "/#{id}"
-      self.new(resp)
+      new(resp)
     end
 
     def component_types
-      @component_types ||= api_request("/types")
+      @component_types ||= api_request('/types')
     end
 
     def api_url(path)
@@ -25,10 +25,10 @@ class Component < OpenStruct
       @api_token ||= ENV.fetch('UB_COMPONENTS_API_TOKEN')
     end
 
-    def api_request(path, params={})
+    def api_request(path, params = {})
       res = HTTParty.get api_url(path),
                          query: params,
-                         headers: {"Authorization" => "Token token=\"#{api_token}\""}
+                         headers: { 'Authorization' => "Token token=\"#{api_token}\"" }
       parse_response(res)
     rescue URI::InvalidURIError, ComponentsAPIError => e
       Rails.logger.error("Error requesting the components API: path=#{path} params=#{params}")
@@ -56,12 +56,10 @@ class Component < OpenStruct
       resp = resp.with_indifferent_access
       Elasticsearch::Persistence::Repository::Response::Results.new(
         repo,
-        {
-          hits: {
-            total:     resp[:total],
-            max_score: resp[:max_score],
-            hits:      resp[:results]
-          }
+        hits: {
+          total:     resp[:total],
+          max_score: resp[:max_score],
+          hits:      resp[:results]
         }
       ).paginate(resp.slice(:page, :per_page))
     end
@@ -70,7 +68,7 @@ class Component < OpenStruct
     # can define how to deserialize the results
     def repo
       @repo ||= Elasticsearch::Persistence::Repository.new do
-        def deserialize(document)
+        def deserialize(document) # rubocop:disable Lint/NestedMethodDefinition
           Component.new(document)
         end
       end

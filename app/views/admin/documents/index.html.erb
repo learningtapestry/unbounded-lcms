@@ -26,7 +26,7 @@
       <% @documents.each do |lesson| %>
         <tr id=lesson_<%= lesson.id %>>
           <td class='u-text--right'><%= lesson.id %>
-          <td><%= curriculum_breadcrumbs(lesson) %>
+          <td><%= Breadcrumbs.new(lesson.resource).short_title if lesson.resource %>
           <td><%= link_to lesson.resource.try(:title), lesson.resource if lesson.resource %>
           <td><%= link_to lesson.name, lesson.file_url, target: '_blank' %>
           <td><%= lesson.updated_at.to_s %>

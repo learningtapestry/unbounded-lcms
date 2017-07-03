@@ -2,9 +2,7 @@ namespace :thumbnails do
   desc 'generate thumbnail images'
   namespace :generate do
     task resources: [:environment] do
-      generate_thumbnails 'Resources', Curriculum.trees
-                                                 .with_resources
-                                                 .includes(:resource_item)
+      generate_thumbnails 'Resources', Resource.tree
     end
 
     task others: [:environment] do
@@ -13,11 +11,11 @@ namespace :thumbnails do
       generate_thumbnails 'Guide    ', ContentGuide.where(nil)
     end
 
-    task all: [:others, :resources] do
+    task all: %i(others resources) do
     end
 
     def build_progressbar(name, qset)
-      ProgressBar.create title: "Generate thumbnails for #{name}", total: qset.count()
+      ProgressBar.create title: "Generate thumbnails for #{name}", total: qset.count
     end
 
     def generate_thumbnails(name, qset)
@@ -33,13 +31,12 @@ namespace :thumbnails do
   end
 
   task update: [:environment] do
-    origin_time = '2017-01-23T16:25:00+00:00'  # first time we have run the thumbnails
+    origin_time = '2017-01-23T16:25:00+00:00' # first time we have run the thumbnails
 
     last_update = Settings.thumbnails_last_update || DateTime.parse(origin_time)
     new_update_time = DateTime.now
 
-    updated_ids = Resource.where('updated_at > ?', last_update).ids
-    update_thumbs Curriculum.trees.where(item_id: updated_ids, item_type: 'Resource')
+    update_thumbs Resource.tree.where('updated_at > ?', last_update)
 
     update_thumbs Resource.media.where('updated_at > ?', last_update)
     update_thumbs Resource.generic_resources.where('updated_at > ?', last_update)

@@ -1,18 +1,51 @@
 class SVGSocialThumbnail
   include ERB::Util
 
-  attr_reader :resource, :curriculum, :media
+  SIZE_MAP = {
+    all:       { width: 600,  height: 600 },
+    facebook:  { width: 1200, height: 627 },
+    pinterest: { width: 600,  height: 800 },
+    twitter:   { width: 440,  height: 220 }
+  }.with_indifferent_access
+
+  COLOR_CODES = {
+    ela_base: '#f75b28',
+    ela_pk:   '#fda43a',
+    ela_k:    '#fc9837',
+    ela_1:    '#fb8d32',
+    ela_2:    '#f7802c',
+    ela_3:    '#f97529',
+    ela_4:    '#f96924',
+    ela_5:    '#f85e20',
+    ela_6:    '#f0501a',
+    ela_7:    '#e94d1a',
+    ela_8:    '#e14b19',
+    ela_9:    '#da4818',
+    ela_10:   '#d34617',
+    ela_11:   '#cc4417',
+    ela_12:   '#c54116',
+
+    math_base: '#00a699',
+    math_pk:   '#69d59d',
+    math_k:    '#5bcf9d',
+    math_1:    '#4cc89c',
+    math_2:    '#3cc19b',
+    math_3:    '#2ebb9b',
+    math_4:    '#1eb49a',
+    math_5:    '#0fad9a',
+    math_6:    '#009d90',
+    math_7:    '#009488',
+    math_8:    '#008b7f',
+    math_9:    '#008277',
+    math_10:   '#00796e',
+    math_11:   '#007066',
+    math_12:   '#00675d'
+  }.freeze
+
+  attr_reader :resource, :media
 
   def initialize(model, media: nil)
-    if model.is_a?(ContentGuide)
-      @resource = model
-    elsif model.is_a?(Curriculum)
-      @curriculum = model
-      @resource = model.resource
-    else
-      @curriculum = model.curriculums.trees.last
-      @resource = model
-    end
+    @resource = model
     @media = media || :all
   end
 
@@ -20,12 +53,12 @@ class SVGSocialThumbnail
     @rendered ||= ERB.new(template).result(binding)
   end
 
-  def template
-    @@template ||= File.read template_path
+  def self.template
+    @template ||= File.read Rails.root.join('app', 'views', 'shared', 'social_thumbnail.svg.erb')
   end
 
-  def template_path
-    Rails.root.join('app', 'views', 'shared', 'social_thumbnail.svg.erb')
+  def template
+    self.class.template
   end
 
   # =========================
@@ -35,32 +68,32 @@ class SVGSocialThumbnail
     ApplicationController.helpers.asset_path(asset)
   end
 
+  def self.base64_cache
+    @base64_cache ||= {}
+  end
+
+  def base64_cache
+    self.class.base64_cache
+  end
+
   def base64_encoded_asset(asset)
-    @@base64_cache = {}
-    @@base64_cache.fetch asset do
+    base64_cache.fetch asset do
       encoded = ApplicationController.helpers.base64_encoded_asset(asset)
       if asset =~ /\.ttf$/
         encoded.gsub!('data:application/x-font-ttf;base64,',
                       'data:font/truetype;charset=utf-8;base64,')
       end
-      @@base64_cache[asset] = encoded
+      base64_cache[asset] = encoded
     end
   end
 
   def size
-    @@size_map ||= {
-      all:       {width:  600, height: 600},
-      facebook:  {width: 1200, height: 627},
-      pinterest: {width:  600, height: 800},
-      twitter:   {width:  440, height: 220},
-    }.with_indifferent_access
-
-    @@size_map[media]
+    SIZE_MAP[media]
   end
 
   def logo_size
     proportion = footer_size / 100.0
-    {width: 220 * proportion, height: 30 * proportion}
+    { width: 220 * proportion, height: 30 * proportion }
   end
 
   def footer_size
@@ -80,15 +113,15 @@ class SVGSocialThumbnail
 
   def style
     @style ||= {
-      padding: 2*em,
+      padding: 2 * em,
       font_size: em,
       font_size_big: (
         case media
-        when :facebook  then 3*em
-        when :pinterest then 3.25*em
-        else 2.5*em
+        when :facebook  then 3 * em
+        when :pinterest then 3.25 * em
+        else 2.5 * em
         end
-      ),
+      )
     }.with_indifferent_access
   end
 
@@ -111,11 +144,11 @@ class SVGSocialThumbnail
   end
 
   def title_top_margin
-    header_with_two_lines? ? 3*style[:padding] :  2*style[:padding]
+    header_with_two_lines? ? 3 * style[:padding] : 2 * style[:padding]
   end
 
   def subject_and_grade
-    grades = GenericPresenter.new(resource).grades_to_str
+    grades = resource.grades.to_str
     subject = resource.subject == 'ela' ? 'ELA' : 'Math'
     case grades
     when 'Grade PK' then "#{subject}  Prekindergarten"
@@ -129,18 +162,16 @@ class SVGSocialThumbnail
   end
 
   def content_type
-    curr_type = curriculum.try(:curriculum_type).try(:name)
-
     if resource.is_a?(ContentGuide)
       'CONTENT GUIDE'
     elsif resource.generic? || resource.media?
       resource.resource_type.humanize.upcase
-    elsif curr_type == 'unit' && resource.short_title.match(/topic/i)
+    elsif resurce.unit? && resource.short_title.match(/topic/i)
       'TOPIC'
-    elsif curr_type == 'lesson'
+    elsif resource.lesson?
       'LESSON PLAN'
     else
-      curr_type.upcase
+      resource.curriculum_type.try(:upcase)
     end
   end
 
@@ -151,7 +182,7 @@ class SVGSocialThumbnail
   def title_sentences
     buffer = ''
     sentences = []
-    resource.title.gsub(/(\w)-(\w)/, '\1- \2' ).split.each do |word|
+    resource.title.gsub(/(\w)-(\w)/, '\1- \2').split.each do |word|
       if (buffer + word).size < title_width_threshold
         buffer = [buffer, word].select(&:present?).join(' ')
         buffer = buffer.gsub(/(\w)- (\w)/, '\1-\2')
@@ -160,47 +191,11 @@ class SVGSocialThumbnail
         buffer = word
       end
     end
-    sentences << buffer if buffer.size > 0
+    sentences << buffer unless buffer.empty?
   end
 
   def color_code
-    grade = resource.grade_avg rescue :base
-    color_codes[:"#{resource.subject}_#{grade}"]
-  end
-
-  def color_codes
-    @@color_codes ||= {
-      ela_base: '#f75b28',
-      ela_pk:   '#fda43a',
-      ela_k:    '#fc9837',
-      ela_1:    '#fb8d32',
-      ela_2:    '#f7802c',
-      ela_3:    '#f97529',
-      ela_4:    '#f96924',
-      ela_5:    '#f85e20',
-      ela_6:    '#f0501a',
-      ela_7:    '#e94d1a',
-      ela_8:    '#e14b19',
-      ela_9:    '#da4818',
-      ela_10:   '#d34617',
-      ela_11:   '#cc4417',
-      ela_12:   '#c54116',
-
-      math_base: '#00a699',
-      math_pk:   '#69d59d',
-      math_k:    '#5bcf9d',
-      math_1:    '#4cc89c',
-      math_2:    '#3cc19b',
-      math_3:    '#2ebb9b',
-      math_4:    '#1eb49a',
-      math_5:    '#0fad9a',
-      math_6:    '#009d90',
-      math_7:    '#009488',
-      math_8:    '#008b7f',
-      math_9:    '#008277',
-      math_10:   '#00796e',
-      math_11:   '#007066',
-      math_12:   '#00675d',
-    }
+    grade = resource.grades.average rescue :base
+    COLOR_CODES[:"#{resource.subject}_#{grade}"]
   end
 end
