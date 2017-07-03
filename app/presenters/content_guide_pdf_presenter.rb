@@ -56,7 +56,7 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
 
   def grades_title
     g = grades.range
-    g.include?('k') ? g.try(:titleize) : "#{t('ui.grade')} #{g}"
+    g.include?('k') ? g.titleize : "#{t('ui.grade')} #{g}"
   end
 
   def mark_footnotes

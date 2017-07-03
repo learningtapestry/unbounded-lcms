@@ -1,8 +1,8 @@
 class CurriculumResourceSerializer < ActiveModel::Serializer
   self.root = false
 
-  attributes :id, :resource, :children, :type, :lesson_count, :unit_count,
-             :module_count, :module_sizes, :unit_sizes
+  attributes :children, :id, :lesson_count, :module_count, :module_sizes,
+             :resource,  :type, :unit_count, :unit_sizes
 
   def initialize(object, options = {})
     super(object, options)

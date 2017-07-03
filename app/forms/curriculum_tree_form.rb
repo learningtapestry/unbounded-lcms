@@ -56,7 +56,7 @@ class CurriculumTreeForm
 
   def parse_tree_node(node)
     {
-      name: node['text'],
+      name: node['text'].try(:downcase),
       children: node['children'].map { |child| parse_tree_node(child) }
     }
   end
