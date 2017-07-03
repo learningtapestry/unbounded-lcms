@@ -7,13 +7,15 @@ module DocTemplate
         include Virtus.model
 
         attribute :anchor, String
+        attribute :children, Array[Heading], default: []
+        attribute :level, Integer
         attribute :time, Integer
         attribute :title, String
-        attribute :level, Integer
-        attribute :children, Array[Heading], default: []
+        attribute :priority, Integer, default: 0
       end
 
       attribute :children, Array[Heading]
+      attribute :priority, Integer, default: 0
       attribute :total_time, Integer, default: -> (t, _) { t.children.sum(&:time) }
 
       class << self

@@ -13,19 +13,19 @@
 //= require react
 //= require react_ujs
 //= require components
-//= require initializers/content_guides
 //= require initializers/about_people
-//= require initializers/social_sharing
+//= require initializers/content_guides
 //= require initializers/google_analytics
-//= require initializers/leadership
 //= require initializers/header_dropdown
+//= require initializers/leadership
 //= require initializers/lessons
 //= require initializers/loadasync
-//= require initializers/soundcloud
-//= require initializers/subscribe_placeholder
 //= require initializers/pdf_preview
 //= require initializers/resource_details
-//= require initializers/lessons
+//= require initializers/social_sharing
+//= require initializers/soundcloud
+//= require initializers/subscribe_placeholder
+//= require_tree ./initializers/sidebar
 
 ready(function() {
   $(document).initFoundation();

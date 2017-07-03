@@ -16,6 +16,14 @@ $(function () {
     });
   }
 
+  function initSidebar() {
+    const observers = [
+      new SidebarDocMenu(),
+      new TopScroll(),
+    ];
+    let sidebar = new SideBar(observers, 'ld');
+  }
+
   function initToggler(component) {
     let prefix = `${COMPONENT_PREFIX}-${component}`;
     $(`${prefix}__toggler`).click(function() {
@@ -26,8 +34,9 @@ $(function () {
   }
 
   window.initializeLessons = function() {
-    if (!$('.o-page--cg').length) return;
+    if (!$('.o-page--ld').length) return;
     initPdToggler();
+    initSidebar();
     initToggler('expand');
     initToggler('materials');
   }
