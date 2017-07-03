@@ -24,9 +24,8 @@ module Admin
 
     def index_params
       @index_params ||= begin
-        default_params = { q: nil }
         expected_params = params.slice(:association, :q).symbolize_keys
-        index_p = default_params.merge(expected_params)
+        index_p = { q: nil }.merge(expected_params)
 
         raise StandardError unless VALID_ASSOCIATIONS.include?(index_p[:association])
 
