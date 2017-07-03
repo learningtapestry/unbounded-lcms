@@ -13,84 +13,15 @@ namespace :oneoff do
     end
   end
 
-  task unit2_resources: :environment do
-    with_curriculum = true
+  task migrate_data_after_refactor: :environment do
+    tree = File.read Rails.root.join('db', 'data', 'pilot_curriculum_tree.json')
+    CurriculumTree.default.update tree: JSON.parse(tree)
 
-    # ELA Grade 2 UNIT 2 Lessons 1-17 (unit + lessons)
-    create_unit2_resources(2, 17, with_curriculum)
-    # ELA Grade 6 UNIT 2 Lessons 1-14 (unit + lessons)
-    create_unit2_resources(6, 14, with_curriculum)
-  end
-
-  def create_unit2_resources(grade, lessons, with_curriculum)
-    mod = Curriculum.ela.seeds.grades
-      .where_grade("grade #{grade}")
-      .first # The grade
-      .children # The modules
-      .first # The first module
-      .curriculum_item # The curriculum item for the first module
-
-    puts "Found module #{mod.id} - #{mod.resource.title}"
-
-    # Create unit
-    resource = Resource.create!(
-      curriculum_directory: ['ela', "grade #{grade}", 'module 1', 'unit 2'],
-      curriculum_type: 'unit',
-      grade_list: ["grade #{grade}"],
-      resource_type: Resource.resource_types[:resource],
-      short_title: 'unit 2',
-      subject: 'ela',
-      title: "ELA G#{grade} M1 U2"
-    )
-
-    if with_curriculum
-      unit = Curriculum.create!(
-        curriculum_type: CurriculumType.unit,
-        item: resource,
-        breadcrumb_title: "ELA / G#{grade} / M1 / unit 2",
-        breadcrumb_short_title: "EL / G#{grade} / M1 / U2",
-        breadcrumb_piece: 'U2',
-        breadcrumb_short_piece: 'U2',
-        hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} 00"
-      )
-      mod.children.create!(
-        curriculum_type: CurriculumType.unit,
-        item: unit,
-        position: 1,
-        breadcrumb_title: "ELA / G#{grade} / M1 / unit 2",
-        breadcrumb_short_title: "EL / G#{grade} / M1 / U2",
-        breadcrumb_piece: 'U2',
-        breadcrumb_short_piece: 'U2',
-        hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} 00"
-      )
-    end
-
-    lessons.times do |i|
-      num = i + 1
-      resource = Resource.create!(
-        curriculum_directory: ['ela', "grade #{grade}", 'module 1', 'unit 2', "lesson #{num}"],
-        curriculum_type: 'lesson',
-        grade_list: ["grade #{grade}"],
-        resource_type: Resource.resource_types[:resource],
-        short_title: "lesson #{num}",
-        subject: 'ela',
-        title: "ELA G#{grade} M1 U2 L#{num}"
-      )
-      if with_curriculum
-        unit.children.create!(
-          curriculum_type: CurriculumType.lesson,
-          item: resource,
-          seed_id: unit.seed_id,
-          position: num,
-          breadcrumb_title: "ELA / G#{grade} / M1 / U2 / lesson #{num}",
-          breadcrumb_short_title: "EL / G#{grade} / M1 / U2 / L#{num}",
-          breadcrumb_piece: "L#{num}",
-          breadcrumb_short_piece: "L#{num}",
-          hierarchical_position: "01 01 #{grade.to_s.rjust(2, '0')} #{num.to_s.rjust(2, '0')}"
-        )
-      end
-    end
-
-    Curriculum.maps.seeds.each { |c| c.create_tree(force: true) }
+    Rake::Task['resources:curriculum_directories'].invoke
+    Rake::Task['resources:generate_positions'].invoke
+    Rake::Task['resources:fix_lessons_metadata'].invoke
+    Rake::Task['resources:generate_slugs'].invoke
+    Rake::Task['es:reset'].invoke
+    Rake::Task['es:load'].invoke
   end
 end

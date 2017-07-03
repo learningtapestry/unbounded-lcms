@@ -6,6 +6,12 @@ describe Admin::CurriculumTreesController do
 
   before { sign_in user }
 
+  describe '#index' do
+    subject { get :index }
+
+    it { is_expected.to be_success }
+  end
+
   describe '#edit' do
     subject { get :edit, id: curriculum.id }
 

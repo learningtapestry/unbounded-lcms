@@ -1,6 +1,4 @@
 class Document < ActiveRecord::Base
-  include Searchable
-
   belongs_to :resource
   has_many :document_parts, dependent: :delete_all
 
@@ -76,38 +74,19 @@ class Document < ActiveRecord::Base
     end
 
     # store only the lesson number
-    return unless metadata['lesson'].present?
-    metadata['lesson'] = metadata['lesson'].match(/lesson (\d+)/i).try(:[], 1) || metadata['lesson']
+    lesson = metadata['lesson']
+    metadata['lesson'] = lesson.match(/lesson (\d+)/i).try(:[], 1) || lesson if lesson.present?
   end
 
   def set_resource_from_metadata
     return unless metadata.present?
 
-    context = curriculum_context
-    if metadata['type'] =~ /assessment/
-      assessment = Assessment.new(context, metadata)
-                     .fix_metadata!
-                     .find_or_create
-      self.resource_id = assessment.id
-    else
-      curriculum = Curriculum.find_by_context(context)
-      if curriculum && curriculum.lesson?
-        resource = curriculum.resource
-        resource.update(**resource_update_attrs)
-        self.resource_id = resource.id
-      end
-    end
-  end
+    context = CurriculumContext.new(metadata)
+    resource = context.find_or_create_resource
+    return unless resource && resource.lesson?
 
-  def curriculum_context
-    subject = metadata['subject']
-    grade = metadata['grade']
-    mod = ela? ? metadata['module'] : metadata['unit']
-    mod = "module #{mod}" unless mod.include?('strand')
-    unit = ela? ? "unit #{metadata['unit']}" : "topic #{metadata['topic']}"
-    lesson = "lesson #{metadata['lesson']}"
-
-    { subject: subject, grade: grade, module: mod, unit: unit, lesson: lesson }
+    resource.update(**resource_update_attrs) unless resource.assessment?
+    self.resource_id = resource.id
   end
 
   def resource_update_attrs

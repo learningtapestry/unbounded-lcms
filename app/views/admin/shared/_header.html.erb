@@ -24,12 +24,7 @@
             </li>
 
             <li class="dropdown c-header__link">
-              <%= link_to t('admin.nav.curriculums'), :admin_curriculums %>
-              <ul class="menu vertical">
-                <%= nav_link t('admin.nav.curriculums'), :admin_curriculums %>
-                <%= nav_link t('admin.nav.add_curriculum'), :new_admin_curriculum %>
-                <%= nav_link t('admin.nav.curriculum_trees'), :admin_curriculum_trees %>
-              </ul>
+              <%= link_to t('admin.nav.curriculums'), :admin_curriculum_trees %>
             </li>
 
             <li class="dropdown c-header__link">
@@ -47,7 +42,6 @@
                 <%= nav_link t('admin.nav.resources'), :admin_resources %>
                 <%= nav_link t('admin.nav.downloadable_resource_categories'), :admin_download_categories %>
                 <%= nav_link t('admin.nav.add_resource'), :new_admin_resource %>
-                <%= nav_link t('admin.nav.export_resources'), :new_admin_curriculum_export %>
                 <%= nav_link t('admin.nav.reading_assignment_texts'), :admin_reading_assignment_texts %>
                 <%= nav_link t('admin.nav.component_search'), :admin_components %>
                 <%= nav_link t('admin.nav.sketch_compilation', version: 'v1'), new_admin_sketch_compiler_path(:v1) %>

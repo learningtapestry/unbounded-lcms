@@ -15,7 +15,7 @@ class RemoveSession
     #   - We're in the process of logging in (breaks CSRF for sign in form)
     #   - We're logged in (needed for Devise)
     skip_delete = (
-      path =~ /^\/users/ ||
+      path =~ %r{^/users} ||
       user_key.present? ||
       headers[SET_COOKIE].blank?
     )
@@ -42,18 +42,13 @@ class RemoveSession
   end
 
   def without_session_cookie(header)
-    cookies =
-      case header
-      when String
-        header.split("\n")
-      when Array
-        header
-      else
-        []
-      end
+    cookies = case header
+              when String then header.split("\n")
+              when Array then header
+              else []
+              end
 
     cookies.reject! { |c| c =~ /#{session_key}/ }
-
     cookies.join('\n')
   end
 end

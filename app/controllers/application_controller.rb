@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     return unless request.format.html?
 
     authenticate_or_request_with_http_basic('Administration') do |username, password|
-      username ==  ENV['HTTP_AUTH_NAME'] && password == ENV['HTTP_AUTH_PASS']
+      username == ENV['HTTP_AUTH_NAME'] && password == ENV['HTTP_AUTH_PASS']
     end
   end
 end

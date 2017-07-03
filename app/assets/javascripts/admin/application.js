@@ -10,13 +10,11 @@
 //= require react
 //= require react_ujs
 //= require vendor/html.sortable.min
+//= require vendor/jquery.tagsinput
 //= require jstree
 //= require ../ready
 //= require ../components
 //= require ./components
-//= require_tree ./editor
-//= require_tree ./curriculums
-
 
 ready(function() {
   $(document).initFoundation();

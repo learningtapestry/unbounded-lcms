@@ -36,7 +36,7 @@
         <td class=resource-tag-col><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
         <td class=resource-tag-col><%= resource.resource_type %>
         <td class=resource-tag-col><%= resource.subject %>
-        <td class=resource-tag-col><%= resource.slugs.map(&:value).join(', ') %>
+        <td class=resource-tag-col><%= resource.slug %>
         <td><%= resource_status(resource) %>
         <td><%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>
       </tr>
