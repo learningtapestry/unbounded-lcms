@@ -5,6 +5,8 @@ require 'rails_helper'
 describe ResourcesController do
   let(:resource) { create(:resource) }
 
+  before { sign_in create(:user) }
+
   describe '#pdf_proxy' do
     let(:data) { 'data' }
     let(:filename) { 'filename' }

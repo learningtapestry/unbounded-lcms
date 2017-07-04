@@ -63,18 +63,13 @@ $ub-search: '\e910';
 $ub-share: '\e915';
 $ub-spreadsheet: '\e917';
 $ub-twitter: '\e919';
+$ub-user: '\e923';
 $ub-vimeo: '\e91a';
 $ub-youtube: '\e91b';
 
-.ub-print {
+.ub-angle-down {
   &::before {
-    content: $ub-print;
-  }
-}
-
-.ub-file-gdoc {
-  &::before {
-    content: $ub-file-gdoc;
+    content: $ub-angle-down;
   }
 }
 
@@ -90,21 +85,33 @@ $ub-youtube: '\e91b';
   }
 }
 
-.ub-microphone {
-  &::before {
-    content: $ub-microphone;
-  }
-}
-
-.ub-eye {
-  &::before {
-    content: $ub-eye;
-  }
-}
-
 .ub-angle-left {
   &::before {
     content: $ub-angle-left;
+  }
+}
+
+.ub-angle-right {
+  &::before {
+    content: $ub-angle-right;
+  }
+}
+
+.ub-arrow-left {
+  &::before {
+    content: $ub-arrow-left;
+  }
+}
+
+.ub-arrow-right {
+  &::before {
+    content: $ub-arrow-right;
+  }
+}
+
+.ub-arrow-share {
+  &::before {
+    content: $ub-arrow-share;
   }
 }
 
@@ -168,9 +175,15 @@ $ub-youtube: '\e91b';
   }
 }
 
-.ub-angle-down {
+.ub-ellipsis {
   &::before {
-    content: $ub-angle-down;
+    content: $ub-ellipsis;
+  }
+}
+
+.ub-eye {
+  &::before {
+    content: $ub-eye;
   }
 }
 
@@ -180,33 +193,15 @@ $ub-youtube: '\e91b';
   }
 }
 
-.ub-angle-right {
+.ub-file-gdoc {
   &::before {
-    content: $ub-angle-right;
-  }
-}
-
-.ub-arrow-right {
-  &::before {
-    content: $ub-arrow-right;
-  }
-}
-
-.ub-arrow-left {
-  &::before {
-    content: $ub-arrow-left;
+    content: $ub-file-gdoc;
   }
 }
 
 .ub-file-image {
   &::before {
     content: $ub-file-image;
-  }
-}
-
-.ub-search {
-  &::before {
-    content: $ub-search;
   }
 }
 
@@ -222,57 +217,9 @@ $ub-youtube: '\e91b';
   }
 }
 
-.ub-pinterest {
-  &::before {
-    content: $ub-pinterest;
-  }
-}
-
-.ub-ellipsis {
-  &::before {
-    content: $ub-ellipsis;
-  }
-}
-
-.ub-share {
-  &::before {
-    content: $ub-share;
-  }
-}
-
-.ub-arrow-share {
-  &::before {
-    content: $ub-arrow-share;
-  }
-}
-
-.ub-spreadsheet {
-  &::before {
-    content: $ub-spreadsheet;
-  }
-}
-
 .ub-file-text {
   &::before {
     content: $ub-file-text;
-  }
-}
-
-.ub-twitter {
-  &::before {
-    content: $ub-twitter;
-  }
-}
-
-.ub-vimeo {
-  &::before {
-    content: $ub-vimeo;
-  }
-}
-
-.ub-youtube {
-  &::before {
-    content: $ub-youtube;
   }
 }
 
@@ -288,19 +235,67 @@ $ub-youtube: '\e91b';
   }
 }
 
-.file-pdf::before {
-  content: $ub-file-pdf;
+.ub-microphone {
+  &::before {
+    content: $ub-microphone;
+  }
+}
+
+.ub-pinterest {
+  &::before {
+    content: $ub-pinterest;
+  }
+}
+
+.ub-print {
+  &::before {
+    content: $ub-print;
+  }
+}
+
+.ub-search {
+  &::before {
+    content: $ub-search;
+  }
+}
+
+.ub-share {
+  &::before {
+    content: $ub-share;
+  }
+}
+
+.ub-spreadsheet {
+  &::before {
+    content: $ub-spreadsheet;
+  }
+}
+
+.ub-twitter {
+  &::before {
+    content: $ub-twitter;
+  }
+}
+
+.ub-user {
+  &::before {
+    content: $ub-user;
+  }
+}
+
+.ub-vimeo {
+  &::before {
+    content: $ub-vimeo;
+  }
+}
+
+.ub-youtube {
+  &::before {
+    content: $ub-youtube;
+  }
 }
 
 .file-doc::before {
-  content: $ub-file-text;
-}
-
-.file-video::before {
-  content: $ub-file-media;
-}
-
-.file-resource::before {
   content: $ub-file-text;
 }
 
@@ -308,12 +303,24 @@ $ub-youtube: '\e91b';
   content: $ub-spreadsheet;
 }
 
+.file-pdf::before {
+  content: $ub-file-pdf;
+}
+
 .file-powerpoint::before {
   content: $ub-file-image;
 }
 
+.file-resource::before {
+  content: $ub-file-text;
+}
+
 .file-unknown::before {
   content: $ub-file-text;
+}
+
+.file-video::before {
+  content: $ub-file-media;
 }
 
 .file-zip::before {

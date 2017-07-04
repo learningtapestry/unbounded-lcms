@@ -1,6 +1,11 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def add_class_for_path(link_path, klass, klass_prefix = nil)
-    "#{klass_prefix} #{klass if current_page?(link_path)}"
+    [
+      klass_prefix,
+      current_page?(link_path) ? klass : nil
+    ].compact.join(' ')
   end
 
   def add_class_for_action(controller_name, action_name, klass, klass_prefix = nil)
@@ -8,9 +13,9 @@ module ApplicationHelper
     "#{klass_prefix} #{sufix}"
   end
 
-  def nav_link(link_text, link_path, attrs = {})
+  def nav_link(link_text, link_path, attrs = {}, link_attrs = {})
     cls = add_class_for_path(link_path, 'active', attrs[:class])
-    content_tag(:li, attrs.merge(class: cls)) { link_to link_text, link_path }
+    content_tag(:li, attrs.merge(class: cls)) { link_to link_text, link_path, link_attrs }
   end
 
   def header_mod
@@ -21,7 +26,7 @@ module ApplicationHelper
     if content_for?(:page_title)
       page_title = content_for(:page_title)
     else
-      controller = controller_path.gsub('/', '.')
+      controller = controller_path.tr('/', '.')
       page_title = t("#{controller}.#{action_name}.page_title", default: t('default_title'))
     end
     strip_tags_and_squish(page_title)
@@ -31,7 +36,7 @@ module ApplicationHelper
     if content_for?(:description)
       page_description = content_for(:description)
     else
-      controller = controller_path.gsub('/', '.')
+      controller = controller_path.tr('/', '.')
       page_description = t("#{controller}.#{action_name}.page_description", default: t('default_description'))
     end
     strip_tags_and_squish(page_description)
@@ -41,7 +46,7 @@ module ApplicationHelper
     if content_for?(:og_image)
       page_og_image = content_for(:og_image)
     else
-      controller = controller_path.gsub('/', '.')
+      controller = controller_path.tr('/', '.')
       page_og_image = t("#{controller}.#{action_name}.og_image", default: t('default_og_image'))
     end
     page_og_image

@@ -1,29 +1,46 @@
-<h2>Sign up</h2>
+<div class="callout warning">
+  Thanks!
+  <br>
+  The UnboundEd Beta is currently available to select educators and school leaders by invitation only. To access the beta, please enter your activation code below, then enter your email and create a password.
+</div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+<div class="o-page">
+  <div class="o-page__content u-pd-content">
+    <div class="u-centered u-container--condensed">
+      <h1 class="u-margin-bottom--large">Register</h1>
+      <div class="u-hr-small u-margin-bottom--xlarge"></div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= f.text_field :access_code, autofocus: true, class: 'o-input-placehoder--gray' + (resource.errors[:access_code].present? ? ' o-input-error' : ''), placeholder: 'Enter access code', value: @code %>
+        <% if resource.errors[:access_code].present? %>
+          <p class="cs-txt-link--error">
+            Access code <%= resource.errors[:access_code].first %>
+          </p>
+        <% end %>
+        <%= f.email_field :email, class: 'o-input-placehoder--gray' + (resource.errors[:email].present? ? ' o-input-error' : ''), placeholder: 'Enter email address' %>
+        <% if resource.errors[:email].present? %>
+          <p class="cs-txt-link--error">
+            Email <%= resource.errors[:email].first %>
+          </p>
+        <% end %>
+        <%= f.password_field :password, autocomplete: 'off', class: 'o-input-placehoder--gray' + (resource.errors[:password].present? ? ' o-input-error' : ''), placeholder: 'Enter a password' %>
+        <% if resource.errors[:password].present? %>
+          <p class="cs-txt-link--error">
+            Password <%= resource.errors[:password].first %>
+          </p>
+        <% end %>
+        <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'o-input-placehoder--gray' + (resource.errors[:password_confirmation].present? ? ' o-input-error' : ''), placeholder: 'Confirm you password' %>
+        <% if resource.errors[:password_confirmation].present? %>
+          <p class="cs-txt-link--error">
+            <%= resource.errors[:password_confirmation].first %>
+          </p>
+        <% end %>
+        <%= f.submit 'Register', class: 'o-btn o-btn--xs-full o-btn--yellow o-btn--xs-full' %>
+      <% end %>
+
+      <div class="u-margin-bottom--xlarge u-margin-top--xlarge">
+        <%= link_to 'Back to Login', new_user_session_path %>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

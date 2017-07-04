@@ -5,6 +5,8 @@ require 'rails_helper'
 describe DocumentsController do
   let(:document) { create :document }
 
+  before { sign_in create(:user) }
+
   describe '#export_gdoc' do
     let(:exporter) { instance_double 'DocumentExporter::Gdoc', url: url }
     let(:file_id) { 'fileid' }

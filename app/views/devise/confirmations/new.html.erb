@@ -1,16 +1,23 @@
-<h2>Resend confirmation instructions</h2>
+<div class="o-page">
+  <div class="o-page__content u-pd-content">
+    <div class="u-centered u-container--condensed">
+      <h1 class="u-margin-bottom--large">Resend confirmation instructions</h1>
+      <div class="u-hr-small u-margin-bottom--xlarge"></div>
 
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
+      <%= form_for(resource, as: resource_name, url: user_confirmation_path, html: { method: :post }) do |f| %>
+        <%= f.email_field :email, autofocus: true, class: 'o-input-placehoder--gray' + (resource.errors[:access_code].present? ? ' o-input-error' : ''), placeholder: 'Enter your email', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+        <% if resource.errors[:email].present? %>
+          <p class="cs-txt-link--error">
+            Email <%= resource.errors[:email].first %>
+          </p>
+        <% end %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %> 
+        <%= f.submit 'Resend confirmation instructions', class: 'o-btn o-btn--xs-full o-btn--yellow o-btn--xs-full' %>
+      <% end %>
+
+      <div class="u-margin-bottom--xlarge u-margin-top--xlarge">
+        <%= link_to 'Back to Login', new_user_session_path %>
+      </div>
+    </div>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Resend confirmation instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

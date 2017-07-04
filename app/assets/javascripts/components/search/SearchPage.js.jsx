@@ -19,21 +19,18 @@ class SearchPage extends React.Component {
   }
 
   fetch(newState) {
-    let query = {
-      format: 'json',
+    const query = {
       per_page: newState.per_page,
       order: newState.order,
       page: newState.current_page,
       ...newState.filterbar,
     }
-    let url = Routes.search_path(query);
-
-    fetch(url).then(r => r.json()).then(response => {
+    return $.getJSON(Routes.search_path(query)).then(response => {
       if (window.ga) {
-        ga('send', 'pageview', url);
+        ga('send', 'pageview', url)
       }
-      this.setState(this.buildStateFromProps(response));
-    });
+      this.setState(this.buildStateFromProps(response))
+    })
   }
 
   handlePageClick(data) {
