@@ -89,6 +89,7 @@ class CurriculumTreeEditor extends React.Component {
           <input name="curriculum_tree[change_log]" type="hidden" value={jsonChangeLog} />
           <input value="Save Changes" className="button primary" type="submit" />
         </form>
+        <p className="o-curriculum-tree-editor__menu-info">(Click on a node with the right button to add/edit/remove)</p>
         <div id="curriculum-tree-editor" className="o-curriculum-tree-editor"></div>
       </div>
     );

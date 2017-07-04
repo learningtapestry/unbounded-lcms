@@ -34,7 +34,7 @@ module Search
 
     # Overrides ElasticSearchDocument.search to include standards search
     def self.search(term, options = {})
-      return repository.empty_response unless repository.index_exists?
+      return [] unless repository.index_exists?
 
       if term.present?
         query = repository.standards_query(term, options)

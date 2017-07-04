@@ -17,6 +17,11 @@
       width: 50%;
     }
   }
+  @include e(menu-info) {
+    font-size: 0.9em;
+    margin-top: -1em;
+    text-align: center;
+  }
 }
 
 .o-curriculum-tree-picker {

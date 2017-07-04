@@ -11,7 +11,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def resource
-    ResourceSerializer.new(object).as_json
+    ResourceDetailsSerializer.new(object).as_json
   end
 
   def type
