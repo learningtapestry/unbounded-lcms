@@ -3,7 +3,7 @@ module DocTemplate
     class TableTag < BaseTag
       def parse(node, opts = {})
         unless (table = node.ancestors('table').first)
-          raise LessonDocumentError, "Tag #{self.class::TAG_NAME.upcase} placed outside table"
+          raise DocumentError, "Tag #{self.class::TAG_NAME.upcase} placed outside table"
         end
 
         @opts = opts

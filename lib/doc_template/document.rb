@@ -83,7 +83,7 @@ module DocTemplate
     #
     def handle_invalid_tag(node)
       return if FULL_TAG.match(node.text).present?
-      raise LessonDocumentError, "No closing bracket for node:<br>#{node.to_html}"
+      raise DocumentError, "No closing bracket for node:<br>#{node.to_html}"
     end
 
     def parse_node(node)
