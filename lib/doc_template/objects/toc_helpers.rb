@@ -5,7 +5,7 @@ module DocTemplate
 
       def level1_by_title(title)
         l1 = children.find { |c| !c.active && c.title.parameterize == title }
-        raise LessonDocumentError, "Level1 header #{title} not found at metadata" unless l1.present?
+        raise DocumentError, "Level1 header #{title} not found at metadata" unless l1.present?
         l1.active = true
         l1
       end
@@ -18,7 +18,7 @@ module DocTemplate
             return l2
           end
         end
-        raise LessonDocumentError, "Level2 header #{title} not found at metadata"
+        raise DocumentError, "Level2 header #{title} not found at metadata"
       end
 
       class_methods do
