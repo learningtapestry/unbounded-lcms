@@ -25,19 +25,13 @@ class AssociationPickerWindow extends React.Component {
     this.fetchAndUpdate();
   }
 
-  createQuery(state = this.state) {
-    return {
-      format: 'json',
+  fetch(state = this.state) {
+    const url = Routes.admin_association_picker_path({
       page: state.pagination.current_page,
       q: state.q,
       association: this.props.association
-    };
-  }
-
-  fetch(state = this.state) {
-    const query = this.createQuery(state);
-    const url = Routes.admin_association_picker_path(query);
-    return fetch(url, {credentials: 'same-origin'}).then(r => r.json());
+    });
+    return $.getJSON(url)
   }
 
   fetchAndUpdate(state = this.state) {

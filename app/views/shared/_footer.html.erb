@@ -1,31 +1,33 @@
-<footer class="c-footer u-supported <%= add_class_for_action(:resources, :show, 'c-footer--with-sticky') %>">
-  <%= render partial: "shared/subscribe" %>
-  <%= render partial: "shared/connect" %>
+<% if current_user&.ready_to_go? %>
+  <footer class="c-footer u-supported <%= add_class_for_action(:resources, :show, 'c-footer--with-sticky') %>">
+    <%= render partial: "shared/subscribe" %>
+    <%= render partial: "shared/connect" %>
 
-	<div class="c-footer__wrap o-page__wrap--row-column c-navbar">
-    <div class="c-footer__logo">
-    	<%= link_to root_path do %>
-        <%= image_tag('logo.svg') %>
-    	<% end %>
+    <div class="c-footer__wrap o-page__wrap--row-column c-navbar">
+      <div class="c-footer__logo">
+        <%= link_to root_path do %>
+          <%= image_tag('logo.svg') %>
+        <% end %>
+      </div>
+      <div class="c-footer__item">
+        <ul class="c-footer__list u-txt--footer-links">
+          <li><%= link_to t('nav.curriculum'), explore_curriculum_index_path, class: 'c-footer__link' %></li>
+          <li class="t-bullet"></li>
+          <li><%= link_to t('nav.lessons'), find_lessons_path, class: 'c-footer__link' %></li>
+          <li class="t-bullet"></li>
+          <li><%= link_to t('nav.instructions'), enhance_instruction_index_path, class: 'c-footer__link' %></li>
+          <li class="t-bullet"></li>
+          <%# li><%= link_to t('nav.about'), about_path, class: 'c-footer__link' ></li>
+          <li class="t-bullet"></li %>
+          <li><%= link_to t('footer.privacy'), :privacy_page, class: 'c-footer__link' %></li>
+          <li class="t-bullet"></li>
+          <li><%= link_to t('footer.terms'), :tos_page, class: 'c-footer__link' %></li>
+        </ul>
+      </div>
+      <div class="c-footer__item u-txt--footer-links c-footer__item--full">
+        <div>Site by <%= link_to 'Constructive', 'https://constructive.co/', class: 'c-footer__link', target: '_blank' %>  & <%= link_to 'Learning Tapestry', 'https://learningtapestry.com/', class: 'c-footer__link', target: '_blank' %></div>
+        <div>All photos copyright UnboundEd and <%= link_to 'Verta Maloney', 'http://www.vertamaloney.com/', class: 'c-footer__link', target: '_blank' %></div>
+      </div>
     </div>
-	  <div class="c-footer__item">
-	  	<ul class="c-footer__list u-txt--footer-links">
-		  	<li><%= link_to t('nav.curriculum'), explore_curriculum_index_path, class: 'c-footer__link' %></li>
-        <li class="t-bullet"></li>
-		  	<li><%= link_to t('nav.lessons'), find_lessons_path, class: 'c-footer__link' %></li>
-        <li class="t-bullet"></li>
-        <%# li><%= link_to t('nav.instructions'), enhance_instruction_index_path, class: 'c-footer__link' ></li>
-        <li class="t-bullet"></li %>
-        <%# li><%= link_to t('nav.about'), about_path, class: 'c-footer__link' ></li>
-        <li class="t-bullet"></li %>
-        <li><%= link_to t('footer.privacy'), :privacy_page, class: 'c-footer__link' %></li>
-        <li class="t-bullet"></li>
-		  	<li><%= link_to t('footer.terms'), :tos_page, class: 'c-footer__link' %></li>
-		  </ul>
-	  </div>
-    <div class="c-footer__item u-txt--footer-links c-footer__item--full">
-      <div>Site by <%= link_to 'Constructive', 'https://constructive.co/', class: 'c-footer__link', target: '_blank' %>  & <%= link_to 'Learning Tapestry', 'https://learningtapestry.com/', class: 'c-footer__link', target: '_blank' %></div>
-      <div>All photos copyright UnboundEd and <%= link_to 'Verta Maloney', 'http://www.vertamaloney.com/', class: 'c-footer__link', target: '_blank' %></div>
-    </div>
-	</div>
-</footer>
+  </footer>
+<% end %>

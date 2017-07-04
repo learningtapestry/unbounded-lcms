@@ -8,6 +8,12 @@ en:
               incorrect_format: 'incorrect format: %{count} columns instead of %{limit}'
               incorrect_type: has incorrect type
   activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: "Passwords don't match"
     models:
       resource: Resource
     attributes:

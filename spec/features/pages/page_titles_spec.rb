@@ -5,35 +5,50 @@ require 'rails_helper'
 feature 'Page Titles' do
   scenario 'home page' do
     visit '/'
-    expect(page.title).to include('UnboundEd')
+    expect(current_path).to eq '/users/sign_in'
   end
 
   xscenario 'about page' do
-    about = create(:page, :about)
+    create(:page, :about)
     visit '/about'
-    expect(page.title).to include(about.title)
+    expect(current_path).to eq '/users/sign_in'
   end
 
-  scenario 'tos page' do
-    tos = create(:page, :tos)
-    visit '/tos'
-    expect(page.title).to include(tos.title)
+  context 'logged in as user' do
+    background { sign_in create :user }
+
+    scenario 'home page' do
+      visit '/'
+      expect(page.title).to include('UnboundEd')
+    end
+
+    xscenario 'about page' do
+      visit '/about'
+      expect(page.title).to include(about.title)
+    end
+
+    scenario 'tos page' do
+      tos = create(:page, :tos)
+      visit '/tos'
+      expect(page.title).to include(tos.title)
+    end
+
+    scenario 'auth pages' do
+      logout
+
+      visit '/users/password/new'
+      expect(page.title).to include('Forgot Your Password?')
+
+      visit '/users/sign_in'
+      expect(page.title).to include('Log In')
+
+      visit '/users/sign_up'
+      expect(page.title).to include('Create Account')
+    end
   end
 
-  scenario 'auth pages' do
-    visit '/users/password/new'
-    expect(page.title).to include('Forgot Your Password?')
-
-    visit '/users/sign_in'
-    expect(page.title).to include('Log In')
-
-    visit '/users/sign_up'
-    expect(page.title).to include('Log In')
-  end
-
-  context 'logged in' do
-    given(:admin) { create :admin }
-    background { sign_in admin }
+  context 'logged in as admin' do
+    background { sign_in create :admin }
 
     scenario 'about page' do
       visit '/admin'

@@ -38,6 +38,8 @@ $text-sizes: (
   font-weight: bold !important;
 }
 
+.u-flex { display: flex; }
+
 .u-show { display: block !important; }
 
 .u-hidden { display: none !important; }
@@ -64,7 +66,8 @@ $margins: (
   'small': $ub-small-margin,
   'base': $ub-base-margin,
   'large': $ub-large-margin,
-  'xlarge': $ub-xlarge-margin
+  'xlarge': $ub-xlarge-margin,
+  'xxlarge': $ub-xxlarge-margin,
 );
 $margins-align: (top, bottom, right, left);
 
@@ -73,6 +76,16 @@ $margins-align: (top, bottom, right, left);
     .u-margin-#{$align}--#{$margin-type} {
       margin-#{$align}: $margin-value !important;
     }
+  }
+
+  .u-margin-horizontal--#{$margin-type} {
+    margin-left: $margin-value;
+    margin-right: $margin-value;
+  }
+
+  .u-margin-vertical--#{$margin-type} {
+    margin-bottom: $margin-value;
+    margin-top: $margin-value;
   }
 }
 
@@ -83,7 +96,7 @@ $paddings: (
   'small': $ub-small-margin,
   'base': $ub-base-margin,
   'large': $ub-large-margin,
-  'xlarge': $ub-xlarge-margin
+  'xlarge': $ub-xlarge-margin,
 );
 $paddings-align: (top, bottom, left, right);
 
@@ -92,6 +105,11 @@ $paddings-align: (top, bottom, left, right);
     .u-padding-#{$align}--#{$padding-type} {
       padding-#{$align}: $padding-value !important;
     }
+  }
+
+  .u-padding-horizontal--#{$padding-type} {
+    padding-left: $padding-value;
+    padding-right: $padding-value;
   }
 }
 
@@ -103,9 +121,11 @@ $align-types: (padding, margin);
     .u-#{$align-type}-#{$align-dir}--gutter-half {
       @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir}, $x: .5);
     }
+
     .u-#{$align-type}-#{$align-dir}--gutter {
       @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir});
     }
+
     .u-#{$align-type}-#{$align-dir}--gutter2x {
       @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir});
     }
@@ -170,4 +190,15 @@ $bg: (
 
 .u-hr-small--ls {
   border-color: map-get($ub-leadership, base);
+}
+
+.u-centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.u-container {
+  @include m(condensed) {
+    max-width: 30rem;
+  }
 }

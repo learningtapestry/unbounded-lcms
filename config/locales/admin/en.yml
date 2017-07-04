@@ -1,5 +1,21 @@
 en:
   admin:
+    access_codes:
+      create:
+        success: New Access Code created successfully.
+      destroy:
+        success: Access Code deleted successfully.
+      edit:
+        page_title: Edit Access Code
+      index:
+        active: Active
+        code: Code
+        new_access_code: New Access Code
+        page_title: Access Codes
+      new:
+        page_title: New Access Code
+      update:
+        success: Access Code updated successfully.
     content_guide_definitions:
       import:
         success: Glossary imported successfully.
@@ -160,12 +176,15 @@ en:
         success: "User %{user} was created successfully."
         error:  "User %{user} could not be created."
       index:
+        access_code: Access Code
+        confirmed: Confirmed
         email: E-mail
         id: ID
         name: Name
         new_user: New user
         page_title: Users
         reset_password_btn: Reset password
+        role: Role
       search_form:
         email: E-mail
         name: Name
@@ -270,3 +289,4 @@ en:
       import_lesson: Import Lesson
       lessons: Lessons
       materials: Materials
+      access_codes: Access Codes

@@ -9,3 +9,7 @@ module ActionView
     end
   end
 end
+
+ActionView::Base.field_error_proc = proc do |html_tag, _|
+  html_tag.html_safe
+end

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe FindLessonsController do
+  before { sign_in create(:user) }
+
   describe '#index' do
     context 'list' do
       let(:resource) { create(:resource, title: 'index list test') }
