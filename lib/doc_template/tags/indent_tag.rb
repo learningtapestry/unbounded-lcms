@@ -5,10 +5,12 @@ module DocTemplate
       TEMPLATE = 'indent.html.erb'.freeze
 
       def parse(node, opts = {})
+        content_without_tag = node.to_html.sub FULL_TAG, ''
         params = {
-          content: parse_nested(remove_tag_from(node), opts)
+          content: parse_nested(content_without_tag, opts)
         }
-        @result = node.replace parse_template(params, TEMPLATE)
+        @content = parse_template(params, TEMPLATE)
+        replace_tag node
         self
       end
     end

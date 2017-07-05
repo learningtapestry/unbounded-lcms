@@ -16,7 +16,7 @@ describe DocTemplate::Tags::MultipleChoiceTag do
     html.at_xpath('*//p')
   end
 
-  subject { tag.parse(node, value: '').render.to_html }
+  subject { tag.parse(node, value: '').content }
 
   it 'removes original node' do
     expect(subject).to_not include('[multiple-choice]')

@@ -5,21 +5,18 @@ module DocTemplate
 
       HEIGHT_MOD = 0.85
       TAG_NAME = 'image-student-worksheet'.freeze
-      TEMPLATE = 'image_student_worksheet.html.erb'.freeze
+      TEMPLATE = 'image-student-worksheet.html.erb'.freeze
 
       def parse(node, _ = {})
         if (image = find_image node)
           image.ancestors('p').first.try(:remove)
-
-          @content = prepare_content image
-
-          template = File.read template_path(TEMPLATE)
-          node.replace ERB.new(template).result(binding)
+          params = prepare_content image
+          @content = parse_template params, TEMPLATE
+          replace_tag node
         else
           node.remove
         end
 
-        @result = node
         self
       end
 

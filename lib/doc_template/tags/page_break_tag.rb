@@ -3,8 +3,9 @@ module DocTemplate
     class PageBreakTag < BaseTag
       TAG_NAME = /page(-|\s*)break/
 
-      def parse(node, _opts = {})
-        @result = node.replace("<div class='u-pdf-alwaysbreak'></div>")
+      def parse(node, *_)
+        @content = %(<div class="u-pdf-alwaysbreak"></div>)
+        replace_tag node
         self
       end
     end

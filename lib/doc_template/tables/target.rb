@@ -16,6 +16,7 @@ module DocTemplate
         content = DocTemplate::Document.parse Nokogiri::HTML.fragment(content)
 
         table.replace content.render
+        content
       end
 
       private

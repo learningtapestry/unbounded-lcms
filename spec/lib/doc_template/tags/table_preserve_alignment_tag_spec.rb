@@ -11,7 +11,7 @@ describe DocTemplate::Tags::TablePreserveAlignmentTag do
   let(:tag) { described_class.new }
   let(:style) { 'right' }
 
-  subject { tag.parse(node).render.to_html }
+  subject { tag.parse(node).content }
 
   it 'add css class depends on text align' do
     expect(subject).to include %(class="text-#{style}")

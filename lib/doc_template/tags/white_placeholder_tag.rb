@@ -19,7 +19,8 @@ module DocTemplate
           title: title
         }
 
-        @result = node.replace parse_template(params, TEMPLATE)
+        @content = parse_template params, TEMPLATE
+        replace_tag node
         self
       end
 

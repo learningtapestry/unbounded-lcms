@@ -1,13 +1,13 @@
 <div class="o-ld-pv">
   <div>
-    <p class="o-ld-pv__header"><%= @data['text_header'] %></p>
+    <p class="o-ld-pv__header"><%= @tmpl['text_header'] %></p>
   </div>
   <table class="o-ld-pv o-ld-pv-content">
     <tbody>
-      <% @data['row_count'].times do %>
-        <tr class="o-ld-pv__row--<%= @data['row_count'] %>">
-          <% @data['column_count'].times do |idx| %>
-              <% width = @data.try(:[], 'column_width').try(:[], idx).presence || '50%' %>
+      <% @tmpl['row_count'].times do %>
+        <tr class="o-ld-pv__row--<%= @tmpl['row_count'] %>">
+          <% @tmpl['column_count'].times do |idx| %>
+              <% width = @tmpl.try(:[], 'column_width').try(:[], idx).presence || '50%' %>
               <td style="width: <%= width %>"></td>
           <% end %>
         </tr>
@@ -15,6 +15,6 @@
     </tbody>
   </table>
   <div>
-      <p class="o-ld-pv__footer"><%= @data['text_footer'] %></p>
+      <p class="o-ld-pv__footer"><%= @tmpl['text_footer'] %></p>
     </div>
 </div>

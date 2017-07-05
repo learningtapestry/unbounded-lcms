@@ -5,8 +5,8 @@ module DocTemplate
       TEMPLATE = 'gls.html.erb'.freeze
 
       def parse(node, opts = {})
-        content = parse_template({ content: opts[:value] }, TEMPLATE)
-        node.inner_html = replace_tag_in node, content
+        parsed_content = parse_template({ content: opts[:value] }, TEMPLATE)
+        node.inner_html = node.inner_html.sub FULL_TAG, parsed_content
         @result = node
         self
       end

@@ -9,11 +9,11 @@ class HtmlSanitizer
     end
 
     def post_processing(html, subject)
-      nodes = Nokogiri::HTML.parse html
+      nodes = Nokogiri::HTML.fragment html
 
       # removes all style attributes allowed earlier
       %w(p span).each do |tag|
-        nodes.xpath("//#{tag}").each do |node|
+        nodes.xpath(".//#{tag}").each do |node|
           next if node.ancestors('td').present?
           node['style'] = Sanitize::CSS.properties(node['style'], css_inline_config)
           node.delete('style') if node['style'].blank?
@@ -21,11 +21,17 @@ class HtmlSanitizer
       end
 
       # adjusts `class` attributes for all `ol` elements inside tables
-      nodes.xpath('//table//ol').each { |ol| ol['class'] = 'c-ld-ol' }
+      nodes.xpath('.//table//ol').each { |ol| ol['class'] = 'c-ld-ol' }
 
-      # wrap all images for match except those inside table
-      # handle images that should be cropped
-      post_processing_images(nodes) if subject.to_s.casecmp('math').zero?
+      if subject.to_s.casecmp('math').zero?
+        # wrap all images for match except those inside table
+        # handle images that should be cropped
+        post_processing_images(nodes)
+
+        # Removes empty tags between activity and activity-sources
+        nodes.css('.o-ld-activity.c-ld-toc + p:empty').each(&:remove)
+        nodes.css('.o-ld-activity.c-ld-toc + h4:empty').each(&:remove)
+      end
 
       # add style to table for consistent view
       # wrap for horizontal scrolling on small screens
