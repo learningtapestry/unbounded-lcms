@@ -8,8 +8,9 @@ module DocTemplate
 
       def parse(node, opts = {})
         group = opts[:agenda].level1_by_title(opts[:value].parameterize)
-        node.replace(parse_template(group, TEMPLATE))
-        @result = node
+
+        @content = parse_template group, TEMPLATE
+        replace_tag node
         self
       end
     end

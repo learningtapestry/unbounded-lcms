@@ -11,6 +11,8 @@ describe DocumentsController do
     let(:url) { 'url' }
 
     before do
+      create :document_part, document: document, part_type: 'layout'
+
       allow(controller).to receive(:obtain_google_credentials)
       allow(DocTemplate::Objects::BaseMetadata).to receive(:build_from).and_return(metadata)
       allow(DocumentExporter::Gdoc).to receive_message_chain(:new, :export).and_return(exporter)

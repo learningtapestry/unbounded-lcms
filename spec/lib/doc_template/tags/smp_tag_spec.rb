@@ -19,7 +19,7 @@ describe DocTemplate::Tags::SmpTag do
   let(:smp_value) { 'MP.6; MP.12' }
   let(:tag) { described_class.new }
 
-  subject { tag.parse(node, value: smp_value).render.to_html }
+  subject { tag.parse(node, value: smp_value).content }
 
   it 'removes original node' do
     expect(subject).to_not include("[smp: #{smp_value}]")
@@ -34,6 +34,6 @@ describe DocTemplate::Tags::SmpTag do
   end
 
   it 'parses nested tags' do
-    expect(subject).to match(%r{<a href="https://google.com"})
+    expect(subject).to match(/{{qrd_tag_/)
   end
 end

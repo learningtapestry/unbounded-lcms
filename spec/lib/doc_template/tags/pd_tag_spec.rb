@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe DocTemplate::Tags::PdTag do
   let(:description) { 'description' }
+  let(:embeded) { {} }
   let(:node) { Nokogiri::HTML(original_content).at_xpath('*//p') }
   let(:original_content) { "<p><span>[PD: #{url}; #{title}; </span><span>#{description}]</span></p><p><span>" }
   let(:params) do
@@ -14,12 +15,12 @@ describe DocTemplate::Tags::PdTag do
   let(:title) { 'title' }
   let(:url) { 'url' }
 
-  before { allow_any_instance_of(described_class).to receive(:embeded_object_for).and_return(double) }
+  before { allow_any_instance_of(described_class).to receive(:embeded_object_for).and_return(embeded) }
 
-  subject { tag.parse(node, params).render.to_html }
+  subject { tag.parse(node, params).content }
 
   it 'renders corresponding template' do
-    expect(ERB).to receive_message_chain(:new, :result).and_return('')
+    expect_any_instance_of(DocTemplate::Tags::BaseTag).to receive :parse_template
     subject
   end
 
@@ -27,7 +28,7 @@ describe DocTemplate::Tags::PdTag do
     before { allow_any_instance_of(described_class).to receive(:embeded_object_for) }
 
     it 'does not render template' do
-      expect(ERB).to_not receive(:new)
+      expect_any_instance_of(DocTemplate::Tags::BaseTag).to_not receive :parse_template
       subject
     end
   end

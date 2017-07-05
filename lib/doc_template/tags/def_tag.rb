@@ -30,14 +30,13 @@ module DocTemplate
           subject: subject
         }
 
-        content = parse_template params, TEMPLATE
+        @content = "<p>#{parse_template(params, TEMPLATE)}</p>"
 
         if node.name == 'li'
-          node.inner_html = content
+          @result = node.replace "<li>#{placeholder}</li>"
         else
-          node = node.replace "<p>#{content}</p>"
+          replace_tag node
         end
-        @result = node
         self
       end
     end

@@ -1,13 +1,7 @@
 .o-ld-activity {
-  @include add-column-padding($x: 1);
-  @include add-top-bottom-padding($y: 1);
-  @include flex;
-  @include clearfix;
-  background-color: map-get($ub-ld-colorcodes, math-activity-bg);
-  border-top: 4px solid map-get($ub-colorcodes, math-base);
-  flex-flow: row wrap;
-
-  @include e(source) {
+  &.c-ld-toc {
+    @include add-gutter(padding, top, 1);
+    border-top: 4px solid map-get($ub-colorcodes, math-base);
   }
 
   @include e(guidance) {
@@ -20,5 +14,16 @@
       @include add-gutter(margin, bottom, 0.5);
       display: block;
     }
+  }
+
+  @include add-column-padding($x: 1);
+  @include flex;
+  @include clearfix;
+  background-color: map-get($ub-ld-colorcodes, math-activity-bg);
+  flex-flow: row wrap;
+
+  @include e(source) {
+    @include add-gutter(padding, bottom, 1);
+    display: block;
   }
 }

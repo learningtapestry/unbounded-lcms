@@ -5,9 +5,12 @@ module DocTemplate
 
       def parse(node, opts = {})
         nodes = block_nodes node
-        content = parse_nested nodes.map(&:to_html).join, opts
         nodes.each(&:remove)
-        @result = node.replace "<div class='o-ld-multiple-choice'>#{content}</div>"
+
+        content = parse_nested nodes.map(&:to_html).join, opts
+        @content = %(<div class="o-ld-multiple-choice">#{content}</div>)
+
+        replace_tag node
         self
       end
     end

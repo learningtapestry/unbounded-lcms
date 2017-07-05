@@ -11,7 +11,8 @@ module DocTemplate
         nodes = block_nodes(node) { |n| preserve_styles n }
         content = parse_nested nodes.map(&:to_html).join, opts
         nodes.each(&:remove)
-        @result = node.replace "<div class='o-ld-inset'>#{content}</div>"
+        @content = %(<div class="o-ld-inset">#{content}</div>)
+        replace_tag node
         self
       end
 

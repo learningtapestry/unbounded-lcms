@@ -13,7 +13,8 @@ module DocTemplate
         }
 
         content = parse_template params, TEMPLATE
-        @result = table.replace parse_nested(content, @opts)
+        @content = parse_nested(content, @opts)
+        replace_tag table
       end
     end
   end

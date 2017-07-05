@@ -6,10 +6,10 @@ describe DocTemplate::Tags::PageBreakTag do
   let(:tag) { described_class.new }
   let(:cls) { 'u-pdf-alwaysbreak' }
 
-  subject { tag.parse(node, {}).render.to_html }
+  subject { tag.parse(node, {}).content }
 
   it 'substitutes the tag' do
     expect(subject).to_not include '[page-break]'
-    expect(subject).to include "<div class=\"#{cls}\">"
+    expect(subject).to include %(<div class="#{cls}">)
   end
 end

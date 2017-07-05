@@ -146,4 +146,6 @@ th:
     - ThTag
 source:
   stop_tags:
+    - ActivityMetadataSectionTag
+    - ActivityMetadataTypeTag
     - MaterialsTag
