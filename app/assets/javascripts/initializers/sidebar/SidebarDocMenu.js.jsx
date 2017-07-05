@@ -5,8 +5,9 @@ class SidebarDocMenu {
   constructor() {
     this.headings = $.makeArray($('.c-ld-toc'));
     this.clsPrefix = prefix;
+    this.sidebar = $('#ld-sidebar-menu');
     this._initToggler();
-    this._updateMenu();
+    // this._updateMenu();
   }
 
   handleUpdate(e) {
@@ -24,22 +25,12 @@ class SidebarDocMenu {
   _initToggler() {
     this.bExpanded = false;
     $('.o-ld-sidebar-header__toggle--show').click(() => {
-      $('.o-ld-sidebar__item').addClass('o-ld-sidebar__item--expanded');
+      this.sidebar.foundation('down', $('.o-ld-sidebar__menu.nested'));
       this._showHideAll();
     });
     $('.o-ld-sidebar-header__toggle--hide').click(() => {
-      $('.o-ld-sidebar__item').removeClass('o-ld-sidebar__item--expanded');
+      this.sidebar.foundation('hideAll');
       this._showShowAll();
-    });
-    $('.o-ld-sidebar-item__icon').click((e) => {
-      const $item = $(e.target).closest('.o-ld-sidebar__item');
-      $item.toggleClass('o-ld-sidebar__item--expanded');
-      if ($item.is('.o-ld-sidebar__item--expanded')) {
-        $item.children('.o-ld-sidebar__menu').children('.o-ld-sidebar__item').addClass('o-ld-sidebar__item--expanded');
-      } else {
-        $item.find('.o-ld-sidebar__item').removeClass('o-ld-sidebar__item--expanded');
-      }
-
     });
   }
 
@@ -51,15 +42,23 @@ class SidebarDocMenu {
     const heading = this.headings[index];
 
     $('.o-ld-sidebar__item--active').removeClass('o-ld-sidebar__item--active');
-    if (!this.bExpanded) $('.o-ld-sidebar__item--expanded').removeClass('o-ld-sidebar__item--expanded');
 
     if (heading) {
       const $item = $('.o-ld-sidebar__item [href="#' + heading.id + '"]');
       $item.parents('.o-ld-sidebar__item')
-           .addClass('o-ld-sidebar__item--expanded')
            .addClass('o-ld-sidebar__item--active');
-      $item.closest('.o-ld-sidebar__menu--nested').siblings('.o-ld-sidebar__item')
-           .addClass('o-ld-sidebar__item--expanded');
+      if (this.bExpanded) return;
+      const $currentBranch = $item.closest('.o-ld-sidebar__item').children('.o-ld-sidebar__menu--nested')
+                                  .add($item.parents('.o-ld-sidebar__menu--nested'));
+      this.sidebar.foundation('down', $currentBranch.not('[aria-hidden="false"]').not(':animated'));
+      const $exceptCurrent = this.sidebar.find('.o-ld-sidebar__menu--nested[aria-hidden="false"]')
+                                 .not($currentBranch).not(':animated');
+      this.sidebar.foundation('up', $exceptCurrent);
+    } else {
+      if (!this.bExpanded) {
+        const $allExpanded = this.sidebar.find('.o-ld-sidebar__menu--nested[aria-hidden="false"]').not(':animated');
+        this.sidebar.foundation('up', $allExpanded);
+      }
     }
   }
 
