@@ -65,6 +65,7 @@ class SideBar {
   }
 
   _handleScroll() {
+    if (this.isScrolling) return;
     if (Foundation.MediaQuery.atLeast('ipad')) {
       this._clear();
       this.update(EVENTS.UPDATE_MENU);

@@ -1,6 +1,12 @@
 .o-ld-sidebar {
   position: relative;
 
+  // rewrite some css rules to meet foundation accordition
+  .is-accordion-submenu-parent > a::after { display: none; }
+  li[aria-expanded=true] > a > .o-ld-sidebar-item__icon {
+    transform: rotate(90deg);
+  }
+
   @include e(wrap) {
     position: relative;
     &.is-stuck {
@@ -10,22 +16,10 @@
 
   @include e(item) {
     opacity: .7;
-    overflow: hidden;
     padding: $ub-base-padding / 2 0;
 
     @include m(active) {
       opacity: 1;
-    }
-
-    @include m(expanded) {
-      .o-ld-sidebar-item__icon {
-        transform: rotate(90deg);
-      }
-      .o-ld-sidebar__menu--nested {
-        max-height: 300px;
-        transition: max-height 1s ease;
-        visibility: visible;
-      }
     }
   }
 
@@ -36,9 +30,7 @@
     > li.o-ld-sidebar__item:last-child { padding-bottom: 0; }
 
     @include m(nested) {
-      max-height: 0;
       padding-left: 1.2rem;
-      visibility: hidden;
     }
   }
 }
@@ -75,6 +67,10 @@
 }
 
 .o-ld-sidebar-item {
+  // rewrite foundation accordition styles
+  outline: none !important;
+  padding: 0 !important;
+
   @include e(content) {
     @include flex;
     align-items: baseline;
@@ -110,7 +106,7 @@
     float: left;
     margin-right: .4rem;
 
-    i { font-size: 12px; }
+    i { @include txt-element(ld-sidebar-icon); }
   }
 
   @include e(time) {
