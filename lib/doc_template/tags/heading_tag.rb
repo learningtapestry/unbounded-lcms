@@ -1,7 +1,7 @@
 module DocTemplate
   module Tags
     class HeadingTag < BaseTag
-      TEMPLATE = 'ela-headings.html.erb'.freeze
+      TEMPLATE = 'heading.html.erb'.freeze
 
       def parse(node, opts = {})
         # we have to collect all the next siblings until next stop-tag

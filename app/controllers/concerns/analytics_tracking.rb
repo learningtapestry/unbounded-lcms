@@ -3,11 +3,11 @@ require 'staccato/adapter/logger'
 module AnalyticsTracking
   extend ActiveSupport::Concern
 
+  GA_DEBUG_MODE = false
+
   included do
     attr_writer :ga_client_id
     attr_writer :ga_id
-
-    GA_DEBUG_MODE = false
 
     def ga_client_id
       # Last two char sequences, separated by a dot char ".":

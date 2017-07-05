@@ -73,11 +73,9 @@ module DocTemplate
       end
 
       def parse_metacognition(fragment)
-        return nil unless fragment.at_xpath(ROOT_XPATH + STARTTAG_XPATH).present?
-        # remove the tag
-        el = fragment.at_xpath(ROOT_XPATH + STARTTAG_XPATH)
-        el.parent.remove if el
-        { content: fragment.content }
+        {
+          content: fragment.content.gsub(DocTemplate::Tags::StandardTag::TAG_RE, '').strip
+        }
       end
     end
   end

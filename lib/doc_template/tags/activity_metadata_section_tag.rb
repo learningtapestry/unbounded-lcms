@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class ActivityMetadataSectionTag < BaseTag
-      TAG_NAME = 'activity-metadata-section'.freeze
-      TEMPLATE = 'h2-header.html.erb'.freeze
+      TAG_NAME = 'activity-metadata-section'
+      TEMPLATE = 'group-math.html.erb'
 
       def parse(node, opts = {})
         section = opts[:activity].level1_by_title(opts[:value])
@@ -11,12 +13,18 @@ module DocTemplate
           # Extend object to store `lesson_objective` (#162)
           section.class.attribute :lesson_objective, String
           section.lesson_objective = strip_html_element(opts[:foundational_metadata].lesson_objective)
-          # add break to activities
           opts[:activity].add_break
         end
 
-        node.replace(parse_template(section, TEMPLATE))
-        @result = node
+        content = content_until_break node
+        content = parse_nested content.to_s, opts
+        params = {
+          content: content,
+          placeholder: placeholder_id,
+          section: section
+        }
+        @content = parse_template params, TEMPLATE
+        replace_tag node
         self
       end
     end

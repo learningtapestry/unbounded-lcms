@@ -41,7 +41,7 @@ class Document < ActiveRecord::Base
   end
 
   def assessment?
-    resource.try(:assessment?)
+    resource&.assessment?
   end
 
   def ela?

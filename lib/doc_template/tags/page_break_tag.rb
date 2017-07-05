@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class PageBreakTag < BaseTag
       TAG_NAME = /page(-|\s*)break/
 
       def parse(node, *_)
-        @content = %(<div class="u-pdf-alwaysbreak"></div>)
+        @content = '<div class="u-pdf-alwaysbreak"></div>'
         replace_tag node
         self
       end

@@ -1,20 +1,27 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class ActivityMetadataTypeTag < BaseTag
-      TAG_NAME = 'activity-metadata-type'.freeze
+      TAG_NAME = 'activity-metadata-type'
       TASK_RE = /(\[task:\s(#)\])/i
-      TEMPLATE = 'activity.html.erb'.freeze
+      TEMPLATE = 'activity.html.erb'
 
       def parse(node, opts = {})
         @metadata = opts[:activity]
         activity = @metadata.level2_by_title(opts[:value])
         activity[:activity_guidance] = strip_html_element(activity[:activity_guidance])
 
+        content = content_until_break node
+        content = parse_nested content.to_s, opts
         params = {
           activity: activity,
+          content: content,
+          placeholder: placeholder_id,
           priority_description: priority_description(activity)
         }
-        @result = node.replace(parse_template(params, TEMPLATE))
+        @content = parse_template params, TEMPLATE
+        replace_tag node
         self
       end
 

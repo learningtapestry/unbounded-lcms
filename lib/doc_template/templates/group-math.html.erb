@@ -1,0 +1,24 @@
+<div class="o-ld-group" data-id="<%= @tmpl[:section].anchor %>" data-tag="<%= @tmpl[:placeholder] %>">
+  <% if @tmpl[:section].title.parameterize == 'foundational-skills' %>
+      <div class="o-ld-optbreak">
+        <div class="o-ld-optbreak__delimeter"></div>
+        <div class="o-ld-optbreak__text">Foundational Skills Lesson</div>
+        <div class="o-ld-optbreak__delimeter"></div>
+      </div>
+  <% else %>
+      <hr class="o-ld-hr--l1">
+  <% end %>
+
+  <h2 id="<%= @tmpl[:section].anchor %>" class="o-ld-title c-ld-toc">
+    <div class="o-ld-title__title o-ld-title__title--h2"><%= @tmpl[:section].title %></div>
+    <div class="o-ld-title__time o-ld-title__time--h2">
+      <%= @tmpl[:section].time.zero? ? '&mdash;' : "#{@tmpl[:section].time} mins" %>
+    </div>
+  </h2>
+  <% if @tmpl[:section].try(:lesson_objective).present? %>
+      <h3>Lesson Summary:</h3>
+      <p><%= @tmpl[:section].lesson_objective %></p>
+  <% end %>
+
+  <%= @tmpl[:content] %>
+</div>

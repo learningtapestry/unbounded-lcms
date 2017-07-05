@@ -4,9 +4,9 @@ class LDPdfContent
     'math' => %w(.o-ld-materials)
   }.freeze
 
-  def self.generate(document, pdf_type: 'full')
-    content = document.render_lesson
-    return content unless pdf_type == 'sm'
+  def self.generate(document, type, excludes = [])
+    content = document.render_lesson excludes
+    return content unless type == 'sm'
     sm_selector = STUDENT_SM_TAGS[document.subject].join(',')
     Nokogiri::HTML(content).css(sm_selector)
   end

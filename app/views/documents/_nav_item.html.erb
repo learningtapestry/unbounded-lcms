@@ -3,7 +3,7 @@
     <% if heading.children.any? %>
       <div class="o-ld-sidebar-item__icon"><i class="ub-angle-right"></i></div>
     <% end %>
-    <div href="#<%= heading.anchor %>" class='o-ld-sidebar-item__content'>
+    <div href="#<%= heading.anchor %>" class="o-ld-sidebar-item__content" data-duration="<%= heading.time.to_i %>" data-level="<%= heading.level %>">
       <div class="o-ld-sidebar-item__header--l<%= heading.level %>">
         <%= heading.title %>
         <% unless heading.priority.to_i.zero? %>
