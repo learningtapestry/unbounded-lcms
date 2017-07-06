@@ -179,15 +179,5 @@ module Search
     def replace_synonyms(term)
       SYNONYMS[term] || term
     end
-
-    def index_exists?
-      client.indices.exists? index: index
-    rescue Faraday::ConnectionFailed
-      false
-    end
-
-    def empty_response
-      []
-    end
   end
 end

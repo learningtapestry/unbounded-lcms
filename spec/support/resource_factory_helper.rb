@@ -36,6 +36,7 @@ module ResourceFactoryHelper
   def build_resources_chain(curr)
     dir = []
     CurriculumTree::HIERARCHY.each_with_index do |type, idx|
+      next unless curr[idx]
       dir.push curr[idx]
       create(:resource,
              title: "Test Resourece #{dir.join('|')}",

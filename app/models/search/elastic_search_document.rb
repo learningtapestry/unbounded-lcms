@@ -29,7 +29,7 @@ module Search
     #   - <filter> : any doc specific filters, e.g: 'grade', 'subject', etc
     #
     def self.search(term, options = {})
-      return repository.empty_response unless repository.index_exists?
+      return [] unless repository.index_exists?
 
       query = if term.present?
                 repository.fts_query(term, options)
@@ -42,7 +42,7 @@ module Search
     # this is necessary for the ActiveModel::ArraySerializer#as_json method to work
     # (used on the Pagination#serialize_with_pagination)
     def read_attribute_for_serialization(key)
-      if key == :id || key == 'id'
+      if key.try(:to_sym) == :id
         attributes.fetch(key) { id }
       else
         attributes[key]

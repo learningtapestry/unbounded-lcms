@@ -22,10 +22,10 @@ gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
 gem 'devise', '~> 3.5.2', require: ['devise', 'devise/orm/active_record']
 
 # search with elastic search
-gem 'elasticsearch-dsl', '~> 0.1.1'
-gem 'elasticsearch-model', '~> 0.1.7'
-gem 'elasticsearch-persistence', '~> 0.1.7'
-gem 'elasticsearch-rails', '~> 0.1.7'
+gem 'elasticsearch-dsl', '~> 0.1.5'
+gem 'elasticsearch-model', '~> 5.0', '>= 5.0.1'
+gem 'elasticsearch-persistence', '~> 5.0', '>= 5.0.1'
+gem 'elasticsearch-rails', '~> 5.0', '>= 5.0.1'
 
 # cloud interaction
 gem 'aws-sdk-rails', '~> 1.0'

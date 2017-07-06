@@ -31,10 +31,10 @@ class CurriculumTreeForm
   private
 
   def persist!
-    curriculum_tree.update!(tree: tree) if tree.present?
-    # TODO: after we refactor the resources, implement the  handle_change_log
-    #       method and uncomment the call bellow
-    # handle_change_log
+    ActiveRecord::Base.transaction do
+      curriculum_tree.update!(tree: tree) if tree.present?
+      handle_change_log
+    end
   end
 
   def parse_attrs(params)
@@ -69,6 +69,16 @@ class CurriculumTreeForm
 
   # Reflect curriculum changes on corresponding resources
   def handle_change_log
-    raise NotImplementedError
+    change_log.each do |change|
+      rename_resources_curriculum(change['from'], change['to']) if change['op'] == 'rename'
+    end
+  end
+
+  def rename_resources_curriculum(from, to)
+    Resource.tree.where_curriculum(from).each do |res|
+      # the rename is always on the last item for each change
+      dir = res.curriculum_directory - [from.last] + [to.last]
+      res.update curriculum_directory: dir
+    end
   end
 end
