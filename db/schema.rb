@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170621131156) do
+ActiveRecord::Schema.define(version: 20170708024449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,6 +200,25 @@ ActiveRecord::Schema.define(version: 20170621131156) do
   end
 
   add_index "leadership_posts", ["order", "last_name"], name: "index_leadership_posts_on_order_and_last_name", using: :btree
+
+  create_table "materials", force: :cascade do |t|
+    t.text     "content"
+    t.string   "file_id",                        null: false
+    t.string   "identifier"
+    t.jsonb    "metadata",          default: {}, null: false
+    t.string   "name"
+    t.datetime "last_modified_at"
+    t.string   "last_author_email"
+    t.string   "last_author_name"
+    t.text     "original_content"
+    t.string   "version"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "materials", ["file_id"], name: "index_materials_on_file_id", using: :btree
+  add_index "materials", ["identifier"], name: "index_materials_on_identifier", using: :btree
+  add_index "materials", ["metadata"], name: "index_materials_on_metadata", using: :gin
 
   create_table "pages", force: :cascade do |t|
     t.text     "body",       null: false
