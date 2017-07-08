@@ -16,7 +16,7 @@ module DocTemplate
 
       attribute :children, Array[Heading]
       attribute :priority, Integer, default: 0
-      attribute :total_time, Integer, default: -> (t, _) { t.children.sum(&:time) }
+      attribute :total_time, Integer, default: ->(t, _) { t.children.sum(&:time) }
 
       class << self
         def dump(data)

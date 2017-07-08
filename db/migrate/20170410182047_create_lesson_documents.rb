@@ -1,5 +1,5 @@
-class CreateLessonDocuments < ActiveRecord::Migration 
-  def change 
+class CreateLessonDocuments < ActiveRecord::Migration
+  def change
     create_table :lesson_documents do |t|
       t.string :file_id, index: true
       t.string :name
