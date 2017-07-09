@@ -21,7 +21,7 @@ module Admin
     end
 
     def new
-      head :bad_request unless @google_credentials.present?
+      head :bad_request unless google_credentials.present?
       @version = params[:version].presence || 'v1'
     end
 
