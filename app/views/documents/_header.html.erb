@@ -1,43 +1,36 @@
-<div class="o-page__section cs-bg--<%= document.color_code_grade %> u-br-top-right--base">
-  <div class="o-content-title u-text--capitalized">
-    <%= document.full_breadcrumb %>
-  </div>
-</div>
-<div class="o-page__section u-padding-top--gutter u-bg--light u-br-top-right--base u-br-bottom--base">
-  <div class="c-ld-header">
+<div class="o-page__module">
+  <div class="o-page__wrap--row">
     <div class="c-ld-header__map">
       <% unless request[:action].index('export') %>
-        <%= react_component('CurriculumMap', props, prerender: true) %>
-        <div class="u-margin-top--xs">
-          <%= link_to back_to_resource_path(document.resource), class: 'u-txt--button cs-txt-link--base-txt' do %>
-            <i class="fa ub-angle-left u-text--middled u-text--bolded"></i><%= t('resources.btn.back') %>
+        <%= react_component('CurriculumMap', props.merge(mapType: 'o-ld-map'), prerender: true) %>
+        <div class="u-margin-top--gutter">
+          <%= link_to back_to_resource_path(document.resource), class: 'o-ub-ld-btn o-ub-ld-btn--bordered' do %>
+            <%= t('resources.btn.back') %>
           <% end %>
         </div>
       <% end %>
     </div>
     <div class="c-ld-header__content">
-      <div class="o-title u-text--uppercase">
-        <span class="o-title__type cs-txt--<%= document.color_code %>"><%= document.short_title %></span>
+      <div class="u-txt--ld-header-breadcrumb u-text--capitalized">
+        <%= document.full_breadcrumb %>
       </div>
-      <h1><%= document.title %></h1>
-      <div class="u-txt--teaser o-social-sharing__teaser">
+      <h1 class="u-txt--ld-header-title"><%= document.title %></h1>
+      <div class="u-txt--ld-header-teaser o-social-sharing__teaser">
         <%= raw(document.teaser) %>
       </div>
       <div class="u-padding-top--large">
         <% if document.standards.present? %>
-          <p><strong>Standards: </strong><%= document.standards %></p>
+          <p class="u-txt--ld-header-standards"><strong>Standards: </strong><%= document.standards %></p>
         <% end %>
         <% if document.math_practice.present? %>
-          <p><strong>Mathematical Practice Standards: </strong><%= document.math_practice %></p>
+          <p class="u-txt--ld-header-standards"><strong>Mathematical Practice Standards: </strong><%= document.math_practice %></p>
         <% end %>
       </div>
     </div>
     <div class="c-ld-header__links">
       <div>
-        <%= link_to t('ui.print'), '#print-export-all', class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true } %>
+        <%= link_to t('ui.print'), '#print-export-all', class: "o-ub-ld-btn o-ub-ld-btn--#{document.subject} u-text--uppercase", data: { no_turbolink: true } %>
       </div>
     </div>
   </div>
-
-  <hr class="c-ld-header__hr">
 </div>

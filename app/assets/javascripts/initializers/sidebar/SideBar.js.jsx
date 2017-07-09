@@ -34,9 +34,9 @@ class SideBar {
   }
 
   _initSticky() {
-    let $sidebar = $(`#${this.clsPrefix}-sidebar`);
-    if (!$sidebar.length) return;
-    new Foundation.Sticky($sidebar,
+    let sidebar = document.getElementById(`${this.clsPrefix}-sidebar`);
+    if (sidebar === null) return;
+    new Foundation.Sticky($(sidebar),
                           {
                             checkEvery: 0,
                             stickyOn: 'small',

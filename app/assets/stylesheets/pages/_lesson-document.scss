@@ -1,54 +1,20 @@
-.c-ld-header {
-  @include flex-grid-row(nest);
+$ld-header-padding: 40px;
 
-  @include e(map) {
-    @include flex-grid-column(shrink);
-    margin-top: -$ub-small-margin;
-    width: map-get($curriculum-map-width, base) + 30px;
-
-    @include breakpoint(small only) {
-      @include flex-grid-column(12);
-      text-align: center;
-    }
-  }
-  @include e(content) {
-    @include flex-grid-column;
-
-    @include breakpoint(small only) {
-      margin-top: $ub-base-margin;
-      @include flex-grid-column(12);
-    }
-  }
-
-  @include e(links) {
-    @include flex-grid-column(shrink);
-
-    @include breakpoint(ipad down) {
-      @include flex;
-      @include flex-grid-column(12);
-      flex-flow: row wrap;
-      margin-top: $ub-xs-padding;
-      > div { margin-right: $ub-xs-padding;}
-    }
-  }
-
-  @include e(hr) {
-    @include add-gutter($subtype: top, $x: 4/3);
-    border-bottom: 1px solid #b2b2b2;
-  }
-}
+$ld-header-column-gutter: (
+  small: $ub-nav-height + $ld-header-padding,
+  medium: $ub-nav-height + $ld-header-padding,
+);
 
 .c-ld {
-  @include add-gutter($type: padding, $subtype: top, $x: 4/3);
+  @include add-gutter($type: padding, $subtype: top, $x: 2);
   color: $ub-heading-txt;
-  padding-bottom: $ub-large-padding * 2;
 
   @include e(sidebar) {
     display: none;
 
     @include breakpoint(large) {
       @include flex-grid-column(3, 0);
-      @include add-gutter(padding, left);
+      //@include add-gutter(padding, left);
       display: block;
     }
   }
@@ -58,12 +24,12 @@
     @include ld-custom-styles;
 
     @include m(general) {
-      @include breakpoint(ipad) {
-        @include flex-grid-column(9);
-        padding: 0 2.125rem 0 2.25rem !important;
+      @include breakpoint(large) {
+        @include flex-grid-column(9, 0);
+        @include add-gutter(padding, left, 1);
       }
 
-      @include breakpoint(ipad down) {
+      @include breakpoint(large down) {
         p { margin: 0; text-indent: 0; }
         li { margin-left: 15px;}
 
@@ -90,5 +56,58 @@
     img { height: auto; }
 
     i.fa { font: normal normal normal 14px/1 FontAwesome; }
+  }
+}
+
+.c-ld-header {
+  @include flex-grid-row(nest);
+
+  @include e(map) {
+    @include flex-grid-column(3, 0);
+    margin-top: -$ub-small-margin;
+    //width: map-get($curriculum-map-width, base) + 30px;
+
+    @include breakpoint(small only) {
+      @include flex-grid-column(12);
+      text-align: center;
+    }
+  }
+  @include e(content) {
+    @include flex-grid-column;
+    @include add-gutter(padding, left, 1);
+    @include add-gutter(padding, right, 1);
+
+    @include breakpoint(small only) {
+      margin-top: $ub-base-margin;
+      @include flex-grid-column(12);
+    }
+  }
+
+  @include e(links) {
+    @include flex-grid-column(shrink, 0);
+
+    @include breakpoint(ipad down) {
+      @include flex;
+      @include flex-grid-column(12);
+      flex-flow: row wrap;
+      margin-top: $ub-xs-padding;
+      > div { margin-right: $ub-xs-padding;}
+    }
+  }
+
+  @include e(hr) {
+    @include add-gutter($subtype: top, $x: 4/3);
+    border-bottom: 1px solid #b2b2b2;
+  }
+}
+
+.c-ld-page-header {
+  @include add-gutter(padding, top, 1, $ld-header-column-gutter);
+  display: none;
+  margin-top: -$ub-nav-height;
+  padding-bottom: $ld-header-padding;
+
+  @include breakpoint(large) {
+    display: block;
   }
 }

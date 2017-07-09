@@ -15,9 +15,9 @@ class CurriculumMapModule extends React.Component {
     const props = this.props;
     const curriculum = props.curriculum;
     const isActive = _.includes(props.active, curriculum.id);
-    const cssClasses = classNames( 'o-c-map__module',
-                                 { 'cs-bg--base': !isActive,
-                                  [`cs-bg--${props.colorCode}`]: isActive });
+    const cssClasses = classNames([ `o-c-map__module ${props.mapType}-module--${props.subject}`],
+                                 {[`${props.mapType}-bg--base`]: !isActive,
+                                  [`${props.mapType}-bg--${props.colorCode} ${props.mapType}-bg--active`]: isActive });
 
     const units = curriculum.children.map(
       unit => <CurriculumMapUnit key={unit.resource.id}
@@ -25,6 +25,7 @@ class CurriculumMapModule extends React.Component {
                                  colorCode={props.colorCode}
                                  isActiveBranch={_.first(props.active) == curriculum.id}
                                  active={props.active}
+                                 mapType={props.mapType}
                                  handlePopupState={this._handlePopupState} />
     );
     return (

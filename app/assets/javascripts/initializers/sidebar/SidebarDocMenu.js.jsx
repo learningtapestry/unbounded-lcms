@@ -37,7 +37,7 @@ class SidebarDocMenu {
   _updateMenu() {
     const topHeader = $('#ld-sidebar-xs').outerHeight(true) || 0;
     const index = _.findLastIndex(this.headings, (heading) => {
-      return heading.getBoundingClientRect().bottom < (50 + topHeader);
+      return heading.getBoundingClientRect().top < (20 + topHeader);
     });
     const heading = this.headings[index];
 
