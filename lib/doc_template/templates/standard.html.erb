@@ -10,8 +10,10 @@
     data-hover="true"
     data-hover-delay="0"
     data-hover-pane="true"
+    data-v-offset="12"
     id="<%= id %>">
-      <span><%= @description %></span>
+      <b><%= @standard_shortcut %></b><br />
+      <%= @description %>
     </span>
   <% end %>
   <% if @data[:append] %>

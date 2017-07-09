@@ -68,7 +68,7 @@
             <div class="o-resource-summary__title">
               <strong><%= @resource.subject_and_grade_title %> Curriculum Map</strong>
             </div>
-            <%= react_component('CurriculumMap', @props, prerender: true) %>
+            <%= react_component('CurriculumMap', @props.merge(mapType: 'cs'), prerender: true) %>
             <%= render partial: 'shared/social_sharing', locals: { resource: @resource, cl: 'u-margin-top--base' } %>
           </div>
           <div class="o-resource-summary__content">

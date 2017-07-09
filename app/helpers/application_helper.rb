@@ -13,6 +13,10 @@ module ApplicationHelper
     content_tag(:li, attrs.merge(class: cls)) { link_to link_text, link_path }
   end
 
+  def header_mod
+    controller.controller_name
+  end
+
   def page_title
     if content_for?(:page_title)
       page_title = content_for(:page_title)

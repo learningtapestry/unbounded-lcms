@@ -1,11 +1,11 @@
 <hr class='o-ld-hr--l2'>
 
-<div id="<%= @tmpl[:activity].anchor %>" class="o-ld-activity">
+<div id="<%= @tmpl[:activity].anchor %>" class="o-ld-activity c-ld-toc">
   <div>
     <div class="u-text--uppercase cs-txt--math-base u-txt--title-type u-margin-bottom--xs">
       <%= @tmpl[:activity].activity_type %>
     </div>
-    <h3 class="o-ld-title c-ld-toc">
+    <h3 class="o-ld-title">
       <div class="o-ld-title__title o-ld-title__title--h3"><%= @tmpl[:activity].activity_title %>
         <% if @tmpl[:activity].activity_priority.present? %>
           <% priority_id = "o-ld-p_#{SecureRandom.hex(4)}" %>
@@ -15,6 +15,7 @@
             data-hover="true"
             data-hover-delay="0"
             data-hover-pane="true"
+            data-v-offset="12"
             id="<%= priority_id %>">
               <%= @tmpl[:priority_description] %>
           </span>
@@ -42,8 +43,14 @@
           <% id = "cg-k_#{SecureRandom.hex(4)}" %>
           <span class="c-ld-keyword" data-toggle="<%= id %>"><%= activity[:standard] %></span>
           <% if activity[:description] %>
-            <span class="dropdown-pane o-ld-dropdown" data-dropdown data-hover="true"
-              data-hover-delay="0" data-hover-pane="true" id="<%= id %>">
+            <span class="dropdown-pane o-ld-dropdown"
+                  data-dropdown
+                  data-hover="true"
+                  data-hover-delay="0"
+                  data-hover-pane="true"
+                  data-v-offset="12"
+                  id="<%= id %>">
+              <b><%= activity[:standard] %></b><br />
               <span><%= activity[:description] %></span>
             </span>
           <% end %>

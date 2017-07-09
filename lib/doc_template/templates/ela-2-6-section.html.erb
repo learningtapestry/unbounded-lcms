@@ -1,7 +1,7 @@
 <hr class='o-ld-hr--l2'>
 
-<div id="<%= @tmpl[:section].anchor %>" class="o-ld-section">
-  <h3 class='o-ld-title c-ld-toc u-margin-top--large'>
+<div id="<%= @tmpl[:section].anchor %>" class="o-ld-section c-ld-toc">
+  <h3 class='o-ld-title u-margin-top--large'>
     <div class='o-ld-title__title o-ld-title__title--h3'><%= @tmpl[:section].title %></div>
     <div class='o-ld-title__time o-ld-title__time--h3'><%= @tmpl[:section].time.zero? ? '&mdash;' : "#{@tmpl[:section].time} mins" %></div>
   </h3>

@@ -131,5 +131,49 @@
       @include ub-button-hollow($background: $color, $color: $color);
     }
   }
+}
+
+%ld-btn-padding {
+  padding-bottom: 10px !important;
+  padding-top: 13px !important;
+}
+
+.o-ub-ld-btn {
+  @include button-base;
+  @include txt-element(button);
+  @extend %btn-shadow;
+  margin-bottom: $ub-small-margin / 2;
+  min-width: 150px;
+
+  @include m(bordered) {
+    @include ub-button-hollow($background: $ub-white, $color: $ub-white);
+    @extend %ld-btn-padding;
+    opacity: .8;
+    width: map-get($curriculum-map-width, base);
+
+    &:hover, &:focus {
+      background: none;
+      border-color: $ub-white;
+      opacity: 1;
+    }
+  }
+
+  @include m(ela) {
+    $color: map-get($ub-colorcodes, ela-base);
+    @include button-style($background: $ub-white, $background-hover: $ub-white, $color: $color);
+    @extend %ld-btn-padding;
+    opacity: .9;
+
+    &:hover, &:focus { opacity: 1; }
+  }
+
+  @include m(math) {
+    $color: map-get($ub-colorcodes, math-base);
+    @include button-style($background: $ub-white, $background-hover: $ub-white, $color: $color);
+    @extend %ld-btn-padding;
+    opacity: .9;
+
+    &:hover, &:focus { opacity: 1; }
+  }
 
 }

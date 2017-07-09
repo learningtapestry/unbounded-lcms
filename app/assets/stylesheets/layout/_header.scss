@@ -131,6 +131,15 @@
       }
     }
   }
+
+  @include m(documents) {
+    background-color: rgba($ub-primary, .9);
+    min-height: $ub-nav-height;
+    opacity: .9;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+  }
 }
 
 .c-header-title {
