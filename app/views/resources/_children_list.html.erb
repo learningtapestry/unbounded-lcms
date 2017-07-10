@@ -6,7 +6,7 @@
       <li>
         <i class="fa fa-square"></i>
         <span>
-          <% title = "#{resource.short_title}: " %>
+          <% title = "#{item.short_title}: " %>
           <% if item.document.present? %>
             <%= link_to document_path(item.document) do %>
               <span class="u-text--capitalized"><%= title %></span>
