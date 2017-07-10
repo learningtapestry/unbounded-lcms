@@ -1,4 +1,10 @@
 @mixin ld-custom-styles {
+  a:not(.o-ub-btn) {
+    border-bottom: 2px solid $ub-secondary;
+    color: $ub-heading-txt;
+    font-weight: normal;
+  }
+
   ol, ul {
     margin-bottom: 0;
   }
