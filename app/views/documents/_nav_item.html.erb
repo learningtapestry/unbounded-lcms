@@ -1,16 +1,25 @@
-<li class=o-sidebar-nav__item>
-  <%= link_to "##{heading.anchor}", class: "o-sidebar-nav__item--level#{heading.level}" do %>
+<li class="o-ld-sidebar__item">
+  <a class="o-ld-sidebar-item">
     <% if heading.children.any? %>
-      <div class=o-sidebar-nav__item__icon>▸</div>
+      <div class="o-ld-sidebar-item__icon"><i class="ub-angle-right"></i></div>
     <% end %>
-    <div class=o-sidebar-nav__item__content>
-      <%= heading.title %>
-      <span class="o-sidebar-nav-item__time"><%= toc_time(heading.time) %></span>
+    <div href="#<%= heading.anchor %>" class='o-ld-sidebar-item__content'>
+      <div class="o-ld-sidebar-item__header--l<%= heading.level %>">
+        <%= heading.title %>
+        <% unless heading.priority.to_i.zero? %>
+          <span class="o-ld-icon o-ld-icon--small o-ld-icon--priority<%= heading.priority %>"></span>
+        <% end %>
+      </div>
+      <div class="o-ld-sidebar-item__time o-ld-sidebar-item__time--l<%= heading.level %>">
+        <%= toc_time(heading.time) %>
+      </div>
     </div>
+  </a>
+  <% if heading.children.any? %>
+    <ul class="o-ld-sidebar__menu o-ld-sidebar__menu--nested nested">
+      <% heading.children.each do |subheading| %>
+        <%= render 'nav_item', heading: subheading %>
+      <% end %>
+    </ul>
   <% end %>
-  <ul class=o-sidebar-nav>
-    <% heading.children.each do |subheading| %>
-      <%= render 'nav_item', heading: subheading %>
-    <% end %>
-  </ul>
 </li>

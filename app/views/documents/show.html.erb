@@ -4,18 +4,26 @@
   <%= raw(@document.css_styles) %>
 </style>
 
-<div class="o-page o-page--margin-to-bottom o-page--cg o-page--cg-<%= @document.subject %> c-ld--<%= @document.color_code_grade %>" data-scroll="cg-page" id="cg-page">
-    <div class="o-page__module u-margin-bottom--gutter">
-      <%if user_signed_in? %>
-        <%= link_to [:admin, :documents], class: 'o-btn o-btn--base o-btn--xs-full' do %>
-          <i class="fa-lg ub-arrow-left u-text--middled"></i> Go to Lessons Admin
+<div class="c-ld-page-header cs-bg--<%= @document.color_code_grade %>">
+  <div class="o-page">
+    <%if user_signed_in? %>
+      <div class="o-page__module u-margin-bottom--gutter">
+        <%= link_to [:admin, :documents], class: 'o-ub-ld-btn o-ub-ld-btn--bordered' do %>
+          Go to Lessons Admin
         <% end %>
-      <% end %>
-    </div>
-  <%= render 'header', document: @document, props: @props if @props[:results].present? %>
-  <%= render 'content', document: @document %>
-  <div class="c-footer__item u-txt--footer-links">
-    <%= @document.metadata['cc-attribution'] %>
+      </div>
+    <% end %>
+    <%= render 'header', document: @document, props: @props if @props[:results].present? %>
+  </div>
+</div>
+<div class="u-bg--light">
+  <div class="o-page o-page--ld c-ld--<%= @document.color_code_grade %> u-padding-bottom--gutter2x" data-scroll="ld-page" id="ld-page">
+    <%= render 'content', document: @document %>
+    <% if @document.metadata['cc-attribution'].present? %>
+      <div class="u-txt--footer-links">
+        <%= @document.metadata['cc-attribution'] %>
+      </div>
+    <% end %>
   </div>
 </div>
 <a href="#" class="o-top-scroll-button"><i class="ub-angle-down"></i></a>

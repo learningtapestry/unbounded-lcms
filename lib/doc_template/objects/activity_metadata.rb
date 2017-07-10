@@ -24,6 +24,7 @@ module DocTemplate
         attribute :anchor, String, default: ->(a, _) { "#{a.idx} #{a.activity_title}".parameterize }
         attribute :idx, Integer
         attribute :level, Integer, default: 2
+        attribute :priority, Integer, default: ->(a, _) { a.activity_priority }
         attribute :title, String, default: ->(a, _) { a.activity_title }
         attribute :time, Integer, default: ->(a, _) { a.activity_time }
 

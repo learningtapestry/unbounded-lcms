@@ -1,50 +1,31 @@
-<div id="cg-sidebar-container" class="o-sidebar" data-sticky-container>
-  <nav id="cg-sidebar" class="o-sidebar__wrap sticky">
-    <div id="cg-sidebar-xs" class="o-sidebar-xs hide-for-ipad cs-bg--<%= document.subject.try(:downcase) %>-base">
-      <div class="o-sidebar-xs__header">
-        <div class="u-txt--cg-sidebar-title-type u-text--uppercase">
-          <%= document.short_breadcrumb %>
+<div id="ld-sidebar-container" class="o-ld-sidebar" data-sticky-container>
+  <nav id="ld-sidebar" class="o-ld-sidebar__wrap sticky">
+    <ul id="ld-sidebar-menu" class="o-ld-sidebar__menu show-for-large" data-accordion-menu data-slide-speed="200">
+      <li class="o-ld-sidebar__block">
+        <div class="o-ld-sidebar-header">
+          <div class="o-ld-sidebar-header__title"><%= t('ui.contents_of', type: document.doc_type.capitalize) %></div>
+          <div class="o-ld-sidebar-header__toggle o-ld-sidebar-header__toggle--show">Expand All</div>
+          <div class="o-ld-sidebar-header__toggle o-ld-sidebar-header__toggle--hide">Hide All</div>
         </div>
-        <div class="u-txt--cg-sidebar-title">
-          <%= document.metadata['title'] %>
-        </div>
-      </div>
-      <div id="cg-sidebar-xs__action" class="o-sidebar-xs__action">
-        <a><i class="ub-ellipsis fa-3x"></i></a>
-      </div>
-    </div>
-    <div class="o-sidebar-nav__sticky-title cs-bg--<%= document.subject.try(:downcase) %>-base">
-      <div class="u-txt--cg-sidebar-title-type u-text--uppercase">
-        <%= document.short_breadcrumb %>
-      </div>
-      <div class="o-sidebar-nav__sticky-header">
-        <%= simple_format document.metadata['title'] %>
-      </div>
-    </div>
-    <ul class="o-sidebar-nav o-sidebar-nav__menu show-for-ipad">
-      <li class=o-sidebar-nav__header>
-        <span><%= t('ui.contents_of', type: document.doc_type.capitalize) %></span>
-        <span class="o-sidebar-nav__toggle o-sidebar-nav__toggle--show">Show All</span>
-        <span class="o-sidebar-nav__toggle o-sidebar-nav__toggle--hide">Hide All</span>
       </li>
-      <li><div class=o-sidebar-nav__sep></div></li>
+      <li class="o-ld-sidebar__block">
+        <div class=o-ld-sidebar-header__sep></div>
+      </li>
       <% document.toc.children.each do |heading| %>
         <%= render('nav_item', heading: heading) unless heading.anchor == '1-general' || heading.anchor == 'optbreak' %>
         <%= render('nav_opt_break', heading: heading) if heading.anchor == 'optbreak' %>
       <% end %>
       <% unless document.assessment? %>
-        <li class=o-sidebar-nav__item><div class="o-sidebar-nav-item__hr"></div></li>
-        <li class=o-sidebar-nav__item>
-          <div class="o-sidebar-nav__item__content o-sidebar-nav__item--level1 o-sidebar-nav-item__summary">
-            Total Lesson Time
-            <span class="o-sidebar-nav-item__time o-sidebar-nav-item__time--summary">
+        <li class=o-ld-sidebar__block><div class="o-ld-sidebar-item__hr"></div></li>
+        <li class=o-ld-sidebar__block>
+          <div class="o-ld-sidebar-item__content">
+            <div class="o-ld-sidebar-item__header o-ld-sidebar-item__header--summary">Total Lesson Time</div>
+            <div class="o-ld-sidebar-item__time o-ld-sidebar-item__time--summary">
               <%= toc_time(document.toc.total_time) %>
-            </span>
+            </div>
           </div>
         </li>
       <% end %>
     </ul>
   </nav>
 </div>
-
-<%= render partial: 'nav_modal', locals: { document: document } %>

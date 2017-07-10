@@ -14,6 +14,8 @@ function CurriculumMap(props) {
                            styles={styles}
                            curriculum={module}
                            colorCode={colorCode}
+                           mapType={props.mapType}
+                           subject={curriculum.resource.subject}
                            active={props.active} />
     );
   });
