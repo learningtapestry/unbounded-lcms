@@ -15,6 +15,6 @@ class CreateMaterials < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :materials, :metadata, using: :gin
+    add_index :materials, :metadata, using: :gin, order: 'jsonb_path_ops'
   end
 end
