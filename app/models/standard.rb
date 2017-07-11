@@ -42,7 +42,7 @@ class Standard < ActiveRecord::Base
   end
 
   def self.filter_ccss_standards(name, subject)
-    name.upcase if name =~ (ALT_NAME_REGEX[subject] || /.*/)
+    name =~ ALT_NAME_REGEX[subject] ? name.upcase : nil
   end
 
   def attachment_url
