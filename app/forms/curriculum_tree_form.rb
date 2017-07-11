@@ -70,15 +70,29 @@ class CurriculumTreeForm
   # Reflect curriculum changes on corresponding resources
   def handle_change_log
     change_log.each do |change|
-      rename_resources_curriculum(change['from'], change['to']) if change['op'] == 'rename'
+      case change['op']
+      when 'rename' then handle_rename(change['from'], change['to'])
+      when 'create' then handle_create(change['chain'])
+      when 'delete' then handle_delete(change['chain'])
+      end
     end
   end
 
-  def rename_resources_curriculum(from, to)
+  def handle_rename(from, to)
     Resource.tree.where_curriculum(from).each do |res|
       # the rename is always on the last item for each change
       dir = res.curriculum_directory - [from.last] + [to.last]
-      res.update curriculum_directory: dir
+      res.update skip_update_curriculum_tree: true, curriculum_directory: dir
+    end
+  end
+
+  def handle_create(chain)
+    Resource.create_from_curriculum(chain)
+  end
+
+  def handle_delete(chain)
+    Resource.tree.where_curriculum(chain).each do |res|
+      res.update curriculum_tree: nil
     end
   end
 end
