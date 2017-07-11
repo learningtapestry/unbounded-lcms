@@ -1,8 +1,9 @@
-<% unless standards.empty? %>
+<% standards = prerequisites_standards(resource) %>
+<% if standards.present? %>
 <div class="o-resource__item">
   <h3>Prerequisites</h3>
   <ul class="o-resource__taglist o-resource__list--<%= color_code(resource, base: true) %>">
-  <% prerequisites_standards(resource).each_with_index do |standard, i| %>
+  <% standards.each_with_index do |standard, i| %>
     <li>
       <%= link_to standard, search_path(search_term: standard) %><%= ', ' if i != standards.size - 1  %>
     </li>

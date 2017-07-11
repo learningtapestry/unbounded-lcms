@@ -234,7 +234,7 @@ class Resource < ActiveRecord::Base
     filtered_named_tags = named_tags
     filtered_named_tags.merge(
       ccss_standards: named_tags[:ccss_standards]
-                        .map { |n| Standard.filter_ccss_standards(n) }
+                        .map { |n| Standard.filter_ccss_standards(n, subject) }
                         .compact
     )
   end
