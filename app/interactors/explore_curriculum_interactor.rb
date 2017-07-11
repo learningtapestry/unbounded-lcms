@@ -55,7 +55,7 @@ class ExploreCurriculumInteractor < BaseInteractor
       results: grades.map do |curr|
         CurriculumResourceSerializer.new(
           curr,
-          depth: curr.id == grade.id ? depth : 0,
+          depth: curr.id == grade.try(:id) ? depth : 0,
           depth_branch: active_branch
         ).as_json
       end

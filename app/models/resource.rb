@@ -65,9 +65,11 @@ class Resource < ActiveRecord::Base
   validates :title, presence: true
   validates :url, presence: true, url: true, if: %i(video? podcast?)
 
+  attr_accessor :skip_update_curriculum_tree
+
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
-  before_save :update_slug, :update_position
+  before_save :update_curriculum_tree, :update_slug, :update_position
   before_destroy :destroy_additional_resources
 
   scope :tree, lambda { |name = nil|
@@ -108,6 +110,24 @@ class Resource < ActiveRecord::Base
 
   scope :ordered, -> { order(:hierarchical_position, :title) }
 
+  def self.create_from_curriculum(chain)
+    type = CurriculumTree::HIERARCHY[chain.size - 1]
+    res = where_curriculum(chain).where(curriculum_type: type).first
+    return res if res.present?
+
+    res = Resource.new(
+      curriculum_directory: chain,
+      curriculum_tree: CurriculumTree.default,
+      curriculum_type: type,
+      resource_type: :resource,
+      short_title: chain.last,
+      skip_update_curriculum_tree: true
+    )
+    res.title = Breadcrumbs.new(res).title.split(' / ')[0...-1].push(chain.last.titleize).join(' ')
+    res.save!
+    res
+  end
+
   def self.find_podcast_by_url(url)
     podcast.where(url: url).first
   end
@@ -115,6 +135,11 @@ class Resource < ActiveRecord::Base
   def self.find_video_by_url(url)
     video_id = MediaEmbed.video_id(url)
     video.where("url ~ '#{video_id}(&|$)'").first
+  end
+
+  def self.find_by_curriculum(curr)
+    type = CurriculumTree::HIERARCHY[curr.size - 1]
+    tree.where_curriculum(curr).where(curriculum_type: type).first
   end
 
   # used for ransack search on the admin
@@ -257,15 +282,23 @@ class Resource < ActiveRecord::Base
 
   private
 
-  def update_slug
-    self.slug = Slug.new(self).value if tree?
+  def destroy_additional_resources
+    ResourceAdditionalResource.where(additional_resource_id: id).destroy_all
+  end
+
+  def update_curriculum_tree
+    CurriculumTree.insert_branch_for(self) if update_tree?
+  end
+
+  def update_tree?
+    !skip_update_curriculum_tree && tree? && curriculum.present?
   end
 
   def update_position
     self.hierarchical_position = HierarchicalPosition.new(self).position
   end
 
-  def destroy_additional_resources
-    ResourceAdditionalResource.where(additional_resource_id: id).destroy_all
+  def update_slug
+    self.slug = Slug.new(self).value if tree?
   end
 end
