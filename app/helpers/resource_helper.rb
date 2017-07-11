@@ -63,6 +63,6 @@ module ResourceHelper
             .pluck(:standard_begin_id)
     Standard
       .where(id: ids).pluck(:alt_names).flatten.uniq
-      .map { |n| Standard.filter_ccss_standards(n) }.compact.sort
+      .map { |n| Standard.filter_ccss_standards(n, resource.subject) }.compact.sort
   end
 end

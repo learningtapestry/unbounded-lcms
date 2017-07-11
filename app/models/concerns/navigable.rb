@@ -47,7 +47,9 @@ module Navigable
             break
           end
         end
-        if level_position.to_i > 0
+        return nil unless level_position
+
+        if level_position > 0
           siblings[level_position - 1]
         else
           # last element of previous node from parent level
@@ -65,6 +67,8 @@ module Navigable
             break
           end
         end
+        return nil unless level_position
+
         if level_position < siblings.size - 1
           siblings[level_position + 1]
         else

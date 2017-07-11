@@ -41,8 +41,8 @@ class Standard < ActiveRecord::Base
     )
   end
 
-  def self.filter_ccss_standards(name)
-    name.upcase if name =~ (ALT_NAME_REGEX[subject] || /.*/)
+  def self.filter_ccss_standards(name, subject)
+    name =~ ALT_NAME_REGEX[subject] ? name.upcase : nil
   end
 
   def attachment_url
@@ -50,7 +50,7 @@ class Standard < ActiveRecord::Base
   end
 
   def short_name
-    alt_names.map { |n| self.class.filter_ccss_standards(n) }.compact.try(:first) || name
+    alt_names.map { |n| self.class.filter_ccss_standards(n, subject) }.compact.try(:first) || name
   end
 
   def emphasis(grade = nil)
