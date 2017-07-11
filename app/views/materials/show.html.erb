@@ -1,0 +1,18 @@
+<% set_page_title @material.identifier.html_safe %>
+
+<%if user_signed_in? %>
+  <div class="c-ld-page-header">
+    <div class="o-page">
+      <%= link_to 'Go to Materials Admin', [:admin, :materials] %>
+    </div>
+  </div>
+<% end %>
+
+<div class="u-bg--light">
+  <div class="o-page o-page--ld">
+    <div class="o-page__module u-bg--light c-ld u-padding-bottom--gutter">
+      <h2>Material: <%= @material.identifier %> </h2>
+      <p><%= @material.content.html_safe %></p>
+    </div>
+  </div>
+</div>

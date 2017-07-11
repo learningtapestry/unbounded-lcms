@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       get 'export/gdoc', to: 'documents#export_gdoc'
     end
   end
+  resources :materials, only: :show
 
   devise_for :users, class_name: 'User', controllers: { registrations: 'registrations' }
 
@@ -84,6 +85,7 @@ Rails.application.routes.draw do
       post '/:version/compile', to: 'sketch_compilers#compile', as: :compile
     end
     resources :documents, only: %i(index create new destroy)
+    resources :materials, only: %i(index create new destroy)
     resources :curriculum_trees
   end
 

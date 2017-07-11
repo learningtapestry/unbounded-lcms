@@ -1,0 +1,4 @@
+<%= form_tag(admin_materials_path, method: :post, class: 'inline-form-btn', target: '_blank') do %>
+  <%= hidden_field_tag('material_form[link]', material.file_url) %>
+  <%= submit_tag 'reimport', class: 'button small primary' %>
+<% end %>

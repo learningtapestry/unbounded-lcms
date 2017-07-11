@@ -1,0 +1,40 @@
+<% set_page_title 'Materials Manager' %>
+
+<div class=o-page>
+
+  <h1 class=text-center><%= t('.title') %></h1>
+
+  <div class=row>
+    <div class='flex-pull-right'>
+      <%= link_to t('.new_material'), :new_admin_material, class: 'button primary' %>
+    </div>
+    <table class=table>
+      <tr>
+        <th>Identifier
+        <th>File Name
+        <th>Last Update
+        <th>
+        <th>
+        <th>
+      </tr>
+
+      <% @materials.each do |material| %>
+        <tr id=material_<%= material.id %>>
+          <td class='u-text--right'><%= material.identifier %>
+          <td><%= link_to material.name, material.file_url, target: '_blank' %>
+          <td><%= material.updated_at.to_s %>
+          <td><%= link_to content_tag(:i, nil, class: 'fa fa-eye').html_safe, [material], class: 'button small primary', target: '_blank', title: 'show material' %>
+          <td><%= render partial: 'admin/materials/reimport', locals: {material: material} %>
+          <td><%= button_to t('ui.delete'), admin_material_path(material), class: 'button small alert', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class='col-sm-12 text-center'>
+      <%= will_paginate @materials, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+
+</div>
