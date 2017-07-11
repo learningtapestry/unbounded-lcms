@@ -31,8 +31,8 @@ module DocTemplate
 
     attr_reader :activity_metadata, :toc, :css_styles
 
-    def self.parse(source)
-      new.parse(source)
+    def self.parse(source, type: :document)
+      new(type).parse(source)
     end
 
     def self.register_tag(name, klass)
@@ -44,12 +44,20 @@ module DocTemplate
       @tags ||= TagRegistry.new
     end
 
+    def initialize(type = :document)
+      @type = type
+    end
+
     def agenda
       @agenda.data.presence || []
     end
 
     def foundational_metadata
       @foundational_metadata.data.presence || {}
+    end
+
+    def material?
+      @type.to_sym == :material
     end
 
     def metadata
@@ -76,17 +84,23 @@ module DocTemplate
       sanitized_layout = HtmlSanitizer.post_processing(@document.nodes.to_s, @metadata.data['subject'])
       @document.parts << { placeholder: nil, part_type: :layout, content: sanitized_layout }
 
-      @toc = DocumentTOC.parse(meta_options)
+      @toc = DocumentTOC.parse(meta_options) unless material?
       self
     end
 
     def meta_options
-      @meta_options ||= {
-        activity: Objects::ActivityMetadata.build_from(@activity_metadata),
-        agenda: Objects::AgendaMetadata.build_from(@agenda.data),
-        foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
-        metadata: Objects::BaseMetadata.build_from(@metadata.data)
-      }
+      @meta_options ||= begin
+        if material?
+          { metadata: Objects::MaterialMetadata.build_from(@metadata.data) }
+        else
+          {
+            activity: Objects::ActivityMetadata.build_from(@activity_metadata),
+            agenda: Objects::AgendaMetadata.build_from(@agenda.data),
+            foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
+            metadata: Objects::BaseMetadata.build_from(@metadata.data)
+          }
+        end
+      end
     end
 
     def parts
@@ -100,11 +114,19 @@ module DocTemplate
     private
 
     def parse_tables(html)
-      @metadata = Tables::Metadata.parse html
-      @agenda = Tables::Agenda.parse html
-      @activity_metadata = Tables::Activity.parse html
-      @foundational_metadata = Tables::FoundationalMetadata.parse html
-      Tables::Target.parse(html) if @metadata.data['subject'].try(:downcase) == 'ela' && @metadata.data['grade'] == '6'
+      if material?
+        @metadata = Tables::MaterialMetadata.parse html
+      else
+        @metadata = Tables::Metadata.parse html
+        @agenda = Tables::Agenda.parse html
+        @activity_metadata = Tables::Activity.parse html
+        @foundational_metadata = Tables::FoundationalMetadata.parse html
+        Tables::Target.parse(html) if target_table?
+      end
+    end
+
+    def target_table?
+      @metadata && @metadata.data['subject'].try(:downcase) == 'ela' && @metadata.data['grade'] == '6'
     end
   end
 end

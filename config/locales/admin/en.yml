@@ -225,6 +225,18 @@ en:
         submit: Parse
       destroy:
         success: Lesson deleted successfully.
+    materials:
+      index:
+        new_material: Add new Material
+        title: Material Manager
+      create:
+        error: Error
+        success: Material %{name} parsed successfully.
+      new:
+        page_title: Add a material
+        submit: Parse
+      destroy:
+        success: Material deleted successfully.
     standards:
       edit:
         page_title: "Edit Standard"
@@ -255,3 +267,4 @@ en:
       sketch_compilation: Compile lesson sketch %{version}
       import_lesson: Import Lesson
       lessons: Lessons
+      materials: Materials

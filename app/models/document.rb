@@ -51,7 +51,7 @@ class Document < ActiveRecord::Base
         .where.not(id: id)
         .update_all active: false
       # activate this lesson
-      # obs: were we want a simple sql update statement, without rails callbacks
+      # obs: here we want a simple sql update statement, without rails callbacks
       update_columns active: true
     end
   end
