@@ -4,7 +4,6 @@
 class SidebarDocMenu {
   constructor() {
     this.headings = $.makeArray($('.c-ld-toc'));
-    this.clsPrefix = prefix;
     this.sidebar = $('#ld-sidebar-menu');
     this._initToggler();
     // this._updateMenu();
@@ -25,7 +24,7 @@ class SidebarDocMenu {
   _initToggler() {
     this.bExpanded = false;
     $('.o-ld-sidebar-header__toggle--show').click(() => {
-      this.sidebar.foundation('down', $('.o-ld-sidebar__menu.nested'));
+      this.sidebar.foundation('down', this.sidebar.find('.o-ld-sidebar__menu.nested'));
       this._showHideAll();
     });
     $('.o-ld-sidebar-header__toggle--hide').click(() => {
@@ -35,7 +34,7 @@ class SidebarDocMenu {
   }
 
   _updateMenu() {
-    const topHeader = $('#ld-sidebar-xs').outerHeight(true) || 0;
+    const topHeader = $('#ld-sticky-header > .sticky').outerHeight(true) || 0;
     const index = _.findLastIndex(this.headings, (heading) => {
       return heading.getBoundingClientRect().top < (20 + topHeader);
     });
@@ -44,9 +43,9 @@ class SidebarDocMenu {
     $('.o-ld-sidebar__item--active').removeClass('o-ld-sidebar__item--active');
 
     if (heading) {
-      const $item = $('.o-ld-sidebar__item [href="#' + heading.id + '"]');
-      $item.parents('.o-ld-sidebar__item')
-           .addClass('o-ld-sidebar__item--active');
+      const itemSelector = `.o-ld-sidebar__item [href="#${heading.id}"]`;
+      const $item = this.sidebar.find(itemSelector);
+      $(itemSelector).parents('.o-ld-sidebar__item').addClass('o-ld-sidebar__item--active');
       if (this.bExpanded) return;
       const $currentBranch = $item.closest('.o-ld-sidebar__item').children('.o-ld-sidebar__menu--nested')
                                   .add($item.parents('.o-ld-sidebar__menu--nested'));

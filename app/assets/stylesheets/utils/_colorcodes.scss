@@ -6,6 +6,14 @@
   }
 }
 
+.cs-rgba-bg {
+  @each $code, $color in $ub-colorcodes {
+    @include m(#{$code}) {
+      background-color: rgba($color, .8);
+    }
+  }
+}
+
 .cs-tint-bg {
   @each $code, $color in $ub-colorcodes {
     @include m(#{$code}) {

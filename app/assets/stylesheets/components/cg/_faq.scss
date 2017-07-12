@@ -8,6 +8,10 @@
   display: flex;
   flex-flow: row wrap;
 
+  @include breakpoint(medium down) {
+    margin-top: -108px;
+  }
+
   @include e(img) {
     flex: 0 0 auto;
     > div {

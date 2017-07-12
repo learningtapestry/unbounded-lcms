@@ -5,7 +5,7 @@ $(function () {
       new SidebarMobile(),
       new TopScroll(),
     ];
-    let sidebar = new SideBar(observers);
+    let sidebar = new SideBar(observers, { clsPrefix: 'cg', breakPoint: 'ipad', bHandleMobile: true });
   }
 
   function initTasksToggler() {
