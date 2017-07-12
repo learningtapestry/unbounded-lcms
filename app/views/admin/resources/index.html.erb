@@ -22,6 +22,7 @@
       <th><%= t('.resource_types') %>
       <th><%= t('.subjects') %>
       <th><%= t('.url_slugs') %>
+      <th><%= t('.tree') %>
       <th><%= t('.status') %>
       <th>
     </tr>
@@ -37,6 +38,7 @@
         <td class=resource-tag-col><%= resource.resource_type %>
         <td class=resource-tag-col><%= resource.subject %>
         <td class=resource-tag-col><%= resource.slug %>
+        <td class=resource-tag-col><%= resource.tree? ? 'yes' : 'no' %>
         <td><%= resource_status(resource) %>
         <td><%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>
       </tr>
