@@ -3,7 +3,8 @@ class CurriculumTreeEditor extends React.Component {
     super(props);
     this.state = {
       data: props.tree,
-      changeLog: []
+      changeLog: [],
+      createdIds: [],
     };
   }
 
@@ -15,6 +16,8 @@ class CurriculumTreeEditor extends React.Component {
     editor
       .on('rename_node.jstree', this.onRenameNode.bind(this))
       .on('move_node.jstree', this.onMoveNode.bind(this))
+      .on('create_node.jstree', this.onCreateNode.bind(this))
+      .on('delete_node.jstree', this.onDeleteNode.bind(this))
       .jstree({
         core : {
           animation : 0,
@@ -30,28 +33,51 @@ class CurriculumTreeEditor extends React.Component {
   }
 
   onRenameNode(_e, data) {
-    const parents = this.hierarchy(data.node).slice(0, -1);
+    // after a create we have a rename, so we store the reference on the
+    // created event and grab the full event data here
+    if (this.state.createdIds.indexOf(data.node.id) > -1) {
+      this.appendToChangelog({
+        id:    data.node.id,
+        op:    'create',
+        chain: this.hierarchy(data.node),
+        name:  data.node.text
+      });
 
-    const newChangeLog = this.state.changeLog.concat({
-      id:   data.node.id,
-      op:   'rename',
-      from: parents.concat(data.old),
-      to:   parents.concat(data.text)
-    });
-    this.updateChangelog(newChangeLog);
+    } else {
+      const parents = this.hierarchy(data.node).slice(0, -1);
+      this.appendToChangelog({
+        id:   data.node.id,
+        op:   'rename',
+        from: parents.concat(data.old),
+        to:   parents.concat(data.text)
+      });
+    }
   }
 
   onMoveNode(_e, data) {
     const oldParents = this.hierarchy(data.old_parent);
     const newParents = this.hierarchy(data.parent);
 
-    const newChangeLog = this.state.changeLog.concat({
+    this.appendToChangelog({
       id:   data.node.id,
       op:   'move',
       from: oldParents.concat(data.node.text),
       to:   newParents.concat(data.node.text)
     });
-    this.updateChangelog(newChangeLog);
+  }
+
+  onCreateNode(_e, data) {
+    const createdIds = this.state.createdIds.concat(data.node.id);
+    this.setState({...this.state, createdIds: createdIds});
+  }
+
+  onDeleteNode(_e, data) {
+    this.appendToChangelog({
+      id:    data.node.id,
+      op:    'delete',
+      chain: this.hierarchy(data.node),
+      name:  data.node.text
+    });
   }
 
   hierarchy(node) {
@@ -65,14 +91,15 @@ class CurriculumTreeEditor extends React.Component {
                .concat(node.text);
   }
 
-  updateChangelog(changeLog) {
+  appendToChangelog(newEntry) {
+    const changeLog = this.state.changeLog.concat(newEntry);
     this.setState({...this.state, changeLog: changeLog});
   }
 
   handleSubmit(e) {
     const form = $(e.target);
-    const jsonData = JSON.stringify(this.jsTree.get_json());
     // update the 'tree' json field
+    const jsonData = JSON.stringify(this.jsTree.get_json());
     form.find('[name="curriculum_tree[tree]"]').val(jsonData);
   }
 

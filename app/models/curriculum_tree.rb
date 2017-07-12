@@ -53,6 +53,30 @@ class CurriculumTree < ActiveRecord::Base
     node['children'].each_with_index { |n, i| node_index(n, i, names.dup, pos.dup) }
   end
 
+  def self.insert_branch_for(resource)
+    return unless default
+
+    level = default.tree
+    new_entries = []
+    resource.curriculum.each_with_index do |tag, index|
+      node = level.detect { |n| n['name'] == tag }
+      unless node
+        node = { 'name' => tag, 'children' => [] }
+        level << node
+        new_entries << resource.curriculum[0..index]
+      end
+      level = node['children']
+    end
+    return if new_entries.empty?
+
+    ActiveRecord::Base.transaction do
+      new_entries.each { |curr| Resource.create_from_curriculum(curr) if curr != resource.curriculum }
+      default.update_columns(tree: default.tree)
+      @default_tree = default.tree
+      @pos_index = nil
+    end
+  end
+
   private
 
   def expire_defaults_cache

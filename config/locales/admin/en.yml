@@ -98,6 +98,7 @@ en:
         teaser: Teaser
         title: Title
         url_slugs: URL slugs
+        tree: Curriculum?
       new:
         page_title: New Resource
       search_form:
