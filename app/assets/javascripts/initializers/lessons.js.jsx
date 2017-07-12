@@ -20,8 +20,9 @@ $(function () {
     const observers = [
       new SidebarDocMenu(),
       new TopScroll(),
+      new SidebarSticky(),
     ];
-    let sidebar = new SideBar(observers, 'ld');
+    let sidebar = new SideBar(observers, { clsPrefix: 'ld', breakPoint: 'large', bHandleMobile: false });
   }
 
   function initToggler(component) {

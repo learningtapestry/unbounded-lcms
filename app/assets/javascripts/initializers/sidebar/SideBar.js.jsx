@@ -10,9 +10,9 @@ const EVENTS = {
 const SCROLLING_THRESHOLD = 15;
 
 class SideBar {
-  constructor(observers, prefix = 'cg') {
+  constructor(observers, opts) {
+    _.assign(this, opts);
     this.observers = observers;
-    this.clsPrefix = prefix;
     this._clear();
     this._initSticky();
     this._initScroll();
@@ -28,7 +28,8 @@ class SideBar {
   }
 
   _initScroll() {
-    $(`.o-page--${this.clsPrefix}, #${this.clsPrefix}-contents-modal`).smoothscrolling(s => this._setScrollingState(s));
+    $(`.o-page--${this.clsPrefix}, #${this.clsPrefix}-contents-modal, #${this.clsPrefix}-dropdown`)
+      .smoothscrolling(s => this._setScrollingState(s), `#${this.clsPrefix}-sticky-header > .sticky`);
     $(`#${this.clsPrefix}-page`).off('scrollme.zf.trigger')
       .on('scrollme.zf.trigger', () => this._handleScroll());
   }
@@ -51,6 +52,7 @@ class SideBar {
   }
 
   _handleMobileScroll() {
+    if (!this.bHandleMobile) return;
     if (this.isScrolling || !$(`#${this.clsPrefix}-sidebar.is-stuck`).length) return;
     const st = $(window).scrollTop();
     if (st < this.lastScrollTop - SCROLLING_THRESHOLD) {
@@ -78,6 +80,6 @@ class SideBar {
   _setScrollingState(state) {
     this.isScrolling = state;
     this.lastScrollTop = $(window).scrollTop();
-    if (this.isScrolling) this.update(EVENTS.SCROLLING);
+    this.isScrolling ? this.update(EVENTS.SCROLLING) : this._handleScroll();
   }
 }

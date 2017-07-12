@@ -1,16 +1,20 @@
-.o-ld-sidebar {
-  position: relative;
-
+@mixin ld-content-dropdown {
   // rewrite some css rules to meet foundation accordition
   .is-accordion-submenu-parent > a::after { display: none; }
   li[aria-expanded=true] > a > .o-ld-sidebar-item__icon {
     transform: rotate(90deg);
   }
+}
+
+.o-ld-sidebar {
+  @include ld-content-dropdown;
+  position: relative;
 
   @include e(wrap) {
     position: relative;
     &.is-stuck {
       @include add-top-bottom-padding;
+      margin-top: $ub-nav-height !important;
     }
   }
 
@@ -26,6 +30,7 @@
   @include e(menu) {
     @include menu-base;
     @include menu-direction(vertical);
+    width: auto;
 
     > li.o-ld-sidebar__item:last-child { padding-bottom: 0; }
 
