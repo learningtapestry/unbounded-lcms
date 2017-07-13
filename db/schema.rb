@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170708024449) do
+ActiveRecord::Schema.define(version: 20170713040620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -277,6 +277,15 @@ ActiveRecord::Schema.define(version: 20170708024449) do
   add_index "resource_downloads", ["download_id"], name: "index_resource_downloads_on_download_id", using: :btree
   add_index "resource_downloads", ["resource_id"], name: "index_resource_downloads_on_resource_id", using: :btree
 
+  create_table "resource_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id",   null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations",   null: false
+  end
+
+  add_index "resource_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "resource_anc_desc_idx", unique: true, using: :btree
+  add_index "resource_hierarchies", ["descendant_id"], name: "resource_desc_idx", using: :btree
+
   create_table "resource_reading_assignments", force: :cascade do |t|
     t.integer "resource_id",                null: false
     t.integer "reading_assignment_text_id", null: false
@@ -352,6 +361,9 @@ ActiveRecord::Schema.define(version: 20170708024449) do
     t.integer  "curriculum_tree_id"
     t.string   "hierarchical_position"
     t.string   "slug"
+    t.integer  "parent_id"
+    t.integer  "level_position"
+    t.boolean  "tree",                  default: false, null: false
   end
 
   add_index "resources", ["curriculum_tree_id"], name: "index_resources_on_curriculum_tree_id", using: :btree

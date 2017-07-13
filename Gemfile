@@ -48,7 +48,7 @@ gem 'ransack', '~> 1.7.0'
 gem 'migration_data', '~> 0.2.1'
 gem 'seedbank', '~> 0.3'
 # tree data structure
-gem 'closure_tree', '~> 6.0'
+gem 'closure_tree', '~> 6.6'
 gem 'rubytree', '~> 0.9.6'
 # tags
 gem 'acts-as-taggable-on', '~> 3.5'

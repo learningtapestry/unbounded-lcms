@@ -10,7 +10,7 @@ class Breadcrumbs
     hierarchy.map do |key|
       if resource.curriculum_type.try(:to_sym) == key
         value = resource.curriculum_tags_for(key).first
-        value =~ /topic/ ? value.upcase.sub('TOPIC', 'topic') : value
+        value =~ /topic/i ? value.upcase.sub('TOPIC', 'topic') : value
       else
         send(:"#{key}_abbrv")
       end
@@ -31,7 +31,7 @@ class Breadcrumbs
   private
 
   def hierarchy
-    CurriculumTree::HIERARCHY
+    Resource::HIERARCHY
   end
 
   def subject_abbrv(short: false)
@@ -46,7 +46,7 @@ class Breadcrumbs
     case grade = resource.curriculum_tags_for(:grade).first
     when 'prekindergarten' then 'PK'
     when 'kindergarten' then 'K'
-    when /grade/ then "G#{grade.match(/grade (\d+)/)[1]}"
+    when /grade/i then "G#{grade.match(/grade (\d+)/i)[1]}"
     end
   end
 
@@ -59,15 +59,15 @@ class Breadcrumbs
     # -  listening and learning -> LL
     # -  literary criticism -> LC
     module_ = resource.curriculum_tags_for(:module).first
-    "M#{module_.match(/module (\d+)/)[1]}" if module_
+    "M#{module_.match(/module (\d+)/i)[1]}" if module_
   end
 
   def unit_abbrv(*)
     unit = resource.curriculum_tags_for(:unit).first
     return unless unit
 
-    prefix = unit =~ /topic/ ? 'T' : 'U'
-    "#{prefix}#{unit.match(/[unit|topic] (.*)/)[1].upcase}"
+    prefix = unit =~ /topic/i ? 'T' : 'U'
+    "#{prefix}#{unit.match(/[unit|topic] (.*)/i)[1].upcase}"
   end
 
   def lesson_abbrv(*)
@@ -75,11 +75,11 @@ class Breadcrumbs
     return unless lesson
 
     prefix = case lesson
-             when /assessment/ then 'A'
-             when /part/ then 'P'
+             when /assessment/i then 'A'
+             when /part/i then 'P'
              else 'L'
              end
 
-    "#{prefix}#{lesson.match(/[lesson|part] (\d+)/).try(:[], 1)}"
+    "#{prefix}#{lesson.match(/[lesson|part] (\d+)/i).try(:[], 1)}"
   end
 end

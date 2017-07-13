@@ -1,4 +1,4 @@
-class CurriculumTreeEditor extends React.Component {
+class CurriculumEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,32 +37,33 @@ class CurriculumTreeEditor extends React.Component {
     // created event and grab the full event data here
     if (this.state.createdIds.indexOf(data.node.id) > -1) {
       this.appendToChangelog({
-        id:    data.node.id,
-        op:    'create',
-        chain: this.hierarchy(data.node),
-        name:  data.node.text
+        parent: data.node.parent,
+        curriculum: this.hierarchy(data.node.parent),
+        op: 'create',
+        name: data.node.text
       });
+      this.setState({...this.state, createdIds: _.pull(this.state.createdIds, data.node.id) });
 
     } else {
-      const parents = this.hierarchy(data.node).slice(0, -1);
       this.appendToChangelog({
-        id:   data.node.id,
-        op:   'rename',
-        from: parents.concat(data.old),
-        to:   parents.concat(data.text)
+        id: data.node.id,
+        curriculum: this.hierarchy(data.node.parent),
+        op: 'rename',
+        from: data.old,
+        to: data.text
       });
     }
   }
 
   onMoveNode(_e, data) {
-    const oldParents = this.hierarchy(data.old_parent);
-    const newParents = this.hierarchy(data.parent);
-
     this.appendToChangelog({
-      id:   data.node.id,
-      op:   'move',
-      from: oldParents.concat(data.node.text),
-      to:   newParents.concat(data.node.text)
+      id: data.node.id,
+      op: 'move',
+      parent: data.parent,
+      old_parent: data.old_parent,
+      curriculum: this.hierarchy(data.old_parent).concat(data.node.text),
+      parent_curriculum: this.hierarchy(data.parent),
+      position: data.position
     });
   }
 
@@ -73,10 +74,10 @@ class CurriculumTreeEditor extends React.Component {
 
   onDeleteNode(_e, data) {
     this.appendToChangelog({
-      id:    data.node.id,
-      op:    'delete',
-      chain: this.hierarchy(data.node),
-      name:  data.node.text
+      id: data.node.id,
+      op: 'remove',
+      curriculum: this.hierarchy(data.node),
+      name: data.node.text
     });
   }
 
@@ -96,24 +97,19 @@ class CurriculumTreeEditor extends React.Component {
     this.setState({...this.state, changeLog: changeLog});
   }
 
-  handleSubmit(e) {
-    const form = $(e.target);
-    // update the 'tree' json field
-    const jsonData = JSON.stringify(this.jsTree.get_json());
-    form.find('[name="curriculum_tree[tree]"]').val(jsonData);
+  onSubmit(_e) {
+    $(_e.target).find('input[type=submit]').prop('disabled', true);
   }
 
   render() {
-    const jsonData = JSON.stringify(this.state.data);
     const jsonChangeLog = JSON.stringify(this.state.changeLog);
     return (
       <div>
-        <form action={this.props.form_url} acceptCharset="UTF-8" method="post" onSubmit={this.handleSubmit.bind(this)}>
+        <form action={this.props.form_url} acceptCharset="UTF-8" method="post" onSubmit={this.onSubmit.bind(this)}>
           <input name="utf8" value="✓" type="hidden" />
           <input name="_method" value="patch" type="hidden" />
           <input name="authenticity_token" value={this.props.form_token} type="hidden" />
-          <input name="curriculum_tree[tree]" type="hidden" value={jsonData} />
-          <input name="curriculum_tree[change_log]" type="hidden" value={jsonChangeLog} />
+          <input name="curriculum[change_log]" type="hidden" value={jsonChangeLog} />
           <input value="Save Changes" className="button primary" type="submit" />
         </form>
         <p className="o-curriculum-tree-editor__menu-info">(Click on a node with the right button to add/edit/remove)</p>
