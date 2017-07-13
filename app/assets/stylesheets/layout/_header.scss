@@ -49,7 +49,6 @@
     @include menu-direction(horizontal);
     @include add-column-padding;
     background-color: rgba($ub-primary, .8) !important;
-    display: none;
     @include breakpoint($topbar-unstack-breakpoint) {
       @include menu-direction(vertical);
       @include add-column-padding(0);
