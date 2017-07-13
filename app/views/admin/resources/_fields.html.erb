@@ -8,11 +8,11 @@
 
 <%= f.input :resource_type, as: :select, collection: Resource.resource_types, value_method: :first %>
 
-<%= f.input :tree?, label: 'Belongs to Curriculum Tree?', as: :boolean %>
+<%= f.input :tree, label: 'Belongs to Curriculum Tree?', as: :boolean %>
 
-<%= f.input :curriculum_type, as: :select, collection: CurriculumTree::HIERARCHY %>
+<%= f.input :curriculum_type, as: :select, collection: Resource::HIERARCHY %>
 
-<%= react_component('CurriculumTreePicker', curriculum_picker_props(resource), prerender: true) %>
+<%= react_component('CurriculumPicker', curriculum_picker_props(resource), prerender: true) %>
 
 <%= f.input :time_to_teach %>
 

@@ -52,10 +52,14 @@ module Admin
     end
 
     def curriculum_picker_props(resource)
-      curriculum_tree = CurriculumTree.default
       {
-        tree: CurriculumTreePresenter.new(curriculum_tree).editor_props[:tree],
-        directory: resource.curriculum_directory
+        directory: resource.curriculum_directory,
+        parent: {
+          curriculum: resource.parent.try(:curriculum) || [],
+          id: resource.parent_id,
+          title: resource.parent.try(:title)
+        },
+        tree: CurriculumPresenter.new.editor_props[:tree]
       }
     end
   end

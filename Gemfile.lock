@@ -103,7 +103,7 @@ GEM
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cliver (0.3.2)
-    closure_tree (6.0.0)
+    closure_tree (6.6.0)
       activerecord (>= 4.1.0)
       with_advisory_lock (>= 3.0.0)
     cocaine (0.5.7)
@@ -712,7 +712,7 @@ GEM
     will_paginate (3.0.7)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
-    with_advisory_lock (3.0.0)
+    with_advisory_lock (3.1.0)
       activerecord (>= 3.2)
       thread_safe
     xml-simple (1.1.5)
@@ -735,7 +735,7 @@ DEPENDENCIES
   capybara
   carrierwave (~> 0.10.0)
   ckeditor
-  closure_tree (~> 6.0)
+  closure_tree (~> 6.6)
   daemons (~> 1.2, >= 1.2.3)
   database_cleaner (~> 1.4)
   devise (~> 3.5.2)

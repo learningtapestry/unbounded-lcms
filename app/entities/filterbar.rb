@@ -29,7 +29,7 @@ class Filterbar
   end
 
   def subjects
-    @subjects ||= split(params[:subjects]) & CurriculumTree::SUBJECTS
+    @subjects ||= split(params[:subjects]) & Resource::SUBJECTS
   end
 
   def facets

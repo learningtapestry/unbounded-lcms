@@ -8,7 +8,7 @@ describe Resource do
   describe '.tree' do
     before do
       2.times { create(:resource) }
-      3.times { create(:resource, curriculum_tree: nil) }
+      3.times { create(:resource, tree: false) }
     end
 
     it 'selects only resources from the default curriculum_tree' do

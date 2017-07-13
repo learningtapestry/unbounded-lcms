@@ -15,47 +15,61 @@ class HierarchicalPosition
   #   a resource with 3 different grades show after one with 2, (more specific
   #   at the top, more generic at the bottom)
   def position
-    return default_position if index.present? && dettached_resource?
-
-    vals = index[resource_curriculum_key] || index[resource.subject]
-    return default_position unless vals.present?
+    return default_position if dettached_resource?
 
     [
-      vals.first, # subject
-      resource_type_pos, # resource_type
+      subject_position, # subject
+      resource_type_position, # resource_type
       resource.grades.average_number, # grades
-      vals[2], # module
-      vals[3], # unit
-      lesson_pos, # lesson
+      module_position, # module
+      unit_position, # unit
+      lesson_position, # lesson
       resource.grades.list.size # number of grades
     ].map { |v| v.to_s.rjust(2, '0') }.join(' ')
   end
 
   private
 
-  def index
-    @index ||= CurriculumTree.positions_index
+  def dettached_resource?
+    resource.resource? && !resource.tree?
   end
 
   def default_position
     @default_position ||= Array.new(7, '99').join(' ')
   end
 
-  def resource_type_pos
+  def subject_position
+    val = Resource::SUBJECTS.index(resource.subject)
+    val ? val + 1 : 99
+  end
+
+  def resource_type_position
     type = resource.media? ? 'media' : resource.resource_type
     RESOURCE_TYPE_ORDER.index(type)
   end
 
-  def dettached_resource?
-    resource.resource? && CurriculumTree.default.present? && !resource.tree?
+  def module_position
+    val = if !resource.persisted? && resource.module?
+            resource.level_position
+          else
+            resource.self_and_ancestors.detect(&:module?).try(:level_position)
+          end
+    val ? val + 1 : 0
   end
 
-  def resource_curriculum_key
-    dir = resource.lesson? ? resource.curriculum[0...-1] : resource.curriculum
-    dir.join('|')
+  def unit_position
+    val = if !resource.persisted? && resource.unit?
+            resource.level_position
+          else
+            resource.self_and_ancestors.detect(&:unit?).try(:level_position)
+          end
+    val ? val + 1 : 0
   end
 
-  def lesson_pos
+  def lesson_position
+    val =  resource.lesson? ? resource.level_position : nil
+    return val if val
+
     lesson = resource.curriculum_tags_for(:lesson).first
     lesson =~ /assessment/ ? 99 : lesson.try(:match, /(\d+)/).try(:[], 1).to_i
   end
