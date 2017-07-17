@@ -45,7 +45,14 @@ $filterbar-rectangle-big: (
   small: $filterbar-xs - 1px,
   ipad: 157px
 );
-
+$ld-sticky-header-height: (
+  small: 75px,
+  large: $ub-nav-height
+);
+$ld-sticky-header-padding: (
+  small: 1rem,
+  large: .5rem
+);
 
 $pdf-margin: 8px;
 $pdf-margin-ld: 29px; // It was 57px
