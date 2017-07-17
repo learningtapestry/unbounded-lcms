@@ -18,7 +18,7 @@ class CurriculumMap
   end
 
   def active_branch
-    @active_branch ||= resource.parents.push(resource).map(&:id).reverse
+    @active_branch ||= resource.parents.map(&:id).push(resource.id).reverse
   end
 
   def target_branch
