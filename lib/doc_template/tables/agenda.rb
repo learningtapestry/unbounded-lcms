@@ -18,8 +18,10 @@ module DocTemplate
         table.xpath('./*/tr[position() > 1]').each_with_index do |tr, index|
           # take the only two fields
           metadata, metacognition = tr.xpath('./td')
+
           # identify the referencing tag
-          tag_name, tag_value = FULL_TAG.match(metadata.content).captures
+          next unless metadata.content.present?
+          tag_name, tag_value = FULL_TAG.match(metadata.content).try(:captures)
 
           element = {
             id: tag_value.parameterize,

@@ -32,6 +32,7 @@ module ResourceFactoryHelper
       pos = i + 1
       create(:resource,
              title: "Test Resource Math G7 L#{pos}",
+             skip_update_curriculum_tree: true,
              curriculum_directory: ['math', 'grade 7', 'module 1', 'unit 1', "lesson #{pos}"])
     end
   end

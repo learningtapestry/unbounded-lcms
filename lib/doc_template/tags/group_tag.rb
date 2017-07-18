@@ -6,7 +6,7 @@ module DocTemplate
 
       def parse(node, opts = {})
         group = opts[:agenda].level1_by_title(opts[:value].parameterize)
-        return parse_ela6(node, group) if ela6?(opts[:metadata])
+        return parse_ela6_table(node, group) if ela6_with_tables?(opts[:metadata])
         node.replace(parse_template(group, TEMPLATE))
         @result = node
         self
@@ -14,7 +14,7 @@ module DocTemplate
 
       private
 
-      def parse_ela6(node, group)
+      def parse_ela6_table(node, group)
         table = node.ancestors('table')
         @result = table.before(parse_template(group, TEMPLATE))
         # remove table if it was last group without sections in a table

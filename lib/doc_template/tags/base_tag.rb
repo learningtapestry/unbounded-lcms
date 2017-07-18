@@ -41,6 +41,10 @@ module DocTemplate
         metadata.resource_subject == 'ela' && metadata.grade == '6'
       end
 
+      def ela6_with_tables?(metadata)
+        ela6?(metadata) && metadata.module == '1' && %w(1 2).include?(metadata.unit)
+      end
+
       def parse(node, _ = {})
         # generate the new content
         @result = node
