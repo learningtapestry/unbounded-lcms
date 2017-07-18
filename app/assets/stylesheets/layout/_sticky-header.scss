@@ -121,6 +121,7 @@ $ub-sticky-logo-width: 260px;
 
   @include e(icon) {
     flex: 0 0 auto;
+    margin-left: .5rem;
   }
 }
 
