@@ -15,17 +15,20 @@ module DocTemplate
         # split document into chunks
         # Anyway line below is for build ela2 tm/sm for now
         return parse_ela2_sm(node, section) if ela2?(@opts[:metadata]) && student_material?(section)
-        return parse_ela2(node, section) if ela2?(@opts[:metadata]) && section.use_color
-        return parse_ela6(node, section) if ela6?(@opts[:metadata])
+        return parse_ela(node, section) if ela2?(@opts[:metadata]) && section.use_color
+
+        return parse_ela6_table(node, section) if ela6_with_tables?(@opts[:metadata])
+        return parse_ela(node, section) if ela6?(@opts[:metadata])
+
         @result = node.replace(parse_template(section, TEMPLATE))
         self
       end
 
       private
 
-      def parse_ela2(node, section)
+      def parse_ela(node, section)
         params = {
-          content: fetch_ela2_content(node),
+          content: fetch_nodes_content(node),
           section: section
         }
         parsed_template = parse_template(params, TEMPLATE_ELA)
@@ -46,7 +49,7 @@ module DocTemplate
         self
       end
 
-      def parse_ela6(node, section)
+      def parse_ela6_table(node, section)
         table = node.ancestors('table').first
         return self unless table.present?
         # section is in same cell as content
@@ -55,7 +58,7 @@ module DocTemplate
         content_node = content_node.next_element if node.parent.children.size == 1
         node.remove
 
-        content, blockquote = fetch_ela6_content(content_node)
+        content, blockquote = fetch_table_content(content_node)
         params = {
           blockquote: strip_html_element(blockquote),
           content: content,
@@ -69,7 +72,7 @@ module DocTemplate
         self
       end
 
-      def fetch_ela2_content(node)
+      def fetch_nodes_content(node)
         nodes = [].tap do |result|
           while (node = node.next_sibling)
             break if include_break?(node)
@@ -80,7 +83,7 @@ module DocTemplate
         nodes.each(&:remove).map(&:to_html).join
       end
 
-      def fetch_ela6_content(node)
+      def fetch_table_content(node)
         sibling = node
         ['', ''].tap do |result|
           while sibling
