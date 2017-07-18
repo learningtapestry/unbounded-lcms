@@ -113,7 +113,7 @@ class CurriculumContext
     else
       # ELA G1 M1 U2 L1
       parts = to_a[1..-1].map do |part|
-        part.first.upcase + part.match(CURRICULUM_PART_NUM_RE).try(:[], 1)
+        part.first.upcase + part.match(CURRICULUM_PART_NUM_RE).try(:[], 1).to_s
       end.join(' ')
       "#{subject.upcase} #{parts}"
     end
