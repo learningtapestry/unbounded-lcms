@@ -1,3 +1,5 @@
+ruby '2.3.3'
+
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.4'
@@ -19,7 +21,7 @@ gem 'foreman', '~> 0.78.0'
 gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
 
 # authentication
-gem 'devise', '~> 3.5.2', require: ['devise', 'devise/orm/active_record']
+gem 'devise', '~> 3.5.2', require: %w(devise devise/orm/active_record)
 
 # search with elastic search
 gem 'elasticsearch-dsl', '~> 0.1.5'
@@ -102,7 +104,7 @@ gem 'pdfjs_viewer-rails', '~> 0.0.9'
 gem 'wicked_pdf', '~> 1.0'
 
 # pagination
-gem 'will_paginate', '~> 3.0.7', require: ['will_paginate', 'will_paginate/active_record']
+gem 'will_paginate', '~> 3.0.7', require: %w(will_paginate will_paginate/active_record)
 gem 'will_paginate-bootstrap'
 
 # views
