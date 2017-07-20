@@ -45,7 +45,7 @@ class ResourcesController < ApplicationController
   end
 
   def grade_or_module?
-    @resource.type_is?(:grade) || @resource.type_is?(:module)
+    @resource.grade? || @resource.module?
   end
 
   def using_id?

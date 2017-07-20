@@ -86,7 +86,7 @@ Rails.application.routes.draw do
     end
     resources :documents, only: %i(index create new destroy)
     resources :materials, only: %i(index create new destroy)
-    resources :curriculum_trees
+    resource :curriculum, only: %i(edit update)
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug

@@ -4,6 +4,8 @@ class AddSlugToResources < ActiveRecord::Migration
   end
 
   def data
-    Slug.generate_resources_slugs
+    Resource.where.not(curriculum_tree_id: nil).find_each do |res|
+      res.update_columns slug: Slug.new(res).value
+    end
   end
 end
