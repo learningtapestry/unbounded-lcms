@@ -38,10 +38,10 @@ class ExploreCurriculumInteractor < BaseInteractor
     raise "Unknown Resource slug value: '#{slug_param}'" unless target
 
     grade = target.parents.detect(&:grade?)
-    depth = CurriculumTree::HIERARCHY.index(target.curriculum_type.to_sym)
+    depth = Resource::HIERARCHY.index(target.curriculum_type.to_sym)
 
     # self and ancestors, except the subject
-    active_branch = target.parents[1..-1].push(target).map(&:id)
+    active_branch = target.self_and_ancestors.reject(&:subject?).map(&:id).reverse
 
     if expanded?
       depth += 1

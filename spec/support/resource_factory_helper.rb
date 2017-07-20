@@ -5,7 +5,6 @@ module ResourceFactoryHelper
       pos = i + 1
       create(:resource,
              title: "Test Resource ELA G2 L#{pos}",
-             skip_update_curriculum_tree: true,
              curriculum_directory: ['ela', 'grade 2', 'module 1', 'unit 1', "lesson #{pos}"])
     end
 
@@ -14,7 +13,6 @@ module ResourceFactoryHelper
       pos = i + 1
       create(:resource,
              title: "Test Resource ELA G6 L#{pos}",
-             skip_update_curriculum_tree: true,
              curriculum_directory: ['ela', 'grade 6', 'module 1', 'unit 1', "lesson #{pos}"])
     end
 
@@ -23,7 +21,6 @@ module ResourceFactoryHelper
       pos = i + 1
       create(:resource,
              title: "Test Resource Math G4 L#{pos}",
-             skip_update_curriculum_tree: true,
              curriculum_directory: ['math', 'grade 4', 'module 1', 'unit 1', "lesson #{pos}"])
     end
 
@@ -32,14 +29,13 @@ module ResourceFactoryHelper
       pos = i + 1
       create(:resource,
              title: "Test Resource Math G7 L#{pos}",
-             skip_update_curriculum_tree: true,
              curriculum_directory: ['math', 'grade 7', 'module 1', 'unit 1', "lesson #{pos}"])
     end
   end
 
   def build_resources_chain(curr)
     dir = []
-    CurriculumTree::HIERARCHY.each_with_index do |type, idx|
+    Resource::HIERARCHY.each_with_index do |type, idx|
       next unless curr[idx]
       dir.push curr[idx]
       create(:resource,

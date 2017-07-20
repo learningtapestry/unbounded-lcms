@@ -1,9 +1,4 @@
 class Resource < ActiveRecord::Base
-  include Searchable
-  include Navigable
-
-  mount_uploader :image_file, ResourceImageUploader
-
   enum resource_type: {
     resource: 1,
     podcast: 2,
@@ -14,9 +9,18 @@ class Resource < ActiveRecord::Base
   MEDIA_TYPES = %i(video podcast).map { |t| resource_types[t] }.freeze
   GENERIC_TYPES = %i(text_set quick_reference_guide).map { |t| resource_types[t] }.freeze
 
-  acts_as_taggable_on :content_sources, :download_types, :resource_types, :tags, :topics
+  SUBJECTS = %w(ela math lead).freeze
+  HIERARCHY = %i(subject grade module unit lesson).freeze
 
-  belongs_to :curriculum_tree
+  include Searchable
+  include Navigable
+
+  mount_uploader :image_file, ResourceImageUploader
+
+  acts_as_taggable_on :content_sources, :download_types, :resource_types, :tags, :topics
+  has_closure_tree order: :level_position, dependent: :destroy
+
+  belongs_to :parent, class_name: 'Resource', foreign_key: 'parent_id'
 
   # Additional resources
   has_many :resource_additional_resources, dependent: :destroy
@@ -33,6 +37,7 @@ class Resource < ActiveRecord::Base
   # Downloads.
   has_many :resource_downloads, dependent: :destroy
   has_many :downloads, through: :resource_downloads
+  accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
   # Curriculums.
   has_many :curriculums, as: :item, dependent: :destroy
@@ -55,152 +60,102 @@ class Resource < ActiveRecord::Base
   has_many :requirements, through: :resource_requirements
 
   has_many :content_guides, through: :unbounded_standards
-
   has_many :copyright_attributions, dependent: :destroy
-
   has_many :social_thumbnails, as: :target
-
-  has_many :documents
+  has_many :documents, dependent: :destroy
 
   validates :title, presence: true
   validates :url, presence: true, url: true, if: %i(video? podcast?)
 
-  attr_accessor :skip_update_curriculum_tree
-
-  accepts_nested_attributes_for :resource_downloads, allow_destroy: true
-
-  before_save :update_curriculum_tree, :update_slug, :update_position
-  before_destroy :destroy_additional_resources
-
-  scope :tree, lambda { |name = nil|
-    if name
-      joins(:curriculum_tree).where(curriculum_tree: { name: name })
-    else
-      where(curriculum_tree_id: CurriculumTree.default.try(:id))
-    end
-  }
-
+  scope :tree, -> { where(tree: true) }
   scope :where_curriculum, ->(*dir) { where('curriculum_directory @> ?', "{#{dir.join(',')}}") }
-
   scope :where_curriculum_in, lambda { |arr, constraints = nil|
     arr = Array.wrap(arr)
     arr &= constraints if constraints
-
     arr.empty? ? where(nil) : where('curriculum_directory && ?', "{#{arr.join(',')}}")
   }
-
-  scope :subjects, -> { where(curriculum_type: 'subject') }
-  scope :grades, -> { where(curriculum_type: 'grade') }
-  scope :modules, -> { where(curriculum_type: 'module') }
-  scope :units, -> { where(curriculum_type: 'unit') }
-  scope :lessons, -> { where(curriculum_type: 'lesson') }
-
+  scope :where_grade, ->(grades) { where_curriculum_in(grades, Grades::GRADES) }
+  scope :where_subject, ->(subjects) { where_curriculum_in(subjects, SUBJECTS) }
   scope :media, -> { where(resource_type: MEDIA_TYPES) }
   scope :generic_resources, -> { where(resource_type: GENERIC_TYPES) }
-
-  scope :where_subject, ->(subjects) { where_curriculum_in(subjects, CurriculumTree::SUBJECTS) }
-  scope :where_grade, ->(grades) { where_curriculum_in(grades, Grades::GRADES) }
-
-  scope :where_tag, lambda { |context, value|
-    value = Array.wrap(value)
-    return where(nil) unless value.any?
-
-    joins(taggings: [:tag]).where(taggings: { context: context }, tags: { name: value })
-  }
-
   scope :ordered, -> { order(:hierarchical_position, :title) }
 
-  def self.create_from_curriculum(chain)
-    type = CurriculumTree::HIERARCHY[chain.size - 1]
-    res = where_curriculum(chain).where(curriculum_type: type).first
-    return res if res.present?
+  before_save :update_curriculum_tags, :update_slug, :update_position
+  after_save :update_descendants_tags, :update_descendants_position, :update_descendants_tree
+  before_destroy :destroy_additional_resources
 
-    res = Resource.new(
-      curriculum_directory: chain,
-      curriculum_tree: CurriculumTree.default,
-      curriculum_type: type,
-      resource_type: :resource,
-      short_title: chain.last,
-      skip_update_curriculum_tree: true
-    )
-    res.title = Breadcrumbs.new(res).title.split(' / ')[0...-1].push(chain.last.titleize).join(' ')
-    res.save!
-    res
-  end
+  class << self
+    # Define dynamic scopes for hierarchy levels.
+    # I,e: `grades`, `units`, etc
+    HIERARCHY.map(&:to_s).each do |level|
+      define_method(:"#{level.pluralize}") { where(curriculum_type: level) }
+    end
 
-  def self.find_podcast_by_url(url)
-    podcast.where(url: url).first
-  end
+    def find_by_curriculum(curr)
+      type = HIERARCHY[curr.size - 1]
+      tree.where_curriculum(curr).where(curriculum_type: type).first
+    end
 
-  def self.find_video_by_url(url)
-    video_id = MediaEmbed.video_id(url)
-    video.where("url ~ '#{video_id}(&|$)'").first
-  end
+    def find_podcast_by_url(url)
+      podcast.where(url: url).first
+    end
 
-  def self.find_by_curriculum(curr)
-    type = CurriculumTree::HIERARCHY[curr.size - 1]
-    tree.where_curriculum(curr).where(curriculum_type: type).first
-  end
+    def find_video_by_url(url)
+      video_id = MediaEmbed.video_id(url)
+      video.where("url ~ '#{video_id}(&|$)'").first
+    end
 
-  # used for ransack search on the admin
-  def self.ransackable_scopes(_auth_object = nil)
-    %i(grades)
-  end
-
-  def tree?
-    curriculum_tree_id.present? && curriculum_tree_id == CurriculumTree.default.try(:id)
-  end
-
-  def type_is?(type)
-    curriculum_type.present? && curriculum_type.casecmp(type.to_s).zero?
-  end
+    # used for ransack search on the admin
+    def ransackable_scopes(_auth_object = nil)
+      %i(grades)
+    end
+  end # class methods
 
   # Define predicate methods for subjects.
   # I,e: #ela?, #math?, ..
-  CurriculumTree::SUBJECTS.each do |subject_name|
+  SUBJECTS.each do |subject_name|
     define_method(:"#{subject_name}?") { subject == subject_name.to_s }
   end
 
   # Define predicate methods for hierarchy levels.
   # I,e: #subject?, #grade?, #lesson?, ...
-  CurriculumTree::HIERARCHY.each do |level|
-    define_method(:"#{level}?") { type_is?(level) }
+  HIERARCHY.each do |level|
+    define_method(:"#{level}?") { curriculum_type.present? && curriculum_type.casecmp(level.to_s).zero? }
   end
 
   def assessment?
-    # tag_list.include?('assessment')
     curriculum_tags_for(:lesson).include?('assessment')
-  end
-
-  def generic?
-    %w(text_set quick_reference_guide).include?(resource_type)
   end
 
   def media?
     %w(video podcast).include? resource_type
   end
 
+  def generic?
+    %w(text_set quick_reference_guide).include?(resource_type)
+  end
+
+  def curriculum
+    @curriculum ||= HIERARCHY.map do |key|
+      key == :grade ? grades.average(abbr: false) : curriculum_tags_for(key).first
+    end.compact
+  end
+
   def curriculum_tags_for(type)
     case type.to_sym
     when :subject
-      curriculum_directory & CurriculumTree::SUBJECTS
+      curriculum_directory & SUBJECTS
     when :grade
       curriculum_directory & Grades::GRADES
     when :module
       # TODO: handle special case modules (when/if needed).
       #       Check Breadcrumbs#module_abbrv for more
-      curriculum_directory.select { |v| v.match(/module /) }
+      curriculum_directory.select { |v| v.match(/module /i) }
     when :unit
-      curriculum_directory.select { |v| v.match(/unit|topic /) }
+      curriculum_directory.select { |v| v.match(/unit|topic /i) }
     when :lesson
-      curriculum_directory.select { |v| v.match(/lesson|part|assessment/) }
+      curriculum_directory.select { |v| v.match(/lesson|part|assessment/i) }
     end.uniq.compact
-  end
-
-  def curriculum
-    @curriculum ||= CurriculumTree::HIERARCHY.map do |key|
-      key == :grade ? grades.average(abbr: false) : curriculum_tags_for(key).first
-    end.compact
   end
 
   def subject
@@ -257,11 +212,8 @@ class Resource < ActiveRecord::Base
 
   def filtered_named_tags
     filtered_named_tags = named_tags
-    filtered_named_tags.merge(
-      ccss_standards: named_tags[:ccss_standards]
-                        .map { |n| Standard.filter_ccss_standards(n, subject) }
-                        .compact
-    )
+    stds = named_tags[:ccss_standards].map { |n| Standard.filter_ccss_standards(n, subject) }.compact
+    filtered_named_tags.merge(ccss_standards: stds)
   end
 
   def tag_standards
@@ -280,22 +232,60 @@ class Resource < ActiveRecord::Base
     document.present?
   end
 
+  def next_hierarchy_level
+    index = HIERARCHY.index(curriculum_type.to_sym)
+    HIERARCHY[index + 1]
+  end
+
+  def update_curriculum_tags
+    new_dir = curriculum_directory
+
+    # add all parents short_title to the curriculum
+    new_dir += parents_tags(parent).compact.reverse if parent_id
+
+    # change self tag if short_title has changed
+    new_dir = new_dir - [short_title_was] + [short_title] if short_title_changed?
+
+    self.curriculum_directory = new_dir.uniq.compact
+  end
+
+  def update_position
+    self.hierarchical_position = HierarchicalPosition.new(self).position
+  end
+
   private
 
   def destroy_additional_resources
     ResourceAdditionalResource.where(additional_resource_id: id).destroy_all
   end
 
-  def update_curriculum_tree
-    CurriculumTree.insert_branch_for(self) if update_tree?
+  def parents_tags(node)
+    node ? [node.short_title, *parents_tags(node.parent)] : []
   end
 
-  def update_tree?
-    !skip_update_curriculum_tree && tree? && curriculum.present?
+  def update_descendants_tags
+    # update only if is not a lesson (no descendants) and short_title has changed
+    return unless !lesson? && short_title_changed?
+
+    descendants.each do |r|
+      new_dir = curriculum_directory - [short_title_was] + [short_title]
+      r.curriculum_directory = new_dir.uniq.compact
+      r.save
+    end
   end
 
-  def update_position
-    self.hierarchical_position = HierarchicalPosition.new(self).position
+  def update_descendants_position
+    # update only if is not a lesson (no descendants) and level_position has changed
+    return unless !lesson? && level_position_changed?
+
+    descendants.each { |r| r.update_position && r.save }
+  end
+
+  def update_descendants_tree
+    # update only if is not a lesson (no descendants) and `tree` has changed to false
+    return unless !lesson? && tree_changed? && !tree?
+
+    descendants.each { |r| r.tree = false && r.save }
   end
 
   def update_slug

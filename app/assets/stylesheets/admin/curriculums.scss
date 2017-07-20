@@ -26,18 +26,18 @@
 
 .o-curriculum-tree-picker {
   @include e(container) {
-    .separator {
-      display: inline-block;
-      margin: -2em 2em 0;
-      vertical-align: middle;
-    }
     aside {
       display: inline-block;
       font-size: 0.9em;
       margin-left: 1em;
     }
-    .reveal-button {
-      margin-top: -1em;
+    .resource_parent {
+      display: inline-block;
+      margin-left: 1em;
+      margin-top: 0.5em;
+      max-width: 85%;
+      vertical-align: top;
+      strong { margin-left: 0.25em; }
     }
     .tagsinput {
       display: inline-block;

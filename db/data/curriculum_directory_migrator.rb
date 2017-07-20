@@ -5,7 +5,7 @@ class CurriculumDirectoryMigrator
       curr = Curriculum.where(item_id: res.id, item_type: 'Resource').trees.first
       res.curriculum_directory = directory(res, curr)
       res.curriculum_type = type(res, curr)
-      res.curriculum_tree = CurriculumTree.default if curr
+      res.curriculum_tree_id = CurriculumTree.default.try(:id) if curr
       res.save
       print '.'
     end

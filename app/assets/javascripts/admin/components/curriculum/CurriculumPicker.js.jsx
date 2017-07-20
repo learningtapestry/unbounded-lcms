@@ -1,9 +1,10 @@
-class CurriculumTreePicker extends React.Component {
+class CurriculumPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tree: props.tree,
-      directory: props.directory
+      directory: props.directory,
+      parent: props.parent
     };
   }
 
@@ -38,7 +39,6 @@ class CurriculumTreePicker extends React.Component {
     // start modal
     this.jqmodal = $this.find('#curriculum-picker-modal');
     new Foundation.Reveal(this.jqmodal);
-
   }
 
   closeModal() {
@@ -46,7 +46,11 @@ class CurriculumTreePicker extends React.Component {
   }
 
   onChanged(_e, data) {
-    this.dirTags.importTags(this.directory(data.node).join(','));
+    const curr = this.directory(data.node)
+    this.dirTags.importTags(curr.join(','));
+
+    const parent = {id: data.node.id, title: data.node.li_attr.title, curriculum: curr};
+    this.setState({...this.state, parent: parent});
     this.closeModal();
   }
 
@@ -64,17 +68,22 @@ class CurriculumTreePicker extends React.Component {
 
   render() {
     const dir = this.state.directory.join(',');
+    const curr = this.state.parent.curriculum;
+    const parent_aside = (curr.length > 0) ? `(${curr.join(' | ')}) : ` : '';
     return (
       <div>
+        <div className="input text optional resource_parent_id">
+          <label className="text optional" htmlFor="resource_parent_id">Parent Resource</label>
+          <input type="hidden" name="resource[parent_id]" id="resource_parent_id" value={this.state.parent.id} />
+          <a href="#" className="button reveal-button" onClick={this.onClick.bind(this)}>Select Parent</a>
+          <div className="resource_parent"><aside>{parent_aside}</aside> <strong>{this.state.parent.title}</strong></div>
+        </div>
         <div className="input text optional resource_curriculum_directory">
-          <label className="text optional" htmlFor="resource_curriculum_directory">Curriculum directory <aside>(You can pick a directory on the right, or enter curriculum tags on the left; i.e.: subject, grade, unit, etc;)</aside></label>
-
+          <label className="text optional" htmlFor="resource_curriculum_directory">Curriculum directory <aside>(You can pick a parent above, or enter curriculum tags below; i.e.: subject, grade, unit, etc;)</aside></label>
           <input className="text optional" name="resource[curriculum_directory]" id="resource_curriculum_directory" defaultValue={dir}></input>
-          <span className='separator'> - OR - </span>
-          <a href="#" className="button reveal-button" onClick={this.onClick.bind(this)}>Select Curriculum Directory</a>
         </div>
         <div className="curriculum-picker-modal reveal" id="curriculum-picker-modal" >
-          <h2>Select a Curriculum Directory</h2>
+          <h2>Select a Parent Resource</h2>
           <div id="curriculum-tree-picker" className="o-curriculum-tree-picker"></div>
         </div>
       </div>

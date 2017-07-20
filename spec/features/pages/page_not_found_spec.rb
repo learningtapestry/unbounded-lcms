@@ -14,7 +14,6 @@ feature 'Page Not Found' do
   end
 
   scenario 'resource page' do
-    CurriculumTree.default.present? || create(:curriculum_tree)
     Resource.create(title: '404')
     assert_not_found '/404'
   end

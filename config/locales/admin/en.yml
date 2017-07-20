@@ -47,7 +47,7 @@ en:
         success: "'%{name}' updated successfully."
     common:
       editing_disabled: Resource editing is disabled. Turn editing on in order to edit resources.
-    curriculum_trees:
+    curriculums:
       update:
         success: Curriculum Tree saved successfully.
         error: An error occured trying to save this entry.
@@ -244,7 +244,7 @@ en:
       update:
         success: Standard updated
     nav:
-      curriculums: Curriculums
+      curriculum: Curriculum
       add_curriculum: Add curriculum
       resources: Resources
       downloadable_resource_categories: Download Categories

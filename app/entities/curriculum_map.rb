@@ -14,11 +14,11 @@ class CurriculumMap
   private
 
   def full_depth?
-    @full_depth ||= resource.type_is?(:lesson) || resource.type_is?(:unit) || resource.type_is?(:module)
+    @full_depth ||= resource.lesson? || resource.unit? || resource.module?
   end
 
   def active_branch
-    @active_branch ||= resource.parents.map(&:id).push(resource.id).reverse
+    @active_branch ||= resource.self_and_ancestor_ids
   end
 
   def target_branch
@@ -33,7 +33,7 @@ class CurriculumMap
   def curriculum
     CurriculumResourceSerializer.new(
       resource.parents.detect(&:grade?),
-      depth: full_depth? ? CurriculumTree::HIERARCHY.size : 1,
+      depth: full_depth? ? Resource::HIERARCHY.size : 1,
       depth_branch: active_branch + target_branch
     ).as_json
   end

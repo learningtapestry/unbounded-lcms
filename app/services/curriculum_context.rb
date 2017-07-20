@@ -1,5 +1,5 @@
 class CurriculumContext
-  CURRICULUM_PART_NUM_RE = /[grade|module|unit|topic|lesson|assessment|part] (.*)/
+  CURRICULUM_PART_NUM_RE = /(grade|module|unit|topic|lesson|assessment|part) (\w+)/i
 
   attr_reader :ctx
 
@@ -8,19 +8,41 @@ class CurriculumContext
   end
 
   def find_or_create_resource
-    resource = Resource.tree.find_by(curriculum_directory: to_a)
+    curr = to_a
+    # if the resource exists, return it
+    resource = Resource.tree.find_by_curriculum(curr)
     return resource if resource
 
-    Resource.create!(
-      curriculum_type: curriculum_type,
-      curriculum_tree: CurriculumTree.default,
-      curriculum_directory: to_a,
-      resource_type: Resource.resource_types[:resource],
-      short_title: short_title,
-      tag_list: tag_list,
-      teaser: teaser,
-      title: title
-    )
+    # else, build missing parents until we build the resource itself.
+    parent = nil
+    curr.each_with_index do |name, index|
+      dir = curr[0..index]
+      resource = Resource.tree.find_by_curriculum(dir)
+      if resource
+        parent = resource
+        next
+      end
+
+      resource = Resource.new(
+        curriculum_directory: dir,
+        curriculum_type: parent.next_hierarchy_level,
+        level_position: parent.children.size,
+        parent_id: parent.id,
+        resource_type: :resource,
+        short_title: name,
+        tree: true
+      )
+      if index == curr.size - 1 # last item
+        resource.tag_list = tag_list
+        resource.teaser = teaser
+        resource.title = title
+      else
+        resource.title = Breadcrumbs.new(resource).title.split(' / ')[0...-1].push(name.titleize).join(' ')
+      end
+      resource.save!
+      parent = resource
+    end
+    resource
   end
 
   def to_h
@@ -31,14 +53,10 @@ class CurriculumContext
     [subject, grade, mod, unit, lesson].compact
   end
 
-  def curriculum_type
-    CurriculumTree::HIERARCHY.reverse.detect { |level| send(level).present? }
-  end
-
   def subject
     @subject ||= begin
       value = ctx[:subject].try(:downcase)
-      value if CurriculumTree::SUBJECTS.include?(value)
+      value if Resource::SUBJECTS.include?(value)
     end
   end
 
@@ -75,7 +93,7 @@ class CurriculumContext
     else
       # when 'end', we get the last unit on the module
       module_dir = [subject, grade, mod]
-      unit = Resource.tree.units.where_curriculum(directory: module_dir).ordered.last
+      unit = Resource.tree.find_by_curriculum(module_dir).children.last
       unit.curriculum_tags_for(:unit).first
     end
   end
@@ -113,14 +131,10 @@ class CurriculumContext
     else
       # ELA G1 M1 U2 L1
       parts = to_a[1..-1].map do |part|
-        part.first.upcase + part.match(CURRICULUM_PART_NUM_RE).try(:[], 1).to_s
+        part.first.upcase + part.match(CURRICULUM_PART_NUM_RE).try(:[], 2).to_s
       end.join(' ')
       "#{subject.upcase} #{parts}"
     end
-  end
-
-  def short_title
-    to_a.last
   end
 
   def teaser
@@ -128,11 +142,7 @@ class CurriculumContext
   end
 
   def tag_list
-    if assessment?
-      ['assessment', ctx['type']]
-    else
-      []
-    end
+    assessment? ? ['assessment', ctx['type']] : []
   end
 
   def number?(str)
