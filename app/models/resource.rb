@@ -268,7 +268,7 @@ class Resource < ActiveRecord::Base
     return unless !lesson? && short_title_changed?
 
     descendants.each do |r|
-      new_dir = curriculum_directory - [short_title_was] + [short_title]
+      new_dir = r.curriculum_directory - [short_title_was] + [short_title]
       r.curriculum_directory = new_dir.uniq.compact
       r.save
     end
