@@ -1,6 +1,6 @@
 @mixin icon-dim($height) {
   height: $height;
-  width: 43 / 18 * $height;
+  width: 18 / 18 * $height;
 }
 
 .o-ld-icon {
@@ -9,16 +9,18 @@
 
   @include m(small) {
     @include icon-dim(12px);
+    vertical-align: middle;
+    margin-top: -0.2rem;
   }
 
   @include m(base) {
     @include icon-dim(18px);
+    vertical-align: baseline;
   }
 
   @for $i from 1 through 3 {
     @include m('priority#{$i}') {
       background-image: asset-url('ld_p#{$i}.svg');
-      vertical-align: baseline;
     }
   }
 }

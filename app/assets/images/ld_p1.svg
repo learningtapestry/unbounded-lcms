@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="43px" height="18px" viewBox="0 0 43 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
-    <title>F1/Single Check</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-        <g id="F1/Single-Check" stroke="#FFBF00" fill="#FFBF00">
-            <g id="Group-3" transform="translate(1.000000, 1.000000)">
-                <path d="M15.8527275,0.103517468 L16.2145625,0.732608465 C13.860579,2.39918396 11.6813454,4.51127963 9.6727499,7.0647703 C7.66621026,9.61826097 6.21681431,12.1201868 5.32456205,14.5705478 L4.79414481,14.9211887 C4.33568339,15.2182021 3.94301016,15.5172782 3.61406924,15.8142916 C3.55856046,15.5255286 3.40025764,15.0573199 3.14327254,14.4117281 L2.86778452,13.7248845 C2.26541145,12.2336294 1.7576089,11.1920198 1.34232098,10.6000554 C0.929088943,10.0080911 0.480906933,9.68632655 -0.000169169405,9.63888691 C0.649489157,9.0427974 1.21691225,8.74372136 1.69798835,8.74372136 C2.36409373,8.74372136 3.09598728,9.64301209 3.89161314,11.439531 L4.32540399,12.4068873 C5.74601761,9.85339662 7.46267806,7.49997752 9.47332946,5.34869257 C11.4860367,3.19740762 13.6118175,1.44832839 15.8527275,0.103517468" id="Fill-1"></path>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>F1/P1</title><defs><circle id="a" cx="9" cy="9" r="9"/></defs><g fill="none" fill-rule="evenodd"><circle cx="9" cy="9" r="9" fill-rule="nonzero" fill="#FFBF00"/><mask id="b" fill="#fff"><use xlink:href="#a"/></mask><path fill="#FFF" fill-rule="nonzero" mask="url(#b)" d="M10.476 14H8.5V6.385l-2.358.731V5.51l4.122-1.477h.212z"/></g></svg>
