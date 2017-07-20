@@ -6,6 +6,9 @@ module DocTemplate
       def parse(node, opts = {})
         # preserve the node content and replace only the tag by the link
         content = node.to_s.sub /\[[^\]]*#{self.class::TAG_NAME}:\s?[^\]]*\]/i, link(opts)
+
+        opts[:iteration] ||= 1
+        opts[:parent_node] = content
         @result = node.replace parse_nested content, opts
         self
       end
