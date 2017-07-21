@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'doc_template'
 
 class DocumentForm
@@ -7,7 +9,7 @@ class DocumentForm
   attribute :link, String
   validates :link, presence: true
 
-  attr_accessor :lesson
+  attr_accessor :document
 
   def initialize(target_klass, attributes = {}, google_credentials = nil)
     super(attributes)
@@ -24,18 +26,34 @@ class DocumentForm
 
   private
 
+  def collect_materials(parsed_document)
+    activity_ids = parsed_document
+                     .activity_metadata.map { |a| a['material_ids'] }
+                     .flatten.compact
+
+    meta_ids = [].tap do |res|
+      parsed_document.agenda.each do |x|
+        x[:children].each { |a| res << a[:metadata]['material_ids'] }
+      end
+    end.compact.flatten
+
+    activity_ids.concat(meta_ids).uniq
+  end
+
   def persist!
-    @lesson = DocumentDownloader::GDoc
-                .new(@credentials, link, @target_klass)
-                .import
+    @document = DocumentDownloader::GDoc
+                  .new(@credentials, link, @target_klass)
+                  .import
 
-    parsed_document = DocTemplate::Template.parse @lesson.original_content
+    parsed_document = DocTemplate::Template.parse @document.original_content
 
-    @lesson.update!(
+    @document.update!(
       activity_metadata: parsed_document.activity_metadata,
+      agenda_metadata: parsed_document.agenda,
       css_styles: parsed_document.css_styles,
       content: parsed_document.render,
       foundational_metadata: parsed_document.foundational_metadata,
+      material_ids: collect_materials(parsed_document),
       metadata: parsed_document.metadata,
       toc: parsed_document.toc
     )
@@ -44,10 +62,10 @@ class DocumentForm
     # TODO: this must change when we introduce layouts and composition where a
     # part does not related to a document but to a layout which is then related
     # to a document
-    @lesson.document_parts.delete_all
+    @document.document_parts.delete_all
 
     parsed_document.parts.each do |part|
-      @lesson.document_parts.create!(
+      @document.document_parts.create!(
         active: true,
         content: part[:content],
         part_type: part[:part_type],
@@ -55,14 +73,14 @@ class DocumentForm
       )
     end
 
-    @lesson.activate!
+    @document.activate!
 
     # NOTE: Temporary disable DOCX generation - need to solve
     # few issues on the server side
-    # LessonGenerateDocxJob.perform_later @lesson
-    LessonGeneratePdfJob.perform_later @lesson, pdf_type: 'full'
-    LessonGeneratePdfJob.perform_later @lesson, pdf_type: 'sm'
-    LessonGeneratePdfJob.perform_later @lesson, pdf_type: 'tm'
+    # LessonGenerateDocxJob.perform_later @document
+    LessonGeneratePdfJob.perform_later @document, pdf_type: 'full'
+    LessonGeneratePdfJob.perform_later @document, pdf_type: 'sm'
+    LessonGeneratePdfJob.perform_later @document, pdf_type: 'tm'
   rescue => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)

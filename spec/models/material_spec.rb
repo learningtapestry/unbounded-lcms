@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Material do
@@ -5,11 +7,14 @@ describe Material do
     expect(create(:material)).to be_valid
   end
 
+  subject { create :material }
+
+  it { expect(subject).to have_and_belong_to_many(:documents) }
+
   describe 'validations' do
     it 'has a file_id' do
-      material = Material.new
-      expect(material.valid?).to be false
-      expect(material.errors[:file_id]).to eq ["can't be blank"]
+      material = build :material, file_id: nil
+      expect(material).to_not be_valid
     end
   end
 

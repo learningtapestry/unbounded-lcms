@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Objects
     class AgendaMetadata
@@ -19,6 +21,7 @@ module DocTemplate
       class Section
         include Virtus.model
 
+        attribute :materials, String
         attribute :metacognition, MetaCognition
         attribute :metadata, MetaData
         attribute :title, String
@@ -30,6 +33,8 @@ module DocTemplate
         attribute :level, Integer, default: 2
         attribute :time, Integer, default: ->(s, _) { s.metadata.time }
         attribute :use_color, Boolean, default: false
+
+        attribute :material_ids, Array[Integer], default: []
       end
 
       class Group
@@ -64,7 +69,8 @@ module DocTemplate
 
       def add_break
         idx = children.index { |c| !c.active } || -1
-        children.insert(idx, Group.new(title: '45 Minute Mark', anchor: 'optbreak', time: 0, children: []))
+        group = Group.new title: '45 Minute Mark', anchor: 'optbreak', time: 0, children: []
+        children.insert(idx, group)
       end
     end
   end

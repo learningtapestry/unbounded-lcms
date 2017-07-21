@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713040620) do
+ActiveRecord::Schema.define(version: 20170721151221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,11 +165,20 @@ ActiveRecord::Schema.define(version: 20170713040620) do
     t.hstore   "foundational_metadata"
     t.text     "css_styles"
     t.hstore   "links",                 default: {}
+    t.jsonb    "agenda_metadata"
   end
 
   add_index "documents", ["file_id"], name: "index_documents_on_file_id", using: :btree
   add_index "documents", ["metadata"], name: "index_documents_on_metadata", using: :gist
   add_index "documents", ["resource_id"], name: "index_documents_on_resource_id", using: :btree
+
+  create_table "documents_materials", id: false, force: :cascade do |t|
+    t.integer "document_id"
+    t.integer "material_id"
+  end
+
+  add_index "documents_materials", ["document_id", "material_id"], name: "index_documents_materials_on_document_id_and_material_id", unique: true, using: :btree
+  add_index "documents_materials", ["material_id"], name: "index_documents_materials_on_material_id", using: :btree
 
   create_table "download_categories", force: :cascade do |t|
     t.string "name",        null: false
@@ -511,6 +520,8 @@ ActiveRecord::Schema.define(version: 20170713040620) do
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
   add_foreign_key "curriculums", "curriculums", column: "seed_id"
   add_foreign_key "document_parts", "documents"
+  add_foreign_key "documents_materials", "documents"
+  add_foreign_key "documents_materials", "materials"
   add_foreign_key "reading_assignment_texts", "reading_assignment_authors"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"

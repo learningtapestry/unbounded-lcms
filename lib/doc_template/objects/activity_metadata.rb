@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Objects
     class ActivityMetadata
@@ -10,6 +12,7 @@ module DocTemplate
         attribute :activity_type, String
         attribute :activity_title, String
         attribute :activity_source, String
+        attribute :activity_source_materials, String
         attribute :activity_materials, String
         attribute :activity_standard, String
         attribute :activity_mathematical_practice, String
@@ -27,6 +30,8 @@ module DocTemplate
         attribute :priority, Integer, default: ->(a, _) { a.activity_priority }
         attribute :title, String, default: ->(a, _) { a.activity_title }
         attribute :time, Integer, default: ->(a, _) { a.activity_time }
+
+        attribute :material_ids, Array[Integer], default: []
 
         def activity_standard_info
           return [] if activity_standard.blank?
