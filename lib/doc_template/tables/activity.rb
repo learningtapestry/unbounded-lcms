@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tables
     class Activity < Base
-      HEADER_LABEL = 'activity-metadata'.freeze
+      HEADER_LABEL = 'activity-metadata'
       HTML_VALUE_FIELDS = %w(activity-metacognition activity-guidance).freeze
+      MATERIALS_KEY = 'activity-materials'
 
       def parse(fragment)
         placed_sections = []
@@ -29,6 +32,8 @@ module DocTemplate
               header = "<p><span>[#{::DocTemplate::Tags::ActivityMetadataSectionTag::TAG_NAME}: #{value}]</span></p>"
               table.replace header
             end
+
+            data = fetch_materials data, MATERIALS_KEY
 
             result << data
           end

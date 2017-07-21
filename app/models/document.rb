@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 class Document < ActiveRecord::Base
   belongs_to :resource
   has_many :document_parts, dependent: :delete_all
+  has_and_belongs_to_many :materials
 
   before_save :clean_curriculum_metadata
   before_save :set_resource_from_metadata
