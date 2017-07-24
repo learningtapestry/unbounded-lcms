@@ -22,6 +22,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'pdf_js_preview', 'data-turbolinks-track' => true if generic_page? %>
     <%= render partial: 'shared/google_analytics' %>
+    <%= render partial: 'shared/heap_analytics' %>
     <%= csrf_meta_tags %>
     <% if content_for?(:canonical_url) %>
       <link rel=canonical href='<%= yield(:canonical_url) %>'>
