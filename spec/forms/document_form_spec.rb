@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe DocumentForm do
@@ -13,16 +15,18 @@ describe DocumentForm do
           activate!: nil,
           original_content: nil,
           update!: nil,
-          document_parts: double("parts", delete_all: true)
+          document_parts: double('parts', delete_all: true)
         }
         instance_double Document, stubs
       end
       let(:downloader) { instance_double 'DocumentDownloader::GDoc', import: document }
       let(:link) { 'doc-url' }
+      let(:material_ids) { [1, 3] }
       let(:params) { { link: link } }
       let(:parsed_document) do
         stubs = {
-          activity_metadata: '',
+          activity_metadata: [{ 'material_ids' => material_ids }],
+          agenda: [],
           css_styles: '',
           foundational_metadata: '',
           metadata: '',

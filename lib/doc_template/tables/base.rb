@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tables
     class Base
@@ -19,6 +21,15 @@ module DocTemplate
 
         table.remove
         self
+      end
+
+      def fetch_materials(data, key)
+        return data if (materials = data[key.to_s]).blank?
+        data['material_ids'] =
+          materials.split(',').compact.map do |identifier|
+            Material.find_by(identifier: identifier.strip)&.id
+          end.compact
+        data
       end
 
       private

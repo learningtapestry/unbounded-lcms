@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   class Template
     # a registry for available tags and respective classes
@@ -77,10 +79,6 @@ module DocTemplate
       parse_tables body_fragment
 
       @document = DocTemplate::Document.parse(body_fragment, meta_options)
-      # add the layout
-      # TODO: move the layout to a separate model between the document and the
-      # parts
-      # ex: Document => Layout => DocumentPart
       sanitized_layout = HtmlSanitizer.post_processing(@document.nodes.to_s, @metadata.data['subject'])
       @document.parts << { placeholder: nil, part_type: :layout, content: sanitized_layout }
 
