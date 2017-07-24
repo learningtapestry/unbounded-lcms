@@ -24,7 +24,7 @@ module Admin
     def create
       @document = DocumentForm.new(Document, lesson_form_parameters, google_credentials)
       if @document.save
-        redirect_to @document.lesson, notice: t('.success', name: @document.lesson.name)
+        redirect_to @document.document, notice: t('.success', name: @document.document.name)
       else
         render :new, alert: t('.error')
       end

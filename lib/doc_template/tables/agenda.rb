@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tables
     class Agenda < Base
-      HEADER_LABEL = '[agenda]'.freeze
-      METADATA_HEADER_LABEL = 'metadata'.freeze
-      GENERAL_TAG = 'general'.freeze
-      HTML_VALUE_FIELDS = %w(materials).freeze
+      HEADER_LABEL = '[agenda]'
+      MATERIALS_KEY = 'materials'
+      METADATA_HEADER_LABEL = 'metadata'
+      GENERAL_TAG = 'general'
 
       def parse(fragment)
-        table = fragment.at_xpath("table[.//*[case_insensitive_contains(text(), '#{HEADER_LABEL}')]]", XpathFunctions.new)
+        xpath = "table[.//*[case_insensitive_contains(text(), '#{HEADER_LABEL}')]]"
+        table = fragment.at_xpath(xpath, XpathFunctions.new)
         return self unless table
 
         # retain new lines
@@ -26,8 +29,8 @@ module DocTemplate
           element = {
             id: tag_value.parameterize,
             title: tag_value.gsub(/^\p{Space}*/, ''),
-            metadata: render_metadata(metadata),
-            metacognition: render_metacognition(metacognition),
+            metadata: parse_metadata(metadata),
+            metacognition: parse_metacognition(metacognition),
             children: []
           }
 
@@ -53,27 +56,23 @@ module DocTemplate
 
       private
 
-      def render_metadata(fragment)
-        table = fragment.at_xpath("table[.//*[case_insensitive_contains(text(), '#{METADATA_HEADER_LABEL}')]]", XpathFunctions.new)
+      def parse_metadata(fragment)
+        xpath = "table[.//*[case_insensitive_contains(text(), '#{METADATA_HEADER_LABEL}')]]"
+        table = fragment.at_xpath(xpath, XpathFunctions.new)
         return {} unless table
 
-        data_collection = table.css('tr').map do |tr|
+        data = table.css('tr').map do |tr|
           key = tr.at_xpath('./td[1]').text.strip.downcase
           next if key.blank?
-          value = if HTML_VALUE_FIELDS.include? key
-                    tr.at_xpath('./td[2]').inner_html
-                  else
-                    tr.at_xpath('./td[2]').text.strip
-                  end
-
+          value = tr.at_xpath('./td[2]').text.strip
           [key, value]
         end.compact
 
-        data_collection.select(&:present?).to_h
+        fetch_materials(data.to_h, MATERIALS_KEY)
           .transform_keys { |k| k.to_s.underscore }
       end
 
-      def render_metacognition(fragment)
+      def parse_metacognition(fragment)
         return nil unless fragment.at_xpath(ROOT_XPATH + STARTTAG_XPATH).present?
         # remove the tag
         el = fragment.at_xpath(ROOT_XPATH + STARTTAG_XPATH)
