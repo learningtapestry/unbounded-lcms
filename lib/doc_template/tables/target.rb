@@ -1,11 +1,11 @@
 module DocTemplate
   module Tables
     class Target < Base
-      HEADER_LABEL_RE = 'Long-Term\s*Targets\s*Addressed\s*\(\s*Based\s*on\s*ELA\s*(CCSS|Standards)\s*\)'.freeze
+      HEADER_LABEL_PIECE = 'Long-Term Targets Addressed'.freeze
       TEMPLATE = 'target-table.html.erb'.freeze
 
       def parse(fragment)
-        path = ".//table/*/tr[1]/td[1][case_regular(.//*/text(), '#{HEADER_LABEL_RE}')]"
+        path = ".//table/*/tr[1]/td[1][case_insensitive_contains(.//*/text(), '#{HEADER_LABEL_PIECE}')]"
         return unless (element = fragment.at_xpath path, XpathFunctions.new)
         return unless (table = element.ancestors('table').first)
 
