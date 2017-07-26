@@ -2,6 +2,7 @@
 
 <%= simple_form_for @user, url: url, html: { id: 'user_form' } do |f| %>
 
+  <%= f.input :id, disabled: true %>
   <%= f.input :name %>
   <%= f.input :email %>
 

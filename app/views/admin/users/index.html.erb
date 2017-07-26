@@ -13,6 +13,7 @@
     <div class="col-md-12">
       <table class=table>
         <tr>
+          <th><%= t('.id') %>
           <th><%= t('.name') %>
           <th><%= t('.email') %>
           <th><%= t('ui.actions') %></th>
@@ -20,6 +21,7 @@
 
         <% @users.each do |user| %>
           <tr id="user_<%= user.id %>">
+            <td><%= link_to user.id, edit_admin_user_path(user) %>
             <td><%= link_to user.name, edit_admin_user_path(user) %>
             <td><%= user.email %>
             <td><%= button_to t('.reset_password_btn'), reset_password_admin_user_path(user), class: 'btn', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :post %> <%= button_to t('ui.delete'), admin_user_path(user), class: 'btn btn-danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %></td>
