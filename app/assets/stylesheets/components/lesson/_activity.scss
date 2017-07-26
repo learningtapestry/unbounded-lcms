@@ -25,5 +25,14 @@
   @include e(source) {
     @include add-gutter(padding, bottom, 1);
     display: block;
+
+    p {
+      &:empty { line-height: 0; }
+      &:after {
+        content: "";
+        display: inline-block;
+        width: 0;
+      }
+    }
   }
 }
