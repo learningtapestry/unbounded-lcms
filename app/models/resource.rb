@@ -246,7 +246,7 @@ class Resource < ActiveRecord::Base
     # change self tag if short_title has changed
     new_dir = new_dir - [short_title_was] + [short_title] if short_title_changed?
 
-    self.curriculum_directory = new_dir.uniq.compact
+    self.curriculum_directory = new_dir.select(&:present?).uniq
   end
 
   def update_position
