@@ -29,9 +29,9 @@
 }
 
 .o-btn {
+  @extend %btn-shadow;
   @include button-base;
   @include txt-element(button);
-  @extend %btn-shadow;
   margin-bottom: $ub-xs-padding;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
@@ -42,6 +42,7 @@
 
   @each $type, $color in $ub-buttons {
     $btn-color: if($type == 'base', $ub-txt, $ub-white);
+
     @include m(#{$type}) {
       @include button-style($background: $color, $background-hover: auto, $color: $btn-color);
     }
@@ -49,6 +50,7 @@
 
   @each $type, $color in $ub-buttons {
     $btn-color: if($type == 'base', $ub-txt, $ub-white);
+
     @include m(bordered-#{$type}) {
       @include ub-button-hollow($background: $color, $color: $btn-color);
     }
@@ -77,9 +79,9 @@
 }
 
 .o-ub-btn {
+  @extend %btn-shadow;
   @include button-base;
   @include txt-element(button);
-  @extend %btn-shadow;
   margin-bottom: $ub-small-margin / 2;
   min-width: 200px;
 
@@ -142,15 +144,15 @@
 }
 
 .o-ub-ld-btn {
+  @extend %btn-shadow;
   @include button-base;
   @include txt-element(button);
-  @extend %btn-shadow;
   margin-bottom: $ub-small-margin / 2;
   min-width: 150px;
 
   @include m(bordered) {
-    @include ub-button-hollow($background: $ub-white, $color: $ub-white);
     @extend %ld-btn-padding;
+    @include ub-button-hollow($background: $ub-white, $color: $ub-white);
     opacity: .8;
     width: map-get($curriculum-map-width, base);
 
@@ -163,8 +165,8 @@
 
   @include m(ela) {
     $color: map-get($ub-colorcodes, ela-base);
-    @include button-style($background: $ub-white, $background-hover: $ub-white, $color: $color);
     @extend %ld-btn-padding;
+    @include button-style($background: $ub-white, $background-hover: $ub-white, $color: $color);
     opacity: .9;
 
     &:hover, &:focus { opacity: 1; }
@@ -172,11 +174,17 @@
 
   @include m(math) {
     $color: map-get($ub-colorcodes, math-base);
-    @include button-style($background: $ub-white, $background-hover: $ub-white, $color: $color);
     @extend %ld-btn-padding;
+    @include button-style($background: $ub-white, $background-hover: $ub-white, $color: $color);
     opacity: .9;
 
     &:hover, &:focus { opacity: 1; }
   }
 
+  @include m(material) {
+    &:hover, &:focus {
+      background-color: map-get($ub-ld-colorcodes, material-overlay);
+      color: $ub-white;
+    }
+  }
 }

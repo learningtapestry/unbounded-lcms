@@ -22,15 +22,16 @@
     @include add-gutter(padding, bottom, 1);
     display: block;
 
-    p {
-      &:empty { line-height: 0; }
-
-      &::after {
-        content: '';
-        display: inline-block;
-        width: 0;
-      }
-    }
+    // TODO: comment for now, bc it's adding big gaps btw elements
+    // p {
+    //   &:empty { line-height: 0; }
+    //
+    //   &::after {
+    //     content: '';
+    //     display: inline-block;
+    //     width: 0;
+    //   }
+    // }
   }
 
   &.c-ld-toc {

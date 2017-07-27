@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DocumentPresenter < BasePresenter
+class DocumentPresenter < PDFPresenter
   PART_RE = /{{[^}]+}}/
   PDF_SUBTITLES = { full: '', sm: '_student_materials', tm: '_teacher_materials' }.freeze
   SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
@@ -23,13 +23,14 @@ class DocumentPresenter < BasePresenter
     assessment? ? 'assessment' : 'lesson'
   end
 
-  def full_breadcrumb
+  def full_breadcrumb(unit_level: false)
+    lesson_level = assessment? ? 'Assessment' : "Lesson #{ld_metadata.lesson}" unless unit_level
     [
       SUBJECT_FULL[subject] || subject,
       grade.to_i.zero? ? grade : "Grade #{grade}",
       ll_strand? ? ld_module : "Module #{ld_module.try(:upcase)}",
       topic.present? ? "#{TOPIC_FULL[subject]} #{topic.try(:upcase)}" : nil,
-      assessment? ? 'Assessment' : "Lesson #{ld_metadata.lesson}"
+      lesson_level
     ].compact.join(' / ')
   end
 
@@ -53,17 +54,17 @@ class DocumentPresenter < BasePresenter
     ld_metadata.lesson_mathematical_practice.squish
   end
 
-  def pdf_content(type, options = {})
-    LDPdfContent.generate(self, type, options.delete(:excludes) || [])
+  def pdf_content(options = {})
+    render_lesson(options.delete(:excludes) || [])
   end
 
   def pdf_header
     "UnboundEd / #{full_breadcrumb}"
   end
 
-  def pdf_filename(type:)
+  def pdf_filename
     name = short_breadcrumb(join_with: '_', with_short_lesson: true)
-    name += PDF_SUBTITLES[type.to_sym]
+    name += PDF_SUBTITLES[pdf_type.to_sym]
     "#{name}_v#{version.presence || 1}.pdf"
   end
 
@@ -72,7 +73,8 @@ class DocumentPresenter < BasePresenter
   end
 
   def render_lesson(excludes = [])
-    render_part layout.content, excludes
+    content = render_part layout.content, excludes
+    ReactMaterialsResolver.resolve(content, self)
   end
 
   def render_part(part_content, excludes = [])
@@ -86,15 +88,17 @@ class DocumentPresenter < BasePresenter
 
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
-  def short_breadcrumb(join_with: ' / ', with_short_lesson: false)
-    lesson_abbr =
-      if assessment?
-        with_short_lesson ? 'A' : 'Assessment'
-      else
-        with_short_lesson ? "L#{ld_metadata.lesson}" : "Lesson #{ld_metadata.lesson}"
-      end
+  def short_breadcrumb(join_with: ' / ', with_short_lesson: false, with_subject: true, unit_level: false)
+    unless unit_level
+      lesson_abbr =
+        if assessment?
+          with_short_lesson ? 'A' : 'Assessment'
+        else
+          with_short_lesson ? "L#{ld_metadata.lesson}" : "Lesson #{ld_metadata.lesson}"
+        end
+    end
     [
-      SUBJECT_FULL[subject] || subject,
+      with_subject ? SUBJECT_FULL[subject] || subject : nil,
       grade.to_i.zero? ? grade : "G#{grade}",
       ll_strand? ? 'LL' : "M#{ld_module.try(:upcase)}",
       topic.present? ? "#{TOPIC_SHORT[subject]}#{topic.try(:upcase)}" : nil,

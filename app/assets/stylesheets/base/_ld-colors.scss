@@ -9,5 +9,6 @@ $ub-ld-colorcodes: (
   math-toggler-bg: transparentize(map-get($ub-colorcodes, math-base), .7),
   math-image-bg: transparentize(map-get($ub-colorcodes, math-base), .85),
   default-image-bg: transparentize(map-get($ub-colorcodes, default-base), .85),
+  material-overlay: #423872,
   tooltip-bg: #fff8e5,
 )

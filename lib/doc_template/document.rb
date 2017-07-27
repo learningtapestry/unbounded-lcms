@@ -6,6 +6,7 @@ module DocTemplate
     TAGS_WITHOUT_PARTS = [
       Tags::DefaultTag::TAG_NAME,
       Tags::GlsTag::TAG_NAME,
+      Tags::MaterialsTag::TAG_NAME,
       '#'
     ].freeze
 
@@ -30,7 +31,7 @@ module DocTemplate
         parse_node tag_node
       end
 
-      add_custom_nodes unless @opts.key?(:level)
+      add_custom_nodes unless @opts.key?(:level) || @opts.key?(:material)
 
       self
     end

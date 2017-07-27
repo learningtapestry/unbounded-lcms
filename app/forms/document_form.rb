@@ -74,13 +74,7 @@ class DocumentForm
     end
 
     @document.activate!
-
-    # NOTE: Temporary disable DOCX generation - need to solve few issues on the server side
-    # LessonGenerateDocxJob.perform_later @document
-
-    LessonGeneratePdfJob.perform_later @document, pdf_type: 'full'
-    LessonGeneratePdfJob.perform_later @document, pdf_type: 'sm'
-    LessonGeneratePdfJob.perform_later @document, pdf_type: 'tm'
+    DocumentPdfGenerator.materials_for(@document)
   rescue => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)

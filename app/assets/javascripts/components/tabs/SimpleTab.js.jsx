@@ -88,7 +88,7 @@ var Tabs = React.createClass({
 
         return (
           <li ref={ref} key={index} className={classes}>
-            <a onClick={this.setActive.bind(this, index + 1)}>
+            <a onClick={this.setActive.bind(this, index + 1)} className="u-preserve-style">
               {title}
             </a>
           </li>
@@ -96,8 +96,8 @@ var Tabs = React.createClass({
       });
 
     return (
-      <nav className='o-tab__navigation'>
-        <ul className='o-tab-menu'>{$menuItems}</ul>
+      <nav className="o-tab__navigation">
+        <ul className="o-tab-menu">{$menuItems}</ul>
       </nav>
     );
   },
@@ -106,7 +106,7 @@ var Tabs = React.createClass({
     var $panel = this.props.children[index];
 
     return (
-      <div ref='o-tab__panel' className='o-tab__panel'>
+      <div ref="o-tab__panel" className="o-tab__panel">
         {$panel}
       </div>
     );

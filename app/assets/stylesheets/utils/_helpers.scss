@@ -78,6 +78,7 @@ $margins-align: (top, bottom, right, left);
 
 $paddings: (
   'zero': 0,
+  'tiny': 5px,
   'xs': $ub-small-margin * .7,
   'small': $ub-small-margin,
   'base': $ub-base-margin,
