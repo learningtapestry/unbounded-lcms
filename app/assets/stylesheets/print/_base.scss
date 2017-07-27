@@ -13,11 +13,6 @@ html, body {
     padding-left: $pdf-margin;
     padding-right: $pdf-margin;
   }
-
-  @include m(pdf-ld) {
-    padding-left: $pdf-margin-ld;
-    padding-right: $pdf-margin-ld;
-  }
 }
 
 header, footer, o-sidebar-nav {

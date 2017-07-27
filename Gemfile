@@ -100,8 +100,12 @@ gem 'resque', '~> 1.27', require: 'resque/server'
 gem 'backport_new_renderer', '~> 1.0.0'
 
 # pdf
+gem 'combine_pdf', '~> 1.0.5'
 gem 'pdfjs_viewer-rails', '~> 0.0.9'
 gem 'wicked_pdf', '~> 1.0'
+
+# thumbnails
+gem 'mini_magick', '~> 4.8.0'
 
 # pagination
 gem 'will_paginate', '~> 3.0.7', require: %w(will_paginate will_paginate/active_record)

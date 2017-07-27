@@ -6,14 +6,8 @@ module DocTemplate
 
       def parse(node, opts = {})
         # we have to collect all the next siblings until next activity-metadata
-        content = Nokogiri::HTML.fragment content_until_break(node)
-        # added this class to avoid image wrapping
-        content.xpath('.//img/..').add_class('u-ld-not-image-wrap')
-
-        content = parse_nested content.to_s, opts.merge(parent_tags: [self.class::TAG_NAME])
-        @content = parse_template content, TEMPLATE
-
-        replace_tag node
+        content_until_break(node)
+        node.remove
         self
       end
     end

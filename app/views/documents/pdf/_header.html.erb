@@ -1,10 +1,10 @@
 <div class="cs-bg--<%= document.color_code_grade %> c-pdf-header__wrap u-br-top--base">
-  <div class="o-page--pdf-ld c-pdf-header--ld u-text--capitalized">
+  <div class="o-page--pdf-ld c-pdf-header--ld u-text--capitalized" style="<%= document.padding_styles %>">
     <%= document.pdf_header %>
   </div>
 </div>
 
-<div class="c-ld__header--pdf o-page--pdf-ld">
+<div class="c-ld__header--pdf o-page--pdf-ld" style="<%= document.padding_styles %>">
   <h1 class="u-pdf-txt--ld-h1"><%= document.title %></h1>
   <div class="u-txt--teaser o-social-sharing__teaser">
     <%= raw(document.teaser) %>

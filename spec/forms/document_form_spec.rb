@@ -40,8 +40,7 @@ describe DocumentForm do
       before do
         allow(DocumentDownloader::GDoc).to receive(:new).with(nil, link, Document).and_return(downloader)
         allow(DocTemplate::Template).to receive(:parse).and_return(parsed_document)
-        allow(LessonGenerateDocxJob).to receive(:perform_later)
-        allow(LessonGeneratePdfJob).to receive(:perform_later)
+        allow(DocumentPdfGenerator).to receive(:materials_for)
       end
 
       it 'downloads the document' do
@@ -66,9 +65,7 @@ describe DocumentForm do
       end
 
       it 'queues job to generate PDF' do
-        expect(LessonGeneratePdfJob).to receive(:perform_later).with(document, pdf_type: 'full')
-        expect(LessonGeneratePdfJob).to receive(:perform_later).with(document, pdf_type: 'sm')
-        expect(LessonGeneratePdfJob).to receive(:perform_later).with(document, pdf_type: 'tm')
+        expect(DocumentPdfGenerator).to receive(:materials_for).with(document)
       end
 
       after { subject }

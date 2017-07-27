@@ -1,0 +1,77 @@
+default:
+  header: true
+  margin:
+    top: 8.46
+    right: 8.46
+    bottom: 15
+    left: 8.46
+  orientation: portrait
+  padding:
+    right: 29px
+    left: 29px
+answer-lines:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key
+icons:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key
+family-letter:
+  header: false
+  subtitle:
+    student: Student Handouts
+  title: Family Letter
+first-then:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key
+recommended-books:
+  header: false
+  subtitle:
+    student: Student Handouts
+  title: Recommended Books
+somebody-wanted-but-so-then:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key
+story-map:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key
+student-worksheet:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key
+sw-template-l:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key
+sw-template-p:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key
+venn-diagram:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key
+vocabulary-chart:
+  header: false
+  orientation: landscape
+  subtitle:
+    student: Classroom Materials
+  title: Vocabulary Chart
+writing-and-drawing:
+  subtitle:
+    classroom: Classroom Materials
+    student: Student Handouts
+    teacher: Answer Key

@@ -1,6 +1,6 @@
 .c-ld__body--pdf {
   @include ld-custom-styles;
-  
+
   @import
     'print/lesson/base-typography',
     'print/lesson/callout',
@@ -13,6 +13,8 @@
     'print/lesson/pv',
     'print/lesson/section',
     'print/lesson/smp',
-    'print/lesson/title',
-    'print/lesson/tm-sm';
+    'print/lesson/title';
+    // TODO: remove these rules when we'll be certain on student/teacher materials
+    // For now we'll show everything for tm, but will not show materials at the end as for full version
+    // 'print/lesson/tm-sm';
 }

@@ -118,6 +118,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
+    combine_pdf (1.0.5)
+      ruby-rc4 (>= 0.1.5)
     concurrent-ruby (1.0.1)
     connection_pool (2.2.0)
     crack (0.4.3)
@@ -412,6 +414,7 @@ GEM
     method_source (0.8.2)
     migration_data (0.2.1)
     mime-types (2.99.3)
+    mini_magick (4.8.0)
     mini_portile2 (2.1.0)
     minispec-metadata (2.0.0)
       minitest
@@ -609,6 +612,7 @@ GEM
       rspec-support (~> 3.6.0)
     rspec-support (3.6.0)
     ruby-progressbar (1.8.0)
+    ruby-rc4 (0.1.5)
     rubytree (0.9.6)
       json (~> 1.8)
       structured_warnings (~> 0.2)
@@ -736,6 +740,7 @@ DEPENDENCIES
   carrierwave (~> 0.10.0)
   ckeditor
   closure_tree (~> 6.6)
+  combine_pdf (~> 1.0.5)
   daemons (~> 1.2, >= 1.2.3)
   database_cleaner (~> 1.4)
   devise (~> 3.5.2)
@@ -764,6 +769,7 @@ DEPENDENCIES
   jquery-rails
   js-routes (~> 1.1.2)
   migration_data (~> 0.2.1)
+  mini_magick (~> 4.8.0)
   minitest-focus
   minitest-rails-capybara
   minitest-vcr
