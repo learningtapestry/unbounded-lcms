@@ -10,20 +10,19 @@ module DocTemplate
       TEMPLATE = 'standard.html.erb'.freeze
 
       def parse(node, _)
-        content = render_template node
+        @content = render_template node
         loop do
-          break unless STANDARD_RE =~ content
-          content = render_template Nokogiri::HTML.fragment(content)
+          break unless STANDARD_RE =~ @content
+          @content = render_template Nokogiri::HTML.fragment(@content)
         end
 
         # preserve `li` element
         if node.name == 'li'
-          node.replace "<li>#{content}</li>"
+          @result = node.replace "<li>#{placeholder}</li>"
         else
-          node.replace content
+          replace_tag node
         end
 
-        @result = node
         self
       end
 

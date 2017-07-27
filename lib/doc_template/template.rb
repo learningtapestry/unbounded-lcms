@@ -79,7 +79,7 @@ module DocTemplate
       parse_tables body_fragment
 
       @document = DocTemplate::Document.parse(body_fragment, meta_options)
-      sanitized_layout = HtmlSanitizer.post_processing(@document.nodes.to_s, @metadata.data['subject'])
+      sanitized_layout = HtmlSanitizer.post_processing(@document.render, @metadata.data['subject'])
       @document.parts << { placeholder: nil, part_type: :layout, content: sanitized_layout }
 
       @toc = DocumentTOC.parse(meta_options) unless material?
@@ -95,7 +95,8 @@ module DocTemplate
             activity: Objects::ActivityMetadata.build_from(@activity_metadata),
             agenda: Objects::AgendaMetadata.build_from(@agenda.data),
             foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
-            metadata: Objects::BaseMetadata.build_from(@metadata.data)
+            metadata: Objects::BaseMetadata.build_from(@metadata.data),
+            parts: @target_table.try(:parts)
           }
         end
       end
@@ -119,7 +120,7 @@ module DocTemplate
         @agenda = Tables::Agenda.parse html
         @activity_metadata = Tables::Activity.parse html
         @foundational_metadata = Tables::FoundationalMetadata.parse html
-        Tables::Target.parse(html) if target_table?
+        @target_table = Tables::Target.parse(html) if target_table?
       end
     end
 

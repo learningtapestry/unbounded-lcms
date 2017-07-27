@@ -24,5 +24,8 @@ class DocumentsController < ApplicationController
   def set_document
     doc = Document.find params[:id]
     @document = DocumentPresenter.new doc
+    return if @document.layout.present?
+
+    redirect_to admin_documents_path, alert: 'Document has to be re-imported.'
   end
 end

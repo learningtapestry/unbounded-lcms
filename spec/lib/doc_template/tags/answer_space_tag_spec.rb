@@ -13,7 +13,7 @@ describe DocTemplate::Tags::AnswerSpaceTag do
     html.at_xpath('*//p')
   end
 
-  subject { tag.parse(node, value: 's').render.to_html }
+  subject { tag.parse(node, value: 's').content }
 
   it 'removes original node' do
     expect(subject).to_not include('[answer-space:s]')

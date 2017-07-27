@@ -11,7 +11,8 @@ module DocTemplate
         params = {
           content: parse_nested(nodes.map(&:to_html).join, opts)
         }
-        @result = node.replace parse_template params, TEMPLATE
+        @content = parse_template params, TEMPLATE
+        replace_tag node
         self
       end
     end

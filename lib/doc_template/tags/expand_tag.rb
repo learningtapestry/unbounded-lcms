@@ -9,8 +9,9 @@ module DocTemplate
         params = { subject: (@opts[:metadata].try(:[], 'subject').presence || 'ela').downcase }
         params[:content], params[:content_hidden] = fetch_content table
 
-        content = parse_template params, TEMPLATE
-        @result = table.replace parse_nested(content, @opts)
+        parsed_template = parse_template params, TEMPLATE
+        @content = parse_nested(parsed_template, @opts)
+        replace_tag table
       end
 
       private

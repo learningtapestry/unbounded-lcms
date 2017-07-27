@@ -31,22 +31,6 @@ class Document < ActiveRecord::Base
 
   scope :filter_by_grade, ->(grade) { where_metadata(:grade, grade) }
 
-  def assessment?
-    resource.try(:assessment?)
-  end
-
-  def file_url
-    "https://docs.google.com/document/d/#{file_id}"
-  end
-
-  def ela?
-    metadata['subject'].try(:downcase) == 'ela'
-  end
-
-  def math?
-    metadata['subject'].try(:downcase) == 'math'
-  end
-
   def activate!
     self.class.transaction do
       # deactive all other lessons for this resource
@@ -57,6 +41,26 @@ class Document < ActiveRecord::Base
       # obs: here we want a simple sql update statement, without rails callbacks
       update_columns active: true
     end
+  end
+
+  def assessment?
+    resource.try(:assessment?)
+  end
+
+  def ela?
+    metadata['subject'].to_s.casecmp('ela').zero?
+  end
+
+  def file_url
+    "https://docs.google.com/document/d/#{file_id}"
+  end
+
+  def layout
+    document_parts.where(part_type: :layout).last
+  end
+
+  def math?
+    metadata['subject'].to_s.casecmp('math').zero?
   end
 
   def title

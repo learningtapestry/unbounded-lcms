@@ -1,8 +1,6 @@
 module DocTemplate
   module Tags
     class PdTag < BaseTag
-      include ERB::Util
-
       TAG_NAME = 'pd'.freeze
       TEMPLATE = 'pd.html.erb'.freeze
       TYPE_PODCAST = 'podcast'.freeze
@@ -12,17 +10,22 @@ module DocTemplate
         @opts = opts
         url, @title, @description = @opts[:value].split(';').map(&:strip)
 
-        fetch_data_for url
 
-        unless @embeded.present?
+
+        unless (embeded = fetch_data_for url)
           node.remove
-          @result = node
           return self
         end
 
-        template = File.read template_path(TEMPLATE)
-        node.replace ERB.new(template).result(binding)
-        @result = node
+        params = {
+          content: embeded[:content],
+          description: @description,
+          subject: @subject,
+          title: @title,
+          type: embeded[:type]
+        }
+        @content = parse_template params, TEMPLATE
+        replace_tag node
         self
       end
 
@@ -50,7 +53,7 @@ module DocTemplate
         end
 
         @subject = @opts[:metadata].resource_subject
-        @embeded = embeded_object_for url, @subject
+        embeded_object_for url, @subject
       end
     end
   end

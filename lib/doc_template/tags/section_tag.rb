@@ -20,7 +20,9 @@ module DocTemplate
         return parse_ela(node, section) if ela2?(@opts[:metadata]) && section.use_color
         return parse_ela(node, section) if ela6?(@opts[:metadata])
 
-        @result = node.replace(parse_template(section, TEMPLATE))
+
+        @content = parse_template section, TEMPLATE
+        replace_tag node
         self
       end
 
@@ -32,20 +34,21 @@ module DocTemplate
           section: section
         }
         parsed_template = parse_template(params, TEMPLATE_ELA)
-        @result = node.replace parse_nested(parsed_template, @opts)
+        @content = parse_nested parsed_template, @opts
+        replace_tag node
         self
       end
 
       def parse_ela2_sm(node, section)
         content = content_until_break(node)
 
-        node = node.replace(
-          parse_template({ content: parse_nested(content, @opts),
-                           heading: parse_template(section, TEMPLATE),
-                           tag: 'ela2-sm' },
-                         TEMPLATE_SM)
-        )
-        @result = node
+        params = {
+          content: parse_nested(content, @opts),
+          heading: parse_template(section, TEMPLATE),
+          tag: 'ela2-sm'
+        }
+        @content = parse_template params, TEMPLATE_SM
+        replace_tag node
         self
       end
 

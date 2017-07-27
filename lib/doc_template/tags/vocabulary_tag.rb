@@ -6,8 +6,9 @@ module DocTemplate
 
       def parse_table(table)
         params = { sections: fetch_content(table) }
-        content = parse_template params, TEMPLATE
-        @result = table.replace parse_nested(content, @opts)
+        parsed_content = parse_template params, TEMPLATE
+        @content = parse_nested parsed_content, @opts
+        replace_tag table
       end
 
       private

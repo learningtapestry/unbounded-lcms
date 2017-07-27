@@ -6,14 +6,16 @@ module DocTemplate
       TAG_NAME = 'dialogue'.freeze
       TEMPLATE = 'dialogue.html.erb'.freeze
 
-      def parse(node, _ = {})
+      def parse(node, opts = {})
         @tags = []
 
         nodes = block_nodes node
         nodes.map(&:remove)
 
         params = { phrases: format_phrases(nodes) }
-        @result = node.replace parse_template(params, TEMPLATE)
+        parsed_content = parse_template params, TEMPLATE
+        @content = parse_nested parsed_content, opts
+        replace_tag node
         self
       end
 

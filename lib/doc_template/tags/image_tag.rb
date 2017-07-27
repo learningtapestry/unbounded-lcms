@@ -10,7 +10,8 @@ module DocTemplate
           image_src: image_src,
           subject: @opts[:metadata].try(:[], 'subject')
         }
-        @result = table.replace parse_template(params, TEMPLATE)
+        @content = parse_template(params, TEMPLATE)
+        replace_tag table
       end
 
       private

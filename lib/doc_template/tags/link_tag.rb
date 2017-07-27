@@ -9,7 +9,8 @@ module DocTemplate
 
         opts[:iteration] ||= 1
         opts[:parent_node] = content
-        @result = node.replace parse_nested content, opts
+        @content = parse_nested content, opts
+        replace_tag node
         self
       end
 

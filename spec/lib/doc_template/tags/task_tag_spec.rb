@@ -6,7 +6,7 @@ describe DocTemplate::Tags::TaskTag do
   let(:tag) { described_class.new }
   let(:task_number) { 2 }
 
-  subject { tag.parse(node, value: task_number).render.to_html }
+  subject { tag.parse(node, value: task_number).content }
 
   it 'substitutes the tag' do
     expect(subject).to_not include '[task: '

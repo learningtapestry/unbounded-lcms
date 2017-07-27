@@ -8,24 +8,9 @@ module DocTemplate
       def parse(node, opts = {})
         @metadata = opts[:activity]
         activity = @metadata.level2_by_title(opts[:value])
-
-        activity_src =
-          [].tap do |result|
-            while (sibling = node.next_sibling)
-              break if include_break?(sibling)
-
-              # Substitutes task tags
-              html = handle_tasks_for activity, sibling.to_html
-
-              result << html
-              sibling.remove
-            end
-          end.join
-        activity_src = parse_nested(activity_src, opts)
         activity[:activity_guidance] = strip_html_element(activity[:activity_guidance])
 
         params = {
-          source: activity_src,
           activity: activity,
           priority_description: priority_description(activity)
         }
@@ -41,7 +26,7 @@ module DocTemplate
         next_task_id = @metadata.task_counter[activity.activity_type].to_i + 1
         @metadata.task_counter[activity.activity_type] = next_task_id
 
-        html.sub /\[task:\s#\]/i, "[task: #{next_task_id}]"
+        html.sub(/\[task:\s#\]/i, "[task: #{next_task_id}]")
       end
 
       def priority_description(activity)

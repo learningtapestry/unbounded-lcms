@@ -13,7 +13,12 @@ module DocTemplate
         }
         new_content = parse_template(params, TEMPLATE)
         parsed_content = parse_nested(new_content, @opts)
-        @result = (previous_non_empty(table) || table).before(parsed_content)
+
+        # Place placeholder where it should be
+        before_tag(previous_non_empty(table) || table)
+
+        # returns the generated content to be stored as part
+        @content = parsed_content
         table.remove
       end
 
