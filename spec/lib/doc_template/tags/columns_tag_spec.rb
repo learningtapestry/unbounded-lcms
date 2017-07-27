@@ -18,7 +18,7 @@ describe DocTemplate::Tags::ColumnsTag do
   let(:tag) { described_class.new }
   let(:tag_name) { DocTemplate::Tags::ColumnsTag::TAG_NAME }
 
-  subject { tag.parse(node, value: columns_count).render.to_html }
+  subject { tag.parse(node, value: columns_count).content }
 
   it 'removes original node' do
     expect(subject).to_not include("[#{tag_name}: #{columns_count}]")
@@ -33,7 +33,7 @@ describe DocTemplate::Tags::ColumnsTag do
   end
 
   it 'parses nested tags' do
-    expect(subject).to include('<a href="https://google.com"')
+    expect(subject).to match(/{{qrd_tag_/)
   end
 
   context 'when there are image elements' do

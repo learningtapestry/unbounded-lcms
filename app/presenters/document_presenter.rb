@@ -1,6 +1,7 @@
 class DocumentPresenter < BasePresenter
-  SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
+  PART_RE = /{{[^}]+}}/
   PDF_SUBTITLES = { full: '', sm: '_student_materials', tm: '_teacher_materials' }.freeze
+  SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
   TOPIC_FULL   = { 'ela' => 'Unit', 'math' => 'Topic' }.freeze
   TOPIC_SHORT  = { 'ela' => 'U', 'math' => 'T' }.freeze
 
@@ -68,6 +69,19 @@ class DocumentPresenter < BasePresenter
     full_breadcrumb
   end
 
+  def render_lesson
+    render_part layout.content
+  end
+
+  def render_part(part_content)
+    part_content.gsub(PART_RE) do |placeholder|
+      placeholder && next unless (subpart = document_parts_index[placeholder])
+      render_part subpart.to_s
+    end
+  end
+
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
   def short_breadcrumb(join_with: ' / ', with_short_lesson: false)
     lesson_abbr =
       if assessment?
@@ -118,38 +132,9 @@ class DocumentPresenter < BasePresenter
     ela? ? ld_metadata.unit : ld_metadata.topic
   end
 
-  # NOTE: These methods need to be refactored and be used after our tags will
-  # be subtituted with placeholders
-  #
-  # def render_part(part)
-  #   rendered = part.content
-  #   while rendered.count('{{') > 0
-  #     rendered.sub!(/\{\{.+\}\}/) do |match|
-  #       placeholder = match.match(/[^\{\}]+/)[0]
-  #       subpart = document_parts.find_by(placeholder: placeholder, active: true)
-  #       subpart.try(:content).presence || ''
-  #     end
-  #   end
-  #   rendered
-  # end
-  #
-  # def render_teacher_materials
-  #   sources = document_parts.where(part_type: :source)
-  #   sources.inject('') do |rendered, part|
-  #     rendered << render_part(part)
-  #   end
-  # end
-  #
-  # def render_student_materials
-  #   materials = document_parts.where(part_type: :materials)
-  #   materials.inject('') do |rendered, part|
-  #     rendered << render_part(part)
-  #   end
-  # end
-  #
-  # def render_lesson
-  #   # a layout can be anywhere and anything that includes placeholders
-  #   layout = document_parts.where(part_type: :layout).last
-  #   render_part(layout)
-  # end
+  private
+
+  def document_parts_index
+    @document_parts_index ||= document_parts.pluck(:placeholder, :content).to_h
+  end
 end

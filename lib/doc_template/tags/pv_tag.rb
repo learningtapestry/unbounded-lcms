@@ -6,12 +6,13 @@ module DocTemplate
 
       def parse(node, opts = {})
         config = self.class.config[TAG_NAME.downcase]
-        if config && (@data = config[opts[:value].to_s.downcase]).present?
-          template = File.read template_path(TEMPLATE)
-          node = node.replace ERB.new(template).result(binding)
+        if config && (data = config[opts[:value].to_s.downcase]).present?
+          @content = parse_template data, TEMPLATE
+          replace_tag node
+        else
+          node.remove
         end
 
-        @result = node
         self
       end
     end

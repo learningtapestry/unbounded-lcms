@@ -5,15 +5,14 @@ module DocTemplate
 
       def parse(node, opts = {})
         # we have to collect all the next siblings until next stop-tag
-        content = content_until_break(node)
+        params = {
+          content: parse_nested(content_until_break(node), opts),
+          heading: "<h3>#{heading(opts[:value])}</h3>",
+          tag: self.class::TAG_NAME
+        }
+        @content = parse_template params, TEMPLATE
 
-        node = node.replace(
-          parse_template({ content: parse_nested(content, opts),
-                           heading: "<h3>#{heading(opts[:value])}</h3>",
-                           tag: self.class::TAG_NAME },
-                         TEMPLATE)
-        )
-        @result = node
+        replace_tag node
         self
       end
 

@@ -6,6 +6,8 @@ module DocTemplate
       CONFIG_PATH = Rails.root.join('config', 'tags.yml')
       MAX_ITERATIONS = 100
 
+      attr_reader :content
+
       def self.config
         @config ||= YAML.load_file(CONFIG_PATH)
       end
@@ -16,6 +18,13 @@ module DocTemplate
 
       def self.template_path_for(name)
         Rails.root.join 'lib', 'doc_template', 'templates', name
+      end
+
+      #
+      # Preceeds the specified element with tag's placeholder
+      #
+      def before_tag(node)
+        node.before Nokogiri::HTML.fragment(placeholder)
       end
 
       def content_until_break(node)
@@ -45,7 +54,6 @@ module DocTemplate
       end
 
       def parse(node, _ = {})
-        # generate the new content
         @result = node
         remove_tag
         self
@@ -71,7 +79,7 @@ module DocTemplate
       def placeholder
         @_placeholder ||= begin
           random = SecureRandom.hex(10)
-          "#{self.class.name.demodulize.underscore}_#{random}"
+          "{{#{self.class.name.demodulize.underscore}_#{random}}}"
         end
       end
 
@@ -97,16 +105,15 @@ module DocTemplate
         end
       end
 
-      def remove_tag_from(node)
-        node.inner_html.sub FULL_TAG, ''
-      end
-
-      def replace_tag_in(node, value)
-        node.inner_html.sub FULL_TAG, value
-      end
-
       def render
-        @result || ''
+        @result.to_s.presence || placeholder
+      end
+
+      #
+      # Replaces the tag element with its placeholder
+      #
+      def replace_tag(node)
+        node.replace Nokogiri::HTML.fragment(placeholder)
       end
 
       def strip_html_element(element)

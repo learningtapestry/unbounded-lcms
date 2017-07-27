@@ -1,30 +1,30 @@
-<div class="cs-bg--<%= @subject %>-base o-ld-pd o-ld-pd--collapsed">
+<div class="cs-bg--<%= @tmpl[:subject] %>-base o-ld-pd o-ld-pd--collapsed">
   <div class="o-ld-pd__expander">
     <div class="o-ld-pd-caption">professional development</div>
     <div class="o-ld-pd-toggler"><i class="fa fa-expand"></i></div>
   </div>
-  <% if @title.present? %>
-    <p class="o-ld-pd__title"><%= @title %></p>
+  <% if @tmpl[:title].present? %>
+    <p class="o-ld-pd__title"><%= @tmpl[:title] %></p>
   <% end %>
 
-  <% if @embeded[:type] == DocTemplate::Tags::PdTag::TYPE_PODCAST %>
+  <% if @tmpl[:type] == DocTemplate::Tags::PdTag::TYPE_PODCAST %>
     <div class="c-cg-media">
       <div class="c-cg-media__podcast" id="sc_container_<%= SecureRandom.hex(4) %>">
-        <%= @embeded[:content] %>
+        <%= @tmpl[:content] %>
       </div>
     </div>
-  <% elsif @embeded[:type] == DocTemplate::Tags::PdTag::TYPE_YOUTUBE %>
+  <% elsif @tmpl[:type] == DocTemplate::Tags::PdTag::TYPE_YOUTUBE %>
     <div class="c-cg-video">
       <div class="o-media-video">
-        <iframe allowfullscreen frameborder="0" height="315" src="<%= @embeded[:content] %>" width="560"></iframe>
+        <iframe allowfullscreen frameborder="0" height="315" src="<%= @tmpl[:content] %>" width="560"></iframe>
       </div>
     </div>
   <% end %>
 
-  <% if @description.present? %>
+  <% if @tmpl[:description].present? %>
     <div class="o-ld-pd__description o-ld-pd__description--hidden">
       <h4>Description</h4>
-      <p><%= @description %></p>
+      <p><%= @tmpl[:description] %></p>
     </div>
   <% end %>
 </div>

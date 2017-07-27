@@ -1,11 +1,15 @@
 module DocTemplate
   class Document
-    # TODO: post june 15th
-    # the parts needs to move into Template and be accessible at any level of
-    # nested parsing otherwise, when we call "parse_nested", we initialise a new
-    # Document parsing and we loose the parts: they will not be collected
-    # and we will be left with orphan placeholders
-    attr_accessor :parts, :nodes
+    # Contains the list of tags for which no parts should be created
+    TAGS_WITHOUT_PARTS = [
+      Tags::ActivityMetadataSectionTag::TAG_NAME,
+      Tags::ActivityMetadataTypeTag::TAG_NAME,
+      Tags::DefaultTag::TAG_NAME,
+      Tags::GlsTag::TAG_NAME,
+      '#'
+    ].freeze
+
+    attr_accessor :parts
 
     def self.parse(nodes, opts = {})
       new.parse(nodes, opts)
@@ -14,10 +18,9 @@ module DocTemplate
     def parse(nodes, opts = {})
       @nodes = nodes
       @opts = opts
-      @parts = []
+      @parts = @opts[:parts] || []
 
       # find all tags
-      #
       while (node = @nodes.at_xpath ROOT_XPATH + STARTTAG_XPATH)
         # identify the tag, take the siblings or enclosing and send it to the
         # relative tag class to render it
@@ -87,23 +90,24 @@ module DocTemplate
     end
 
     def parse_node(node)
-      # how many open tags are in the current node?
-      node.text.count('[').times do
-        matches = FULL_TAG.match(node.text)
-        break if matches.nil?
+      matches = FULL_TAG.match(node.text)
+      return if matches.nil?
 
-        tag_name, tag_value = matches.captures
-        next unless (tag = find_tag tag_name.downcase, tag_value.downcase)
+      tag_name, tag_value = matches.captures
+      return unless (tag = find_tag tag_name.downcase, tag_value.downcase)
 
-        parsed_tag = tag.parse(node, @opts.merge(parent_document: self, value: tag_value))
-        sanitized_content = HtmlSanitizer.post_processing(parsed_tag.render.to_s, @opts[:metadata].try(:subject))
+      parsed_tag = tag.parse(node, @opts.merge(parent_document: self, value: tag_value))
 
-        @parts << {
-          placeholder: parsed_tag.placeholder,
-          part_type: tag_name.underscore,
-          content: sanitized_content
-        }
-      end
+      parsed_content = parsed_tag.content.presence || parsed_tag.render.to_s
+      sanitized_content = HtmlSanitizer.post_processing(parsed_content, @opts[:metadata].try(:subject))
+
+      return if TAGS_WITHOUT_PARTS.include?(tag::TAG_NAME)
+
+      @parts << {
+        placeholder: parsed_tag.placeholder,
+        part_type: tag_name.underscore,
+        content: sanitized_content.squish
+      }
     end
 
     def registered_tags

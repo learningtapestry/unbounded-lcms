@@ -14,12 +14,12 @@ module DocTemplate
             end
           end
 
-          node = node.replace table
-        else
-          node.remove
+          @content = table.to_s
+          replace_tag table
         end
 
-        @result = node
+        node.remove
+
         self
       end
 

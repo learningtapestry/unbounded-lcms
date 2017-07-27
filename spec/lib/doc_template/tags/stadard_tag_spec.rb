@@ -16,20 +16,24 @@ describe DocTemplate::Tags::StandardTag do
     html.at_xpath('*//li') # it's the parent node of the one containing the tag itself
   end
 
-  subject { tag.parse(node, {}).render.to_html }
+  subject { tag.parse(node, {}).content }
 
   it 'fetches DB for the description of a stadard' do
     expect(Standard).to receive(:search_by_name).with(standard_name.downcase.to_sym).and_call_original
     subject
   end
 
-  it 'preserves <li> markup' do
-    expect(subject).to include '<li>'
-    expect(subject).to include '</li>'
-  end
-
   it 'renders corresponding template' do
     expect(ERB).to receive_message_chain(:new, :result).and_return('')
     subject
+  end
+
+  context 'when node is a list' do
+    subject { tag.parse(node, {}).render }
+
+    it 'preserves <li> markup' do
+      expect(subject).to include '<li>'
+      expect(subject).to include '</li>'
+    end
   end
 end
