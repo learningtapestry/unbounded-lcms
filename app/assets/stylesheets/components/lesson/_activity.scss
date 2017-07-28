@@ -1,4 +1,7 @@
 .o-ld-activity {
+  // TODO: check if we do need to be this flex
+  > div { width: 100%; }
+
   &.c-ld-toc {
     @include add-gutter(padding, top, 1);
     border-top: 4px solid map-get($ub-colorcodes, math-base);
@@ -25,5 +28,14 @@
   @include e(source) {
     @include add-gutter(padding, bottom, 1);
     display: block;
+
+    p {
+      &:empty { line-height: 0; }
+      &:after {
+        content: "";
+        display: inline-block;
+        width: 0;
+      }
+    }
   }
 }
