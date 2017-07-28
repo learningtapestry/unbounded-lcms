@@ -92,6 +92,7 @@ class Resource < ActiveRecord::Base
     end
 
     def find_by_curriculum(curr)
+      curr = curr.select(&:present?)
       type = HIERARCHY[curr.size - 1]
       tree.where_curriculum(curr).where(curriculum_type: type).first
     end

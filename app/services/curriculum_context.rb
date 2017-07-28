@@ -46,11 +46,11 @@ class CurriculumContext
   end
 
   def to_h
-    { subject: subject, grade: grade, module: mod, unit: unit, lesson: lesson }.compact
+    { subject: subject, grade: grade, module: mod, unit: unit, lesson: lesson }.select { |_k, v| v.present? }
   end
 
   def to_a
-    [subject, grade, mod, unit, lesson].compact
+    [subject, grade, mod, unit, lesson].select(&:present?)
   end
 
   def subject
@@ -92,7 +92,7 @@ class CurriculumContext
       "topic #{ctx['after-topic']}"
     else
       # when 'end', we get the last unit on the module
-      module_dir = [subject, grade, mod]
+      module_dir = [subject, grade, mod].select(&:present?)
       unit = Resource.tree.find_by_curriculum(module_dir).children.last
       unit.curriculum_tags_for(:unit).first
     end
