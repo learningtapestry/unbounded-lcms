@@ -64,7 +64,7 @@ class CurriculumContext
     @grade ||= begin
       value = ctx[:grade].try(:downcase)
       value = "grade #{value}" if number?(value)
-      value if Grades::GRADES.include?(value)
+      value # if Grades::GRADES.include?(value)
     end
   end
 

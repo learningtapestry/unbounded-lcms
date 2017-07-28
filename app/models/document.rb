@@ -34,11 +34,8 @@ class Document < ActiveRecord::Base
   def activate!
     self.class.transaction do
       # deactive all other lessons for this resource
-      self.class.where(resource_id: resource_id)
-        .where.not(id: id)
-        .update_all active: false
-      # activate this lesson
-      # obs: here we want a simple sql update statement, without rails callbacks
+      self.class.where(resource_id: resource_id).where.not(id: id).update_all active: false
+      # activate this lesson. PS: use a simple sql update, no callbacks
       update_columns active: true
     end
   end
@@ -75,7 +72,6 @@ class Document < ActiveRecord::Base
     # downcase subjects
     metadata['subject'] = metadata['subject'].try(:downcase)
 
-    # parse to a valid GradesListHelper::GRADES value
     /(\d+)/.match(metadata['grade']) do |m|
       metadata['grade'] = "grade #{m[1]}"
     end
@@ -90,10 +86,9 @@ class Document < ActiveRecord::Base
 
     context = CurriculumContext.new(metadata)
     resource = context.find_or_create_resource
-    return unless resource && resource.lesson?
-
     resource.update(**resource_update_attrs) unless resource.assessment?
-    self.resource_id = resource.id
+
+    self.resource_id = resource.id if resource # && resource.lesson?
   end
 
   def resource_update_attrs

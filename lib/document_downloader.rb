@@ -43,7 +43,10 @@ module DocumentDownloader
     end
 
     def file_id
-      @_file_id ||= @file_url.scan(%r{/d/([^\/]+)/?}).first.first
+      @_file_id ||= begin
+        @file_url.scan(%r{/d/([^\/]+)/?}).first.try(:first) ||
+        @file_url.scan(%r{/open\?id=([^\/]+)/?}).first.try(:first)
+      end
     end
 
     def handle_drawings(html)
