@@ -125,7 +125,7 @@ class Resource < ActiveRecord::Base
   end
 
   def assessment?
-    curriculum_tags_for(:lesson).include?('assessment')
+    curriculum.grep(/assessment/).any?
   end
 
   def media?
@@ -153,9 +153,9 @@ class Resource < ActiveRecord::Base
       #       Check Breadcrumbs#module_abbrv for more
       curriculum_directory.select { |v| v.match(/module /i) }
     when :unit
-      curriculum_directory.select { |v| v.match(/unit|topic /i) }
+      curriculum_directory.select { |v| v.match(/unit|topic|assessment/i) }
     when :lesson
-      curriculum_directory.select { |v| v.match(/lesson|part|assessment/i) }
+      curriculum_directory.select { |v| v.match(/lesson|part/i) }
     end.uniq.compact
   end
 
@@ -215,6 +215,19 @@ class Resource < ActiveRecord::Base
     filtered_named_tags = named_tags
     stds = named_tags[:ccss_standards].map { |n| Standard.filter_ccss_standards(n, subject) }.compact
     filtered_named_tags.merge(ccss_standards: stds)
+  end
+
+  def fix_positioning(position)
+    self.class.transaction do
+      # fix positioning
+      update_columns level_position: position
+
+      # update other units on this module
+      siblings.where('level_position >= ?', position).each do |r|
+        r.level_position += 1
+        r.save
+      end
+    end
   end
 
   def tag_standards
