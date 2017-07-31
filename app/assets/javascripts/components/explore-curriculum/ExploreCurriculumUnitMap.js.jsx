@@ -20,10 +20,12 @@ function ExploreCurriculumUnitMap(props) {
     </div> : '';
 
   const lessons = [];
+  const isAssessment = /assessment/.test(props.curriculum.resource.short_title);
 
   for (let i = 0; i < props.curriculum.lesson_count; i++) {
+    const assessmentClass =  isAssessment ? `o-ch-unit-map__assessment--${props.colorCode}` : '';
     lessons.push((
-      <div key={i} className={classNames(bemClass('lesson'), colorCodeClass)}></div>
+      <div key={i} className={classNames(bemClass('lesson'), colorCodeClass, assessmentClass)}></div>
     ));
   }
 

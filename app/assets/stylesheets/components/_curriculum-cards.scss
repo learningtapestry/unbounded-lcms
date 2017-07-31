@@ -45,6 +45,14 @@ $ub-cur-card-margin: 2px;
       }
     }
   }
+  .o-cur-card {
+    &:hover, &:focus {
+       .o-cur-card__map .o-ch-unit-map .o-ch-unit-map__assessment--#{$code}{
+        background-color: $color !important;
+        border: 2px solid $ub-white;
+      }
+    }
+  }
 }
 
 .o-cur-card {

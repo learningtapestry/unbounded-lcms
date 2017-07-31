@@ -53,6 +53,14 @@
     @extend %map-transition;
   }
 
+  @include e(assessment) {
+    @each $code, $color in $ub-colorcodes {
+      @include m(#{$code}) {
+        background: transparent;
+        border: solid 2px $color;
+      }
+    }
+  }
 }
 
 @mixin curriculum-map-layout($lesson-size: 10px, $lesson-margin: 4px, $lessons-in-row: 4,
@@ -105,7 +113,6 @@
     margin: 0 $lesson-margin $lesson-margin 0;
     width: $lesson-size;
   }
-
 }
 
 .o-c-map {

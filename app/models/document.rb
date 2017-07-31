@@ -86,7 +86,7 @@ class Document < ActiveRecord::Base
 
     context = CurriculumContext.new(metadata)
     resource = context.find_or_create_resource
-    resource.update(**resource_update_attrs) unless resource.assessment?
+    resource.update(**resource_update_attrs)
 
     self.resource_id = resource.id if resource # && resource.lesson?
   end
