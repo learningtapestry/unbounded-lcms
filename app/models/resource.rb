@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Resource < ActiveRecord::Base
   enum resource_type: {
     resource: 1,

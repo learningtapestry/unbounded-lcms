@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Breadcrumbs
   attr_reader :resource
 
@@ -71,7 +73,7 @@ class Breadcrumbs
              when /assessment/i then 'A'
              else 'U'
              end
-    "#{prefix}#{unit.match(/[unit|topic] (.*)/i).try(:[], 1).try(:upcase)}"
+    "#{prefix}#{unit.match(/(unit|topic) (.*)/i).try(:[], 2).try(:upcase)}"
   end
 
   def lesson_abbrv(*)
@@ -80,6 +82,6 @@ class Breadcrumbs
 
     prefix = lesson =~ /part/i ? 'P' : 'L'
 
-    "#{prefix}#{lesson.match(/[lesson|part] (\d+)/i).try(:[], 1)}"
+    "#{prefix}#{lesson.match(/(lesson|part) (\d+)/i).try(:[], 2)}"
   end
 end
