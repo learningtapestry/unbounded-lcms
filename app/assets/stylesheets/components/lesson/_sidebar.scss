@@ -1,5 +1,3 @@
-@import 'jstree';
-
 @mixin ld-content-dropdown {
   // rewrite some css rules to meet foundation accordition
   .is-accordion-submenu-parent > a::after { display: none; }

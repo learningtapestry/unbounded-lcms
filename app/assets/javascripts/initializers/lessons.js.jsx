@@ -99,8 +99,6 @@ $(function () {
     eachNode('a[data-pdftype]', link => {
       link.addEventListener('click', e => {
         let excludes = items.filter(x => x.parent !== null && x.active == false).map(x => x.tag)
-        if (excludes.length === 0) return;
-
         let excludesString = excludes.join(',')
         if (link.dataset.excludes === excludesString) return
 
@@ -109,23 +107,24 @@ $(function () {
         link.classList.add('o-ub-btn--disabled');
         link.dataset.excludes = excludesString;
 
+        let finish = () => {
+          link.classList.remove('o-ub-btn--disabled');
+          link.click()
+        }
+
         $.post(`${location.pathname}/export/pdf`, {
           excludes: excludes,
           type: link.dataset.pdftype
         }).done(response => {
           link.href = response.url
           if (response.id) {
-            pollPdfStatus(response.id, link).then(() => {
-              link.classList.remove('o-ub-btn--disabled')
-              link.click();
-            });
+            pollPdfStatus(response.id, link).then(finish)
           } else {
-            link.classList.remove('o-ub-btn--disabled');
-            link.click();
+            finish()
           }
         }).fail(x => {
           console.warn('export pdf', x);
-          link.classList.remove('o-ub-btn--disabled');
+          finish()
         })
       })
     });

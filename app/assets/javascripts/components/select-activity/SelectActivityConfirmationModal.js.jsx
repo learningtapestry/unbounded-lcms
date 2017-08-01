@@ -4,6 +4,7 @@ class SelectActivityConfirmationModal extends React.Component {
 
     this.heapTracked = false;
     this.expanded = false;
+    this.track = this.track.bind(this)
   }
 
   clickKeep() {
@@ -12,9 +13,14 @@ class SelectActivityConfirmationModal extends React.Component {
   }
 
   clickRemove() {
-    this.track('Deselected', { learnMore: this.expanded });
+    this.track('Deselected');
     this.props.callback();
     this.$modal.close();
+  }
+
+  closeModal() {
+    this.heapTracked || this.track('Close');
+    this.heapTracked = false // restore state
   }
 
   componentDidMount() {
@@ -32,16 +38,13 @@ class SelectActivityConfirmationModal extends React.Component {
           chunks.splice(chunks.length - 1, 1)
           innerText.textContent = chunks.join(' ');
         }
+        innerText.classList.remove('js-text')
       } else {
-        this.expanded = true;
         this.text.textContent = this.props.text;
       }
     });
 
-    $body.on('closed.zf.reveal', () => {
-      if (this.heapTracked && this.expanded) return
-      this.track('Close', { expanded: this.expanded, learnMore: this.expanded });
-    });
+    $body.on('closed.zf.reveal', this.closeModal.bind(this));
 
     this.$modal = new Foundation.Reveal($body);
     this.$modal.$element.on('click', '.js-confirm', this.clickRemove.bind(this));
@@ -49,12 +52,13 @@ class SelectActivityConfirmationModal extends React.Component {
     this.$modal.$element.on('click', '.js-keep', this.clickKeep.bind(this));
   }
 
-  expandText() {
+  expandText(e) {
     setTimeout(() => {
-      this.text.classList.add('o-activity-modal--content--expanded');
+      this.text.classList.add('o-ld-selection-modal__content--expanded');
       this.text.textContent = this.props.text;
       this.expanded = true;
-      this.track('Learn More Expanded')
+      this.track('Learn More');
+      this.heapTracked = false // ^^ is not a final event
     })
   }
 
@@ -62,14 +66,14 @@ class SelectActivityConfirmationModal extends React.Component {
     const modalId = `confirm-${this.props.item.id}`;
 
     return (
-      <div className="o-ld-activity-confirm-modal reveal" data-reveal id={modalId} ref={x => this.body = x}>
-        <h1 className="o-ld-activity-confirm-modal__title">Before removing, consider the following:</h1>
+      <div className="o-ld-selection-modal reveal" data-reveal id={modalId} ref={x => this.body = x}>
+        <h1 className="o-ld-selection-modal__title">Before removing, consider the activity's purpose:</h1>
         <div className="u-hr-small" />
-        <p className="o-activity-modal--content" ref={x => this.text = x}>
+        <p className="o-ld-selection-modal__content" ref={x => this.text = x}>
           <span className="js-text">{this.props.text}</span>
           <span className="u-margin-left--xs js-ellipsis">
             ...
-            <a className="cs-txt-link--yellow js-expand u-margin-left--xs" href="javascript:;">Learn More</a>
+            <a className="cs-txt-link--dark-gold js-expand u-margin-left--xs" href="javascript:;">Learn More</a>
           </span>
         </p>
         <div className="u-text--right">
@@ -82,6 +86,6 @@ class SelectActivityConfirmationModal extends React.Component {
 
   track(event, extras = {}) {
     this.heapTracked = true
-    heap.track(`Activity ${event}`, { ...extras, id: this.props.item.id })
+    heap.track(`Activity ${event}`, { ...extras, id: this.props.item.id, learnMore: this.expanded })
   }
 }

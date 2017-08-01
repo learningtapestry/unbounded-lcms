@@ -4,6 +4,7 @@ class DocumentsController < ApplicationController
   include GoogleAuth
 
   before_action :set_document
+  before_action :check_document_layout, only: :show
   before_action :check_pdf_params, only: :export_pdf
   before_action :obtain_google_credentials, only: :export_gdoc
 
@@ -20,7 +21,7 @@ class DocumentsController < ApplicationController
     excludes = params[:excludes]
 
     # Empty excludes - return pregenerated full PDF
-    return render(json: { url: @doc.links[type] }, status: :ok) if excludes.blank?
+    return render(json: { url: @doc.links[pdf_key(type)] }, status: :ok) if excludes.blank?
 
     filename = "documents-custom/#{SecureRandom.hex(10)}-#{@document.pdf_filename type: type}"
     url = S3Service.url_for(filename)
@@ -48,15 +49,21 @@ class DocumentsController < ApplicationController
 
   private
 
+  def check_document_layout
+    return if @document.layout.present?
+    redirect_to admin_documents_path, alert: 'Document has to be re-imported.'
+  end
+
   def check_pdf_params
     head :bad_request unless params[:type].present?
+  end
+
+  def pdf_key(type)
+    type == 'full' ? 'pdf' : "pdf_#{type}"
   end
 
   def set_document
     @doc = Document.find params[:id]
     @document = DocumentPresenter.new @doc
-    return if @document.layout.present?
-
-    redirect_to admin_documents_path, alert: 'Document has to be re-imported.'
   end
 end

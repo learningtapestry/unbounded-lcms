@@ -54,7 +54,7 @@ class DocumentPresenter < BasePresenter
   end
 
   def pdf_content(type, options = {})
-    LDPdfContent.generate(self, type, options.delete(:excludes))
+    LDPdfContent.generate(self, type, options.delete(:excludes) || [])
   end
 
   def pdf_header
