@@ -15,10 +15,15 @@ class ExploreCurriculumItem extends React.Component {
       _.some(activeParent.children, c => c.id === props.id);
     const isItemActive = props.active.length > 1 && props.active[props.active.length - 2] === props.id;
 
+    let onClickItem = shouldItemExpand ? props.onClickViewDetails.bind(this, props.parentage) : props.onClickExpand.bind(this, props.parentage);
+    if (curriculum.resource.is_assessment) {
+      onClickItem = function() { location.href = curriculum.resource.path }
+    }
+
     const item =
       <ExploreCurriculumCardItem
         curriculum={curriculum}
-        onClickElement={ shouldItemExpand ? props.onClickViewDetails.bind(this, props.parentage) : props.onClickExpand.bind(this, props.parentage)}
+        onClickElement={onClickItem}
         shouldItemExpand={shouldItemExpand}
         isActive={isItemActive}
         colorCode={colorCode} />;
