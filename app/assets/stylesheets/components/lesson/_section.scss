@@ -2,7 +2,7 @@
   @include clearfix;
   @include add-column-padding($x: 1);
   @include add-top-bottom-padding($y: 1);
-  @include add-top-bottom-margin($y: .5);
+  // @include add-top-bottom-margin($y: .5);
   background-color: map-get($ub-ld-colorcodes, ela6-section-bg);
   border-top: 4px solid map-get($ub-colorcodes, ela-base);
 
