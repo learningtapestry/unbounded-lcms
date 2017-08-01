@@ -15,7 +15,7 @@ describe DocTemplate::Tags::PdTag do
   let(:title) { 'title' }
   let(:url) { 'url' }
 
-  before { allow_any_instance_of(described_class).to receive(:embeded_object_for).and_return(embeded) }
+  before { allow_any_instance_of(described_class).to receive(:embeded_object).and_return(embeded) }
 
   subject { tag.parse(node, params).content }
 
@@ -25,7 +25,7 @@ describe DocTemplate::Tags::PdTag do
   end
 
   context 'when tag contains unsupported link' do
-    before { allow_any_instance_of(described_class).to receive(:embeded_object_for) }
+    before { allow_any_instance_of(described_class).to receive(:embeded_object) }
 
     it 'does not render template' do
       expect_any_instance_of(DocTemplate::Tags::BaseTag).to_not receive :parse_template
@@ -37,7 +37,7 @@ describe DocTemplate::Tags::PdTag do
     let!(:resource) { create :resource, teaser: 'teaser', url: url }
 
     before do
-      allow_any_instance_of(described_class).to receive(:embeded_object_for).and_return({})
+      allow_any_instance_of(described_class).to receive(:embeded_object).and_return({})
     end
 
     context 'when tag does not contain title' do

@@ -29,7 +29,9 @@ Rails.application.routes.draw do
   resources :enhance_instruction, only: :index
   resources :find_lessons, only: :index
   resources :pages, only: :show
-  resources :resources, only: :show
+  resources :resources, only: :show do
+    get :pdf_proxy, on: :collection, path: 'pdf-proxy'
+  end
 
   get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
   get '/media/:id' => 'resources#media', as: :media
