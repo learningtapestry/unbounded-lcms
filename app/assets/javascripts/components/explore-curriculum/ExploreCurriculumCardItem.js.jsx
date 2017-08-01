@@ -51,7 +51,7 @@ class ExploreCurriculumCardItem extends React.Component {
     const cssActionClasses = classNames(
       "o-cur-card__actions",
       {"o-cur-card__actions--short": !props.shouldItemExpand },
-      {"u-hidden": _.includes(['grade', 'module'], props.curriculum.type)}
+      {"u-hidden": _.includes(['grade', 'module'], props.curriculum.type) || resource.is_assessment}
     );
 
     const cssActionDropdownClasses = classNames(

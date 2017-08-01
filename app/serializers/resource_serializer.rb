@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This is a subset of the previous ResourceSerializer, meant to be used on listings
 # like find_lessons and search cards. We use this instead the full version (ResourceDetailsSerializer)
 # to avoid expensive queries on data we don't neeed (like downloads, and relateds)
@@ -6,7 +8,7 @@ class ResourceSerializer < ActiveModel::Serializer
 
   self.root = false
 
-  attributes :breadcrumb_title, :grade, :id, :path, :short_title, :subject, :teaser,
+  attributes :breadcrumb_title, :grade, :id, :is_assessment, :path, :short_title, :subject, :teaser,
              :time_to_teach, :title, :type
 
   def breadcrumb_title
@@ -15,6 +17,10 @@ class ResourceSerializer < ActiveModel::Serializer
 
   def grade
     object.grades.average
+  end
+
+  def is_assessment
+    short_title&.index('assessment').present?
   end
 
   def path
