@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   class Document
     # Contains the list of tags for which no parts should be created
@@ -57,14 +59,16 @@ module DocTemplate
     end
 
     def ela_teacher_guidance_allowed?
-      # only for G6 or G2 U2 .
+      # only for G6 and G2 (except U1)
       # As stated on issue #240 and here https://github.com/learningtapestry/unbounded/pull/267#issuecomment-307870881
+      g2 = @opts[:metadata]['grade'] == '2'
       g6 = @opts[:metadata]['grade'] == '6'
-      g2_u2 = @opts[:metadata]['grade'] == '2' && @opts[:metadata]['unit'] == '2'
-      return false unless g6 || g2_u2
+      return false unless g2 || g6
+      return false if g2 && @opts[:metadata]['unit'] == '1'
 
       # Additional filter for lessons
       # https://github.com/learningtapestry/unbounded/issues/311
+      g2_u2 = g2 && @opts[:metadata]['unit'] == '2'
       return false if g2_u2 && %w(8 16 17 18).include?(@opts[:metadata]['lesson'])
 
       true
