@@ -114,7 +114,7 @@ class CurriculumContext
 
   def subject
     @subject ||= begin
-      value = ctx[:subject].try(:downcase)
+      value = ctx[:subject]&.downcase
       value if Resource::SUBJECTS.include?(value)
     end
   end

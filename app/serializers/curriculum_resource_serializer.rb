@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CurriculumResourceSerializer < ActiveModel::Serializer
   self.root = false
 
