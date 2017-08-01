@@ -14,7 +14,7 @@ function ExploreCurriculumUnitMap(props) {
   const bemClass = _.partial(convertToBEM, mainClass);
   const colorCodeClass = `cs-bg--${props.colorCode}`;
 
-  const details = props.expanded ?
+  const details = props.expanded && !props.curriculum.resource.is_assessment ?
     <div className="o-ch-map__details">
       <span>Show Lessons</span>
     </div> : '';
