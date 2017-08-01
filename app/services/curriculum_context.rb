@@ -1,6 +1,6 @@
-class CurriculumContext
-  CURRICULUM_PART_NUM_RE = /(grade|module|unit|topic|lesson|assessment|part) (\w+)/i
+# frozen_string_literal: true
 
+class CurriculumContext
   attr_reader :ctx
 
   def initialize(ctx = {})
@@ -8,56 +8,76 @@ class CurriculumContext
   end
 
   def find_or_create_resource
-    curr = to_a
     # if the resource exists, return it
-    resource = Resource.tree.find_by_curriculum(curr)
+    resource = Resource.find_by_curriculum(curriculum)
     return resource if resource
 
     # else, build missing parents until we build the resource itself.
     parent = nil
-    curr.each_with_index do |name, index|
-      dir = curr[0..index]
-      resource = Resource.tree.find_by_curriculum(dir)
+    curriculum.each_with_index do |name, index|
+      resource = Resource.tree.find_by_curriculum(curriculum[0..index])
       if resource
         parent = resource
         next
       end
 
-      resource = Resource.new(
-        curriculum_directory: dir,
-        curriculum_type: parent.next_hierarchy_level,
-        level_position: parent.children.size,
-        parent_id: parent.id,
-        resource_type: :resource,
-        short_title: name,
-        tree: true
-      )
-      if index == curr.size - 1 # last item
-        resource.tag_list = tag_list
-        resource.teaser = teaser
-        resource.title = title
+      resource = build_new_resource(parent, name, index)
+      if last_item(index) && mid_assessment?
+        unit = parent.children.detect { |r| r.short_title =~ /topic #{ctx['after-topic']}/i }
+        unit.append_sibling(resource)
       else
-        resource.title = Breadcrumbs.new(resource).title.split(' / ')[0...-1].push(name.titleize).join(' ')
+        resource.save!
       end
-      resource.save!
+
       parent = resource
     end
     resource
   end
 
-  def to_h
-    { subject: subject, grade: grade, module: mod, unit: unit, lesson: lesson }.select { |_k, v| v.present? }
+  private
+
+  def assessment?
+    ctx[:type] =~ /assessment/
   end
 
-  def to_a
-    [subject, grade, mod, unit, lesson].select(&:present?)
-  end
-
-  def subject
-    @subject ||= begin
-      value = ctx[:subject].try(:downcase)
-      value if Resource::SUBJECTS.include?(value)
+  def build_new_resource(parent, name, index)
+    dir = curriculum[0..index]
+    resource = Resource.new(
+      curriculum_directory: dir,
+      curriculum_type: parent.next_hierarchy_level,
+      level_position: parent.children.size,
+      parent_id: parent.id,
+      resource_type: :resource,
+      short_title: name,
+      tree: true
+    )
+    if last_item(index)
+      resource.tag_list = tag_list
+      resource.teaser = teaser
+      resource.title = title
+    else
+      resource.title = default_title(dir)
     end
+    resource
+  end
+
+  def curriculum
+    @curriculum ||= [subject, grade, mod, unit, lesson].select(&:present?)
+  end
+
+  def default_title(curr = nil)
+    if assessment?
+      mid? ? 'Mid-Unit Assessment' : 'End-Unit Assessment'
+    else
+      # ELA G1 M1 U2 Lesson 1
+      curr ||= curriculum
+      res = Resource.new(curriculum_directory: curr)
+      Breadcrumbs.new(res).title.split(' / ')[0...-1].push(curr.last.titleize).join(' ')
+    end
+  end
+
+  def ela?
+    subject == 'ela'
   end
 
   def grade
@@ -68,6 +88,18 @@ class CurriculumContext
     end
   end
 
+  def last_item(index)
+    index == curriculum.size - 1
+  end
+
+  def lesson
+    @lesson ||= number?(ctx[:lesson]) ? "lesson #{ctx[:lesson]}" : ctx[:lesson]
+  end
+
+  def mid_assessment?
+    ctx[:type] == 'assessment-mid'
+  end
+
   def module
     @module ||= begin
       mod = ela? ? ctx[:module] : ctx[:unit]
@@ -76,76 +108,36 @@ class CurriculumContext
   end
   alias :mod :module # rubocop:disable Style/Alias
 
-  def unit
-    @unit ||= begin
-      if assessment?
-        assessment_unit
-      else
-        ela? ? "unit #{ctx[:unit]}" : "topic #{ctx[:topic]}"
-      end
+  def number?(str)
+    str =~ /^\d+$/
+  end
+
+  def subject
+    @subject ||= begin
+      value = ctx[:subject]&.downcase
+      value if Resource::SUBJECTS.include?(value)
     end
-  end
-
-  def assessment_unit
-    if mid_assessment?
-      # when 'mid', we get the unit refered on 'after-topic'
-      "topic #{ctx['after-topic']}"
-    else
-      # when 'end', we get the last unit on the module
-      module_dir = [subject, grade, mod].select(&:present?)
-      unit = Resource.tree.find_by_curriculum(module_dir).children.last
-      unit.curriculum_tags_for(:unit).first
-    end
-  end
-
-  def lesson
-    @lesson ||= begin
-      if assessment? then 'assessment'
-      elsif number?(ctx[:lesson]) then "lesson #{ctx[:lesson]}"
-      else ctx[:lesson]
-      end
-    end
-  end
-
-  private
-
-  def ela?
-    subject == 'ela'
-  end
-
-  def assessment?
-    ctx[:type] =~ /assessment/
-  end
-
-  def mid_assessment?
-    ctx[:type] == 'assessment-mid'
-  end
-
-  def title
-    ctx[:title].presence || default_title
-  end
-
-  def default_title
-    if assessment?
-      mid? ? 'Mid-Unit Assessment' : 'End-Unit Assessment'
-    else
-      # ELA G1 M1 U2 L1
-      parts = to_a[1..-1].map do |part|
-        part.first.upcase + part.match(CURRICULUM_PART_NUM_RE).try(:[], 2).to_s
-      end.join(' ')
-      "#{subject.upcase} #{parts}"
-    end
-  end
-
-  def teaser
-    ctx[:teaser].presence || (assessment? ? title : nil)
   end
 
   def tag_list
     assessment? ? ['assessment', ctx['type']] : []
   end
 
-  def number?(str)
-    str =~ /^\d+$/
+  def teaser
+    ctx[:teaser].presence || (assessment? ? title : nil)
+  end
+
+  def title
+    ctx[:title].presence || default_title
+  end
+
+  def unit
+    @unit ||= begin
+      if assessment?
+        ctx[:type] # assessment-mid || assessment-end
+      else
+        ela? ? "unit #{ctx[:unit]}" : "topic #{ctx[:topic]}"
+      end
+    end
   end
 end

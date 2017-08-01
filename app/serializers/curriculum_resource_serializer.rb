@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CurriculumResourceSerializer < ActiveModel::Serializer
   self.root = false
 
@@ -32,7 +34,8 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def lesson_count
-    descendants.select(&:lesson?).count
+    count = descendants.select(&:lesson?).count
+    object.assessment? ? count + 1 : count
   end
 
   def unit_count
@@ -48,7 +51,10 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def unit_sizes
-    descendants.select(&:unit?).map { |r| r.self_and_descendants.lessons.count }
+    descendants.select(&:unit?).map do |r|
+      count = r.self_and_descendants.lessons.count
+      r.assessment? ? count + 1 : count
+    end
   end
 
   def descendants
