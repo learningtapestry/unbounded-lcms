@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Breadcrumbs
   attr_reader :resource
 
@@ -66,20 +68,20 @@ class Breadcrumbs
     unit = resource.curriculum_tags_for(:unit).first
     return unless unit
 
-    prefix = unit =~ /topic/i ? 'T' : 'U'
-    "#{prefix}#{unit.match(/[unit|topic] (.*)/i)[1].upcase}"
+    prefix = case unit
+             when /topic/i then 'T'
+             when /assessment/i then 'A'
+             else 'U'
+             end
+    "#{prefix}#{unit.match(/(unit|topic) (.*)/i).try(:[], 2).try(:upcase)}"
   end
 
   def lesson_abbrv(*)
     lesson = resource.curriculum_tags_for(:lesson).first
     return unless lesson
 
-    prefix = case lesson
-             when /assessment/i then 'A'
-             when /part/i then 'P'
-             else 'L'
-             end
+    prefix = lesson =~ /part/i ? 'P' : 'L'
 
-    "#{prefix}#{lesson.match(/[lesson|part] (\d+)/i).try(:[], 1)}"
+    "#{prefix}#{lesson.match(/(lesson|part) (\d+)/i).try(:[], 2)}"
   end
 end

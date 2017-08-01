@@ -8,7 +8,12 @@
     background-color: $ub-white;
     opacity: 1;
   }
+  @include m(assessment) {
+    background-color: transparent;
+    border: 2px solid $ub-white;
+  }
 }
+
 
 .o-ld-map-module {
   @include m(ela) {
