@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root to: 'welcome#index'
 
@@ -37,6 +39,8 @@ Rails.application.routes.draw do
   resources :documents, only: :show do
     member do
       get 'export/gdoc', to: 'documents#export_gdoc'
+      post 'export/pdf', to: 'documents#export_pdf'
+      get 'export/pdf-status', to: 'documents#export_pdf_status'
     end
   end
   resources :materials, only: :show

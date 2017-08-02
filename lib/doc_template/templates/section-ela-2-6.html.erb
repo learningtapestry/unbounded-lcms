@@ -1,11 +1,16 @@
 <div class="o-ld-section-wrapper" data-id="<%= @tmpl[:section].anchor %>" data-tag="<%= @tmpl[:placeholder] %>">
   <hr class='o-ld-hr--l2'>
 
-  <div class="o-ld-section">
-    <h3 id="<%= @tmpl[:section].anchor %>" class='o-ld-title c-ld-toc'>
+  <div id="<%= @tmpl[:section].anchor %>" class="o-ld-section c-ld-toc">
+    <h3 class='o-ld-title u-margin-top--large'>
       <div class='o-ld-title__title o-ld-title__title--h3'><%= @tmpl[:section].title %></div>
       <div class='o-ld-title__time o-ld-title__time--h3'><%= @tmpl[:section].time.zero? ? '&mdash;' : "#{@tmpl[:section].time} mins" %></div>
     </h3>
+    <% if @tmpl[:blockquote].present? %>
+      <div class="o-ld-section__quote">
+        <%= @tmpl[:blockquote].html_safe %>
+      </div>
+    <% end %>
 
     <% if (metacog = @tmpl[:section].metacognition&.content) %>
       <div class="o-ld-activity__metacognition hide">

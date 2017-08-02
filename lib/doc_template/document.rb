@@ -4,8 +4,6 @@ module DocTemplate
   class Document
     # Contains the list of tags for which no parts should be created
     TAGS_WITHOUT_PARTS = [
-      Tags::ActivityMetadataSectionTag::TAG_NAME,
-      Tags::ActivityMetadataTypeTag::TAG_NAME,
       Tags::DefaultTag::TAG_NAME,
       Tags::GlsTag::TAG_NAME,
       '#'

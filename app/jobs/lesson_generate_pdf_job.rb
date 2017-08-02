@@ -1,19 +1,25 @@
+# frozen_string_literal: true
+
 class LessonGeneratePdfJob < ActiveJob::Base
+  extend ResqueJob
+
   queue_as :default
 
-  def perform(document, pdf_type:)
+  def perform(document, options)
     document = DocumentPresenter.new document
-    filename = "documents/#{document.pdf_filename type: pdf_type}"
-    pdf = DocumentExporter::PDF.new(document, pdf_type: pdf_type).export
+    pdf = DocumentExporter::PDF.new(document, options).export
+
+    filename = options[:filename].presence || "documents/#{document.pdf_filename type: options[:pdf_type]}"
     url = S3Service.upload filename, pdf
-    links = document.links
-    document.update links: links.merge(pdf_key(pdf_type) => url)
+
+    return if options[:excludes].present?
+
+    document.update links: document.links.merge(pdf_key(options[:pdf_type]) => url)
   end
 
   private
 
-  def pdf_key(pdf_type)
-    return 'pdf' if pdf_type == 'full'
-    "pdf_#{pdf_type}"
+  def pdf_key(type)
+    type == 'full' ? 'full' : "pdf_#{type}"
   end
 end

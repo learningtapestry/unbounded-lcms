@@ -77,10 +77,11 @@ module DocTemplate
       end
 
       def placeholder
-        @_placeholder ||= begin
-          random = SecureRandom.hex(10)
-          "{{#{self.class.name.demodulize.underscore}_#{random}}}"
-        end
+        @_placeholder ||= "{{#{placeholder_id}}}"
+      end
+
+      def placeholder_id
+        @placeholder_id ||= "#{self.class.name.demodulize.underscore}_#{SecureRandom.hex(10)}"
       end
 
       def remove_tag

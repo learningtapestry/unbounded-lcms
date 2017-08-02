@@ -105,15 +105,17 @@
 
   @include m(disabled) {
     @include button-disabled;
+    pointer-events: none;
   }
 
   @include m(force-disabled) {
     cursor: not-allowed !important;
-    opacity: 0.25 !important;
+    opacity: .25 !important;
   }
 
   @each $type, $color in $ub-buttons {
     $btn-color: if($type == 'base', $ub-txt, $ub-white);
+
     @include m(#{$type}) {
       @include button-style($background: $color, $background-hover: auto, $color: $btn-color);
     }
@@ -121,6 +123,7 @@
 
   @each $type, $color in $ub-buttons {
     $btn-color: if($type == 'base', $ub-txt, $ub-white);
+
     @include m(bordered-#{$type}) {
       @include ub-button-hollow($background: $color, $color: $btn-color);
     }

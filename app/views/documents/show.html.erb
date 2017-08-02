@@ -19,7 +19,7 @@
   </div>
 </div>
 <div class="u-bg--light">
-  <div class="o-page o-page--ld c-ld--<%= @document.color_code_grade %> u-padding-bottom--gutter2x" data-scroll="ld-page" id="ld-page">
+  <div class="o-page o-page--ld c-ld--<%= @document.color_code_grade %> u-padding-bottom--gutter2x doc-subject-<%= @document.metadata['subject'].to_s.downcase %>" data-scroll="ld-page" id="ld-page">
     <%= render 'content', document: @document %>
     <% if @document.metadata['cc-attribution'].present? %>
       <div class="u-txt--footer-links">

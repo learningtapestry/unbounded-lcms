@@ -158,9 +158,27 @@ $ub-colorcodes: (
   lead-11: #6d3d8c,
   lead-12: #633583,
   // additional
-  clear: #959595,
   base: $ub-panel-bg,
-  light: $ub-white,
-  facet: #6e6e6e,
   base-txt: $ub-heading-txt,
+  clear: #959595,
+  dark-gold: #ffbf00,
+  facet: #6e6e6e,
+  light: $ub-white,
+);
+
+$ub-selection: (
+  disabled-parent-bg: rgba(0, 0, 0, .2),
+
+  ela-disabled-switch-bg: #b75638,
+  ela-disabled-fg: #f8a58c,
+  ela-enabled-bg: #f45b33,
+  ela-enabled-fg: #fff,
+  ela-enabled-switch-bg: #fbcdbf,
+  math-disabled-fg: #71c5b8,
+  math-disabled-switch-bg: #0d8178,
+  math-enabled-bg: #18a497,
+  math-enabled-fg: #fff,
+  math-enabled-switch-bg: #b4e4e0,
+
+  modal-title-fg: #4e4b7a,
 );

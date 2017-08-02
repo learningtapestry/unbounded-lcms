@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocumentExporter
   class PDF
-    def initialize(document, pdf_type: 'full')
+    def initialize(document, options = {})
       @document = document
-      @pdf_type = pdf_type
+      @options = { pdf_type: 'full' }.merge options
     end
 
     def export
@@ -40,7 +42,7 @@ module DocumentExporter
       ApplicationController.render(
         template: File.join('documents', 'pdf', name),
         layout: layout,
-        locals: { document: @document, pdf_type: @pdf_type }
+        locals: { document: @document, options: @options }
       )
     end
   end
