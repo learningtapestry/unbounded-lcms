@@ -12,7 +12,7 @@ $lesson-card-heights: (
         .o-lesson-card__content--base { display: none; }
         .o-lesson-card__content--hover { display: inherit;}
       }
-    }    
+    }
   }
 }
 
@@ -45,7 +45,23 @@ $lesson-card-heights: (
   }
 
   @include e(header) {
+    overflow: hidden;
     padding: $ub-base-padding / 2 $ub-base-padding;
+    position: relative;
+
+    @include m(prerequisite) {
+      background-color: $ub-white;
+      height: 100%;
+      left: -30px;
+      opacity: 0.2;
+      position: absolute;
+      top: 0;
+      transform: skew(-45deg);
+      width: 65%;
+    }
+    @include m(title) {
+      position: relative;
+    }
   }
 
   @include e(duration) {
