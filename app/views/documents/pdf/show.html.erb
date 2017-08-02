@@ -1,3 +1,5 @@
+<% pdf_type = options.delete(:pdf_type) %>
+
 <style type="text/css">
   <%= raw document.css_styles %>
 </style>
@@ -5,9 +7,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <%= render 'documents/pdf/header', document: document unless pdf_type == 'sm' %>
+
 <div class="o-page--cg-<%= document.subject %>">
   <div class="c-ld__body o-page--pdf-ld c-ld__body--pdf c-ld__body--<%= "#{document.subject}-#{pdf_type}"%>">
-    <%= raw document.pdf_content(pdf_type: pdf_type) %>
+    <%= raw document.pdf_content(pdf_type, options) %>
     <div class="o-ld-license u-margin-top--xlarge">
       <%= document.ld_metadata.cc_attribution %>
     </div>

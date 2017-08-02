@@ -4,12 +4,18 @@ module DocTemplate
   module Tags
     class GroupTag < BaseTag
       TAG_NAME = 'group'
-      TEMPLATE = 'h2-header.html.erb'
+      TEMPLATE = 'group-ela.html.erb'
 
       def parse(node, opts = {})
         group = opts[:agenda].level1_by_title(opts[:value].parameterize)
-
-        @content = parse_template group, TEMPLATE
+        content = content_until_break node
+        content = parse_nested content.to_s, opts
+        params = {
+          content: content,
+          placeholder: placeholder_id,
+          group: group
+        }
+        @content = parse_template params, TEMPLATE
         replace_tag node
         self
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DocumentPresenter < BasePresenter
   PART_RE = /{{[^}]+}}/
   PDF_SUBTITLES = { full: '', sm: '_student_materials', tm: '_teacher_materials' }.freeze
@@ -51,8 +53,8 @@ class DocumentPresenter < BasePresenter
     ld_metadata.lesson_mathematical_practice.squish
   end
 
-  def pdf_content(pdf_type:)
-    LDPdfContent.generate(self, pdf_type: pdf_type)
+  def pdf_content(type, options = {})
+    LDPdfContent.generate(self, type, options.delete(:excludes) || [])
   end
 
   def pdf_header
@@ -69,14 +71,16 @@ class DocumentPresenter < BasePresenter
     full_breadcrumb
   end
 
-  def render_lesson
-    render_part layout.content
+  def render_lesson(excludes = [])
+    render_part layout.content, excludes
   end
 
-  def render_part(part_content)
+  def render_part(part_content, excludes = [])
     part_content.gsub(PART_RE) do |placeholder|
-      placeholder && next unless (subpart = document_parts_index[placeholder])
-      render_part subpart.to_s
+      next unless placeholder
+      next if excludes.include?(placeholder.delete('{}'))
+      next unless (subpart = document_parts_index[placeholder])
+      render_part subpart.to_s, excludes
     end
   end
 
