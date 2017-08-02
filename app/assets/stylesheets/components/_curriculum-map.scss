@@ -57,8 +57,23 @@
     @each $code, $color in $ub-colorcodes {
       @include m(#{$code}) {
         background: transparent;
-        border: solid 2px $color;
+        border: solid 1px $color;
       }
+    }
+  }
+
+  @include e(prerequisite) {
+    overflow: hidden;
+
+    &:after {
+      background-color: #fff;
+      content: '';
+      display: block;
+      height: 100%;
+      margin-left: -50%;
+      opacity: 0.3;
+      transform: skew(-45deg);
+      width: 100%;
     }
   }
 }

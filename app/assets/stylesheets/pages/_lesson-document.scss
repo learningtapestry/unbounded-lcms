@@ -71,6 +71,12 @@ $ld-header-column-gutter: (
       @include flex-grid-column(12);
       text-align: center;
     }
+
+    .o-c-map {
+      @include e(prerequisite) {
+        &:not(.o-ld-map-bg--active):after { background-color: #777; }
+      }
+    }
   }
   @include e(content) {
     @include flex-grid-column;
@@ -99,6 +105,7 @@ $ld-header-column-gutter: (
     @include add-gutter($subtype: top, $x: 4/3);
     border-bottom: 1px solid #b2b2b2;
   }
+
 }
 
 .c-ld-page-header {
