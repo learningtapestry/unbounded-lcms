@@ -10,14 +10,14 @@ class ExpandedMaterial extends React.Component {
 
   render() {
     const { id, orientation, onMinimize, url } = this.props;
-    const clsBtn = "o-btn o-btn--bordered-base o-ub-ld-btn--material u-margin-right--xs";
+    const clsBtn = "o-btn o-btn--bordered-base o-ub-ld-btn--material u-margin-right--xs u-preserve-style";
     return (
       <div className="o-m-preview__wrap u-padding-top--base">
         <div className="o-m-preview__actions u-padding-top--base">
-          <button className={clsBtn} onClick={() => onMinimize(false)}>Minimize</button>
-          <button className={clsBtn} href={url} target="_blank">Print</button>
-          <button className={clsBtn} href={url} target="_blank">View PDF</button>
-          <button className="o-btn o-btn--bordered-base o-ub-ld-btn--material o-ub-btn--disabled">Download DOCX</button>
+          <a className={clsBtn} onClick={() => onMinimize(false)}>Minimize</a>
+          <a className={clsBtn} href={url} target="_blank">Print</a>
+          <a className={clsBtn} href={url} target="_blank">View PDF</a>
+          <a className="o-btn o-btn--bordered-base o-ub-ld-btn--material o-ub-btn--disabled u-preserve-style">Download DOCX</a>
         </div>
         <div className={`o-m-preview--${orientation}`}>
           <div id={`pdfobject-${id}`} className="o-m-preview pdfobject-container content">

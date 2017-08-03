@@ -5,6 +5,8 @@ class MaterialPresenter < PDFPresenter
   delegate :css_styles, :short_url, :subject, to: :lesson
   delegate :sheet_type, :vertical_text, to: :metadata
 
+  DEFAULT_TITLE = 'Material'
+
   def cc_attribution
     lesson.ld_metadata.cc_attribution
   end
@@ -45,7 +47,8 @@ class MaterialPresenter < PDFPresenter
   end
 
   def subtitle
-    config[:subtitle][sheet_type.to_sym] if config.key?(:subtitle)
+    s = config[:subtitle][sheet_type.to_sym] if config.key?(:subtitle)
+    s.presence || DEFAULT_TITLE
   end
 
   def teacher_material?
@@ -53,7 +56,7 @@ class MaterialPresenter < PDFPresenter
   end
 
   def title
-    metadata.title.presence || config[:title]
+    metadata.title.presence || config[:title].presence || DEFAULT_TITLE
   end
 
   def unit_level?
