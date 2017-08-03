@@ -11,7 +11,7 @@ class MaterialsContainer extends React.Component {
 
   renderTab(m, idx) {
     return (
-      <Tabs.Panel key={`p-${m.idx}`} title={m.subtitle}>
+      <Tabs.Panel key={`p-${m.id}`} title={m.subtitle}>
         <ExpandedMaterial key={`exm${m.id}`} index={idx} {...m} onMinimize={this.toggleView}/>
       </Tabs.Panel>
     );
