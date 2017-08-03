@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'doc_template'
 
 class MaterialForm
@@ -30,9 +32,11 @@ class MaterialForm
 
     @material.update!(
       content: parsed_document.render,
-      metadata: parsed_document.metadata,
-      identifier: parsed_document.metadata['identifier']
+      identifier: parsed_document.metadata['identifier'].downcase,
+      metadata: parsed_document.meta_options[:metadata]
     )
+
+    DocumentPdfGenerator.documents_of(material)
   rescue => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)

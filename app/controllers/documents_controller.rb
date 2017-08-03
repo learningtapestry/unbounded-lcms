@@ -23,7 +23,7 @@ class DocumentsController < ApplicationController
     # Empty excludes - return pregenerated full PDF
     return render(json: { url: @doc.links[pdf_key(type)] }, status: :ok) if excludes.blank?
 
-    filename = "documents-custom/#{SecureRandom.hex(10)}-#{@document.pdf_filename type: type}"
+    filename = "documents-custom/#{SecureRandom.hex(10)}-#{@document.pdf_filename}"
     url = S3Service.url_for(filename)
     options = {
       excludes: excludes,
@@ -64,6 +64,6 @@ class DocumentsController < ApplicationController
 
   def set_document
     @doc = Document.find params[:id]
-    @document = DocumentPresenter.new @doc
+    @document = DocumentPresenter.new @doc, pdf_type: params[:type]
   end
 end

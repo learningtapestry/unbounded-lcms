@@ -1,15 +1,16 @@
 <% set_page_title 'Materials Manager' %>
 
-<div class=o-page>
+<div class="o-page">
 
-  <h1 class=text-center><%= t('.title') %></h1>
+  <h1 class="text-center"><%= t('.title') %></h1>
 
-  <div class=row>
-    <div class='flex-pull-right'>
+  <div class="row">
+    <div class="flex-pull-right">
       <%= link_to t('.new_material'), :new_admin_material, class: 'button primary' %>
     </div>
-    <table class=table>
+    <table class="table">
       <tr>
+        <th>ID
         <th>Identifier
         <th>File Name
         <th>Last Update
@@ -19,8 +20,9 @@
       </tr>
 
       <% @materials.each do |material| %>
-        <tr id=material_<%= material.id %>>
-          <td class='u-text--right'><%= material.identifier %>
+        <tr id="material_<%= material.id %>">
+          <td><%= material.id %>
+          <td class="u-text--right"><%= material.metadata.identifier %>
           <td><%= link_to material.name, material.file_url, target: '_blank' %>
           <td><%= material.updated_at.to_s %>
           <td><%= link_to content_tag(:i, nil, class: 'fa fa-eye').html_safe, [material], class: 'button small primary', target: '_blank', title: 'show material' %>
@@ -32,7 +34,7 @@
   </div>
 
   <div class="row">
-    <div class='col-sm-12 text-center'>
+    <div class="col-sm-12 text-center">
       <%= will_paginate @materials, renderer: BootstrapPagination::Rails %>
     </div>
   </div>

@@ -1,0 +1,18 @@
+<style type="text/css">
+  <%= raw document.css_styles %>
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="c-ld__body o-page--pdf-ld c-ld__body--pdf" style="<%= document.padding_styles %>">
+  <%= render 'documents/pdf/materials/header', document: document %>
+  <div class="o-m-content">
+    <div class="o-m-content__base">
+      <%= raw document.content %>
+    </div>
+  </div>
+  <% if options[:blank_page].present? %>
+    <div class="u-pdf-alwaysbreak u-pd-content">
+    </div>
+  <% end %>
+</div>

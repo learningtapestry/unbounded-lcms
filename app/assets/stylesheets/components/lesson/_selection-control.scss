@@ -85,6 +85,7 @@ $shadow-color: rgba(0, 0, 0, .3);
       }
     }
 
+    .o-material-wrapper,
     .c-ld-toc > *:not(.u-txt--title-type):not(.o-ld-title) {
       display: none;
     }
@@ -120,6 +121,7 @@ $shadow-color: rgba(0, 0, 0, .3);
     }
 
     .o-ld-activity__source,
+    .o-material-wrapper,
     .o-ld-materials,
     .c-ld-toc > div > *:not(.u-txt--title-type):not(.o-ld-title):not(.u-txt--ld-activity-teaser) {
       display: none;

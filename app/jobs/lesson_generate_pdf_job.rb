@@ -4,12 +4,17 @@ class LessonGeneratePdfJob < ActiveJob::Base
   extend ResqueJob
 
   queue_as :default
+  PDF_EXPORTERS = {
+    'full' => DocumentExporter::PDF::Document,
+    'sm'   => DocumentExporter::PDF::StudentMaterial,
+    'tm'   => DocumentExporter::PDF::TeacherMaterial
+  }.freeze
 
   def perform(document, options)
-    document = DocumentPresenter.new document
-    pdf = DocumentExporter::PDF.new(document, options).export
-
-    filename = options[:filename].presence || "documents/#{document.pdf_filename type: options[:pdf_type]}"
+    pdf_type = options[:pdf_type]
+    document = DocumentPresenter.new document, pdf_type: pdf_type
+    filename = options[:filename].presence || "documents/#{document.pdf_filename}"
+    pdf = PDF_EXPORTERS[pdf_type].new(document, options).export
     url = S3Service.upload filename, pdf
 
     return if options[:excludes].present?
@@ -20,6 +25,6 @@ class LessonGeneratePdfJob < ActiveJob::Base
   private
 
   def pdf_key(type)
-    type == 'full' ? 'full' : "pdf_#{type}"
+    type == 'full' ? 'pdf' : "pdf_#{type}"
   end
 end

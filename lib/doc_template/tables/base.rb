@@ -26,8 +26,8 @@ module DocTemplate
       def fetch_materials(data, key)
         return data if (materials = data[key.to_s]).blank?
         data['material_ids'] =
-          materials.split(',').compact.map do |identifier|
-            Material.find_by(identifier: identifier.strip)&.id
+          materials.split(/[,;(\r?\n)]/).compact.map do |identifier|
+            Material.find_by(identifier: identifier.strip.downcase)&.id
           end.compact
         data
       end

@@ -1,3 +1,5 @@
+@import 'material/header';
+
 .c-pdf-header {
   @include m(ld) {
     @include txt-pdf-element(ld-header);
