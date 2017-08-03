@@ -173,7 +173,10 @@ $ub-element-typography: (
   ),
   ld-tooltip: ('font-size': 14px !important, line-height: 18px !important, font-family: $ub-sanserif !important,	color: #4c4c4c !important),
   ld-white-placeholder-title: ('font-size': 1.2rem !important, 'font-weight': 600),
-  ld-white-placeholder-colored-title: ('font-size': initial !important, 'font-weight': bold, color: initial !important)
+  ld-white-placeholder-colored-title: ('font-size': initial !important, 'font-weight': bold, color: initial !important),
+  m-subtitle: (font-size: 11px, line-height: 13px, font-family: $ub-sanserif, font-weight: bold, color: #939597),
+  m-tab-title: (font-size: 28px, line-height: 24px, font-family: $ub-sanserif-condensed, font-weight: 500, color: #3d3d3d),
+  m-title: (font-size: 18px, line-height: 20px, font-family: $ub-sanserif-condensed, font-weight: 500, color: #4c4c4c),
 );
 
 @each $element, $typo in $ub-element-typography {

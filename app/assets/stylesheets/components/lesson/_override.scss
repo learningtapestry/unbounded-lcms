@@ -1,5 +1,5 @@
 @mixin ld-custom-styles {
-  a:not(.o-ub-btn) {
+  a:not(.o-ub-btn):not(.u-preserve-style) {
     border-bottom: 2px solid $ub-secondary;
     color: $ub-heading-txt;
     font-weight: normal;
@@ -16,7 +16,7 @@
   ol {
     margin-left: .25rem;
     padding-left: 1em;
-    & > li::before { margin-left: -1em; }
+    > li::before { margin-left: -1em; }
   }
 
   ol.c-ld-ol {
@@ -37,20 +37,21 @@
 }
 
 .c-ld-table {
+  @include e(wrap) {
+    clear: both;
+    // TODO: comment for now to avoid scrolling, need to rethink approach
+    // overflow-x: auto;
+  }
+
   tbody tr {
     background-color: $ub-white;
   }
+
   td, th {
     border: 1px solid $ub-hr;
 
     p {
       margin-bottom: initial !important;
     }
-  }
-
-  @include e(wrap) {
-    clear: both;
-    // TODO: comment for now to avoid scrolling, need to rethink approach
-    // overflow-x: auto;
   }
 }

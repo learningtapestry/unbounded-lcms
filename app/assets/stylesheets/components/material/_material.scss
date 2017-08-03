@@ -1,0 +1,16 @@
+.o-material-wrapper {
+  @include m(math) {
+    background-color: map-get($ub-ld-colorcodes, math-activity-bg);
+  }
+
+  @include m(ela) {
+    background-color: map-get($ub-ld-colorcodes, ela6-section-bg);
+  }
+}
+
+.o-m-title {
+  @include m(underlined) {
+    border-bottom: 1px solid $ub-hr;
+    margin-bottom: $ub-base-padding;
+  }
+}

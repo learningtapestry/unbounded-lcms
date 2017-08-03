@@ -89,7 +89,10 @@ module DocTemplate
     def meta_options
       @meta_options ||= begin
         if material?
-          { metadata: Objects::MaterialMetadata.build_from(@metadata.data) }
+          {
+            metadata: Objects::MaterialMetadata.build_from(@metadata.data),
+            material: true
+          }
         else
           {
             activity: Objects::ActivityMetadata.build_from(@activity_metadata),

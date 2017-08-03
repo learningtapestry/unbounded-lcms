@@ -39,7 +39,8 @@
   'components/cg/hacks';
 
 @import
-  'components/lesson-base';
+  'components/lesson-base',
+  'components/material/material';
 
 @import
   'print/base',
@@ -48,4 +49,5 @@
   'print/hacks',
   'print/header',
   'print/helpers',
-  'print/lesson-base';
+  'print/lesson-base',
+  'print/material-base';

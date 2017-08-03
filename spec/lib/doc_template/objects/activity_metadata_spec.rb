@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'doc_template/objects/activity_metadata'
 
@@ -16,9 +18,22 @@ describe DocTemplate::Objects::ActivityMetadata do
     describe 'correct data' do
       describe 'with single section' do
         let(:activity_table) do
-          [{"section-title"=>"Opening", "activity-type"=>"Fluency Activity", "activity-title"=>"Skip-Count by Tens: Up and Down Crossing 100", "activity-source"=>"ENY-G2-M3-L1-F#4", "activity-materials"=>"", "activity-standard"=>"2.NBT.A.2", "activity-mathematical-practice"=>"", "activity-time"=>"2 min", "activity-priority"=>"2", "activity-metacognition"=>"", "activity-guidance"=>"", "activity-content-development-notes"=>""},
-          {"section-title"=>"Opening", "activity-type"=>"Fluency Activity", "activity-title"=>"Unit Form Counting from 398 to 405", "activity-source"=>"ENY-G2-M3-L6-F#2", "activity-materials"=>"ENY-G2-M3-L4-T#1", "activity-standard"=>"2.NBT.A.3", "activity-mathematical-practice"=>"6", "activity-time"=>"", "activity-priority"=>"1", "activity-metacognition"=>"", "activity-guidance"=>"", "activity-content-development-notes"=>""},
-          {"section-title"=>"Opening", "activity-type"=>"Fluency Activity", "activity-title"=>"Unit Form Counting from 398 to 405", "activity-source"=>"ENY-G2-M3-L6-F#2", "activity-materials"=>"ENY-G2-M3-L4-T#1", "activity-standard"=>"2.NBT.A.3", "activity-mathematical-practice"=>"6", "activity-time"=>"3 min", "activity-priority"=>"1", "activity-metacognition"=>"", "activity-guidance"=>"", "activity-content-development-notes"=>""}]
+          [{ 'section-title' => 'Opening', 'activity-type' => 'Fluency Activity',
+             'activity-title' => 'Skip-Count by Tens: Up and Down Crossing 100',
+             'activity-source' => 'ENY-G2-M3-L1-F#4', 'activity-materials' => '',
+             'activity-standard' => '2.NBT.A.2', 'activity-mathematical-practice' => '',
+             'activity-time' => '2 min', 'activity-priority' => '2', 'activity-metacognition' => '',
+             'activity-guidance' => '', 'activity-content-development-notes' => '' },
+           { 'section-title' => 'Opening', 'activity-type' => 'Fluency Activity',
+             'activity-title' => 'Unit Form Counting from 398 to 405', 'activity-source' => 'ENY-G2-M3-L6-F#2',
+             'activity-materials' => 'ENY-G2-M3-L4-T#1', 'activity-standard' => '2.NBT.A.3',
+             'activity-mathematical-practice' => '6', 'activity-time' => '', 'activity-priority' => '1',
+             'activity-metacognition' => '', 'activity-guidance' => '', 'activity-content-development-notes' => '' },
+           { 'section-title' => 'Opening', 'activity-type' => 'Fluency Activity',
+             'activity-title' => 'Unit Form Counting from 398 to 405', 'activity-source' => 'ENY-G2-M3-L6-F#2',
+             'activity-materials' => 'ENY-G2-M3-L4-T#1', 'activity-standard' => '2.NBT.A.3',
+             'activity-mathematical-practice' => '6', 'activity-time' => '3 min', 'activity-priority' => '1',
+             'activity-metacognition' => '', 'activity-guidance' => '', 'activity-content-development-notes' => '' }]
         end
 
         it 'returns valid object' do
@@ -33,9 +48,22 @@ describe DocTemplate::Objects::ActivityMetadata do
       end
       describe 'with multiple section' do
         let(:activity_table) do
-          [{"section-title"=>"Opening", "activity-type"=>"Fluency Activity", "activity-title"=>"Skip-Count by Tens: Up and Down Crossing 100", "activity-source"=>"ENY-G2-M3-L1-F#4", "activity-materials"=>"", "activity-standard"=>"2.NBT.A.2", "activity-mathematical-practice"=>"", "activity-time"=>"2 min", "activity-priority"=>"2", "activity-metacognition"=>"", "activity-guidance"=>"", "activity-content-development-notes"=>""},
-          {"section-title"=>"Opening", "activity-type"=>"Fluency Activity", "activity-title"=>"Unit Form Counting from 398 to 405", "activity-source"=>"ENY-G2-M3-L6-F#2", "activity-materials"=>"ENY-G2-M3-L4-T#1", "activity-standard"=>"2.NBT.A.3", "activity-mathematical-practice"=>"6", "activity-time"=>"", "activity-priority"=>"1", "activity-metacognition"=>"", "activity-guidance"=>"", "activity-content-development-notes"=>""},
-          {"section-title"=>"Opening 2", "activity-type"=>"Fluency Activity", "activity-title"=>"Unit Form Counting from 398 to 405", "activity-source"=>"ENY-G2-M3-L6-F#2", "activity-materials"=>"ENY-G2-M3-L4-T#1", "activity-standard"=>"2.NBT.A.3", "activity-mathematical-practice"=>"6", "activity-time"=>"3 min", "activity-priority"=>"1", "activity-metacognition"=>"", "activity-guidance"=>"", "activity-content-development-notes"=>""}]
+          [{ 'section-title' => 'Opening', 'activity-type' => 'Fluency Activity',
+             'activity-title' => 'Skip-Count by Tens: Up and Down Crossing 100',
+             'activity-source' => 'ENY-G2-M3-L1-F#4', 'activity-materials' => '',
+             'activity-standard' => '2.NBT.A.2', 'activity-mathematical-practice' => '',
+             'activity-time' => '2 min', 'activity-priority' => '2', 'activity-metacognition' => '',
+             'activity-guidance' => '', 'activity-content-development-notes' => '' },
+           { 'section-title' => 'Opening', 'activity-type' => 'Fluency Activity',
+             'activity-title' => 'Unit Form Counting from 398 to 405', 'activity-source' => 'ENY-G2-M3-L6-F#2',
+             'activity-materials' => 'ENY-G2-M3-L4-T#1', 'activity-standard' => '2.NBT.A.3',
+             'activity-mathematical-practice' => '6', 'activity-time' => '', 'activity-priority' => '1',
+             'activity-metacognition' => '', 'activity-guidance' => '', 'activity-content-development-notes' => '' },
+           { 'section-title' => 'Opening 2', 'activity-type' => 'Fluency Activity',
+             'activity-title' => 'Unit Form Counting from 398 to 405', 'activity-source' => 'ENY-G2-M3-L6-F#2',
+             'activity-materials' => 'ENY-G2-M3-L4-T#1', 'activity-standard' => '2.NBT.A.3',
+             'activity-mathematical-practice' => '6', 'activity-time' => '3 min', 'activity-priority' => '1',
+             'activity-metacognition' => '', 'activity-guidance' => '', 'activity-content-development-notes' => '' }]
         end
 
         it 'returns valid object' do
@@ -46,6 +74,22 @@ describe DocTemplate::Objects::ActivityMetadata do
           expect(subject.children[1].time).to eq 3
           expect(subject.children[0].children.size).to eq 2
           expect(subject.children[1].children.size).to eq 1
+        end
+      end
+      describe 'with materials' do
+        let(:material_ids) { [1, 2] }
+        let(:activity_table) do
+          [{ 'section-title' => 'Opening', 'activity-type' => 'Fluency Activity',
+             'activity-title' => 'Skip-Count by Tens: Up and Down Crossing 100',
+             'activity-source' => 'ENY-G2-M3-L1-F#4', 'material_ids' => material_ids,
+             'activity-materials' => '', 'activity-standard' => '2.NBT.A.2',
+             'activity-mathematical-practice' => '', 'activity-time' => '2 min',
+             'activity-priority' => '2', 'activity-metacognition' => '',
+             'activity-guidance' => '', 'activity-content-development-notes' => '' }]
+        end
+
+        it 'returns material ids' do
+          expect(subject.children[0].children[0].material_ids).to eq material_ids
         end
       end
     end
