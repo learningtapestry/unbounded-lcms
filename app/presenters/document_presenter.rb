@@ -23,7 +23,11 @@ class DocumentPresenter < PDFPresenter
     assessment? ? 'assessment' : 'lesson'
   end
 
-  def full_breadcrumb(unit_level: false)
+  def full_breadcrumb
+    resource ? Breadcrumbs.new(resource).full_title : full_breadcrumb_from_metadata
+  end
+
+  def full_breadcrumb_from_metadata
     lesson_level = assessment? ? 'Assessment' : "Lesson #{ld_metadata.lesson}" unless unit_level
     [
       SUBJECT_FULL[subject] || subject,
@@ -129,7 +133,8 @@ class DocumentPresenter < PDFPresenter
   end
 
   def title
-    ld_metadata.try(:title)
+    title = ld_metadata&.title
+    resource&.prerequisite? ? "Prerequisite #{title}" : title
   end
 
   def teaser

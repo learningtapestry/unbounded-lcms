@@ -21,8 +21,8 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
   end
 
   def children
-    return [] if @depth.zero?
-    return [] if @depth_branch && !@depth_branch.include?(object.id)
+    return [] if !module? && @depth.zero?
+    return [] if !module? && @depth_branch && !@depth_branch.include?(object.id)
 
     object.children.ordered.map do |res|
       CurriculumResourceSerializer.new(
@@ -40,6 +40,10 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
 
   def unit_count
     descendants.select(&:unit?).count
+  end
+
+  def module?
+    type.casecmp('module').zero?
   end
 
   def module_count

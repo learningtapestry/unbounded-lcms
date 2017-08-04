@@ -1,6 +1,6 @@
 function ExploreCurriculumModuleMap(props) {
   const mapClass = classNames({
-    'o-cur-card__map': true,    
+    'o-cur-card__map': true,
     'o-cur-card__map--medium': props.expanded,
     'o-cur-card__map--short': !props.expanded
   });
@@ -21,10 +21,14 @@ function ExploreCurriculumModuleMap(props) {
 
   const units = props.curriculum.unit_sizes.map((size, i) => {
     const lessons = [];
+    const unit = props.curriculum.children[i];
 
     for (let j = 0; j < size; j++) {
+      const child = unit ? unit.children[j] : null;
+      const prereqClass = child && child.resource.is_prerequisite ? 'o-ch-unit-map__prerequisite' : '';
+      const assessmentClass =  unit && unit.resource.is_assessment ? `o-ch-unit-map__assessment--${props.colorCode}` : '';
       lessons.push((
-        <div key={j} className={classNames(bemClass('lesson'), colorCodeClass)}></div>
+        <div key={j} className={classNames(bemClass('lesson'), colorCodeClass, assessmentClass, prereqClass)}></div>
       ));
     }
 

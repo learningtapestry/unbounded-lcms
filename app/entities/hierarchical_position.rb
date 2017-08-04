@@ -71,6 +71,6 @@ class HierarchicalPosition
     return val if val
 
     lesson = resource.curriculum_tags_for(:lesson).first
-    lesson =~ /assessment/ ? 99 : lesson.try(:match, /(\d+)/).try(:[], 1).to_i
+    lesson =~ lesson.try(:match, /(\d+)/).try(:[], 1).to_i
   end
 end

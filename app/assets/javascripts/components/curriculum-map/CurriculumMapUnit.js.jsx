@@ -1,7 +1,7 @@
 function CurriculumMapUnit(props) {
   const curriculum = props.curriculum;
   const isActive = _.includes(props.active, curriculum.id) || props.isActiveBranch;
-  const isAssessment = /assessment/.test(curriculum.resource.short_title);
+  const isAssessment = curriculum.resource.is_assessment;
   const cssClasses = classNames( 'o-c-map__unit-title',
                                {[`${props.mapType}-txt-link--base`]: !isActive,
                                 [`${props.mapType}-txt-link--${props.colorCode} ${props.mapType}-txt-link--active`]: isActive });
@@ -13,7 +13,8 @@ function CurriculumMapUnit(props) {
                            colorCode={props.colorCode}
                            active={props.active}
                            mapType={props.mapType}
-                           isAssessment={true}
+                           isAssessment={isAssessment}
+                           isPrerequisite={curriculum.resource.is_prerequisite}
                            isActiveBranch={_.first(props.active) == curriculum.id || props.isActiveBranch}
                            handlePopupState={props.handlePopupState} />
     ];
@@ -24,6 +25,8 @@ function CurriculumMapUnit(props) {
                                      colorCode={props.colorCode}
                                      active={props.active}
                                      mapType={props.mapType}
+                                     isAssessment={lesson.resource.is_assessment}
+                                     isPrerequisite={lesson.resource.is_prerequisite}
                                      isActiveBranch={_.first(props.active) == curriculum.id || props.isActiveBranch}
                                      handlePopupState={props.handlePopupState} />
     );

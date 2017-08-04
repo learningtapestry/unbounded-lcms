@@ -8,8 +8,8 @@ class ResourceSerializer < ActiveModel::Serializer
 
   self.root = false
 
-  attributes :breadcrumb_title, :grade, :id, :is_assessment, :path, :short_title, :subject, :teaser,
-             :time_to_teach, :title, :type
+  attributes :breadcrumb_title, :grade, :id, :is_assessment, :is_prerequisite, :path, :short_title,
+             :subject, :teaser, :time_to_teach, :title, :type
 
   def breadcrumb_title
     Breadcrumbs.new(object).title
@@ -19,8 +19,12 @@ class ResourceSerializer < ActiveModel::Serializer
     object.grades.average
   end
 
-  def is_assessment
+  def is_assessment # rubocop:disable Style/PredicateName
     short_title&.index('assessment').present?
+  end
+
+  def is_prerequisite # rubocop:disable Style/PredicateName
+    object.prerequisite?
   end
 
   def path
