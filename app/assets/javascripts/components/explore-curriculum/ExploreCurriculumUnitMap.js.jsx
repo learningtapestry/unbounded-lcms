@@ -11,21 +11,23 @@ function ExploreCurriculumUnitMap(props) {
     'o-ch-unit-map--short': !props.expanded
   });
 
+  const isAssessment = props.curriculum.resource.is_assessment;
   const bemClass = _.partial(convertToBEM, mainClass);
   const colorCodeClass = `cs-bg--${props.colorCode}`;
 
-  const details = props.expanded && !props.curriculum.resource.is_assessment ?
+
+  const details = props.expanded && !isAssessment ?
     <div className="o-ch-map__details">
       <span>Show Lessons</span>
     </div> : '';
 
   const lessons = [];
-  const isAssessment = /assessment/.test(props.curriculum.resource.short_title);
-
   for (let i = 0; i < props.curriculum.lesson_count; i++) {
     const assessmentClass =  isAssessment ? `o-ch-unit-map__assessment--${props.colorCode}` : '';
+    const child = props.curriculum.children[i];
+    const prereqClass = child && child.resource.is_prerequisite ? 'o-ch-unit-map__prerequisite' : '';
     lessons.push((
-      <div key={i} className={classNames(bemClass('lesson'), colorCodeClass, assessmentClass)}></div>
+      <div key={i} className={classNames(bemClass('lesson'), colorCodeClass, assessmentClass, prereqClass)}></div>
     ));
   }
 

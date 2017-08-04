@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-class CurriculumContext
+#
+# Handles Document metadata contexts, to find and/or create corresponding Resources
+#
+class MetadataContext
   attr_reader :ctx
 
   def initialize(ctx = {})
@@ -25,6 +28,11 @@ class CurriculumContext
       if last_item(index) && mid_assessment?
         unit = parent.children.detect { |r| r.short_title =~ /topic #{ctx['after-topic']}/i }
         unit.append_sibling(resource)
+
+      elsif last_item(index) && prerequisite?
+        first_non_prereq = parent.children.detect { |r| !r.prerequisite? }
+        first_non_prereq&.prepend_sibling(resource)
+
       else
         resource.save!
       end
@@ -37,7 +45,7 @@ class CurriculumContext
   private
 
   def assessment?
-    ctx[:type] =~ /assessment/
+    type =~ /assessment/
   end
 
   def build_new_resource(parent, name, index)
@@ -52,7 +60,7 @@ class CurriculumContext
       tree: true
     )
     if last_item(index)
-      resource.tag_list = tag_list
+      resource.tag_list = tag_list if resource.lesson?
       resource.teaser = teaser
       resource.title = title
     else
@@ -77,7 +85,7 @@ class CurriculumContext
   end
 
   def ela?
-    subject == 'ela'
+    subject.to_s.casecmp('ela').zero?
   end
 
   def grade
@@ -93,11 +101,18 @@ class CurriculumContext
   end
 
   def lesson
-    @lesson ||= number?(ctx[:lesson]) ? "lesson #{ctx[:lesson]}" : ctx[:lesson]
+    @lesson ||= begin
+      num = if ela? && prerequisite?
+              RomanNumerals.to_roman(ctx[:lesson].to_i)&.downcase
+            else
+              ctx[:lesson]
+            end
+      "lesson #{num}"
+    end
   end
 
   def mid_assessment?
-    ctx[:type] == 'assessment-mid'
+    type.to_s.casecmp('assessment-mid').zero?
   end
 
   def module
@@ -112,6 +127,10 @@ class CurriculumContext
     str =~ /^\d+$/
   end
 
+  def prerequisite?
+    type.to_s.casecmp('prereq').zero?
+  end
+
   def subject
     @subject ||= begin
       value = ctx[:subject]&.downcase
@@ -120,7 +139,7 @@ class CurriculumContext
   end
 
   def tag_list
-    assessment? ? ['assessment', ctx['type']] : []
+    assessment? ? ['assessment', type] : [type.presence || 'core'] # lesson => prereq || core
   end
 
   def teaser
@@ -131,10 +150,14 @@ class CurriculumContext
     ctx[:title].presence || default_title
   end
 
+  def type
+    ctx[:type]&.downcase
+  end
+
   def unit
     @unit ||= begin
       if assessment?
-        ctx[:type] # assessment-mid || assessment-end
+        type # assessment-mid || assessment-end
       else
         ela? ? "unit #{ctx[:unit]}" : "topic #{ctx[:topic]}"
       end

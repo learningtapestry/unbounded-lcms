@@ -84,18 +84,15 @@ class Document < ActiveRecord::Base
   def set_resource_from_metadata
     return unless metadata.present?
 
-    context = CurriculumContext.new(metadata)
-    resource = context.find_or_create_resource
-    resource.update(**resource_update_attrs)
+    resource = MetadataContext.new(metadata).find_or_create_resource
 
-    self.resource_id = resource.id if resource # && resource.lesson?
-  end
+    # Update resource with document metadata
+    resource.title = metadata['title'] if metadata['title'].present?
+    resource.teaser = metadata['teaser'] if metadata['teaser'].present?
+    resource.description = metadata['description'] if metadata['description'].present?
+    resource.tag_list << 'prereq' if metadata['type'].to_s.casecmp('prereq').zero?
+    resource.save
 
-  def resource_update_attrs
-    update_attrs = {}
-    update_attrs[:title] = metadata['title'] if metadata['title'].present?
-    update_attrs[:teaser] = metadata['teaser'] if metadata['teaser'].present?
-    update_attrs[:description] = metadata['description'] if metadata['description'].present?
-    update_attrs
+    self.resource_id = resource.id
   end
 end

@@ -138,6 +138,10 @@ class Resource < ActiveRecord::Base
     %w(text_set quick_reference_guide).include?(resource_type)
   end
 
+  def prerequisite?
+    tag_list.include?('prereq')
+  end
+
   def curriculum
     @curriculum ||= HIERARCHY.map do |key|
       key == :grade ? grades.average(abbr: false) : curriculum_tags_for(key).first
@@ -217,19 +221,6 @@ class Resource < ActiveRecord::Base
     filtered_named_tags = named_tags
     stds = named_tags[:ccss_standards].map { |n| Standard.filter_ccss_standards(n, subject) }.compact
     filtered_named_tags.merge(ccss_standards: stds)
-  end
-
-  def fix_positioning(position)
-    self.class.transaction do
-      # fix positioning
-      update_columns level_position: position
-
-      # update other units on this module
-      siblings.where('level_position >= ?', position).each do |r|
-        r.level_position += 1
-        r.save
-      end
-    end
   end
 
   def tag_standards

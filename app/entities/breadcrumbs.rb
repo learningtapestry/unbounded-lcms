@@ -82,6 +82,6 @@ class Breadcrumbs
 
     prefix = lesson =~ /part/i ? 'P' : 'L'
 
-    "#{prefix}#{lesson.match(/(lesson|part) (\d+)/i).try(:[], 2)}"
+    "#{prefix}#{lesson.match(/(lesson|part) (\w+)/i).try(:[], 2)}"
   end
 end
