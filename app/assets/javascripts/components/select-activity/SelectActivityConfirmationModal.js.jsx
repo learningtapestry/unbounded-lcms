@@ -16,6 +16,12 @@ class SelectActivityConfirmationModal extends React.Component {
     this.track('Deselected');
     this.props.callback();
     this.$modal.close();
+
+    let header = document.querySelector('.sticky.is-stuck');
+    let offset = header ? header.clientHeight : 0;
+    $('html, body').animate({
+      scrollTop: $(document.getElementById(this.props.item.id)).offset().top - offset - 10
+    }, 'fast')
   }
 
   closeModal() {
