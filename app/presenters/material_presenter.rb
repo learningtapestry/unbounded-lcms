@@ -12,7 +12,7 @@ class MaterialPresenter < PDFPresenter
   end
 
   def full_breadcrumb
-    lesson.full_breadcrumb
+    lesson.full_breadcrumb(unit_level: unit_level?)
   end
 
   def header?

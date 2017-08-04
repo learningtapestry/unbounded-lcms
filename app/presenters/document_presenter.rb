@@ -23,11 +23,11 @@ class DocumentPresenter < PDFPresenter
     assessment? ? 'assessment' : 'lesson'
   end
 
-  def full_breadcrumb
-    resource ? Breadcrumbs.new(resource).full_title : full_breadcrumb_from_metadata
+  def full_breadcrumb(unit_level: false)
+    resource ? Breadcrumbs.new(resource).full_title : full_breadcrumb_from_metadata(unit_level)
   end
 
-  def full_breadcrumb_from_metadata
+  def full_breadcrumb_from_metadata(unit_level)
     lesson_level = assessment? ? 'Assessment' : "Lesson #{ld_metadata.lesson}" unless unit_level
     [
       SUBJECT_FULL[subject] || subject,
