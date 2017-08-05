@@ -1,10 +1,13 @@
 class ExpandedMaterial extends React.Component {
   componentDidMount() {
-    const { id, url } = this.props;
+    let { id, url } = this.props;
     const options = {
       pdfOpenParams: { page: 1, view: 'FitV' },
       PDFJS_URL: Routes.pdfjs_full_path()
     };
+    if (!PDFObject.supportsPDFs) {
+      url = `${Routes.pdf_proxy_resources_path()}?url=${url}`
+    }
     PDFObject.embed(url, `#pdfobject-${id}`, options);
   }
 
