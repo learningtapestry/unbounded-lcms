@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ResourcesController < ApplicationController
   def show
     @resource = find_resource
@@ -31,6 +33,11 @@ class ResourcesController < ApplicationController
     resource = Resource.find(params[:id])
     return redirect_to resource_path(resource) unless resource.generic?
     @resource = GenericPresenter.new(resource)
+  end
+
+  def pdf_proxy
+    return head(:not_found) if (url = params[:url]).blank?
+    redirect_to url
   end
 
   protected
