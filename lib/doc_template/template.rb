@@ -80,7 +80,12 @@ module DocTemplate
 
       @document = DocTemplate::Document.parse(body_fragment, meta_options)
       sanitized_layout = HtmlSanitizer.post_processing(@document.render, @metadata.data['subject'])
-      @document.parts << { placeholder: nil, part_type: :layout, content: sanitized_layout }
+      @document.parts << {
+        content: sanitized_layout,
+        materials: [],
+        part_type: :layout,
+        placeholder: nil
+      }
 
       @toc = DocumentTOC.parse(meta_options) unless material?
       self

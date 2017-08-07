@@ -18,6 +18,7 @@ module DocTemplate
         return parse_ela(node) if ela6?(opts[:metadata])
 
         @content = parse_general_content node, TEMPLATE
+        @materials = @section.material_ids
         replace_tag node
         self
       end

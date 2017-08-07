@@ -57,6 +57,8 @@ module DocTemplate
       ERB.new(template).result(binding)
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def ela_teacher_guidance_allowed?
       # only for G6 and G2 (except U1)
       # As stated on issue #240 and here https://github.com/learningtapestry/unbounded/pull/267#issuecomment-307870881
@@ -107,9 +109,10 @@ module DocTemplate
       return if TAGS_WITHOUT_PARTS.include?(tag::TAG_NAME)
 
       @parts << {
+        content: sanitized_content.squish,
+        materials: parsed_tag.materials,
         placeholder: parsed_tag.placeholder,
-        part_type: tag_name.underscore,
-        content: sanitized_content.squish
+        part_type: tag_name.underscore
       }
     end
 

@@ -59,7 +59,7 @@ class DocumentPresenter < PDFPresenter
   end
 
   def pdf_content(options = {})
-    render_lesson(options.delete(:excludes) || [])
+    render_lesson(options[:excludes] || [])
   end
 
   def pdf_header

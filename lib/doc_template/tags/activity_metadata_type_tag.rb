@@ -21,6 +21,7 @@ module DocTemplate
           priority_description: priority_description(activity)
         }
         @content = parse_template params, TEMPLATE
+        @materials = activity.material_ids
         replace_tag node
         self
       end
