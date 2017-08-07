@@ -6,7 +6,7 @@ module DocumentExporter
       def export
         pdf = CombinePDF.new
         @document.materials.where_metadata('sheet_type': 'student').each do |material|
-          url = @document.links['materials'][material.id.to_s]['url']
+          url = @document.links['materials']&.dig(material.id.to_s, 'url')
           pdf << CombinePDF.parse(Net::HTTP.get_response(URI.parse(url)).body)
         end
         pdf.to_pdf
