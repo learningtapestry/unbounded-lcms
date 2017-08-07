@@ -161,6 +161,7 @@ en:
         error:  "User %{user} could not be created."
       index:
         email: E-mail
+        id: ID
         name: Name
         new_user: New user
         page_title: Users
