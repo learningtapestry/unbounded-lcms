@@ -6,11 +6,27 @@ describe ResourcesController do
   let(:resource) { create(:resource) }
 
   describe '#pdf_proxy' do
-    let(:url) { 'url' }
+    let(:data) { 'data' }
+    let(:filename) { 'filename' }
+    let(:params) { { disposition: :inline, file_name: filename } }
+    let(:url) { "http://host/dir/#{filename}" }
+
+    before { allow(controller).to receive_message_chain(:open, :read).and_return(data) }
 
     subject { get :pdf_proxy, url: url }
 
-    it { is_expected.to redirect_to url }
+    it 'proxies the request' do
+      expect(controller).to receive(:send_data).with(data, params) do
+        controller.render nothing: true
+      end
+      subject
+    end
+
+    context 'when any error occurs' do
+      before { allow(controller).to receive(:open) }
+
+      it { is_expected.to have_http_status 400 }
+    end
 
     context 'when url has not been passed' do
       let(:url) { nil }
