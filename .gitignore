@@ -62,3 +62,4 @@ coverage
 /tags
 /docs
 /pdfs
+.DS_store

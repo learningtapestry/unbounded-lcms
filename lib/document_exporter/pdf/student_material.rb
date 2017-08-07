@@ -5,7 +5,12 @@ module DocumentExporter
     class StudentMaterial < BasePDF
       def export
         pdf = CombinePDF.new
-        @document.materials.where_metadata('sheet_type': 'student').each do |material|
+
+        scope = @document.materials
+                  .where(id: included_materials)
+                  .where_metadata('sheet_type': 'student')
+
+        scope.each do |material|
           url = @document.links['materials']&.dig(material.id.to_s, 'url')
           pdf << CombinePDF.parse(Net::HTTP.get_response(URI.parse(url)).body)
         end

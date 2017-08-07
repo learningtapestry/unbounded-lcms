@@ -3,7 +3,7 @@
 class MaterialPresenter < PDFPresenter
   attr_reader :lesson
   delegate :css_styles, :short_url, :subject, to: :lesson
-  delegate :sheet_type, :vertical_text, to: :metadata
+  delegate :sheet_type, to: :metadata
 
   DEFAULT_TITLE = 'Material'
 

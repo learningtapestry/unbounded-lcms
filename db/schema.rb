@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170801073338) do
+ActiveRecord::Schema.define(version: 20170807072309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,9 +138,10 @@ ActiveRecord::Schema.define(version: 20170801073338) do
     t.text     "content"
     t.string   "part_type"
     t.boolean  "active"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "placeholder"
+    t.text     "materials",   default: [], null: false, array: true
   end
 
   add_index "document_parts", ["document_id"], name: "index_document_parts_on_document_id", using: :btree
