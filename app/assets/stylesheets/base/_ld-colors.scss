@@ -1,4 +1,5 @@
 $ub-ld-colorcodes: (
+  default-image-bg: transparentize(map-get($ub-colorcodes, default-base), .85),
   ela-expand-bg: transparentize(map-get($ub-colorcodes, ela-base), .85),
   ela-toggler-bg: transparentize(map-get($ub-colorcodes, ela-base), .7),
   ela6-section-bg: transparentize(map-get($ub-colorcodes, ela-base), .85),
@@ -8,7 +9,8 @@ $ub-ld-colorcodes: (
   math-expand-bg: transparentize(map-get($ub-colorcodes, math-base), .85),
   math-toggler-bg: transparentize(map-get($ub-colorcodes, math-base), .7),
   math-image-bg: transparentize(map-get($ub-colorcodes, math-base), .85),
-  default-image-bg: transparentize(map-get($ub-colorcodes, default-base), .85),
+  pd-bg: #e8e7ed,
+  pd-bg-dark: #8e89a9,
   material-overlay: #423872,
   tooltip-bg: #fff8e5,
 )
