@@ -68,6 +68,7 @@ class DocumentForm
       @document.document_parts.create!(
         active: true,
         content: part[:content],
+        materials: part[:materials],
         part_type: part[:part_type],
         placeholder: part[:placeholder]
       )
