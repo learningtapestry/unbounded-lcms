@@ -10,7 +10,7 @@ module DocumentExporter
       def export
         content = super
         pdf = CombinePDF.parse(content)
-        @document.links['materials'].each do |_, v|
+        @document.links['materials']&.each do |_, v|
           pdf << CombinePDF.parse(Net::HTTP.get_response(URI.parse(v['url'])).body)
         end
         pdf.to_pdf
