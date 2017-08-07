@@ -37,7 +37,9 @@ class ResourcesController < ApplicationController
 
   def pdf_proxy
     return head(:not_found) if (url = params[:url]).blank?
-    redirect_to url
+    send_data open(url).read, disposition: :inline, file_name: url.split('/').last
+  rescue
+    head :bad_request
   end
 
   protected
