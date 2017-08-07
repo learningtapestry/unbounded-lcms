@@ -1,20 +1,40 @@
 $(function () {
   const COMPONENT_PREFIX = '.o-ld';
 
-  function initPdToggler() {
-    let prefix = `${COMPONENT_PREFIX}-pd`;
-    $(`${prefix}-toggler`).click(function() {
-      $(this)
-        .closest(prefix)
-        .toggleClass(`o-ld-pd--collapsed o-ld-pd--expanded`)
+  const initPd = () => {
+    const prefix = `${COMPONENT_PREFIX}-pd`;
+    const togglerSelector = `${prefix}-toggler`;
+
+    $(`${prefix}__minimizer`).click(function() {
+      $(this).closest(prefix).find(togglerSelector).click()
+    });
+
+    $(togglerSelector).click(function() {
+      const el = $(this).closest(prefix);
+      el.toggleClass(`o-ld-pd--collapsed o-ld-pd--expanded`)
         .find('.o-ld-pd__description')
         .toggleClass('o-ld-pd__description--hidden');
 
-      $(this)
-        .find('i')
-        .toggleClass('fa-expand fa-compress');
+      if (PDFObject.supportsPDFs) { embedPdf(el.find('.o-ld-pd-pdf__object')[0]) }
     });
-  }
+
+    const embedPdf = (el) => {
+      if (!el) return;
+
+      let url = el.dataset.url;
+      if (!PDFObject.supportsPDFs) {
+        url = `${Routes.pdf_proxy_resources_path()}?url=${url}`
+      }
+
+      const options = {
+        pdfOpenParams: { page: 1, view: 'FitV' },
+        PDFJS_URL: Routes.pdfjs_full_path()
+      };
+      PDFObject.embed(url, el, options);
+    };
+
+    $('.o-ld-pd-pdf__object').each(function(_, el) { embedPdf(el) })
+  };
 
   function initSidebar() {
     const observers = [
@@ -35,7 +55,7 @@ $(function () {
   }
 
   const initSelects = () => {
-    const menu = document.getElementById('ld-sidebar-menu')
+    const menu = document.getElementById('ld-sidebar-menu');
     if (!menu) return;
 
     // TODO remove when heap analytics will be available
@@ -43,7 +63,7 @@ $(function () {
 
     const eachNode = (selector, fn) => [].forEach.call(document.querySelectorAll(selector), fn);
 
-    let lastParentIdx = null
+    let lastParentIdx = null;
     const items = [].map.call(menu.querySelectorAll('[href][data-duration][data-level]'), (x, i) => {
       let level = parseInt(x.dataset.level);
       if (level === 1) lastParentIdx = i;
@@ -67,7 +87,7 @@ $(function () {
         parentNode
           .querySelector('.o-ld-sidebar-item__time')
           .textContent = parentDuration > 0 ? `${parentDuration} min` : '';
-      })
+      });
 
       eachNode('.o-ld-sidebar-item__time--summary', x => { x.textContent = `${totalTime} min` });
     };
@@ -88,19 +108,19 @@ $(function () {
               setTimeout(poll, 2000)
             }
           }).fail(x => {
-            console.warn('check pdf export status', x)
+            console.warn('check pdf export status', x);
             reject(x);
           })
-        }
+        };
         setTimeout(poll, 2000)
       })
-    }
+    };
 
     eachNode('a[data-pdftype]', link => {
       link.addEventListener('click', e => {
-        let excludes = items.filter(x => x.parent !== null && x.active == false).map(x => x.tag)
-        let excludesString = excludes.join(',')
-        if (link.dataset.excludes === excludesString) return
+        let excludes = items.filter(x => x.parent !== null && x.active === false).map(x => x.tag);
+        let excludesString = excludes.join(',');
+        if (link.dataset.excludes === excludesString) return;
 
         e.preventDefault();
 
@@ -110,13 +130,13 @@ $(function () {
         let finish = () => {
           link.classList.remove('o-ub-btn--disabled');
           link.click()
-        }
+        };
 
         $.post(`${location.pathname}/export/pdf`, {
           excludes: excludes,
           type: link.dataset.pdftype
         }).done(response => {
-          link.href = response.url
+          link.href = response.url;
           if (response.id) {
             pollPdfStatus(response.id, link).then(finish)
           } else {
@@ -136,7 +156,7 @@ $(function () {
         x.classList.toggle('o-ld-sidebar-item__content--disabled', !item.active)
       });
       updateMenu(item.parent)
-    }
+    };
 
     items
       .filter(x => x.parent !== null)
@@ -144,7 +164,7 @@ $(function () {
         let content = document.querySelector(`[data-id="${item.id}"]`);
         if (!content) return;
 
-        item.tag = content.dataset.tag
+        item.tag = content.dataset.tag;
 
         let container = document.createElement('div');
         content.appendChild(container);
@@ -156,12 +176,12 @@ $(function () {
         });
         ReactDOM.render(component, container);
       })
-  }
+  };
 
   window.initializeLessons = function() {
     if (!$('.o-page--ld').length) return;
-    initPdToggler();
-    initSelects()
+    initPd();
+    initSelects();
     initSidebar();
     initToggler('expand');
     initToggler('materials');

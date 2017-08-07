@@ -1,7 +1,23 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ResourcesController do
   let(:resource) { create(:resource) }
+
+  describe '#pdf_proxy' do
+    let(:url) { 'url' }
+
+    subject { get :pdf_proxy, url: url }
+
+    it { is_expected.to redirect_to url }
+
+    context 'when url has not been passed' do
+      let(:url) { nil }
+
+      it { is_expected.to have_http_status 404 }
+    end
+  end
 
   describe '#show' do
     context 'with slug' do
