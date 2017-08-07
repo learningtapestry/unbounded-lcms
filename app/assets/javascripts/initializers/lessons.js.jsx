@@ -59,7 +59,7 @@ $(function () {
     if (!menu) return;
 
     // TODO remove when heap analytics will be available
-    top.heap || (top.heap = { track: function(a, b) { console.debug('heap track: ', a, b) } });
+    top.heap || (top.heap = { track: function(a, b) { console.log('heap track: ', a, b) } });
 
     const eachNode = (selector, fn) => [].forEach.call(document.querySelectorAll(selector), fn);
 
@@ -75,21 +75,26 @@ $(function () {
       }
     });
 
+    const durationString = x => `${x} min${x > 1 ? 's' : ''}`
+
     const updateMenu = parentId => {
       let parent = items[parentId];
       let children = items.filter(x => x.parent === parentId);
       let parentEnabled = children.some(x => x.active);
       let parentDuration = children.filter(x => x.active).reduce((a, x) => a + x.duration, 0);
+      parentDuration = parentDuration > 0 ? durationString(parentDuration) : '';
       let totalTime = items.filter(x => x.parent !== null && x.active).reduce((a, x) => a + x.duration, 0);
 
       eachNode(`[href="#${parent.id}"]`, parentNode => {
         parentNode.classList.toggle('o-ld-sidebar-item__content--disabled', !parentEnabled);
-        parentNode
-          .querySelector('.o-ld-sidebar-item__time')
-          .textContent = parentDuration > 0 ? `${parentDuration} min` : '';
+        parentNode.querySelector('.o-ld-sidebar-item__time').textContent = parentDuration
       });
 
-      eachNode('.o-ld-sidebar-item__time--summary', x => { x.textContent = `${totalTime} min` });
+      let contentGroup = document.getElementById(parent.id);
+      let groupDuration = contentGroup ? contentGroup.querySelector('.o-ld-title__time') : null;
+      if (groupDuration) groupDuration.textContent = parentDuration;
+
+      eachNode('.o-ld-sidebar-item__time--summary', x => { x.textContent = durationString(totalTime) });
     };
 
     const pollPdfStatus = (id, link) => {
@@ -155,7 +160,11 @@ $(function () {
       eachNode(`[href="#${item.id}"]`, x => {
         x.classList.toggle('o-ld-sidebar-item__content--disabled', !item.active)
       });
-      updateMenu(item.parent)
+      updateMenu(item.parent);
+      setTimeout(() => {
+        let hasDeselected = items.some(x => x.active === false);
+        $('.o-ld-sidebar__item.o-ld-sidebar-break').toggle(!hasDeselected)
+      })
     };
 
     items
@@ -172,7 +181,8 @@ $(function () {
         let component = React.createElement(SelectActivityToggle, {
           callback: toggleHandler.bind(null, content, item),
           item,
-          meta: content.querySelector('.o-ld-activity__metacognition')
+          preface: content.querySelector('.o-ld-title .dropdown-pane'),
+          meta: content.querySelector('.o-ld-activity__metacognition'),
         });
         ReactDOM.render(component, container);
       })
