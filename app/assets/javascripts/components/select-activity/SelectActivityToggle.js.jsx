@@ -3,14 +3,17 @@ class SelectActivityToggle extends React.Component {
     super(props)
 
     this.toggle = this.toggle.bind(this)
-    this.modalText = this.props.meta ? this.props.meta.textContent : null
+    this.modalText = [
+      this.props.preface ? this.props.preface.textContent : null,
+      this.props.meta ? this.props.meta.textContent : null,
+    ].filter(x => !!x).join(' ')
   }
 
   render() {
     return (
-      <div className="o-ld-selection" onClick={this.toggle}>
-        <div className="o-ld-selection__switch"></div>
-        <span className="o-ld-selection__label">Use Activity</span>
+      <div className="o-ld-selection">
+        <div className="o-ld-selection__switch" onClick={this.toggle}></div>
+        <span className="o-ld-selection__label" onClick={this.toggle}>Use Activity</span>
         { this.props.item.active && <SelectActivityConfirmationModal text={this.modalText} { ...this.props } /> }
       </div>
     )

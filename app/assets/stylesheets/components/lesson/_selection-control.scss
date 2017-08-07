@@ -2,17 +2,18 @@ $shadow-color: rgba(0, 0, 0, .3);
 
 .o-ld-selection {
   @include flex;
-  cursor: pointer;
   flex: 1;
   padding: 1em 2em;
 
   @include e(label) {
+    cursor: pointer;
     font-weight: bold;
     margin-left: .5em;
   }
 
   @include e(switch) {
     border-radius: 1em;
+    cursor: pointer;
     height: 1.1em;
     position: relative;
     top: .1em;
