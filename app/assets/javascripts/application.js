@@ -16,6 +16,7 @@
 //= require initializers/about_people
 //= require initializers/content_guides
 //= require initializers/google_analytics
+//= require initializers/heap_analytics
 //= require initializers/header_dropdown
 //= require initializers/leadership
 //= require initializers/lessons
