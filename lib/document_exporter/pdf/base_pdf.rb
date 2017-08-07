@@ -13,8 +13,28 @@ module DocumentExporter
         WickedPdf.new.pdf_from_string(content, pdf_params)
       end
 
-      def template_path(_name)
-        raise NotImplementedError
+      #
+      # Take into consideration that in one component materilas are uniq. So
+      # just the first occurence of exluded material is removed
+      #
+      def included_materials
+        return [] unless @options[:excludes].present?
+
+        @included_materials ||= [].tap do |result|
+          result.concat @document.document_parts.pluck(:materials).flatten.compact
+
+          excluded = @options[:excludes].map do |x|
+            @document.document_parts.find_by(placeholder: "{{#{x}}}")&.materials
+          end.flatten.compact
+
+          excluded.each do |id|
+            result.delete_at result.index(id)
+          end
+        end
+      end
+
+      def template_path(name)
+        File.join('documents', 'pdf', name)
       end
 
       private

@@ -53,6 +53,10 @@ module DocTemplate
         metadata.resource_subject == 'ela' && metadata.grade == '6'
       end
 
+      def materials
+        @materials || []
+      end
+
       def parse(node, _ = {})
         @result = node
         remove_tag
