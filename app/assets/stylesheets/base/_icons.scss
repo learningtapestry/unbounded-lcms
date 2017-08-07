@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'ubicons';
-  src: font-font-url('icons/ubicons.eot?av3fvp');
+  src: font-url('icons/ubicons.eot?av3fvp');
   src: font-url('icons/ubicons.eot?av3fvp#iefix') format('embedded-opentype'),
        font-url('icons/ubicons.ttf?av3fvp') format('truetype'),
        font-url('icons/ubicons.woff?av3fvp') format('woff'),
@@ -10,7 +10,7 @@
 }
 
 @mixin ub-icon {
-  /* use !important to prevent issues with browser extensions that change fonts */
+  // use !important to prevent issues with browser extensions that change fonts
   font-family: 'ubicons' !important;
   speak: none;
   font-style: normal;
@@ -19,7 +19,7 @@
   text-transform: none;
   line-height: 1;
 
-  /* Better Font Rendering =========== */
+  // Better Font Rendering ===========
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
