@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'Admin users' do
@@ -107,7 +109,7 @@ feature 'Admin users' do
     fill_in 'Confirm new password', with: password
     click_button 'Change my password'
 
-    expect(current_path).to eq '/'
+    expect(current_path).to eq '/explore_curriculum'
     expect(find('.callout.success').text).to eq 'Your password has been changed successfully. You are now signed in. ×'
     expect(user.reload.valid_password?(password)).to be true
   end

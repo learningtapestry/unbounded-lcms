@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'Remove Session' do
@@ -15,12 +17,12 @@ feature 'Remove Session' do
     fill_in 'Email', with: email
     fill_in 'Password', with: password
     click_on 'Log in'
-    expect(current_path).to eq '/'
+    expect(current_path).to eq '/explore_curriculum'
     expect(has_cookie? '_content_session').to be true
 
     visit '/admin'
     click_on 'Sign out'
-    expect(current_path).to eq '/'
+    expect(current_path).to eq '/explore_curriculum'
     expect(has_cookie? '_content_session').to be false
   end
 
