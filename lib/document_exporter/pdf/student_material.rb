@@ -2,7 +2,7 @@
 
 module DocumentExporter
   module PDF
-    class StudentMaterial < BasePDF
+    class StudentMaterial < PDF::Base
       def export
         pdf = CombinePDF.new
 

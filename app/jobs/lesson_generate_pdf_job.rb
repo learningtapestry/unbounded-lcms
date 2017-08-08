@@ -11,15 +11,15 @@ class LessonGeneratePdfJob < ActiveJob::Base
   }.freeze
 
   def perform(document, options)
-    pdf_type = options[:pdf_type]
-    document = DocumentPresenter.new document, pdf_type: pdf_type
+    content_type = options[:content_type]
+    document = DocumentPresenter.new document, content_type: content_type
     filename = options[:filename].presence || "documents/#{document.pdf_filename}"
-    pdf = PDF_EXPORTERS[pdf_type].new(document, options).export
+    pdf = PDF_EXPORTERS[content_type].new(document, options).export
     url = S3Service.upload filename, pdf
 
     return if options[:excludes].present?
 
-    key = DocumentExporter::PDF::BasePDF.pdf_key options[:pdf_type]
+    key = DocumentExporter::PDF::Base.pdf_key options[:content_type]
     document.with_lock do
       document.update links: document.reload.links.merge(key => url)
     end

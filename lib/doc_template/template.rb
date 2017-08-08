@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module DocTemplate
+  CONTEXT_TYPES = %w(default gdoc).freeze
+
   class Template
     # a registry for available tags and respective classes
     class TagRegistry
@@ -48,6 +50,7 @@ module DocTemplate
 
     def initialize(type = :document)
       @type = type
+      @documents = {}
     end
 
     def agenda
@@ -79,44 +82,50 @@ module DocTemplate
       # parse tables
       parse_tables body_fragment
 
-      @document = DocTemplate::Document.parse(body_fragment, meta_options)
-      sanitized_layout = HtmlSanitizer.post_processing(@document.render, @metadata.data['subject'], material: material?)
-      @document.parts << {
-        content: sanitized_layout,
-        materials: [],
-        part_type: :layout,
-        placeholder: nil
-      }
+      default_opts = meta_options(CONTEXT_TYPES[0])
 
-      @toc = DocumentTOC.parse(meta_options) unless material?
+      CONTEXT_TYPES.each_with_index do |context_type, idx|
+        options = idx.zero? ? default_opts : meta_options(context_type)
+        @documents[context_type] = DocTemplate::Document.parse(body_fragment.dup, options)
+        @documents[context_type].parts << {
+          content: render(options),
+          context_type: context_type,
+          materials: [],
+          part_type: :layout,
+          placeholder: nil
+        }
+      end
+
+      @toc = DocumentTOC.parse(default_opts) unless material?
       self
     end
 
-    def meta_options
-      @meta_options ||= begin
-        if material?
-          {
-            metadata: Objects::MaterialMetadata.build_from(@metadata.data),
-            material: true
-          }
-        else
-          {
-            activity: Objects::ActivityMetadata.build_from(@activity_metadata),
-            agenda: Objects::AgendaMetadata.build_from(@agenda.data),
-            foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
-            metadata: Objects::BaseMetadata.build_from(@metadata.data),
-            parts: @target_table.try(:parts)
-          }
-        end
+    def meta_options(context_type)
+      if material?
+        {
+          context_type: context_type,
+          metadata: Objects::MaterialMetadata.build_from(@metadata.data),
+          material: true
+        }
+      else
+        {
+          activity: Objects::ActivityMetadata.build_from(@activity_metadata),
+          agenda: Objects::AgendaMetadata.build_from(@agenda.data),
+          context_type: context_type,
+          foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
+          metadata: Objects::BaseMetadata.build_from(@metadata.data),
+          parts: @target_table.try(:parts)
+        }
       end
     end
 
     def parts
-      @document.parts
+      @documents.values.flat_map(&:parts)
     end
 
-    def render
-      HtmlSanitizer.post_processing(@document.render.presence || '', @metadata.data['subject'])
+    def render(options = {})
+      type = options.fetch(:context_type, CONTEXT_TYPES.first)
+      HtmlSanitizer.post_processing(@documents[type]&.render.presence || '', options)
     end
 
     private

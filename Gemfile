@@ -85,7 +85,7 @@ gem 'rest-client', '~> 1.8'
 gem 'roo', '~> 2.2'
 
 # markup converters
-gem 'pandoc-ruby'
+gem 'pandoc-ruby', '~> 2.0.1'
 
 # documentation
 gem 'sdoc', '~> 0.4.0', group: :doc

@@ -16,6 +16,14 @@ class DocumentPresenter < ContentPresenter
     "#{subject}-#{grade}"
   end
 
+  def content_for(context_type, options = {})
+    excludes = options[:excludes] || []
+    content = render_content(context_type, excludes)
+    content = update_activity_timing(content) if excludes.any?
+    content = remove_optional_break(content) if ela? && excludes.any?
+    content
+  end
+
   def description
     ld_metadata.lesson_objective.presence || ld_metadata.description
   end
@@ -69,21 +77,13 @@ class DocumentPresenter < ContentPresenter
     ld_metadata.lesson_mathematical_practice.squish
   end
 
-  def pdf_content(options = {})
-    excludes = options[:excludes] || []
-    content = render_content excludes
-    content = update_activity_timing(content) if excludes.any?
-    content = remove_optional_break(content) if ela? && excludes.any?
-    content
-  end
-
   def pdf_header
     "UnboundEd / #{full_breadcrumb}"
   end
 
   def pdf_filename
     name = short_breadcrumb(join_with: '_', with_short_lesson: true)
-    name += PDF_SUBTITLES[pdf_type.to_sym]
+    name += PDF_SUBTITLES[content_type.to_sym]
     "#{name}_v#{version.presence || 1}.pdf"
   end
 
@@ -161,10 +161,11 @@ class DocumentPresenter < ContentPresenter
   private
 
   def document_parts_index
-    @document_parts_index ||= document_parts.pluck(:placeholder, :content).to_h
+    @document_parts_index ||= document_parts.pluck(:placeholder, :anchor, :content)
+                                .map { |p| [p[0], { anchor: p[1], content: p[2] }] }.to_h
   end
 
-  def layout_content
-    layout.content
+  def layout_content(context_type)
+    layout(context_type).content
   end
 end

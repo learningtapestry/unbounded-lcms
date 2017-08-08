@@ -82,23 +82,24 @@ $(function () {
       breakElement.classList.toggle('hide', tagsExcluded.length !== 0);
     };
 
-    const pollPdfStatus = (id, link) => {
+    const pollContentStatus = (id, key, link) => {
       $(link).prepend('<i class="fa fa-spin fa-spinner u-margin-right--base" />');
 
       return new Promise((resolve, reject) => {
         let poll = () => {
-          $.getJSON(`${location.pathname}/export/pdf-status`, {
+          $.getJSON(`${location.pathname}/export/content-status`, {
             jid: id,
+            key: key,
             _: Date.now() // prevent cached response
           }).done(x => {
             if (x.ready) {
               $(link).find('.fa').remove();
-              resolve();
+              resolve(x.url);
             } else {
               setTimeout(poll, 2000);
             }
           }).fail(x => {
-            console.warn('check pdf export status', x);
+            console.warn('check content export status', x);
             reject(x);
           });
         };
@@ -109,7 +110,7 @@ $(function () {
     const toggleHandler = (element, item) => {
       element.classList.toggle('deselected');
       item.active = !element.classList.contains('deselected');
-      tagsExcluded = items.filter(x => x.parent !== null && x.active === false).map(x => x.tag);
+      tagsExcluded = items.filter(x => x.parent !== null && x.active === false).map(x => x.id);
 
       handleOptBreak();
 
@@ -128,9 +129,9 @@ $(function () {
     const updateDownloads = () => {
       let excludesString = tagsExcluded.join(',');
 
-      eachNode('a[data-pdftype]', link => {
+      eachNode('a[data-contenttype]', link => {
         if (!link.dataset.originalTitle) link.dataset.originalTitle = link.textContent;
-        link.textContent = excludesString === link.dataset.excludes ? link.dataset.originalTitle : 'Generate Materials';
+        link.textContent = excludesString === link.dataset.excludes ? link.dataset.originalTitle : link.dataset.customtitle;
       });
     };
 
@@ -154,7 +155,7 @@ $(function () {
       eachNode('.o-ld-sidebar-item__time--summary', x => { x.textContent = totalTime; });
     };
 
-    eachNode('a[data-pdftype]', link => {
+    eachNode('a[data-contenttype]', link => {
       link.dataset.excludes = '';
 
       link.addEventListener('click', e => {
@@ -171,18 +172,21 @@ $(function () {
           link.textContent = link.dataset.originalTitle;
         };
 
-        $.post(`${location.pathname}/export/pdf`, {
+        $.post(`${location.pathname}/export`, {
+          context: link.dataset.context,
           excludes: tagsExcluded,
-          type: link.dataset.pdftype
+          type: link.dataset.contenttype
         }).done(response => {
           link.href = response.url;
           if (response.id) {
-            pollPdfStatus(response.id, link).then(finish);
+            pollContentStatus(response.id, response.key, link).then(
+              url => { if (url) link.href = url; finish(); }
+            );
           } else {
             finish();
           }
         }).fail(x => {
-          console.warn('export pdf', x);
+          console.warn('export content', x);
           finish();
         });
       });

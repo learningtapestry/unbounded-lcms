@@ -8,22 +8,33 @@ module DocTemplate
       TAG_NAME = 'inset'.freeze
 
       def parse(node, opts = {})
-        nodes = block_nodes(node) { |n| preserve_styles n }
+        nodes = block_nodes(node) { |n| preserve_styles n, opts }
         content = parse_nested nodes.map(&:to_html).join, opts
         nodes.each(&:remove)
-        @content = %(<div class="o-ld-inset">#{content}</div>)
+        @content =
+          if opts[:context_type].to_s.casecmp('gdoc').zero?
+            %(<div><p class="u-gd-gap"></p>#{content}<p class="u-gd-gap"></p></div>)
+          else
+            %(<div class="o-ld-inset">#{content}</div>)
+          end
         replace_tag node
         self
       end
 
       private
 
-      def preserve_styles(node)
+      def preserve_styles(node, opts)
+        add_css_class(node, 'o-ld-inset') if opts[:context_type].to_s.casecmp('gdoc').zero?
         node.children.each do |el|
           el['class'] = el['class'].to_s + ' text-bold' if el['style'] =~ STYLES_REGEXP[:bold]
           el['class'] = el['class'].to_s + ' text-italic' if el['style'] =~ STYLES_REGEXP[:italic]
         end
         node
+      end
+
+      def add_css_class(el, *classes)
+        existing = (el[:class] || '').split(/\s+/)
+        el[:class] = existing.concat(classes).uniq.join(' ')
       end
     end
   end

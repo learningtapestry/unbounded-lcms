@@ -4,6 +4,12 @@
       background-color: $color;
     }
   }
+
+  @each $code, $color in $ub-ld-colorcodes {
+    @include m(#{$code}) {
+      background-color: $color;
+    }
+  }
 }
 
 .cs-rgba-bg {

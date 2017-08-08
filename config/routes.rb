@@ -42,8 +42,10 @@ Rails.application.routes.draw do
   resources :documents, only: :show do
     member do
       get 'export/gdoc', to: 'documents#export_gdoc'
-      post 'export/pdf', to: 'documents#export_pdf'
-      get 'export/pdf-status', to: 'documents#export_pdf_status'
+      post 'export', to: 'documents#export'
+      get 'export/content-status', to: 'documents#export_content_status'
+      # TODO: this it only for testing purpose, need to be removed before merging into d-branch
+      get 'show_gdoc', to: 'documents#show_gdoc'
     end
   end
   resources :materials, only: :show

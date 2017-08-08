@@ -1,0 +1,6 @@
+<%= render 'documents/gdoc/header', document: document, options: options %>
+<%= render 'documents/gdoc/agenda', document: document, options: options %>
+<%= render 'documents/gdoc/content', document: document, options: options %>
+<div class="c-footer__item u-txt--footer-links">
+  <%= document.metadata['cc-attribution'] %>
+</div>

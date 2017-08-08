@@ -2,9 +2,9 @@
 
 class PreviewsMaterialSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :activity, :data, :lesson, :pdf_type, :subject
+  attributes :activity, :content_type, :data, :lesson, :subject
   attr_reader :document
-  delegate :pdf_type, :subject, to: :document
+  delegate :content_type, :subject, to: :document
 
   def initialize(props, document)
     super(document)

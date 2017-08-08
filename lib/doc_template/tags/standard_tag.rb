@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class StandardTag < BaseTag
@@ -6,14 +8,15 @@ module DocTemplate
       STANDARD_RE = /[^\[\]]*\[(ela\.)?((rl|ri|rf|w|sl|l)\.[^\]]+)\]/i # [rl.2.2a.2]
       TAG_NAME = /(ela\.)?((rl|ri|rf|w|sl|l)\.[^\]]+)/ # RL.2.4 or ELA.RL.2.4
       TAG_RE = /\[[^\]]*\]/
-      TAG_SEPARATOR = '[separator]'.freeze
-      TEMPLATE = 'standard.html.erb'.freeze
+      TAG_SEPARATOR = '[separator]'
+      TEMPLATES = { default: 'standard.html.erb',
+                    gdoc:    'gdoc/standard.html.erb' }.freeze
 
-      def parse(node, _)
-        @content = render_template node
+      def parse(node, opts)
+        @content = render_template node, opts
         loop do
           break unless STANDARD_RE =~ @content
-          @content = render_template Nokogiri::HTML.fragment(@content)
+          @content = render_template Nokogiri::HTML.fragment(@content), opts
         end
 
         # preserve `li` element
@@ -50,12 +53,12 @@ module DocTemplate
         Standard.search_by_name(name).first.try(:description)
       end
 
-      def render_template(node)
+      def render_template(node, opts)
         @data = fetch_data node.inner_html
         @standard_shortcut = TAG_RE.match(node.content).try(:[], 0).try(:gsub, /[\[\]]/, '')
         @description = fetch_description node.content
 
-        template = File.read template_path(TEMPLATE)
+        template = File.read template_path(template_name(opts))
         ERB.new(template).result(binding).gsub(/\s{2,}</, '<')
       end
     end

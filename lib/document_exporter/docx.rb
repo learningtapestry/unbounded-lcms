@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module DocumentExporter
   class Docx
     def initialize(document)
-      @document = DocumentPresenter.new document
+      @document = document
     end
 
     def export
