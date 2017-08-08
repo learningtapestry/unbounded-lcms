@@ -39,31 +39,25 @@
       <% end %>
 
       <% if @tmpl[:activity].activity_standard.present? %>
-          <p><strong>Standard: </strong>
-            <% @tmpl[:activity].activity_standard_info.each do |activity| %>
-                <% id = "cg-k_#{SecureRandom.hex(4)}" %>
-                <span class="c-ld-keyword" data-toggle="<%= id %>"><%= activity[:standard] %></span>
-                <% if activity[:description] %>
-            <span class="dropdown-pane o-ld-dropdown"
-                  data-dropdown
-                  data-hover="true"
-                  data-hover-delay="0"
-                  data-hover-pane="true"
-                  data-v-offset="12"
-                  id="<%= id %>">
-              <b><%= activity[:standard] %></b><br />
-              <span><%= activity[:description] %></span>
-            </span>
-                <% end %>
+        <p>
+          <strong>Standards: </strong>
+          <% (standart_infos = @tmpl[:activity].activity_standard_info).each_with_index do |activity, idx| %>
+            <% id = "cg-k_#{SecureRandom.hex(4)}" %>
+            <span class="c-ld-keyword" data-toggle="<%= id %>"><%= activity[:standard] %></span><%= ',' if idx + 1 < standart_infos.size %>
+            <% if activity[:description] %>
+              <span class="dropdown-pane o-ld-dropdown"
+                    data-dropdown
+                    data-hover="true"
+                    data-hover-delay="0"
+                    data-hover-pane="true"
+                    data-v-offset="12"
+                    id="<%= id %>">
+                    <b><%= activity[:standard] %></b><br />
+                    <span><%= activity[:description] %></span>
+              </span>
             <% end %>
-          </p>
-      <% end %>
-
-      <% if @tmpl[:activity].activity_mathematical_practice.present?  %>
-          <p>
-            <strong>Standards for Mathematical Practice: </strong>
-            <%= @tmpl[:activity].activity_mathematical_practice %>
-          </p>
+          <% end %>
+        </p>
       <% end %>
     </div>
   </div>
