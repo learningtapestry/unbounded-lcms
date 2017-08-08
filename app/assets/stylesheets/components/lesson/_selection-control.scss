@@ -46,6 +46,11 @@ $shadow-color: rgba(0, 0, 0, .3);
       width: 1.3em;
     }
   }
+
+  .o-ld-activity-foundational-skills & {
+    background-color: map-get($ub-ld-colorcodes, math-activity-foundational) !important;
+    color: map-get($ub-ld-colorcodes, math-activity-foundational-bg) !important;
+  }
 }
 
 .deselected {
@@ -117,6 +122,16 @@ $shadow-color: rgba(0, 0, 0, .3);
       @include e(switch) {
         &::before {
           background-color: map-get($ub-selection, math-disabled-switch-bg);
+        }
+      }
+    }
+
+    &.o-ld-activity-foundational-skills {
+      .o-ld-selection {
+        @include e(switch) {
+          &::before {
+            background-color: map-get($ub-ld-colorcodes, math-activity-foundational-bg);
+          }
         }
       }
     }

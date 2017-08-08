@@ -13,13 +13,18 @@ module DocTemplate
           # Extend object to store `lesson_objective` (#162)
           section.class.attribute :lesson_objective, String
           section.lesson_objective = strip_html_element(opts[:foundational_metadata].lesson_objective)
+          # Extend object to store `lesson_standard` (#386)
+          section.class.attribute :lesson_standard, String
+          section.lesson_standard = strip_html_element(opts[:foundational_metadata].lesson_standard)
           opts[:activity].add_break
+          opts[:foundational_skills] = true
         end
 
         content = content_until_break node
         content = parse_nested content.to_s, opts
         params = {
           content: content,
+          foundational_skills: opts[:foundational_skills],
           placeholder: placeholder_id,
           section: section
         }
