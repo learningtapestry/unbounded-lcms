@@ -1,0 +1,21 @@
+{
+  "name": "unbounded",
+  "version": "1.0.0",
+  "description": "[ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=master)](https://codeship.com/projects/110252)",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.4.1",
+    "eslint-plugin-react": "^7.1.0"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/learningtapestry/unbounded.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/learningtapestry/unbounded/issues"
+  },
+  "homepage": "https://github.com/learningtapestry/unbounded#readme"
+}
