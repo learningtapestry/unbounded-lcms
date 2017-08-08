@@ -6,6 +6,6 @@ class MaterialsController < ApplicationController
   private
 
   def set_material
-    @material = Material.find params[:id]
+    @material = MaterialPresenter.new(Material.find params[:id])
   end
 end

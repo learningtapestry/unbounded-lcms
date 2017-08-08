@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class MaterialPresenter < PDFPresenter
-  attr_reader :lesson
+class MaterialPresenter < ContentPresenter
+  attr_reader :lesson, :parsed_document
   delegate :css_styles, :short_url, :subject, to: :lesson
   delegate :sheet_type, to: :metadata
+  delegate :parts, to: :parsed_document
 
   DEFAULT_TITLE = 'Material'
 
@@ -61,5 +62,15 @@ class MaterialPresenter < PDFPresenter
 
   def unit_level?
     metadata.breadcrumb_level == 'unit'
+  end
+
+  private
+
+  def document_parts_index
+    @document_parts_index ||= parts.map { |p| [p[:placeholder], p[:content]] }.to_h
+  end
+
+  def layout_content
+    parts.find { |p| p[:part_type] == :layout }&.dig(:content) || ''
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DocumentPresenter < PDFPresenter
+class DocumentPresenter < ContentPresenter
   PART_RE = /{{[^}]+}}/
   PDF_SUBTITLES = { full: '', sm: '_student_materials', tm: '_teacher_materials' }.freeze
   SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
@@ -59,7 +59,7 @@ class DocumentPresenter < PDFPresenter
   end
 
   def pdf_content(options = {})
-    render_lesson(options[:excludes] || [])
+    render_content(options[:excludes] || [])
   end
 
   def pdf_header
@@ -74,20 +74,6 @@ class DocumentPresenter < PDFPresenter
 
   def pdf_footer
     full_breadcrumb
-  end
-
-  def render_lesson(excludes = [])
-    content = render_part layout.content, excludes
-    ReactMaterialsResolver.resolve(content, self)
-  end
-
-  def render_part(part_content, excludes = [])
-    part_content.gsub(PART_RE) do |placeholder|
-      next unless placeholder
-      next if excludes.include?(placeholder.delete('{}'))
-      next unless (subpart = document_parts_index[placeholder])
-      render_part subpart.to_s, excludes
-    end
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity
@@ -149,5 +135,9 @@ class DocumentPresenter < PDFPresenter
 
   def document_parts_index
     @document_parts_index ||= document_parts.pluck(:placeholder, :content).to_h
+  end
+
+  def layout_content
+    layout.content
   end
 end
