@@ -233,7 +233,7 @@ class ExploreCurriculumPage extends React.Component {
               <div className="o-filterbar-title">
                 <h2>Explore Curriculum</h2>
                 <div className="o-filterbar-title__subheader">
-                  Search our free collection, or filter by subject or grade. Download, adapt, share.
+                  Explore ELA and Math lessons for the grades below. Review, adapt, download, and share.
                 </div>
               </div>
               <FilterbarResponsive
