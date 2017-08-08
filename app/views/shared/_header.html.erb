@@ -4,7 +4,7 @@
     <div class="o-top-bar">
       <div class="o-top-bar__item c-header-title">
         <%= link_to root_path, class: 'c-header-title__logo c-header__link' do %>
-          <%= image_tag('logo.svg') %>
+          <%= image_tag('logo-beta.svg') %>
         <% end %>
         <span class="c-header-title__h-menu" data-responsive-toggle="navbar" data-hide-for="large">
           <span class="c-header-title__h-icon c-header__link" data-toggle>
@@ -21,8 +21,8 @@
             <%= nav_link t('nav.curriculum_html'), explore_curriculum_index_path, class: "c-header__link #{add_class_for_action(:resources, :show, 'active')}" %>
             <%= nav_link t('nav.lessons_html'), find_lessons_path, class: "c-header__link" %>
             <%= nav_link t('nav.instructions_html'), enhance_instruction_index_path, class: "c-header__link #{add_class_for_action(:resources, :media, 'active')} #{add_class_for_action(:content_guides, :show, 'active')}" %>
-            <%= nav_link t('nav.leadership_html'), leadership_path, class: "c-header__link" %>
-            <%= nav_link t('nav.about_html'), about_path, class: "c-header__link #{add_class_for_path(about_people_path, 'active')}" %>
+            <%# nav_link t('nav.leadership_html'), leadership_path, class: "c-header__link" %>
+            <%# nav_link t('nav.about_html'), about_path, class: "c-header__link #{add_class_for_path(about_people_path, 'active')}" %>
           </ul>
         </div>
         <div class="o-top-bar__item">
@@ -32,10 +32,10 @@
                 <i class="fa-2x ub-search"></i>
               <% end %>
             </li>
-            <li class="c-header__link c-header__link--light">
+            <%#li class="c-header__link c-header__link--light">
               <a data-no-turbolink="true" class="show-for-large"><i class="fa-2x ub-share"></i></a>
-              <%= render partial: 'shared/social_sharing_menu', locals: { cls: 'c-header' } %>
-            </li>
+              <% render partial: 'shared/social_sharing_menu', locals: { cls: 'c-header' } >
+            </li %>
           </ul>
         </div>
       </div>
