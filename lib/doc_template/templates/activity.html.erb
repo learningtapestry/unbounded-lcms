@@ -1,9 +1,9 @@
-<div class="o-ld-activity-wrapper" data-id="<%= @tmpl[:activity].anchor %>" data-tag="<%= @tmpl[:placeholder] %>">
+<div class="o-ld-activity-wrapper <%= 'o-ld-activity-foundational-skills' if @tmpl[:foundational] %>" data-id="<%= @tmpl[:activity].anchor %>" data-tag="<%= @tmpl[:placeholder] %>">
   <hr class='o-ld-hr--l2'>
 
   <div id="<%= @tmpl[:activity].anchor %>" class="o-ld-activity c-ld-toc">
     <div>
-      <div class="u-text--uppercase cs-txt--math-base u-txt--title-type u-margin-bottom--xs">
+      <div class="o-ld-activity__title u-text--uppercase cs-txt--math-base u-txt--title-type u-margin-bottom--xs">
         <%= @tmpl[:activity].activity_type %>
       </div>
       <h3 class="o-ld-title">
@@ -41,9 +41,9 @@
       <% if @tmpl[:activity].activity_standard.present? %>
         <p>
           <strong>Standards: </strong>
-          <% (standart_infos = @tmpl[:activity].activity_standard_info).each_with_index do |activity, idx| %>
+          <% (standard_infos = @tmpl[:activity].activity_standard_info).each_with_index do |activity, idx| %>
             <% id = "cg-k_#{SecureRandom.hex(4)}" %>
-            <span class="c-ld-keyword" data-toggle="<%= id %>"><%= activity[:standard] %></span><%= ',' if idx + 1 < standart_infos.size %>
+            <span class="c-ld-keyword" data-toggle="<%= id %>"><%= activity[:standard] %></span><%= ',' if idx + 1 < standard_infos.size %>
             <% if activity[:description] %>
               <span class="dropdown-pane o-ld-dropdown"
                     data-dropdown

@@ -12,6 +12,7 @@
 
   @include e(wrap) {
     position: relative;
+
     &.is-stuck {
       @include add-top-bottom-padding;
       margin-top: $ub-nav-height !important;
@@ -30,13 +31,14 @@
   @include e(menu) {
     @include menu-base;
     @include menu-direction(vertical);
-    width: auto;
 
-    > li.o-ld-sidebar__item:last-child { padding-bottom: 0; }
+    width: auto;
 
     @include m(nested) {
       padding-left: 1.2rem;
     }
+
+    > li.o-ld-sidebar__item:last-child { padding-bottom: 0; }
   }
 
   @include e(toc-customizer) {
@@ -102,6 +104,18 @@
 
     @include m(l2) {
       @include txt-element(ld-sidebar-l2);
+
+      .doc-subject-ela .is-submenu-item.o-ld-sidebar__item--active & {
+        color: map-get($ub-colorcodes, ela-base);
+      }
+
+      .doc-subject-math .is-submenu-item.o-ld-sidebar__item--active & {
+        color: map-get($ub-colorcodes, math-base);
+      }
+
+      .o-ld-sidebar-foundational-skills .o-ld-sidebar__item--active & {
+        color: map-get($ub-ld-colorcodes, math-activity-foundational) !important;
+      }
     }
 
     @include m(summary) {
@@ -148,11 +162,19 @@
   @include e(delimeter) {
     border: 1px dotted $ub-hr;
     flex: 1 1 auto;
+
+    .doc-subject-math & {
+      border-color: map-get($ub-ld-colorcodes, math-activity-foundational);
+    }
   }
 
   @include e(text) {
     @include txt-element(ld-sidebar-break);
     padding-left: $ub-small-padding;
     padding-right: $ub-small-padding;
+
+    .doc-subject-math & {
+      @include txt-element(ld-sidebar-break-foundational);
+    }
   }
 }
