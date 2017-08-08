@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-class PDFPresenter < BasePresenter
+class ContentPresenter < BasePresenter
   CONFIG_PATH = Rails.root.join('config', 'pdf.yml')
   DEFAULT_CONFIG = :default
+  PART_RE = /{{[^}]+}}/
 
   def self.base_config
     @base_config ||= YAML.load_file(CONFIG_PATH).deep_symbolize_keys
@@ -21,6 +22,20 @@ class PDFPresenter < BasePresenter
 
   def footer_margin_styles
     padding_styles(align_type: 'margin')
+  end
+
+  def render_content(excludes = [])
+    content = render_part layout_content, excludes
+    ReactMaterialsResolver.resolve(content, self)
+  end
+
+  def render_part(part_content, excludes = [])
+    part_content.gsub(PART_RE) do |placeholder|
+      next unless placeholder
+      next if excludes.include?(placeholder.delete('{}'))
+      next unless (subpart = document_parts_index[placeholder])
+      render_part subpart.to_s, excludes
+    end
   end
 
   def padding_styles(align_type: 'padding')

@@ -29,9 +29,10 @@ class MaterialForm
     @material = DocumentDownloader::GDoc.new(@credentials, link, Material).import
 
     parsed_document = DocTemplate::Template.parse(@material.original_content, type: :material)
+    presenter = MaterialPresenter.new(@material, parsed_document: parsed_document)
 
     @material.update!(
-      content: parsed_document.render,
+      content: presenter.render_content,
       identifier: parsed_document.metadata['identifier'].downcase,
       metadata: parsed_document.meta_options[:metadata]
     )
