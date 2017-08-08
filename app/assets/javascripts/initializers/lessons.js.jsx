@@ -6,16 +6,16 @@ $(function () {
     const togglerSelector = `${prefix}-toggler`;
 
     $(`${prefix}__minimizer`).click(function() {
-      $(this).closest(prefix).find(togglerSelector).click()
+      $(this).closest(prefix).find(togglerSelector).click();
     });
 
     $(togglerSelector).click(function() {
       const el = $(this).closest(prefix);
-      el.toggleClass(`o-ld-pd--collapsed o-ld-pd--expanded`)
+      el.toggleClass('o-ld-pd--collapsed o-ld-pd--expanded')
         .find('.o-ld-pd__description')
         .toggleClass('o-ld-pd__description--hidden');
 
-      if (PDFObject.supportsPDFs) { embedPdf(el.find('.o-ld-pd-pdf__object')[0]) }
+      if (PDFObject.supportsPDFs) { embedPdf(el.find('.o-ld-pd-pdf__object')[0]); }
     });
 
     const embedPdf = (el) => {
@@ -23,7 +23,7 @@ $(function () {
 
       let url = el.dataset.url;
       if (!PDFObject.supportsPDFs) {
-        url = `${Routes.pdf_proxy_resources_path()}?url=${url}`
+        url = `${Routes.pdf_proxy_resources_path()}?url=${url}`;
       }
 
       const options = {
@@ -33,16 +33,16 @@ $(function () {
       PDFObject.embed(url, el, options);
     };
 
-    $('.o-ld-pd-pdf__object').each(function(_, el) { embedPdf(el) })
+    $('.o-ld-pd-pdf__object').each(function(_, el) { embedPdf(el); });
   };
 
   function initSidebar() {
     const observers = [
-      new SidebarDocMenu(),
-      new TopScroll(),
-      new SidebarSticky(),
+      new top.SidebarDocMenu(),
+      new top.TopScroll(),
+      new top.SidebarSticky(),
     ];
-    new SideBar(observers, { clsPrefix: 'ld', breakPoint: 'large', bHandleMobile: false });
+    new top.SideBar(observers, { clsPrefix: 'ld', breakPoint: 'large', bHandleMobile: false });
   }
 
   function initToggler(component) {
@@ -51,7 +51,7 @@ $(function () {
       $(`${prefix}__content--hidden`, $(this).parent()).toggle();
       $(`${prefix}__toggler--hide`, $(this)).toggle();
       $(`${prefix}__toggler--show`, $(this)).toggle();
-    })
+    });
   }
 
   const initSelects = () => {
@@ -59,7 +59,7 @@ $(function () {
     if (!menu) return;
 
     // TODO remove when heap analytics will be available
-    top.heap || (top.heap = { track: function(a, b) { console.log('heap track: ', a, b) } });
+    top.heap || (top.heap = { track: function(a, b) { console.log('heap track: ', a, b); } });
 
     const eachNode = (selector, fn) => [].forEach.call(document.querySelectorAll(selector), fn);
 
@@ -72,10 +72,10 @@ $(function () {
         duration: parseInt(x.dataset.duration),
         id: x.getAttribute('href').substr(1),
         parent: level > 1 ? lastParentIdx : null
-      }
+      };
     });
 
-    const durationString = x => `${x} min${x > 1 ? 's' : ''}`
+    const durationString = x => `${x} min${x > 1 ? 's' : ''}`;
 
     const updateMenu = parentId => {
       let parent = items[parentId];
@@ -87,14 +87,14 @@ $(function () {
 
       eachNode(`[href="#${parent.id}"]`, parentNode => {
         parentNode.classList.toggle('o-ld-sidebar-item__content--disabled', !parentEnabled);
-        parentNode.querySelector('.o-ld-sidebar-item__time').textContent = parentDuration
+        parentNode.querySelector('.o-ld-sidebar-item__time').textContent = parentDuration;
       });
 
       let contentGroup = document.getElementById(parent.id);
       let groupDuration = contentGroup ? contentGroup.querySelector('.o-ld-title__time') : null;
       if (groupDuration) groupDuration.textContent = parentDuration;
 
-      eachNode('.o-ld-sidebar-item__time--summary', x => { x.textContent = durationString(totalTime) });
+      eachNode('.o-ld-sidebar-item__time--summary', x => { x.textContent = durationString(totalTime); });
     };
 
     const pollPdfStatus = (id, link) => {
@@ -108,17 +108,17 @@ $(function () {
           }).done(x => {
             if (x.ready) {
               $(link).find('.fa').remove();
-              resolve()
+              resolve();
             } else {
-              setTimeout(poll, 2000)
+              setTimeout(poll, 2000);
             }
           }).fail(x => {
             console.warn('check pdf export status', x);
             reject(x);
-          })
+          });
         };
-        setTimeout(poll, 2000)
-      })
+        setTimeout(poll, 2000);
+      });
     };
 
     eachNode('a[data-pdftype]', link => {
@@ -134,7 +134,7 @@ $(function () {
 
         let finish = () => {
           link.classList.remove('o-ub-btn--disabled');
-          link.click()
+          link.click();
         };
 
         $.post(`${location.pathname}/export/pdf`, {
@@ -143,28 +143,28 @@ $(function () {
         }).done(response => {
           link.href = response.url;
           if (response.id) {
-            pollPdfStatus(response.id, link).then(finish)
+            pollPdfStatus(response.id, link).then(finish);
           } else {
-            finish()
+            finish();
           }
         }).fail(x => {
           console.warn('export pdf', x);
-          finish()
-        })
-      })
+          finish();
+        });
+      });
     });
 
     const toggleHandler = (element, item) => {
       element.classList.toggle('deselected');
       item.active = !element.classList.contains('deselected');
       eachNode(`[href="#${item.id}"]`, x => {
-        x.classList.toggle('o-ld-sidebar-item__content--disabled', !item.active)
+        x.classList.toggle('o-ld-sidebar-item__content--disabled', !item.active);
       });
       updateMenu(item.parent);
       setTimeout(() => {
         let hasDeselected = items.some(x => x.active === false);
-        $('.o-ld-sidebar__item.o-ld-sidebar-break').toggle(!hasDeselected)
-      })
+        $('.o-ld-sidebar__item.o-ld-sidebar-break').toggle(!hasDeselected);
+      });
     };
 
     items
@@ -178,14 +178,14 @@ $(function () {
         let container = document.createElement('div');
         content.appendChild(container);
 
-        let component = React.createElement(SelectActivityToggle, {
+        let component = React.createElement(top.SelectActivityToggle, {
           callback: toggleHandler.bind(null, content, item),
           item,
           preface: content.querySelector('.o-ld-title .dropdown-pane'),
           meta: content.querySelector('.o-ld-activity__metacognition'),
         });
         ReactDOM.render(component, container);
-      })
+      });
   };
 
   window.initializeLessons = function() {
@@ -195,5 +195,5 @@ $(function () {
     initSidebar();
     initToggler('expand');
     initToggler('materials');
-  }
+  };
 });
