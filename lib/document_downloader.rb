@@ -1,13 +1,26 @@
+# frozen_string_literal: true
+
 require 'google/apis/drive_v3'
 
 module DocumentDownloader
   class GDoc
     GOOGLE_DRAWING_RE = %r{https?://docs\.google\.com/drawings/[^"]*}i
+    GDRIVE_FOLDER_RE = %r{/drive/(.*/)?folders/([^\/]+)/?}
 
     def initialize(credentials, file_url, klass)
       @credentials = credentials
       @file_url = file_url
       @klass = klass
+    end
+
+    def content
+      html = service
+               .export_file(file_id, 'text/html')
+               .encode('ASCII-8BIT')
+               .force_encoding('UTF-8')
+
+      # Replaces all google drawings by their Base64 encoded values
+      handle_drawings html
     end
 
     def import
@@ -24,17 +37,37 @@ module DocumentDownloader
       document
     end
 
-    private
+    def self.list_files(folder_url, google_credentials)
+      service = Google::Apis::DriveV3::DriveService.new
+      service.authorization = google_credentials
 
-    def content
-      html = service
-               .export_file(file_id, 'text/html')
-               .encode('ASCII-8BIT')
-               .force_encoding('UTF-8')
-
-      # Replaces all google drawings by their Base64 encoded values
-      handle_drawings html
+      files = []
+      folder_url.match(GDRIVE_FOLDER_RE) { |m| files.concat list_files_iter(m[2], service) }
+      files.map { |f| "https://docs.google.com/document/d/#{f.id}" }
     end
+
+    def self.list_files_iter(folder_id, service)
+      files = []
+      page_token = nil
+      loop do
+        result = service.list_files(q: "'#{folder_id}' in parents",
+                                    fields: 'files(id, mime_type), nextPageToken',
+                                    page_token: page_token)
+
+        result.files.each do |f|
+          case f.mime_type
+          when 'application/vnd.google-apps.document' then files << f
+          when 'application/vnd.google-apps.folder' then files.concat list_files_iter(f.id, service)
+          end
+        end
+
+        page_token = result.next_page_token
+        break if page_token.nil?
+      end
+      files.flatten
+    end
+
+    private
 
     def file
       @_file ||= service.get_file(

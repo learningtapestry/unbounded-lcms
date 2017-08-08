@@ -1,0 +1,31 @@
+<%= simple_form_for :query, url: :admin_materials, html: { class: 'form-inline well o-admin-lessons-search', method: :get } do |f| %>
+
+  <div class="row align-bottom align-justify">
+    <button class="button o-admin-search-subject float-right" type="button" data-toggle="material-subject">Select Subject</button>
+    <div class="dropdown-pane bottom" id="material-subject" data-dropdown data-auto-focus="true">
+      <%= f.input :subject, label: 'Subject',
+                            required: false,
+                            as: :select,
+                            include_blank: true,
+                            collection: %w(math ela),
+                            label_method: :humanize %>
+    </div>
+
+
+    <button class="button o-admin-search-grades float-right" type="button" data-toggle="material-grade">Select Grade</button>
+    <div class="dropdown-pane bottom" id="material-grade" data-dropdown data-auto-focus="true">
+      <%= f.input :grade, label: 'Grades',
+                          required: false,
+                          as: :select,
+                          include_blank: true,
+                          collection: Grades::GRADES,
+                          label_method: :humanize %>
+    </div>
+
+    <%= f.input :module, placeholder: 'Module Number', required: false %>
+    <%= f.input :lesson, placeholder: 'Lesson', required: false %>
+
+    <%= f.button :submit, t('ui.search'), class: 'o-admin-search-submit primary', name: nil %>
+  </div>
+
+<% end %>
