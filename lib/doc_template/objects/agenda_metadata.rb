@@ -61,6 +61,7 @@ module DocTemplate
               s[:metadata]['time'] = s[:metadata]['time'].to_s[/\d+/].to_i || 0
               use_color = s[:metadata]['color']
               s[:use_color] = use_color.present? ? use_color.casecmp('yes').zero? : false
+              s[:material_ids] = s[:metadata]['material_ids']
             end
             d.deep_merge(metadata: { time: d[:children].sum { |s| s[:metadata]['time'] } })
           end
