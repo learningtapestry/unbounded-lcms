@@ -9,6 +9,8 @@ module DocTemplate
       class Activity
         include Virtus.model
 
+        SEPARATOR = /\s*[,;]\s*/
+
         attribute :activity_type, String
         attribute :activity_title, String
         attribute :activity_source, String
@@ -34,19 +36,12 @@ module DocTemplate
         attribute :material_ids, Array[Integer], default: []
 
         def activity_standard_info
-          return [] if activity_standard.blank?
-          activity_standard.split(/[,;]/).map do |standard|
-            value = standard.strip
-            { standard: value, description: fetch_standard_description(value) }
-          end
-        end
-
-        private
-
-        def fetch_standard_description(text)
-          return unless text
-          name = text.downcase.to_sym
-          Standard.search_by_name(name).first.try(:description)
+          [activity_standard, activity_mathematical_practice]
+            .flat_map { |x| x.to_s.split(SEPARATOR) }
+            .map(&:strip)
+            .reject(&:blank?)
+            .uniq
+            .map { |x| { description: Standard.search_by_name(x).take&.description, standard: x } }
         end
       end
 
@@ -85,7 +80,8 @@ module DocTemplate
 
       def add_break
         idx = children.index { |c| !c.active } || -1
-        children.insert(idx - 1, Section.new(title: 'Foundational Skills Lesson', anchor: 'optbreak', time: 0, children: []))
+        section = Section.new(title: 'Foundational Skills Lesson', anchor: 'optbreak', time: 0, children: [])
+        children.insert(idx - 1, section)
       end
     end
   end
