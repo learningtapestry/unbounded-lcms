@@ -41,7 +41,7 @@ class DocumentForm
   end
 
   def persist!
-    @document = DocumentDownloader::GDoc
+    @document = DocumentDownloader::Gdoc
                   .new(@credentials, link, @target_klass)
                   .import
 
@@ -51,7 +51,6 @@ class DocumentForm
       activity_metadata: parsed_document.activity_metadata,
       agenda_metadata: parsed_document.agenda,
       css_styles: parsed_document.css_styles,
-      content: parsed_document.render,
       foundational_metadata: parsed_document.foundational_metadata,
       material_ids: collect_materials(parsed_document),
       metadata: parsed_document.metadata,
@@ -67,7 +66,9 @@ class DocumentForm
     parsed_document.parts.each do |part|
       @document.document_parts.create!(
         active: true,
+        anchor: part[:anchor],
         content: part[:content],
+        context_type: part[:context_type],
         materials: part[:materials],
         part_type: part[:part_type],
         placeholder: part[:placeholder]
@@ -75,7 +76,7 @@ class DocumentForm
     end
 
     @document.activate!
-    DocumentPdfGenerator.materials_for(@document)
+    DocumentGenerator.materials_for(@document)
   rescue => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)

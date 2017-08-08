@@ -1,0 +1,28 @@
+<div class="o-ld-pd">
+  <table class="o-simple-table cs-bg--pd-bg">
+    <tr>
+      <td class="u-table-wrap">
+        <p class="u-txt--ld-pd-caption">PROFESSIONAL DEVELOPMENT</p>
+        <% if @tmpl[:title].present? %>
+          <h3 class="u-txt--ld-pd-title"><%= @tmpl[:title] %></h3>
+        <% end %>
+        <hr />
+        <% if @tmpl[:type] == DocTemplate::Tags::PdTag::TYPE_CG %>
+          <p class="u-txt--ld-pd-cg-header">UnboundEd <%= @tmpl[:content_guide].subject == 'math' ? 'Math' : 'ELA' %> Guide / <%= @tmpl[:title] %></p>
+        <% end %>
+        <% if @tmpl[:description].present? %>
+          <h4>Description</h4>
+          <p><%= @tmpl[:description] %></p>
+        <% end %>
+        <a href="<%= @tmpl[:resource_url] || @tmpl[:url] %>"><%= @tmpl[:resource]&.title || @tmpl[:title] %></a>
+      </td>
+    </tr>
+    <tr class="u-pdf-nobreak u-pdf-nobreak--around">
+      <td class="cs-border-bottom--pd">
+        <p></p>
+      </td>
+    </tr>
+  </table>
+  <p class="u-gdoc-gap">
+  </p>
+</div>

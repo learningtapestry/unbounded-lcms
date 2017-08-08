@@ -15,6 +15,7 @@ module DocTemplate
       class MetaData
         include Virtus.model
 
+        attribute :standard, String, default: ''
         attribute :time, Integer, default: 0
       end
 
@@ -32,6 +33,7 @@ module DocTemplate
         attribute :icon, String
         attribute :idx, Integer
         attribute :level, Integer, default: 2
+        attribute :standard, String, default: ->(s, _) { s.metadata.standard }
         attribute :time, Integer, default: ->(s, _) { s.metadata.time }
         attribute :use_color, Boolean, default: false
 

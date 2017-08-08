@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MaterialsController < ApplicationController
   before_action :set_material
 

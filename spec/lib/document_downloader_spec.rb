@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe DocumentDownloader::GDoc do
+describe DocumentDownloader::Gdoc do
   let(:access_token) { 'token' }
   let(:credentials) { double access_token: access_token }
   let(:downloader) { described_class.new credentials, file_url, target_class }
@@ -77,7 +79,7 @@ describe DocumentDownloader::GDoc do
 
         it 'substitutes the original URL' do
           subject
-          expect(document.original_content).to_not include(drawing_url)
+          expect(document.original_content).to include(drawing_url)
           expect(document.original_content).to_not include(drawing_url_clear)
           expect(document.original_content).to include(drawing_encoded)
         end
@@ -101,9 +103,9 @@ describe DocumentDownloader::GDoc do
         it 'substitutes the original URLS' do
           expect(HTTParty).to receive(:get).twice
           subject
-          expect(document.original_content).to_not include(drawing_url)
+          expect(document.original_content).to include(drawing_url)
           expect(document.original_content).to_not include(drawing_url_clear)
-          expect(document.original_content).to_not include(drawing_url1)
+          expect(document.original_content).to include(drawing_url1)
           expect(document.original_content).to_not include(drawing_url1_clear)
           expect(document.original_content.scan(drawing_encoded).size).to eq 3
         end

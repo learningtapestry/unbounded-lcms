@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
-class DocumentPdfGenerator
-  PDF_TYPES = %w(full tm sm).freeze
+class DocumentGenerator
+  CONTENT_TYPES = %w(full tm sm).freeze
 
   class << self
     def documents(document)
       # NOTE: Temporary disable DOCX generation - need to solve
       # few issues on the server side
       # LessonGenerateDocxJob.perform_later document
-      PDF_TYPES.each { |type| LessonGeneratePdfJob.perform_later document, pdf_type: type }
+      CONTENT_TYPES.each do |type|
+        LessonGeneratePdfJob.perform_later document, content_type: type
+        LessonGenerateGdocJob.perform_later document, content_type: type
+      end
     end
 
     def documents_of(material)
@@ -26,9 +29,9 @@ class DocumentPdfGenerator
 
     def reset_links(document)
       document.links['materials'] = {}
-      PDF_TYPES.each do |type|
-        key = DocumentExporter::PDF::BasePDF.pdf_key type
-        document.links.delete(key)
+      CONTENT_TYPES.each do |type|
+        keys = [DocumentExporter::PDF::Base.pdf_key(type), DocumentExporter::Gdoc::Base.gdoc_key(type)]
+        keys.each { |key| document.links.delete(key) }
       end
       document.save
     end

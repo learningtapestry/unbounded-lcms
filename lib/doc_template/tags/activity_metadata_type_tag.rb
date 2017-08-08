@@ -7,12 +7,14 @@ module DocTemplate
 
       TAG_NAME = 'activity-metadata-type'
       TASK_RE = /(\[task:\s(#)\])/i
-      TEMPLATE = 'activity.html.erb'
+      TEMPLATES = { default: 'activity.html.erb',
+                    gdoc:    'gdoc/activity.html.erb' }.freeze
 
       def parse(node, opts = {})
         @metadata = opts[:activity]
         activity = @metadata.level2_by_title(opts[:value])
         activity[:activity_guidance] = strip_html_element(activity[:activity_guidance])
+        @anchor = activity.anchor
 
         content = content_until_break node
         content = parse_nested content.to_s, opts
@@ -30,7 +32,7 @@ module DocTemplate
             material_ids: activity.material_ids
           }
         }
-        @content = parse_template params, TEMPLATE
+        @content = parse_template params, template_name(opts)
         @materials = activity.material_ids
         replace_tag node
         self

@@ -37,9 +37,9 @@ class MaterialsContainer extends React.Component {
   }
 
   render() {
-    const { data, pdf_type, subject } = this.props;
-    if (!_.includes(['none', 'tm'], pdf_type)) return null;
-    if (pdf_type === 'tm') {
+    const { data, content_type, subject } = this.props;
+    if (!_.includes(['none', 'tm'], content_type)) return null;
+    if (content_type === 'tm') {
       return (
         <MaterialsList {...this.props}/>
       );

@@ -3,7 +3,7 @@
 require 'google/apis/drive_v3'
 
 module DocumentDownloader
-  class GDoc
+  class Gdoc
     GOOGLE_DRAWING_RE = %r{https?://docs\.google\.com/?[^"]*/drawings/[^"]*}i
     GDRIVE_FOLDER_RE = %r{/drive/(.*/)?folders/([^\/]+)/?}
 
@@ -89,7 +89,7 @@ module DocumentDownloader
 
       match.to_a.uniq.each do |url|
         response = HTTParty.get CGI.unescapeHTML(url), headers: headers
-        new_src = "data:#{response.content_type};base64, #{Base64.encode64(response)}"
+        new_src = "data:#{response.content_type};base64, #{Base64.encode64(response)}\" drawing_url=\"#{url}"
         html = html.gsub(url, new_src)
       end
 

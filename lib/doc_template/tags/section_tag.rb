@@ -7,20 +7,17 @@ module DocTemplate
 
       STUDENT_RE = /^\s*student\s*resources\s*$/i
       TAG_NAME = 'section'
-      TEMPLATE_ELA = 'section-ela-2-6.html.erb'
-      TEMPLATE = 'section.html.erb'
-      TEMPLATE_SM = 'section-ela-sm.html.erb'
+      TEMPLATES = {
+        default: 'section.html.erb',
+        gdoc: 'gdoc/section.html.erb'
+      }.freeze
 
       def parse(node, opts = {})
         @opts = opts
         @section = opts[:agenda].level2_by_title(opts[:value].parameterize)
+        @anchor = @section.anchor
         @materials = @section.material_ids
-
-        return parse_ela2_sm(node) if ela2?(opts[:metadata]) && section.title =~ STUDENT_RE
-        return parse_ela(node) if ela2?(opts[:metadata]) && @section.use_color
-        return parse_ela(node) if ela6?(opts[:metadata])
-
-        @content = parse_general_content node, TEMPLATE
+        @content = parse_general_content node, template_name(opts)
         replace_tag node
         self
       end
@@ -40,24 +37,6 @@ module DocTemplate
           },
           section: section
         }
-      end
-
-      def parse_ela(node)
-        @content = parse_general_content node, TEMPLATE_ELA
-        replace_tag node
-        self
-      end
-
-      def parse_ela2_sm(node)
-        content = content_until_break node
-
-        params = general_params.merge(
-          content: parse_nested(content, opts),
-          tag: 'ela2-sm'
-        )
-        @content = parse_template params, TEMPLATE_SM
-        replace_tag node
-        self
       end
 
       def parse_general_content(node, template)

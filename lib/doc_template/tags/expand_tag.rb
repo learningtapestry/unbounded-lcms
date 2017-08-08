@@ -1,15 +1,18 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class ExpandTag < TableTag
-      BREAK_TAG_NAME = 'break'.freeze
-      TAG_NAME = 'expand'.freeze
-      TEMPLATE = 'expand.html.erb'.freeze
+      BREAK_TAG_NAME = 'break'
+      TAG_NAME = 'expand'
+      TEMPLATES = { default: 'expand.html.erb',
+                    gdoc:    'gdoc/expand.html.erb' }.freeze
 
       def parse_table(table)
         params = { subject: (@opts[:metadata].try(:[], 'subject').presence || 'ela').downcase }
         params[:content], params[:content_hidden] = fetch_content table
 
-        parsed_template = parse_template params, TEMPLATE
+        parsed_template = parse_template params, template_name(@opts)
         @content = parse_nested(parsed_template, @opts)
         replace_tag table
       end

@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class DialogueTag < BlockTag
       include ERB::Util
 
-      TAG_NAME = 'dialogue'.freeze
-      TEMPLATE = 'dialogue.html.erb'.freeze
+      TAG_NAME = 'dialogue'
+      TEMPLATES = { default: 'dialogue.html.erb',
+                    gdoc:    'gdoc/dialogue.html.erb' }.freeze
 
       def parse(node, opts = {})
         @tags = []
@@ -13,7 +16,7 @@ module DocTemplate
         nodes.map(&:remove)
 
         params = { phrases: format_phrases(nodes) }
-        parsed_content = parse_template params, TEMPLATE
+        parsed_content = parse_template params, template_name(opts)
         @content = parse_nested parsed_content, opts
         replace_tag node
         self

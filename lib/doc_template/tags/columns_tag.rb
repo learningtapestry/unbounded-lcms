@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class ColumnsTag < BlockTag
       include ERB::Util
 
       ALIGNMENT_RE = /^align-right\s/i
-      SPLIT_SYMBOL = ';'.freeze
-      TAG_NAME = 'columns'.freeze
-      TEMPLATE = 'columns.html.erb'.freeze
+      SPLIT_SYMBOL = ';'
+      TAG_NAME = 'columns'
+      TEMPLATE = 'columns.html.erb'
 
       def parse(node, opts = {})
         @opts = opts

@@ -5,15 +5,55 @@ class DocumentsController < ApplicationController
 
   before_action :set_document
   before_action :check_document_layout, only: :show
-  before_action :check_pdf_params, only: :export_pdf
-  before_action :obtain_google_credentials, only: :export_gdoc
+  before_action :check_params, only: :export
+
+  def export
+    params[:context] == 'pdf' ? export_pdf : export_gdoc
+  end
+
+  def export_content_status
+    job = LessonGeneratePdfJob.find(params[:jid])
+    extra_params = { url: @doc.tmp_link(params[:key]) } if params[:key]
+    render json: { ready: job.nil? }.merge(extra_params || {}), status: :ok
+  end
+
+  def show
+    @props = CurriculumMap.new(@document.resource).props
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def show_gdoc
+    render 'documents/gdoc/show', layout: 'ld_gdoc', locals: { document: @document }
+  end
+
+  private
+
+  def check_document_layout
+    return if @document.layout('default').present?
+    redirect_to admin_documents_path, alert: 'Document has to be re-imported.'
+  end
+
+  def check_params
+    head :bad_request unless params[:type].present? && params[:context].present?
+  end
 
   def export_gdoc
-    content = render_to_string layout: 'ld_gdoc'
-    exporter = DocumentExporter::Gdoc
-                 .new(google_credentials)
-                 .export(@document.title, content)
-    redirect_to exporter.url
+    type = params[:type]
+    excludes = params[:excludes]
+
+    render(json: { url: @doc.links[@document.gdoc_key] }, status: :ok) if excludes.blank?
+
+    folder = "#{@document.gdoc_folder}_#{SecureRandom.hex(10)}"
+    options = {
+      excludes: excludes,
+      gdoc_folder: folder,
+      content_type: type
+    }
+    job_id = LessonGenerateGdocJob.perform_later(@doc, options).job_id
+
+    render json: { id: job_id, key: folder }, status: :ok
   end
 
   def export_pdf
@@ -28,34 +68,11 @@ class DocumentsController < ApplicationController
     options = {
       excludes: excludes,
       filename: filename,
-      pdf_type: type
+      content_type: type
     }
     job_id = LessonGeneratePdfJob.perform_later(@doc, options).job_id
 
     render json: { id: job_id, url: url }, status: :ok
-  end
-
-  def export_pdf_status
-    job = LessonGeneratePdfJob.find params[:jid]
-    render json: { ready: job.nil? }, status: :ok
-  end
-
-  def show
-    @props = CurriculumMap.new(@document.resource).props
-    respond_to do |format|
-      format.html
-    end
-  end
-
-  private
-
-  def check_document_layout
-    return if @document.layout.present?
-    redirect_to admin_documents_path, alert: 'Document has to be re-imported.'
-  end
-
-  def check_pdf_params
-    head :bad_request unless params[:type].present?
   end
 
   def pdf_key(type)
@@ -64,6 +81,6 @@ class DocumentsController < ApplicationController
 
   def set_document
     @doc = Document.find params[:id]
-    @document = DocumentPresenter.new @doc, pdf_type: params[:type]
+    @document = DocumentPresenter.new @doc, content_type: params[:type]
   end
 end

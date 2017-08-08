@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170809125246) do
+ActiveRecord::Schema.define(version: 20170827203654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,12 +147,16 @@ ActiveRecord::Schema.define(version: 20170809125246) do
     t.text     "content"
     t.string   "part_type"
     t.boolean  "active"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "placeholder"
-    t.text     "materials",   default: [], null: false, array: true
+    t.text     "materials",    default: [], null: false, array: true
+    t.integer  "context_type", default: 0
+    t.string   "anchor"
   end
 
+  add_index "document_parts", ["anchor"], name: "index_document_parts_on_anchor", using: :btree
+  add_index "document_parts", ["context_type"], name: "index_document_parts_on_context_type", using: :btree
   add_index "document_parts", ["document_id"], name: "index_document_parts_on_document_id", using: :btree
   add_index "document_parts", ["placeholder"], name: "index_document_parts_on_placeholder", using: :btree
 
@@ -166,7 +170,6 @@ ActiveRecord::Schema.define(version: 20170809125246) do
     t.string   "version"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
-    t.text     "content"
     t.hstore   "metadata"
     t.jsonb    "activity_metadata"
     t.integer  "resource_id"
@@ -220,8 +223,19 @@ ActiveRecord::Schema.define(version: 20170809125246) do
 
   add_index "leadership_posts", ["order", "last_name"], name: "index_leadership_posts_on_order_and_last_name", using: :btree
 
-  create_table "materials", force: :cascade do |t|
+  create_table "material_parts", force: :cascade do |t|
+    t.integer  "material_id"
     t.text     "content"
+    t.integer  "context_type", default: 0
+    t.string   "part_type"
+    t.boolean  "active"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "material_parts", ["material_id"], name: "index_material_parts_on_material_id", using: :btree
+
+  create_table "materials", force: :cascade do |t|
     t.string   "file_id",                        null: false
     t.string   "identifier"
     t.jsonb    "metadata",          default: {}, null: false
@@ -539,6 +553,7 @@ ActiveRecord::Schema.define(version: 20170809125246) do
   add_foreign_key "document_parts", "documents"
   add_foreign_key "documents_materials", "documents"
   add_foreign_key "documents_materials", "materials"
+  add_foreign_key "material_parts", "materials"
   add_foreign_key "reading_assignment_texts", "reading_assignment_authors"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"

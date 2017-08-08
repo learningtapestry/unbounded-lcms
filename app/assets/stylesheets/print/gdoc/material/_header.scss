@@ -1,0 +1,5 @@
+.o-m-header {
+  @include m(border-bottom) {
+    border-bottom: 1px solid $ub-pdf-black !important;
+  }
+}

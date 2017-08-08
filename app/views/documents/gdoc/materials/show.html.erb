@@ -1,0 +1,6 @@
+<%= render 'documents/gdoc/materials/header', document: document %>
+<%= raw document.content_for(:gdoc) %>
+<% if options[:blank_page].present? %>
+  <div class="u-pdf-alwaysbreak u-pd-content">
+  </div>
+<% end %>
