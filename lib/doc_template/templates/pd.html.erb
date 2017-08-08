@@ -15,12 +15,12 @@
         </div>
         <div class="o-ld-cg__body">
           <% %>
-          <p class="o-ld-cg__header">UnboundEd <%= @tmpl[:content].subject == 'math' ? 'Math' : 'ELA' %> Guide</p>
+          <p class="o-ld-cg__header">UnboundEd <%= @tmpl[:content_guide].subject == 'math' ? 'Math' : 'ELA' %> Guide</p>
           <p class="o-ld-cg__title"><%= @tmpl[:title] %></p>
           <p>
-            <a class="o-ub-btn o-ub-ld-btn o-ub-ld-btn--<%= @tmpl[:content].subject %>"
+            <a class="o-ub-btn o-ub-ld-btn o-ub-ld-btn--<%= @tmpl[:content_guide].subject %>"
                data-no-turbolink="true"
-               href="<%= content_guide_path(@tmpl[:content]) %>"
+               href="<%= @tmpl[:url] %>"
                target="_blank">
               View Full Guide
             </a>
@@ -30,7 +30,7 @@
     <% elsif @tmpl[:type] == DocTemplate::Tags::PdTag::TYPE_PDF %>
       <div class="o-ld-pd-pdf">
         <div class="o-ld-pd-pdf__wrapper">
-          <div class="o-ld-pd-pdf__object" data-url="<%= @tmpl[:content] %>">
+          <div class="o-ld-pd-pdf__object" data-url="<%= @tmpl[:url] %>">
         </div>
         <div class="o-ld-pd-pdf__overlay o-ld-pd-pdf__overlay-bg"></div>
         <div class="o-ld-pd-pdf__overlay o-ld-pd-pdf__overlay-icon"></div>
@@ -48,7 +48,7 @@
       <div class="o-ld-pd__video">
         <div class="c-cg-video">
           <div class="o-media-video">
-            <iframe allowfullscreen frameborder="0" height="315" src="<%= @tmpl[:content] %>" width="560"></iframe>
+            <iframe allowfullscreen frameborder="0" height="315" src="<%= @tmpl[:url] %>"></iframe>
           </div>
         </div>
       </div>
