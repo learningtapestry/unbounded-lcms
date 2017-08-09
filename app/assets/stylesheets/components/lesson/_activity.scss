@@ -15,12 +15,24 @@
     @include m(title) {
       @include add-gutter(margin, bottom, .5);
       display: block;
+
+      .o-ld-activity-foundational-skills & {
+        color: map-get($ub-ld-colorcodes, math-activity-foundational);
+      }
+    }
+
+    .o-ld-activity-foundational-skills & {
+      background-color: map-get($ub-ld-colorcodes, math-activity-foundational-guidance-bg);
     }
   }
 
   @include e(source) {
     @include add-gutter(padding, bottom, 1);
     display: block;
+
+    &.o-ld-activity-foundational-skills {
+      background-color: map-get($ub-ld-colorcodes, math-activity-foundational-bg);
+    }
 
     // TODO: comment for now, bc it's adding big gaps btw elements
     // p {
@@ -34,8 +46,22 @@
     // }
   }
 
+  @include e(title) {
+    .o-ld-activity-foundational-skills & {
+      color: map-get($ub-ld-colorcodes, math-activity-foundational);
+    }
+  }
+
   &.c-ld-toc {
     @include add-gutter(padding, top, 1);
     border-top: 4px solid map-get($ub-colorcodes, math-base);
+
+    .o-ld-activity-foundational-skills & {
+      border-top: 4px solid map-get($ub-ld-colorcodes, math-activity-foundational);
+    }
+  }
+
+  .o-ld-activity-foundational-skills & {
+    background-color: map-get($ub-ld-colorcodes, math-activity-foundational-bg);
   }
 }
