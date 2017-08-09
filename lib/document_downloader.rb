@@ -2,7 +2,7 @@ require 'google/apis/drive_v3'
 
 module DocumentDownloader
   class GDoc
-    GOOGLE_DRAWING_RE = %r{https?://docs\.google\.com/drawings/image[^"]*}i
+    GOOGLE_DRAWING_RE = %r{https?://docs\.google\.com/drawings/[^"]*}i
 
     def initialize(credentials, file_url, klass)
       @credentials = credentials
