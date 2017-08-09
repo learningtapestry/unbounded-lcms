@@ -5,26 +5,26 @@ require 'rails_helper'
 feature 'Admin users' do
   include EmailSpec::Helpers
 
-  given!(:admin) { create :admin }
+  given(:access_code) { create(:access_code).code }
+  given(:admin) { create :admin }
   given!(:user) { create :user, email: 'unbounded@unbounded.org' }
   given(:name) { Faker::Lorem.name }
   given(:email) { Faker::Internet.email }
   given(:reset_msg) { 'You will receive an email with instructions on how to reset your password in a few minutes. ×' }
 
-  background do
-    sign_in admin
-  end
+  background { sign_in admin }
 
   scenario 'new user with blank email' do
     navigate_to_new_user
 
     click_button 'Save'
-    expect(page.find('.input.error .error').text).to eq "can't be blank"
+    expect(page.all('.input.error .error').first.text).to eq "can't be blank"
   end
 
   scenario 'new user' do
     navigate_to_new_user
 
+    fill_in 'Access code', with: access_code
     fill_in 'Name', with: name
     fill_in 'Email', with: email
     click_button 'Save'
@@ -58,7 +58,8 @@ feature 'Admin users' do
     user.reload
     expect(current_path).to eq "/admin/users/#{user.id}/edit"
     expect(page.find('.callout.success').text).to include('saved successfully')
-    expect(user.email).to eq 'joe@unbounded.org'
+    expect(user.email).to eq 'unbounded@unbounded.org'
+    expect(user.unconfirmed_email).to eq 'joe@unbounded.org'
     expect(user.name).to eq 'Joe Jonah'
   end
 
@@ -95,7 +96,7 @@ feature 'Admin users' do
     click_link 'Forgot your password?'
     expect(current_path).to eq '/users/password/new'
 
-    fill_in 'Email', with: user.email
+    fill_in 'user_email', with: user.email
     click_button 'Send me reset password instructions'
     expect(current_path).to eq '/users/sign_in'
     expect(find('.callout.success').text).to eq reset_msg
@@ -105,8 +106,8 @@ feature 'Admin users' do
     new_password_link = URI.extract(email.body.raw_source).first
     password = Faker::Internet.password
     visit new_password_link
-    fill_in 'New password', with: password
-    fill_in 'Confirm new password', with: password
+    fill_in 'user_password', with: password
+    fill_in 'user_password_confirmation', with: password
     click_button 'Change my password'
 
     expect(current_path).to eq '/explore_curriculum'

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   resources :resources, only: :show do
     get :pdf_proxy, on: :collection, path: 'pdf-proxy'
   end
+  resource :survey, only: %i(create show)
 
   get '/resources/:id/related_instruction' => 'resources#related_instruction', as: :related_instruction
   get '/media/:id' => 'resources#media', as: :media
@@ -93,6 +94,7 @@ Rails.application.routes.draw do
     resources :documents, only: %i(index create new destroy)
     resources :materials, only: %i(index create new destroy)
     resource :curriculum, only: %i(edit update)
+    resources :access_codes
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug

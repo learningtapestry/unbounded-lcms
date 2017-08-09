@@ -25,12 +25,20 @@ en:
         What level are your ELL students in:
       text_label: Search
   devise:
+    confirmations:
+      create:
+        page_title: UnboundEd - Confirmation Instructions
+      new:
+        page_title: UnboundEd - Confirmation Instructions
     passwords:
+      create:
+        page_title: UnboundEd - Forgot Your Password?
+      edit:
+        page_title: UnboundEd - Change Password
       new:
-        page_title: Forgot Your Password?
-    registrations:
-      new:
-        page_title: UnboundEd - Sign Up
+        page_title: UnboundEd - Forgot Your Password?
+      update:
+        page_title: UnboundEd - Change Password
     sessions:
       new:
         page_title: UnboundEd - Log In
@@ -74,6 +82,11 @@ en:
       page_title: UnboundEd - Page Not Found
   preview:
     back: View Details
+  registrations:
+    create:
+      page_title: UnboundEd - Create Account
+    new:
+      page_title: UnboundEd - Create Account
   resources:
     media:
       related_guides_subtitle: Guides that feature this %{type} will appear in this section.
@@ -87,6 +100,11 @@ en:
       per_page: results per page
       search_for: Search for…
       show: Show
+  surveys:
+    create:
+      page_title: UnboundEd - Survey
+    show:
+      page_title: UnboundEd - Survey
   welcome:
     index:
       page_title: UnboundEd

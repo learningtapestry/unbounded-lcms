@@ -32,26 +32,19 @@ class EnhanceInstructionPage extends React.Component {
     return this.state.tabs;
   }
 
-  createQuery(newState) {
+  fetch(newState) {
     const tab = newState.activeTab;
-    const current_page =  newState.current_page || newState.tabs[tab].current_page;
-
-    return {
-      format: 'json',
+    const current_page = newState.current_page || newState.tabs[tab].current_page;
+    const url = Routes.enhance_instruction_index_path({
       per_page: newState.per_page,
       order: newState.order,
       page: current_page,
       tab: tab,
       ...newState.filterbar
-    };
-  }
-
-  fetch(newState) {
-    const query = this.createQuery(newState);
-    const url = Routes.enhance_instruction_index_path(query);
-    fetch(url).then(r => r.json()).then(response => {
-      this.setState(this.buildStateFromProps(response));
     });
+    return $.getJSON(url).then(x => {
+      this.setState(this.buildStateFromProps(x))
+    })
   }
 
   handlePageClick(data) {

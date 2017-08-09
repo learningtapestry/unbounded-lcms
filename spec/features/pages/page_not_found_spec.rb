@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 feature 'Page Not Found' do
+  background { sign_in create(:user) }
+
   scenario '404 page' do
     assert_not_found '/404'
   end

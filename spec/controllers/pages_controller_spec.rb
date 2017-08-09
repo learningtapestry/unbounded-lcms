@@ -5,6 +5,8 @@ require 'rails_helper'
 describe PagesController do
   before(:all) { Rake::Task['db:seed:pages'].invoke }
 
+  before { sign_in create :user }
+
   xdescribe 'about page' do
     before { get :show_slug, slug: 'about' }
     it { expect(response).to be_success }
