@@ -5,7 +5,7 @@
       <div class="u-hr-small u-margin-bottom--xlarge"></div>
 
       <%= form_for(resource, as: resource_name, url: user_confirmation_path, html: { method: :post }) do |f| %>
-        <%= f.email_field :email, autofocus: true, class: 'o-input-placehoder--gray' + (resource.errors[:access_code].present? ? ' o-input-error' : ''), placeholder: 'Enter your email', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+        <%= f.email_field :email, autofocus: true, class: 'o-input-placehoder--medium-gray' + (resource.errors[:access_code].present? ? ' o-input-error' : ''), placeholder: 'Enter your email', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
         <% if resource.errors[:email].present? %>
           <p class="cs-txt-link--error">
             Email <%= resource.errors[:email].first %>

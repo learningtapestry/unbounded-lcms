@@ -1,8 +1,10 @@
-<div class="callout warning">
-  Thanks for registering!
-  <br>
-  Before you can access the beta, please answer a few brief questions to help us better serve you
-</div>
+<% content_for :above_flash do %>
+  <div class="callout warning">
+    Thanks for registering!
+    <br>
+    Before you can access the beta, please answer a few brief questions to help us better serve you
+  </div>
+<% end %>
 
 <div class="o-page">
   <div class="o-page__content u-pd-content">
@@ -17,10 +19,10 @@
       <%= form_for(@form, url: survey_path) do |f| %>
         <div class="row">
           <div class="medium-6 small-12 columns">
-            <%= f.text_field :first_name, autofocus: true, class: 'o-input-placehoder--gray' + (@form.errors[:first_name].present? ? ' o-input-error' : ''), placeholder: 'Enter First Name *' %>
+            <%= f.text_field :first_name, autofocus: true, class: 'o-input-placehoder--medium-gray' + (@form.errors[:first_name].present? ? ' o-input-error' : ''), placeholder: 'Enter First Name *' %>
           </div>
           <div class="medium-6 small-12 columns">
-            <%= f.text_field :last_name, autofocus: true, class: 'o-input-placehoder--gray' + (@form.errors[:last_name].present? ? ' o-input-error' : ''), placeholder: 'Enter Last Name *' %>
+            <%= f.text_field :last_name, autofocus: true, class: 'o-input-placehoder--medium-gray' + (@form.errors[:last_name].present? ? ' o-input-error' : ''), placeholder: 'Enter Last Name *' %>
           </div>
         </div>
         <div class="row">
@@ -40,7 +42,7 @@
         </div>
         <div class="row">
           <div class="medium-12 columns">
-            <%= f.number_field :number_of_minutes, class: 'o-input-placehoder--gray' + (@form.errors[:number_of_minutes].present? ? ' o-input-error' : ''), placeholder: 'Select Number of Minutes In a Core Class Perios / Block *' %>
+            <%= f.number_field :number_of_minutes, class: 'o-input-placehoder--medium-gray' + (@form.errors[:number_of_minutes].present? ? ' o-input-error' : ''), placeholder: 'Select Number of Minutes In a Core Class Perios / Block *' %>
           </div>
         </div>
         <div class="row">

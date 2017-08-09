@@ -5,7 +5,7 @@
       <div class="u-hr-small u-margin-bottom--xlarge"></div>
 
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-        <%= f.email_field :email, autofocus: true, class: 'o-input-placehoder--gray' + (resource.errors[:access_code].present? ? ' o-input-error' : ''), placeholder: 'Enter your email' %>
+        <%= f.email_field :email, autofocus: true, class: 'o-input-placehoder--medium-gray' + (resource.errors[:access_code].present? ? ' o-input-error' : ''), placeholder: 'Enter your email' %>
         <% if resource.errors[:email].present? %>
           <p class="cs-txt-link--error">
             Email <%= resource.errors[:email].first %>
