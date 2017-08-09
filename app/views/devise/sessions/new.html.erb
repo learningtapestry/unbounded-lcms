@@ -1,8 +1,10 @@
-<div class="callout warning">
-  Welcome to UnboundEd Beta!
-  <br>
-  To access the beta site for the first time, you’ll need to register; if you’ve already completed the registration process, simply log in.
-</div>
+<% content_for :above_flash do %>
+  <div class="callout warning">
+    Welcome to UnboundEd Beta!
+    <br>
+    To access the beta site for the first time, you’ll need to register; if you’ve already completed the registration process, simply log in.
+  </div>
+<% end %>
 
 <div class="o-page">
   <div class="o-page__content u-pd-content">
@@ -11,8 +13,8 @@
       <div class="u-hr-small u-margin-bottom--xlarge"></div>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <%= f.email_field :email, autofocus: true, class: 'o-input-placehoder--gray', placeholder: 'Enter email address' %>
-        <%= f.password_field :password, autocomplete: 'off', class: 'o-input-placehoder--gray', placeholder: 'Enter password' %>
+        <%= f.email_field :email, autofocus: true, class: 'o-input-placehoder--medium-gray', placeholder: 'Enter email address' %>
+        <%= f.password_field :password, autocomplete: 'off', class: 'o-input-placehoder--medium-gray', placeholder: 'Enter password' %>
         <div class="u-margin-top--xlarge">
           <%= f.submit 'Log in', class: 'o-btn o-btn--xs-full o-btn--yellow o-btn--xs-full' %>
           <%= link_to 'Register', new_registration_path(resource_name), class: 'o-btn o-btn--xs-full o-btn--bordered-yellow u-color--base u-margin-left--base o-btn--xs-full' %>
