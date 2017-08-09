@@ -19,7 +19,21 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = {
+    host: ENV['UNBOUNDED_DOMAIN']
+  }
+
+  config.action_mailer.delivery_method = ENV['ACTION_MAILER_DELIVERY_METHOD']
+
+  config.action_mailer.smtp_settings = {
+    address: ENV['AWS_SES_SERVER_NAME'],
+    port: 587,
+    domain: ENV['UNBOUNDED_DOMAIN'],
+    user_name: ENV['AWS_SES_USER_NAME'],
+    password: ENV['AWS_SES_PASSWORD'],
+    authentication: :login,
+    enable_starttls_auto: true
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
