@@ -1,7 +1,7 @@
 .o-input-placehoder {
-  @include m(gray) {
+  @include m(medium-gray) {
     &::placeholder {
-      color: map-get($ub-txt-colors, gray);
+      color: map-get($ub-txt-colors, medium-gray);
     }
   }
 }
