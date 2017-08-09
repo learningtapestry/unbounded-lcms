@@ -29,6 +29,7 @@ module DocTemplate
         # aliases to build toc
         attribute :active, Boolean, default: false
         attribute :anchor, String, default: ->(s, _) { "#{s.idx} #{s.title}".parameterize }
+        attribute :icon, String
         attribute :idx, Integer
         attribute :level, Integer, default: 2
         attribute :time, Integer, default: ->(s, _) { s.metadata.time }
@@ -58,10 +59,12 @@ module DocTemplate
         agenda_data =
           data.map do |d|
             d[:children].each do |s|
-              s[:metadata]['time'] = s[:metadata]['time'].to_s[/\d+/].to_i || 0
-              use_color = s[:metadata]['color']
+              m = s[:metadata]
+              s[:icon] = m['icon']
+              s[:material_ids] = m['material_ids']
+              m['time'] = m['time'].to_s[/\d+/].to_i || 0
+              use_color = m['color']
               s[:use_color] = use_color.present? ? use_color.casecmp('yes').zero? : false
-              s[:material_ids] = s[:metadata]['material_ids']
             end
             d.deep_merge(metadata: { time: d[:children].sum { |s| s[:metadata]['time'] } })
           end
