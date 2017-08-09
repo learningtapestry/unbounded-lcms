@@ -39,7 +39,7 @@ class MaterialForm
         metadata: parsed_document.meta_options[:metadata]
       )
 
-      DocumentPdfGenerator.documents_of(material)
+      MaterialEmbedEquationsJob.perform_later(material)
     else
       errors.add(:link, "Material metadata table not present!  (#{link})")
     end
