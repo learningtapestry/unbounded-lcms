@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ExploreCurriculumController do
+  before { sign_in create(:user) }
+
   describe '#index' do
     before do
       build_resources_chain ['ela', 'grade 2', 'module 1', 'unit 1', 'lesson 10']

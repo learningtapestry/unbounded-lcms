@@ -8,7 +8,7 @@
 
 <div class="c-ld-page-header cs-bg--<%= @document.color_code_grade %>">
   <div class="o-page">
-    <%if user_signed_in? %>
+    <% if current_user&.admin? %>
       <div class="o-page__module u-margin-bottom--gutter">
         <%= link_to [:admin, :documents], class: 'o-ub-ld-btn o-ub-ld-btn--bordered' do %>
           Go to Lessons Admin

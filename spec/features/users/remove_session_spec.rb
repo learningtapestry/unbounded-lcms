@@ -5,25 +5,25 @@ require 'rails_helper'
 feature 'Remove Session' do
   given(:email) { Faker::Internet.email }
   given(:password) { Faker::Internet.password }
-  given!(:admin) { create :admin, email: email, password: password, password_confirmation: password }
+  given(:admin) { create :admin, email: email, password: password, password_confirmation: password }
 
   scenario 'remove session' do
     visit '/'
-    expect(has_cookie? '_content_session').to be false
+    expect(has_cookie? '_content_session').to be true
 
     visit '/admin'
-    assert '/users/sign_in', current_path
+    expect(current_path).to eq new_user_session_path
 
-    fill_in 'Email', with: email
-    fill_in 'Password', with: password
+    fill_in 'user_email', with: admin.email
+    fill_in 'user_password', with: admin.password
     click_on 'Log in'
-    expect(current_path).to eq '/explore_curriculum'
+    expect(current_path).to eq '/admin'
     expect(has_cookie? '_content_session').to be true
 
     visit '/admin'
     click_on 'Sign out'
-    expect(current_path).to eq '/explore_curriculum'
-    expect(has_cookie? '_content_session').to be false
+    expect(current_path).to eq new_user_session_path
+    expect(has_cookie? '_content_session').to be true
   end
 
   def has_cookie?(name)

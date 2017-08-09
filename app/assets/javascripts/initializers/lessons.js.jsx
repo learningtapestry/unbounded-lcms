@@ -147,6 +147,8 @@ $(function () {
     };
 
     eachNode('a[data-pdftype]', link => {
+      link.dataset.excludes = '';
+
       link.addEventListener('click', e => {
         let excludesString = tagsExcluded.join(',');
         if (link.dataset.excludes === excludesString) return;

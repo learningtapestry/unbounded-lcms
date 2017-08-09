@@ -56,21 +56,14 @@ class ResourcePickerWindow extends React.Component {
     this.fetchAndUpdate();
   }
 
-  createQuery(state = this.state) {
-    return {
-      format: 'json',
+  fetch(state = this.state) {
+    return $.getJSON(Routes.admin_resource_picker_path({
       page: state.pagination.current_page,
       type: state.type,
       subject: state.subject,
       grade: state.grade,
       q: state.q
-    };
-  }
-
-  fetch(state = this.state) {
-    const query = this.createQuery(state);
-    const url = Routes.admin_resource_picker_path(query);
-    return fetch(url, {credentials: 'same-origin'}).then(r => r.json());
+    }));
   }
 
   fetchAndUpdate(state = this.state) {

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe EnhanceInstructionController do
+  before { sign_in create(:user) }
+
   describe '#index' do
     before { get :index }
 

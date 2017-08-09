@@ -35,3 +35,15 @@ en:
     ela: ELA
     math: Math
     lead: Lead
+  survey:
+    first_name: First Name
+    last_name: Last Name
+    district_or_system: District / School System
+    subject_or_grade: Subject / Grade Taught This Year
+    number_of_minutes: Number of Minutes In a Core Class Perios / Block
+    additional_period: Additional instructional period for students who need more academic support
+    prior_experience: Prior experience using EngageNY, Eureka, Expeditionary Learning, or Core Knowledge
+
+  registrations:
+    access_code:
+      error: The code is invalid. Please try another
