@@ -75,7 +75,7 @@ class DocumentForm
     end
 
     @document.activate!
-    DocumentPdfGenerator.materials_for(@document)
+    DocumentEmbedEquationsJob.perform_later(@document)
   rescue => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)
