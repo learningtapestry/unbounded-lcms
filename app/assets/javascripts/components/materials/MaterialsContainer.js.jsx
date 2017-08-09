@@ -38,7 +38,7 @@ class MaterialsContainer extends React.Component {
 
     return (
       <div className={`u-padding-bottom--gutter o-page__section o-material-wrapper o-material-wrapper--${subject}`}>
-        <div className={clsTitle}>Material(s)</div>
+        <div className={clsTitle}>Materials</div>
         { this.state.bExpanded ? (
           <div key={"key-m-wrap-expanded"} className="o-page__wrap--row">
             <Tabs tabActive={this.state.activeTab + 1} className="o-page__module">

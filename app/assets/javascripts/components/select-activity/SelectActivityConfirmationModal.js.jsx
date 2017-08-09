@@ -79,7 +79,7 @@ class SelectActivityConfirmationModal extends React.Component {
           <span className="js-text">{this.props.text}</span>
           <span className="u-margin-left--xs js-ellipsis">
             ...
-            <a className="cs-txt-link--dark-gold js-expand u-margin-left--xs" href="javascript:;">Learn More</a>
+            <a className="cs-txt-link--dark-gold js-expand u-margin-left--xs" href="javascript:;">Read More</a>
           </span>
         </p>
         <div className="u-text--right">
