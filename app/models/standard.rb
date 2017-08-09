@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Standard < ActiveRecord::Base
   ALT_NAME_REGEX = {
     'ela' => /^[[:alpha:]]+\.(k|pk|\d+)\.\d+(\.[[:alnum:]]+)?$/,
@@ -28,17 +30,10 @@ class Standard < ActiveRecord::Base
   scope :math, -> { where(subject: 'math') }
 
   def self.search_by_name(name)
-    # TODO: Need to check, possible SQL injection hole
-    find_by_sql(
-      <<-SQL
-        SELECT DISTINCT ON (id) *
-        FROM (
-          SELECT *, unnest(alt_names) alt_name FROM standards
-        ) x
-        WHERE (alt_name ILIKE '%#{name}%' OR name ILIKE '%#{name}%')
-        ORDER BY id ASC;
-      SQL
-    )
+    select('DISTINCT ON (id) *')
+      .from(select('*', 'unnest(standards.alt_names) as alt_name'))
+      .where('alt_name ILIKE :q OR name ILIKE :q', q: "%#{name}%")
+      .order('id')
   end
 
   def self.filter_ccss_standards(name, subject)
