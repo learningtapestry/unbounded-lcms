@@ -8,8 +8,7 @@ module DocTemplate
 
       class Activity
         include Virtus.model
-
-        SEPARATOR = /\s*[,;]\s*/
+        include DocTemplate::Objects::MetadataHelpers
 
         attribute :activity_type, String
         attribute :activity_title, String
@@ -36,17 +35,13 @@ module DocTemplate
         attribute :material_ids, Array[Integer], default: []
 
         def activity_standard_info
-          [activity_standard, activity_mathematical_practice]
-            .flat_map { |x| x.to_s.split(SEPARATOR) }
-            .map(&:strip)
-            .reject(&:blank?)
-            .uniq
-            .map { |x| { description: Standard.search_by_name(x).take&.description, standard: x } }
+          standard_info [activity_standard, activity_mathematical_practice]
         end
       end
 
       class Section
         include Virtus.model
+        include DocTemplate::Objects::MetadataHelpers
 
         attribute :children, Array[Activity]
         attribute :time, Integer, default: 0
@@ -57,6 +52,10 @@ module DocTemplate
         attribute :anchor, String, default: ->(a, _) { "#{a.idx} #{a.title}".parameterize }
         attribute :idx, Integer
         attribute :level, Integer, default: 1
+
+        def section_standard_info
+          standard_info lesson_standard
+        end
       end
 
       attribute :children, Array[Section]

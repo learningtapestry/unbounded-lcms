@@ -17,6 +17,7 @@ module DocTemplate
         params = {
           activity: activity,
           content: content,
+          foundational: opts[:foundational_skills],
           placeholder: placeholder_id,
           priority_description: priority_description(activity)
         }

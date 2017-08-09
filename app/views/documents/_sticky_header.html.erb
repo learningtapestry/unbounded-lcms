@@ -38,7 +38,7 @@
     <div class="c-sticky-header-dropdown__wrap">
       <div class="o-page">
         <div class="c-sticky-header-dropdown c-sticky-header-menu" id="ld-dropdown" data-toggler data-animate="fade-in fade-out">
-          <ul class="o-ld-sidebar__menu o-ld-unit-map--padding<%= document.resource.siblings.count >= 5 ? 5 : document.resource.siblings.count % 5 %>" data-accordion-menu data-slide-speed="200">
+          <ul class="o-ld-sidebar__menu doc-subject-<%= document.math? ? 'math' : 'ela' %> o-ld-unit-map--padding<%= document.resource.siblings.count >= 5 ? 5 : document.resource.siblings.count % 5 %>" data-accordion-menu data-slide-speed="200">
             <%= render 'nav_contents', document: document %>
           </ul>
         </div>
