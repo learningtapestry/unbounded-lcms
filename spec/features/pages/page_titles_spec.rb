@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'Page Titles' do
@@ -6,7 +8,7 @@ feature 'Page Titles' do
     expect(page.title).to include('UnboundEd')
   end
 
-  scenario 'about page' do
+  xscenario 'about page' do
     about = create(:page, :about)
     visit '/about'
     expect(page.title).to include(about.title)
