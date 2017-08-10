@@ -60,17 +60,31 @@ module DocTemplate
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def ela_teacher_guidance_allowed?
-      # only for G6 and G2 (except U1)
+      # only for G6 and G2
       # As stated on issue #240 and here https://github.com/learningtapestry/unbounded/pull/267#issuecomment-307870881
       g2 = @opts[:metadata]['grade'] == '2'
       g6 = @opts[:metadata]['grade'] == '6'
       return false unless g2 || g6
-      return false if g2 && @opts[:metadata]['unit'] == '1'
 
       # Additional filter for lessons
       # https://github.com/learningtapestry/unbounded/issues/311
+      # https://github.com/learningtapestry/unbounded/issues/240
+
+      # G2 Unit 1 apart from for Lessons: 6,10,11,12
+      g2_u1 = g2 && @opts[:metadata]['unit'] == '1'
+      return false if g2_u1 && %w(6 10 11 12).include?(@opts[:metadata]['lesson'])
+
+      # G2 Unit 2 apart from for Lessons: 8,16,17,18
       g2_u2 = g2 && @opts[:metadata]['unit'] == '2'
       return false if g2_u2 && %w(8 16 17 18).include?(@opts[:metadata]['lesson'])
+
+      # G2 Unit 3 apart from for Lessons: 8,14,15,16
+      g2_u3 = g2 && @opts[:metadata]['unit'] == '3'
+      return false if g2_u3 && %w(8 14 15 16).include?(@opts[:metadata]['lesson'])
+
+      # G2 Unit 4 apart from for Lessons: 8,13,14,15
+      g2_u4 = g2 && @opts[:metadata]['unit'] == '4'
+      return false if g2_u4 && %w(8 13 14 15).include?(@opts[:metadata]['lesson'])
 
       true
     end
