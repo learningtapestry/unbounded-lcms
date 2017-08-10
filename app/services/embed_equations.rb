@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EmbedEquations
   class << self
     def call(content)
