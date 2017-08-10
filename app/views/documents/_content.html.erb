@@ -5,7 +5,7 @@
         <%= render 'documents/nav', document: document %>
       </div>
     <% end %>
-    <div id="c-ld-content" class="c-ld__body c-ld__body--general">
+    <div id="c-ld-content" class="c-ld__body c-ld__body--general" <%= 'data-assessment' if document.assessment? %>>
       <% if document.description.present? %>
         <h2>Summary</h2>
         <p><%= raw document.description %></p>
