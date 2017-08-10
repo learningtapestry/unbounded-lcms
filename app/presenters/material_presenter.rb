@@ -27,6 +27,12 @@ class MaterialPresenter < ContentPresenter
     "#{lesson.subject.upcase} #{short_breadcrumb} #{short_title}"
   end
 
+  def name_date?
+    # toggle display of name-date row on the header
+    # https://github.com/learningtapestry/unbounded/issues/422
+    !metadata.name_date.to_s.casecmp('no').zero?
+  end
+
   def orientation
     config[:orientation]
   end
