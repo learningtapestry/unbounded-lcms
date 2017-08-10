@@ -22,8 +22,6 @@ module Content
     config.autoload_paths << Rails.root.join('lib')
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.action_mailer.delivery_method = :aws_sdk
-
     config.active_record.raise_in_transactional_callbacks = true
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
