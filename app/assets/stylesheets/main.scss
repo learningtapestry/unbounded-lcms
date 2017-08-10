@@ -1,4 +1,4 @@
-@charset 'utf-8';
+@charset "utf-8";
 
 @import
   'utils/variables',
@@ -16,6 +16,7 @@
   'font-awesome-sprockets',
   'font-awesome',
   'vendors/foundation_and_overrides',
+  'vendors/mathjax',
   'vendors/swiper';
 
 @import

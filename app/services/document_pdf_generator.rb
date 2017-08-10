@@ -12,6 +12,7 @@ class DocumentPdfGenerator
     end
 
     def documents_of(material)
+      material.update!(content: EmbedEquations.call(material.content))
       material.documents.each do |document|
         LessonGenerateMaterialsJob.perform_later document, material
       end
