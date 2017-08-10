@@ -64,7 +64,7 @@ describe DocumentForm do
         expect(LessonGenerateDocxJob).to receive(:perform_later).with(document)
       end
 
-      it 'queues job to generate PDF' do
+      it 'queues job to process equations' do
         expect(DocumentPdfGenerator).to receive(:materials_for).with(document)
       end
 

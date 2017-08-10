@@ -78,6 +78,13 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers
+    - source: /.cloud66/install_mathjax.sh
+      destination: /tmp/install_mathjax.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
+      run_on: all_servers
     # Grant access to precompiled assets
     - command: chown -R nginx:app_writers $STACK_PATH/tmp/cache/assets
       target: rails

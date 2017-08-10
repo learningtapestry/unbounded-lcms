@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
-PIDFILE=$STACK_PATH/tmp/pids/resque.pid
+# stop all existing
+for file in `ls $STACK_PATH/tmp/pids/resque*pid`; do
+  kill -QUIT `cat $file` &> /dev/null
+  rm $file
+done
 
-if [ -f "$PIDFILE" ]; then
-    kill -s QUIT `cat ${PIDFILE}`
-fi
+WORKERS_COUNT=4
 
-cd $STACK_PATH && PIDFILE=${PIDFILE} BACKGROUND=yes QUEUE=* bundle exec rake resque:work
+for i in $(seq 1 $WORKERS_COUNT); do
+  ( cd $STACK_PATH && PIDFILE=tmp/pids/resque-$i.pid BACKGROUND=yes QUEUE=* bundle exec rake resque:work ) &
+done
