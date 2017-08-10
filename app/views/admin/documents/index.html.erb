@@ -16,6 +16,7 @@
         <th>Curriculum
         <th>Resource
         <th>File Name
+        <th>Materials
         <th>Last Update
         <th>Status
         <th>
@@ -29,6 +30,7 @@
           <td><%= Breadcrumbs.new(lesson.resource).short_title if lesson.resource %>
           <td><%= link_to lesson.resource.try(:title), lesson.resource if lesson.resource %>
           <td><%= link_to lesson.name, lesson.file_url, target: '_blank' %>
+          <td><%= document_materials_links(lesson) %>
           <td><%= lesson.updated_at.to_s %>
           <td><%= lesson.active? ? 'active' : 'inactive' %>
           <td><%= link_to content_tag(:i, nil, class: 'fa fa-eye').html_safe, [lesson], class: 'button small primary', target: '_blank', title: 'show lesson' %>

@@ -251,6 +251,7 @@ en:
         new_material: Add new Material
         title: Material Manager
       create:
+        bulk_import: Imported %{count} Materials from %{folder}"
         error: Error
         success: Material %{name} parsed successfully.
       new:
