@@ -19,17 +19,19 @@ class FindLessonsPage extends React.Component {
   }
 
   fetch(newState) {
-    return $.getJSON(Routes.find_lessons_path({
+    const url = Routes.find_lessons_path({
       per_page: newState.per_page,
       order: newState.order,
       page: newState.current_page,
       ...newState.filterbar
-    })).then(response => {
+    });
+
+    return $.getJSON(url).then(response => {
       if (window.ga) {
-        ga('send', 'pageview', url)
+        ga('send', 'pageview', url);
       }
-      this.setState(this.buildStateFromProps(response))
-    })
+      this.setState(this.buildStateFromProps(response));
+    });
   }
 
   handlePageClick(data) {
