@@ -204,7 +204,7 @@ $(function () {
   window.initializeLessons = function() {
     if (!$('.o-page--ld').length) return;
     initPd();
-    initSelects();
+    if (!document.querySelector('#c-ld-content[data-assessment]')) initSelects();
     initSidebar();
     initToggler('expand');
     initToggler('materials');
