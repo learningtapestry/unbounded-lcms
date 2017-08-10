@@ -33,10 +33,6 @@ module DocumentExporter
         end
       end
 
-      def template_path(name)
-        File.join('documents', 'pdf', name)
-      end
-
       private
 
       def pdf_custom_params
@@ -67,6 +63,10 @@ module DocumentExporter
           layout: layout,
           locals: { document: @document, options: @options }
         )
+      end
+
+      def template_path(name)
+        File.join('documents', 'pdf', name)
       end
     end
   end

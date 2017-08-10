@@ -43,6 +43,7 @@
             <%= @tmpl[:content] %>
           </div>
         </div>
+        <div class="o-ld-pd__audio-placeholder"></div>
       </div>
     <% elsif @tmpl[:type] == DocTemplate::Tags::PdTag::TYPE_YOUTUBE %>
       <div class="o-ld-pd__video">
@@ -51,6 +52,7 @@
             <iframe allowfullscreen frameborder="0" height="315" src="<%= @tmpl[:url] %>"></iframe>
           </div>
         </div>
+        <div class="o-ld-pd__video-placeholder"></div>
       </div>
     <% end %>
 
