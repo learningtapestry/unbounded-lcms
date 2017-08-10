@@ -79,7 +79,7 @@ module DocTemplate
       parse_tables body_fragment
 
       @document = DocTemplate::Document.parse(body_fragment, meta_options)
-      sanitized_layout = HtmlSanitizer.post_processing(@document.render, @metadata.data['subject'])
+      sanitized_layout = HtmlSanitizer.post_processing(@document.render, @metadata.data['subject'], material: material?)
       @document.parts << {
         content: sanitized_layout,
         materials: [],
