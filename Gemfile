@@ -136,6 +136,10 @@ gem 'thor', '0.19.1'
 gem 'nikkou', '~> 0.0.5'
 gem 'nokogiri', '~> 1.6.0'
 
+group :development, :staging do
+  gem 'mailcatcher', require: false
+end
+
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'faker'

@@ -82,8 +82,6 @@ Rails.application.configure do
     host: ENV['UNBOUNDED_DOMAIN']
   }
 
-  config.action_mailer.delivery_method = ENV['ACTION_MAILER_DELIVERY_METHOD']
-
   config.action_mailer.smtp_settings = {
     address: ENV['AWS_SES_SERVER_NAME'],
     port: 587,

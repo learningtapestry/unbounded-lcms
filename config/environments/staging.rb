@@ -82,17 +82,7 @@ Rails.application.configure do
     host: ENV['UNBOUNDED_DOMAIN']
   }
 
-  config.action_mailer.delivery_method = ENV['ACTION_MAILER_DELIVERY_METHOD']
-
-  config.action_mailer.smtp_settings = {
-    address: ENV['AWS_SES_SERVER_NAME'],
-    port: 587,
-    domain: ENV['UNBOUNDED_DOMAIN'],
-    user_name: ENV['AWS_SES_USER_NAME'],
-    password: ENV['AWS_SES_PASSWORD'],
-    authentication: :login,
-    enable_starttls_auto: true
-  }
+  config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
