@@ -3,9 +3,9 @@ activity-metadata-section:
     - ActivityMetadataSectionTag
 activity-metadata-type:
   priority_descriptions:
-    - 'This part of the lesson is tightly connected to the lesson objective; avoid skipping this.'
-    - 'This part of the lesson is less tightly connected to the lesson objective and can be skipped if running short on time. It might be designed as an extension or to ensure maintenance of prior skills.'
-    - 'This part of the lesson is not connected to the lesson objective and can be skipped if running short on time. It might be designed in anticipation of upcoming learning.'
+    - 'This is a Priority 1 activity that should not be skipped. It is tightly connected to the lesson objective.'
+    - 'This is a Priority 2 activity that can be skipped if running short on time. It is less tightly connected to the lesson objective. It might be designed as an extension or to ensure maintenance of prior skills.'
+    - 'This is a Priority 3 activity that can be skipped if running short on time. It is not connected to the lesson objective. It might be designed in anticipation of upcoming learning.'
   stop_tags:
     - ActivityMetadataSectionTag
     - ActivityMetadataTypeTag
