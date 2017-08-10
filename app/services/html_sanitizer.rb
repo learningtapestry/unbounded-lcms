@@ -8,7 +8,8 @@ class HtmlSanitizer
       Sanitize::CSS.stylesheet(css, css_config)
     end
 
-    def post_processing(html, subject)
+    def post_processing(html, subject, options = {})
+      @options = options
       nodes = Nokogiri::HTML.fragment html
 
       # removes all style attributes allowed earlier
@@ -104,6 +105,8 @@ class HtmlSanitizer
       nodes
         .xpath('//table//img/..')
         .add_class('u-ld-not-image-wrap')
+
+      return if @options[:material]
 
       nodes
         .css(':not(.u-ld-not-image-wrap) > img:not([src*=googleapis])')
