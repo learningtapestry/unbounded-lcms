@@ -120,7 +120,7 @@ class DocumentPresenter < ContentPresenter
 
   def title
     title = ld_metadata&.title
-    resource&.prerequisite? ? "Prerequisite #{title}" : title
+    resource&.prerequisite? ? "Prerequisite -  #{title}" : title
   end
 
   def teaser
