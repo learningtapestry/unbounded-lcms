@@ -98,6 +98,13 @@ production: &production
       execute: true
       apply_during: all
       run_on: all_servers
+    - source: /.cloud66/setup-services.sh
+      destination: /tmp/setup-services.sh
+      target: rails
+      execute: true
+      apply_during: all
+      run_on: all_servers
+      sudo: true
 
 staging:
   <<: *production
@@ -107,6 +114,7 @@ staging:
       execute: true
       run_on: all_servers
       apply_during: all
+
 development:
   <<: *production
   after_symlink:

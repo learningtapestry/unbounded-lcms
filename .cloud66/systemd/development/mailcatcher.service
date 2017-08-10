@@ -1,0 +1,13 @@
+[Service]
+EnvironmentFile=$ENVFILE
+ExecStart=$STACK_PATH/bin/bundle exec mailcatcher --foreground
+WorkingDirectory=$STACK_PATH
+
+User=cloud66-user
+Group=cloud66-user
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
