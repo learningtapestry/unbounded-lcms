@@ -7,8 +7,9 @@ module DocumentExporter
         pdf = CombinePDF.new
 
         scope = @document.materials
-                  .where(id: included_materials)
                   .where_metadata('sheet_type': 'student')
+
+        scope = scope.where(id: included_materials) if @options[:excludes].present?
 
         scope.each do |material|
           url = @document.links['materials']&.dig(material.id.to_s, 'url')
