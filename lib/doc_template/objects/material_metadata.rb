@@ -8,6 +8,7 @@ module DocTemplate
 
       attribute :breadcrumb_level, String, default: 'lesson'
       attribute :identifier, String, default: ''
+      attribute :name_date, String
       attribute :sheet_type, String, default: 'student'
       attribute :subject, String, default: ''
       attribute :title, String, default: ''
