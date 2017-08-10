@@ -9,8 +9,8 @@
 
   @include m(small) {
     @include icon-dim(12px);
+    margin-top: -.2rem;
     vertical-align: middle;
-    margin-top: -0.2rem;
   }
 
   @include m(base) {
@@ -21,6 +21,23 @@
   @for $i from 1 through 3 {
     @include m('priority#{$i}') {
       background-image: asset-url('ld_p#{$i}.svg');
+    }
+  }
+}
+
+$icons: (tens);
+
+.o-m-icon {
+  background-size: contain;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+}
+
+@each $icon in $icons {
+  .o-m-icon {
+    @include m($icon) {
+      background-image: asset-data-url("lessons/#{$icon}.png");
     }
   }
 }
