@@ -16,6 +16,6 @@ class MaterialSerializer < ActiveModel::Serializer
   private
 
   def s3_filename
-    "https://#{ENV['AWS_S3_BUCKET_NAME']}.s3.amazonaws.com/#{pdf_filename}"
+    URI.escape "https://#{ENV['AWS_S3_BUCKET_NAME']}.s3.amazonaws.com/#{pdf_filename}"
   end
 end
