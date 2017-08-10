@@ -4,6 +4,8 @@
 
   <h1 class="text-center"><%= t('.title') %></h1>
 
+  <%= render 'search_form' %>
+
   <div class="row">
     <div class="flex-pull-right">
       <%= link_to t('.new_material'), :new_admin_material, class: 'button primary' %>
