@@ -3,17 +3,17 @@
 class LessonGenerateMaterialsJob < ActiveJob::Base
   queue_as :default
 
-  after_perform do |job|
-    DocumentPdfGenerator.documents(job.arguments.first)
-  end
-
   def perform(document, material = nil)
-    document = DocumentPresenter.new document
     if material.present?
       generate_material(document, material)
     else
+      document.document_parts.each do |part|
+        part.update!(content: EmbedEquations.call(part.content))
+      end
       document.materials.each { |m| generate_material(document, m) }
     end
+
+    DocumentPdfGenerator.documents(document)
   end
 
   private
@@ -24,6 +24,7 @@ class LessonGenerateMaterialsJob < ActiveJob::Base
   end
 
   def generate_material(document, material)
+    document = DocumentPresenter.new document
     material = MaterialPresenter.new material, lesson: document
     pdf_filename, thumb_filename = material_filenames(material)
     pdf = DocumentExporter::PDF::Material.new(material).export

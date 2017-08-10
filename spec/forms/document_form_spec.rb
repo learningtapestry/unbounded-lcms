@@ -65,7 +65,7 @@ describe DocumentForm do
       end
 
       it 'queues job to process equations' do
-        expect(DocumentEmbedEquationsJob).to receive(:perform_later).with(document)
+        expect(DocumentPdfGenerator).to receive(:materials_for).with(document)
       end
 
       after { subject }
