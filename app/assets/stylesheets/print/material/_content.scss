@@ -1,9 +1,14 @@
 .o-m-content {
   @include e(base) {
   }
+
+  @include e(vertical-text) {
+    @extend %u-txt--vertical;
+  }
 }
 
-.u-txt--vertical {
+.u-txt--vertical,
+%u-txt--vertical {
   transform: rotate(-90deg) translate(-100%, 0);
   transform-origin: 0 0;
 }

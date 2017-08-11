@@ -70,6 +70,10 @@ class MaterialPresenter < ContentPresenter
     metadata.breadcrumb_level == 'unit'
   end
 
+  def vertical_text?
+    metadata.vertical_text.present?
+  end
+
   private
 
   def document_parts_index

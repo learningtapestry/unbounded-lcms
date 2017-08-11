@@ -13,6 +13,7 @@ module DocTemplate
       attribute :subject, String, default: ''
       attribute :title, String, default: ''
       attribute :type, String, default: 'default'
+      attribute :vertical_text, String
 
       class << self
         def build_from(data)
