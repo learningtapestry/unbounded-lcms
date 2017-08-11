@@ -102,12 +102,14 @@ class MetadataContext
 
   def lesson
     @lesson ||= begin
-      num = if ela? && prerequisite?
+      num = if assessment?
+              nil # assessment is a unit now, so lesson need to be nil
+            elsif ela? && prerequisite?
               RomanNumerals.to_roman(ctx[:lesson].to_i)&.downcase
             else
-              ctx[:lesson]
+              ctx[:lesson].presence
             end
-      "lesson #{num}"
+      "lesson #{num}" if num.present?
     end
   end
 
