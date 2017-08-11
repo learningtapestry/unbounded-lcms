@@ -1,5 +1,8 @@
 .o-m-content {
   @include e(base) {
+    @include m(padded) {
+      padding-left: 3rem;
+    }
   }
 
   @include e(vertical-text) {
@@ -9,6 +12,7 @@
 
 .u-txt--vertical,
 %u-txt--vertical {
+  line-height: normal;
   transform: rotate(-90deg) translate(-100%, 0);
   transform-origin: 0 0;
 }
