@@ -8,6 +8,14 @@
   }
 }
 
+.o-ld-activity-foundational-skills {
+  .o-material-wrapper {
+    @include m(math) {
+      background-color: map-get($ub-ld-colorcodes, math-activity-foundational-bg);
+    }
+  }
+}
+
 .o-m-title {
   @include m(underlined) {
     border-bottom: 1px solid $ub-hr;
