@@ -19,12 +19,9 @@ class LessonGeneratePdfJob < ActiveJob::Base
 
     return if options[:excludes].present?
 
-    document.update links: document.links.merge(pdf_key(options[:pdf_type]) => url)
-  end
-
-  private
-
-  def pdf_key(type)
-    type == 'full' ? 'pdf' : "pdf_#{type}"
+    key = DocumentExporter::PDF::BasePDF.pdf_key options[:pdf_type]
+    document.with_lock do
+      document.update links: document.reload.links.merge(key => url)
+    end
   end
 end
