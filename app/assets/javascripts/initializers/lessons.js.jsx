@@ -113,7 +113,7 @@ $(function () {
       updateGroup(item.parent);
 
       setTimeout(() => {
-        $('.o-ld-sidebar__item.o-ld-sidebar-break').toggle(tagsExcluded.length === 0);
+        $('.doc-subject-ela .o-ld-sidebar__item.o-ld-sidebar-break').toggle(tagsExcluded.length === 0);
       });
     };
 
