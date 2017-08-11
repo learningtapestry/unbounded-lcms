@@ -3,6 +3,10 @@
 module DocumentExporter
   module PDF
     class BasePDF
+      def self.pdf_key(type)
+        type == 'full' ? 'pdf' : "pdf_#{type}"
+      end
+
       def initialize(document, options = {})
         @document = document
         @options = options

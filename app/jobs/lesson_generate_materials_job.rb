@@ -5,6 +5,7 @@ class LessonGenerateMaterialsJob < ActiveJob::Base
 
   def perform(document, material = nil)
     if material.present?
+      material.update!(content: EmbedEquations.call(material.content))
       generate_material(document, material)
     else
       document.document_parts.each do |part|
