@@ -12,7 +12,7 @@ class DocumentsController < ApplicationController
   end
 
   def export_status
-    job_class = params[:context] == 'pdf' ? LessonGeneratePdfJob : LessonGenerateGdocJob
+    job_class = params[:context] == 'pdf' ? DocumentGeneratePdfJob : DocumentGenerateGdocJob
     job = job_class.find(params[:jid])
     data = { ready: job.nil? }
     data = data.merge(url: @doc.tmp_link(params[:key])) if params[:key]
@@ -49,7 +49,7 @@ class DocumentsController < ApplicationController
       gdoc_folder: folder,
       content_type: type
     }
-    job_id = LessonGenerateGdocJob.perform_later(@doc, options).job_id
+    job_id = DocumentGenerateGdocJob.perform_later(@doc, options).job_id
 
     render json: { id: job_id, key: folder }, status: :ok
   end
@@ -68,7 +68,7 @@ class DocumentsController < ApplicationController
       filename: filename,
       content_type: type
     }
-    job_id = LessonGeneratePdfJob.perform_later(@doc, options).job_id
+    job_id = DocumentGeneratePdfJob.perform_later(@doc, options).job_id
 
     render json: { id: job_id, url: url }, status: :ok
   end

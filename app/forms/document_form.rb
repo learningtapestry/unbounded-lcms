@@ -57,10 +57,6 @@ class DocumentForm
       toc: parsed_document.toc
     )
 
-    # avoid duplication by deleting all the parts of a document first
-    # TODO: this must change when we introduce layouts and composition where a
-    # part does not related to a document but to a layout which is then related
-    # to a document
     @document.document_parts.delete_all
 
     parsed_document.parts.each do |part|
@@ -76,7 +72,8 @@ class DocumentForm
     end
 
     @document.activate!
-    DocumentGenerator.materials_for(@document)
+
+    DocumentGenerator.generate_for(@document)
   rescue => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)
