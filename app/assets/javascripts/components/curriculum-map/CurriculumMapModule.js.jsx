@@ -19,7 +19,7 @@ class CurriculumMapModule extends React.Component {
                                  {[`${props.mapType}-bg--base`]: !isActive,
                                   [`${props.mapType}-bg--${props.colorCode} ${props.mapType}-bg--active`]: isActive });
 
-    const units = curriculum.children.map(
+    const units = isActive ? curriculum.children.map(
       unit => <CurriculumMapUnit key={unit.resource.id}
                                  curriculum={unit}
                                  colorCode={props.colorCode}
@@ -27,7 +27,7 @@ class CurriculumMapModule extends React.Component {
                                  active={props.active}
                                  mapType={props.mapType}
                                  handlePopupState={this._handlePopupState} />
-    );
+    ) : null;
     return (
       <div>
         <div className='o-c-map__module-wrap' ref={ (m) => this.domModule = m }>
