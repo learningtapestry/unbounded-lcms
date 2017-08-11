@@ -1,24 +1,76 @@
+# frozen_string_literal: true
+
 module Search
   class Document < ElasticSearchDocument
     include Virtus.model
 
-    attribute :id, String
-    attribute :model_type, String
-    attribute :model_id, Integer
-    attribute :title, String
-    attribute :teaser, String
+    METADATA_FIELDS = %w(description teaser title lesson_objective).freeze
+
+    attribute :breadcrumbs, String
     attribute :description, String
     attribute :doc_type, String
+    attribute :document_metadata, String
     attribute :grade, String
-    attribute :subject, String
-    attribute :breadcrumbs, String
+    attribute :id, String
+    attribute :model_id, Integer
+    attribute :model_type, String
     attribute :permalink, String
+    attribute :position, String
     attribute :slug, String
+    attribute :subject, String
     attribute :tag_authors, Array[String]
-    attribute :tag_texts, Array[String]
     attribute :tag_keywords, Array[String]
     attribute :tag_standards, Array[String]
-    attribute :position, String
+    attribute :tag_texts, Array[String]
+    attribute :teaser, String
+    attribute :title, String
+
+    def self.attrs_from_content_guide(model)
+      {
+        breadcrumbs: nil,
+        description: model.description,
+        doc_type: 'content_guide',
+        document_metadata: nil,
+        grade: model.grades.list,
+        id: "content_guide_#{model.id}",
+        model_type: :content_guide,
+        model_id: model.id,
+        permalink: model.permalink,
+        position: grade_position(model),
+        slug: model.slug,
+        subject: model.subject,
+        tag_authors: [],
+        tag_keywords: [],
+        tag_standards: [],
+        tag_texts: [],
+        teaser: model.teaser,
+        title: model.title
+      }
+    end
+
+    def self.attrs_from_resource(model)
+      tags = model.named_tags
+
+      {
+        breadcrumbs: Breadcrumbs.new(model).title,
+        description: model.description,
+        doc_type: doc_type(model),
+        document_metadata: document_metadata(model),
+        grade: model.grades.list,
+        id: "resource_#{model.id}",
+        model_id: model.id,
+        model_type: 'resource',
+        position: resource_position(model),
+        slug: model.slug,
+        subject: model.subject,
+        tag_authors: tags[:authors] || [],
+        tag_keywords: tags[:keywords] || [],
+        tag_standards: tags[:ccss_standards] || [],
+        tag_texts: tags[:texts] || [],
+        teaser: model.teaser,
+        title: model.title
+      }
+    end
 
     def self.build_from(model)
       if model.is_a?(Resource)
@@ -32,77 +84,17 @@ module Search
       end
     end
 
-    # Overrides ElasticSearchDocument.search to include standards search
-    def self.search(term, options = {})
-      return [] unless repository.index_exists?
-
-      if term.present?
-        query = repository.standards_query(term, options)
-        res = repository.search query
-        return res if res.count > 0
-
-        query = repository.fts_query(term, options)
-      else
-        query = repository.all_query(options)
-      end
-      repository.search query
-    end
-
-    def self.attrs_from_resource(model)
-      tags = model.named_tags
-
-      {
-        id: "resource_#{model.id}",
-        model_type: 'resource',
-        model_id: model.id,
-        title: model.title,
-        teaser: model.teaser,
-        description: model.description,
-        doc_type: doc_type(model),
-        subject: model.subject,
-        grade: model.grades.list,
-        breadcrumbs: Breadcrumbs.new(model).title,
-        slug: model.slug,
-        tag_authors: tags[:authors] || [],
-        tag_texts: tags[:texts] || [],
-        tag_keywords: tags[:keywords] || [],
-        tag_standards: tags[:ccss_standards] || [],
-        position: resource_position(model)
-      }
-    end
-
-    def self.attrs_from_content_guide(model)
-      {
-        id: "content_guide_#{model.id}",
-        model_type: :content_guide,
-        model_id: model.id,
-        title: model.title,
-        teaser: model.teaser,
-        description: model.description,
-        doc_type: 'content_guide',
-        subject: model.subject,
-        grade: model.grades.list,
-        breadcrumbs: nil,
-        permalink: model.permalink,
-        slug: model.slug,
-        tag_authors: [],
-        tag_texts: [],
-        tag_keywords: [],
-        tag_standards: [],
-        position: grade_position(model)
-      }
-    end
-
-    def self.resource_position(model)
-      if model.media? || model.generic?
-        grade_position(model)
-      else
-        model.hierarchical_position
-      end
-    end
-
     def self.doc_type(model)
       model.resource_type == 'resource' ? model.curriculum_type : model.resource_type
+    end
+
+    def self.document_metadata(model)
+      return unless model.document?
+
+      METADATA_FIELDS.map do |k|
+        value = model.document.metadata[k]
+        Nokogiri::HTML.fragment(value).text.presence
+      end.compact.join(' ')
     end
 
     # Position mask:
@@ -128,6 +120,30 @@ module Search
       first_pos = 90 + rtype
 
       [first_pos, grade_pos, 0, 0, last_pos].map { |n| n.to_s.rjust(2, '0') }.join(' ')
+    end
+
+    def self.resource_position(model)
+      if model.media? || model.generic?
+        grade_position(model)
+      else
+        model.hierarchical_position
+      end
+    end
+
+    # Overrides ElasticSearchDocument.search to include standards search
+    def self.search(term, options = {})
+      return [] unless repository.index_exists?
+
+      if term.present?
+        query = repository.standards_query(term, options)
+        res = repository.search query
+        return res if res.count.positive?
+
+        query = repository.fts_query(term, options)
+      else
+        query = repository.all_query(options)
+      end
+      repository.search query
     end
 
     def grades

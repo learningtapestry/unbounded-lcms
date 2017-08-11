@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Search
   def self.ngrams_multi_field
     {
       type: 'string', fields: {
-        full:    { type: 'string', analyzer: 'full_str' },
+        full: { type: 'string', analyzer: 'full_str' },
         partial: { type: 'string', analyzer: 'partial_str' },
-        key:     { type: 'string', index: 'not_analyzed' }
+        key: { type: 'string', index: 'not_analyzed' }
       }
     }
   end
@@ -14,7 +16,7 @@ module Search
       analysis: {
         filter: {
           str_ngrams: { type: 'nGram', min_gram: 3, max_gram: 10 },
-          stop_en:    { type: 'stop', stopwords: '_english_' }
+          stop_en: { type: 'stop', stopwords: '_english_' }
         },
         analyzer: {
           keyword_str: {
@@ -42,7 +44,7 @@ module Search
 
     client Elasticsearch::Client.new(host: ENV['ELASTICSEARCH_ADDRESS'])
 
-    index  :"unbounded_documents_#{Rails.env}"
+    index :"unbounded_documents_#{Rails.env}"
 
     type :documents
 
@@ -50,25 +52,26 @@ module Search
 
     settings index: ::Search.index_settings do
       mappings dynamic: 'false' do
-        indexes :model_type,    type: 'string', index: 'not_analyzed'  # ActiveRecord model => resource | content_guide
-        indexes :model_id,      type: 'string', index: 'not_analyzed'
-        indexes :title,         **::Search.ngrams_multi_field
-        indexes :teaser,        **::Search.ngrams_multi_field
-        indexes :description,   **::Search.ngrams_multi_field
-        indexes :doc_type,      type: 'string', index: 'not_analyzed'  #  module | unit | lesson | video | etc
-        indexes :grade,         type: 'string', index: 'not_analyzed'
-        indexes :subject,       type: 'string', index: 'not_analyzed'
-        indexes :tag_authors,   **::Search.ngrams_multi_field
-        indexes :tag_texts,     **::Search.ngrams_multi_field
-        indexes :tag_keywords,  **::Search.ngrams_multi_field
+        indexes :breadcrumbs, type: 'string', index: 'not_analyzed'
+        indexes :description, **::Search.ngrams_multi_field
+        indexes :doc_type, type: 'string', index: 'not_analyzed' #  module | unit | lesson | video | etc
+        indexes :document_metadata, type: 'string'
+        indexes :grade, type: 'string', index: 'not_analyzed'
+        indexes :model_id, type: 'string', index: 'not_analyzed'
+        indexes :model_type, type: 'string', index: 'not_analyzed' # ActiveRecord model => resource | content_guide
+        indexes :position, type: 'string', index: 'not_analyzed'
+        indexes :subject, type: 'string', index: 'not_analyzed'
+        indexes :tag_authors, **::Search.ngrams_multi_field
+        indexes :tag_keywords, **::Search.ngrams_multi_field
         indexes :tag_standards, type: 'string', analyzer: 'keyword_str'
-        indexes :position,      type: 'string', index: 'not_analyzed'
-        indexes :breadcrumbs,   type: 'string', index: 'not_analyzed'
+        indexes :tag_texts, **::Search.ngrams_multi_field
+        indexes :teaser, **::Search.ngrams_multi_field
+        indexes :title, **::Search.ngrams_multi_field
       end
     end
 
     SYNONYMS = {
-      'text sets'   => 'text set',
+      'text sets' => 'text set',
       'expert pack' => 'expert packs'
     }.freeze
 
@@ -109,16 +112,16 @@ module Search
           query: {
             bool: {
               should: [
-                { match: { 'title.full'     => { query: term, boost: 3, type: 'phrase' } } },
-                { match: { 'title.partial'  => { query: term, boost: 0.5 } } },
+                { match: { 'title.full' => { query: term, boost: 3, type: 'phrase' } } },
+                { match: { 'title.partial' => { query: term, boost: 0.5 } } },
 
-                { match: { 'teaser.full'    => { query: term, boost: 4, type: 'phrase' } } },
+                { match: { 'teaser.full' => { query: term, boost: 4, type: 'phrase' } } },
 
                 { match: { 'tag_authors.full' => { query: term, boost: 4 } } },
-
                 { match: { 'tag_texts.full' => { query: term, boost: 4 } } },
+                { match: { 'tag_keywords.full' => { query: term, boost: 4 } } },
 
-                { match: { 'tag_keywords.full' => { query: term, boost: 4 } } }
+                { match: { document_metadata: {query: term, boost: 1 } } }
               ],
               filter: []
             }
@@ -158,6 +161,10 @@ module Search
       end
     end
 
+    def accepted_filters
+      %i(model_type subject grade doc_type)
+    end
+
     def apply_filters(query, options)
       accepted_filters.each do |filter|
         next unless options[filter]
@@ -170,10 +177,6 @@ module Search
         query[:query][:bool][:filter] << filter_term
       end
       query
-    end
-
-    def accepted_filters
-      %i(model_type subject grade doc_type)
     end
 
     def replace_synonyms(term)
