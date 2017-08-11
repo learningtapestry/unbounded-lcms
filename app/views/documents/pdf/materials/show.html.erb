@@ -10,7 +10,7 @@
     <% if document.vertical_text? %>
       <div class="o-m-content__vertical-text"><%= document.metadata.vertical_text %></div>
     <% end %>
-    <div class="o-m-content__base">
+    <div class="o-m-content__base <%= 'o-m-content__base--padded' if document.vertical_text? %>">
       <%= raw document.content %>
     </div>
   </div>
