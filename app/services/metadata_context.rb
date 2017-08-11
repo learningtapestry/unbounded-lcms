@@ -75,7 +75,7 @@ class MetadataContext
 
   def default_title(curr = nil)
     if assessment?
-      mid? ? 'Mid-Unit Assessment' : 'End-Unit Assessment'
+      mid_assessment? ? 'Mid-Unit Assessment' : 'End-Unit Assessment'
     else
       # ELA G1 M1 U2 Lesson 1
       curr ||= curriculum
@@ -102,6 +102,7 @@ class MetadataContext
 
   def lesson
     @lesson ||= begin
+      return nil if assessment?
       num = if assessment?
               nil # assessment is a unit now, so lesson need to be nil
             elsif ela? && prerequisite?
