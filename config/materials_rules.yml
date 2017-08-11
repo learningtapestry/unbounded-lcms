@@ -1,0 +1,13 @@
+student:
+  sheet_type:
+    - student
+  type:
+    - family-letter
+    - recommended-books
+
+teacher:
+  sheet_type:
+    - classroom
+    - teacher
+  type:
+    - vocabulary-chart
