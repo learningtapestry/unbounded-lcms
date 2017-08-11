@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class LessonGeneratePdfJob < ActiveJob::Base
+class DocumentGeneratePdfJob < ActiveJob::Base
   extend ResqueJob
 
   queue_as :default
+
   PDF_EXPORTERS = {
     'full' => DocumentExporter::PDF::Document,
     'sm'   => DocumentExporter::PDF::StudentMaterial,

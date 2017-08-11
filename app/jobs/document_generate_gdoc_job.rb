@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class LessonGenerateGdocJob < ActiveJob::Base
+class DocumentGenerateGdocJob < ActiveJob::Base
   extend ResqueJob
 
   queue_as :default
