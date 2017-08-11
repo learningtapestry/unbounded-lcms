@@ -3,6 +3,18 @@
 module DocumentExporter
   module PDF
     class BasePDF
+      CONFIG_PATH = Rails.root.join('config', 'materials_rules.yml')
+
+      def self.config
+        @config ||= YAML.load_file(CONFIG_PATH).deep_symbolize_keys
+      end
+
+      def config_for(type)
+        self.class.config[type.to_sym].flat_map do |k, v|
+          v.map { |x| { k => x } }
+        end
+      end
+
       def self.pdf_key(type)
         type == 'full' ? 'pdf' : "pdf_#{type}"
       end

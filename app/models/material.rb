@@ -8,7 +8,12 @@ class Material < ActiveRecord::Base
 
   serialize :metadata, DocTemplate::Objects::MaterialMetadata
 
-  scope :where_metadata, ->(hash) { where('metadata @> ?', hash.to_json) }
+  scope :where_metadata, ->(hash) { where('materials.metadata @> ?', hash.to_json) }
+
+  def self.where_metadata_any_of(conditions)
+    condition = Array.new(conditions.size, 'materials.metadata @> ?').join(' or ')
+    where(condition, *conditions.map(&:to_json))
+  end
 
   def file_url
     "https://docs.google.com/document/d/#{file_id}"
