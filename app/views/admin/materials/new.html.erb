@@ -1,8 +1,27 @@
 <div class="o-page">
-  <h2 class=text-center><%= t('.page_title') %></h2>
+  <h2 class="text-center"><%= t('.page_title') %></h2>
 
   <%= simple_form_for @material_form, url: [:admin, :materials] do |f| %>
-    <%= f.input :link, error: f.object.errors[:link].first.try(:html_safe), label: t('ui.url') %>
+    <%= f.input :link, label: t('ui.url') %>
     <%= f.button :submit, t('.submit') %>
   <% end %>
+
+  <% if @results.present? %>
+    <p>
+      ✓ <%= @results.select {|r| r.ok }.count %> File(s) Imported
+      <br>
+      x <%= @results.reject {|r| r.ok }.count %> File(s) Failed
+    </p>
+  <% end %>
+
+  <ul class="o-adm-materials__results">
+    <% @results.each do |res| %>
+      <li class="o-adm-materials__result o-adm-materials__result--<%= res.ok ? 'ok' : 'err'%>">
+        <%= link_to res.link, res.link, target: '_blank', class: 'o-adm-materials__link' %>
+        <% unless res.ok %>
+          <p><%= res.errors.first&.html_safe %></p>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 </div>

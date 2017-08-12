@@ -41,10 +41,10 @@ class MaterialForm
 
       DocumentPdfGenerator.documents_of(material)
     else
-      errors.add(:link, "Material metadata table not present!  (#{link})")
+      errors.add(:link, 'Material metadata table not present')
     end
   rescue => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
-    errors.add(:link, "#{e.message}  (#{link})")
+    errors.add(:link, e.message)
   end
 end
