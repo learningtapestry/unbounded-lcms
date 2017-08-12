@@ -54,8 +54,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def subtitle
-    s = config[:subtitle][sheet_type.to_sym] if config.key?(:subtitle)
-    s.presence || DEFAULT_TITLE
+    config.dig(:subtitle, sheet_type.to_sym).presence || DEFAULT_TITLE
   end
 
   def teacher_material?
@@ -68,6 +67,10 @@ class MaterialPresenter < ContentPresenter
 
   def unit_level?
     metadata.breadcrumb_level == 'unit'
+  end
+
+  def vertical_text?
+    metadata.vertical_text.present?
   end
 
   private
