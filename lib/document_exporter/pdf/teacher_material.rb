@@ -12,7 +12,7 @@ module DocumentExporter
         scope = scope.where(id: included_materials) if @options[:excludes].present?
 
         scope.each do |material|
-          url = @document.links['materials']&.dig(material.id.to_s, 'url')
+          next unless (url = @document.links['materials']&.dig(material.id.to_s, 'url'))
           pdf << CombinePDF.parse(Net::HTTP.get_response(URI.parse(url)).body)
         end
 
