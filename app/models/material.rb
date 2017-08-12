@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
 class Material < ActiveRecord::Base
+  include PgSearch
+
   validates :file_id, presence: true
   validates :identifier, uniqueness: true
 
   has_and_belongs_to_many :documents
 
   serialize :metadata, DocTemplate::Objects::MaterialMetadata
+
+  pg_search_scope :search_identifier, against: :identifier
 
   scope :where_metadata, ->(hash) { where('materials.metadata @> ?', hash.to_json) }
 

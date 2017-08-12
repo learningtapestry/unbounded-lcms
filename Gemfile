@@ -45,6 +45,7 @@ gem 'oj_mimic_json', '~> 1.0.1'
 gem 'pg', '~> 0.18.2'
 gem 'postgres_ext', '~> 3.0'
 # db search
+gem 'pg_search', '~> 2.1'
 gem 'ransack', '~> 1.7.0'
 # data seeding
 gem 'migration_data', '~> 0.2.1'
