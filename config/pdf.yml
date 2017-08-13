@@ -66,7 +66,6 @@ venn-diagram:
     teacher: Answer Key
 vocabulary-chart:
   header: false
-  orientation: landscape
   subtitle:
     student: Classroom Materials
   title: Vocabulary Chart
