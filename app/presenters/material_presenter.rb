@@ -23,7 +23,7 @@ class MaterialPresenter < ContentPresenter
   def header_breadcrumb
     short_breadcrumb = lesson.short_breadcrumb(join_with: '/', unit_level: unit_level?,
                                                with_short_lesson: true, with_subject: false)
-    short_title = unit_level? ? lesson.title : lesson.resource&.parent&.title
+    short_title = unit_level? ? lesson.resource&.parent&.title : lesson.title
     "#{lesson.subject.upcase} #{short_breadcrumb} #{short_title}"
   end
 
