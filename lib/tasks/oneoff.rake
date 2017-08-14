@@ -9,8 +9,8 @@ namespace :oneoff do
     Rake::Task['resources:generate_positions'].invoke
     Rake::Task['resources:fix_lessons_metadata'].invoke
     Rake::Task['resources:generate_slugs'].invoke
-    Rake::Task['es:reset'].invoke
-    Rake::Task['es:load'].invoke
+    # Rake::Task['es:reset'].invoke
+    # Rake::Task['es:load'].invoke
   end
 
   task migrate_resources_tree: :environment do
