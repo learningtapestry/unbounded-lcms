@@ -6,9 +6,11 @@ module DocumentExporter
       def export
         content = super
         pdf = CombinePDF.parse(content)
-        @document.links['materials']&.each do |id, v|
-          next if (inc = included_materials).any? && inc.include?(id)
-          pdf << CombinePDF.parse(Net::HTTP.get_response(URI.parse(v['url'])).body)
+        if (inc = included_materials).any?
+          @document.links['materials']&.each do |id, v|
+            next unless inc.include?(id)
+            pdf << CombinePDF.parse(Net::HTTP.get_response(URI.parse(v['url'])).body)
+          end
         end
         pdf.to_pdf
       end
