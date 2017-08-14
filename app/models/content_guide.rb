@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'google/apis/drive_v3'
 
 class ContentGuide < ActiveRecord::Base
@@ -249,23 +251,9 @@ class ContentGuide < ActiveRecord::Base
     @presenter ||= ContentGuidePresenter.new(self)
   end
 
-  def process_list_styles(doc)
-    doc.xpath('//style').each do |stylesheet|
-      re = /\.lst-(\S+)[^\{\}]+>\s*(?:li:before)\s*{\s*content[^\{\}]+counter\(lst-ctn-\1\,([^\)]+)\)/
-      stylesheet.text.scan(re) do |match|
-        list_selector = "ol.lst-#{match[0]}"
-        counter_type = match[1]
-        doc.css(list_selector).each do |element|
-          element['style'] = [element['style'], "list-style-type: #{counter_type}"].join(';')
-        end
-      end
-    end
-    doc
-  end
-
   def process_content
     doc = Nokogiri::HTML(original_content)
-    doc = process_list_styles(doc)
+    doc = HtmlSanitizer.process_list_styles(doc)
     body = doc.xpath('/html/body/*').to_s
     body = Nokogiri::HTML.fragment(body)
     body = download_images(body)

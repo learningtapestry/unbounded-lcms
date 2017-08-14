@@ -69,6 +69,7 @@ module DocTemplate
     def parse(source)
       doc = Nokogiri::HTML(source)
       # get css styles from head to keep classes for lists (preserve list-style-type)
+      doc = HtmlSanitizer.process_list_styles doc
       @css_styles = HtmlSanitizer.sanitize_css(doc.xpath('//html/head/style/text()').to_s)
 
       # clean all the inline styles
