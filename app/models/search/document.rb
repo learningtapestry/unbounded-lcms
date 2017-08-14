@@ -132,18 +132,17 @@ module Search
 
     # Overrides ElasticSearchDocument.search to include standards search
     def self.search(term, options = {})
-      return [] unless repository.index_exists?
+      return repository.empty_response unless repository.index_exists?
+      return repository.search(repository.all_query(options)) unless term.present?
 
-      if term.present?
-        query = repository.standards_query(term, options)
-        res = repository.search query
-        return res if res.count.positive?
-
-        query = repository.fts_query(term, options)
-      else
-        query = repository.all_query(options)
-      end
-      repository.search query
+      repository.multisearch(
+        [
+          repository.standards_query(term, options),
+          repository.tags_query(term, [:tag_keywords], options),
+          repository.tags_query(term, %i(tag_authors tag_texts), options),
+          repository.fts_query(term, options)
+        ]
+      ).max_by(&:total)
     end
 
     def grades
