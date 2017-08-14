@@ -24,7 +24,7 @@ class EmbedEquations
       tex = params['chl']
       return if tex.blank?
 
-      html = `tex2html '#{tex}'`
+      html = `tex2html -- '#{tex}'`
       Nokogiri::HTML.fragment(html).at_css('span')
     end
   end

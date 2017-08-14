@@ -19,7 +19,7 @@ Metrics/BlockLength:
   ExcludedMethods: ['context', 'describe', 'feature', 'guard', 'included']
 
 Metrics/ClassLength:
-  Max: 150
+  Max: 200
 
 Metrics/CyclomaticComplexity:
   Max: 7
