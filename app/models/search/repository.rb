@@ -61,8 +61,8 @@ module Search
         indexes :model_type, type: 'string', index: 'not_analyzed' # ActiveRecord model => resource | content_guide
         indexes :position, type: 'string', index: 'not_analyzed'
         indexes :subject, type: 'string', index: 'not_analyzed'
-        indexes :tag_authors, **::Search.ngrams_multi_field
-        indexes :tag_keywords, **::Search.ngrams_multi_field
+        indexes :tag_authors, type: 'string'
+        indexes :tag_keywords, type: 'string'
         indexes :tag_standards, type: 'string', analyzer: 'keyword_str'
         indexes :tag_texts, **::Search.ngrams_multi_field
         indexes :teaser, **::Search.ngrams_multi_field
@@ -99,66 +99,82 @@ module Search
     end
 
     def fts_query(term, options)
-      if term.respond_to?(:to_hash)
-        term
+      return term if term.respond_to?(:to_hash)
 
-      else
-        limit = options.fetch(:per_page, 20)
-        page = options.fetch(:page, 1)
-        term = replace_synonyms term.downcase
+      limit = options.fetch(:per_page, 20)
+      page = options.fetch(:page, 1)
+      term = replace_synonyms term.downcase
 
-        query = {
-          min_score: 0.20,
-          query: {
-            bool: {
-              should: [
-                { match: { 'title.full' => { query: term, boost: 3, type: 'phrase' } } },
-                { match: { 'title.partial' => { query: term, boost: 0.5 } } },
+      query = {
+        min_score: 6,
+        query: {
+          bool: {
+            should: [
+              { match: { 'title.full' => { query: term, boost: 3, type: 'phrase' } } },
+              { match: { 'title.partial' => { query: term, boost: 0.5 } } },
 
-                { match: { 'teaser.full' => { query: term, boost: 4, type: 'phrase' } } },
+              { match: { 'teaser.full' => { query: term, boost: 4, type: 'phrase' } } },
 
-                { match: { 'tag_authors.full' => { query: term, boost: 4 } } },
-                { match: { 'tag_texts.full' => { query: term, boost: 4 } } },
-                { match: { 'tag_keywords.full' => { query: term, boost: 4 } } },
+              { match: { document_metadata: { query: term, boost: 1 } } }
+            ],
+            filter: []
+          }
+        },
+        size: limit,
+        from: (page - 1) * limit
+      }
 
-                { match: { document_metadata: {query: term, boost: 1 } } }
-              ],
-              filter: []
-            }
-          },
-          size: limit,
-          from: (page - 1) * limit
-        }
-
-        apply_filters(query, options)
-      end
+      apply_filters(query, options)
     end
 
     def standards_query(term, options)
-      if term.respond_to?(:to_hash)
-        term
+      return term if term.respond_to?(:to_hash)
 
-      else
-        limit = options.fetch(:per_page, 20)
-        page = options.fetch(:page, 1)
+      limit = options.fetch(:per_page, 20)
+      page = options.fetch(:page, 1)
 
-        query = {
-          query: {
-            bool: {
-              filter: [],
-              should: [
-                { term: { tag_standards: term } },
-                { match_phrase_prefix: { tag_standards: { query: term } } }
-              ],
-              minimum_should_match: 1
-            }
-          },
-          size: limit,
-          from: (page - 1) * limit
-        }
+      query = {
+        query: {
+          bool: {
+            filter: [],
+            should: [
+              { term: { tag_standards: term } },
+              { match_phrase_prefix: { tag_standards: { query: term } } }
+            ],
+            minimum_should_match: 1
+          }
+        },
+        size: limit,
+        from: (page - 1) * limit
+      }
 
-        apply_filters query, options
-      end
+      apply_filters query, options
+    end
+
+    def tags_query(term, tags, options)
+      return term if term.respond_to?(:to_hash)
+
+      limit = options.fetch(:per_page, 20)
+      page = options.fetch(:page, 1)
+
+      query = {
+        query: {
+          bool: {
+            filter: [],
+            should: tags.map { |t| { match: { t => term } } }.concat(
+              [
+                { match_phrase: { title: term } },
+                { match_phrase: { teaser: term } }
+              ]
+            ),
+            minimum_should_match: 1
+          }
+        },
+        size: limit,
+        from: (page - 1) * limit
+      }
+
+      apply_filters query, options
     end
 
     def accepted_filters
@@ -177,6 +193,20 @@ module Search
         query[:query][:bool][:filter] << filter_term
       end
       query
+    end
+
+    def empty_response
+      Elasticsearch::Persistence::Repository::Response::Results.new(
+        self,
+        hits: { total: 0, max_score: nil, hits: [] }
+      )
+    end
+
+    def multisearch(queries)
+      body = queries.map { |query| { search: query } }
+      client.msearch(index: index, type: type, body: body)['responses'].map do |r|
+        Elasticsearch::Persistence::Repository::Response::Results.new(self, r)
+      end
     end
 
     def replace_synonyms(term)
