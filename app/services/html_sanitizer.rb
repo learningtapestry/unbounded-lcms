@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 class HtmlSanitizer
+  LIST_STYLE_RE = /\.lst-(\S+)[^\{\}]+>\s*(?:li:before)\s*{\s*content[^\{\}]+counter\(lst-ctn-\1\,([^\)]+)\)/
+
   class << self
     def sanitize(html)
       Sanitize.fragment(html, default_config)
@@ -48,6 +52,19 @@ class HtmlSanitizer
       end
 
       nodes.to_html
+    end
+
+    def process_list_styles(html)
+      html.xpath('//style').each do |stylesheet|
+        stylesheet.text.scan(LIST_STYLE_RE) do |match|
+          list_selector = "ol.lst-#{match[0]}"
+          counter_type = match[1]
+          html.css(list_selector).each do |element|
+            element['style'] = [element['style'], "list-style-type: #{counter_type}"].join(';')
+          end
+        end
+      end
+      html
     end
 
     # config to keep list-style-type bc gdoc is doing this trough content/counter
