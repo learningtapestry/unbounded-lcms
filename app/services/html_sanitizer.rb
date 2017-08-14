@@ -41,6 +41,12 @@ class HtmlSanitizer
         .add_class('c-ld-table')
         .wrap('<div class="c-ld-table__wrap"></div>')
 
+      # removes all empty nodes before first one filled in
+      nodes.each do |node|
+        break if node.inner_text.present?
+        node.remove
+      end
+
       nodes.to_html
     end
 

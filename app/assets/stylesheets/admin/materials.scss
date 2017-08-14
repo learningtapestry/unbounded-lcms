@@ -1,0 +1,30 @@
+.o-adm-materials {
+  @include e(results) {
+    list-style: none;
+    margin-left: 0;
+  }
+
+  @include e(result) {
+    border-radius: .5em;
+    margin-bottom: .5em;
+    padding: 1em;
+
+    @include m(ok) {
+      background-color: map-get($ub-green, sixty);
+    }
+
+    @include m(err) {
+      background-color: lighten(#f00, 40%);
+    }
+
+    p { margin-bottom: 0; }
+  }
+
+  @include e(link) {
+    display: block;
+    font-weight: bold;
+  }
+}
+.o-adm-material-search {
+  width: 25%;
+}

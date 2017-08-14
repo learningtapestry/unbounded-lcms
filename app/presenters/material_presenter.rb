@@ -23,14 +23,15 @@ class MaterialPresenter < ContentPresenter
   def header_breadcrumb
     short_breadcrumb = lesson.short_breadcrumb(join_with: '/', unit_level: unit_level?,
                                                with_short_lesson: true, with_subject: false)
-    short_title = unit_level? ? lesson.title : lesson.resource&.parent&.title
+    short_title = unit_level? ? lesson.resource&.parent&.title : lesson.title
     "#{lesson.subject.upcase} #{short_breadcrumb} #{short_title}"
   end
 
   def name_date?
     # toggle display of name-date row on the header
     # https://github.com/learningtapestry/unbounded/issues/422
-    !metadata.name_date.to_s.casecmp('no').zero?
+    # Added the config definition for new types. If config says "NO", it's impossible to force-add the name-date field. It's impossible only to remove it when config allows it
+    !metadata.name_date.to_s.casecmp('no').zero? && config[:name_date]
   end
 
   def orientation
@@ -54,8 +55,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def subtitle
-    s = config[:subtitle][sheet_type.to_sym] if config.key?(:subtitle)
-    s.presence || DEFAULT_TITLE
+    config.dig(:subtitle, sheet_type.to_sym).presence || DEFAULT_TITLE
   end
 
   def teacher_material?
@@ -68,6 +68,10 @@ class MaterialPresenter < ContentPresenter
 
   def unit_level?
     metadata.breadcrumb_level == 'unit'
+  end
+
+  def vertical_text?
+    metadata.vertical_text.present?
   end
 
   private

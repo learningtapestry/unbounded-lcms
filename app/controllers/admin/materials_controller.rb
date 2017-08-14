@@ -9,24 +9,33 @@ module Admin
     def index
       @query = OpenStruct.new(params[:query])
       term = identifier_term(@query)
-      queryset = term ? Material.where('identifier ILIKE ?', "%#{term}%") : Material.all
+      queryset = term ? Material.search_identifier(term) : Material.all
       @materials = queryset.order(:identifier).paginate(page: params[:page])
     end
 
     def new
+      @results = []
       @material_form = MaterialForm.new
     end
 
     def create
+      @results = []
+      @material_form = MaterialForm.new(form_params)
       files.each do |link|
-        @material_form = MaterialForm.new({ link: link }, google_credentials)
-        return render(:new, alert: t('.error')) unless @material_form.save
+        form = MaterialForm.new({ link: link }, google_credentials)
+        res = if form.save
+                OpenStruct.new(ok: true, link: link, material: form.material)
+              else
+                OpenStruct.new(ok: false, link: link, errors: form.errors[:link])
+              end
+        @results << res
       end
 
-      if files.size == 1
-        redirect_to @material_form.material, notice: t('.success', name: @material_form.material.name)
+      if files.size == 1 && @results.first.ok
+        material = @results.first.material
+        redirect_to material, notice: t('.success', name: material.name)
       else
-        redirect_to admin_materials_path, notice: t('.bulk_import', count: files.count, folder: form_params[:link])
+        render :new
       end
     end
 
@@ -42,11 +51,11 @@ module Admin
       params.require(:material_form).permit(:link)
     end
 
-    def identifier_term(query) # rubocop:disable Metrics/CyclomaticComplexity
-      return unless %i(subject grade module lesson).any? { |k| query[k].present? }
+    def identifier_term(query)
+      return unless %i(search_term subject grade module lesson).any? { |k| query[k].present? }
 
       id_params = []
-      id_params << query.subject&.upcase
+      id_params << query.subject
       id_params << case query.grade
                    when 'prekindergarten' then 'PK'
                    when 'kindergarten' then 'K'
@@ -56,7 +65,8 @@ module Admin
                    end
       id_params << (query.module.present? ? "M#{query.module}" : nil)
       id_params << (query.lesson.present? ? "L#{query.lesson}" : nil)
-      id_params.map { |param| param.presence || '%' }.join('-')
+      id_params << query.search_term
+      id_params.select(&:present?).uniq.join(' ')
     end
 
     def files
