@@ -7,7 +7,10 @@
 <div class="c-ld__body o-page--pdf-ld c-ld__body--pdf" style="<%= document.padding_styles %>">
   <%= render 'documents/pdf/materials/header', document: document %>
   <div class="o-m-content">
-    <div class="o-m-content__base">
+    <% if document.vertical_text? %>
+      <div class="o-m-content__vertical-text"><%= document.metadata.vertical_text %></div>
+    <% end %>
+    <div class="o-m-content__base <%= 'o-m-content__base--padded' if document.vertical_text? %>">
       <%= raw document.content %>
     </div>
   </div>
