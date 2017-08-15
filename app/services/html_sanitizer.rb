@@ -51,6 +51,8 @@ class HtmlSanitizer
         node.remove
       end
 
+      nodes.css('hr').each(&:remove) if @options[:material]
+
       nodes.to_html
     end
 

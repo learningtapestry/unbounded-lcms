@@ -6,6 +6,7 @@ class DocumentPresenter < ContentPresenter
   SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
   TOPIC_FULL   = { 'ela' => 'Unit', 'math' => 'Topic' }.freeze
   TOPIC_SHORT  = { 'ela' => 'U', 'math' => 'T' }.freeze
+  delegate :cc_attribution, to: :ld_metadata
 
   def color_code
     "#{subject}-base"
