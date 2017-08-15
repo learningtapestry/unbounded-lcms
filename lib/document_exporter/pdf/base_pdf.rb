@@ -46,6 +46,7 @@ module DocumentExporter
           excluded.each do |id|
             result.delete_at result.index(id)
           end
+          result
         end.map(&:to_i)
       end
 
