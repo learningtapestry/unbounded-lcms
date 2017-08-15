@@ -68,6 +68,7 @@ class DocumentPresenter < ContentPresenter
   def pdf_content(options = {})
     excludes = options[:excludes] || []
     content = render_content excludes
+    content = update_activity_timing(content) if excludes.any?
     content = remove_optional_break(content) if ela? && excludes.any?
     content
   end
@@ -84,6 +85,18 @@ class DocumentPresenter < ContentPresenter
 
   def pdf_footer
     full_breadcrumb
+  end
+
+  #
+  # Makes sure that time of group is equal to sum of timings of child activities
+  #
+  def update_activity_timing(content)
+    html = Nokogiri::HTML.fragment content
+    html.css('.o-ld-group').each do |group|
+      group_time = group.css('.o-ld-title__time--h3').inject(0) { |time, section| time + section.text.to_i }
+      group.at_css('.o-ld-title__time--h2').content = group_time.zero? ? '&mdash;' : "#{group_time} mins"
+    end
+    html.to_html
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity
