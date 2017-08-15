@@ -12,6 +12,7 @@
 
   @include e(wrap) {
     position: relative;
+    width: 100%;
 
     &.is-stuck {
       @include add-top-bottom-padding;
