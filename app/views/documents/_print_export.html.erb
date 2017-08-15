@@ -1,5 +1,5 @@
 <h2 class="u-padding-top--xlarge" id="print-export-all">Download / Print All Materials</h2>
-<p>Click the button below to preview and download this entire <%= document.doc_type %> as a PDF. Microsoft Word and other formats will be available in August.
+<p>Click the button below to preview and download this entire <%= document.doc_type %> as a PDF. Other formats will be forthcoming.
 </p>
 <div>
 <% document.links.each do |type, link| %>
@@ -12,14 +12,14 @@
 </div>
 
 <h2 class="u-padding-top--xlarge">Download / Print Teacher Materials</h2>
-<p>Click the button below to preview and download teacher materials for this <%= document.doc_type %> as a PDF. Microsoft Word and other formats will be available in August.
+<p>Click the button below to preview and download teacher materials for this <%= document.doc_type %> as a PDF. Other formats will be forthcoming.
 </p>
 <% if document.links['pdf_tm'].present? %>
   <%= link_to t('ui.export_pdf'), document.links['pdf_tm'], class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true, pdftype: 'tm' }, target: '_blank' %>
 <% end %>
 
 <h2 class="u-padding-top--xlarge">Download / Print Student Materials</h2>
-<p>Click the button below to preview and download student materials for this <%= document.doc_type %> as a PDF. Microsoft Word and other formats will be available in August.
+<p>Click the button below to preview and download student materials for this <%= document.doc_type %> as a PDF. Other formats will be forthcoming.
 </p>
 <% if document.links['pdf_sm'].present? %>
   <%= link_to t('ui.export_pdf'), document.links['pdf_sm'], class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true, pdftype: 'sm' }, target: '_blank' %>
