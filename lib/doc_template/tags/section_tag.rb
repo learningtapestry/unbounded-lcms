@@ -12,13 +12,13 @@ module DocTemplate
       def parse(node, opts = {})
         @opts = opts
         @section = opts[:agenda].level2_by_title(opts[:value].parameterize)
-        return parse_ela2_sm(node) if ela2?(opts[:metadata]) && section.title =~ STUDENT_RE
+        @materials = @section.material_ids
 
+        return parse_ela2_sm(node) if ela2?(opts[:metadata]) && section.title =~ STUDENT_RE
         return parse_ela(node) if ela2?(opts[:metadata]) && @section.use_color
         return parse_ela(node) if ela6?(opts[:metadata])
 
         @content = parse_general_content node, TEMPLATE
-        @materials = @section.material_ids
         replace_tag node
         self
       end
