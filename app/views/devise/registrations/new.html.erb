@@ -31,7 +31,7 @@
             Password <%= resource.errors[:password].first %>
           </p>
         <% end %>
-        <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'o-input-placehoder--medium-gray' + (resource.errors[:password_confirmation].present? ? ' o-input-error' : ''), placeholder: 'Confirm you password' %>
+        <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'o-input-placehoder--medium-gray' + (resource.errors[:password_confirmation].present? ? ' o-input-error' : ''), placeholder: 'Confirm your password' %>
         <% if resource.errors[:password_confirmation].present? %>
           <p class="cs-txt-link--error">
             <%= resource.errors[:password_confirmation].first %>
