@@ -26,6 +26,7 @@
 //= require initializers/social_sharing
 //= require initializers/soundcloud
 //= require initializers/subscribe_placeholder
+//= require initializers/survey
 //= require_tree ./initializers/sidebar
 
 ready(function() {
@@ -40,6 +41,7 @@ ready(function() {
   window.initializeGoogleAnalytics();
   window.initializeSoundCloud();
   window.initializeSubscribePlaceholder();
+  window.initializeSurvey();
   window.initializePDFPreview();
   window.initializeResourceDetails();
   window.initializeTabs();

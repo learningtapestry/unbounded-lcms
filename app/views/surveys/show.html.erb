@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <%= form_for(@form, url: survey_path) do |f| %>
+      <%= form_for(@form, url: survey_path, html: { class: 'o-survey-form' }) do |f| %>
         <div class="row">
           <div class="medium-6 small-12 columns">
             <%= f.text_field :first_name, autofocus: true, class: 'o-input-placehoder--medium-gray' + (@form.errors[:first_name].present? ? ' o-input-error' : ''), placeholder: 'Enter First Name *' %>
@@ -34,15 +34,21 @@
           <div class="medium-12 columns">
             <%= f.select :district_or_system, SurveyForm::DISTRICT_OR_SCHOOL_SYSTEMS, { prompt: 'Select District / School System *' }, { class: (@form.errors[:district_or_system].present? ? ' o-input-error' : '') } %>
           </div>
+          <div class="medium-12 columns o-survey-form__other <%=  @form.district_or_system != 'Other' ? 'o-survey-form__other--hide': '' %>">
+            <%= f.text_field :district_or_system_other, autofocus: true, class: 'o-input-placehoder--medium-gray', placeholder: 'Other' %>
+          </div>
         </div>
         <div class="row">
           <div class="medium-12 columns">
             <%= f.select :subject_or_grade, SurveyForm::SUBJECT_OR_GRADES, { prompt: 'Select Subject / Grade Taught This Year *' }, { class: (@form.errors[:subject_or_grade].present? ? ' o-input-error' : '') } %>
           </div>
+          <div class="medium-12 columns o-survey-form__other <%=  @form.subject_or_grade != 'Other' ? 'o-survey-form__other--hide': '' %>">
+            <%= f.text_field :subject_or_grade_other, autofocus: true, class: 'o-input-placehoder--medium-gray', placeholder: 'Other' %>
+          </div>
         </div>
         <div class="row">
           <div class="medium-12 columns">
-            <%= f.number_field :number_of_minutes, class: 'o-input-placehoder--medium-gray' + (@form.errors[:number_of_minutes].present? ? ' o-input-error' : ''), placeholder: 'Select Number of Minutes In a Core Class Perios / Block *' %>
+            <%= f.number_field :number_of_minutes, class: 'o-input-placehoder--medium-gray' + (@form.errors[:number_of_minutes].present? ? ' o-input-error' : ''), placeholder: 'Select Number of Minutes In a Core Class Periods / Block *' %>
           </div>
         </div>
         <div class="row">
@@ -53,6 +59,9 @@
         <div class="row">
           <div class="medium-12 columns">
             <%= f.select :additional_period, %w(Yes No), { prompt: 'Select Answer *' }, { class: (@form.errors[:additional_period].present? ? ' o-input-error' : '') } %>
+          </div>
+          <div class="medium-12 columns o-survey-form__other <%=  @form.additional_period != 'Yes' ? 'o-survey-form__other--hide': '' %>">
+            <%= f.number_field :additional_period_minutes, autofocus: true, class: 'o-input-placehoder--medium-gray', placeholder: 'How many minutes are in the additional instructional period?' %>
           </div>
         </div>
         <div class="row">
