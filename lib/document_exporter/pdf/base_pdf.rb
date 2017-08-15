@@ -43,10 +43,8 @@ module DocumentExporter
             @document.document_parts.find_by(placeholder: "{{#{x}}}")&.materials
           end.flatten.compact
 
-          excluded.each do |id|
-            result.delete_at result.index(id)
-          end
-        end
+          result - excluded
+        end.map(&:to_i)
       end
 
       def ordered_materials(material_ids)
