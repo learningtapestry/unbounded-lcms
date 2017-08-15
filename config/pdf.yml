@@ -51,6 +51,7 @@ student-worksheet:
     student: Student Handouts
     teacher: Answer Key
 sw-template-l:
+  orientation: landscape
   subtitle:
     classroom: Classroom Materials
     student: Student Handouts
