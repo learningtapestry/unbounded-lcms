@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   # require auth for acessing the pilot
-  before_action :pilot_authentication if Rails.env.production?
+  # before_action :pilot_authentication if Rails.env.production?
 
   before_action :authenticate_user!
   before_action :check_user_has_survey_filled_in, if: :user_signed_in?, unless: :devise_controller?
