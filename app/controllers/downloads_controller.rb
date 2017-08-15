@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 class DownloadsController < ApplicationController
-  include ActionController::Live
   include AnalyticsTracking
 
   before_action :ga_track, except: %i(pdf_proxy preview)
@@ -18,16 +19,10 @@ class DownloadsController < ApplicationController
 
   def pdf_proxy
     uri = URI(attachment_url)
-    response.headers['Content-Disposition'] = 'inline'
-    response.headers['Content-Type'] = 'application/pdf'
-    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
-      s3_request = Net::HTTP::Get.new(uri)
-      http.request(s3_request) do |s3_response|
-        s3_response.read_body { |chunk| response.stream.write(chunk) }
-      end
-    end
-  ensure
-    response.stream.close
+    send_data open(uri).read,
+              disposition: :inline,
+              file_name: attachment_url.split('/').last,
+              type: 'application/pdf'
   end
 
   private

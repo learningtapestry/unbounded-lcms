@@ -292,10 +292,10 @@ class Resource < ActiveRecord::Base
     # update only if is not a lesson (no descendants) and `tree` has changed to false
     return unless !lesson? && tree_changed? && !tree?
 
-    descendants.each { |r| r.tree = false && r.save }
+    descendants.each { |r| (r.tree = false) && r.save }
   end
 
   def update_slug
-    self.slug = Slug.new(self).value if tree?
+    self.slug = Slug.new(self).value
   end
 end
