@@ -43,6 +43,12 @@ class DocumentPresenter < ContentPresenter
     ld_metadata.grade[/\d+/] || ld_metadata.grade
   end
 
+  def remove_optional_break(content)
+    html = Nokogiri::HTML.fragment content
+    html.at_css('.o-ld-optbreak-wrapper')&.remove
+    html.to_html
+  end
+
   def ld_metadata
     @ld_metadata ||= DocTemplate::Objects::BaseMetadata.build_from(metadata)
   end
@@ -60,7 +66,10 @@ class DocumentPresenter < ContentPresenter
   end
 
   def pdf_content(options = {})
-    render_content(options[:excludes] || [])
+    excludes = options[:excludes] || []
+    content = render_content excludes
+    content = remove_optional_break(content) if ela? && excludes.any?
+    content
   end
 
   def pdf_header
