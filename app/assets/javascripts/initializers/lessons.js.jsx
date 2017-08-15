@@ -76,6 +76,12 @@ $(function () {
 
     const durationString = x => `${x} min${x > 1 ? 's' : ''}`;
 
+    const breakElement = document.querySelector('.o-ld-optbreak-wrapper');
+    const handleOptBreak = () => {
+      if (!breakElement) return;
+      breakElement.classList.toggle('hide', tagsExcluded.length !== 0)
+    }
+
     const pollPdfStatus = (id, link) => {
       $(link).prepend('<i class="fa fa-spin fa-spinner u-margin-right--base" />');
 
@@ -104,6 +110,8 @@ $(function () {
       element.classList.toggle('deselected');
       item.active = !element.classList.contains('deselected');
       tagsExcluded = items.filter(x => x.parent !== null && x.active === false).map(x => x.tag);
+
+      handleOptBreak();
 
       eachNode(`[href="#${item.id}"]`, x => {
         x.classList.toggle('o-ld-sidebar-item__content--disabled', !item.active);
