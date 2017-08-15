@@ -15,9 +15,12 @@ class SurveyForm
   attribute :first_name, String
   attribute :last_name, String
   attribute :district_or_system, String
+  attribute :district_or_system_other, String
   attribute :subject_or_grade, String
+  attribute :subject_or_grade_other, String
   attribute :number_of_minutes, Integer
   attribute :additional_period, String
+  attribute :additional_period_minutes, String
   attribute :prior_experience, String
 
   validates_presence_of :additional_period, :district_or_system,

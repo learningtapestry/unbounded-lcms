@@ -24,12 +24,15 @@ class SurveysController < ApplicationController
   def permitted_params
     params.require(:survey_form).permit(
       :additional_period,
+      :additional_period_minutes,
       :district_or_system,
+      :district_or_system_other,
       :first_name,
       :last_name,
       :number_of_minutes,
       :prior_experience,
-      :subject_or_grade
+      :subject_or_grade,
+      :subject_or_grade_other
     )
   end
 end
