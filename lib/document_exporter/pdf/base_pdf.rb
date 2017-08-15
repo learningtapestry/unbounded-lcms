@@ -9,14 +9,14 @@ module DocumentExporter
         @config ||= YAML.load_file(CONFIG_PATH).deep_symbolize_keys
       end
 
+      def self.pdf_key(type)
+        type == 'full' ? 'pdf' : "pdf_#{type}"
+      end
+
       def config_for(type)
         self.class.config[type.to_sym].flat_map do |k, v|
           v.map { |x| { k => x } }
         end
-      end
-
-      def self.pdf_key(type)
-        type == 'full' ? 'pdf' : "pdf_#{type}"
       end
 
       def initialize(document, options = {})
@@ -47,6 +47,29 @@ module DocumentExporter
             result.delete_at result.index(id)
           end
         end
+      end
+
+      def ordered_materials(material_ids)
+        document_materials_id & material_ids
+      end
+
+      protected
+
+      def conbine_pdf_for(pdf, material_ids)
+        material_ids.each do |id|
+          next unless (url = @document.links['materials']&.dig(id.to_s, 'url'))
+          pdf << CombinePDF.parse(Net::HTTP.get(URI.parse(url)))
+        end
+        pdf
+      end
+
+      def document_materials_id
+        @document_materials_id ||=
+          if @document.ela?
+            @document.agenda_metadata&.flat_map { |x| x['children']&.flat_map { |c| c['material_ids'] }.compact }
+          else
+            @document.activity_metadata&.flat_map { |x| x['material_ids'] }.compact
+          end
       end
 
       private
