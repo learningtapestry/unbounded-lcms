@@ -43,7 +43,9 @@ module DocumentExporter
             @document.document_parts.find_by(placeholder: "{{#{x}}}")&.materials
           end.flatten.compact
 
-          result - excluded
+          excluded.each do |id|
+            result.delete_at result.index(id)
+          end
         end.map(&:to_i)
       end
 
