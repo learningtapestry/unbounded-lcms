@@ -42,7 +42,8 @@ class MaterialPresenter < ContentPresenter
   def name_date?
     # toggle display of name-date row on the header
     # https://github.com/learningtapestry/unbounded/issues/422
-    # Added the config definition for new types. If config says "NO", it's impossible to force-add the name-date field. It's impossible only to remove it when config allows it
+    # Added the config definition for new types. If config says "NO", it's impossible to force-add the name-date field.
+    # It's impossible only to remove it when config allows it
     !metadata.name_date.to_s.casecmp('no').zero? && config[:name_date]
   end
 
@@ -55,7 +56,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def student_material?
-    metadata.sheet_type == 'student'
+    sheet_type == 'student'
   end
 
   def subtitle
