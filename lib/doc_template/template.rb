@@ -133,6 +133,7 @@ module DocTemplate
     def parse_tables(html)
       if material?
         @metadata = Tables::MaterialMetadata.parse html
+        raise MaterialError, 'No metadata present' if @metadata.data.empty?
       else
         @metadata = Tables::Metadata.parse html
         @agenda = Tables::Agenda.parse html
