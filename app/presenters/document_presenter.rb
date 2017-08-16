@@ -94,7 +94,7 @@ class DocumentPresenter < ContentPresenter
     html = Nokogiri::HTML.fragment content
     html.css('.o-ld-group').each do |group|
       group_time = group.css('.o-ld-title__time--h3').inject(0) { |time, section| time + section.text.to_i }
-      group.at_css('.o-ld-title__time--h2').content = group_time.zero? ? '&mdash;' : "#{group_time} mins"
+      group.at_css('.o-ld-title__time--h2').content = group_time.zero? ? "\u2014" : "#{group_time} mins"
     end
     html.to_html
   end
