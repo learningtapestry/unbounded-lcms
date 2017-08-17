@@ -5,11 +5,6 @@
 </script>
 
 <div class="o-page o-page--margin-to-bottom">
-  <div class="o-page__module u-margin-bottom--gutter">
-    <%= link_to show_with_slug_path(@resource.slug), class: 'o-btn o-btn--base o-btn--xs-full' do %>
-      <i class="fa-lg ub-arrow-left u-text--middled"></i> <%= t('preview.back') %>
-    <% end %>
-  </div>
 
   <%= render partial: 'resources/header', locals: { resource: @resource } %>
 
