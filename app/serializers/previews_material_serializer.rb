@@ -19,11 +19,14 @@ class PreviewsMaterialSerializer < ActiveModel::Serializer
   end
 
   def data
-    materials.map do |material|
-      MaterialSerializer.new(
-        MaterialPresenter.new material, lesson: @document
-      ).as_json
-    end
+    ordered_ids = @document.ordered_material_ids
+    materials.to_a
+      .sort_by { |m| ordered_ids.index(m.id) }
+      .map do |material|
+        MaterialSerializer.new(
+          MaterialPresenter.new material, lesson: @document
+        ).as_json
+      end
   end
 
   def lesson

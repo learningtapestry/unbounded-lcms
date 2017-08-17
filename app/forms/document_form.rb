@@ -28,8 +28,9 @@ class DocumentForm
 
   def collect_materials(parsed_document)
     activity_ids = parsed_document
-                     .activity_metadata.map { |a| a['material_ids'] }
-                     .flatten.compact
+                     .activity_metadata
+                     .flat_map { |a| a['material_ids'] }
+                     .compact
 
     meta_ids = [].tap do |res|
       parsed_document.agenda.each do |x|
