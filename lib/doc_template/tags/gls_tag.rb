@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class GlsTag < BaseTag
-      TAG_NAME = 'gls'.freeze
-      TEMPLATE = 'gls.html.erb'.freeze
+      TAG_NAME = 'gls'
+      TEMPLATE = 'gls.html.erb'
 
       def parse(node, opts = {})
         parsed_content = parse_template({ content: opts[:value] }, TEMPLATE)
