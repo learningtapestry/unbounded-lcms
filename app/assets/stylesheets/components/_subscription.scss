@@ -1,0 +1,62 @@
+.o-subscription-modal {
+  @include reveal-overlay;
+  @include reveal-modal-base;
+  //@include reveal-modal-width(45%);
+  @include add-top-bottom-padding($y: 1);
+  margin-left: auto;
+  margin-right: auto;
+  overflow: auto;
+  position: relative;
+
+  @include breakpoint(large) {
+    width: 45% !important;
+  }
+
+  @include breakpoint(ipad) {
+    left: auto;
+    margin: 0 auto;
+    right: auto;
+    top: 30vh;
+    width: 65%;
+  }
+
+  @include breakpoint(medium down) {
+    @include reveal-modal-fullscreen;
+  }
+
+  @include e(content) {
+    @include add-column-padding;
+    overflow-y: auto;
+    padding: 2 * $ub-base-padding;
+
+    @include breakpoint(ipad) {
+      max-height: 50vh;
+    }
+
+    form {
+      .input {
+        @include placeholder(darken($medium-gray, 30%));
+        &::placeholder { color: darken($medium-gray, 30%) }
+        &::-moz-placeholder { opacity: 1; }
+        background-color: lighten($medium-gray, 10%);
+        margin-bottom: 3rem;
+      }
+    }
+
+  }
+
+  @include e(title) {
+    @include add-column-padding;
+    @include txt-element(subscription-header);
+
+    .u-hr-small { margin: 2rem 0 1rem; }
+
+    margin-top: 1rem;
+  }
+}
+.o-subscription-form {
+  @include e(error) {
+    color: lighten(red, 20%);
+    padding: 1em;
+  }
+}
