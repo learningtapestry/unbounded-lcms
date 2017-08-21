@@ -101,8 +101,12 @@
     margin-bottom: 0;
   }
 
+  @include m(faq) {
+    min-width: 100px;
+  }
+
   @include m(subtle) {
-     text-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
+   text-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
   }
 
   @include m(disabled) {
