@@ -13,8 +13,10 @@
   <div>
     <%= @data.materials %>
   </div>
-  <h3>Preparation</h3>
-  <div>
-    <%= @data.preparation %>
-  </div>
+  <% if @data.preparation.present? %>
+    <h3>Preparation</h3>
+    <div>
+      <%= @data.preparation %>
+    </div>
+  <% end %>
 </div>
