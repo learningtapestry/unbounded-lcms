@@ -6,8 +6,67 @@ $footer-padding: 5px;
   color: $ub-nav-link;
   display: table-row;
 
+  @include e(dropdown) {
+    @include txt-element-strict(ld-tooltip);
+    background: map-get($ub-ld-colorcodes, tooltip-bg);
+    border: 0;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,0.25);
+    margin-top: $tooltip-pip-width;
+    padding: 1rem;
+
+    * {
+      word-wrap: break-word;
+    }
+
+    a {
+      position: relative;
+      text-decoration: none;
+
+      &::after {
+        background-color: $anchor-color;
+        bottom: -1px;
+        content: '';
+        height: 1px;
+        left: 0;
+        position: absolute;
+        right: 0;
+      }
+    }
+
+    &::before {
+      @include css-triangle($tooltip-pip-width, map-get($ub-ld-colorcodes, tooltip-bg), down);
+      position: absolute;
+      top: 100%;
+    }
+
+    [data-close] {
+      float: right;
+      position: relative;
+      right: -.5rem;
+      top: -.5rem;
+    }
+  }
+
+  @include e(credits) {
+    line-height: 1.2rem;
+
+    @include m(mobile) {
+      //padding: .5rem .5rem 0;
+      padding: 5px 5px 0;
+
+      a {
+        color: $ub-nav-link;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  @include e(credits-link) {
+    cursor: pointer;
+  }
+
   @include e(wrap) {
-    @include flex-align(left, bottom);
+    @include flex-align(left, middle);
     padding-bottom: $ub-large-padding;
     padding-top: $ub-large-padding;
 
@@ -24,11 +83,12 @@ $footer-padding: 5px;
 
   @include e(logo) {
     @include flex-grid-column(shrink, 0);
-    img { width: $logo-width; }
 
     @include breakpoint(ipad) {
       padding-bottom: 4px;
     }
+
+    img { width: $logo-width; }
   }
 
   @include e(item) {
@@ -56,31 +116,47 @@ $footer-padding: 5px;
       @include m(full) {
         @include flex-grid-column(12);
         text-align: left;
+
         div {
           margin-left: $logo-width + $footer-padding;
         }
       }
     }
-
-
   }
 
   @include e(list) {
     @include menu-base;
     @include menu-direction(horizontal);
+
     color: $ub-whitesmoke;
-    li a { padding: 0 $footer-padding; }
 
     @include breakpoint(medium down) {
       display: inline-flex;
       flex-wrap: wrap;
-      li { flex: 0 0 auto; }
-      li a { line-height: 1.5; padding: .1rem 0; }
-      li.t-bullet { padding: .1rem $footer-padding; }
+
+      li {
+        flex: 0 0 auto;
+
+        a {
+          line-height: 1.5;
+          padding: .1rem 0;
+        }
+
+        .t-bullet {
+          padding: .1rem $footer-padding;
+        }
+      }
+    }
+
+    li {
+      a, span { padding: 0 $footer-padding; }
     }
   }
 }
 
 .t-bullet {
-  &:after { content: '\2022'; color: $ub-nav-link; }
+  &::after {
+    color: $ub-nav-link;
+    content: '\2022';
+  }
 }
