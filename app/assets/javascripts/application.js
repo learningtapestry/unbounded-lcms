@@ -1,5 +1,5 @@
 //= require turbolinks
-//= require jquery
+//= require jquery2
 //= require jquery_ujs
 //= require vendor/modernizr-custom
 //= require vendor/swiper.jquery

@@ -1,50 +1,45 @@
 class SubscriptionPopup extends React.Component {
-  componentDidMount() {
-    if (this._modal && !this.hasCookie()) {
-      new Foundation.Reveal($(this._modal)).open();
-      this.setCookie();
-    }
-  }
+  constructor(props) {
+    super(props);
 
-  setCookie() {
-    document.cookie = "unbounded_subscription=true; path=/"
-  }
-
-  hasCookie() {
-    const name = "unbounded_subscription=";
-    const ca = document.cookie.split(';');
-    for(var i = 0; i < ca.length; i++) {
-      if (ca[i].indexOf(name) >= 0) return true;
+    this.state = {
+      firstName: '',
+      lastName: ''
     }
-    return false;
   }
 
   render() {
-    const csrfToken = $('meta[name=csrf-token]').attr('content');
-    return (<div className="o-subscription-modal" ref={(ref) => this._modal = ref} data-reveal>
-      <div className="o-subscription-modal__title">
-        <div className="u-margin-bottom--xs">Subscribe to our Newsletter</div>
-        <div className="u-hr-small"></div>
-      </div>
-      <div className="o-subscription-modal__content">
-        <form method="post" action="/subscription" acceptCharset="UTF-8">
-          <input name="utf8" defaultValue="✓" type="hidden" />
-          <input name="authenticity_token" defaultValue={csrfToken} type="hidden" />
-          <div>
-            <input type="text" className="input" placeholder="Enter Full Name" name="subscription[name]" />
-          </div>
-          <div>
-            <input type="email" className="input" placeholder="Enter Email Address*" name="subscription[email]" required="required" />
-          </div>
-          <div className='o-subscription-form__error'>{this.props.msg}</div>
-          <div>
-            <button className="o-ub-btn o-ub-btn--yellow" type="submit">Subscribe</button>
-          </div>
-        </form>
-      </div>
-      <button className="close-button ub-close-button" data-close aria-label="Close modal" type="button">
-       <span aria-hidden="true"><i className="ub-close"></i></span>
-      </button>
-    </div>);
+    return (
+      <form acceptCharset="UTF-8"
+            action="//standardsinstitutes.us11.list-manage.com/subscribe/post?u=ea02a2b276fb89a7c2884182c&id=3c9308d34e"
+            method="post"
+            onSubmit={this.props.onSubmit}
+            target="_blank">
+        <input name="utf8" defaultValue="✓" type="hidden" />
+        <div>
+          <input type="text" className="input" placeholder="Enter Full Name" defaultValue="" onChange={e => this.setName(e)} />
+        </div>
+        <div>
+          <input className="input hide" id="mce-FNAME" name="FNAME" type="text" value={this.state.firstName}/>
+        </div>
+        <div>
+          <input className="input hide" id="mce-LNAME" name="LNAME" type="text" value={this.state.lastName}/>
+        </div>
+        <div>
+          <input className="input" id="mce-EMAIL" name="EMAIL" placeholder="Enter Email Address*" required="required" type="email"/>
+        </div>
+        <div>
+          <button className="o-ub-btn o-ub-btn--yellow" type="submit">Subscribe</button>
+        </div>
+      </form>
+    );
+  }
+
+  setName(e) {
+    const names = e.target.value.trim().split(' ');
+    this.setState({
+      firstName: names[0],
+      lastName: (names.length > 1 ? names[1] : '')
+    })
   }
 }
