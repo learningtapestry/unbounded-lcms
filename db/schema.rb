@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818025402) do
+ActiveRecord::Schema.define(version: 20170821064651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -379,13 +379,6 @@ ActiveRecord::Schema.define(version: 20170818025402) do
   add_index "standards", ["standard_strand_id"], name: "index_standards_on_standard_strand_id", using: :btree
   add_index "standards", ["subject"], name: "index_standards_on_subject", using: :btree
   add_index "standards", ["type"], name: "index_standards_on_type", using: :btree
-
-  create_table "subscriptions", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email",      null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"

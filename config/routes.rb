@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   get '/leadership'   => 'pages#leadership'
 
   get '/search' => 'search#index'
-  post '/subscription' => 'welcome#subscription'
 
   mount PdfjsViewer::Rails::Engine => '/pdfjs', as: 'pdfjs'
 
