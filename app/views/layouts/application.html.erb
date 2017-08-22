@@ -8,8 +8,8 @@
     <meta name="description" content="<%= page_description %>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= redirect_meta_tag %>
-    <%= render partial: "shared/open_graph_meta" %>
-    <%= render partial: "shared/favicon" %>
+    <%= render partial: 'shared/open_graph_meta' %>
+    <%= render partial: 'shared/favicon' %>
     <script>document.querySelector('html').className = 'js';</script>
     <script>
       window._PDFJSworkerSrc = '<%= asset_url('vendor/pdf.worker.js') %>'
@@ -31,10 +31,11 @@
     <%= render partial: 'shared/open_graph_meta_js' %>
     <%= render partial: 'shared/unsupported' %>
     <div class="u-page-wrap u-supported">
-      <%= render partial: "shared/header" %>
+      <%= render partial: 'shared/header' %>
       <%= render partial: 'shared/flash' %>
       <%= yield %>
+      <%= react_component('SubscriptionPopupContainer') %>
     </div>
-    <%= render partial: "shared/footer" %>
+    <%= render partial: 'shared/footer' %>
   </body>
 </html>
