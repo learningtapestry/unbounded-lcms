@@ -2,21 +2,41 @@
 
 class PreviewsMaterialSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :data, :pdf_type, :subject
+  attributes :activity, :data, :lesson, :pdf_type, :subject
   attr_reader :document
   delegate :pdf_type, :subject, to: :document
 
-  def initialize(material_ids, document)
+  def initialize(props, document)
     super(document)
     @document = document
-    @materials = Material.where(id: material_ids)
+    @props = props
+  end
+
+  def activity
+    {}.tap do |x|
+      %w(title type).each { |m| x["activity_#{m}"] = @props['activity'].send(:[], m) }
+    end
   end
 
   def data
-    @materials.map do |material|
+    materials.map do |material|
       MaterialSerializer.new(
         MaterialPresenter.new material, lesson: @document
       ).as_json
     end
+  end
+
+  def lesson
+    @lesson ||=
+      {}.tap do |x|
+        %i(grade ld_module subject title lesson).each { |m| x["lesson_#{m}"] = @document.send m }
+        x['lesson_unit_topic'] = @document.topic
+      end
+  end
+
+  private
+
+  def materials
+    @materials ||= Material.where(id: @props['material_ids'])
   end
 end

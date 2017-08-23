@@ -1,5 +1,5 @@
 // copy with just changes css classes from https://github.com/pedronauck/react-simpletabs
-var Tabs = React.createClass({
+const Tabs = React.createClass({
   displayName: 'Tabs',
   propTypes: {
     className: React.PropTypes.oneOfType([
@@ -25,9 +25,9 @@ var Tabs = React.createClass({
     };
   },
   componentDidMount() {
-    var index = this.state.tabActive;
-    var $selectedPanel = this.refs['o-tab__panel'];
-    var $selectedMenu = this.refs[`o-tab-menu-${index}`];
+    const index = this.state.tabActive;
+    const $selectedPanel = this.refs['o-tab__panel'];
+    const $selectedMenu = this.refs[`o-tab-menu-${index}`];
 
     if (this.props.onMount) {
       this.props.onMount(index, $selectedPanel, $selectedMenu);
@@ -39,7 +39,7 @@ var Tabs = React.createClass({
     }
   },
   render () {
-    var className = classNames('o-tab', this.props.className);
+    const className = classNames('o-tab', this.props.className);
     return (
       <div className={className}>
         {this._getMenuItems()}
@@ -50,14 +50,14 @@ var Tabs = React.createClass({
   setActive(index, e) {
     e.preventDefault();
 
-    var onAfterChange = this.props.onAfterChange;
-    var onBeforeChange = this.props.onBeforeChange;
-    var $selectedPanel = this.refs['o-tab__panel'];
-    var $selectedTabMenu = this.refs[`o-tab-menu-${index}`];
+    const onAfterChange = this.props.onAfterChange;
+    const onBeforeChange = this.props.onBeforeChange;
+    const $selectedPanel = this.refs['o-tab__panel'];
+    const $selectedTabMenu = this.refs[`o-tab-menu-${index}`];
 
     if (onBeforeChange) {
-      var cancel = onBeforeChange(index, $selectedPanel, $selectedTabMenu);
-      if(cancel === false){ return }
+      const cancel = onBeforeChange(index, $selectedPanel, $selectedTabMenu);
+      if(cancel === false){ return; }
     }
 
     this.setState({ tabActive: index }, () => {
@@ -75,13 +75,13 @@ var Tabs = React.createClass({
       this.props.children = [this.props.children];
     }
 
-    var $menuItems = this.props.children
+    const $menuItems = this.props.children
       .map($panel => typeof $panel === 'function' ? $panel() : $panel)
       .filter($panel => $panel)
       .map(($panel, index) => {
-        var ref = `o-tab-menu-${index + 1}`;
-        var title = $panel.props.title;
-        var classes = classNames(
+        const ref = `o-tab-menu-${index + 1}`;
+        const title = $panel.props.title;
+        const classes = classNames(
           'o-tab-menu__item',
           {'o-tab-menu__item--active': this.state.tabActive === (index + 1)}
         );
@@ -102,8 +102,8 @@ var Tabs = React.createClass({
     );
   },
   _getSelectedPanel () {
-    var index = this.state.tabActive - 1;
-    var $panel = this.props.children[index];
+    const index = this.state.tabActive - 1;
+    const $panel = this.props.children[index];
 
     return (
       <div ref="o-tab__panel" className="o-tab__panel">

@@ -26,7 +26,5 @@
     <%= @tmpl[:content] %>
   </div>
 
-  <% if @tmpl[:section].material_ids.present? %>
-    <div data-react-class="MaterialsContainer" data-react-props="<%= @tmpl[:section].material_ids.join(',') %>"></div>
-  <% end %>
+  <%= materials_container @tmpl[:react_props] %>
 </div>
