@@ -3,6 +3,8 @@
 module DocTemplate
   module Tags
     class ActivityMetadataTypeTag < BaseTag
+      include DocTemplate::Tags::Helpers
+
       TAG_NAME = 'activity-metadata-type'
       TASK_RE = /(\[task:\s(#)\])/i
       TEMPLATE = 'activity.html.erb'
@@ -19,7 +21,14 @@ module DocTemplate
           content: content,
           foundational: opts[:foundational_skills],
           placeholder: placeholder_id,
-          priority_description: priority_description(activity)
+          priority_description: priority_description(activity),
+          react_props: {
+            activity: {
+              title: activity.title,
+              type: activity.activity_type
+            },
+            material_ids: activity.material_ids
+          }
         }
         @content = parse_template params, TEMPLATE
         @materials = activity.material_ids

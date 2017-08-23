@@ -63,3 +63,4 @@ coverage
 /docs
 /pdfs
 .DS_store
+/config/google/

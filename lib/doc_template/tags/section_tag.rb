@@ -3,6 +3,8 @@
 module DocTemplate
   module Tags
     class SectionTag < BaseTag
+      include DocTemplate::Tags::Helpers
+
       STUDENT_RE = /^\s*student\s*resources\s*$/i
       TAG_NAME = 'section'
       TEMPLATE_ELA = 'section-ela-2-6.html.erb'
@@ -30,6 +32,12 @@ module DocTemplate
       def general_params
         @params ||= {
           placeholder: placeholder_id,
+          react_props: {
+            activity: {
+              title: section.title
+            },
+            material_ids: @section.material_ids
+          },
           section: section
         }
       end

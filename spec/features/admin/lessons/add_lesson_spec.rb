@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'Admin adds a lesson' do
-  SAMPLE_LESSON_PATH = 'spec/features/admin/lessons/sample-lessons'.freeze
+  SAMPLE_LESSON_PATH = 'spec/features/admin/lessons/sample-lessons'
 
   DownloadedFile = Struct.new :last_modifying_user, :modified_time, :name, :version
 

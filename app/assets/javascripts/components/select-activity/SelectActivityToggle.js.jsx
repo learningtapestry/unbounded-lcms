@@ -1,12 +1,13 @@
+/* eslint-disable no-unused-vars */
 class SelectActivityToggle extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.toggle = this.toggle.bind(this)
+    this.toggle = this.toggle.bind(this);
     this.modalText = [
       this.props.preface ? this.props.preface.textContent : null,
       this.props.meta ? this.props.meta.textContent : null,
-    ].filter(x => !!x).join(' ')
+    ].filter(x => !!x).join(' ');
   }
 
   render() {
@@ -16,7 +17,7 @@ class SelectActivityToggle extends React.Component {
         <span className="o-ld-selection__label" onClick={this.toggle}>Use Activity</span>
         { this.props.item.active && <SelectActivityConfirmationModal text={this.modalText} { ...this.props } /> }
       </div>
-    )
+    );
   }
 
   toggle() {
