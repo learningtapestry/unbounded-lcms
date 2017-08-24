@@ -19,12 +19,19 @@ en:
   footer:
     address_html: >
       123 Main Street, 12th fl, New York NY 10003
-    copyright_html: Copyright © 2016
+    contact: Contact
+    copyright_html: © Copyright UnbounEd Learning. 2017.
+    credits: Credits
+    credits_full_html: >
+      Design by <a href="https://www.linkedin.com/in/ryan-reynolds-0a67411/" target="_blank">Philament</a> and
+      <a href="https://constructive.co/" target="_blank">Constructive</a>; technology by
+      <a href="https://www.learningtapestry.com/" target="_blank">Learning Tapestry</a>. All photos copyright
+      <a href="https://www.unbounded.org/" target="_blank">UnboundEd</a> &
+      <a href="https://www.vertamaloney.com/" target="_blank">Verta Maloney</a>.
     phone_html: (888)123-4567
+    privacy: Privacy
     rights_html: All rights reserved.
     search: Search
-    contact: Contact
-    privacy: Privacy
     terms: Terms of Use
   layouts:
     admin:

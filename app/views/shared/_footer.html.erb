@@ -1,7 +1,19 @@
 <% if current_user&.ready_to_go? %>
+  <div class="dropdown-pane c-footer__dropdown top"
+        data-dropdown
+        data-close-on-click="true"
+        data-v-offset="18"
+        id="footer-credits">
+    <div>
+      <button data-close aria-label="Close modal" type="button">
+        <span><i class="ub-close"></i></span>
+      </button>
+    </div>
+    <div class="c-footer__credits"><%= t('footer.credits_full_html') %></div>
+  </div>
   <footer class="c-footer u-supported <%= add_class_for_action(:resources, :show, 'c-footer--with-sticky') %>">
-    <%= render partial: "shared/subscribe" %>
-    <%= render partial: "shared/connect" %>
+    <%= render partial: 'shared/subscribe' %>
+    <%= render partial: 'shared/connect' %>
 
     <div class="c-footer__wrap o-page__wrap--row-column c-navbar">
       <div class="c-footer__logo">
@@ -22,11 +34,25 @@
           <li><%= link_to t('footer.privacy'), :privacy_page, class: 'c-footer__link' %></li>
           <li class="t-bullet"></li>
           <li><%= link_to t('footer.terms'), :tos_page, class: 'c-footer__link' %></li>
+          <li class="t-bullet show-for-medium"></li>
+          <li class="show-for-medium">
+            <span class="c-footer__link c-footer__credits-link" data-toggle="footer-credits">
+              <%= t('footer.credits') %>
+            </span>
+          </li>
+          <li class="t-bullet show-for-medium"></li>
+          <li class="c-footer__link show-for-medium">
+            <span class="u-txt--footer-links">
+              <%= t('footer.copyright_html') %>
+            </span>
+          </li>
         </ul>
-      </div>
-      <div class="c-footer__item u-txt--footer-links c-footer__item--full">
-        <div>Site by <%= link_to 'Constructive', 'https://constructive.co/', class: 'c-footer__link', target: '_blank' %>  & <%= link_to 'Learning Tapestry', 'https://learningtapestry.com/', class: 'c-footer__link', target: '_blank' %></div>
-        <div>All photos copyright UnboundEd and <%= link_to 'Verta Maloney', 'http://www.vertamaloney.com/', class: 'c-footer__link', target: '_blank' %></div>
+        <div class="c-footer__credits--mobile show-for-small-only u-txt--footer-links">
+          <%= t('footer.credits_full_html') %>
+        </div>
+        <div class="c-footer__credits--mobile show-for-small-only u-txt--footer-links">
+          <%= t('footer.copyright_html') %>
+        </div>
       </div>
     </div>
   </footer>
