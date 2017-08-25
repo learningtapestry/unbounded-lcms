@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class SketchCompilersController < AdminController
     include GoogleAuth
@@ -9,7 +11,7 @@ module Admin
 
     def compile
       response = SketchCompiler
-                   .new(current_user.id, params[:version])
+                   .new(current_user.id, request.remote_ip, params[:version])
                    .compile(params[:url], params[:foundational_url])
 
       if response.success?
