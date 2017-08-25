@@ -1,6 +1,11 @@
+# frozen_string_literal: true
+
+require 'base64'
+
 class SketchCompiler
-  def initialize(user_id, version)
+  def initialize(user_id, user_ip, version)
     @user_id = user_id
+    @user_ip = user_ip
     @version = version
   end
 
@@ -12,7 +17,7 @@ class SketchCompiler
     url = [api_url, @version, 'compile'].join('/')
     post_params = {
       body: {
-        uid: @user_id,
+        uid: Base64.encode64("#{@user_id}@#{@user_ip}"),
         url: core_url,
         foundational_url: foundational_url
       },
