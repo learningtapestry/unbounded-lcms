@@ -25,8 +25,8 @@ class GoogleAuthService
     @context = context
   end
 
-  def authorization_url
-    authorizer.get_authorization_url(request: context.request)
+  def authorization_url(options = {})
+    authorizer.get_authorization_url options.merge(request: context.request)
   end
 
   def authorizer

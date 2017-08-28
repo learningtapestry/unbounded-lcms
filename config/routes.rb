@@ -90,8 +90,18 @@ Rails.application.routes.draw do
       get '/:version/new', to: 'sketch_compilers#new', as: :new
       post '/:version/compile', to: 'sketch_compilers#compile', as: :compile
     end
-    resources :documents, only: %i(index create new destroy)
-    resources :materials, only: %i(index create new destroy)
+    resources :documents, only: %i(index create new destroy) do
+      collection do
+        delete :delete_selected, to: 'documents#destroy_selected'
+        post :reimport_selected
+      end
+    end
+    resources :materials, except: %i(edit show update) do
+      collection do
+        delete :delete_selected, to: 'materials#destroy_selected'
+        post :reimport_selected
+      end
+    end
     resource :curriculum, only: %i(edit update)
     resources :access_codes
   end

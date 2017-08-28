@@ -130,4 +130,14 @@ module ApplicationHelper
     grade_avg = base ? 'base' : model.grades.average
     "#{subject_color_code}-#{grade_avg}"
   end
+
+  def selected_id?(id)
+    selected_ids = params[:selected_ids]
+    return unless selected_ids.present?
+
+    case selected_ids
+    when Array then selected_ids.include?(id.to_s)
+    else selected_ids.split(',').include?(id.to_s)
+    end
+  end
 end

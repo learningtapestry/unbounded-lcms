@@ -21,12 +21,20 @@ class MaterialPresenter < ContentPresenter
     layout(context_type)&.content
   end
 
+  def content_type
+    metadata.type
+  end
+
   def full_breadcrumb
     lesson.full_breadcrumb(unit_level: unit_level?)
   end
 
   def gdoc_folder
     "#{lesson.id}_v#{lesson.version}"
+  end
+
+  def gdoc_url
+    URI.escape lesson.links['materials']&.dig(id.to_s)&.dig('gdoc').presence || ''
   end
 
   def header?
@@ -52,8 +60,8 @@ class MaterialPresenter < ContentPresenter
     "documents/#{lesson.id}/#{base_filename}"
   end
 
-  def content_type
-    metadata.type
+  def pdf_url
+    URI.escape "https://#{ENV['AWS_S3_BUCKET_NAME']}.s3.amazonaws.com/#{pdf_filename}.pdf"
   end
 
   def render_content(context_type, excludes = [])

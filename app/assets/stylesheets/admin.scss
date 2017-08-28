@@ -8,7 +8,7 @@
 @import 'admin/components';
 @import 'admin/lessons';
 @import 'admin/materials';
-
+@import 'admin/users';
 
 .button {
   white-space: nowrap;
@@ -97,3 +97,5 @@
 
 .flex-pull-right { margin-left: auto; }
 .inline-form-btn { display: inline; }
+
+.c-multi-selected-btn { display: inline-block; }

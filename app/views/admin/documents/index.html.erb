@@ -1,20 +1,35 @@
 <% set_page_title 'Lessons Manager' %>
 
-<div class=o-page>
+<div class="o-page o-adm-list">
 
   <h1 class=text-center><%= t('.title') %></h1>
 
   <%= render 'search_form' %>
 
   <div class=row>
+    <div class="flex-pull-left">
+      <span class="c-multi-selected--select-all"><%= check_box_tag 'selected_all', 'true' %> Select All on this page</span>
+    </div>
     <div class='flex-pull-right'>
+      <%= react_component 'MultiSelectedOperation', {
+            text: t('.reimport_selected'),
+            operation: 'reimport',
+            path: reimport_selected_admin_documents_path(query: params[:query]),
+            btn_style: 'primary' } %>
+      <%= react_component 'MultiSelectedOperation', {
+            text: t('.delete_selected'),
+            operation: 'delete',
+            path: delete_selected_admin_documents_path(query: params[:query]),
+            btn_style: 'alert'} %>
+
       <%= link_to t('.new_lesson'), :new_admin_document, class: 'button primary' %>
     </div>
-    <table class=table>
+    <table class="lessons-table table">
       <tr>
+        <th>
         <th>ID
         <th>Curriculum
-        <th>Resource
+        <th>Title
         <th>File Name
         <th>Materials
         <th>Last Update
@@ -26,16 +41,17 @@
 
       <% @documents.each do |lesson| %>
         <tr id=lesson_<%= lesson.id %>>
-          <td class='u-text--right'><%= lesson.id %>
+          <td><%= check_box_tag 'selected_ids[]', lesson.id, selected_id?(lesson.id), class: 'c-selected-ids' %></td>
+          <td class="u-text--right"><%= lesson.id %>
           <td><%= Breadcrumbs.new(lesson.resource).short_title if lesson.resource %>
-          <td><%= link_to lesson.resource.try(:title), lesson.resource if lesson.resource %>
+          <td><%= link_to lesson&.resource&.title, lesson, target: '_blank' %>
           <td><%= link_to lesson.name, lesson.file_url, target: '_blank' %>
-          <td><%= document_materials_links(lesson) %>
-          <td><%= lesson.updated_at.to_s %>
+          <td><%= render partial: 'admin/documents/materials_links', locals: { lesson: lesson } %>
+          <td class="u-text--small"><%= lesson.updated_at.to_s %>
           <td><%= lesson.active? ? 'active' : 'inactive' %>
-          <td><%= link_to content_tag(:i, nil, class: 'fa fa-eye').html_safe, [lesson], class: 'button small primary', target: '_blank', title: 'show lesson' %>
-          <td><%= render partial: 'admin/documents/reimport', locals: {lesson: lesson} %>
-          <td><%= button_to t('ui.delete'), admin_document_path(lesson), class: 'button small alert', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
+          <td class="lessons-table__btns">
+            <%= render partial: 'admin/documents/reimport', locals: {lesson: lesson} %>
+            <%= button_to t('ui.delete'), admin_document_path(lesson), class: 'button small alert', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
         </tr>
       <% end %>
     </table>
