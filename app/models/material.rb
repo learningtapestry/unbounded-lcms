@@ -14,6 +14,7 @@ class Material < ActiveRecord::Base
   pg_search_scope :search_identifier, against: :identifier
 
   scope :where_metadata, ->(hash) { where('materials.metadata @> ?', hash.to_json) }
+  scope :where_metadata_like, ->(key, val) { where('materials.metadata ->> ? ILIKE ?', key, "%#{val}%") }
 
   def self.where_metadata_any_of(conditions)
     condition = Array.new(conditions.size, 'materials.metadata @> ?').join(' or ')

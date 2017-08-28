@@ -181,8 +181,11 @@ en:
         email: E-mail
         id: ID
         name: Name
+        first_name: First Name
+        last_name: Last Name
         new_user: New user
         page_title: Users
+        registration: Registration
         reset_password_btn: Reset password
         role: Role
       search_form:
@@ -236,7 +239,9 @@ en:
         submit: Compile
     documents:
       index:
+        delete_selected: Delete selected
         new_lesson: Add new Lesson
+        reimport_selected: Re-import selected
         title: Lesson Manager
       create:
         error: Error
@@ -246,19 +251,25 @@ en:
         submit: Parse
       destroy:
         success: Lesson deleted successfully.
+      destroy_selected:
+        success: '%{count} documents have been deleted successfully.'
     materials:
-      index:
-        new_material: Add new Material
-        title: Material Manager
       create:
-        bulk_import: Imported %{count} Materials from %{folder}"
+        bulk_import: Imported %{count} Materials from %{folder}
         error: Error
         success: Material %{name} parsed successfully.
+      destroy:
+        success: Material deleted successfully.
+      destroy_selected:
+        success: '%{count} materials have been deleted successfully.'
+      index:
+        delete_selected: Delete selected
+        new_material: Add new Material
+        reimport_selected: Re-import selected
+        title: Material Manager
       new:
         page_title: Add a material
         submit: Parse
-      destroy:
-        success: Material deleted successfully.
     standards:
       edit:
         page_title: "Edit Standard"
