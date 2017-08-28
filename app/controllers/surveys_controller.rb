@@ -7,6 +7,7 @@ class SurveysController < ApplicationController
     @form = SurveyForm.new(permitted_params)
     if @form.valid?
       current_user.update(survey: @form.attributes)
+      notify_heap
       loc = stored_location_for(:user)
       loc = root_path if loc.is_a?(String) && loc[survey_path]
       redirect_to loc || root_path
@@ -20,6 +21,16 @@ class SurveysController < ApplicationController
   end
 
   private
+
+  def notify_heap
+    data = current_user
+             .survey.except('first_name', 'last_name')
+             .merge(
+               access_code: current_user.access_code,
+               email: current_user.email
+             )
+    Heap.add_user_properties current_user.id, data
+  end
 
   def permitted_params
     params.require(:survey_form).permit(
