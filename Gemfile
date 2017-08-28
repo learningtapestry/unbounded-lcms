@@ -121,6 +121,9 @@ gem 'sanitize', '~> 4.2'
 # shorten urls
 gem 'bitly', '~> 1.0'
 
+# user tracking
+gem 'heap', '~> 1.0'
+
 # redis
 gem 'hiredis'
 gem 'readthis'
