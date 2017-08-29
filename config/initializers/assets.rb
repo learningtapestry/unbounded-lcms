@@ -19,6 +19,7 @@ Rails.application.config.assets.precompile += %w(
   admin.css
   ckeditor/*
   generated/*
+  gdoc.css
   i18n.js
   main.css
   pdf.css

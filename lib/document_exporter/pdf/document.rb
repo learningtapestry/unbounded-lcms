@@ -2,7 +2,7 @@
 
 module DocumentExporter
   module PDF
-    class Document < BasePDF
+    class Document < PDF::Base
       def export
         content = super
         pdf = CombinePDF.parse(content)

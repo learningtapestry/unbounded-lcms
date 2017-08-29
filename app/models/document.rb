@@ -52,8 +52,9 @@ class Document < ActiveRecord::Base
     "https://docs.google.com/document/d/#{file_id}"
   end
 
-  def layout
-    document_parts.where(part_type: :layout).last
+  def layout(context_type)
+    # TODO: Move to concern with the same method in `Material`
+    document_parts.where(part_type: :layout, context_type: DocumentPart.context_types[context_type.to_sym]).last
   end
 
   def math?
@@ -62,6 +63,15 @@ class Document < ActiveRecord::Base
 
   def title
     metadata['title']
+  end
+
+  def tmp_link(key)
+    url = links[key]
+    with_lock do
+      reload.links.delete(key)
+      update links: links
+    end
+    url
   end
 
   private

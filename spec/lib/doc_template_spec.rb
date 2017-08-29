@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-require 'doc_template.rb'
 
 describe DocTemplate do
   let(:html_document) do

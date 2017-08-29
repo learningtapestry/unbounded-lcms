@@ -118,12 +118,14 @@ module DocTemplate
       parsed_tag = tag.parse(node, @opts.merge(parent_document: self, value: tag_value))
 
       parsed_content = parsed_tag.content.presence || parsed_tag.render.to_s
-      sanitized_content = HtmlSanitizer.post_processing(parsed_content, @opts[:metadata].try(:subject))
+      sanitized_content = HtmlSanitizer.post_processing(parsed_content, @opts)
 
       return if TAGS_WITHOUT_PARTS.include?(tag::TAG_NAME)
 
       @parts << {
+        anchor: parsed_tag.anchor.to_s,
         content: sanitized_content.squish,
+        context_type: @opts[:context_type],
         materials: parsed_tag.materials,
         placeholder: parsed_tag.placeholder,
         part_type: tag_name.underscore

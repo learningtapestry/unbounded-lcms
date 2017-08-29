@@ -43,8 +43,8 @@ feature 'Admin adds a lesson' do
 
       # stub GDoc download
       file_content = File.read File.join(SAMPLE_LESSON_PATH, data[:file_name])
-      allow_any_instance_of(DocumentDownloader::GDoc).to receive(:file).and_return(DownloadedFile.new(nil, nil, idx))
-      allow_any_instance_of(DocumentDownloader::GDoc).to receive(:content).and_return(file_content)
+      allow_any_instance_of(DocumentDownloader::Gdoc).to receive(:file).and_return(DownloadedFile.new(nil, nil, idx))
+      allow_any_instance_of(DocumentDownloader::Gdoc).to receive(:content).and_return(file_content)
 
       fill_in :document_form_link, with: data[:url]
       click_button 'Parse'

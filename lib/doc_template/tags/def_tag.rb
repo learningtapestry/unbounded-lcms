@@ -6,7 +6,8 @@ module DocTemplate
       STYLE_RE = /<span (style=[^.>]*)>[^<]*$/i
       TAG_NAME = 'def'.freeze
       TAG_SEPARATOR = '[separator]'.freeze
-      TEMPLATE = 'def.html.erb'.freeze
+      TEMPLATES = { default: 'def.html.erb',
+                    gdoc:    'gdoc/def.html.erb' }.freeze
 
       def parse(node, opts = {})
         # Need to extract the Tag and preserves all the styling inside it
@@ -30,7 +31,7 @@ module DocTemplate
           subject: subject
         }
 
-        @content = "<p>#{parse_template(params, TEMPLATE)}</p>"
+        @content = "<p>#{parse_template(params, template_name(opts))}</p>"
 
         if node.name == 'li'
           @result = node.replace "<li>#{placeholder}</li>"

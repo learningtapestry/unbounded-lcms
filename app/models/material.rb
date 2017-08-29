@@ -6,6 +6,7 @@ class Material < ActiveRecord::Base
   validates :file_id, presence: true
   validates :identifier, uniqueness: true
 
+  has_many :material_parts, dependent: :delete_all
   has_and_belongs_to_many :documents
 
   serialize :metadata, DocTemplate::Objects::MaterialMetadata
@@ -21,5 +22,10 @@ class Material < ActiveRecord::Base
 
   def file_url
     "https://docs.google.com/document/d/#{file_id}"
+  end
+
+  def layout(context_type)
+    # TODO: Move to concern with the same method in `Document`
+    material_parts.where(part_type: :layout, context_type: DocumentPart.context_types[context_type.to_sym]).last
   end
 end

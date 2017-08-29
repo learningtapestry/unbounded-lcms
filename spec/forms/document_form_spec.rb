@@ -19,7 +19,7 @@ describe DocumentForm do
         }
         instance_double Document, stubs
       end
-      let(:downloader) { instance_double 'DocumentDownloader::GDoc', import: document }
+      let(:downloader) { instance_double 'DocumentDownloader::Gdoc', import: document }
       let(:link) { 'doc-url' }
       let(:material_ids) { [1, 3] }
       let(:params) { { link: link } }
@@ -38,9 +38,9 @@ describe DocumentForm do
       end
 
       before do
-        allow(DocumentDownloader::GDoc).to receive(:new).with(nil, link, Document).and_return(downloader)
+        allow(DocumentDownloader::Gdoc).to receive(:new).with(nil, link, Document).and_return(downloader)
         allow(DocTemplate::Template).to receive(:parse).and_return(parsed_document)
-        allow(DocumentPdfGenerator).to receive(:materials_for)
+        allow(DocumentGenerator).to receive(:materials_for)
       end
 
       it 'downloads the document' do
@@ -65,7 +65,7 @@ describe DocumentForm do
       end
 
       it 'queues job to process equations' do
-        expect(DocumentPdfGenerator).to receive(:materials_for).with(document)
+        expect(DocumentGenerator).to receive(:materials_for).with(document)
       end
 
       after { subject }

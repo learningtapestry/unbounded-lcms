@@ -2,8 +2,8 @@
 
 class MaterialSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :id, :identifier, :orientation, :subtitle, :title, :thumb, :url
-  delegate :orientation, :pdf_filename, :subtitle, :title, to: :object
+  attributes :id, :identifier, :orientation, :subtitle, :title, :thumb, :url, :gdoc
+  delegate :lesson, :orientation, :pdf_filename, :subtitle, :title, to: :object
 
   def thumb
     "#{s3_filename}.jpg"
@@ -11,6 +11,10 @@ class MaterialSerializer < ActiveModel::Serializer
 
   def url
     "#{s3_filename}.pdf"
+  end
+
+  def gdoc
+    URI.escape lesson.links['materials']&.dig(id.to_s)&.dig('gdoc').presence || ''
   end
 
   private

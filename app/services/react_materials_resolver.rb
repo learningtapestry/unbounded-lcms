@@ -19,7 +19,7 @@ class ReactMaterialsResolver
 
       props = PreviewsMaterialSerializer.new(raw_props, document)
       # TODO: find out what is wrong with server rendering here for web version
-      component = h.react_component('MaterialsContainer', props, prerender: document.pdf_type != 'none')
+      component = h.react_component('MaterialsContainer', props, prerender: document.content_type != 'none')
       node.replace(component)
     end
 

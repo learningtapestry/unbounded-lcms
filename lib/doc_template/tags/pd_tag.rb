@@ -3,12 +3,15 @@
 module DocTemplate
   module Tags
     class PdTag < BaseTag
+      include Rails.application.routes.url_helpers
+      
       CG_RE = %r{/content_guides/(\d+)/}i
       PDF_HTTP_RE = %r{^https?://}i
       PDF_HTTP_REPLACE_RE = /^http:/i
       PDF_RE = /\.pdf$/i
       TAG_NAME = 'pd'
-      TEMPLATE = 'pd.html.erb'
+      TEMPLATES = { default: 'pd.html.erb',
+                    gdoc:    'gdoc/pd.html.erb' }.freeze
       TYPE_CG = 'cg'
       TYPE_PDF = 'pdf'
       TYPE_PODCAST = 'podcast'
@@ -25,19 +28,20 @@ module DocTemplate
 
         params = {
           description: description,
+          resource: resource,
           start: start,
           stop: stop,
           subject: subject,
           title: title
         }.merge(embeded)
-        @content = parse_template params, TEMPLATE
+        @content = parse_template params, template_name(opts)
         replace_tag node
         self
       end
 
       private
 
-      attr_reader :description, :opts, :start, :stop, :subject, :title, :url
+      attr_reader :description, :opts, :resource, :start, :stop, :subject, :title, :url
 
       def embeded_object
         if url.index('soundcloud.com')
@@ -56,6 +60,7 @@ module DocTemplate
 
         @description = @title.presence || cg.description
         @title = cg.title
+        @resource = cg
 
         grade = cg.grades.list.first.presence
         grade = cg.grades.grade_abbr(grade).presence || 'base'
@@ -67,6 +72,7 @@ module DocTemplate
         {
           color: "#{cg.subject}-#{grade}",
           content_guide: cg,
+          resource_url: content_guide_path(cg.permalink || cg.id, slug: cg.slug),
           type: TYPE_CG,
           url: cg_url
         }
@@ -76,14 +82,16 @@ module DocTemplate
         pdf_url = PDF_HTTP_RE =~ url ? url : "https://#{url}"
         pdf_url = pdf_url.sub(PDF_HTTP_REPLACE_RE, 'https:')
         {
-          url: pdf_url,
-          type: TYPE_PDF
+          type: TYPE_PDF,
+          url: pdf_url
         }
       end
 
       def embeded_object_soundcloud
+        resource_url = media_path(resource.id) if resource.present?
         {
           content: MediaEmbed.soundcloud(url, subject),
+          resource_url: resource_url,
           type: TYPE_PODCAST
         }
       end
@@ -93,15 +101,18 @@ module DocTemplate
           q[:start] = start if start.present?
           q[:end] = stop if stop.present?
         end.compact
-        youtube_url = "https://www.youtube.com/embed/#{MediaEmbed.video_id(url)}?#{query.to_query}"
+        resource_url = media_path(resource.id) if resource.present?
+        youtube_url  = "https://www.youtube.com/embed/#{MediaEmbed.video_id(url)}?#{query.to_query}"
         {
-          url: youtube_url,
-          type: TYPE_YOUTUBE
+          resource_url: resource_url,
+          type: TYPE_YOUTUBE,
+          url: youtube_url
         }
       end
 
       def fetch_data
-        if (title.blank? || description.blank?) && (resource = Resource.find_by url: url)
+        @resource = Resource.find_by url: url
+        if (title.blank? || description.blank?) && resource
           @title = resource.title if title.blank?
           @description = resource.teaser if description.blank?
         end

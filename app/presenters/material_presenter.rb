@@ -2,18 +2,30 @@
 
 class MaterialPresenter < ContentPresenter
   attr_reader :lesson, :parsed_document
-  delegate :css_styles, :short_url, :subject, to: :lesson
+  delegate :cc_attribution, :css_styles, :short_url, :subject, to: :lesson
   delegate :sheet_type, to: :metadata
   delegate :parts, to: :parsed_document
 
   DEFAULT_TITLE = 'Material'
 
-  def cc_attribution
-    lesson.ld_metadata.cc_attribution
+  def base_filename
+    name = metadata.identifier
+    unless name =~ /^(math|ela)/i
+      name = "#{lesson.short_breadcrumb(join_with: '_', with_short_lesson: true)}_#{name}"
+    end
+    "#{name}_v#{version.presence || 1}"
+  end
+
+  def content_for(context_type)
+    layout(context_type)&.content
   end
 
   def full_breadcrumb
     lesson.full_breadcrumb(unit_level: unit_level?)
+  end
+
+  def gdoc_folder
+    "#{lesson.id}_v#{lesson.version}"
   end
 
   def header?
@@ -34,19 +46,11 @@ class MaterialPresenter < ContentPresenter
     !metadata.name_date.to_s.casecmp('no').zero? && config[:name_date]
   end
 
-  def orientation
-    config[:orientation]
-  end
-
   def pdf_filename
-    name = metadata.identifier
-    unless name =~ /^(math|ela)/i
-      name = "#{lesson.short_breadcrumb(join_with: '_', with_short_lesson: true)}_#{name}"
-    end
-    "documents/#{lesson.id}/#{name}_v#{version.presence || 1}"
+    "documents/#{lesson.id}/#{base_filename}"
   end
 
-  def pdf_type
+  def content_type
     metadata.type
   end
 
@@ -77,10 +81,10 @@ class MaterialPresenter < ContentPresenter
   private
 
   def document_parts_index
-    @document_parts_index ||= parts.map { |p| [p[:placeholder], p[:content]] }.to_h
+    @document_parts_index ||= parts.map { |p| [p[:placeholder], { anchor: p[:anchor], content: p[:content] }] }.to_h
   end
 
-  def layout_content
-    parts.find { |p| p[:part_type] == :layout }&.dig(:content) || ''
+  def layout_content(context_type)
+    parts.find { |p| p[:part_type] == :layout && p[:context_type] == context_type }&.dig(:content) || ''
   end
 end

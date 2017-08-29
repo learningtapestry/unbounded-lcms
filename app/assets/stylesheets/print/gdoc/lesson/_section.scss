@@ -1,0 +1,6 @@
+.o-ld-section {
+  @include e(quote) {
+    @include txt-gdoc-element(pullquote);
+    @extend %u-pdf-nobreak;
+  }
+}
