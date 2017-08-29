@@ -16,6 +16,7 @@ class SubscriptionPopup extends React.Component {
             onSubmit={this.props.onSubmit}
             target="_blank">
         <input name="utf8" defaultValue="✓" type="hidden" />
+        <input id="SIGNUP" name="SIGNUP" type="hidden" value="popup"/>
         <div>
           <input type="text" className="input" placeholder="Enter Full Name" defaultValue="" onChange={e => this.setName(e)} />
         </div>
