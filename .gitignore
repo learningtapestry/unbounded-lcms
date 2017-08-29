@@ -55,3 +55,7 @@ node_modules
 
 # Ignore IDE specific files
 .idea/
+# simplecov reports
+coverage
+.DS_store
+/config/google/
