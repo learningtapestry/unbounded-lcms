@@ -79,8 +79,8 @@ $(function () {
     const breakElement = document.querySelector('.o-ld-optbreak-wrapper');
     const handleOptBreak = () => {
       if (!breakElement) return;
-      breakElement.classList.toggle('hide', tagsExcluded.length !== 0)
-    }
+      breakElement.classList.toggle('hide', tagsExcluded.length !== 0);
+    };
 
     const pollPdfStatus = (id, link) => {
       $(link).prepend('<i class="fa fa-spin fa-spinner u-margin-right--base" />');

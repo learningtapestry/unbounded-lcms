@@ -29,7 +29,7 @@ class DocumentPresenter < ContentPresenter
   end
 
   def full_breadcrumb_from_metadata(unit_level)
-    lesson_level = assessment? ? 'Assessment' : "Lesson #{ld_metadata.lesson}" unless unit_level
+    lesson_level = assessment? ? 'Assessment' : "Lesson #{lesson}" unless unit_level
     [
       SUBJECT_FULL[subject] || subject,
       grade.to_i.zero? ? grade : "Grade #{grade}",
@@ -55,6 +55,10 @@ class DocumentPresenter < ContentPresenter
 
   def ld_module
     ela? ? ld_metadata.module : ld_metadata.unit
+  end
+
+  def lesson
+    ld_metadata.lesson
   end
 
   def ll_strand?
@@ -107,7 +111,7 @@ class DocumentPresenter < ContentPresenter
         if assessment?
           with_short_lesson ? 'A' : 'Assessment'
         else
-          with_short_lesson ? "L#{ld_metadata.lesson}" : "Lesson #{ld_metadata.lesson}"
+          with_short_lesson ? "L#{lesson}" : "Lesson #{lesson}"
         end
     end
     [
@@ -120,7 +124,7 @@ class DocumentPresenter < ContentPresenter
   end
 
   def short_title
-    assessment? ? doc_type : "Lesson #{ld_metadata.lesson}"
+    assessment? ? doc_type : "Lesson #{lesson}"
   end
 
   def short_url

@@ -2,12 +2,15 @@
     "globals": {
       "_": true,
       "$": true,
+      "classNames": true,
+      "console": true,
+      "Foundation": true,
       "ga": true,
+      "heap": true,
       "PDFObject": true,
       "React": true,
       "ReactDOM": true,
-      "Routes": true,
-      "console": true
+      "Routes": true
     },
     "env": {
         "browser": true,
