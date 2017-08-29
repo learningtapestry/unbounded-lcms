@@ -124,7 +124,7 @@ en:
     export: Export
     export_custom_gdoc: Generate Materials (GDOC)
     export_custom_pdf: Generate Materials (PDF)
-    export_gdoc: View GDOC
+    export_gdoc: View in Google Drive
     export_pdf: Print / Open in PDF
     export_resources: Export Resources
     hide: Hide

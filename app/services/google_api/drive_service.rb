@@ -24,20 +24,23 @@ module GoogleApi
           fields: 'files(id)'
         )
         return nil if response.files.empty?
-        Rails.logger.warn "Multiple files: more than 1 file with same name: #{file_name}" unless response.files.size == 1
+        unless response.files.size == 1
+          Rails.logger.warn "Multiple files: more than 1 file with same name: #{file_name}"
+        end
         response.files[0].id
       end
     end
 
     def parent
-      @parent ||= begin
-        subfolders    = (options[:subfolders] || []).unshift(options[:gdoc_folder] || document.gdoc_folder)
-        parent_folder = FOLDER_ID
-        subfolders.each do |folder|
-          parent_folder = subfolder(folder, parent_folder)
+      @parent ||=
+        begin
+          subfolders = (options[:subfolders] || []).unshift(options[:gdoc_folder] || document.gdoc_folder)
+          parent_folder = FOLDER_ID
+          subfolders.each do |folder|
+            parent_folder = subfolder(folder, parent_folder)
+          end
+          parent_folder
         end
-        parent_folder
-      end
     end
 
     private

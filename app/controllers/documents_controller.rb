@@ -11,10 +11,12 @@ class DocumentsController < ApplicationController
     params[:context] == 'pdf' ? export_pdf : export_gdoc
   end
 
-  def export_content_status
-    job = LessonGeneratePdfJob.find(params[:jid])
-    extra_params = { url: @doc.tmp_link(params[:key]) } if params[:key]
-    render json: { ready: job.nil? }.merge(extra_params || {}), status: :ok
+  def export_status
+    job_class = params[:context] == 'pdf' ? LessonGeneratePdfJob : LessonGenerateGdocJob
+    job = job_class.find(params[:jid])
+    data = { ready: job.nil? }
+    data = data.merge(url: @doc.tmp_link(params[:key])) if params[:key]
+    render json: data, status: :ok
   end
 
   def show
@@ -22,10 +24,6 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       format.html
     end
-  end
-
-  def show_gdoc
-    render 'documents/gdoc/show', layout: 'ld_gdoc', locals: { document: @document }
   end
 
   private
@@ -43,7 +41,7 @@ class DocumentsController < ApplicationController
     type = params[:type]
     excludes = params[:excludes]
 
-    render(json: { url: @doc.links[@document.gdoc_key] }, status: :ok) if excludes.blank?
+    return render(json: { url: @doc.links[@document.gdoc_key] }, status: :ok) if excludes.blank?
 
     folder = "#{@document.gdoc_folder}_#{SecureRandom.hex(10)}"
     options = {

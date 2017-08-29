@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module DocumentExporter
   module PDF
     class Base < DocumentExporter::Base
