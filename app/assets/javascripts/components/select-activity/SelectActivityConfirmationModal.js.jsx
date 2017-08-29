@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-vars */
 class SelectActivityConfirmationModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.heapTracked = false;
     this.expanded = false;
-    this.track = this.track.bind(this)
+    this.track = this.track.bind(this);
+
+    this.textLengthFull = this.props.text.length;
   }
 
   clickKeep() {
@@ -21,18 +24,18 @@ class SelectActivityConfirmationModal extends React.Component {
     let offset = header ? header.clientHeight : 0;
     $('html, body').animate({
       scrollTop: $(document.getElementById(this.props.item.id)).offset().top - offset - 10
-    }, 'fast')
+    }, 'fast');
   }
 
   closeModal() {
     this.heapTracked || this.track('Close');
-    this.heapTracked = false // restore state
+    this.heapTracked = false; // restore state
   }
 
   componentDidMount() {
     if (!this.body) return;
 
-    let $body = $(this.body);
+    const $body = $(this.body);
 
     $body.on('open.zf.reveal', () => {
       let innerText = this.text.querySelector('.js-text');
@@ -41,10 +44,11 @@ class SelectActivityConfirmationModal extends React.Component {
       if (this.text.scrollHeight > this.text.clientHeight) {
         let chunks = this.props.text.trim().split(/\s+/);
         while (this.text.scrollHeight > this.text.clientHeight) {
-          chunks.splice(chunks.length - 1, 1)
+          chunks.splice(chunks.length - 1, 1);
           innerText.textContent = chunks.join(' ');
         }
-        innerText.classList.remove('js-text')
+        innerText.classList.remove('js-text');
+        this.textLengthShort = innerText.textContent.length;
       } else {
         this.text.textContent = this.props.text;
       }
@@ -58,14 +62,14 @@ class SelectActivityConfirmationModal extends React.Component {
     this.$modal.$element.on('click', '.js-keep', this.clickKeep.bind(this));
   }
 
-  expandText(e) {
+  expandText() {
     setTimeout(() => {
       this.text.classList.add('o-ld-selection-modal__content--expanded');
       this.text.textContent = this.props.text;
       this.expanded = true;
       this.track('Learn More');
-      this.heapTracked = false // ^^ is not a final event
-    })
+      this.heapTracked = false; // ^^ is not a final event
+    });
   }
 
   render() {
@@ -79,7 +83,7 @@ class SelectActivityConfirmationModal extends React.Component {
           <span className="js-text">{this.props.text}</span>
           <span className="u-margin-left--xs js-ellipsis">
             ...
-            <a className="cs-txt-link--dark-gold js-expand u-margin-left--xs" href="javascript:;">Read More</a>
+            <a className="cs-txt-link--dark-gold js-expand u-margin-left--xs" href="javascript:">Read More</a>
           </span>
         </p>
         <div className="u-text--right">
@@ -87,11 +91,12 @@ class SelectActivityConfirmationModal extends React.Component {
           <button className="js-keep o-btn o-btn--yellow o-btn--xs-full" type="button">Keep Activity</button>
         </div>
       </div>
-    )
+    );
   }
 
   track(event, extras = {}) {
-    this.heapTracked = true
-    heap.track(`Activity ${event}`, { ...extras, id: this.props.item.id, learnMore: this.expanded })
+    this.heapTracked = true;
+    const data = _.extend(extras, { textLengthShort: this.textLengthShort, textLengthFull: this.props.text.length });
+    heap.track(`Activity ${event}`, { id: this.props.item.id, learnMore: this.expanded, ...data });
   }
 }

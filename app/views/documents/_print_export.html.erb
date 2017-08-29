@@ -4,7 +4,7 @@
 <div>
 <% document.links.each do |type, link| %>
   <% next unless type == 'pdf' %>
-  <%= link_to t("ui.export_#{type}"), link, class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true, pdftype: 'full' }, target: '_blank' %>
+  <%= link_to t("ui.export_#{type}"), link, class: 'o-ub-btn o-ub-btn--yellow materials-all', data: { no_turbolink: true, pdftype: 'full' }, target: '_blank' %>
 <% end %>
   <%# TODO: Turn on back after June 15th %>
   <%#= link_to t('resources.btn.download', title: 'Google Doc'), export_gdoc_document_path(document),
@@ -15,12 +15,12 @@
 <p>Click the button below to preview and download teacher materials for this <%= document.doc_type %> as a PDF. Other formats will be forthcoming.
 </p>
 <% if document.links['pdf_tm'].present? %>
-  <%= link_to t('ui.export_pdf'), document.links['pdf_tm'], class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true, pdftype: 'tm' }, target: '_blank' %>
+  <%= link_to t('ui.export_pdf'), document.links['pdf_tm'], class: 'o-ub-btn o-ub-btn--yellow materials-t', data: { no_turbolink: true, pdftype: 'tm' }, target: '_blank' %>
 <% end %>
 
 <h2 class="u-padding-top--xlarge">Download / Print Student Materials</h2>
 <p>Click the button below to preview and download student materials for this <%= document.doc_type %> as a PDF. Other formats will be forthcoming.
 </p>
 <% if document.links['pdf_sm'].present? %>
-  <%= link_to t('ui.export_pdf'), document.links['pdf_sm'], class: 'o-ub-btn o-ub-btn--yellow', data: { no_turbolink: true, pdftype: 'sm' }, target: '_blank' %>
+  <%= link_to t('ui.export_pdf'), document.links['pdf_sm'], class: 'o-ub-btn o-ub-btn--yellow materials-s', data: { no_turbolink: true, pdftype: 'sm' }, target: '_blank' %>
 <% end %>
