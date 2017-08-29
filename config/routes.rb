@@ -41,9 +41,8 @@ Rails.application.routes.draw do
 
   resources :documents, only: :show do
     member do
-      get 'export/gdoc', to: 'documents#export_gdoc'
-      post 'export/pdf', to: 'documents#export_pdf'
-      get 'export/pdf-status', to: 'documents#export_pdf_status'
+      post 'export', to: 'documents#export'
+      get 'export/status', to: 'documents#export_status'
     end
   end
   resources :materials, only: :show

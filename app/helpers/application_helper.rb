@@ -94,6 +94,16 @@ module ApplicationHelper
     "data:#{content_type};base64,#{Rack::Utils.escape(base64)}"
   end
 
+  def inlined_asset(path)
+    if Rails.env.development? || Rails.env.test?
+      asset = Rails.application.assets.find_asset(path)
+    else
+      filesystem_path = Rails.application.assets_manifest.assets[path]
+      asset = File.read(Rails.root.join('public', 'assets', filesystem_path))
+    end
+    asset
+  end
+
   def strip_tags_and_squish(str)
     return unless str.respond_to? :squish
     strip_tags(str).squish

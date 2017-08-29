@@ -2,7 +2,8 @@ module DocTemplate
   module Tags
     class WhitePlaceholderTag < BlockTag
       TAG_NAME = 'white-placeholder'.freeze
-      TEMPLATE = 'white-placeholder.html.erb'.freeze
+      TEMPLATES = { default: 'white-placeholder.html.erb',
+                    gdoc:    'gdoc/white-placeholder.html.erb' }.freeze
 
       def parse(node, opts = {})
         content = block_nodes(node).map do |n|
@@ -19,7 +20,7 @@ module DocTemplate
           title: title
         }
 
-        @content = parse_template params, TEMPLATE
+        @content = parse_template params, template_name(opts)
         replace_tag node
         self
       end

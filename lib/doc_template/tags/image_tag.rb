@@ -2,7 +2,8 @@ module DocTemplate
   module Tags
     class ImageTag < TableTag
       TAG_NAME = 'image'.freeze
-      TEMPLATE = 'image.html.erb'.freeze
+      TEMPLATES = { default: 'image.html.erb',
+                    gdoc:    'gdoc/image.html.erb' }.freeze
 
       def parse_table(table)
         params = {
@@ -10,7 +11,7 @@ module DocTemplate
           image_src: image_src,
           subject: @opts[:metadata].try(:[], 'subject')
         }
-        @content = parse_template(params, TEMPLATE)
+        @content = parse_template(params, template_name(@opts))
         replace_tag table
       end
 

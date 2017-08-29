@@ -807,7 +807,7 @@ DEPENDENCIES
   nokogiri (~> 1.6.0)
   oj (~> 2.12.12)
   oj_mimic_json (~> 1.0.1)
-  pandoc-ruby
+  pandoc-ruby (~> 2.0.1)
   pdfjs_viewer-rails (~> 0.0.9)
   pg (~> 0.18.2)
   pg_search (~> 2.1)

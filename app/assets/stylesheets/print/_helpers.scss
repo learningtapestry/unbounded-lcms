@@ -12,3 +12,8 @@
   &:before { clear: both; }
   page-break-inside: avoid;
 }
+
+.u-pdf-nobreak--around {
+  page-break-after: avoid;
+  page-break-before: avoid;
+}

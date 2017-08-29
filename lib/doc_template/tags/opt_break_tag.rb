@@ -2,11 +2,12 @@ module DocTemplate
   module Tags
     class OptBreakTag < BaseTag
       TAG_NAME = 'optbreak'.freeze
-      TEMPLATE = 'opt_break.html.erb'.freeze
+      TEMPLATES = { default: 'opt_break.html.erb',
+                    gdoc:    'gdoc/opt_break.html.erb' }.freeze
 
       def parse(node, opts = {})
         content = content_until_break node
-        parsed_template = parse_template content, TEMPLATE
+        parsed_template = parse_template content, template_name(opts)
         @content = parse_nested parsed_template, opts
 
         replace_tag node

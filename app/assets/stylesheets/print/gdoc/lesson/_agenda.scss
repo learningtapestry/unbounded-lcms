@@ -1,0 +1,7 @@
+.o-agenda {
+  tr, td { border: 0; }
+  td {
+    border-bottom: 1pt dotted $ub-hr;
+    padding: 5pt;
+  }
+}

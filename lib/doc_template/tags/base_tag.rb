@@ -6,7 +6,7 @@ module DocTemplate
       CONFIG_PATH = Rails.root.join('config', 'tags.yml')
       MAX_ITERATIONS = 100
 
-      attr_reader :content
+      attr_reader :content, :anchor
 
       def self.config
         @config ||= YAML.load_file(CONFIG_PATH)
@@ -95,7 +95,7 @@ module DocTemplate
           if node.content =~ /.+\[[^\]]+\]|\[[^\]]+\].+/
             # a tag followed or preceeded by anything else
             # removes the tag itself - everything between `[` and `]`
-            node.content = node.content.sub /\[[^\[\]]+\]/, ''
+            node.content = node.content.sub(/\[[^\[\]]+\]/, '')
           elsif (data = node.content.match(/^([^\[]*)\[|\]([^\[]*)$/))
             # if node contains open or closing tag bracket with general
             # text outside the bracket itself
@@ -124,6 +124,10 @@ module DocTemplate
       def strip_html_element(element)
         return '' if Sanitize.fragment(element, elements: []).strip.empty?
         element
+      end
+
+      def template_name(opts)
+        self.class::TEMPLATES[opts.fetch(:context_type, :default).to_sym]
       end
 
       def template_path(name)

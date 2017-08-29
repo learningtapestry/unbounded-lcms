@@ -29,6 +29,7 @@ module DocTemplate
         attribute :idx, Integer
         attribute :level, Integer, default: 2
         attribute :priority, Integer, default: ->(a, _) { a.activity_priority }
+        attribute :standard, String, default: ->(s, _) { s.activity_standard }
         attribute :title, String, default: ->(a, _) { a.activity_title }
         attribute :time, Integer, default: ->(a, _) { a.activity_time }
 

@@ -26,7 +26,7 @@ class MaterialForm
   private
 
   def persist!
-    document = DocumentDownloader::GDoc.new(@credentials, link, Material)
+    document = DocumentDownloader::Gdoc.new(@credentials, link, Material)
     html = Nokogiri::HTML.fragment(document.content)
     if DocTemplate::Tables::MaterialMetadata.parse(html).data.present?
       @material = document.import
@@ -34,12 +34,22 @@ class MaterialForm
       presenter = MaterialPresenter.new(@material, parsed_document: parsed_document)
 
       @material.update!(
-        content: presenter.render_content,
         identifier: parsed_document.metadata['identifier'].downcase,
-        metadata: parsed_document.meta_options[:metadata]
+        metadata: parsed_document.meta_options(:default)[:metadata]
       )
 
-      DocumentPdfGenerator.documents_of(material)
+      @material.material_parts.delete_all
+
+      DocTemplate::CONTEXT_TYPES.each do |context_type|
+        @material.material_parts.create!(
+          active: true,
+          content: presenter.render_content(context_type),
+          context_type: context_type,
+          part_type: :layout
+        )
+      end
+
+      DocumentGenerator.documents_of(material)
     else
       errors.add(:link, 'Material metadata table not present')
     end

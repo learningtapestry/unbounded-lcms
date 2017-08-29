@@ -23,7 +23,7 @@ function CollapsedMaterial(props) {
                 </a>
               </li>
               <li>
-                <a className="u-preserve-style cs-txt-link--light u-link--disabled" onClick={() => props.onClick('gdoc', props.index)}>
+                <a className="u-preserve-style cs-txt-link--light" href={props.gdoc} target="_blank" onClick={() => props.onClick('gdoc', props.index)}>
                   <i className="ub-icon ub-file-gdoc"/>
                 </a>
               </li>

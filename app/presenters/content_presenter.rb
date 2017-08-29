@@ -9,6 +9,31 @@ class ContentPresenter < BasePresenter
     @base_config ||= YAML.load_file(CONFIG_PATH).deep_symbolize_keys
   end
 
+  def base_filename
+    name = short_breadcrumb(join_with: '_', with_short_lesson: true)
+    "#{name}_v#{version.presence || 1}"
+  end
+
+  def config
+    @config ||= self.class.base_config[DEFAULT_CONFIG].deep_merge(self.class.base_config[content_type.to_sym] || {})
+  end
+
+  def content_type
+    @content_type.presence || 'none'
+  end
+
+  def footer_margin_styles
+    padding_styles(align_type: 'margin')
+  end
+
+  def gdoc_folder
+    "#{id}_v#{version}"
+  end
+
+  def gdoc_key
+    DocumentExporter::Gdoc::Base.gdoc_key(content_type)
+  end
+
   def initialize(obj, opts = {})
     super(obj)
     opts.each_pair do |key, value|
@@ -16,33 +41,29 @@ class ContentPresenter < BasePresenter
     end
   end
 
-  def config
-    @config ||= self.class.base_config[DEFAULT_CONFIG].deep_merge(self.class.base_config[pdf_type.to_sym] || {})
-  end
-
-  def footer_margin_styles
-    padding_styles(align_type: 'margin')
-  end
-
-  def render_content(excludes = [])
-    content = render_part layout_content, excludes
-    ReactMaterialsResolver.resolve(content, self)
-  end
-
-  def render_part(part_content, excludes = [])
-    part_content.gsub(PART_RE) do |placeholder|
-      next unless placeholder
-      next if excludes.include?(placeholder.delete('{}'))
-      next unless (subpart = document_parts_index[placeholder])
-      render_part subpart.to_s, excludes
-    end
+  def orientation
+    config[:orientation]
   end
 
   def padding_styles(align_type: 'padding')
     config[:padding].map { |k, v| "#{align_type}-#{k}:#{v};" }.join
   end
 
-  def pdf_type
-    @pdf_type.presence || 'none'
+  def render_content(context_type, excludes = [])
+    content = HtmlSanitizer.strip_content(
+      render_part(layout_content(context_type), excludes),
+      context_type
+    )
+    ReactMaterialsResolver.resolve(content, self)
+  end
+
+  def render_part(part_content, excludes = [])
+    part_content.gsub(PART_RE) do |placeholder|
+      next unless placeholder
+      next unless (part = document_parts_index[placeholder])
+      next if excludes.include?(part[:anchor])
+      next unless (subpart = part[:content])
+      render_part subpart.to_s, excludes
+    end
   end
 end

@@ -4,10 +4,12 @@ module DocTemplate
   module Tags
     class ActivityMetadataSectionTag < BaseTag
       TAG_NAME = 'activity-metadata-section'
-      TEMPLATE = 'group-math.html.erb'
+      TEMPLATES = { default: 'group-math.html.erb',
+                    gdoc:    'gdoc/group-math.html.erb' }.freeze
 
       def parse(node, opts = {})
         section = opts[:activity].level1_by_title(opts[:value])
+        @anchor = section.anchor
 
         if opts[:value] == 'foundational-skills'
           # Extend object to store `lesson_objective` (#162)
@@ -28,7 +30,7 @@ module DocTemplate
           placeholder: placeholder_id,
           section: section
         }
-        @content = parse_template params, TEMPLATE
+        @content = parse_template params, template_name(opts)
         replace_tag node
         self
       end

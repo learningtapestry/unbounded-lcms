@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'Admin adds a material' do
-  SAMPLE_PATH = 'spec/features/admin/materials/sample-materials'.freeze
+  SAMPLE_PATH = 'spec/features/admin/materials/sample-materials'
 
-  given(:DownloadedFile) { Struct.new :last_modifying_user, :modified_time, :name, :version }
+  given(:downloaded_file) { Struct.new :last_modifying_user, :modified_time, :name, :version }
 
   given(:samples) do
     [
@@ -29,8 +31,8 @@ feature 'Admin adds a material' do
 
       # stub GDoc download
       file_content = File.read File.join(SAMPLE_PATH, data[:file_name])
-      allow_any_instance_of(DocumentDownloader::GDoc).to receive(:file).and_return(DownloadedFile.new(nil, nil, idx))
-      allow_any_instance_of(DocumentDownloader::GDoc).to receive(:content).and_return(file_content)
+      allow_any_instance_of(DocumentDownloader::Gdoc).to receive(:file).and_return(downloaded_file.new(nil, nil, idx))
+      allow_any_instance_of(DocumentDownloader::Gdoc).to receive(:content).and_return(file_content)
 
       fill_in :material_form_link, with: data[:url]
       click_button 'Parse'

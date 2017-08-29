@@ -1,0 +1,6 @@
+class AddContextTypeToDocumentPart < ActiveRecord::Migration
+  def change
+    add_column :document_parts, :context_type, :integer, default: 0
+    add_index :document_parts, :context_type
+  end
+end
