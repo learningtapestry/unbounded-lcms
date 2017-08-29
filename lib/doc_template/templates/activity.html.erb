@@ -9,16 +9,16 @@
       <h3 class="o-ld-title">
         <div class="o-ld-title__title o-ld-title__title--h3"><%= @tmpl[:activity].activity_title %>
           <% if @tmpl[:activity].activity_priority.present? %>
-              <% priority_id = "o-ld-p_#{SecureRandom.hex(4)}" %>
-              <span class="o-ld-icon o-ld-icon--base o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>" data-toggle="<%= priority_id %>"></span>
-              <span class="dropdown-pane o-ld-dropdown"
-                    data-dropdown
-                    data-hover="true"
-                    data-hover-delay="0"
-                    data-hover-pane="true"
-                    data-v-offset="12"
-                    id="<%= priority_id %>">
-              <%= @tmpl[:priority_description] %>
+            <% priority_id = "o-ld-p_#{SecureRandom.hex(4)}" %>
+            <span class="o-ld-icon o-ld-icon--base o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>" data-toggle="<%= priority_id %>"></span>
+            <span class="dropdown-pane o-ld-dropdown"
+                  data-dropdown
+                  data-hover="true"
+                  data-hover-delay="0"
+                  data-hover-pane="true"
+                  data-v-offset="12"
+                  id="<%= priority_id %>">
+            <%= @tmpl[:priority_description] %>
           </span>
           <% end %>
         </div>
@@ -32,10 +32,10 @@
       <% end %>
 
       <% if @tmpl[:activity].activity_guidance.present? %>
-          <div class="o-ld-activity__guidance">
-            <strong class="o-ld-activity__guidance--title u-text--uppercase cs-txt--math-base u-txt--title-type">Guidance: </strong>
-            <%= @tmpl[:activity].activity_guidance %>
-          </div>
+        <div class="o-ld-activity__guidance">
+          <strong class="o-ld-activity__guidance--title u-text--uppercase cs-txt--math-base u-txt--title-type">Guidance: </strong>
+          <%= @tmpl[:activity].activity_guidance %>
+        </div>
       <% end %>
 
       <% if @tmpl[:activity].activity_standard.present? %>

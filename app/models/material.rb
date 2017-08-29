@@ -25,6 +25,7 @@ class Material < ActiveRecord::Base
   end
 
   def layout(context_type)
+    # TODO: Move to concern with the same method in `Document`
     material_parts.where(part_type: :layout, context_type: DocumentPart.context_types[context_type.to_sym]).last
   end
 end

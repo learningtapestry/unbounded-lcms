@@ -7,6 +7,7 @@ describe DocumentsController do
 
   before { sign_in create(:user) }
 
+  # TODO: Need to re-new that specs as was done for PDF generation
   xdescribe '#export_gdoc' do
     let(:exporter) { instance_double 'DocumentExporter::GDoc::Base', url: url }
     let(:file_id) { 'fileid' }
@@ -94,12 +95,12 @@ describe DocumentsController do
       end
     end
 
-    describe '#export_content_status' do
+    describe '#export_status' do
       let(:job_id) { '10' }
 
       before { allow(LessonGeneratePdfJob).to receive(:find) }
 
-      subject { get :export_content_status, id: document.id, jid: job_id }
+      subject { get :export_status, context: 'pdf', id: document.id, jid: job_id }
 
       it 'looks up job queue for the job' do
         expect(LessonGeneratePdfJob).to receive(:find).with(job_id)

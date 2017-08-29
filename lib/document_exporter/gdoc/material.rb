@@ -15,16 +15,16 @@ module DocumentExporter
 
       private
 
-      def template_path(name)
-        File.join('documents', 'gdoc', 'materials', name)
-      end
-
       def student?
         ::Material.where(id: document.id).where_metadata_any_of(config_for(:student)).present?
       end
 
       def teacher?
         ::Material.where(id: document.id).where_metadata_any_of(config_for(:teacher)).present?
+      end
+
+      def template_path(name)
+        File.join('documents', 'gdoc', 'materials', name)
       end
     end
   end

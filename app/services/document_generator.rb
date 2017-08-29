@@ -9,8 +9,8 @@ class DocumentGenerator
       # few issues on the server side
       # LessonGenerateDocxJob.perform_later document
       CONTENT_TYPES.each do |type|
-        LessonGeneratePdfJob.perform_later document, content_type: type
         LessonGenerateGdocJob.perform_later document, content_type: type
+        LessonGeneratePdfJob.perform_later document, content_type: type
       end
     end
 

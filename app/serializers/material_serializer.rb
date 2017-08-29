@@ -14,7 +14,7 @@ class MaterialSerializer < ActiveModel::Serializer
   end
 
   def gdoc
-    lesson.links['materials']&.dig(id.to_s)&.dig('gdoc')
+    URI.escape lesson.links['materials']&.dig(id.to_s)&.dig('gdoc').presence || ''
   end
 
   private

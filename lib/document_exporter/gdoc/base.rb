@@ -59,7 +59,7 @@ module DocumentExporter
       end
 
       def gdoc_folder
-        @options[:subfolders] = [self.class::FOLDER_NAME]
+        @options[:subfolders] = [self.class::FOLDER_NAME] if defined?(self.class::FOLDER_NAME)
         file_service = GoogleApi::DriveService.new(service, document, options)
         @id = file_service.parent
         self

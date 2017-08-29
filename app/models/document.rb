@@ -53,6 +53,7 @@ class Document < ActiveRecord::Base
   end
 
   def layout(context_type)
+    # TODO: Move to concern with the same method in `Material`
     document_parts.where(part_type: :layout, context_type: DocumentPart.context_types[context_type.to_sym]).last
   end
 

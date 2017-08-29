@@ -87,7 +87,8 @@ $(function () {
 
       return new Promise((resolve, reject) => {
         let poll = () => {
-          $.getJSON(`${location.pathname}/export/content-status`, {
+          $.getJSON(`${location.pathname}/export/status`, {
+            context: link.dataset.context,
             jid: id,
             key: key,
             _: Date.now() // prevent cached response
