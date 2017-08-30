@@ -12,7 +12,7 @@ module DocTemplate
         content = parse_nested nodes.map(&:to_html).join, opts
         nodes.each(&:remove)
         @content =
-          if opts[:context_type].to_s.casecmp('gdoc').zero?
+          if gdoc?(opts)
             %(<div><p class="u-gd-gap"></p>#{content}<p class="u-gd-gap"></p></div>)
           else
             %(<div class="o-ld-inset">#{content}</div>)
@@ -24,7 +24,7 @@ module DocTemplate
       private
 
       def preserve_styles(node, opts)
-        add_css_class(node, 'o-ld-inset') if opts[:context_type].to_s.casecmp('gdoc').zero?
+        add_css_class(node, 'o-ld-inset') if gdoc?(opts)
         node.children.each do |el|
           el['class'] = el['class'].to_s + ' text-bold' if el['style'] =~ STYLES_REGEXP[:bold]
           el['class'] = el['class'].to_s + ' text-italic' if el['style'] =~ STYLES_REGEXP[:italic]

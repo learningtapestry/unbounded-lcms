@@ -15,7 +15,7 @@ class DocumentsController < ApplicationController
     job_class = params[:context] == 'pdf' ? DocumentGeneratePdfJob : DocumentGenerateGdocJob
     job = job_class.find(params[:jid])
     data = { ready: job.nil? }
-    data = data.merge(url: @doc.tmp_link(params[:key])) if params[:key]
+    data = data.merge(url: @doc.tmp_link(params[:key])) if params[:key] && job.nil?
     render json: data, status: :ok
   end
 
@@ -41,10 +41,11 @@ class DocumentsController < ApplicationController
     type = params[:type]
     excludes = params[:excludes]
 
-    return render(json: { url: @doc.links[@document.gdoc_key] }, status: :ok) if excludes.blank?
+    return render(json: { url: @doc.links[@document.gdoc_folder] }, status: :ok) if excludes.blank?
 
     folder = "#{@document.gdoc_folder}_#{SecureRandom.hex(10)}"
     options = {
+      bundle: (type == 'full'),
       excludes: excludes,
       gdoc_folder: folder,
       content_type: type

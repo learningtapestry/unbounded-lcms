@@ -6,6 +6,8 @@ require 'google/apis/script_v1'
 module DocumentExporter
   module Gdoc
     class Base < DocumentExporter::Base
+      VERSION_RE = /_v\d+$/i
+
       attr_reader :document, :options
 
       def self.gdoc_key(type)
@@ -19,15 +21,18 @@ module DocumentExporter
       def export
         file_service = GoogleApi::DriveService.new(service, document, options)
 
-        metadata = Google::Apis::DriveV3::File.new({
-          name: document.base_filename,
-          mime_type: 'application/vnd.google-apps.document'
-        }.merge(file_service.file_id.blank? ? { parents: [file_service.parent] } : {}))
+        parent_folder = file_service.file_id.blank? ? file_service.parent : nil
+
+        file_params = { name: document.base_filename, mime_type: 'application/vnd.google-apps.document' }
+        file_params[:parents] = [parent_folder] if parent_folder.present?
+        metadata = Google::Apis::DriveV3::File.new(file_params)
 
         params = {
           content_type: 'text/html',
           upload_source: StringIO.new(content)
         }
+
+        delete_previous_versions_from(parent_folder) if parent_folder
 
         @id = if file_service.file_id.blank?
                 service.create_file(metadata, params)
@@ -56,6 +61,16 @@ module DocumentExporter
 
       def credentials
         @credentials ||= GoogleApi::AuthCLIService.new.credentials
+      end
+
+      #
+      # Deletes files of previous versions
+      #
+      def delete_previous_versions_from(folder)
+        service.list_files(q: "'#{folder}' in parents").files.each do |file|
+          next unless file.name =~ VERSION_RE
+          service.delete_file file.id
+        end
       end
 
       def gdoc_folder
