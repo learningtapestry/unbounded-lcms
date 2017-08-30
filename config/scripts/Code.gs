@@ -26,7 +26,7 @@ function appendElementToDoc(document, element) {
     document['append' + tName](element);
   }
   catch(err) {
-    Logger.log(err + "");
+    Logger.log(err + '');
   }
   return document;
 }
@@ -80,11 +80,36 @@ function setMargins(document, template) {
 }
 
 /**
+ * Returns the Text element with page-break placeholder
+ */
+function findBreak(body) {
+  var el = body.findText('--GDOC-PAGE-BREAK--');
+  return el ? el.getElement() : null;
+}
+
+/**
+ * Inserts page-breaks instead of placeholders
+ */
+function processPageBreaks(document) {
+  var body = document.getBody();
+
+  var breakElement = findBreak(body);
+  while (breakElement) {
+    var breakParent = breakElement.getParent();
+    var index = breakParent.getChildIndex(breakElement);
+    breakParent.insertPageBreak(index);
+    breakElement.removeFromParent();
+    breakElement = findBreak(body);
+  }
+}
+
+/**
 * Main function to call after uploading document
 */
-function postProcessingUB(documentID, templateID, annotation, breadcrumb, link) {
-  var document = DocumentApp.openById(documentID);
-  var template = DocumentApp.openById(templateID);
+function postProcessingUB(documentId, templateId, annotation, breadcrumb, link) {
+  var document = DocumentApp.openById(documentId);
+  var template = DocumentApp.openById(templateId);
+  processPageBreaks(document);
   setMargins(document, template);
   copyFooter(document, template, annotation, breadcrumb, link);
 }

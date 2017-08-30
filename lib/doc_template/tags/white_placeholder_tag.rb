@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class WhitePlaceholderTag < BlockTag
-      TAG_NAME = 'white-placeholder'.freeze
-      TEMPLATES = { default: 'white-placeholder.html.erb',
-                    gdoc:    'gdoc/white-placeholder.html.erb' }.freeze
+      TAG_NAME = 'white-placeholder'
+      TEMPLATES = {
+        default: 'white-placeholder.html.erb',
+        gdoc: 'gdoc/white-placeholder.html.erb'
+      }.freeze
 
       def parse(node, opts = {})
         content = block_nodes(node).map do |n|

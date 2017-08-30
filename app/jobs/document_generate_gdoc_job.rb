@@ -21,5 +21,12 @@ class DocumentGenerateGdocJob < ActiveJob::Base
     document.with_lock do
       document.update links: document.reload.links.merge(key => gdoc.url)
     end
+
+    return unless options[:bundle]
+
+    # Re-generate all materials if full lesson has been requested
+    GDOC_EXPORTERS.keys.reject { |x| x == content_type }.each do |type|
+      GDOC_EXPORTERS[type].new(document, options).export
+    end
   end
 end

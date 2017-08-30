@@ -17,7 +17,9 @@ module DocTemplate
         @section = opts[:agenda].level2_by_title(opts[:value].parameterize)
         @anchor = @section.anchor
         @materials = @section.material_ids
-        @content = parse_general_content node, template_name(opts)
+
+        @content = parse_content node, template_name(opts)
+
         replace_tag node
         self
       end
@@ -40,7 +42,7 @@ module DocTemplate
         }
       end
 
-      def parse_general_content(node, template)
+      def parse_content(node, template)
         params = general_params.merge(
           content: content_until_break(node)
         )
