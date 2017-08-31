@@ -15,7 +15,7 @@ module Admin
                    .compile(params[:url], params[:foundational_url])
 
       if response.success?
-        url = DocumentExporter::Gdoc.url_for JSON.parse(response.body)['id']
+        url = DocumentExporter::Gdoc::Base.url_for JSON.parse(response.body)['id']
         redirect_to :back, notice: t('.success', url: url)
       else
         redirect_to :back, alert: t('.compile_error')
