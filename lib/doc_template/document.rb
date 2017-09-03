@@ -46,13 +46,15 @@ module DocTemplate
       return unless @opts[:metadata].try(:subject).to_s.casecmp('ela').zero?
       return unless ela_teacher_guidance_allowed?
 
-      @nodes.prepend_child ela_teacher_guidance(@opts[:metadata])
+      HtmlSanitizer.strip_content(@nodes)
+      @nodes.prepend_child ela_teacher_guidance(@opts[:metadata], @opts[:context_type])
     end
 
-    def ela_teacher_guidance(metadata)
+    def ela_teacher_guidance(metadata, context_type)
       @data = metadata
       template = "ela-#{@opts[:metadata]['grade']}-teacher-guidance.html.erb"
-      template_name = Rails.root.join 'lib', 'doc_template', 'templates', template
+      subfolder = 'gdoc' if context_type.casecmp('gdoc').zero?
+      template_name = Rails.root.join 'lib', 'doc_template', 'templates', subfolder.to_s, template
       template = File.read template_name
       ERB.new(template).result(binding)
     end

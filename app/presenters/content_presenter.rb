@@ -50,7 +50,7 @@ class ContentPresenter < BasePresenter
   end
 
   def render_content(context_type, excludes = [])
-    content = HtmlSanitizer.strip_content(
+    content = HtmlSanitizer.clean_content(
       render_part(layout_content(context_type), excludes),
       context_type
     )

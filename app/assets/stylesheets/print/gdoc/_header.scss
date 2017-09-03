@@ -5,6 +5,10 @@
 
   @include e(wrap) {
     padding: 7.2pt map-get($gdoc-spacing, large);
+
+    p {
+      padding: 0;
+    }
   }
 
   @include e(hr) {
