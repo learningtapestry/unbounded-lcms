@@ -1,5 +1,5 @@
 <% if document.description.present? %>
   <h1>Lesson Summary</h1>
-  <div class="u-txt--header-teaser"><%= raw document.description %></div>
+  <span class="u-txt--header-teaser"><%= raw document.description %></span>
 <% end %>
 <%= raw document.content_for(:gdoc, options) %>

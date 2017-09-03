@@ -32,13 +32,15 @@ module DocTemplate
         @params ||= {
           placeholder: placeholder_id,
           priority_description: priority_description(section),
+          priority_icon: priority_icon(section),
           react_props: {
             activity: {
               title: section.title
             },
             material_ids: @section.material_ids
           },
-          section: section
+          section: section,
+          section_icon: section_icon(section)
         }
       end
 
@@ -48,6 +50,11 @@ module DocTemplate
         )
         parsed_template = parse_template(params, template)
         parse_nested parsed_template, opts
+      end
+
+      def section_icon(section)
+        return unless section.icon.present?
+        "#{ICON_PATH}/#{section.icon}.png"
       end
     end
   end

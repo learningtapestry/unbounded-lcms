@@ -4,24 +4,22 @@
   </div>
 
   <table id="<%= @tmpl[:activity].anchor %>" class="o-simple-table cs-bg--math-activity<%= '-foundational' if @tmpl[:foundational] %>-bg %>">
-    <tr class="u-pdf-nobreak u-pdf-nobreak--around">
-      <td class="cs-border-top--math<%= '-foundational' if @tmpl[:foundational] %>">
-      </td>
-    </tr>
     <tr>
-      <td class="u-table-wrap--l2">
-        <table class="o-simple-table">
-          <tr>
-            <td colspan="2" class="cs-txt--math-<%= @tmpl[:foundational] ? 'foundational': 'base' %> u-txt--title-type">
-              <%= @tmpl[:activity].activity_type.upcase %>
-            </td>
-          </tr>
+      <td class="u-table-wrap--l2 cs-border-top--math<%= '-foundational' if @tmpl[:foundational] %>">
+        <table class="o-simple-table u-pdf-nobreak u-pdf-nobreak--around">
+          <% if @tmpl[:activity].activity_type.present? %>
+            <tr>
+              <td colspan="2" class="cs-txt--math-<%= @tmpl[:foundational] ? 'foundational': 'base' %> u-txt--title-type">
+                <%= @tmpl[:activity].activity_type.upcase %>
+              </td>
+            </tr>
+          <% end %>
           <tr>
             <td class="o-ld-title__title">
               <h3 class="o-ld-title__title--h3">
                 <%= @tmpl[:activity].activity_title %>
-                <% if false && @tmpl[:activity].activity_priority.present? %>
-                  <img src="" class="o-ld-icon"/>
+                <% if @tmpl[:activity].activity_priority.present? %>
+                  <img src="<%= @tmpl[:priority_icon] %>" class="o-ld-icon"/>
                 <% end %>
               </h3>
             </td>
@@ -30,37 +28,31 @@
         </table>
 
         <% if @tmpl[:activity].activity_metacognition.present? %>
-          <p class="u-txt--ld-activity-teaser u-gdoc-padding-bottom--base">
+          <span class="u-txt--ld-activity-teaser">
             <%= @tmpl[:activity].activity_metacognition %>
-          </p>
+          </span>
         <% end %>
 
         <% if @tmpl[:activity].activity_guidance.present? %>
-          <br/>
           <table class="o-simple-table cs-bg--math-activity<%= '-foundational' if @tmpl[:foundational] %>-guidance-bg">
             <tr>
               <td class="u-table-wrap">
-                <span class="cs-txt--math-<%= @tmpl[:foundational] ? 'foundational': 'base' %> u-txt--title-type u-text--bolded">GUIDANCE: </span>
+                <p class="cs-txt--math-<%= @tmpl[:foundational] ? 'foundational': 'base' %> u-txt--title-type u-padding-bottom--xs">
+                  <strong>GUIDANCE:</strong>
+                </p>
                 <%= @tmpl[:activity].activity_guidance %>
               </td>
             </tr>
           </table>
-          <br/>
+          <p class="do-not-strip"></p>
         <% end %>
 
         <% if @tmpl[:activity].activity_standard.present? %>
-            <p class="u-gdoc-margin-bottom--base">
+            <p>
               <strong>Standard: </strong>
               <% @tmpl[:activity].activity_standard_info.each do |activity| %>
                   <span class="c-ld-keyword"><%= activity[:standard] %></span>
               <% end %>
-            </p>
-        <% end %>
-
-        <% if @tmpl[:activity].activity_mathematical_practice.present?  %>
-            <p class="u-gdoc-padding-bottom--base">
-              <strong>Standards for Mathematical Practice: </strong>
-              <%= @tmpl[:activity].activity_mathematical_practice %>
             </p>
         <% end %>
 
