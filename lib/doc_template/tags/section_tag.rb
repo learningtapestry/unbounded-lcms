@@ -37,7 +37,8 @@ module DocTemplate
             activity: {
               title: section.title
             },
-            material_ids: @section.material_ids
+            material_ids: @section.material_ids,
+            color: @section[:use_color]
           },
           section: section,
           section_icon: section_icon(section)

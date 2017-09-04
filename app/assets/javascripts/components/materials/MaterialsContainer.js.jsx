@@ -57,8 +57,11 @@ class MaterialsContainer extends React.Component {
       {'o-m-title--underlined': !this.state.bExpanded }
     );
 
+    const cssClasses = classNames(['u-padding-bottom--gutter', 'o-page__section', 'o-material-wrapper',
+      `o-material-wrapper--${subject}`], {['o-material-wrapper--bg-color']: this.props.color});
+
     return (
-      <div className={`u-padding-bottom--gutter o-page__section o-material-wrapper o-material-wrapper--${subject}`}>
+      <div className={cssClasses}>
         <div className={clsTitle}>Materials</div>
         { this.state.bExpanded ? (
           <div key="key-m-wrap-expanded" className="o-page__wrap--row">
