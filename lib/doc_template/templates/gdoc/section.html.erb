@@ -18,6 +18,9 @@
                   <span class="o-m-icon o-m-icon--<%= icon %>"></span>
                 <% end %>
                 <%= @tmpl[:section].title %>
+                <% if false && @tmpl[:section].activity_priority.present? %>
+                    <span class="o-ld-icon o-ld-icon--base o-ld-icon--priority<%= @tmpl[:section].priority %>"></span>
+                <% end %>
               </h3>
             </td>
             <td class="o-ld-title__time o-ld-title__time--h3 u-text--right"><%= @tmpl[:section].time.zero? ? '&mdash;' : "#{@tmpl[:section].time} mins" %></td>
