@@ -48,12 +48,6 @@ module DocTemplate
 
         html.sub(/\[task:\s#\]/i, "[task: #{next_task_id}]")
       end
-
-      def priority_description(activity)
-        return unless activity.activity_priority.present?
-        config = self.class.config[TAG_NAME.downcase]
-        config['priority_descriptions'][activity.activity_priority - 1]
-      end
     end
   end
 

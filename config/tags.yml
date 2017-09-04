@@ -123,6 +123,9 @@ rubric:
     - ShTag
     - ThTag
 section:
+  priority_descriptions:
+    - 'This is a Priority 1 activity that should not be skipped. It is tightly connected to the lesson objective.'
+    - 'This is a Priority 2 activity that can be skipped if running short on time. It is less tightly connected to the lesson objective. It might be designed as an extension or to ensure maintenance of prior skills.'
   stop_tags:
     - OptBreakTag
     - GroupTag
