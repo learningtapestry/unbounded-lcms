@@ -8,8 +8,8 @@ class ResourceSerializer < ActiveModel::Serializer
 
   self.root = false
 
-  attributes :breadcrumb_title, :grade, :id, :is_assessment, :is_foundational, :is_prerequisite, :path, :short_title,
-             :subject, :teaser, :time_to_teach, :title, :type
+  attributes :breadcrumb_title, :grade, :id, :is_assessment, :is_foundational, :is_opr, :is_prerequisite, :path,
+             :short_title, :subject, :teaser, :time_to_teach, :title, :type
 
   def breadcrumb_title
     Breadcrumbs.new(object).title
@@ -25,6 +25,10 @@ class ResourceSerializer < ActiveModel::Serializer
 
   def is_foundational # rubocop:disable Style/PredicateName
     object.document&.foundational?
+  end
+
+  def is_opr # rubocop:disable Style/PredicateName
+    object.opr?
   end
 
   def is_prerequisite # rubocop:disable Style/PredicateName

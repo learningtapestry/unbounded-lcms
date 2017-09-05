@@ -140,6 +140,11 @@ class Resource < ActiveRecord::Base
     %w(text_set quick_reference_guide).include?(resource_type)
   end
 
+  # `Optional prerequisite` - https://github.com/learningtapestry/unbounded/issues/557
+  def opr?
+    tag_list.include?('opr')
+  end
+
   def prerequisite?
     tag_list.include?('prereq')
   end

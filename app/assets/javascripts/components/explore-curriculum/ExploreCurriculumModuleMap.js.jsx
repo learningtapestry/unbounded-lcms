@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 function ExploreCurriculumModuleMap(props) {
   const mapClass = classNames({
     'o-cur-card__map': true,
@@ -25,6 +26,7 @@ function ExploreCurriculumModuleMap(props) {
 
     for (let j = 0; j < size; j++) {
       const child = unit ? unit.children[j] : null;
+      if (child && child.resource.is_opr) continue;
       const prereqClass = child && child.resource.is_prerequisite ? 'o-ch-unit-map__prerequisite' : '';
       const assessmentClass =  unit && unit.resource.is_assessment ? `o-ch-unit-map__assessment--${props.colorCode}` : '';
       lessons.push((
