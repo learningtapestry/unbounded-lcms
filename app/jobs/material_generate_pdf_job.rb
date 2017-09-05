@@ -5,6 +5,10 @@ class MaterialGeneratePDFJob < ActiveJob::Base
 
   queue_as :default
 
+  after_perform do |job|
+    DocumentGenerateJob.perform_later(job.arguments.second, check_queue: true)
+  end
+
   def perform(material, document)
     material = MaterialPresenter.new material, lesson: DocumentPresenter.new(document)
 
@@ -18,19 +22,15 @@ class MaterialGeneratePDFJob < ActiveJob::Base
     pdf_url = S3Service.upload pdf_filename, pdf
     thumb_url = S3Service.upload thumb_filename, thumb
 
-    material.documents.each do |d|
-      new_links = {
-        'materials' => {
-          material.id => { 'url' => pdf_url, 'thumb' => thumb_url }
-        }
+    new_links = {
+      'materials' => {
+        material.id.to_s => { 'url' => pdf_url, 'thumb' => thumb_url }
       }
+    }
 
-      d.with_lock do
-        links = d.reload.links
-        d.reload.update links: links.deep_merge(new_links)
-      end
+    document.with_lock do
+      links = document.reload.links
+      document.update links: links.deep_merge(new_links)
     end
-
-    DocumentGenerateJob.perform_later(document, check_queue: true)
   end
 end
