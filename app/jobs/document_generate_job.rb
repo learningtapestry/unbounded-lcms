@@ -36,7 +36,7 @@ class DocumentGenerateJob < ActiveJob::Base
                  .map { |job| job['args'].first }
                  .detect { |job| same_material?(job, material.id) }
 
-      queued ||
+      queued ||=
         Resque::Worker.working.map(&:job).detect do |job|
           next unless job.is_a?(Hash) && (args = job.dig 'payload', 'args').is_a?(Array)
           args.detect { |x| same_material?(x, material.id) }
@@ -44,6 +44,7 @@ class DocumentGenerateJob < ActiveJob::Base
 
       return true if queued
     end
+    false
   end
 
   def same_document?(job, type, klass)
