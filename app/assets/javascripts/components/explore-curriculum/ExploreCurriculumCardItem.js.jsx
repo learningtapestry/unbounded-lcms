@@ -1,10 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 class ExploreCurriculumCardItem extends React.Component {
   componentDidMount() {
     if (this._dropdown) {
       new Foundation.DropdownMenu($(this._dropdown),
-                                  { 'alignment': 'right',
-                                    'forceFollow': false,
-                                    'closingTime': Modernizr.touchevents ? 0 : 5000 });
+        { 'alignment': 'right',
+          'forceFollow': false,
+          'closingTime': Modernizr.touchevents ? 0 : 5000 });
     }
   }
 
@@ -22,9 +23,13 @@ class ExploreCurriculumCardItem extends React.Component {
     const colorCode = props.colorCode;
 
     const curriculumComponent = {
+      // eslint-disable-next-line no-undef
       'grade': ExploreCurriculumGradeMap,
+      // eslint-disable-next-line no-undef
       'module': ExploreCurriculumModuleMap,
+      // eslint-disable-next-line no-undef
       'unit': ExploreCurriculumUnitMap,
+      // eslint-disable-next-line no-undef
       'lesson': ExploreCurriculumGradeMap
     }[props.curriculum.type];
 
@@ -35,60 +40,60 @@ class ExploreCurriculumCardItem extends React.Component {
     });
 
     const cssClasses = classNames(
-      "o-cur-card",
+      'o-cur-card',
       `o-cur-card-hover--${props.colorCode}`,
       { [`o-cur-card-active--${props.colorCode}`]: props.isActive},
-      { "o-cur-card--short": !props.shouldItemExpand },
+      { 'o-cur-card--short': !props.shouldItemExpand },
       `o-cur-card--${props.curriculum.type}`
     );
 
     const cssBodyClasses = classNames(
-      "o-cur-card__body",
-      { "o-cur-card__body--medium": props.shouldItemExpand },
-      { "o-cur-card__body--short": !props.shouldItemExpand }
+      'o-cur-card__body',
+      { 'o-cur-card__body--medium': props.shouldItemExpand },
+      { 'o-cur-card__body--short': !props.shouldItemExpand }
     );
 
     const cssActionClasses = classNames(
-      "o-cur-card__actions",
-      {"o-cur-card__actions--short": !props.shouldItemExpand },
-      {"u-hidden": _.includes(['grade', 'module'], props.curriculum.type) || resource.is_assessment}
+      'o-cur-card__actions',
+      {'o-cur-card__actions--short': !props.shouldItemExpand },
+      {'u-hidden': _.includes(['grade', 'module'], props.curriculum.type) || resource.is_assessment}
     );
 
     const cssActionDropdownClasses = classNames(
-      "o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short",
-      {"u-hidden": _.includes(['grade', 'module'], props.curriculum.type)}
+      'o-cur-card__menu o-cur-card__menu--short o-cur-card--show-short',
+      {'u-hidden': _.includes(['grade', 'module'], props.curriculum.type)}
     );
 
     const cssDownloadBtnClasses = classNames(
-      "o-ub-btn", "o-ub-btn--bordered", "o-ub-btn--curriculum",
-      {"o-ub-btn--disabled": !hasDownloads }
+      'o-ub-btn', 'o-ub-btn--bordered', 'o-ub-btn--curriculum',
+      {'o-ub-btn--disabled': !hasDownloads }
     );
 
     const cssRelatedBtnClasses = classNames(
-      "o-ub-btn", "o-ub-btn--bordered", "o-ub-btn--curriculum",
-      {"o-ub-btn--disabled": !hasRelated }
+      'o-ub-btn', 'o-ub-btn--bordered', 'o-ub-btn--curriculum',
+      {'o-ub-btn--disabled': !hasRelated }
     );
 
     const cssDownloadLinkClasses = classNames(
-      {"u-link--disabled": !hasDownloads }
+      {'u-link--disabled': !hasDownloads }
     );
 
     const cssHeaderClasses = classNames(
       `cs-txt--${colorCode}`,
-      {"o-title__type o-title__type--top-align": props.shouldItemExpand},
-      {"o-title__type--short": !props.shouldItemExpand }
+      {'o-title__type o-title__type--top-align': props.shouldItemExpand},
+      {'o-title__type--short': !props.shouldItemExpand }
     );
 
     const cssTitleClasses = classNames(
-      {"u-txt--card-title-medium": props.shouldItemExpand },
-      {"u-txt--card-title-short": !props.shouldItemExpand }
+      {'u-txt--card-title-medium': props.shouldItemExpand },
+      {'u-txt--card-title-short': !props.shouldItemExpand }
     );
 
     const cssShow = classNames(
-      "u-hidden"
-    )
+      'u-hidden'
+    );
 
-    const resourceType = resource.type.name == 'grade' ? 'curriculum' : resource.type.name;
+    const resourceType = resource.type.name === 'grade' ? 'curriculum' : resource.type.name;
     const downloadBtnLabel = `Download ${_.capitalize(resourceType)}`;
     const downloadModalId = `downloads-modal-${resource.id}`;
 

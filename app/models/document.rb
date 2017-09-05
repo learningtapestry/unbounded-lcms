@@ -105,15 +105,16 @@ class Document < ActiveRecord::Base
     return unless metadata.present?
 
     # downcase subjects
-    metadata['subject'] = metadata['subject'].try(:downcase)
+    metadata['subject'] = metadata['subject']&.downcase
 
     /(\d+)/.match(metadata['grade']) do |m|
       metadata['grade'] = "grade #{m[1]}"
     end
 
     # store only the lesson number
+    # or alphanumeric - needed by OPR type, see https://github.com/learningtapestry/unbounded/issues/557
     lesson = metadata['lesson']
-    metadata['lesson'] = lesson.match(/lesson (\d+)/i).try(:[], 1) || lesson if lesson.present?
+    metadata['lesson'] = lesson.match(/lesson (\w+)/i).try(:[], 1) || lesson if lesson.present?
   end
 
   def set_resource_from_metadata
@@ -126,6 +127,7 @@ class Document < ActiveRecord::Base
     resource.teaser = metadata['teaser'] if metadata['teaser'].present?
     resource.description = metadata['description'] if metadata['description'].present?
     resource.tag_list << 'prereq' if metadata['type'].to_s.casecmp('prereq').zero?
+    resource.tag_list << 'opr' if metadata['type'].to_s.casecmp('opr').zero?
     resource.save
 
     self.resource_id = resource.id

@@ -10,6 +10,7 @@ class MetadataContext
     @ctx = ctx.with_indifferent_access
   end
 
+  # rubocop:disable Metrics/PerceivedComplexity
   def curriculum
     @curriculum ||= [subject, grade, mod, unit, lesson].select(&:present?)
   end
@@ -36,6 +37,10 @@ class MetadataContext
       elsif last_item(index) && prerequisite?
         first_non_prereq = parent.children.detect { |r| !r.prerequisite? }
         first_non_prereq&.prepend_sibling(resource)
+
+      elsif last_item(index) && opr?
+        first_non_opr = parent.children.detect { |r| !r.opr? }
+        first_non_opr&.prepend_sibling(resource)
 
       else
         resource.save!
@@ -127,6 +132,11 @@ class MetadataContext
 
   def number?(str)
     str =~ /^\d+$/
+  end
+
+  # `Optional prerequisite` - https://github.com/learningtapestry/unbounded/issues/557
+  def opr?
+    type.to_s.casecmp('opr').zero?
   end
 
   def prerequisite?
