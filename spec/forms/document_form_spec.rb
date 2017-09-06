@@ -40,7 +40,7 @@ describe DocumentForm do
       before do
         allow(DocumentDownloader::Gdoc).to receive(:new).with(nil, link, Document).and_return(downloader)
         allow(DocTemplate::Template).to receive(:parse).and_return(parsed_document)
-        allow(DocumentGenerator).to receive(:materials_for)
+        allow(DocumentGenerator).to receive(:generate_for)
       end
 
       it 'downloads the document' do
@@ -55,17 +55,8 @@ describe DocumentForm do
         expect(document).to receive(:activate!)
       end
 
-      # NOTE: Temporary disable DOCX generation - need to solve
-      # few issues on the server side
-      # it 'queues job to generate Docx' do
-      #   expect(LessonGenerateDocxJob).to receive(:perform_later).with(document)
-      # end
-      xit 'queues job to generate Docx' do
-        expect(LessonGenerateDocxJob).to receive(:perform_later).with(document)
-      end
-
-      it 'queues job to process equations' do
-        expect(DocumentGenerator).to receive(:materials_for).with(document)
+      it 'queues job to generate PDF and GDoc' do
+        expect(DocumentGenerator).to receive(:generate_for).with(document)
       end
 
       after { subject }

@@ -9,7 +9,7 @@ module DocumentExporter
 
         material_ids = document_materials_id
         material_ids &= included_materials if included_materials.any? || @options[:excludes].present?
-        pdf = conbine_pdf_for pdf, material_ids
+        pdf = combine_pdf_for pdf, material_ids
         pdf.to_pdf
       end
     end

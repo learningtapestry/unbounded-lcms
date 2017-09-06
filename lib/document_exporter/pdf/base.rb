@@ -10,7 +10,7 @@ module DocumentExporter
 
       protected
 
-      def conbine_pdf_for(pdf, material_ids)
+      def combine_pdf_for(pdf, material_ids)
         material_ids.each do |id|
           next unless (url = @document.links['materials']&.dig(id.to_s, 'url'))
           pdf << CombinePDF.parse(Net::HTTP.get(URI.parse(url)))

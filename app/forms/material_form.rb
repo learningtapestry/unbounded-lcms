@@ -48,8 +48,6 @@ class MaterialForm
           part_type: :layout
         )
       end
-
-      DocumentGenerator.documents_of(material)
     else
       errors.add(:link, 'Material metadata table not present')
     end
