@@ -18,8 +18,8 @@
                   data-hover-pane="true"
                   data-v-offset="12"
                   id="<%= priority_id %>">
-            <%= @tmpl[:priority_description] %>
-          </span>
+              <%= @tmpl[:priority_description] %>
+            </span>
           <% end %>
         </div>
         <div class="o-ld-title__time o-ld-title__time--h3"><%= @tmpl[:activity].time.zero? ? '&mdash;' : "#{@tmpl[:activity].time} mins" %></div>
