@@ -8,6 +8,19 @@
           <span class="o-m-icon o-m-icon--<%= icon %>"></span>
         <% end %>
         <%= @tmpl[:section].title %>
+        <% if @tmpl[:section].priority.present? %>
+          <% priority_id = "o-ld-p_#{SecureRandom.hex(4)}" %>
+          <span class="o-ld-icon o-ld-icon--base o-ld-icon--priority<%= @tmpl[:section].priority %>" data-toggle="<%= priority_id %>"></span>
+          <span class="dropdown-pane o-ld-dropdown"
+                data-dropdown
+                data-hover="true"
+                data-hover-delay="0"
+                data-hover-pane="true"
+                data-v-offset="12"
+                id="<%= priority_id %>">
+          <%= @tmpl[:priority_description] %>
+          </span>
+        <% end %>
       </div>
       <div class="o-ld-title__time o-ld-title__time--h3"><%= @tmpl[:section].time.zero? ? '&mdash;' : "#{@tmpl[:section].time} mins" %></div>
     </h3>

@@ -29,6 +29,7 @@ module DocTemplate
       def general_params
         @params ||= {
           placeholder: placeholder_id,
+          priority_description: priority_description(section),
           react_props: {
             activity: {
               title: section.title

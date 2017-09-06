@@ -33,6 +33,7 @@ module DocTemplate
         attribute :icon, String
         attribute :idx, Integer
         attribute :level, Integer, default: 2
+        attribute :priority, Integer, default: 0
         attribute :standard, String, default: ->(s, _) { s.metadata.standard }
         attribute :time, Integer, default: ->(s, _) { s.metadata.time }
         attribute :use_color, Boolean, default: false
@@ -64,6 +65,7 @@ module DocTemplate
               m = s[:metadata]
               s[:icon] = m['icon']
               s[:material_ids] = m['material_ids']
+              s[:priority] = m['priority']
               m['time'] = m['time'].to_s[/\d+/].to_i || 0
               use_color = m['color']
               s[:use_color] = use_color.present? ? use_color.casecmp('yes').zero? : false
