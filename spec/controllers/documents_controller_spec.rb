@@ -58,7 +58,7 @@ describe DocumentsController do
       before do
         allow_any_instance_of(DocumentPresenter).to receive(:pdf_filename)
         allow(S3Service).to receive(:url_for).and_return(:url)
-        allow(LessonGeneratePdfJob).to receive_message_chain(:perform_later, :job_id).and_return(job_id)
+        allow(DocumentGeneratePdfJob).to receive_message_chain(:perform_later, :job_id).and_return(job_id)
       end
 
       subject { post :export, id: document.id, type: type, excludes: excludes, context: 'pdf' }
@@ -69,7 +69,7 @@ describe DocumentsController do
       end
 
       it 'starts PDF generation job' do
-        expect(LessonGeneratePdfJob).to receive(:perform_later).with(document, hash_including(job_options))
+        expect(DocumentGeneratePdfJob).to receive(:perform_later).with(document, hash_including(job_options))
         subject
       end
 
@@ -98,23 +98,23 @@ describe DocumentsController do
     describe '#export_status' do
       let(:job_id) { '10' }
 
-      before { allow(LessonGeneratePdfJob).to receive(:find) }
+      before { allow(DocumentGeneratePdfJob).to receive(:find) }
 
       subject { get :export_status, context: 'pdf', id: document.id, jid: job_id }
 
       it 'looks up job queue for the job' do
-        expect(LessonGeneratePdfJob).to receive(:find).with(job_id)
+        expect(DocumentGeneratePdfJob).to receive(:find).with(job_id)
         subject
       end
 
       context 'when job is finished' do
-        before { allow(LessonGeneratePdfJob).to receive(:find) }
+        before { allow(DocumentGeneratePdfJob).to receive(:find) }
 
         it { expect(response['ready']).to be_truthy }
       end
 
       context 'when job is still running or queued' do
-        before { allow(LessonGeneratePdfJob).to receive(:find).and_return(1) }
+        before { allow(DocumentGeneratePdfJob).to receive(:find).and_return(1) }
 
         it { expect(response['ready']).to be_falsey }
       end

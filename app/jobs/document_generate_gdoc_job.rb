@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class LessonGenerateGdocJob < ActiveJob::Base
+class DocumentGenerateGdocJob < ActiveJob::Base
   extend ResqueJob
 
   queue_as :default
@@ -13,7 +13,7 @@ class LessonGenerateGdocJob < ActiveJob::Base
 
   def perform(document, options)
     content_type = options[:content_type]
-    document = DocumentPresenter.new document, content_type: content_type
+    document = DocumentPresenter.new document.reload, content_type: content_type
     gdoc = GDOC_EXPORTERS[content_type].new(document, options).export
 
     key = options[:excludes].present? ? options[:gdoc_folder] : document.gdoc_key

@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class LessonGeneratePdfJob < ActiveJob::Base
+class DocumentGeneratePdfJob < ActiveJob::Base
   extend ResqueJob
 
   queue_as :default
+
   PDF_EXPORTERS = {
     'full' => DocumentExporter::PDF::Document,
     'sm'   => DocumentExporter::PDF::StudentMaterial,
@@ -12,7 +13,7 @@ class LessonGeneratePdfJob < ActiveJob::Base
 
   def perform(document, options)
     content_type = options[:content_type]
-    document = DocumentPresenter.new document, content_type: content_type
+    document = DocumentPresenter.new document.reload, content_type: content_type
     filename = options[:filename].presence || "documents/#{document.pdf_filename}"
     pdf = PDF_EXPORTERS[content_type].new(document, options).export
     url = S3Service.upload filename, pdf
