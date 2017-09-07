@@ -20,8 +20,10 @@ module DocumentExporter
 
       def create_gdoc_folders(folder)
         id = drive_service.create_folder(folder)
-        drive_service.create_folder(DocumentExporter::Gdoc::TeacherMaterial::FOLDER_NAME, id)
-        drive_service.create_folder(DocumentExporter::Gdoc::StudentMaterial::FOLDER_NAME, id)
+        folders = [id]
+        folders << drive_service.create_folder(DocumentExporter::Gdoc::TeacherMaterial::FOLDER_NAME, id)
+        folders << drive_service.create_folder(DocumentExporter::Gdoc::StudentMaterial::FOLDER_NAME, id)
+        folders.each { |f| delete_previous_versions_from(f) }
       end
 
       def export
@@ -35,8 +37,6 @@ module DocumentExporter
           content_type: 'text/html',
           upload_source: StringIO.new(content)
         }
-
-        delete_previous_versions_from(parent_folder) if parent_folder
 
         @id = if drive_service.file_id.blank?
                 drive_service.service.create_file(metadata, params)
