@@ -27,7 +27,11 @@ class DocumentGenerateJob < ActiveJob::Base
   attr_accessor :document
 
   def create_gdoc_folders
-    DocumentExporter::Gdoc::Base.new(document).create_gdoc_folders("#{document.id}_v#{document.version}")
+    drive = GoogleApi::DriveService.build(Google::Apis::DriveV3::DriveService, document)
+
+    id = drive.create_folder("#{document.id}_v#{document.version}")
+    drive.create_folder(DocumentExporter::Gdoc::TeacherMaterial::FOLDER_NAME, id)
+    drive.create_folder(DocumentExporter::Gdoc::StudentMaterial::FOLDER_NAME, id)
   end
 
   #
