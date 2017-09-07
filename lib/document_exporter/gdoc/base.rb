@@ -19,9 +19,7 @@ module DocumentExporter
       end
 
       def export
-        file_service = GoogleApi::DriveService.new(service, document, options)
-
-        parent_folder = file_service.file_id.blank? ? file_service.parent : nil
+        parent_folder = drive_service.file_id.blank? ? drive_service.parent : nil
 
         file_params = { name: document.base_filename, mime_type: 'application/vnd.google-apps.document' }
         file_params[:parents] = [parent_folder] if parent_folder.present?
@@ -34,10 +32,10 @@ module DocumentExporter
 
         delete_previous_versions_from(parent_folder) if parent_folder
 
-        @id = if file_service.file_id.blank?
-                service.create_file(metadata, params)
+        @id = if drive_service.file_id.blank?
+                drive_service.service.create_file(metadata, params)
               else
-                service.update_file(file_service.file_id, metadata, params)
+                drive_service.service.update_file(drive_service.file_id, metadata, params)
               end.id
 
         post_processing
@@ -59,8 +57,8 @@ module DocumentExporter
         render_template template_path('show'), layout: 'ld_gdoc'
       end
 
-      def credentials
-        @credentials ||= GoogleApi::AuthCLIService.new.credentials
+      def drive_service
+        @drive_service ||= GoogleApi::DriveService.build(Google::Apis::DriveV3::DriveService, document, options)
       end
 
       #
@@ -75,39 +73,28 @@ module DocumentExporter
 
       def gdoc_folder
         @options[:subfolders] = [self.class::FOLDER_NAME] if defined?(self.class::FOLDER_NAME)
-        file_service = GoogleApi::DriveService.new(service, document, options)
-        @id = file_service.parent
+        @id = GoogleApi::DriveService
+                .build_with(drive_service.service, document, options)
+                .parent
         self
       end
 
       def gdoc_folder_tmp(material_ids)
-        @options[:subfolders] = [self.class::FOLDER_NAME]
-        file_service = GoogleApi::DriveService.new(service, document, options)
-
         file_ids = material_ids.map do |id|
           document.links['materials']&.dig(id.to_s)&.dig('gdoc')&.gsub(/.*id=/, '')
         end
 
-        @id = file_service.copy(file_ids)
+        @options[:subfolders] = [self.class::FOLDER_NAME]
+        @id = GoogleApi::DriveService
+                .build_with(drive_service.service, document, options)
+                .copy(file_ids)
         self
       end
 
       def post_processing
-        GoogleApi::ScriptService.new(script_service, document).execute(@id)
-      end
-
-      def service
-        return @_service if @_service.present?
-        @_service = Google::Apis::DriveV3::DriveService.new
-        @_service.authorization = credentials
-        @_service
-      end
-
-      def script_service
-        return @_script_service if @_script_service.present?
-        @_script_service = Google::Apis::ScriptV1::ScriptService.new
-        @_script_service.authorization = credentials
-        @_script_service
+        GoogleApi::ScriptService
+          .build(Google::Apis::ScriptV1::ScriptService, document)
+          .execute(@id)
       end
     end
   end

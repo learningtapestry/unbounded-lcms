@@ -1,5 +1,18 @@
 <%= render 'documents/gdoc/materials/header', document: document %>
-<%= raw document.content_for(:gdoc) %>
+
+<% if document.vertical_text? %>
+  <table class="o-simple-table">
+    <tbody>
+    <tr>
+      <td class="o-simple-table__v-text"><%= image_tag options[:vertical_text_image_url] %></td>
+      <td class="o-simple-table__content"><%= raw document.content_for(:gdoc) %></td>
+    </tr>
+    </tbody>
+  </table>
+<% else %>
+  <%= raw document.content_for(:gdoc) %>
+<% end %>
+
 <% if options[:blank_page].present? %>
   <div class="u-pdf-alwaysbreak u-pd-content">
   </div>

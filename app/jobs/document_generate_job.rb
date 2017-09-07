@@ -26,6 +26,14 @@ class DocumentGenerateJob < ActiveJob::Base
 
   attr_accessor :document
 
+  def create_gdoc_folders
+    drive = GoogleApi::DriveService.build(Google::Apis::DriveV3::DriveService, document)
+
+    id = drive.create_folder("#{document.id}_v#{document.version}")
+    drive.create_folder(DocumentExporter::Gdoc::TeacherMaterial::FOLDER_NAME, id)
+    drive.create_folder(DocumentExporter::Gdoc::StudentMaterial::FOLDER_NAME, id)
+  end
+
   #
   # Checks if there are jobs queued or running for current document
   # and any of its materials
@@ -69,6 +77,7 @@ class DocumentGenerateJob < ActiveJob::Base
   end
 
   def queue_materials
+    create_gdoc_folders
     document.materials.each { |material| MaterialGenerateJob.perform_later(material, document) }
   end
 
