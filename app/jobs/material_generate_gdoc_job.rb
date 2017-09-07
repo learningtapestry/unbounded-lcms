@@ -5,6 +5,10 @@ class MaterialGenerateGdocJob < ActiveJob::Base
 
   queue_as :default
 
+  after_perform do |job|
+    DocumentGenerateJob.perform_later(job.arguments.second, check_queue: true)
+  end
+
   def perform(material, document)
     material = MaterialPresenter.new material, lesson: DocumentPresenter.new(document)
 

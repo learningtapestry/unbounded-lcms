@@ -10,13 +10,11 @@ module GoogleApi
     SCOPE = %w(https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/documents).freeze
     USER_ID = 'default'
 
-    class << self
-      def authorizer
-        @authorizer ||= begin
-          client_id = Google::Auth::ClientId.from_file(CONFIG_SECRET_FILE)
-          token_store = Google::Auth::Stores::FileTokenStore.new(file: CONFIG_TOKEN_FILE)
-          Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
-        end
+    def self.authorizer
+      @authorizer ||= begin
+        client_id = Google::Auth::ClientId.from_file(CONFIG_SECRET_FILE)
+        token_store = Google::Auth::Stores::FileTokenStore.new(file: CONFIG_TOKEN_FILE)
+        Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
       end
     end
 

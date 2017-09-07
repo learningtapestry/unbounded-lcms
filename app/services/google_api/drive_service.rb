@@ -9,11 +9,29 @@ module GoogleApi
     def copy(file_ids)
       folder_id = parent
       file_ids.each do |id|
-        service.update_file(id,
-                            add_parents: folder_id,
-                            fields: 'id, parents')
+        service.update_file(id, add_parents: folder_id, fields: 'id, parents')
       end
       folder_id
+    end
+
+    def create_folder(folder_name, parent_id = FOLDER_ID)
+      if (files = folder_query(folder_name, parent_id).files).any?
+        return files[0].id
+      end
+
+      metadata = Google::Apis::DriveV3::File.new(
+        name: folder_name,
+        mime_type: MIME_FOLDER,
+        parents: [parent_id]
+      )
+      service.create_file(metadata).id
+    end
+
+    def file_exists?(name, parent_id)
+      service.list_files(
+        q: "'#{parent_id}' in parents and name = '#{name}' and trashed = false",
+        fields: 'files(id)'
+      ).files&.first&.id
     end
 
     def file_id
@@ -45,22 +63,17 @@ module GoogleApi
 
     private
 
-    def create_folder(folder, parent_folder = FOLDER_ID)
-      metadata = Google::Apis::DriveV3::File.new(
-        name: folder,
-        mime_type: 'application/vnd.google-apps.folder',
-        parents: [parent_folder]
-      )
-      service.create_file(metadata).id
-    end
-
-    def subfolder(folder, parent_folder = FOLDER_ID)
-      response = service.list_files(
-        q: "'#{parent_folder}' in parents and name = '#{folder}' and mimeType = '#{MIME_FOLDER}' and trashed = false",
+    def folder_query(folder_name, parent_id)
+      service.list_files(
+        q: "'#{parent_id}' in parents and name = '#{folder_name}' and mimeType = '#{MIME_FOLDER}' and trashed = false",
         fields: 'files(id)'
       )
-      return create_folder(folder, parent_folder) if response.files.empty?
-      Rails.logger.warn "Multiple folders: more than 1 folder with same name: #{folder}" unless response.files.size == 1
+    end
+
+    def subfolder(folder_name, parent_id = FOLDER_ID)
+      response = folder_query folder_name, parent_id
+      return create_folder(folder_name, parent_id) if response.files.empty?
+      Rails.logger.warn "Multiple folders: more than 1 folder with same name: #{folder_name}" unless response.files.size == 1
       response.files[0].id
     end
   end

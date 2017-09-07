@@ -2,6 +2,7 @@
 
 class MaterialPresenter < ContentPresenter
   attr_reader :lesson, :parsed_document
+
   delegate :cc_attribution, :css_styles, :short_url, :subject, to: :lesson
   delegate :sheet_type, to: :metadata
   delegate :parts, to: :parsed_document
