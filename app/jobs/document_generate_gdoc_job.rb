@@ -11,6 +11,10 @@ class DocumentGenerateGdocJob < ActiveJob::Base
     'tm'   => DocumentExporter::Gdoc::TeacherMaterial
   }.freeze
 
+  before_perform do |job|
+    create_gdoc_folders(job.arguments.first, job.arguments.second)
+  end
+
   def perform(document, options)
     content_type = options[:content_type]
     document = DocumentPresenter.new document.reload, content_type: content_type
@@ -28,5 +32,12 @@ class DocumentGenerateGdocJob < ActiveJob::Base
     GDOC_EXPORTERS.keys.reject { |x| x == content_type }.each do |type|
       GDOC_EXPORTERS[type].new(document, options).export
     end
+  end
+
+  private
+
+  def create_gdoc_folders(document, options)
+    return unless options[:excludes].present?
+    DocumentExporter::Gdoc::Base.new(document).create_gdoc_folders(options[:gdoc_folder])
   end
 end
