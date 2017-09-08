@@ -18,6 +18,12 @@ module DocumentExporter
         "https://drive.google.com/open?id=#{file_id}"
       end
 
+      def create_gdoc_folders(folder)
+        id = drive_service.create_folder(folder)
+        drive_service.create_folder(DocumentExporter::Gdoc::TeacherMaterial::FOLDER_NAME, id)
+        drive_service.create_folder(DocumentExporter::Gdoc::StudentMaterial::FOLDER_NAME, id)
+      end
+
       def export
         parent_folder = drive_service.file_id.blank? ? drive_service.parent : nil
 
@@ -57,18 +63,18 @@ module DocumentExporter
         render_template template_path('show'), layout: 'ld_gdoc'
       end
 
-      def drive_service
-        @drive_service ||= GoogleApi::DriveService.build(Google::Apis::DriveV3::DriveService, document, options)
-      end
-
       #
       # Deletes files of previous versions
       #
       def delete_previous_versions_from(folder)
-        service.list_files(q: "'#{folder}' in parents").files.each do |file|
+        drive_service.service.list_files(q: "'#{folder}' in parents").files.each do |file|
           next unless file.name =~ VERSION_RE
-          service.delete_file file.id
+          drive_service.service.delete_file file.id
         end
+      end
+
+      def drive_service
+        @drive_service ||= GoogleApi::DriveService.build(Google::Apis::DriveV3::DriveService, document, options)
       end
 
       def gdoc_folder

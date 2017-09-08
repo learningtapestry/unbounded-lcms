@@ -8,6 +8,8 @@ class DocumentsController < ApplicationController
   before_action :check_params, only: :export
 
   def export
+    @excludes = params[:excludes]
+    @type = params[:type]
     params[:context] == 'pdf' ? export_pdf : export_gdoc
   end
 
@@ -28,6 +30,8 @@ class DocumentsController < ApplicationController
 
   private
 
+  attr_reader :excludes, :type
+
   def check_document_layout
     return if @document.layout('default').present?
     redirect_to admin_documents_path, alert: 'Document has to be re-imported.'
@@ -38,9 +42,6 @@ class DocumentsController < ApplicationController
   end
 
   def export_gdoc
-    type = params[:type]
-    excludes = params[:excludes]
-
     return render(json: { url: @doc.links[@document.gdoc_folder] }, status: :ok) if excludes.blank?
 
     folder = "#{@document.gdoc_folder}_#{SecureRandom.hex(10)}"
@@ -56,9 +57,6 @@ class DocumentsController < ApplicationController
   end
 
   def export_pdf
-    type = params[:type]
-    excludes = params[:excludes]
-
     # Empty excludes - return pregenerated full PDF
     return render(json: { url: @doc.links[pdf_key(type)] }, status: :ok) if excludes.blank?
 
@@ -74,8 +72,8 @@ class DocumentsController < ApplicationController
     render json: { id: job_id, url: url }, status: :ok
   end
 
-  def pdf_key(type)
-    type == 'full' ? 'pdf' : "pdf_#{type}"
+  def pdf_key(pdf_type)
+    pdf_type == 'full' ? 'pdf' : "pdf_#{pdf_type}"
   end
 
   def set_document
