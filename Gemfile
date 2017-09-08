@@ -1,8 +1,13 @@
+# frozen_string_literal: true
+
 ruby '2.3.3'
 
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.4'
+
+# error handling
+gem 'airbrake', '~> 6.2'
 
 # session storage
 gem 'activerecord-session_store', '~> 1.0'
