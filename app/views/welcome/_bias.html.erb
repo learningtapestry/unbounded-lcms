@@ -1,0 +1,13 @@
+<% if ENV['UB_BIAS_PAGE'].present? %>
+  <div class="c-hp-bias o-page__module o-bias cs-bg--bias">
+    <div class="o-bias__img show-for-ipad">
+      <%= image_tag('bias/toolkit_home.svg') %>
+    </div>
+    <div class="o-bias__body">
+      <div class="u-txt--bias-subheader o-bias__subheader--home">UNBOUNDED TOOLKIT</div>
+      <h2 class="u-txt--media-header o-bias__header--home u-margin-bottom--base">Disrupting Inequity: Having Brave Conversations About Bias</h2>
+      <p class="u-txt--media-text cs-txt--bias-txt">The toolkit contains everything leaders need to facilitate new conversations, including presentations, detailed notes, resources, and activities to guide you each step of the way.</p>
+      <%= link_to t('ui.learn_more'), ENV['UB_BIAS_PAGE'], class: 'o-btn o-btn--white o-btn--xs-full u-color--base u-margin-bottom--zero', target: '_blank' %>
+    </div>
+  </div>
+<% end %>

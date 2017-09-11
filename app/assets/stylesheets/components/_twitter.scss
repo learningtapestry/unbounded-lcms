@@ -1,0 +1,49 @@
+.o-twitter {
+  @include flex-grid-row;
+  @include add-gutter($x: .5);
+  border-radius: $panel-radius;
+
+  @include breakpoint(medium) {
+    @include add-gutter($x: 1);
+  }
+
+  @include e(body) {
+    @include add-column-padding;
+    @include add-top-bottom-padding;
+    flex: 1 1 0px;
+
+    p {
+      @include add-gutter;
+      color: $ub-txt-light;
+
+      a {
+        color: #a269bf;
+      }
+    }
+  }
+
+  @include e(header) {
+    @include add-column-padding;
+    @include add-top-bottom-padding;
+    background: linear-gradient(180deg, #565656 2.95%, #4a4a4a 100%);
+    flex: 0 0 100%;
+
+    &, h2 { color: $ub-white; }
+    h2 i {
+      color: #c9c9c9;
+      float: right;
+      opacity: .3;
+    }
+
+    @include breakpoint(ipad) {
+      flex: 0 0 auto;
+      width: 380px;
+    }
+  }
+
+  @include e(user) {
+    &, &:hover, &:focus {
+      @include txt-element(twitter-subheader);
+    }
+  }
+}
