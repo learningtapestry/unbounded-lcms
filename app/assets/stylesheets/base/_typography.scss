@@ -37,6 +37,8 @@ $ub-element-typography: (
     ipad: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
   ),
   title-duration: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-sanserif, color: #929299),
+  twitter-subheader: (font-size: 18px, line-height: 22px, 'font-family': $ub-serif, font-weight: 500, color: #939597),
+  bias-subheader: (font-size: 17px, line-height: 20px, 'font-family': $ub-serif, opacity: .7, font-weight: 600),
   breadcrumbs: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
   button: ('font-size': 14px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),
   button-register: ('font-size': 16px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),

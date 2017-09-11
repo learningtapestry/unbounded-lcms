@@ -60,6 +60,8 @@ gem 'autoprefixer-rails', '~> 6.3.6'
 gem 'migration_data', '~> 0.2.1'
 gem 'pdfjs_viewer-rails', '~> 0.0.9'
 gem 'httparty', '~> 0.14.0'
+gem 'twitter', '~> 5.14.0'
+gem 'rails_autolink', '~> 1.1.6'
 
 group :development, :test do
   gem 'byebug'
