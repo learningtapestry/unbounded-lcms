@@ -2,8 +2,15 @@ student:
   sheet_type:
     - student
   type:
+    - default
     - family-letter
     - recommended-books
+
+sheet_types:
+  default: student
+  family-letter: student
+  recommended-books: student
+  vocabulary-chart: classroom
 
 teacher:
   sheet_type:

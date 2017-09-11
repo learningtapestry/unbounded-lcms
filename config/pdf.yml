@@ -69,7 +69,7 @@ venn-diagram:
 vocabulary-chart:
   header: false
   subtitle:
-    student: Classroom Materials
+    classroom: Classroom Materials
   title: Vocabulary Chart
 writing-and-drawing:
   subtitle:
