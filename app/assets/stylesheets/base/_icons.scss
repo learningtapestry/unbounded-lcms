@@ -10,7 +10,7 @@
 }
 
 @mixin ub-icon {
-  /* use !important to prevent issues with browser extensions that change fonts */
+  // use !important to prevent issues with browser extensions that change fonts
   font-family: 'ubicons' !important;
   speak: none;
   font-style: normal;
@@ -19,7 +19,7 @@
   text-transform: none;
   line-height: 1;
 
-  /* Better Font Rendering =========== */
+  // Better Font Rendering ===========
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -28,171 +28,308 @@
   @include ub-icon;
 }
 
-.ub-microphone:before {
-  content: '\e049';
-}
-.ub-eye:before {
-  content: '\e91e';
-}
-.ub-angle-left:before {
-  content: '\e900';
-}
-.ub-cc-by:before {
-  content: '\e901';
-}
-.ub-cc-nc:before {
-  content: '\e902';
-}
-.ub-cc-nd:before {
-  content: '\e903';
-}
-.ub-cc-pd:before {
-  content: '\e904';
-}
-.ub-cc-remix:before {
-  content: '\e905';
-}
-.ub-cc-sa:before {
-  content: '\e906';
-}
-.ub-cc-share:before {
-  content: '\e907';
-}
-.ub-cc-stamp:before {
-  content: '\e908';
-}
-.ub-cc-zero:before {
-  content: '\e909';
-}
-.ub-close:before {
-  content: '\e90a';
-}
-.ub-angle-down:before {
-  content: '\e91f';
-}
-.ub-facebook:before {
-  content: '\e90c';
-}
-.ub-angle-right:before {
-  content: '\e90d';
-}
-.ub-arrow-right:before {
-  content: '\e91d';
-}
-.ub-arrow-left:before {
-  content: '\e90e';
-}
-.ub-triangle-top:before {
-  content: '\25b2';
-}
-.ub-file-image:before {
-  content: '\e90f';
-}
-.ub-search:before {
-  content: '\e910';
-}
-.ub-file-media:before {
-  content: '\e911';
-}
-.ub-file-pdf:before {
-  content: '\e912';
-}
-.ub-pinterest:before {
-  content: '\e913';
-}
-.ub-ellipsis:before {
-  content: '\e914';
-}
-.ub-share:before {
-  content: '\e915';
-}
-.ub-arrow-share:before {
-  content: '\e916';
-}
-.ub-spreadsheet:before {
-  content: '\e917';
-}
-.ub-file-text:before {
-  content: '\e918';
-}
-.ub-twitter:before {
-  content: '\e919';
-}
-.ub-vimeo:before {
-  content: '\e91a';
-}
-.ub-youtube:before {
-  content: '\e91b';
-}
-.ub-file-zip:before {
-  content: '\e91c';
-}
-.ub-menu:before {
-  content: '\e120';
-}
-
+$ub-angle-dropdown: '\e900';
+$ub-angle-dropup: '\e91f';
+$ub-angle-down: '\e920';
+$ub-angle-left: '\e901';
+$ub-angle-right: '\e90d';
+$ub-arrow-left: '\e90e';
+$ub-arrow-right: '\e91d';
+$ub-arrow-share: '\e916';
+$ub-cc-by: '\e902';
+$ub-cc-nc: '\e903';
+$ub-cc-nd: '\e904';
+$ub-cc-pd: '\e905';
+$ub-cc-remix: '\e906';
+$ub-cc-sa: '\e907';
+$ub-cc-share: '\e908';
+$ub-cc-stamp: '\e909';
+$ub-cc-zero: '\e90a';
+$ub-close: '\e90b';
+$ub-ellipsis: '\e914';
+$ub-eye: '\e91e';
+$ub-facebook: '\e90c';
+$ub-file-image: '\e90f';
+$ub-file-gdoc: '\e922';
+$ub-file-media: '\e911';
+$ub-file-pdf: '\e912';
+$ub-file-ppt: '\e923';
+$ub-file-text: '\e918';
+$ub-file-zip: '\e91c';
+$ub-menu: '\e120';
 $ub-microphone: '\e049';
-$ub-eye: "\e91e";
-$ub-angle-left: "\e900";
-$ub-cc-by: "\e901";
-$ub-cc-nc: "\e902";
-$ub-cc-nd: "\e903";
-$ub-cc-pd: "\e904";
-$ub-cc-remix: "\e905";
-$ub-cc-sa: "\e906";
-$ub-cc-share: "\e907";
-$ub-cc-stamp: "\e908";
-$ub-cc-zero: "\e909";
-$ub-close: "\e90a";
-$ub-angle-down: "\e90b";
-$ub-facebook: "\e90c";
-$ub-angle-right: "\e90d";
-$ub-arrow-right: "\e91d";
-$ub-arrow-left: "\e90e";
-$ub-triangle-top: "\25b2";
-$ub-file-image: "\e90f";
-$ub-search: "\e910";
-$ub-file-media: "\e911";
-$ub-file-pdf: "\e912";
-$ub-pinterest: "\e913";
-$ub-ellipsis: "\e914";
-$ub-share: "\e915";
-$ub-arrow-share: "\e916";
-$ub-spreadsheet: "\e917";
-$ub-file-text: "\e918";
-$ub-twitter: "\e919";
-$ub-vimeo: "\e91a";
-$ub-youtube: "\e91b";
-$ub-file-zip: "\e91c";
+$ub-pinterest: '\e913';
+$ub-print: '\e921';
+$ub-search: '\e910';
+$ub-share: '\e915';
+$ub-spreadsheet: '\e917';
+$ub-twitter: '\e919';
+$ub-user: '\e923';
+$ub-vimeo: '\e91a';
+$ub-youtube: '\e91b';
 
-.file-pdf:before {
-  content: $ub-file-pdf;
+.ub-angle-down {
+  &::before {
+    content: $ub-angle-down;
+  }
 }
 
-.file-doc:before {
+.ub-angle-dropdown {
+  &::before {
+    content: $ub-angle-dropdown;
+  }
+}
+
+.ub-angle-dropup {
+  &::before {
+    content: $ub-angle-dropup;
+  }
+}
+
+.ub-angle-left {
+  &::before {
+    content: $ub-angle-left;
+  }
+}
+
+.ub-angle-right {
+  &::before {
+    content: $ub-angle-right;
+  }
+}
+
+.ub-arrow-left {
+  &::before {
+    content: $ub-arrow-left;
+  }
+}
+
+.ub-arrow-right {
+  &::before {
+    content: $ub-arrow-right;
+  }
+}
+
+.ub-arrow-share {
+  &::before {
+    content: $ub-arrow-share;
+  }
+}
+
+.ub-cc-by {
+  &::before {
+    content: $ub-cc-by;
+  }
+}
+
+.ub-cc-nc {
+  &::before {
+    content: $ub-cc-nc;
+  }
+}
+
+.ub-cc-nd {
+  &::before {
+    content: $ub-cc-nd;
+  }
+}
+
+.ub-cc-pd {
+  &::before {
+    content: $ub-cc-pd;
+  }
+}
+
+.ub-cc-remix {
+  &::before {
+    content: $ub-cc-remix;
+  }
+}
+
+.ub-cc-sa {
+  &::before {
+    content: $ub-cc-sa;
+  }
+}
+
+.ub-cc-share {
+  &::before {
+    content: $ub-cc-share;
+  }
+}
+
+.ub-cc-stamp {
+  &::before {
+    content: $ub-cc-stamp;
+  }
+}
+
+.ub-cc-zero {
+  &::before {
+    content: $ub-cc-zero;
+  }
+}
+
+.ub-close {
+  &::before {
+    content: $ub-close;
+  }
+}
+
+.ub-ellipsis {
+  &::before {
+    content: $ub-ellipsis;
+  }
+}
+
+.ub-eye {
+  &::before {
+    content: $ub-eye;
+  }
+}
+
+.ub-facebook {
+  &::before {
+    content: $ub-facebook;
+  }
+}
+
+.ub-file-gdoc {
+  &::before {
+    content: $ub-file-gdoc;
+  }
+}
+
+.ub-file-image {
+  &::before {
+    content: $ub-file-image;
+  }
+}
+
+.ub-file-media {
+  &::before {
+    content: $ub-file-media;
+  }
+}
+
+.ub-file-pdf {
+  &::before {
+    content: $ub-file-pdf;
+  }
+}
+
+.ub-file-ppt {
+  &:before {
+    content: $ub-file-ppt;
+  }
+}
+
+.ub-file-text {
+  &::before {
+    content: $ub-file-text;
+  }
+}
+
+.ub-file-zip {
+  &::before {
+    content: $ub-file-zip;
+  }
+}
+
+.ub-menu {
+  &::before {
+    content: $ub-menu;
+  }
+}
+
+.ub-microphone {
+  &::before {
+    content: $ub-microphone;
+  }
+}
+
+.ub-pinterest {
+  &::before {
+    content: $ub-pinterest;
+  }
+}
+
+.ub-print {
+  &::before {
+    content: $ub-print;
+  }
+}
+
+.ub-search {
+  &::before {
+    content: $ub-search;
+  }
+}
+
+.ub-share {
+  &::before {
+    content: $ub-share;
+  }
+}
+
+.ub-spreadsheet {
+  &::before {
+    content: $ub-spreadsheet;
+  }
+}
+
+.ub-twitter {
+  &::before {
+    content: $ub-twitter;
+  }
+}
+
+.ub-user {
+  &::before {
+    content: $ub-user;
+  }
+}
+
+.ub-vimeo {
+  &::before {
+    content: $ub-vimeo;
+  }
+}
+
+.ub-youtube {
+  &::before {
+    content: $ub-youtube;
+  }
+}
+
+.file-doc::before {
   content: $ub-file-text;
 }
 
-.file-video:before {
-  content: $ub-file-media;
-}
-
-.file-resource:before {
-  content: $ub-file-text;
-}
-
-.file-excel:before {
+.file-excel::before {
   content: $ub-spreadsheet;
 }
 
-.file-powerpoint:before {
+.file-pdf::before {
+  content: $ub-file-pdf;
+}
+
+.file-powerpoint::before {
   content: $ub-file-image;
 }
 
-.file-unknown:before {
+.file-resource::before {
   content: $ub-file-text;
 }
 
-.file-zip:before {
+.file-unknown::before {
+  content: $ub-file-text;
+}
+
+.file-video::before {
+  content: $ub-file-media;
+}
+
+.file-zip::before {
   content: $ub-file-zip;
 }
