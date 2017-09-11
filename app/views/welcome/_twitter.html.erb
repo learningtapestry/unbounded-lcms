@@ -1,0 +1,14 @@
+<% if ENV['UB_TWITTER_CHANNEL'].present? && tweet.present? %>
+  <div class="o-page__module o-twitter cs-bg--light">
+    <div class="o-twitter__header">
+      <h2 class="u-txt--media-header u-margin-bottom--base">On Twitter <i class="fa fa-twitter" aria-hidden="true"></i></h2>
+      <div class="u-hr-small"></div>
+      <p>Get the latest on Twitter</p>
+    </div>
+    <div class="o-twitter__body">
+      <div class="u-txt--twitter-subheader u-margin-bottom--xs"><%= tweet.user_url %> - <%= tweet.created_at.strftime('%b%e') %></div>
+      <p class="u-txt--media-text cs-txt--bias-txt"><%=  raw tweet.render %></p>
+      <%= link_to 'More on Twitter', "https://twitter.com/#{tweet.user.screen_name}", class: 'o-btn o-btn--yellow o-btn--xs-full u-margin-bottom--zero', target: '_blank' %>
+    </div>
+  </div>
+<% end %>
