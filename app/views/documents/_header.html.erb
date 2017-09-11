@@ -14,12 +14,12 @@
       <div class="u-txt--ld-header-breadcrumb u-text--capitalized">
         <%= document.full_breadcrumb %>
       </div>
-      <h1 class="u-txt--ld-header-title"><%= document.title %></h1>
+      <h1 class="u-txt--ld-header-title"><%= document.title unless document.foundational? %></h1>
       <div class="u-txt--ld-header-teaser o-social-sharing__teaser">
         <%= raw(document.teaser) %>
       </div>
       <div class="u-padding-top--large">
-        <% if document.standards.present? %>
+        <% if document.standards.present? && !document.foundational? %>
           <p class="u-txt--ld-header-standards"><strong>Standards: </strong><%= document.standards %></p>
         <% end %>
         <% if document.math_practice.present? %>

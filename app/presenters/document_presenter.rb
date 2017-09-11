@@ -138,7 +138,7 @@ class DocumentPresenter < ContentPresenter
   end
 
   def subject
-    ld_metadata.try(:resource_subject)
+    ld_metadata&.resource_subject
   end
 
   def subject_to_str

@@ -26,18 +26,21 @@ class MaterialForm
   private
 
   def persist!
-    document = DocumentDownloader::Gdoc.new(@credentials, link, Material)
-    @material = document.import
-    parsed_document = DocTemplate::Template.parse(@material.original_content, type: :material)
-    presenter = MaterialPresenter.new(@material, parsed_document: parsed_document)
+    downloader = DocumentDownloader::Gdoc.new(@credentials, link)
+    content = downloader.download.content
+    parsed_document = DocTemplate::Template.parse(content, type: :material)
 
-    @material.update!(
-      identifier: parsed_document.metadata['identifier'].downcase,
-      metadata: parsed_document.meta_options(:default)[:metadata]
-    )
+    @material =
+      Material.find_or_create_by(file_id: downloader.file_id).tap do |m|
+        m.identifier = parsed_document.metadata['identifier'].downcase
+        m.metadata = parsed_document.meta_options(:default)[:metadata]
+        m.original_content = content
+        m.save
+      end
 
     @material.material_parts.delete_all
 
+    presenter = MaterialPresenter.new(@material, parsed_document: parsed_document)
     DocTemplate::CONTEXT_TYPES.each do |context_type|
       @material.material_parts.create!(
         active: true,

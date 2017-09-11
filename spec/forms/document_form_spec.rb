@@ -3,63 +3,48 @@
 require 'rails_helper'
 
 describe DocumentForm do
-  let(:klass) { Document }
-  let(:form) { described_class.new klass, params }
+  let(:credentials) { double }
+  let(:form) { described_class.new params, credentials }
 
   describe '#save' do
+    let(:document) { create :document}
+    let(:service) { instance_double('DocumentBuildService', build_for: document) }
+
     subject { form.save }
 
     context 'when is valid' do
-      let(:document) do
-        stubs = {
-          activate!: nil,
-          original_content: nil,
-          update!: nil,
-          document_parts: double('parts', delete_all: true)
-        }
-        instance_double Document, stubs
-      end
-      let(:downloader) { instance_double 'DocumentDownloader::Gdoc', import: document }
       let(:link) { 'doc-url' }
-      let(:material_ids) { [1, 3] }
       let(:params) { { link: link } }
-      let(:parsed_document) do
-        stubs = {
-          activity_metadata: [{ 'material_ids' => material_ids }],
-          agenda: [],
-          css_styles: '',
-          foundational_metadata: '',
-          metadata: '',
-          render: '',
-          toc: '',
-          parts: []
-        }
-        instance_double DocTemplate::Template, stubs
-      end
 
       before do
-        allow(DocumentDownloader::Gdoc).to receive(:new).with(nil, link, Document).and_return(downloader)
-        allow(DocTemplate::Template).to receive(:parse).and_return(parsed_document)
         allow(DocumentGenerator).to receive(:generate_for)
+        allow(DocumentBuildService).to receive(:new).and_return(service)
       end
 
-      it 'downloads the document' do
-        expect(downloader).to receive(:import)
+      it 'creates DocumentBuildService object' do
+        expect(DocumentBuildService).to receive(:new).with(credentials).and_return(service)
+        subject
       end
 
-      it 'parses the document' do
-        expect(DocTemplate::Template).to receive(:parse)
-      end
-
-      it 'activates the document' do
-        expect(document).to receive(:activate!)
+      it 'builds the document' do
+        subject
+        expect(form.document).to eq document
       end
 
       it 'queues job to generate PDF and GDoc' do
         expect(DocumentGenerator).to receive(:generate_for).with(document)
+        subject
       end
 
-      after { subject }
+      context 'when that is re-import operation' do
+        before { params.merge!(link_fs: 'ink_fs', reimport: '1') }
+
+        it 'calls service sequentently to import both type of links' do
+          expect(service).to receive(:build_for).with(params[:link])
+          expect(service).to receive(:build_for).with(params[:link_fs], expand: true)
+          subject
+        end
+      end
     end
 
     context 'when is invalid' do

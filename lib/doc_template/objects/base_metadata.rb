@@ -21,6 +21,7 @@ module DocTemplate
       attribute :teaser, String, default: ''
       attribute :title, String, default: ''
       attribute :topic, String, default: ''
+      attribute :type, String, default: 'core'
       attribute :unit, String, default: ''
 
       def self.build_from(data)

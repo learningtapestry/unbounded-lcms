@@ -49,7 +49,17 @@ class Document < ActiveRecord::Base
   end
 
   def file_url
+    return unless file_id.present?
     "https://docs.google.com/document/d/#{file_id}"
+  end
+
+  def file_fs_url
+    return unless foundational_file_id.present?
+    "https://docs.google.com/document/d/#{foundational_file_id}"
+  end
+
+  def foundational?
+    metadata['type'].to_s.casecmp('fs').zero?
   end
 
   def layout(context_type)
@@ -67,10 +77,6 @@ class Document < ActiveRecord::Base
     else
       activity_metadata&.flat_map { |x| x['material_ids'] }.compact
     end
-  end
-
-  def title
-    metadata['title']
   end
 
   def tmp_link(key)

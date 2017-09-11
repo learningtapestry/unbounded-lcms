@@ -45,7 +45,19 @@
           <td class="u-text--right"><%= lesson.id %>
           <td><%= Breadcrumbs.new(lesson.resource).short_title if lesson.resource %>
           <td><%= link_to lesson&.resource&.title, lesson, target: '_blank' %>
-          <td><%= link_to lesson.name, lesson.file_url, target: '_blank' %>
+          <td>
+            <% if lesson.math? %>
+              <% if lesson.file_url.present? %>
+                <strong>Core: </strong>
+                <%= link_to lesson.name, lesson.file_url, target: '_blank' %><br/>
+              <% end %>
+              <% if lesson.file_fs_url.present? %>
+                <strong>FS: </strong>
+                <%= link_to lesson.fs_name, lesson.file_fs_url, target: '_blank' %>
+              <% end %>
+            <% else %>
+              <%= link_to lesson.name, lesson.file_url, target: '_blank' %>
+            <% end %>
           <td><%= render partial: 'admin/documents/materials_links', locals: { lesson: lesson } %>
           <td class="u-text--small"><%= lesson.updated_at.to_s %>
           <td><%= lesson.active? ? 'active' : 'inactive' %>

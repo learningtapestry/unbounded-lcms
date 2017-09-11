@@ -1,6 +1,7 @@
 function LessonCard(props) {
   const url = props.lesson.path;
   const is_prereq = props.lesson.is_prerequisite;
+  const is_foundational = props.lesson.is_foundational;
 
   let title = props.with_breadcrumb ? props.lesson.breadcrumb_title : props.lesson.short_title.toUpperCase();
   if (is_prereq) {
@@ -17,7 +18,7 @@ function LessonCard(props) {
           <span className="o-lesson-card__header--title u-txt--breadcrumbs">{title}</span>
         </div>
         <div className="o-lesson-card__content o-lesson-card__content--base cs-bg--light">
-          <h3 className="o-lesson-card__dsc o-lesson-card__dsc--short">{props.lesson.title}</h3>
+          <h3 className="o-lesson-card__dsc o-lesson-card__dsc--short">{is_foundational ? '' : props.lesson.title}</h3>
           <div className="o-lesson-card__duration u-hidden">
             <TimeToTeach duration={props.lesson.time_to_teach} />
           </div>
