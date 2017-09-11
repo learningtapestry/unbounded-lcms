@@ -1,0 +1,34 @@
+$ub-bias-header: #423872;
+
+.o-bias {
+  @include flex-grid-row;
+  @include add-gutter($x: .5);
+  @include add-top-bottom-padding;
+  border-radius: $panel-radius;
+
+  @include breakpoint(medium) {
+    @include add-gutter($x: 1);
+  }
+
+  @include e(body) {
+    @include add-column-padding;
+    flex: 1 1 0px;
+
+    p { @include add-gutter; color: $ub-txt-light; }
+  }
+
+  @include e(img) {
+    @include add-gutter(padding, left, 1);
+    flex: 0 0 auto;
+  }
+
+  @include e(header) {
+    @include m(home) { color: $ub-white; }
+    @include m(ls)   { color: $ub-bias-header; }
+  }
+
+  @include e(subheader) {
+    @include m(home) { color: $ub-bias-header; }
+    @include m(ls)   { color: $ub-txt-light; }
+  }
+}

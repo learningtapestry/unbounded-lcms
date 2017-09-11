@@ -18,6 +18,7 @@ $ub-whitesmoke: #f5f5f5;
 $ub-heading-txt: #555;
 $ub-txt: #666;
 $ub-txt-dark: #333;
+$ub-txt-light: #4a4a4a;
 $ub-label-bg: #777099;
 $ub-subscribe-txt: #2f2940;
 $ub-hr: #959595;
@@ -73,7 +74,8 @@ $ub-buttons: (
   math: #00a699,
   lead: #a269bf,
   show-more: #9a9a9a,
-  all: #ffbf00
+  all: #ffbf00,
+  purple: $ub-primary
 );
 
 $ub-leadership: (
@@ -160,5 +162,8 @@ $ub-colorcodes: (
   clear: #959595,
   base: $ub-panel-bg,
   light: $ub-white,
-  facet: #6e6e6e
+  facet: #6e6e6e,
+  bias: #ffbf00,
+  bias-ls: #fef2ce,
+  bias-txt: #4a4a4a
 );
