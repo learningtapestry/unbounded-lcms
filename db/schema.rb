@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170919162745) do
+ActiveRecord::Schema.define(version: 20171003183602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,10 +147,10 @@ ActiveRecord::Schema.define(version: 20170919162745) do
     t.text     "content"
     t.string   "part_type"
     t.boolean  "active"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "placeholder"
-    t.text     "materials",    default: [], null: false, array: true
+    t.text     "materials",    default: [],    null: false, array: true
     t.integer  "context_type", default: 0
     t.string   "anchor"
   end
@@ -179,6 +179,9 @@ ActiveRecord::Schema.define(version: 20170919162745) do
     t.text     "css_styles"
     t.jsonb    "links",                 default: {},   null: false
     t.jsonb    "agenda_metadata"
+    t.string   "foundational_file_id"
+    t.text     "foundational_content"
+    t.string   "fs_name"
   end
 
   add_index "documents", ["file_id"], name: "index_documents_on_file_id", using: :btree

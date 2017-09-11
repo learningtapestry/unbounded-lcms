@@ -21,11 +21,11 @@ module Admin
     end
 
     def new
-      @document = DocumentForm.new(Document)
+      @document = DocumentForm.new
     end
 
     def create
-      @document = DocumentForm.new(Document, lesson_form_parameters, google_credentials)
+      @document = DocumentForm.new lesson_form_parameters, google_credentials
       if @document.save
         redirect_to @document.document, notice: t('.success', name: @document.document.name)
       else
@@ -79,7 +79,7 @@ module Admin
     end
 
     def lesson_form_parameters
-      params.require(:document_form).permit(:link)
+      params.require(:document_form).permit(:link, :link_fs, :reimport)
     end
   end
 end

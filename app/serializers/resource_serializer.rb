@@ -8,7 +8,7 @@ class ResourceSerializer < ActiveModel::Serializer
 
   self.root = false
 
-  attributes :breadcrumb_title, :grade, :id, :is_assessment, :is_prerequisite, :path, :short_title,
+  attributes :breadcrumb_title, :grade, :id, :is_assessment, :is_foundational, :is_prerequisite, :path, :short_title,
              :subject, :teaser, :time_to_teach, :title, :type
 
   def breadcrumb_title
@@ -21,6 +21,10 @@ class ResourceSerializer < ActiveModel::Serializer
 
   def is_assessment # rubocop:disable Style/PredicateName
     short_title&.index('assessment').present?
+  end
+
+  def is_foundational # rubocop:disable Style/PredicateName
+    object.document&.foundational?
   end
 
   def is_prerequisite # rubocop:disable Style/PredicateName

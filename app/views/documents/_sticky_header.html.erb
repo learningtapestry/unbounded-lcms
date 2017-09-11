@@ -18,7 +18,7 @@
                 <%= document.short_breadcrumb %>
               </div>
               <div class="c-sticky-header-title u-txt--ld-sticky-title">
-                <div class="c-sticky-header-title__header"><%= document.title %></div>
+                <div class="c-sticky-header-title__header"><%= document.title unless document.foundational? %></div>
                 <div class="c-sticky-header-title__icon">
                   <a data-toggle="ld-dropdown"><i class="ub-angle-dropdown"></i></a>
                 </div>
