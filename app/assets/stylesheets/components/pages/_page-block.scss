@@ -1,0 +1,9 @@
+.o-page-block {
+  @include flex-grid-row;
+  @include add-gutter($x: .5);
+  border-radius: $panel-radius;
+
+  @include breakpoint(medium) {
+    @include add-gutter($x: 1);
+  }
+}
