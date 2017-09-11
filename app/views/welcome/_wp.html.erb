@@ -1,0 +1,40 @@
+<% if ENV['UB_WP_BLOG'].present? && post.present? %>
+  <div class="o-page__module o-page-block o-wp cs-bg--light">
+    <div class="o-wp__header">
+      <h2 class="u-txt--media-header u-margin-bottom--base">The Blog</h2>
+      <div class="u-hr-small"></div>
+      <p class="u-txt--blog-header-txt">Read our latest news & insights</p>
+      <%= link_to 'All Posts', ENV['UB_WP_BLOG'], class: 'o-btn o-btn--bordered-yellow o-btn--xs-full u-margin-bottom--zero', target: '_blank' %>
+    </div>
+    <div class="o-wp-post-card o-wp__body">
+      <div class="o-wp-post-card__wrap">
+        <% if post.thumbnail? %>
+          <div class="o-wp-post-card__thumbnail show-for-ipad" style="background-image: url('<%= post.thumbnail %>')">
+            <div class="content">
+            </div>
+          </div>
+        <% end %>
+        <div class="o-wp-post-card__body">
+          <header class="o-wp-post-card__title">
+            <div class="u-txt--blog-subheader">
+              <time><%= post.date %></time>
+              <%= " | #{post.category}" if post.category? %>
+            </div>
+            <a href="<%= post.permalink %>">
+              <h2 class="u-margin--5rem" href="<%= post.permalink %>"><%= raw post.title %></h2>
+            </a>
+          </header>
+          <div class="o-wp-post-card__teaser u-txt--blog-teaser u-margin--5rem ">
+            <%= raw post.excerpt %>
+          </div>
+          <div class="o-wp-post-card__author u-txt--blog-author">
+            <%= post.author %>
+            <% if post.autor_dsc.present? %>
+              , <span class="u-txt--blog-author-dsc"><%= post.autor_dsc %></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

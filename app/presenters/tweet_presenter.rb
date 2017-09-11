@@ -1,5 +1,6 @@
 class TweetPresenter < SimpleDelegator
   TWITTER_URL = 'https://twitter.com'.freeze
+  TWITTER_USER = ENV['UB_TWITTER_CHANNEL']
 
   def render
     msg = full_text
@@ -8,8 +9,12 @@ class TweetPresenter < SimpleDelegator
     h.auto_link(msg)
   end
 
+  def user_link
+    to_user(TWITTER_USER, 'o-twitter__user')
+  end
+
   def user_url
-    to_user("@#{user.screen_name}", 'o-twitter__user')
+    "#{TWITTER_URL}/#{TWITTER_USER}"
   end
 
   private
@@ -19,10 +24,10 @@ class TweetPresenter < SimpleDelegator
   end
 
   def to_hashtag(t)
-    h.link_to t, "#{TWITTER_URL}/hashtag/#{t.slice(0)}"
+    h.link_to t, "#{TWITTER_URL}/hashtag/#{t[1..-1]}"
   end
 
   def to_user(u, cls = '')
-    h.link_to u, "#{TWITTER_URL}/#{u.slice(0)}", class: cls
+    h.link_to u, "#{TWITTER_URL}/#{u}", class: cls
   end
 end

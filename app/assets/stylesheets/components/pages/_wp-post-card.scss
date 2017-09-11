@@ -1,0 +1,34 @@
+.o-wp-post-card {
+  @include e(title) {
+    a {
+      *, &:hover, &:focus {
+        @include txt-element(blog-title);
+      }
+    }
+  }
+
+  @include e(thumbnail) {
+    @include aspect-ratio(319, 168);
+    background-size: cover;
+    background-position: 20% 0%;
+    flex: 0 0 auto;
+    width: 100%;
+
+    img { width: 100%; }
+
+    @include breakpoint(ipad) {
+      @include add-gutter(margin, right, .5);
+      flex: 0 0 auto;
+      width: 230px;
+    }
+  }
+
+  @include e(wrap) {
+    display: flex;
+    flex: row nowrap;
+  }
+
+  @include e(teaser) {
+    p { margin-bottom: 0; }
+  }
+}
