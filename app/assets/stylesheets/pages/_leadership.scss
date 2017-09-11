@@ -59,7 +59,6 @@ $arrow-btn: (
       @include flex-grid-column(9, $grid-column-2xgutter);
     }
 
-
     @include breakpoint(large) {
       @include grid-column-offset(5);
       @include flex-grid-column(7, $grid-column-2xgutter);
