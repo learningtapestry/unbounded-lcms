@@ -61,6 +61,14 @@ class Document < ActiveRecord::Base
     metadata['subject'].to_s.casecmp('math').zero?
   end
 
+  def ordered_material_ids
+    if ela?
+      agenda_metadata&.flat_map { |x| x['children']&.flat_map { |c| c['material_ids'] }.compact }
+    else
+      activity_metadata&.flat_map { |x| x['material_ids'] }.compact
+    end
+  end
+
   def title
     metadata['title']
   end
