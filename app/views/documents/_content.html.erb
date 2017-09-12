@@ -1,5 +1,5 @@
 <div class="o-page__module u-bg--light c-ld u-padding-bottom--gutter">
-  <div class="o-page__wrap--row">
+  <div class="o-page__wrap--row" <%= 'data-ela' if document.ela? %>>
     <% unless request[:action].index('export') %>
       <div class="c-ld__sidebar doc-subject-<%= document.math? ? 'math' : 'ela' %>">
         <%= render 'documents/nav', document: document %>

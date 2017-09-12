@@ -3,7 +3,7 @@
 class MaterialPresenter < ContentPresenter
   attr_reader :lesson, :parsed_document
 
-  delegate :cc_attribution, :css_styles, :short_url, :subject, to: :lesson
+  delegate :css_styles, :short_url, :subject, to: :lesson
   delegate :sheet_type, to: :metadata
   delegate :parts, to: :parsed_document
 
@@ -15,6 +15,10 @@ class MaterialPresenter < ContentPresenter
       name = "#{lesson.short_breadcrumb(join_with: '_', with_short_lesson: true)}_#{name}"
     end
     "#{name}_v#{version.presence || 1}"
+  end
+
+  def cc_attribution
+    metadata.cc_attribution.presence || lesson&.cc_attribution
   end
 
   def content_for(context_type)

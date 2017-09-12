@@ -31,7 +31,7 @@
   <body>
     <%= render partial: 'shared/open_graph_meta_js' %>
     <%= render partial: 'shared/unsupported' %>
-    <div class="u-page-wrap u-supported<%= ' u-bg--light' if devise_controller? || current_page?(survey_path) %>">
+    <div class="u-page-wrap u-supported<%= ' u-bg--light' if devise_controller? || controller.controller_name == 'surveys' %>">
       <%= render partial: "shared/header" %>
       <%= render partial: 'shared/flash' %>
       <%= yield %>

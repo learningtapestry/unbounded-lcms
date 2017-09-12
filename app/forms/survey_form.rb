@@ -4,8 +4,22 @@ class SurveyForm
   include Virtus.model
   include ActiveModel::Model
 
-  DISTRICT_OR_SCHOOL_SYSTEMS = ['AUSL (IL)', 'DC International (DC)', 'DC Prep (DC)', 'Lawrence (MA)', 'Other'].freeze
-  SUBJECT_OR_GRADES = ['Grade 2 ELA', 'Grade 6 ELA', 'Grade 4 Math', 'Grade 7 Math', 'Other'].freeze
+  DISTRICT_OR_SCHOOL_SYSTEMS = [
+    'AUSL (IL)',
+    'DC International (DC)',
+    'DC Prep (DC)',
+    'Lawrence (MA)',
+    'Other'
+  ].freeze
+
+  SUBJECT_OR_GRADES = [
+    'Grade 2 ELA',
+    'Grade 6 ELA',
+    'Grade 4 Math',
+    'Grade 7 Math',
+    'Other'
+  ].freeze
+
   PRIOR_EXPERIENCES = [
     "Yes, I've used them as primary materials",
     "Yes, I've used them as supporting materials",
