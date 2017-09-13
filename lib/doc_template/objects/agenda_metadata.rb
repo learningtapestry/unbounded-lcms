@@ -28,8 +28,7 @@ module DocTemplate
         attribute :title, String
 
         # aliases to build toc
-        attribute :active, Boolean, default: false
-        attribute :anchor, String, default: ->(s, _) { "#{s.idx} #{s.title}".parameterize }
+        attribute :anchor, String, default: ->(s, _) { "#{s.idx}-#{s.title}".parameterize }
         attribute :deselectable, Boolean, default: true
         attribute :icon, String
         attribute :idx, Integer
@@ -50,8 +49,8 @@ module DocTemplate
         attribute :title, String
 
         # aliases to build toc
-        attribute :active, Boolean, default: false
-        attribute :anchor, String, default: ->(g, _) { "#{g.idx} #{g.title}".parameterize }
+        attribute :anchor, String, default: ->(g, _) { "#{g.idx}-#{g.title}".parameterize }
+        attribute :handled, Boolean, default: false
         attribute :idx, Integer
         attribute :level, Integer, default: 1
         attribute :time, Integer, default: ->(g, _) { g.metadata.time }
@@ -60,8 +59,9 @@ module DocTemplate
       attribute :children, Array[Group]
 
       def self.build_from(data)
+        copy = Marshal.load Marshal.dump(data)
         agenda_data =
-          data.map do |d|
+          copy.map do |d|
             d[:children].each do |s|
               m = s[:metadata]
               s[:icon] = m['icon']
@@ -77,7 +77,7 @@ module DocTemplate
       end
 
       def add_break
-        idx = children.index { |c| !c.active } || -1
+        idx = children.index { |c| !c.handled } || -1
         group = Group.new title: '45 Minute Mark', anchor: 'optbreak', time: 0, children: []
         children.insert(idx, group)
       end

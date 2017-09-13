@@ -109,14 +109,14 @@ $(function () {
     };
 
     const toggleHandler = (element, item) => {
-      element.classList.toggle('deselected');
-      item.active = !element.classList.contains('deselected');
+      const deselected = element.classList.toggle('deselected');
+      item.active = item.isOptional ? deselected : !deselected;
       tagsExcluded = items.filter(x => x.parent !== null && x.active === false).map(x => x.id);
 
       handleOptBreak();
 
       eachNode(`[href="#${item.id}"]`, x => {
-        x.classList.toggle('o-ld-sidebar-item__content--disabled', !item.active);
+        x.classList.toggle('o-ld-sidebar-item__content--disabled', itemIsActive(x));
       });
 
       updateDownloads();
@@ -139,13 +139,16 @@ $(function () {
       });
     };
 
+    const itemIsActive = item => item.isOptional ? !item.active : item.active;
+
     const updateGroup = parentId => {
       let parent = items[parentId];
       let children = items.filter(x => x.parent === parentId);
-      let parentEnabled = children.some(x => x.active);
-      let parentDuration = children.filter(x => x.active).reduce((a, x) => a + x.duration, 0);
+      let parentEnabled = children.some(itemIsActive);
+      let parentDuration = children.filter(itemIsActive).reduce((a, x) => a + x.duration, 0);
       parentDuration = parentDuration > 0 ? durationString(parentDuration) : '';
-      let totalTime = durationString(items.filter(x => x.parent !== null && x.active).reduce((a, x) => a + x.duration, 0));
+      let totalTime = durationString(items.filter(x => x.parent !== null && itemIsActive(x))
+        .reduce((a, x) => a + x.duration, 0));
 
       eachNode(`[href="#${parent.id}"]`, parentNode => {
         parentNode.classList.toggle('o-ld-sidebar-item__content--disabled', !parentEnabled);
@@ -209,6 +212,7 @@ $(function () {
         let content = document.querySelector(`${prefix}[data-id="${item.id}"]`);
         if (!content) return;
 
+        item.isOptional = content.hasAttribute('data-optional');
         item.tag = content.dataset.tag;
 
         let container = document.createElement('div');

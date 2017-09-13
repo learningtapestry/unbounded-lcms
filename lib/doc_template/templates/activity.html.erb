@@ -1,5 +1,14 @@
-<div class="o-ld-activity-wrapper <%= 'o-ld-activity-foundational-skills' if @tmpl[:foundational] %>" data-id="<%= @tmpl[:activity].anchor %>" data-tag="<%= @tmpl[:placeholder] %>">
+<div class="o-ld-activity-wrapper <%= 'o-ld-activity-foundational-skills' if @tmpl[:foundational] %>"
+  data-id="<%= @tmpl[:activity].anchor %>"
+  data-tag="<%= @tmpl[:placeholder] %>"
+  <%= 'data-optional' if @tmpl[:activity].optional %>>
   <hr class='o-ld-hr--l2'>
+
+  <% if @tmpl[:activity].alert.present? %>
+      <div class="o-ld-activity__optional text-center">
+        <%= @tmpl[:activity].alert %>
+      </div>
+  <% end %>
 
   <div id="<%= @tmpl[:activity].anchor %>" class="o-ld-activity c-ld-toc">
     <div>
@@ -7,7 +16,9 @@
         <%= @tmpl[:activity].activity_type %>
       </div>
       <h3 class="o-ld-title">
-        <div class="o-ld-title__title o-ld-title__title--h3"><%= @tmpl[:activity].activity_title %>
+        <div class="o-ld-title__title o-ld-title__title--h3">
+          <%= 'Optional: ' if @tmpl[:activity].optional %>
+          <%= @tmpl[:activity].activity_title %>
           <% if @tmpl[:activity].activity_priority.present? %>
             <% priority_id = "o-ld-p_#{SecureRandom.hex(4)}" %>
             <span class="o-ld-icon o-ld-icon--base o-ld-icon--priority<%= @tmpl[:activity].activity_priority %>" data-toggle="<%= priority_id %>"></span>

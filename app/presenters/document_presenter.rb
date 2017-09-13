@@ -18,10 +18,10 @@ class DocumentPresenter < ContentPresenter
   end
 
   def content_for(context_type, options = {})
-    excludes = options[:excludes] || []
-    content = render_content(context_type, excludes)
-    content = update_activity_timing(content) if excludes.any?
-    content = remove_optional_break(content) if ela? && excludes.any?
+    with_excludes = (options[:excludes] || []).any?
+    content = render_content(context_type, options)
+    content = update_activity_timing(content) if with_excludes
+    content = remove_optional_break(content) if ela? && with_excludes
     content
   end
 
@@ -190,8 +190,8 @@ class DocumentPresenter < ContentPresenter
   private
 
   def document_parts_index
-    @document_parts_index ||= document_parts.pluck(:placeholder, :anchor, :content)
-                                .map { |p| [p[0], { anchor: p[1], content: p[2] }] }.to_h
+    @document_parts_index ||= document_parts.pluck(:placeholder, :anchor, :content, :optional)
+                                .map { |p| [p[0], { anchor: p[1], content: p[2], optional: p[3] }] }.to_h
   end
 
   def layout_content(context_type)
