@@ -1,0 +1,25 @@
+$ub-bias-header: #423872;
+
+.o-bias {
+  @include add-top-bottom-padding;
+
+  @include e(body) {
+    @include add-column-padding;
+    flex: 1 1 0px;
+
+    p { margin-bottom: 1.25rem; }
+  }
+
+  @include e(img) {
+    @include add-gutter(padding, left, 1);
+    flex: 0 0 auto;
+  }
+
+  @include e(header) {
+    @include m(ls)   { color: $ub-bias-header; }
+  }
+
+  @include m(ls) {
+    margin-bottom: 3.15rem !important;
+  }
+}

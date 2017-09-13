@@ -1,0 +1,27 @@
+.o-wp {
+  @include e(body) {
+    @include add-column-padding;
+    @include add-top-bottom-padding;
+    flex: 1 1 0px;
+  }
+
+  @include e(header) {
+    @include add-column-padding;
+    @include add-top-bottom-padding;
+	  background: linear-gradient(180deg, #423872 0%, #38285A 50.56%, #362454 94.18%, #2F1A45 100%);
+    flex: 0 0 100%;
+    opacity: .92;
+
+    &, h2 { color: $ub-white; }
+    h2 i {
+      color: #c9c9c9;
+      float: right;
+      opacity: .3;
+    }
+
+    @include breakpoint(large) {
+      flex: 0 0 auto;
+      width: 380px;
+    }
+  }
+}
