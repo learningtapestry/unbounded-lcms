@@ -7,6 +7,7 @@ module DocTemplate
       KEY_PARAMS = %w(breadcrumb_level sheet_type type).freeze
 
       attribute :breadcrumb_level, String, default: 'lesson'
+      attribute :cc_attribution, String, default: ''
       attribute :identifier, String, default: ''
       attribute :name_date, String
       attribute :sheet_type, String, default: ''
