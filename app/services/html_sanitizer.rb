@@ -155,6 +155,7 @@ class HtmlSanitizer
       # removes all empty nodes before first one filled in
       nodes.xpath('./*').each do |node|
         break if node.inner_text.squish.present?
+        break if node['class'].to_s.include?('do-not-strip')
         break if node.xpath('.//*').any? { |el| STRIP_ELEMENTS.exclude?(el.name) || el['href'] }
         node.remove
       end

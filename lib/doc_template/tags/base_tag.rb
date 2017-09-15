@@ -37,20 +37,24 @@ module DocTemplate
         end.join
       end
 
-      def include_break?(node)
-        tags =
-          self.class.config[self.class::TAG_NAME.downcase]['stop_tags'].map do |stop_tag|
-            Tags.const_get(stop_tag)::TAG_NAME
-          end.join('|')
-        node.content =~ /\[\s*(#{tags})/i
-      end
-
       def ela2?(metadata)
         metadata.resource_subject == 'ela' && metadata.grade == '2'
       end
 
       def ela6?(metadata)
         metadata.resource_subject == 'ela' && metadata.grade == '6'
+      end
+
+      def gdoc?(opts)
+        opts[:context_type].to_s.casecmp('gdoc').zero?
+      end
+
+      def include_break?(node)
+        tags =
+          self.class.config[self.class::TAG_NAME.downcase]['stop_tags'].map do |stop_tag|
+            Tags.const_get(stop_tag)::TAG_NAME
+          end.join('|')
+        node.content =~ /\[\s*(#{tags})/i
       end
 
       def materials

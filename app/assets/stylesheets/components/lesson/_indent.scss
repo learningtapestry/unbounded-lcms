@@ -6,6 +6,6 @@
   }
 }
 
-.u-ld-indented:not(li) {
+.u-ld-indented:not(li) p {
   text-indent: $list-side-margin * 2;
 }
