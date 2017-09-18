@@ -26,6 +26,10 @@ class DocumentGenerateJob < ActiveJob::Base
 
   attr_accessor :document
 
+  def create_gdoc_folders
+    DocumentExporter::Gdoc::Base.new(document).create_gdoc_folders("#{document.id}_v#{document.version}")
+  end
+
   #
   # Checks if there are jobs queued or running for current document
   # and any of its materials
@@ -69,6 +73,7 @@ class DocumentGenerateJob < ActiveJob::Base
   end
 
   def queue_materials
+    create_gdoc_folders
     document.materials.each { |material| MaterialGenerateJob.perform_later(material, document) }
   end
 
