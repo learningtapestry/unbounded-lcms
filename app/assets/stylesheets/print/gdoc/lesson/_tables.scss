@@ -25,5 +25,13 @@
 .o-simple-table {
   @include gdoc-clearfix;
 
+  @include e(content) {
+    width: 90%;
+  }
+
+  @include e(v-text) {
+    width: 10%;
+  }
+
   td, tr { border: 0; }
 }
