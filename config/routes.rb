@@ -90,7 +90,11 @@ Rails.application.routes.draw do
       get '/:version/new', to: 'sketch_compilers#new', as: :new
       post '/:version/compile', to: 'sketch_compilers#compile', as: :compile
     end
-    resources :documents, only: %i(index create new destroy)
+    resources :documents, only: %i(index create new destroy) do
+      collection do
+        post :unit_bundles
+      end
+    end
     resources :materials, only: %i(index create new destroy)
     resource :curriculum, only: %i(edit update)
     resources :access_codes

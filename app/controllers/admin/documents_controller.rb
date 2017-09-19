@@ -2,7 +2,7 @@ module Admin
   class DocumentsController < AdminController
     include GoogleAuth
 
-    before_action :obtain_google_credentials, only: %i(create new)
+    before_action :obtain_google_credentials, only: %i(create new unit_bundles)
 
     def index
       @query = OpenStruct.new(params[:query])
@@ -34,6 +34,14 @@ module Admin
       @document = Document.find(params[:id])
       @document.destroy
       redirect_to :admin_documents, notice: t('.success')
+    end
+
+    def unit_bundles
+      units = Resource.tree.units
+      units.each do |unit|
+        DocumentBundle::CATEGORIES.each { |c| DocumentBundleGenerateJob.perform_later unit, category: c }
+      end
+      redirect_to :admin_documents, notice: t('.success', num: units.count)
     end
 
     private
