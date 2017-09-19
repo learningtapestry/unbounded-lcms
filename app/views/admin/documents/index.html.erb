@@ -8,6 +8,7 @@
 
   <div class=row>
     <div class='flex-pull-right'>
+      <%= link_to t('.unit_bundles'), :unit_bundles_admin_documents, class: 'button danger', method: :post, data: { confirm: 'Are you sure?' } %>
       <%= link_to t('.new_lesson'), :new_admin_document, class: 'button primary' %>
     </div>
     <table class=table>

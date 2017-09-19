@@ -4,7 +4,7 @@
   <%= raw(@document.css_styles) %>
 </style>
 
-<%= render 'sticky_header', document: @document, props: @props if @props[:results].present? %> 
+<%= render 'sticky_header', document: @document, props: @props if @props[:results].present? %>
 
 <div class="c-ld-page-header cs-bg--<%= @document.color_code_grade %>">
   <div class="o-page">

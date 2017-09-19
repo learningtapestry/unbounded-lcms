@@ -142,6 +142,16 @@ ActiveRecord::Schema.define(version: 20170919162745) do
   add_index "curriculums", ["item_type"], name: "index_curriculums_on_item_type", using: :btree
   add_index "curriculums", ["parent_id"], name: "index_curriculums_on_parent_id", using: :btree
 
+  create_table "document_bundles", force: :cascade do |t|
+    t.string   "category",    null: false
+    t.string   "file"
+    t.integer  "resource_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "document_bundles", ["resource_id"], name: "index_document_bundles_on_resource_id", using: :btree
+
   create_table "document_parts", force: :cascade do |t|
     t.integer  "document_id"
     t.text     "content"
@@ -550,6 +560,7 @@ ActiveRecord::Schema.define(version: 20170919162745) do
   add_foreign_key "curriculums", "curriculum_types"
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
   add_foreign_key "curriculums", "curriculums", column: "seed_id"
+  add_foreign_key "document_bundles", "resources"
   add_foreign_key "document_parts", "documents"
   add_foreign_key "documents_materials", "documents"
   add_foreign_key "documents_materials", "materials"

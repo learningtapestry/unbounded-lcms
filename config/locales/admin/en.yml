@@ -238,6 +238,7 @@ en:
       index:
         new_lesson: Add new Lesson
         title: Lesson Manager
+        unit_bundles: Generate Unit Bundles
       create:
         error: Error
         success: Lesson %{name} parsed successfully.
@@ -246,6 +247,8 @@ en:
         submit: Parse
       destroy:
         success: Lesson deleted successfully.
+      unit_bundles:
+        success: "%{num} Units enqueued to update lessons bundle."
     materials:
       index:
         new_material: Add new Material
