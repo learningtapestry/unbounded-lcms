@@ -105,7 +105,13 @@ production: &production
       apply_during: all
       run_on: all_servers
       sudo: true
-
+    - source: /.cloud66/setup-google-cloud-platform.sh
+      destination: /tmp/setup-google-cloud-platform.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
+      run_on: all_servers
 staging:
   <<: *production
   after_symlink:
