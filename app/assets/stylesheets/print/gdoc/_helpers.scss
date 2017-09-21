@@ -50,3 +50,7 @@ $gdoc-align: (top, bottom, right, left);
     padding: 0 map-get($gdoc-spacing, large) map-get($gdoc-spacing, large);
   }
 }
+
+.u-table-padding {
+  padding: 5pt;
+}

@@ -24,6 +24,7 @@ module DocTemplate
           foundational: opts[:foundational_skills],
           placeholder: placeholder_id,
           priority_description: priority_description(activity),
+          priority_icon: priority_icon(activity),
           react_props: {
             activity: {
               title: activity.title,

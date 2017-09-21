@@ -2,10 +2,19 @@
 
 class HtmlSanitizer
   LIST_STYLE_RE = /\.lst-(\S+)[^\{\}]+>\s*(?:li:before)\s*{\s*content[^\{\}]+counter\(lst-ctn-\1\,([^\)]+)\)/
-  GDOC_REMOVE_EMPTY_SELECTOR = '.o-ld-activity-wrapper, .o-ld-group, .o-ld-section-wrapper'
+  CLEAN_ELEMENTS = %w(a div h1 h2 h3 h4 h5 h6 p table).join(',')
+  GDOC_REMOVE_EMPTY_SELECTOR = '.o-ld-activity'
+  SKIP_P_CHECK = %w(ul ol table).freeze
   STRIP_ELEMENTS = %w(a div h1 h2 h3 h4 h5 h6 p span table).freeze
 
   class << self
+    def clean_content(html, context_type)
+      return html unless context_type.to_s.casecmp('gdoc').zero?
+      nodes = Nokogiri::HTML.fragment html
+      clean_empty_elements(nodes.elements)
+      nodes.to_html.strip
+    end
+
     def sanitize(html)
       Sanitize.fragment(html, default_config)
     end
@@ -14,14 +23,12 @@ class HtmlSanitizer
       Sanitize::CSS.stylesheet(css, css_config)
     end
 
-    def strip_content(html, options)
-      return html unless options.to_s.casecmp('gdoc').zero?
-      nodes = Nokogiri::HTML.fragment html
-      # Removes empty tags from specific parts
-      nodes.css(GDOC_REMOVE_EMPTY_SELECTOR).css('a:not([href]), h1, h2, h3, h4, h5, h6, p:not([class]), table').each do |node|
-        node.remove if node.inner_html.squish.blank?
+    def strip_content(nodes)
+      # removes all empty nodes before first one filled in
+      nodes.xpath('./*').each do |node|
+        break if keep_node?(node)
+        node.remove
       end
-      nodes.to_html
     end
 
     def post_processing(html, options)
@@ -103,6 +110,29 @@ class HtmlSanitizer
 
     private
 
+    def add_css_class(el, *classes)
+      existing = (el[:class] || '').split(/\s+/)
+      el[:class] = existing.concat(classes).uniq.join(' ')
+    end
+
+    # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    def clean_empty_elements(nodes)
+      return unless nodes.present?
+      prev_skip = false
+      prev_p = false
+      nodes.each_with_index do |node, idx|
+        clean_empty_elements(node.elements)
+        if keep_node?(node)
+          prev_skip = false
+          prev_p = node.name == 'p' ||
+                   (SKIP_P_CHECK.exclude?(node.name) && node.xpath('.//*').any? { |el| el.name == 'p' })
+          next
+        end
+        node.remove if prev_skip || prev_p || idx.zero?
+        prev_skip = true
+      end
+    end
+
     def fix_inline_img(node)
       # TODO: test if it's working fine with all inline images
       node['src'] = node['src'].gsub!(/%(20|0A)/, '') if node['src'].to_s.start_with?('data:')
@@ -110,6 +140,20 @@ class HtmlSanitizer
 
     def fix_googlechart_img(node)
       add_css_class(node, 'o-google-chart') if node['src'] =~ /chart\.googleapis/i
+    end
+
+    def fix_table_styles(nodes, p, selector)
+      attr_regex = /(^|;\s*)#{p}\s*:\s*([\w\.]+)\s*($|;)*/
+      nodes.css(selector).each do |node|
+        node[p] = node['style'].match(attr_regex)[2]
+      end
+    end
+
+    def keep_bullets_level(env)
+      node = env[:node]
+      return unless node.element? && node.name == 'li' && node['style'].to_s.include?('margin-left')
+      indent = /margin-left\s*:\s*(\d+)/.match(node['style']).try(:[], 1).to_i
+      add_css_class(node, "u-ld-indent--l#{(indent - 50) / 30 + 2}") if indent >= 50
     end
 
     def post_processing_default(nodes)
@@ -136,6 +180,11 @@ class HtmlSanitizer
 
       # add class to google charts
       nodes.css('img[src]').each { |node| fix_googlechart_img(node) }
+      # add class to empty paragraphs to remove padding-bottom
+      nodes.css('p:not(.u-gdoc-gap):empty').add_class('u-gdoc-empty-p')
+      nodes.css('p + div, p + table').each do |node|
+        node.previous_element.remove
+      end
       nodes.to_html
     end
 
@@ -152,13 +201,7 @@ class HtmlSanitizer
       # adjusts `class` attributes for all `ol` elements inside tables
       nodes.xpath('.//table//ol').each { |ol| ol['class'] = 'c-ld-ol' }
 
-      # removes all empty nodes before first one filled in
-      nodes.xpath('./*').each do |node|
-        break if node.inner_text.squish.present?
-        break if node['class'].to_s.include?('do-not-strip')
-        break if node.xpath('.//*').any? { |el| STRIP_ELEMENTS.exclude?(el.name) || el['href'] }
-        node.remove
-      end
+      strip_content(nodes)
 
       # fix inlined images
       nodes.css('img[src]').each { |node| fix_inline_img node }
@@ -192,6 +235,8 @@ class HtmlSanitizer
         .xpath('//table//img/..')
         .add_class('u-ld-not-image-wrap')
       nodes.css(':not(.u-ld-not-image-wrap) > img:not([src*=googleapis]):not(.o-ld-icon)').each do |img|
+        img = img.parent if img.parent.name == 'span'
+        img = img.parent if img.parent.name == 'p'
         img.replace(%(
           <table class='o-simple-table o-ld-image-wrap--math'>
             <tr>
@@ -202,9 +247,9 @@ class HtmlSanitizer
                 </div>
               </td>
               <td class="o-ld-image-wrap__s"> </td>
-            <tr>
+            </tr>
           </table>
-          <p class="u-gdoc-gap"></p>
+          <p class="do-not-strip"></p>
         ))
       end
     end
@@ -223,9 +268,11 @@ class HtmlSanitizer
     end
 
     def post_processing_tables_gdoc(nodes)
-      nodes.css('table tr[style*=height]').each do |node|
-        node['height'] = node['style'].match(/height\s*:\s*(\w+)\s*($|;)*/)[1]
-      end
+      # NOTE: not sure that we need this, sometimes it's working with width/from the style
+      fix_table_styles(nodes, 'width', 'table td[style*=width]')
+      fix_table_styles(nodes, 'height', 'table tr[style*=height]')
+      nodes.css('table:not(.o-simple-table) td, table:not(.o-simple-table) th').add_class('u-table-padding')
+      nodes.css('table:not(.o-simple-table)').add_class('o-native-table')
     end
 
     # Replace '<span>text</span>' with 'text'
@@ -290,16 +337,11 @@ class HtmlSanitizer
       end
     end
 
-    def keep_bullets_level(env)
-      node = env[:node]
-      return unless node.element? && node.name == 'li' && node['style'].to_s.include?('margin-left')
-      indent = /margin-left\s*:\s*(\d+)/.match(node['style']).try(:[], 1).to_i
-      add_css_class(node, "u-ld-indent--l#{(indent - 50) / 30 + 2}") if indent >= 50
-    end
-
-    def add_css_class(el, *classes)
-      existing = (el[:class] || '').split(/\s+/)
-      el[:class] = existing.concat(classes).uniq.join(' ')
+    def keep_node?(node)
+      return true if node.inner_text.squish.present?
+      return true if STRIP_ELEMENTS.exclude?(node.name)
+      return true if node['class'].to_s.include?('do-not-strip')
+      node.xpath('.//*').any? { |el| STRIP_ELEMENTS.exclude?(el.name) || el['href'] }
     end
   end
 end

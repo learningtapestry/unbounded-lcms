@@ -9,7 +9,13 @@ module GoogleApi
     def copy(file_ids)
       folder_id = parent
       file_ids.each do |id|
-        service.update_file(id, add_parents: folder_id, fields: 'id, parents')
+        service.get_file(id, fields: 'name') do |f, err|
+          if err.present?
+            Rails.logger.error "Failed to get file with #{id}, #{err.message}"
+          else
+            service.copy_file(id, Google::Apis::DriveV3::File.new(name: f.name, parents: [folder_id]))
+          end
+        end
       end
       folder_id
     end

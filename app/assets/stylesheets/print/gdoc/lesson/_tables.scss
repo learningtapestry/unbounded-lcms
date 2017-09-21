@@ -35,3 +35,9 @@
 
   td, tr { border: 0; }
 }
+
+.o-native-table {
+  td, th {
+    p { padding: 0; }
+  }
+}

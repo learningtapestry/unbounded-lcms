@@ -3,17 +3,25 @@ table {
 }
 
 a {
-  color: #1155cc;
+  color: $ub-gdoc-link;
   text-decoration: underline;
 }
 
-// p:empty {
-//   line-height: 0;
-//   //margin: 0;
-//   //padding: 0;
-// }
-
 p {
-  // margin: 0;
-  // padding: 0;
+  padding-bottom: 11pt;
+  padding-top: 0;
+
+  &.u-gdoc-empty-p {
+    padding-bottom: 0;
+  }
+}
+
+span > p {
+  padding: 0;
+}
+
+ol {
+  &, li, li:before {
+    font-family: 'Calibri' !important;
+  }
 }

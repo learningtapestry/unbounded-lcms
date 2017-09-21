@@ -3,11 +3,11 @@
     <tr>
       <td class="cs-border-left--<%= @tmpl[:subject] %> o-ld-callout__wrap">
         <h4 class="u-txt--ld-callout-header cs-txt--<%= @tmpl[:subject] %>-base"><%= @tmpl[:header] %></h4>
-        <div class="o-ld-callout__content--<%= @tmpl[:subject] %>">
+        <span class="o-ld-callout__content--<%= @tmpl[:subject] %>">
           <%= @tmpl[:content].html_safe %>
-        </div>
+        </span>
       </td>
     </tr>
   </table>
-  <p class="u-gdoc-gap"></p>
+  <p class="do-not-strip"></p>
 </div>
