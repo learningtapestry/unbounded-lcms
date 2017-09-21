@@ -4,22 +4,18 @@
   </div>
 
   <table id="<%= @tmpl[:section].anchor %>" class="o-simple-table cs-bg--ela6-section-bg">
-    <tr class="u-pdf-nobreak u-pdf-nobreak--around">
-      <td class="cs-border-top--ela">
-      </td>
-    </tr>
     <tr>
-      <td class="u-table-wrap--l2">
+      <td class="u-table-wrap--l2 cs-border-top--ela">
         <table class="o-simple-table">
           <tr>
             <td class="o-ld-title__title">
               <h3 class="o-ld-title__title--h3">
                 <% if (icon = @tmpl[:section].icon).present? %>
-                  <span class="o-m-icon o-m-icon--<%= icon %>"></span>
+                  <img src="<%= @tmpl[:section_icon] %>" class="o-ld-icon"/>
                 <% end %>
                 <%= @tmpl[:section].title %>
-                <% if false && @tmpl[:section].activity_priority.present? %>
-                    <span class="o-ld-icon o-ld-icon--base o-ld-icon--priority<%= @tmpl[:section].priority %>"></span>
+                <% if @tmpl[:section].priority.present? %>
+                  <img src="<%= @tmpl[:priority_icon] %>" class="o-ld-icon"/>
                 <% end %>
               </h3>
             </td>
@@ -30,12 +26,6 @@
         <% if @tmpl[:blockquote].present? %>
           <div class="o-ld-section__quote">
             <%= @tmpl[:blockquote].html_safe %>
-          </div>
-        <% end %>
-
-        <% if false && (metacog = @tmpl[:section].metacognition&.content) %>
-          <div class="o-ld-activity__metacognition hide">
-            <%= metacog %>
           </div>
         <% end %>
 

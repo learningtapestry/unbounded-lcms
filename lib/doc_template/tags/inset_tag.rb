@@ -13,7 +13,7 @@ module DocTemplate
         nodes.each(&:remove)
         @content =
           if gdoc?(opts)
-            %(<div><p class="u-gd-gap"></p>#{content}<p class="u-gd-gap"></p></div>)
+            %(#{content}<p class="do-not-strip"></p>)
           else
             %(<div class="o-ld-inset">#{content}</div>)
           end

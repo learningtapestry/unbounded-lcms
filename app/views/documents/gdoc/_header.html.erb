@@ -1,24 +1,22 @@
-<table class="c-gdoc-header cs-bg--<%= document.color_code_grade %>">
+<table class="c-gdoc-header cs-bg--<%= document.color_code_grade %> o-native-table">
   <tr>
     <td class="u-txt--header-breadcrumb c-gdoc-header__wrap">
-      <%= document.full_breadcrumb %>
+      <p><%= document.full_breadcrumb.titleize %></p>
     </td>
   </tr>
 </table>
-
-<div class="title u-txt--title"><%= document.title %></div>
-<div class="u-txt--header-teaser">
-  <%= raw document.teaser  %>
-</div>
-<div class="u-padding-top--large">
-  <% if document.standards.present? %>
-    <p><strong>Standards: </strong><%= document.standards %></p>
-  <% end %>
-  <% if document.math_practice.present? %>
-    <p><strong>Mathematical Practice Standards: </strong><%= document.math_practice %></p>
-  <% end %>
-</div>
-
-<div>
-  <hr class="c-gdoc-header__hr"></hr>
+<p class="title u-txt--title"><span><%= document.title %></span></p>
+<% if document.teaser.present? %>
+  <p class="subtitle u-txt--header-teaser">
+    <%= raw document.teaser  %>
+  </p>
+<% end %>
+<% if document.standards.present? %>
+  <p><strong>Standards: </strong><%= document.standards %></p>
+<% end %>
+<% if document.math_practice.present? %>
+  <p><strong>Mathematical Practice Standards: </strong><%= document.math_practice %></p>
+<% end %>
+<div class="o-ld-hr--l1">
+  <hr>
 </div>
