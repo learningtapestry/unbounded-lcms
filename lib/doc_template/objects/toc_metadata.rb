@@ -20,8 +20,8 @@ module DocTemplate
         end
 
         def time_with(excludes)
-          return time if children.blank? || excludes.blank?
           return 0 if excludes.include?(anchor)
+          return time if children.blank? || excludes.blank?
           children.sum { |c| c.time_with(excludes) }
         end
       end
