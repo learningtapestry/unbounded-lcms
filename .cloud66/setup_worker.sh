@@ -6,8 +6,16 @@ for file in `ls $STACK_PATH/tmp/pids/resque*pid`; do
   rm $file
 done
 
-WORKERS_COUNT=4
+init_workers ()
+{
+    COUNT=${WORKERS_COUNT:-20}
 
-for i in $(seq 1 $WORKERS_COUNT); do
-  ( cd $STACK_PATH && PIDFILE=tmp/pids/resque-$i.pid BACKGROUND=yes QUEUE=* bundle exec rake resque:work ) &
-done
+    for i in $(seq 1 $COUNT); do
+      ( cd $STACK_PATH && PIDFILE=tmp/pids/resque-$i.pid BACKGROUND=yes QUEUE=* bundle exec rake resque:work ) &
+    done
+}
+
+if [[ "$BACKGROUND_JOBS" == "1" ]]; then
+    init_workers
+fi
+

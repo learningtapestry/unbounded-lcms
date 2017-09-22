@@ -3,7 +3,9 @@
 project_id = ENV['AIR_BRAKE_PROJECT_ID']
 project_key = ENV['AIR_BRAKE_PROJECT_KEY']
 
-if project_id.present? && project_key.present?
+AIRBRAKE_ENABLED = project_id.present? && project_key.present?
+
+if AIRBRAKE_ENABLED
   Airbrake.configure do |c|
     c.project_id = project_id
     c.project_key = project_key
