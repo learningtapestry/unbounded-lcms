@@ -13,13 +13,19 @@
   @include e(content) {
     @include m(ela) {
       &, *, ul, li, ol {
-        &, * { color: map-get($ub-colorcodes, ela-base); }
+        &, * {
+          background-color: none !important;
+          color: map-get($ub-colorcodes, ela-base);
+        }
       }
     }
 
     @include m(math) {
       &, *, ul, li, ol {
-        &, * { color: map-get($ub-colorcodes, math-base); }
+        &, * {
+          background-color: none !important;
+          color: map-get($ub-colorcodes, math-base);
+        }
       }
     }
   }

@@ -11,7 +11,8 @@ class DocumentGenerateJob < ActiveJob::Base
     @document = document
 
     # Queue all materials at the first time
-    return queue_materials unless check_queue
+    create_gdoc_folders if check_queue
+    return queue_materials unless check_queue || document.materials.blank?
 
     # Exit if any material is still generating
     return if check_queue && materials_generating?
@@ -73,7 +74,6 @@ class DocumentGenerateJob < ActiveJob::Base
   end
 
   def queue_materials
-    create_gdoc_folders
     document.materials.each { |material| MaterialGenerateJob.perform_later(material, document) }
   end
 

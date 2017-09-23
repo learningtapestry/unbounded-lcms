@@ -30,7 +30,7 @@ $ub-gdoc-typography: (
   ld-callout-header: (font-weight: bold, font-style: italic, padding: 0, margin: 0),
   pullquote: (color: #69618d, font-style: italic),
   ld-math-foundational-divider: (color: $ub-white, font-size: 14.5pt, font-weight: bold, 'line-height': 1.4),
-  ld-optbreak: ('font-size': 14.5pt, 'line-height': 1.4, 'font-weight': bold, font-style: normal),
+  ld-optbreak: (color: #555, font-size: 14.5pt, line-height: 1, font-weight: bold, font-style: normal),
   ld-pd-caption: (color: #8e89a9, font-weight: bold),
   ld-pd-cg-header: (color: #69618d, font-style: italic),
   ld-pd-cg-title: (color: #69618d, font-style: italic),
