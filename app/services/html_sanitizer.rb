@@ -11,6 +11,7 @@ class HtmlSanitizer
     def clean_content(html, context_type)
       return html unless context_type.to_s.casecmp('gdoc').zero?
       nodes = Nokogiri::HTML.fragment html
+      clean_double_margin_elements(nodes)
       clean_empty_elements(nodes.elements)
       nodes.to_html.strip
     end
@@ -115,6 +116,12 @@ class HtmlSanitizer
       el[:class] = existing.concat(classes).uniq.join(' ')
     end
 
+    def clean_double_margin_elements(nodes)
+      nodes.css('p:not(.do-not-strip):empty + div, p:not(.do-not-strip):empty + table').each do |node|
+        node.previous_element.remove
+      end
+    end
+
     # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def clean_empty_elements(nodes)
       return unless nodes.present?
@@ -182,9 +189,6 @@ class HtmlSanitizer
       nodes.css('img[src]').each { |node| fix_googlechart_img(node) }
       # add class to empty paragraphs to remove padding-bottom
       nodes.css('p:not(.u-gdoc-gap):empty').add_class('u-gdoc-empty-p')
-      nodes.css('p + div, p + table').each do |node|
-        node.previous_element.remove
-      end
       nodes.to_html
     end
 
