@@ -90,7 +90,7 @@ production: &production
       target: rails
       execute: true
       run_on: all_servers
-      apply_during: all
+      apply_during: deploy_only
       sudo: true
     - source: /.cloud66/setup_worker.sh
       destination: /tmp/setup_worker.sh
@@ -112,6 +112,11 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers
+    - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake airbrake:deploy TO=$RAILS_ENV
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: deploy_only
 staging:
   <<: *production
   after_symlink:
