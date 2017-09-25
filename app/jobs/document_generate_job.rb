@@ -10,12 +10,15 @@ class DocumentGenerateJob < ActiveJob::Base
   def perform(document, check_queue: false)
     @document = document
 
-    # Queue all materials at the first time
-    create_gdoc_folders if check_queue
-    return queue_materials unless check_queue || document.materials.blank?
-
-    # Exit if any material is still generating
-    return if check_queue && materials_generating?
+    # Job has been queued from Material job
+    if check_queue
+      # Exit if any material is still generating
+      return if materials_generating?
+    else
+      create_gdoc_folders
+      # Queue all materials at the first time
+      return queue_materials unless document.materials.blank?
+    end
 
     # Got here: all materials have been re-generated
     document.document_parts.default.each { |p| p.update!(content: EmbedEquations.call(p.content)) }
