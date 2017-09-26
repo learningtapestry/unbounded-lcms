@@ -9,19 +9,7 @@ module Admin
 
     def index
       @query = OpenStruct.new(params[:query])
-
-      scope = Document.order_by_curriculum.order(active: :desc).paginate(page: params[:page])
-
-      scope = scope.actives unless @query.inactive == '1'
-      scope = scope.filter_by_term(@query.search_term) if @query.search_term.present?
-      scope = scope.filter_by_subject(@query.subject) if @query.subject.present?
-      scope = scope.filter_by_grade(@query.grade) if @query.grade.present?
-
-      @documents = scope
-    end
-
-    def new
-      @document = DocumentForm.new
+      @documents = documents(@query)
     end
 
     def create
@@ -44,23 +32,43 @@ module Admin
       redirect_to admin_documents_path(query: params[:query]), notice: t('.success', count: count)
     end
 
+    def import_status
+      jid = params[:jid]
+      data = { status: DocumentParseJob.status(jid) }
+      data[:result] = DocumentParseJob.fetch_result(jid) if data[:status] == :done
+      render json: data, status: :ok
+    end
+
+    def new
+      @document = DocumentForm.new
+    end
+
     def reimport_selected
-      @results = []
-      @documents.each do |material|
-        link = material.file_url
-        form = DocumentForm.new({ link: link }, google_credentials)
-        res = if form.save
-                OpenStruct.new(ok: true, link: link, document: form.document)
-              else
-                OpenStruct.new(ok: false, link: link, errors: form.errors[:link])
-              end
-        @results << res
-      end
-      msg = render_to_string(partial: 'admin/documents/import_results', layout: false, locals: { results: @results })
-      redirect_to admin_documents_path(query: params[:query]), notice: msg
+      bulk_import @documents.map(&:file_url)
+      render :import
     end
 
     private
+
+    def bulk_import(files)
+      jobs = {}
+      google_auth_id = GoogleAuthService.new(self).user_id
+      files.each do |url|
+        job_id = DocumentParseJob.perform_later(url, google_auth_id).job_id
+        jobs[job_id] = { link: url, status: 'waiting' }
+      end
+      @props = { jobs: jobs, type: :documents }
+    end
+
+    def documents(query)
+      docs = Document.order_by_curriculum.order(active: :desc).paginate(page: params[:page])
+
+      docs = docs.actives unless query.inactive == '1'
+      docs = docs.filter_by_term(query.search_term) if query.search_term.present?
+      docs = docs.filter_by_subject(query.subject) if query.subject.present?
+      docs = docs.filter_by_grade(query.grade) if query.grade.present?
+      docs
+    end
 
     def find_selected
       return head(:bad_request) unless params[:selected_ids].present?

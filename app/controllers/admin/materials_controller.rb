@@ -13,20 +13,11 @@ module Admin
     end
 
     def create
-      @results = []
-      @material_form = MaterialForm.new(form_params)
-      files.each do |link|
-        form = MaterialForm.new(form_params.merge(link: link), google_credentials)
-        res = if form.save
-                OpenStruct.new(ok: true, link: link, material: form.material)
-              else
-                OpenStruct.new(ok: false, link: link, errors: form.errors[:link])
-              end
-        @results << res
-      end
+      return bulk_import(gdoc_files) && render(:import) if gdoc_files.size > 1
 
-      if files.size == 1 && @results.first.ok
-        material = @results.first.material
+      @material_form = MaterialForm.new(form_params, google_credentials)
+      if @material_form.save
+        material = @material_form.material
         redirect_to material, notice: t('.success', name: material.name)
       else
         render :new
@@ -44,28 +35,33 @@ module Admin
       redirect_to admin_materials_path(query: params[:query]), notice: t('.success', count: count)
     end
 
+    def import_status
+      jid = params[:jid]
+      data = { status: MaterialParseJob.status(jid) }
+      data[:result] = MaterialParseJob.fetch_result(jid) if data[:status] == :done
+      render json: data, status: :ok
+    end
+
     def new
-      @results = []
       @material_form = MaterialForm.new(source_type: params[:source_type].presence || 'gdoc')
     end
 
     def reimport_selected
-      @results = []
-      @materials.each do |material|
-        link = material.file_url
-        form = MaterialForm.new({ link: link, source_type: material.source_type }, google_credentials)
-        res = if form.save
-                OpenStruct.new(ok: true, link: link, material: form.material)
-              else
-                OpenStruct.new(ok: false, link: link, errors: form.errors[:link])
-              end
-        @results << res
-      end
-      msg = render_to_string(partial: 'admin/materials/import_results', layout: false, locals: { results: @results })
-      redirect_to admin_materials_path(query: params[:query]), notice: msg
+      bulk_import @materials.map(&:file_url)
+      render :import
     end
 
     private
+
+    def bulk_import(files)
+      jobs = {}
+      google_auth_id = GoogleAuthService.new(self).user_id
+      files.each do |url|
+        job_id = MaterialParseJob.perform_later(url, google_auth_id).job_id
+        jobs[job_id] = { link: url, status: 'waiting' }
+      end
+      @props = { jobs: jobs, type: :materials }
+    end
 
     def find_selected
       return head(:bad_request) unless params[:selected_ids].present?
@@ -78,8 +74,8 @@ module Admin
       params.require(:material_form).permit(:link, :source_type)
     end
 
-    def files
-      @files ||= begin
+    def gdoc_files
+      @gdoc_files ||= begin
         link = form_params[:link]
         return [link] unless link =~ %r{/drive/(.*/)?folders/}
         if form_params[:source_type] == 'pdf'
