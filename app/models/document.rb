@@ -28,8 +28,9 @@ class Document < ActiveRecord::Base
   }
 
   scope :filter_by_subject, ->(subject) { where_metadata(:subject, subject) }
-
   scope :filter_by_grade, ->(grade) { where_metadata(:grade, grade) }
+  scope :filter_by_module, ->(modul) { where_metadata(:module, modul) }
+  scope :filter_by_unit, ->(unit) { where_metadata(:unit, unit) }
 
   def activate!
     self.class.transaction do
