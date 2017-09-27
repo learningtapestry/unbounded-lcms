@@ -20,26 +20,9 @@ module DocumentExporter
 
       def handle_vertical_text
         data = TextToImage.new(document.metadata.vertical_text, rotate: -90).raw
-        filename = "#{document.base_filename}-vtext"
-
-        metadata = {
-          name: filename,
-          mime_type: 'image/png'
-        }
-
-        params = {
-          content_type: 'image/png',
-          upload_source: StringIO.new(data)
-        }
-
-        file_id = if (id = drive_service.file_exists?(filename, drive_service.parent))
-                    drive_service.service.update_file(id, Google::Apis::DriveV3::File.new(metadata), params)
-                  else
-                    metadata[:parents] = [drive_service.parent]
-                    drive_service.service.create_file(Google::Apis::DriveV3::File.new(metadata), params)
-                  end.id
-
-        @options[:vertical_text_image_url] = "https://drive.google.com/uc?id=#{file_id}"
+        filename = "documents/#{document.base_filename}-vtext.png"
+        url = S3Service.upload filename, data
+        @options[:vertical_text_image_url] = url
       end
 
       def student?
