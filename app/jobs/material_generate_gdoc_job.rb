@@ -5,10 +5,6 @@ class MaterialGenerateGdocJob < ActiveJob::Base
 
   queue_as :default
 
-  after_perform do |job|
-    DocumentGenerateJob.perform_later(job.arguments.second, check_queue: true)
-  end
-
   def perform(material, document)
     material = MaterialPresenter.new material, lesson: DocumentPresenter.new(document)
 
@@ -24,5 +20,7 @@ class MaterialGenerateGdocJob < ActiveJob::Base
       links = document.reload.links
       document.update links: links.deep_merge(new_links)
     end
+
+    DocumentGenerateJob.perform_later(document, check_queue: true)
   end
 end
