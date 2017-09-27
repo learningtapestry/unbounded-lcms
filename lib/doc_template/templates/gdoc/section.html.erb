@@ -10,8 +10,8 @@
           <tr>
             <td class="o-ld-title__title">
               <h3 class="o-ld-title__title--h3">
-                <% if (icon = @tmpl[:section].icon).present? %>
-                  <img src="<%= @tmpl[:section_icon] %>" class="o-ld-icon"/>
+                <% if (icon = @tmpl[:section_icon]).present? %>
+                  <img src="<%= icon %>" class="o-ld-icon"/>
                 <% end %>
                 <%= @tmpl[:section].title %>
                 <% if @tmpl[:section].priority.present? %>

@@ -1,6 +1,20 @@
 .o-ld-section {
   @include e(quote) {
-    @include txt-gdoc-element(pullquote);
     @extend %u-pdf-nobreak;
+    @include txt-gdoc-element(pullquote);
+  }
+}
+
+.o-ld-section-wrapper {
+  .o-simple-table {
+    td {
+      > ol, > p, > ul {
+        background-color: initial !important;
+
+        * {
+          background-color: initial !important;
+        }
+      }
+    }
   }
 }
