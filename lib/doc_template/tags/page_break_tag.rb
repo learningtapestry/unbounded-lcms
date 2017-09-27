@@ -4,10 +4,11 @@ module DocTemplate
   module Tags
     class PageBreakTag < BaseTag
       TAG_NAME = /page(-|\s*)break/
+      TAG_SUB = '<p>--GDOC-PAGE-BREAK--</p>'
 
       def parse(node, opts)
         @content = if gdoc?(opts)
-                     '<p>--GDOC-PAGE-BREAK--</p>'
+                     TAG_SUB
                    else
                      '<div class="u-pdf-alwaysbreak do-not-strip"></div>'
                    end
