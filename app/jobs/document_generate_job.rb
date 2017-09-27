@@ -21,7 +21,9 @@ class DocumentGenerateJob < ActiveJob::Base
     end
 
     # Got here: all materials have been re-generated
-    document.document_parts.default.each { |p| p.update!(content: EmbedEquations.call(p.content)) }
+    if document.math?
+      document.document_parts.default.each { |p| p.update!(content: EmbedEquations.call(p.content)) }
+    end
 
     queue_documents
   end
