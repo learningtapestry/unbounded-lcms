@@ -42,7 +42,7 @@ class DocumentsController < ApplicationController
   end
 
   def export_gdoc
-    return render(json: { url: @doc.links[@document.gdoc_folder] }, status: :ok) if excludes.blank?
+    return render(json: { url: @doc.links[@document.gdoc_key] }, status: :ok) if excludes.blank?
 
     folder = "#{@document.gdoc_folder}_#{SecureRandom.hex(10)}"
     options = {

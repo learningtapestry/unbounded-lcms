@@ -131,8 +131,9 @@ $(function () {
       let excludesString = tagsExcluded.join(',');
 
       eachNode('a[data-contenttype]', link => {
+        link.dataset.excludes = '';
         if (!link.dataset.originalTitle) link.dataset.originalTitle = link.textContent;
-        link.textContent = excludesString === link.dataset.excludes ? link.dataset.originalTitle : link.dataset.customtitle;
+        link.textContent = excludesString ? link.dataset.customtitle : link.dataset.originalTitle;
       });
     };
 
@@ -161,6 +162,10 @@ $(function () {
 
       link.addEventListener('click', e => {
         let excludesString = tagsExcluded.join(',');
+        if (!excludesString) {
+          link.href = link.dataset.href;
+          return;
+        }
         if (link.dataset.excludes === excludesString) return;
 
         e.preventDefault();

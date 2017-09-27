@@ -2,15 +2,14 @@
 <p>Click the button below to preview and download this entire <%= document.doc_type %> as a PDF. Other formats will be forthcoming.
 </p>
 <div>
-<% document.links.each do |type, link| %>
-  <% next unless type == 'pdf' %>
-  <%= link_to t("ui.export_#{type}"), link, class: 'o-ub-btn o-ub-btn--yellow materials-all',
-              data: { no_turbolink: true, contenttype: 'full', context: 'pdf', customtitle: t('ui.export_custom_pdf') },
+<% if document.links['pdf'].present? %>
+  <%= link_to t("ui.export_pdf"), document.links['pdf'], class: 'o-ub-btn o-ub-btn--yellow materials-all',
+              data: { no_turbolink: true, contenttype: 'full', context: 'pdf', customtitle: t('ui.export_custom_pdf'), href: document.links['pdf'] },
               target: '_blank' %>
 <% end %>
 <% if document.links['gdoc_full'].present? %>
   <%= link_to t('ui.export_gdoc'), document.links['gdoc_full'], class: 'o-ub-btn o-ub-btn--yellow materials-all',
-              data: { no_turbolink: true, contenttype: 'full', context: 'gdoc', customtitle: t('ui.export_custom_gdoc') },
+              data: { no_turbolink: true, contenttype: 'full', context: 'gdoc', customtitle: t('ui.export_custom_gdoc'), href: document.links['gdoc_full'] },
               target: '_blank' %>
 <% end %>
 </div>
@@ -21,12 +20,12 @@
 <div>
   <% if document.links['pdf_tm'].present? %>
     <%= link_to t('ui.export_pdf'), document.links['pdf_tm'], class: 'o-ub-btn o-ub-btn--yellow materials-t',
-                data: { no_turbolink: true, contenttype: 'tm', context: 'pdf', customtitle: t('ui.export_custom_pdf') },
+                data: { no_turbolink: true, contenttype: 'tm', context: 'pdf', customtitle: t('ui.export_custom_pdf'), href: document.links['pdf_tm'] },
                 target: '_blank' %>
   <% end %>
   <% if document.links['gdoc_tm'].present? %>
     <%= link_to t('ui.export_gdoc'), document.links['gdoc_tm'], class: 'o-ub-btn o-ub-btn--yellow materials-t',
-                data: { no_turbolink: true, contenttype: 'tm', context: 'gdoc', customtitle: t('ui.export_custom_gdoc') },
+                data: { no_turbolink: true, contenttype: 'tm', context: 'gdoc', customtitle: t('ui.export_custom_gdoc'), href: document.links['gdoc_tm'] },
                 target: '_blank' %>
   <% end %>
 </div>
@@ -37,12 +36,12 @@
 <div>
   <% if document.links['pdf_sm'].present? %>
     <%= link_to t('ui.export_pdf'), document.links['pdf_sm'], class: 'o-ub-btn o-ub-btn--yellow materials-s',
-                data: { no_turbolink: true, contenttype: 'sm', context: 'pdf', customtitle: t('ui.export_custom_pdf') },
+                data: { no_turbolink: true, contenttype: 'sm', context: 'pdf', customtitle: t('ui.export_custom_pdf'), href: document.links['pdf_sm'] },
                 target: '_blank' %>
   <% end %>
   <% if document.links['gdoc_sm'].present? %>
     <%= link_to t('ui.export_gdoc'), document.links['gdoc_sm'], class: 'o-ub-btn o-ub-btn--yellow materials-s',
-                data: { no_turbolink: true, contenttype: 'sm', context: 'gdoc', customtitle: t('ui.export_custom_gdoc') },
+                data: { no_turbolink: true, contenttype: 'sm', context: 'gdoc', customtitle: t('ui.export_custom_gdoc'), href: document.links['gdoc_sm'] },
                 target: '_blank' %>
   <% end %>
 </div>
