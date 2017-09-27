@@ -56,6 +56,10 @@ class MaterialPresenter < ContentPresenter
     metadata.type
   end
 
+  def render_content(context_type, excludes = [])
+    render_part(layout_content(context_type), excludes)
+  end
+
   def student_material?
     sheet_type == 'student'
   end
