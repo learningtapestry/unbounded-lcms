@@ -14,6 +14,9 @@ production: &production
 staging:
   <<: *production
 
+qa:
+  <<: *production
+
 development:
   <<: *default
 

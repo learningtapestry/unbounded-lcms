@@ -145,7 +145,7 @@ gem 'thor', '0.19.1'
 gem 'nikkou', '~> 0.0.5'
 gem 'nokogiri', '~> 1.6.0'
 
-group :development, :staging do
+group :development, :staging, :qa do
   gem 'mailcatcher', require: false
 end
 
