@@ -11,7 +11,7 @@
       > ol, > p, > ul {
         background-color: initial !important;
 
-        * {
+        :not(.o-ld-gls) {
           background-color: initial !important;
         }
       }
