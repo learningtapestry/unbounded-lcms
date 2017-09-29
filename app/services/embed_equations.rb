@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class EmbedEquations
+  REDIS_KEY = 'ub-equation:'
+
   class << self
     def call(content)
       frag = Nokogiri::HTML.fragment(content)
@@ -24,8 +26,16 @@ class EmbedEquations
       tex = params['chl']
       return if tex.blank?
 
-      html = `tex2html -- '#{tex}'`
+      if (html = redis.get("#{REDIS_KEY}#{tex}")).blank?
+        html = `tex2html -- '#{tex}'`
+        redis.set "#{REDIS_KEY}#{tex}", html
+      end
+
       Nokogiri::HTML.fragment(html).at_css('span')
+    end
+
+    def redis
+      @redis ||= Redis.new(url: ENV.fetch('REDIS_URL', 'redis://localhost:6379'))
     end
   end
 end

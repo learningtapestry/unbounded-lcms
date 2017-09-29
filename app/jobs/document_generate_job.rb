@@ -20,7 +20,14 @@ class DocumentGenerateJob < ActiveJob::Base
       return queue_materials unless document.materials.blank?
     end
 
-    # Got here: all materials have been re-generated
+    # If came here:
+    # - all materials have been generated
+    # - document doesn't have any materials at all
+    #
+    # So need to check if such job is already running or has been already queued.
+    # And return in such case
+    return if queued?
+
     if document.math?
       document.document_parts.default.each { |p| p.update!(content: EmbedEquations.call(p.content)) }
     end
@@ -69,6 +76,11 @@ class DocumentGenerateJob < ActiveJob::Base
       job['arguments'].second['_aj_globalid'].index("gid://content/Document/#{document.id}")
   end
 
+  def same_self?(job)
+    job['job_class'] == self.class.name &&
+      job['arguments'].second.try(:[], '_aj_globalid') == "gid://content/Document/#{document.id}"
+  end
+
   def queue_documents
     DocumentGenerator::CONTENT_TYPES.each do |type|
       %w(DocumentGenerateGdocJob DocumentGeneratePdfJob).each do |klass|
@@ -80,6 +92,15 @@ class DocumentGenerateJob < ActiveJob::Base
 
   def queue_materials
     document.materials.each { |material| MaterialGenerateJob.perform_later(material, document) }
+  end
+
+  def queued?
+    queued = Resque.peek(queue_name, 0, 0).map { |job| job['args'].first }.detect{ |job| same_self?(job) }
+
+    queued || Resque::Worker.working.map(&:job).detect do |job|
+      next unless job.is_a?(Hash) && (args = job.dig 'payload', 'args').is_a?(Array)
+      args.detect { |x| same_self?(x) }
+    end
   end
 
   def queued_or_running?(type, klass)
