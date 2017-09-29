@@ -1,15 +1,20 @@
+# frozen_string_literal: true
+
 class ContentGuidesInteractor < BaseInteractor
   attr_reader :props
 
   def run; end
 
   def presenter
-    ContentGuidePresenter.new(
-      content_guide,
-      context.request.base_url,
-      context.view_context,
-      wrap_keywords: true
-    )
+    @presenter ||= begin
+      presenter_class = context.action_name =~ /pdf/ ? ContentGuidePdfPresenter : ContentGuidePresenter
+      presenter_class.new(
+        content_guide,
+        context.request.base_url,
+        context.view_context,
+        wrap_keywords: true
+      )
+    end
   end
 
   def debug?
@@ -48,11 +53,11 @@ class ContentGuidesInteractor < BaseInteractor
     }
   end
 
-  private
-
   def content_guide
     @content_guide ||= ContentGuide.find_by_permalink(params[:id]) || ContentGuide.find(params[:id])
   end
+
+  private
 
   def cover
     context.render_to_string(
