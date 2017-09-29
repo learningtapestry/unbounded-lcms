@@ -77,8 +77,8 @@ class DocumentGenerateJob < ActiveJob::Base
   end
 
   def same_self?(job)
-    job['job_class'] == self.class.name &&
-      job['arguments'].second.try(:[], '_aj_globalid') == "gid://content/Document/#{document.id}"
+    job['job_class'] == self.class.name && job['job_id'] != job_id &&
+      job['arguments'].first.try(:[], '_aj_globalid') == "gid://content/Document/#{document.id}"
   end
 
   def queue_documents
