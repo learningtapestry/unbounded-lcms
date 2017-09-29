@@ -112,6 +112,7 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers
+  last_thing:
     - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake airbrake:deploy TO=$RAILS_ENV
       target: rails
       execute: true
