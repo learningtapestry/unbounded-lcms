@@ -61,6 +61,19 @@ function copyFooter(document, template, annotation, breadcrumb, link) {
   table.replaceText('{annotation}', annotation);
   table.replaceText('{breadcrumb}', breadcrumb);
   table.replaceText('{link}', link);
+
+  // adjust font size for first&last paragraphs
+  var tmplParagraphs = tmplFooter.getParagraphs();
+  var footerParagraphs = footer.getParagraphs();
+  if (tmplParagraphs && footerParagraphs) {
+    [0, tmplParagraphs.length - 1].forEach(function(idx){
+      if (idx < footerParagraphs.length) {
+        var styles = {};
+        styles[DocumentApp.Attribute.FONT_SIZE] = tmplParagraphs[idx].getAttributes()[DocumentApp.Attribute.FONT_SIZE];
+        footerParagraphs[idx].setAttributes(styles);
+      }
+    });
+  }
 }
 
 /**
