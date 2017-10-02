@@ -8,7 +8,7 @@ module DocTemplate
                     gdoc:    'gdoc/group-math.html.erb' }.freeze
 
       def parse(node, opts = {})
-        section = opts[:activity].level1_by_title(opts[:value])
+        section = opts[:sections].level1_by_title(opts[:value])
         @anchor = section.anchor
 
         if opts[:value] == 'foundational-skills'
@@ -18,11 +18,14 @@ module DocTemplate
           # Extend object to store `lesson_standard` (#386)
           section.class.attribute :lesson_standard, String
           section.lesson_standard = strip_html_element(opts[:foundational_metadata].lesson_standard)
-          opts[:activity].add_break
+          opts[:sections].add_break
           opts[:foundational_skills] = true
         end
 
         content = content_until_break node
+        content.scan(FULL_TAG).select { |t| t.first == ActivityMetadataTypeTag::TAG_NAME }.each do |(_, a)|
+          section.add_activity opts[:activity].find_by_anchor(a)
+        end
         content = parse_nested content.to_s, opts
         params = {
           content: content,

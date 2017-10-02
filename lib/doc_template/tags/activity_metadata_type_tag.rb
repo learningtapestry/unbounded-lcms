@@ -12,7 +12,9 @@ module DocTemplate
 
       def parse(node, opts = {})
         @metadata = opts[:activity]
-        activity = @metadata.level2_by_title(opts[:value])
+        activity = @metadata.find_by_anchor(opts[:value])
+        # To keep consistency with current `active` behavior. we might remove this later (with `active`)
+        activity[:active] = true
         activity[:activity_guidance] = strip_html_element(activity[:activity_guidance])
         @anchor = activity.anchor
 

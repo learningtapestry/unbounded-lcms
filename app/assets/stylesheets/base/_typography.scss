@@ -177,6 +177,7 @@ $ub-element-typography: (
     large: (font-size: 31px, line-height: 40px, 'font-family': $ub-serif, font-weight: 500, text-shadow: 0 1px 0 rgba(0,0,0,0.15), color: $ub-white),
     small: (font-size: 21px, line-height: 25px, 'font-family': $ub-serif, font-weight: 500, color: $ub-white)
   ),
+  ld-summary: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
   ld-tooltip: ('font-size': 14px !important, line-height: 18px !important, font-family: $ub-sanserif !important,	color: #4c4c4c !important),
   ld-white-placeholder-title: ('font-size': 1.2rem !important, 'font-weight': 600),
   ld-white-placeholder-colored-title: ('font-size': initial !important, 'font-weight': bold, color: initial !important),
