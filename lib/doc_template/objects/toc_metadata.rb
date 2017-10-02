@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Objects
     class TOCMetadata

@@ -8,8 +8,8 @@ module DocTemplate
       MATERIALS_KEY = 'activity-materials'
 
       def parse(fragment)
-        placed_sections = []
         path = ".//table/*/tr[1]/td//*[case_insensitive_equals(text(),'#{HEADER_LABEL}')]"
+        idx = 0
         [].tap do |result|
           fragment.xpath(path, XpathFunctions.new).each do |el|
             table = el.ancestors('table').first
@@ -17,22 +17,17 @@ module DocTemplate
 
             # Places activity type tags
             if data['activity-title'].present?
-              value = data['activity-title'].parameterize
+              idx += 1
+              # we define the tag value as an unique(-ish) anchor, so we can retrieve this activity 
+              # info later (check toc_helpers#find_by_anchor). Used for building the sections TOC
+              value = "#{idx} #{data['activity-title']}".parameterize
+              data['idx'] = idx
+              data['anchor'] = value
               header = "<p><span>[#{::DocTemplate::Tags::ActivityMetadataTypeTag::TAG_NAME}: #{value}]</span></p>"
               table.add_next_sibling header
             end
 
-            # Places new tags to markup future content injection
-            # Inserts only once
-            if placed_sections.include?(data['section-title'])
-              table.remove
-            else
-              placed_sections << data['section-title']
-              value = data['section-title'].parameterize
-              header = "<p><span>[#{::DocTemplate::Tags::ActivityMetadataSectionTag::TAG_NAME}: #{value}]</span></p>"
-              table.replace header
-            end
-
+            table.remove
             data = fetch_materials data, MATERIALS_KEY
 
             result << data
