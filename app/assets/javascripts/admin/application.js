@@ -14,7 +14,7 @@
 //= require jstree
 //= require ../ready
 //= require ../components
-//= require ./components
+//= require_tree ./components
 
 ready(function() {
   $(document).initFoundation();
@@ -23,4 +23,7 @@ ready(function() {
     allowEmptyOption: true,
     plugins: ['remove_button']
   });
+
+  // components/multi-select/select_all
+  window.initializeSelectAll();
 });

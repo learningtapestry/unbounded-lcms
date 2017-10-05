@@ -1,9 +1,13 @@
 <% set_page_title @material.metadata.identifier.html_safe %>
 
-<%if user_signed_in? %>
+<%if user_signed_in? && current_user.admin? %>
   <div class="c-ld-page-header">
     <div class="o-page">
-      <%= link_to 'Go to Materials Admin', [:admin, :materials] %>
+      <%= link_to 'Go to Materials Admin', [:admin, :materials], class: 'button primary u-margin-right--base' %>
+      <%= link_to @material.file_url, class: 'button primary u-margin-right--base', target: '_blank' do %>
+        <i class="ub-icon ub-file-gdoc"></i> Google Doc
+      <% end %>
+      <%= render partial: 'admin/materials/reimport', locals: { material: @material, btn_size: 'default' } %>
     </div>
   </div>
 <% end %>
