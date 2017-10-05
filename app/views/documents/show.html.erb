@@ -4,7 +4,7 @@
   <%= raw(@document.css_styles) %>
 </style>
 
-<%= render 'sticky_header', document: @document, props: @props if @props[:results].present? %> 
+<%= render 'sticky_header', document: @document, props: @props if @props[:results].present? %>
 
 <div class="c-ld-page-header cs-bg--<%= @document.color_code_grade %>">
   <div class="o-page">
@@ -12,6 +12,9 @@
       <div class="o-page__module u-margin-bottom--gutter">
         <%= link_to [:admin, :documents], class: 'o-ub-ld-btn o-ub-ld-btn--bordered' do %>
           Go to Lessons Admin
+        <% end %>
+        <%= link_to @document.file_url, class: 'o-ub-ld-btn o-ub-ld-btn--bordered', target: '_blank' do %>
+          <i class="ub-icon ub-file-gdoc"></i> Google Doc
         <% end %>
       </div>
     <% end %>

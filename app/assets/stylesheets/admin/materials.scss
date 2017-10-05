@@ -25,6 +25,37 @@
     font-weight: bold;
   }
 }
+
 .o-adm-material-search {
   width: 25%;
+}
+
+.materials-table {
+  @include e(btns) {
+    .button { min-width: 80px; }
+
+    form:last-child {
+      .button { margin-bottom: 0; }
+    }
+  }
+
+  @include e(lessons) {
+    list-style: none;
+
+    @include m(file) {
+      margin-right: .3em;
+    }
+  }
+}
+
+.c-multi-selected--select-all {
+  display: inline-block;
+  font-weight: bold;
+  margin-left: .5em;
+  margin-top: 1.5em;
+  input { margin-right: .5em; }
+}
+
+.o-adm-list .table .c-selected-ids {
+  margin-bottom: .2em;
 }

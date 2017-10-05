@@ -39,3 +39,21 @@
   // }
   label {font-weight: bold; }
 }
+
+.lessons-table {
+  @include e(btns) {
+    .button { min-width: 80px; }
+
+    form:last-child {
+      .button { margin-bottom: 0; }
+    }
+  }
+
+  @include e(materials) {
+    list-style: none;
+
+    @include m(file) {
+      margin-right: .3em;
+    }
+  }
+}

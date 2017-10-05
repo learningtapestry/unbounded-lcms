@@ -27,6 +27,7 @@ $ub-heading-typography: (
 
 $ub-element-typography: (
   base: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
+  small: ('font-size': 13px, 'line-height': 18px, 'font-family': $ub-sanserif),
   teaser: ('font-size': 22px, 'line-height': 28px, 'font-family': $ub-serif, color: #9a9a9a),
   title-type: (
     small: ('font-size': 15px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600),

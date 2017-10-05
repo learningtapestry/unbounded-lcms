@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module Admin
   class UsersController < AdminController
-    before_action :find_resource, except: %i(index new create)
+    before_action :find_user, except: %i(index new create)
 
     def index
-      @users = User.order(name: :asc).paginate(page: params[:page])
+      @query = OpenStruct.new(params[:query])
+      @users = users(@query)
     end
 
     def new
@@ -43,12 +46,19 @@ module Admin
 
     private
 
-    def find_resource
+    def find_user
       @user = User.find(params[:id])
     end
 
     def user_params
       params.require(:user).permit(:access_code, :email, :name, :role)
+    end
+
+    def users(query)
+      queryset = User.all
+      queryset = queryset.where('access_code ILIKE ?', "%#{query.access_code}%") if query.access_code.present?
+      queryset = queryset.where('email ILIKE ?', "%#{query.email}%") if query.email.present?
+      queryset.order(id: :asc).paginate(page: params[:page])
     end
   end
 end

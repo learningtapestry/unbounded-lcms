@@ -123,7 +123,7 @@ feature 'Admin users' do
 
   def navigate_to_edit_user
     visit '/admin/users'
-    click_link user.name
+    click_link user.id
     expect(current_path).to eq "/admin/users/#{user.id}/edit"
   end
 

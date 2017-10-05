@@ -4,18 +4,12 @@ module Admin
   class MaterialsController < AdminController
     include GoogleAuth
 
-    before_action :obtain_google_credentials, only: %i(create new)
+    before_action :google_authorization, only: %i(create new reimport_selected)
+    before_action :find_selected, only: %i(destroy_selected reimport_selected)
 
     def index
       @query = OpenStruct.new(params[:query])
-      term = identifier_term(@query)
-      queryset = term ? Material.search_identifier(term) : Material.all
-      @materials = queryset.order(:identifier).paginate(page: params[:page])
-    end
-
-    def new
-      @results = []
-      @material_form = MaterialForm.new
+      @materials = materials(@query)
     end
 
     def create
@@ -40,44 +34,83 @@ module Admin
     end
 
     def destroy
-      @material = Material.find(params[:id])
-      @material.destroy
-      redirect_to :admin_documents, notice: t('.success')
+      material = Material.find(params[:id])
+      material.destroy
+      redirect_to admin_materials_path(query: params[:query]), notice: t('.success')
+    end
+
+    def destroy_selected
+      count = @materials.destroy_all.count
+      redirect_to admin_materials_path(query: params[:query]), notice: t('.success', count: count)
+    end
+
+    def new
+      @results = []
+      @material_form = MaterialForm.new
+    end
+
+    def reimport_selected
+      @results = []
+      @materials.each do |material|
+        link = material.file_url
+        form = MaterialForm.new({ link: link }, google_credentials)
+        res = if form.save
+                OpenStruct.new(ok: true, link: link, material: form.material)
+              else
+                OpenStruct.new(ok: false, link: link, errors: form.errors[:link])
+              end
+        @results << res
+      end
+      msg = render_to_string(partial: 'admin/materials/import_results', layout: false, locals: { results: @results })
+      redirect_to admin_materials_path(query: params[:query]), notice: msg
     end
 
     private
 
-    def form_params
-      params.require(:material_form).permit(:link)
+    def find_selected
+      return head(:bad_request) unless params[:selected_ids].present?
+
+      ids = params[:selected_ids].split(',')
+      @materials = Material.where(id: ids)
     end
 
-    def identifier_term(query)
-      return unless %i(search_term subject grade module lesson).any? { |k| query[k].present? }
-
-      id_params = []
-      id_params << query.subject
-      id_params << case query.grade
-                   when 'prekindergarten' then 'PK'
-                   when 'kindergarten' then 'K'
-                   else
-                     num = query.grade.to_s.match(/grade (\d+)/)&.[](1)
-                     num.present? ? "G#{num}" : nil
-                   end
-      id_params << (query.module.present? ? "M#{query.module}" : nil)
-      id_params << (query.lesson.present? ? "L#{query.lesson}" : nil)
-      id_params << query.search_term
-      id_params.select(&:present?).uniq.join(' ')
+    def form_params
+      params.require(:material_form).permit(:link)
     end
 
     def files
       @files ||= begin
         link = form_params[:link]
         if link =~ %r{/drive/(.*/)?folders/}
-          DocumentDownloader::Gdoc.list_files(link, google_credentials)
+          DocumentDownloader::GDoc.list_files(link, google_credentials)
         else
           [link]
         end
       end
+    end
+
+    def google_authorization
+      options = {}
+      if action_name == 'reimport_selected'
+        return_path = admin_materials_path(query: params[:query], selected_ids: params[:selected_ids])
+        options[:redirect_to] = return_path
+      end
+      obtain_google_credentials options
+    end
+
+    def materials(q)
+      qset = Material.order(:identifier)
+      qset = qset.search_identifier(q.search_term) if q.search_term.present?
+
+      %i(type sheet_type breadcrumb_level subject).each do |key|
+        qset = qset.where_metadata_like(key, q[key]) if q[key].present?
+      end
+
+      %i(grade module unit lesson).each do |key|
+        qset = qset.joins(:documents).where('documents.metadata @> hstore(?, ?)', key, q[key]) if q[key].present?
+      end
+
+      qset.paginate(page: params[:page])
     end
   end
 end

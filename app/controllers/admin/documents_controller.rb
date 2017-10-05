@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 module Admin
   class DocumentsController < AdminController
     include GoogleAuth
 
-    before_action :obtain_google_credentials, only: %i(create new)
+    before_action :google_authorization, only: %i(create new reimport_selected)
+    before_action :find_selected, only: %i(destroy_selected reimport_selected)
 
     def index
       @query = OpenStruct.new(params[:query])
@@ -33,10 +36,47 @@ module Admin
     def destroy
       @document = Document.find(params[:id])
       @document.destroy
-      redirect_to :admin_documents, notice: t('.success')
+      redirect_to admin_documents_path(query: params[:query]), notice: t('.success')
+    end
+
+    def destroy_selected
+      count = @documents.destroy_all.count
+      redirect_to admin_documents_path(query: params[:query]), notice: t('.success', count: count)
+    end
+
+    def reimport_selected
+      @results = []
+      @documents.each do |material|
+        link = material.file_url
+        form = DocumentForm.new(Document, { link: link }, google_credentials)
+        res = if form.save
+                OpenStruct.new(ok: true, link: link, document: form.document)
+              else
+                OpenStruct.new(ok: false, link: link, errors: form.errors[:link])
+              end
+        @results << res
+      end
+      msg = render_to_string(partial: 'admin/documents/import_results', layout: false, locals: { results: @results })
+      redirect_to admin_documents_path(query: params[:query]), notice: msg
     end
 
     private
+
+    def find_selected
+      return head(:bad_request) unless params[:selected_ids].present?
+
+      ids = params[:selected_ids].split(',')
+      @documents = Document.where(id: ids)
+    end
+
+    def google_authorization
+      options = {}
+      if action_name == 'reimport_selected'
+        return_path = admin_documents_path(selected_ids: params[:selected_ids])
+        options[:redirect_to] = return_path
+      end
+      obtain_google_credentials options
+    end
 
     def lesson_form_parameters
       params.require(:document_form).permit(:link)
