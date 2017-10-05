@@ -42,6 +42,35 @@ en:
     sessions:
       new:
         page_title: UnboundEd - Log In
+  document:
+    toc:
+      credits: Credits
+      resources: Resources
+      sm: Student Resources
+      tm: Teacher Resources
+    resources_summary_html: >
+      <div class="u-padding-bottom--base">For this lesson, all the lesson materials, including teacher and student materials, are available for you to print, export, or download.</div>
+      <div class="u-padding-bottom--base"><strong>Please note:</strong> To print, export, or download any professional development resource, you must open the resource within the lesson.</div>
+    resources_html: >
+      <p>Print, export, or download all materials, including the lesson, teacher materials (e.g., answer keys) and student materials (e.g., handouts). You have the option to view and print materials as PDFs, export them as Google Docs, or download them as Word documents.</p>
+      <strong>Please note:</strong>
+      <ul>
+        <li>Printed, exported, and downloaded lessons will include all lesson activities and guidance. If you have deselected an activity, it will not appear in the printed, exported, or downloaded document.</li>
+        <li>To print, export, or download any professional development resource, please open the resource within the lesson.</li>
+      </ul>
+    tm_html: >
+      <p>Print, export, or download all teacher materials (e.g., answer keys). You have the option to view and print materials as PDFs, export them as Google Docs, or download them as Word documents.</p>
+    tm_math_ela6_html: >
+      <p><strong>Please note:</strong> To print, export, or download any professional development resource, please open the resource within the lesson.</p>
+    tm_ela2_html: >
+      <strong>Please note:</strong>
+      <ul>
+        <li>To print, export, or download the Flip Book or Image Cards, please go to the unit-level page here: <a href="%{unit_href}" target="_blank">%{unit_dsc}</a>.</li>
+        <li>To print, export, or download any professional development resource, please open the resource within the lesson.</li>
+      </ul>
+    sm_html: >
+      <p>Print, export, or download all student materials (e.g., handouts). You have the option to view and print materials as PDFs, export them as Google Docs, or download them as Word documents.</p>
+
   enhance_instruction:
     index:
       page_title: UnboundEd - Enhance Instruction
