@@ -2,8 +2,8 @@
 
 class MaterialSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :id, :identifier, :orientation, :subtitle, :title, :thumb, :url, :gdoc
-  delegate :lesson, :orientation, :pdf_filename, :subtitle, :title, to: :object
+  attributes :anchors, :id, :identifier, :orientation, :subtitle, :title, :thumb, :url, :gdoc
+  delegate :anchors, :lesson, :orientation, :pdf_filename, :subtitle, :title, to: :object
 
   def thumb
     "#{s3_filename}.jpg"

@@ -50,6 +50,10 @@ $ld-header-column-gutter: (
       }
     }
 
+    ol, ul {
+      margin-bottom: 1rem;
+    }
+
     img, span, td, table {
       //max-width: 100%;
     }
