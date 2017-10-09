@@ -122,6 +122,7 @@ class DocumentBuildService
         anchor: part[:anchor],
         content: part[:content],
         context_type: part[:context_type],
+        data: part[:data],
         materials: part[:materials],
         optional: part[:optional],
         part_type: part[:part_type],

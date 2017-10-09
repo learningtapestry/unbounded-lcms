@@ -13,8 +13,8 @@
 .mjx-op {display: block}
 .mjx-under {display: table-cell}
 .mjx-over {display: block}
-.mjx-over > * {padding-left: 0px!important; padding-right: 0px!important}
-.mjx-under > * {padding-left: 0px!important; padding-right: 0px!important}
+.mjx-over > * {padding-left: 0 !important; padding-right: 0 !important}
+.mjx-under > * {padding-left: 0 !important; padding-right: 0 !important}
 .mjx-stack > .mjx-sup {display: block}
 .mjx-stack > .mjx-sub {display: block}
 .mjx-prestack > .mjx-presup {display: block}

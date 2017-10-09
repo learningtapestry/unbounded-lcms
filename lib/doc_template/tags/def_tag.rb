@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class DefTag < BaseTag
       include ERB::Util
 
       STYLE_RE = /<span (style=[^.>]*)>[^<]*$/i
-      TAG_NAME = 'def'.freeze
-      TAG_SEPARATOR = '[separator]'.freeze
-      TEMPLATES = { default: 'def.html.erb',
-                    gdoc:    'gdoc/def.html.erb' }.freeze
+      TAG_NAME = 'def'
+      TAG_SEPARATOR = '[separator]'
+      TEMPLATES = {
+        default: 'def.html.erb',
+        gdoc: 'gdoc/def.html.erb'
+      }.freeze
 
       def parse(node, opts = {})
         # Need to extract the Tag and preserves all the styling inside it
