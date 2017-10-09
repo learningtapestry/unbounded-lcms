@@ -187,7 +187,7 @@ class HtmlSanitizer
     def post_processing_default(nodes)
       post_processing_base(nodes)
       if @options[:metadata]&.subject.to_s.casecmp('math').zero?
-        # wrap all images for match except those inside table
+        # wrap all images for math except those inside table
         # handle images that should be cropped
         post_processing_images(nodes)
 
@@ -218,7 +218,10 @@ class HtmlSanitizer
       %w(p span).each do |tag|
         nodes.xpath(".//#{tag}").each do |node|
           next if node.ancestors('td').present?
-          node['style'] = Sanitize::CSS.properties(node['style'], css_inline_config)
+          # do not sanitize Mathjax elements
+          if node['class']&.index('mjx').nil?
+            node['style'] = Sanitize::CSS.properties(node['style'], css_inline_config)
+          end
           node.delete('style') if node['style'].blank?
         end
       end
@@ -262,7 +265,9 @@ class HtmlSanitizer
       nodes
         .xpath('//table//img/..')
         .add_class('u-ld-not-image-wrap')
-      nodes.css(':not(.u-ld-not-image-wrap) > img:not([src*=googleapis]):not(.o-ld-icon)').each do |img|
+
+      css = ':not(.u-ld-not-image-wrap) > img:not([src*=googleapis]):not(.o-ld-icon):not(.o-ld-latex)'
+      nodes.css(css).each do |img|
         img = img.parent.replace(img) if img.parent.name == 'span' || img.parent.name == 'p'
         img.replace(%(
           <table class='o-simple-table o-ld-image-wrap--math'>

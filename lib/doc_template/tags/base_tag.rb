@@ -139,6 +139,10 @@ module DocTemplate
         node.replace Nokogiri::HTML.fragment(placeholder)
       end
 
+      def tag_data
+        {}
+      end
+
       def template_name(opts)
         self.class::TEMPLATES[opts.fetch(:context_type, :default).to_sym]
       end
