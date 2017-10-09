@@ -6,5 +6,5 @@
     <%= f.button :submit, t('.submit') %>
   <% end %>
 
-  <% render 'import_results', results: @results if @results&.any? %>
+  <%= render 'import_results', results: @results if @results&.any? %>
 </div>
