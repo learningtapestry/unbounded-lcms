@@ -82,7 +82,7 @@ module Admin
       @files ||= begin
         link = form_params[:link]
         if link =~ %r{/drive/(.*/)?folders/}
-          DocumentDownloader::GDoc.list_files(link, google_credentials)
+          DocumentDownloader::Gdoc.list_files(link, google_credentials)
         else
           [link]
         end
