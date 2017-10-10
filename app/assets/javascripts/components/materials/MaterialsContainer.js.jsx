@@ -5,8 +5,8 @@ class MaterialsContainer extends React.Component {
     this.state = {bExpanded: false, activeTab: 0};
     this.toggleView = this.handleToggleView.bind(this);
     this.switchMaterial = this.handleSwitchMaterial.bind(this);
-    this.trackOperation = this.trackOperation.bind(this, '');
-    this.trackOperationCollapsed = this.trackOperation.bind(this, 'Collapsed');
+    this.trackOperation = this.trackOp.bind(this, '');
+    this.trackOperationCollapsed = this.trackOp.bind(this, 'Collapsed');
   }
 
   handleSwitchMaterial(idx) {
@@ -76,7 +76,7 @@ class MaterialsContainer extends React.Component {
     );
   }
 
-  trackOperation(type, event, idx) {
+  trackOp(type, event, idx) {
     this.notifyHeap(`Material ${type} Click: ${event}`, idx);
   }
 }
