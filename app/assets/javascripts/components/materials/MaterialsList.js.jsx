@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 function MaterialsList(props) {
   const materials = props.data.map(m => <li key={m.id}><strong>{m.subtitle}</strong> <a href={m.url}>{m.title}</a></li>);
   return (
