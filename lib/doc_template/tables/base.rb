@@ -37,7 +37,7 @@ module DocTemplate
       def fetch(table)
         {}.tap do |result|
           table.xpath('.//tr[position() > 1]').each do |row|
-            key = row.at_xpath('./td[1]').text.strip.downcase
+            key = row.at_xpath('./td[1]')&.text.to_s.strip.downcase
             next if key.blank?
             value = if self.class::HTML_VALUE_FIELDS.include? key
                       row.at_xpath('./td[2]').inner_html
