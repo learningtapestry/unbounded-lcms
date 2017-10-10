@@ -1,4 +1,4 @@
-<li class="o-ld-sidebar__item <%= 'o-ld-sidebar-foundational-skills' if heading.title['Foundational Skills'] %>">
+<li class="o-ld-sidebar__item <%= 'o-ld-sidebar-foundational-skills' if heading.title.try(:[], 'Foundational Skills') %>">
   <a class="o-ld-sidebar-item ">
     <% if heading.children.any? %>
       <div class="o-ld-sidebar-item__icon"><i class="ub-angle-right"></i></div>
