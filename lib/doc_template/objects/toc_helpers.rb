@@ -23,8 +23,15 @@ module DocTemplate
         raise DocumentError, "Level2 header #{title} not found at metadata"
       end
 
+      def find_by_anchor(anchor)
+        l1 = children.find { |c| c.anchor == anchor }
+        raise DocumentError, "Anchor #{anchor} not found at metadata" if l1.blank?
+        l1
+      end
+
       class_methods do
         def set_index(data, params = { idx: 0 })
+          return data if data['idx'].present?
           data['idx'] = params[:idx]
           params[:idx] += 1
           (data[:children] || []).each { |c| set_index(c, params) }
