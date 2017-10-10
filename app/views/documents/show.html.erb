@@ -4,7 +4,7 @@
   <%= raw(@document.css_styles) %>
 </style>
 
-<%= render 'sticky_header', document: @document, props: @props if @props[:results].present? %> 
+<%= render 'sticky_header', document: @document, props: @props if @props[:results].present? %>
 
 <div class="c-ld-page-header cs-bg--<%= @document.color_code_grade %>">
   <div class="o-page">
@@ -21,11 +21,6 @@
 <div class="u-bg--light">
   <div class="o-page o-page--ld c-ld--<%= @document.color_code_grade %> u-padding-bottom--gutter2x doc-subject-<%= @document.metadata['subject'].to_s.downcase %>" data-scroll="ld-page" id="ld-page">
     <%= render 'content', document: @document %>
-    <% if @document.metadata['cc-attribution'].present? %>
-      <div class="u-txt--footer-links">
-        <%= @document.metadata['cc-attribution'] %>
-      </div>
-    <% end %>
   </div>
 </div>
 <a href="#" class="o-top-scroll-button"><i class="ub-angle-down"></i></a>

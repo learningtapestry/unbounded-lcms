@@ -153,6 +153,7 @@ $ub-element-typography: (
   ld-pd-title: (color: #453b74, font-family: $ub-sanserif-condensed !important, font-size: 28px !important, font-weight: 500, line-height: 1 !important),
   ld-pd-title-collapsed: (color: #453b74, font-family: $ub-sanserif-condensed !important, font-size: 20px !important, font-weight: 500, line-height: 1 !important),
   ld-pd-description-title: (color: $ub-white, font-style: initial !important, font-weight: bolder),
+  ld-resource-summary: (color: #7F8184, font-size: 24px, line-height: 30px),
   ld-sidebar-break: ('font-size': 14px, 'line-height': 18px, 'font-family': $ub-sanserif, font-style: italic, color: #4c4c4c, opacity: .5),
   ld-sidebar-break-foundational: (color: map-get($ub-ld-colorcodes, math-activity-foundational), font-size: 14px, line-height: 18px, font-family: $ub-sanserif, font-style: initial, font-weight: 600, opacity: 1, text-transform: uppercase),
   ld-sidebar-header: ('font-size': 22px, 'line-height': 26px, 'font-family': $ub-serif, 'font-weight': 600, color: #4c4c4c),
