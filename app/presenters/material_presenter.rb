@@ -9,6 +9,10 @@ class MaterialPresenter < ContentPresenter
 
   DEFAULT_TITLE = 'Material'
 
+  def anchors
+    @anchors || []
+  end
+
   def base_filename
     name = metadata.identifier
     unless name =~ /^(math|ela)/i
@@ -65,7 +69,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def student_material?
-    sheet_type == 'student'
+    ::Material.where(id: id).where_metadata_any_of(materials_config_for(:student)).present?
   end
 
   def subtitle
@@ -73,7 +77,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def teacher_material?
-    !student_material?
+    ::Material.where(id: id).where_metadata_any_of(materials_config_for(:teacher)).present?
   end
 
   def title

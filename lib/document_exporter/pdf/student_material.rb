@@ -6,7 +6,7 @@ module DocumentExporter
       def export
         pdf = CombinePDF.new
 
-        scope = @document.materials.where_metadata_any_of(config_for(:student))
+        scope = @document.student_materials
         scope = scope.where(id: included_materials) if @options[:excludes].present?
 
         material_ids = ordered_materials scope.pluck(:id)

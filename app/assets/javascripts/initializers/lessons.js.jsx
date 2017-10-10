@@ -122,6 +122,8 @@ $(function () {
       updateDownloads();
       updateGroup(item.parent);
 
+      excludesStore.updateMaterialsList(tagsExcluded);
+
       setTimeout(() => {
         $('.doc-subject-ela .o-ld-sidebar__item.o-ld-sidebar-break').toggle(tagsExcluded.length === 0);
       });

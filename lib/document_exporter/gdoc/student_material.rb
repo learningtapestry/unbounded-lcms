@@ -8,7 +8,7 @@ module DocumentExporter
       def export
         return gdoc_folder unless @options[:excludes].present?
 
-        scope = @document.materials.where_metadata_any_of(config_for(:student))
+        scope = @document.student_materials
         material_ids = scope.where(id: included_materials(context_type: :gdoc)).pluck(:id)
         gdoc_folder_tmp(material_ids)
       end
