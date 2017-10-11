@@ -54,6 +54,7 @@
           <td>
             <ul class="materials-table__lessons">
               <% material.documents.each do |lesson| %>
+                <% lesson = DocumentPresenter.new lesson %>
                 <li class="u-text--small">
                   <a href="<%= lesson.file_url%>" target="_blank" class="materials-table__lessons--file"><i class="ub-icon ub-file-gdoc"></i></a>
                   <%= link_to lesson.title, lesson, target: '_blank' %>

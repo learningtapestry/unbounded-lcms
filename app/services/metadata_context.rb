@@ -10,6 +10,10 @@ class MetadataContext
     @ctx = ctx.with_indifferent_access
   end
 
+  def curriculum
+    @curriculum ||= [subject, grade, mod, unit, lesson].select(&:present?)
+  end
+
   def find_or_create_resource
     # if the resource exists, return it
     resource = Resource.find_by_curriculum(curriculum)
@@ -67,10 +71,6 @@ class MetadataContext
       resource.title = default_title(dir)
     end
     resource
-  end
-
-  def curriculum
-    @curriculum ||= [subject, grade, mod, unit, lesson].select(&:present?)
   end
 
   def default_title(curr = nil)
