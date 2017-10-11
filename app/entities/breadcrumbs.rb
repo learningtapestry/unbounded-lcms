@@ -7,27 +7,35 @@ class Breadcrumbs
     @resource = resource
   end
 
-  # ex:  "ELA / G2 / M1 / U1 / lesson 8"
-  def title
+  def full_title
     hierarchy.map do |key|
-      if resource.curriculum_type.try(:to_sym) == key
+      val = resource.curriculum_tags_for(key).first
+      key == :subject ? val&.upcase : val&.humanize
+    end.compact.join(' / ')
+  end
+
+  def pieces
+    hierarchy.map do |key|
+      if resource.curriculum_type&.to_sym == key
         value = resource.curriculum_tags_for(key).first
         value =~ /topic/i ? value.upcase.sub('TOPIC', 'topic') : value
       else
         send(:"#{key}_abbrv")
       end
-    end.compact.join(' / ')
+    end.compact
+  end
+
+  def short_pieces
+    hierarchy.map { |key| send(:"#{key}_abbrv", short: true) }.compact
   end
 
   def short_title
-    hierarchy.map { |key| send(:"#{key}_abbrv", short: true) }.compact.join(' / ')
+    short_pieces.join(' / ')
   end
 
-  def full_title
-    hierarchy.map do |key|
-      val = resource.curriculum_tags_for(key).first
-      key == :subject ? val.try(:upcase) : val.try(:humanize)
-    end.compact.join(' / ')
+  # ex:  "ELA / G2 / M1 / U1 / lesson 8"
+  def title
+    pieces.join(' / ')
   end
 
   private
