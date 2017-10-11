@@ -57,6 +57,10 @@ module DocTemplate
       @agenda.data.presence || []
     end
 
+    def foundational?
+      metadata['type'].to_s.casecmp('fs').zero?
+    end
+
     def foundational_metadata
       @foundational_metadata.data.presence || {}
     end
@@ -77,16 +81,15 @@ module DocTemplate
 
       # clean all the inline styles
       body_node = HtmlSanitizer.sanitize(doc.xpath('//html/body/*').to_s)
-      body_fragment = Nokogiri::HTML.fragment(body_node)
+      @content = Nokogiri::HTML.fragment(body_node)
 
-      # parse tables
-      parse_tables body_fragment
+      parse_metadata
 
       default_opts = meta_options(CONTEXT_TYPES[0])
 
       CONTEXT_TYPES.each_with_index do |context_type, idx|
         options = idx.zero? ? default_opts : meta_options(context_type)
-        @documents[context_type] = DocTemplate::Document.parse(body_fragment.dup, options)
+        @documents[context_type] = DocTemplate::Document.parse(@content.dup, options)
         @documents[context_type].parts << {
           content: render(options),
           context_type: context_type,
@@ -123,6 +126,15 @@ module DocTemplate
       @documents.values.flat_map(&:parts)
     end
 
+    def remove_part(type, context_type)
+      result = nil
+      @documents.keys.each do |k|
+        result = @documents[k].parts.detect { |p| p[:part_type] == type && p[:context_type] == context_type }
+        @documents[k].parts.delete(result) && break if result.present?
+      end
+      result
+    end
+
     def render(options = {})
       type = options.fetch(:context_type, CONTEXT_TYPES.first)
       HtmlSanitizer.post_processing(@documents[type]&.render.presence || '', options)
@@ -130,16 +142,23 @@ module DocTemplate
 
     private
 
-    def parse_tables(html)
+    attr_accessor :content
+
+    def parse_metadata
       if material?
-        @metadata = Tables::MaterialMetadata.parse html
+        @metadata = Tables::MaterialMetadata.parse content
         raise MaterialError, 'No metadata present' if @metadata.data.empty?
       else
-        @metadata = Tables::Metadata.parse html
-        @agenda = Tables::Agenda.parse html
-        @activity_metadata = Tables::Activity.parse html
-        @foundational_metadata = Tables::FoundationalMetadata.parse html
-        @target_table = Tables::Target.parse(html) if target_table?
+        @metadata = Tables::Metadata.parse content
+        @agenda = Tables::Agenda.parse content
+        @activity_metadata = Tables::Activity.parse content
+        @target_table = Tables::Target.parse(content) if target_table?
+
+        @foundational_metadata = if metadata['type']&.casecmp('fs')&.zero?
+                                   @metadata
+                                 else
+                                   Tables::FoundationalMetadata.parse content
+                                 end
       end
     end
 

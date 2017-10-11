@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Objects
     class TOCMetadata
@@ -30,11 +32,6 @@ module DocTemplate
       attribute :priority, Integer, default: 0
       attribute :total_time, Integer, default: ->(t, _) { t.children.sum(&:time) }
 
-      def total_time_with(excludes)
-        return total_time unless excludes.present?
-        children.sum { |c| c.time_with(excludes) }
-      end
-
       class << self
         def dump(data)
           data.to_json
@@ -43,6 +40,27 @@ module DocTemplate
         def load(data)
           new(data)
         end
+      end
+
+      def append(toc)
+        children.concat toc.children
+        update_time
+      end
+
+      def prepend(toc)
+        children.unshift(*toc.children)
+        update_time
+      end
+
+      def total_time_with(excludes)
+        return total_time unless excludes.present?
+        children.sum { |c| c.time_with(excludes) }
+      end
+
+      private
+
+      def update_time
+        self.total_time = children.sum(&:time)
       end
     end
   end
