@@ -23,7 +23,7 @@
             operation: 'delete',
             path: delete_selected_admin_materials_path(query: params[:query]),
             btn_style: 'alert'} %>
-
+      <%= link_to t('.new_material_pdf'), new_admin_material_path(source_type: 'pdf'), class: 'button primary' %>
       <%= link_to t('.new_material'), :new_admin_material, class: 'button primary' %>
     </div>
     <table class="materials-table table">
@@ -31,6 +31,7 @@
         <th>
         <th>ID
         <th>Identifier
+        <th>Source Type
         <th>File Name
         <th>Type
         <th>Sheet Type
@@ -46,6 +47,7 @@
           <td><%= check_box_tag 'selected_ids[]', material.id, selected_id?(material.id), class: 'c-selected-ids' %></td>
           <td><%= material.id %>
           <td class="u-text--right"><%= link_to material.metadata.identifier, material, target: '_blank' %>
+          <td><%= material.source_type.upcase %>
           <td><%= link_to material.name, material.file_url, target: '_blank' %>
           <td><%= material.metadata['type'] %>
           <td><%= material.metadata['sheet_type'] %>

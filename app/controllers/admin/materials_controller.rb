@@ -16,7 +16,7 @@ module Admin
       @results = []
       @material_form = MaterialForm.new(form_params)
       files.each do |link|
-        form = MaterialForm.new({ link: link }, google_credentials)
+        form = MaterialForm.new(form_params.merge(link: link), google_credentials)
         res = if form.save
                 OpenStruct.new(ok: true, link: link, material: form.material)
               else
@@ -46,14 +46,14 @@ module Admin
 
     def new
       @results = []
-      @material_form = MaterialForm.new
+      @material_form = MaterialForm.new(source_type: params[:source_type].presence || 'gdoc')
     end
 
     def reimport_selected
       @results = []
       @materials.each do |material|
         link = material.file_url
-        form = MaterialForm.new({ link: link }, google_credentials)
+        form = MaterialForm.new({ link: link, source_type: material.source_type }, google_credentials)
         res = if form.save
                 OpenStruct.new(ok: true, link: link, material: form.material)
               else
@@ -75,16 +75,17 @@ module Admin
     end
 
     def form_params
-      params.require(:material_form).permit(:link)
+      params.require(:material_form).permit(:link, :source_type)
     end
 
     def files
       @files ||= begin
         link = form_params[:link]
-        if link =~ %r{/drive/(.*/)?folders/}
-          DocumentDownloader::Gdoc.list_files(link, google_credentials)
+        return [link] unless link =~ %r{/drive/(.*/)?folders/}
+        if form_params[:source_type] == 'pdf'
+          DocumentDownloader::PDF.list_files(link, google_credentials)
         else
-          [link]
+          DocumentDownloader::Gdoc.list_files(link, google_credentials)
         end
       end
     end
@@ -101,6 +102,10 @@ module Admin
     def materials(q)
       qset = Material.order(:identifier)
       qset = qset.search_identifier(q.search_term) if q.search_term.present?
+
+      if q[:source].present?
+        qset = q[:source] == 'pdf' ? qset.pdf : qset.gdoc
+      end
 
       %i(type sheet_type breadcrumb_level subject).each do |key|
         qset = qset.where_metadata_like(key, q[key]) if q[key].present?

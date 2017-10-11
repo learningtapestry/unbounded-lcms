@@ -268,10 +268,12 @@ en:
       index:
         delete_selected: Delete selected
         new_material: Add new Material
+        new_material_pdf: Add PDF Material
         reimport_selected: Re-import selected
         title: Material Manager
       new:
         page_title: Add a material
+        page_header: "Add material(s) from %{type} or folder with %{type}s from gdrive"
         submit: Parse
     standards:
       edit:

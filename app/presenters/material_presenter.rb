@@ -15,7 +15,7 @@ class MaterialPresenter < ContentPresenter
 
   def base_filename
     name = metadata.identifier
-    unless name =~ /^(math|ela)/i
+    unless name =~ /^(math|ela)/i || pdf?
       name = "#{lesson.short_breadcrumb(join_with: '_', with_short_lesson: true)}_#{name}"
     end
     "#{name}_v#{version.presence || 1}"
@@ -42,7 +42,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def gdoc_url
-    URI.escape lesson.links['materials']&.dig(id.to_s)&.dig('gdoc').presence || ''
+    material_url('gdoc')
   end
 
   def header?
@@ -64,12 +64,20 @@ class MaterialPresenter < ContentPresenter
     !metadata.name_date.to_s.casecmp('no').zero? && config[:name_date]
   end
 
+  def material_filename
+    "materials/#{id}/#{base_filename}"
+  end
+
+  def orientation
+    metadata.orientation.presence || super
+  end
+
   def pdf_filename
     "documents/#{lesson.id}/#{base_filename}"
   end
 
   def pdf_url
-    URI.escape "https://#{ENV['AWS_S3_BUCKET_NAME']}.s3.amazonaws.com/#{pdf_filename}.pdf"
+    material_url('url')
   end
 
   def render_content(context_type, excludes = [])
@@ -77,7 +85,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def student_material?
-    ::Material.where(id: id).where_metadata_any_of(materials_config_for(:student)).present?
+    ::Material.where(id: id).gdoc.where_metadata_any_of(materials_config_for(:student)).exists?
   end
 
   def subtitle
@@ -85,11 +93,15 @@ class MaterialPresenter < ContentPresenter
   end
 
   def teacher_material?
-    ::Material.where(id: id).where_metadata_any_of(materials_config_for(:teacher)).present?
+    ::Material.where(id: id).gdoc.where_metadata_any_of(materials_config_for(:teacher)).exists?
   end
 
   def title
     metadata.title.presence || config[:title].presence || DEFAULT_TITLE
+  end
+
+  def thumb_url
+    material_url('thumb')
   end
 
   def unit_level?
@@ -108,5 +120,13 @@ class MaterialPresenter < ContentPresenter
 
   def layout_content(context_type)
     parts.find { |p| p[:part_type] == :layout && p[:context_type] == context_type }&.dig(:content) || ''
+  end
+
+  def material_links
+    @material_links ||= lesson.links['materials']&.dig(id.to_s)
+  end
+
+  def material_url(key)
+    material_links&.dig(key).presence || ''
   end
 end

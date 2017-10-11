@@ -30,6 +30,16 @@
                           label_method: :humanize %>
     </div>
 
+    <button class="button float-right" type="button" data-toggle="material-source">Source</button>
+    <div class="dropdown-pane bottom" id="material-source" data-dropdown data-auto-focus="true">
+      <%= f.input :source, label: 'Sources',
+                           required: false,
+                           as: :select,
+                           include_blank: true,
+                           collection: %w(gdoc pdf),
+                           label_method: :upcase %>
+    </div>
+
     <%= f.input :module, placeholder: 'Module Number', required: false %>
     <%= f.input :unit, placeholder: 'Unit Number', required: false %>
     <%= f.input :lesson, placeholder: 'Lesson Number', required: false %>

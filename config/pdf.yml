@@ -35,6 +35,9 @@ recommended-books:
   subtitle:
     student: Student Handouts
   title: Recommended Books
+pdf:
+  subtitle:
+    pdf: Classroom Materials
 somebody-wanted-but-so-then:
   subtitle:
     classroom: Classroom Materials
@@ -89,4 +92,3 @@ ic-template-p:
     classroom: Classroom Materials
     student: Student Handouts
     teacher: Answer Key
-
