@@ -3,7 +3,7 @@
 require 'google/apis/drive_v3'
 
 module DocumentDownloader
-  class Gdoc
+  class Base
     GDRIVE_FOLDER_RE = %r{/drive/(.*/)?folders/([^\/]+)/?}
 
     def self.file_id_for(url)
@@ -17,7 +17,7 @@ module DocumentDownloader
 
       files = []
       folder_url.match(GDRIVE_FOLDER_RE) { |m| files.concat list_files_iter(m[2], service) }
-      files.map { |f| "https://docs.google.com/document/d/#{f.id}" }
+      files.map { |f| gdoc_file_url(f.id) }
     end
 
     def self.list_files_iter(folder_id, service)
@@ -32,7 +32,7 @@ module DocumentDownloader
 
         result.files.each do |f|
           case f.mime_type
-          when 'application/vnd.google-apps.document' then files << f
+          when self::MIME_TYPE then files << f
           when 'application/vnd.google-apps.folder' then files.concat list_files_iter(f.id, service)
           end
         end
@@ -48,14 +48,6 @@ module DocumentDownloader
     def initialize(credentials, file_url)
       @credentials = credentials
       @file_url = file_url
-    end
-
-    def download
-      @content = service
-                   .export_file(file_id, 'text/html')
-                   .encode('ASCII-8BIT')
-                   .force_encoding('UTF-8')
-      self
     end
 
     def file

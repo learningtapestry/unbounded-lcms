@@ -7,7 +7,7 @@ module DocumentExporter
         content = super
         pdf = CombinePDF.parse(content)
 
-        material_ids = @document.ordered_material_ids
+        material_ids = @document.ordered_material_ids & @document.gdoc_material_ids
         material_ids &= included_materials if included_materials.any? || @options[:excludes].present?
         pdf = combine_pdf_for pdf, material_ids
         pdf.to_pdf

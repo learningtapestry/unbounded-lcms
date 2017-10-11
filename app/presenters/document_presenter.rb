@@ -93,7 +93,7 @@ class DocumentPresenter < ContentPresenter
   def pdf_filename
     name = short_breadcrumb(join_with: '_', with_short_lesson: true)
     name += PDF_SUBTITLES[content_type.to_sym]
-    "#{name}_v#{version.presence || 1}.pdf"
+    "#{name}_v#{version.presence || 1}#{ContentPresenter::PDF_EXT}"
   end
 
   def pdf_footer
@@ -147,7 +147,7 @@ class DocumentPresenter < ContentPresenter
   end
 
   def student_materials
-    materials.where_metadata_any_of(materials_config_for(:student))
+    materials.gdoc.where_metadata_any_of(materials_config_for(:student))
   end
 
   def student_materials_props
@@ -168,7 +168,7 @@ class DocumentPresenter < ContentPresenter
   end
 
   def teacher_materials
-    materials.where_metadata_any_of(materials_config_for(:teacher))
+    materials.gdoc.where_metadata_any_of(materials_config_for(:teacher))
   end
 
   def teacher_materials_props
