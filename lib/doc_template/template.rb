@@ -98,6 +98,7 @@ module DocTemplate
           content: render(options),
           context_type: context_type,
           materials: [],
+          optional: false,
           part_type: :layout,
           placeholder: nil
         }

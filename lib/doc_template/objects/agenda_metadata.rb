@@ -25,6 +25,7 @@ module DocTemplate
         attribute :materials, String
         attribute :metacognition, MetaCognition
         attribute :metadata, MetaData
+        attribute :optional, Boolean, default: false
         attribute :title, String
 
         # aliases to build toc
@@ -70,6 +71,7 @@ module DocTemplate
               m['time'] = m['time'].to_s[/\d+/].to_i || 0
               s[:use_color] = m['color'].present? ? m['color'].casecmp('yes').zero? : false
               s[:deselectable] = m['deselectable'].present? ? m['deselectable'].casecmp('yes').zero? : true
+              s['optional'] = m['optional']&.casecmp('optional')&.zero?
             end
             d.deep_merge(metadata: { time: d[:children].sum { |s| s[:metadata]['time'] } })
           end

@@ -127,7 +127,7 @@ module DocTemplate
         content: sanitized_content.squish,
         context_type: @opts[:context_type],
         materials: parsed_tag.materials,
-        optional: parsed_tag.try(:optional?),
+        optional: (parsed_tag.try(:optional?) || false),
         placeholder: parsed_tag.placeholder,
         part_type: tag_name.underscore
       }

@@ -12,6 +12,10 @@ module DocTemplate
         gdoc: 'gdoc/section.html.erb'
       }.freeze
 
+      def optional?
+        @section.optional
+      end
+
       def parse(node, opts = {})
         @opts = opts
         @section = opts[:agenda].level2_by_title(opts[:value].parameterize)
