@@ -41,6 +41,19 @@
 }
 
 .lessons-table {
+  table-layout: auto;
+  width: 100%;
+
+  tr {
+    th:nth-child(5), td:nth-child(5) {
+      max-width: 250px;
+      min-width: 200px;
+    }
+    th:nth-child(6), td:nth-child(6) {
+      min-width: 300px;
+    }
+  }
+
   @include e(btns) {
     .button { min-width: 80px; }
 
