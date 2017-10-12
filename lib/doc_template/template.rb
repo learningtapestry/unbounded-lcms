@@ -117,7 +117,8 @@ module DocTemplate
           context_type: context_type,
           foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
           metadata: Objects::BaseMetadata.build_from(@metadata.data),
-          parts: @target_table.try(:parts)
+          parts: @target_table.try(:parts),
+          sections: Objects::SectionsMetadata.build_from(@section_metadata)
         }
       end
     end
@@ -151,6 +152,7 @@ module DocTemplate
       else
         @metadata = Tables::Metadata.parse content
         @agenda = Tables::Agenda.parse content
+        @section_metadata = Tables::Section.parse content
         @activity_metadata = Tables::Activity.parse content
         @target_table = Tables::Target.parse(content) if target_table?
 

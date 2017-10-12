@@ -22,6 +22,10 @@
     </tr>
   </table>
 
+  <% if @tmpl[:section].summary.present? %>
+    <p class="u-txt--ld-summary"><%= @tmpl[:section].summary %></p>
+  <% end %>
+
   <% if @tmpl[:section].try(:lesson_objective).present? %>
     <% unless @tmpl[:foundational_skills] %>
         <h3>Lesson Summary:</h3>

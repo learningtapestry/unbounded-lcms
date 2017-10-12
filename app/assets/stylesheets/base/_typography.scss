@@ -154,6 +154,7 @@ $ub-element-typography: (
   ld-pd-title: (color: #453b74, font-family: $ub-sanserif-condensed !important, font-size: 28px !important, font-weight: 500, line-height: 1 !important),
   ld-pd-title-collapsed: (color: #453b74, font-family: $ub-sanserif-condensed !important, font-size: 20px !important, font-weight: 500, line-height: 1 !important),
   ld-pd-description-title: (color: $ub-white, font-style: initial !important, font-weight: bolder),
+  ld-resource-summary: (color: #7F8184, font-size: 24px, line-height: 30px),
   ld-sidebar-break: ('font-size': 14px, 'line-height': 18px, 'font-family': $ub-sanserif, font-style: italic, color: #4c4c4c, opacity: .5),
   ld-sidebar-break-foundational: (color: map-get($ub-ld-colorcodes, math-activity-foundational), font-size: 14px, line-height: 18px, font-family: $ub-sanserif, font-style: initial, font-weight: 600, opacity: 1, text-transform: uppercase),
   ld-sidebar-header: ('font-size': 22px, 'line-height': 26px, 'font-family': $ub-serif, 'font-weight': 600, color: #4c4c4c),
@@ -178,6 +179,7 @@ $ub-element-typography: (
     large: (font-size: 31px, line-height: 40px, 'font-family': $ub-serif, font-weight: 500, text-shadow: 0 1px 0 rgba(0,0,0,0.15), color: $ub-white),
     small: (font-size: 21px, line-height: 25px, 'font-family': $ub-serif, font-weight: 500, color: $ub-white)
   ),
+  ld-summary: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
   ld-tooltip: ('font-size': 14px !important, line-height: 18px !important, font-family: $ub-sanserif !important,	color: #4c4c4c !important),
   ld-white-placeholder-title: ('font-size': 1.2rem !important, 'font-weight': 600),
   ld-white-placeholder-colored-title: ('font-size': initial !important, 'font-weight': bold, color: initial !important),

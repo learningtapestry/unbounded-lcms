@@ -67,6 +67,17 @@ class Document < ActiveRecord::Base
     document_parts.where(part_type: :layout, context_type: DocumentPart.context_types[context_type.to_sym]).last
   end
 
+  def materials_anchors
+    {}.tap do |materials_with_anchors|
+      toc.children.flat_map(&:children).each do |x|
+        x.material_ids.each do |m|
+          materials_with_anchors[m] ||= []
+          materials_with_anchors[m] << x.anchor
+        end
+      end
+    end
+  end
+
   def math?
     metadata['subject'].to_s.casecmp('math').zero?
   end

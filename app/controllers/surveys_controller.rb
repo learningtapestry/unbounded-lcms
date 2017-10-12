@@ -17,6 +17,8 @@ class SurveysController < ApplicationController
   end
 
   def show
+    return redirect_to root_path if current_user.ready_to_go?
+
     @form = SurveyForm.new(current_user.survey)
   end
 

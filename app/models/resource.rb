@@ -66,6 +66,8 @@ class Resource < ActiveRecord::Base
   has_many :social_thumbnails, as: :target
   has_many :documents, dependent: :destroy
 
+  has_many :document_bundles, dependent: :destroy
+
   validates :title, presence: true
   validates :url, presence: true, url: true, if: %i(video? podcast?)
 
@@ -242,6 +244,10 @@ class Resource < ActiveRecord::Base
   def next_hierarchy_level
     index = HIERARCHY.index(curriculum_type.to_sym)
     HIERARCHY[index + 1]
+  end
+
+  def unit_bundles?
+    unit? && document_bundles.any?
   end
 
   def update_curriculum_tags

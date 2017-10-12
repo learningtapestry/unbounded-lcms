@@ -1,0 +1,14 @@
+<div class="o-unit-bundles">
+  <% DocumentBundle::CATEGORIES.each do |cat| %>
+    <% if bundle = resource.document_bundles.detect { |b| b.category == cat } %>
+      <div class="o-unit-bundles__item">
+        <h4><%= t "bundles.#{cat}" %></h4>
+        <!-- <p>Summary</p> -->
+
+        <div class="o-unit-bundles__item--links">
+          <%= link_to 'Download PDFs', bundle.file&.url, class: 'o-ub-btn o-ub-btn--lead o-ub-btn--2bordered-lead', data: { no_turbolink: true } %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

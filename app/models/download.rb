@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Download < ActiveRecord::Base
   mount_uploader :filename, DownloadUploader
   alias_attribute :file, :filename

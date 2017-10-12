@@ -3,9 +3,10 @@
 class DocumentPresenter < ContentPresenter
   PART_RE = /{{[^}]+}}/
   PDF_SUBTITLES = { full: '', sm: '_student_materials', tm: '_teacher_materials' }.freeze
-  SUBJECT_FULL = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
-  TOPIC_FULL   = { 'ela' => 'Unit', 'math' => 'Topic' }.freeze
-  TOPIC_SHORT  = { 'ela' => 'U', 'math' => 'T' }.freeze
+  SUBJECT_FULL  = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
+  TOC_RESOURCES = [I18n.t('document.toc.tm'), I18n.t('document.toc.sm'), I18n.t('document.toc.credits')].freeze
+  TOPIC_FULL    = { 'ela' => 'Unit', 'math' => 'Topic' }.freeze
+  TOPIC_SHORT   = { 'ela' => 'U', 'math' => 'T' }.freeze
   delegate :cc_attribution, to: :ld_metadata
 
   def color_code
@@ -30,6 +31,14 @@ class DocumentPresenter < ContentPresenter
 
   def doc_type
     assessment? ? 'assessment' : 'lesson'
+  end
+
+  def ela2?
+    ela? && grade.to_s == '2'
+  end
+
+  def ela6?
+    ela? && grade.to_s == '6'
   end
 
   def full_breadcrumb(unit_level: false)
@@ -137,6 +146,14 @@ class DocumentPresenter < ContentPresenter
     ld_metadata.standard.presence || ld_metadata.lesson_standard
   end
 
+  def student_materials
+    materials.where_metadata_any_of(materials_config_for(:student))
+  end
+
+  def student_materials_props
+    DocumentMaterialSerializer.new(self, student_materials)
+  end
+
   def subject
     ld_metadata&.resource_subject
   end
@@ -150,12 +167,24 @@ class DocumentPresenter < ContentPresenter
     resource&.prerequisite? ? "Prerequisite -  #{title}" : title
   end
 
+  def teacher_materials
+    materials.where_metadata_any_of(materials_config_for(:teacher))
+  end
+
+  def teacher_materials_props
+    DocumentMaterialSerializer.new(self, teacher_materials)
+  end
+
   def teaser
     ld_metadata.teaser
   end
 
   def topic
     ela? ? ld_metadata.unit : ld_metadata.topic
+  end
+
+  def unit
+    @unit ||= resource&.parent
   end
 
   private

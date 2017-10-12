@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   class DocumentTOC
     REGISTERED_SUBJECTS = {
       'ela'  => :agenda,
-      'math' => :activity
+      'math' => :sections
     }.freeze
 
     def self.parse(opts = {})

@@ -243,6 +243,7 @@ en:
         new_lesson: Add new Lesson
         reimport_selected: Re-import selected
         title: Lesson Manager
+        unit_bundles: Generate Unit Bundles
       create:
         error: Error
         success: Lesson %{name} parsed successfully.
@@ -253,6 +254,8 @@ en:
         success: Lesson deleted successfully.
       destroy_selected:
         success: '%{count} documents have been deleted successfully.'
+      unit_bundles:
+        success: "%{num} Units enqueued to update lessons bundle."
     materials:
       create:
         bulk_import: Imported %{count} Materials from %{folder}
