@@ -3,11 +3,15 @@
 class MaterialPresenter < ContentPresenter
   attr_reader :lesson, :parsed_document
 
-  delegate :cc_attribution, :css_styles, :short_url, :subject, to: :lesson
+  delegate :css_styles, :short_url, :subject, to: :lesson
   delegate :sheet_type, to: :metadata
   delegate :parts, to: :parsed_document
 
   DEFAULT_TITLE = 'Material'
+
+  def anchors
+    @anchors || []
+  end
 
   def base_filename
     name = metadata.identifier
@@ -15,6 +19,10 @@ class MaterialPresenter < ContentPresenter
       name = "#{lesson.short_breadcrumb(join_with: '_', with_short_lesson: true)}_#{name}"
     end
     "#{name}_v#{version.presence || 1}"
+  end
+
+  def cc_attribution
+    metadata.cc_attribution.presence || lesson&.cc_attribution
   end
 
   def content_for(context_type)
@@ -69,7 +77,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def student_material?
-    sheet_type == 'student'
+    ::Material.where(id: id).where_metadata_any_of(materials_config_for(:student)).present?
   end
 
   def subtitle
@@ -77,7 +85,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def teacher_material?
-    !student_material?
+    ::Material.where(id: id).where_metadata_any_of(materials_config_for(:teacher)).present?
   end
 
   def title

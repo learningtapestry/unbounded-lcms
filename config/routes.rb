@@ -94,6 +94,7 @@ Rails.application.routes.draw do
       collection do
         delete :delete_selected, to: 'documents#destroy_selected'
         post :reimport_selected
+        post :unit_bundles
       end
     end
     resources :materials, except: %i(edit show update) do
@@ -102,6 +103,12 @@ Rails.application.routes.draw do
         post :reimport_selected
       end
     end
+    resources :documents, only: %i(index create new destroy) do
+      collection do
+
+      end
+    end
+    resources :materials, only: %i(index create new destroy)
     resource :curriculum, only: %i(edit update)
     resources :access_codes
   end

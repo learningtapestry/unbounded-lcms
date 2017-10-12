@@ -30,6 +30,7 @@ module DocTemplate
         # aliases to build toc
         attribute :active, Boolean, default: false
         attribute :anchor, String, default: ->(s, _) { "#{s.idx} #{s.title}".parameterize }
+        attribute :deselectable, Boolean, default: true
         attribute :icon, String
         attribute :idx, Integer
         attribute :level, Integer, default: 2
@@ -67,8 +68,8 @@ module DocTemplate
               s[:material_ids] = m['material_ids']
               s[:priority] = m['priority']
               m['time'] = m['time'].to_s[/\d+/].to_i || 0
-              use_color = m['color']
-              s[:use_color] = use_color.present? ? use_color.casecmp('yes').zero? : false
+              s[:use_color] = m['color'].present? ? m['color'].casecmp('yes').zero? : false
+              s[:deselectable] = m['deselectable'].present? ? m['deselectable'].casecmp('yes').zero? : true
             end
             d.deep_merge(metadata: { time: d[:children].sum { |s| s[:metadata]['time'] } })
           end

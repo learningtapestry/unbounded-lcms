@@ -11,8 +11,9 @@ module DocTemplate
         attribute :anchor, String
         attribute :children, Array[Heading], default: []
         attribute :level, Integer
-        attribute :standard, String
-        attribute :time, Integer
+        attribute :material_ids, Array[Integer], default: []
+        attribute :standard, String, default: ''
+        attribute :time, Integer, default: 0
         attribute :title, String
         attribute :priority, Integer, default: 0
 
@@ -28,7 +29,7 @@ module DocTemplate
         end
       end
 
-      attribute :children, Array[Heading]
+      attribute :children, Array[Heading], default: []
       attribute :priority, Integer, default: 0
       attribute :total_time, Integer, default: ->(t, _) { t.children.sum(&:time) }
 

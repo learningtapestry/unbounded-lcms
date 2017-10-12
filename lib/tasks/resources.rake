@@ -7,6 +7,9 @@ namespace :resources do
   desc 'Fix lessons metadata'
   task fix_lessons_metadata: [:environment] { ResourceTasks.fix_lessons_metadata }
 
+  desc 'Generate Unit Document Bundles'
+  task generate_bundles: [:environment] { ResourceTasks.generate_unit_bundles }
+
   desc 'Generate hierarchical positions for resources'
   task generate_positions: [:environment] { GenerateHierarchicalPositions.new.generate! }
 

@@ -26,7 +26,9 @@
       </div>
       <% end %>
     <% end %>
-    <% if resource.downloads.empty? %>
+    <% if resource.unit_bundles?  %>
+      <%= render partial: 'resources/unit_bundles', locals: { resource: resource } %>
+    <% elsif resource.downloads.empty? %>
       <span>There are no downloads for this resource</span>
     <% end %>
   </ul>

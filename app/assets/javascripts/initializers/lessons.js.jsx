@@ -122,6 +122,8 @@ $(function () {
       updateDownloads();
       updateGroup(item.parent);
 
+      excludesStore.updateMaterialsList(tagsExcluded);
+
       setTimeout(() => {
         $('.doc-subject-ela .o-ld-sidebar__item.o-ld-sidebar-break').toggle(tagsExcluded.length === 0);
       });
@@ -156,6 +158,8 @@ $(function () {
 
       eachNode('.o-ld-sidebar-item__time--summary', x => { x.textContent = totalTime; });
     };
+
+    const isEla = document.querySelector('[data-ela]');
 
     eachNode('a[data-contenttype]', link => {
       link.dataset.excludes = '';
@@ -201,7 +205,8 @@ $(function () {
     items
       .filter(x => x.parent !== null)
       .forEach(item => {
-        let content = document.querySelector(`[data-id="${item.id}"]`);
+        const prefix = isEla ? '[data-deselectable]' : '';
+        let content = document.querySelector(`${prefix}[data-id="${item.id}"]`);
         if (!content) return;
 
         item.tag = content.dataset.tag;
