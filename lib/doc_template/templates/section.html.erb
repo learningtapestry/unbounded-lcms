@@ -1,6 +1,7 @@
 <div class="o-ld-section-wrapper"
      data-id="<%= @tmpl[:section].anchor %>"
      <%= 'data-deselectable' if @tmpl[:section].deselectable %>
+     <%= 'data-optional' if @tmpl[:section].optional %>
      data-tag="<%= @tmpl[:placeholder] %>">
 
   <hr class="o-ld-hr--l2">

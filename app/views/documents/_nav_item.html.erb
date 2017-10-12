@@ -5,6 +5,7 @@
     <% end %>
     <div href="#<%= heading.anchor %>" class="o-ld-sidebar-item__content" data-duration="<%= heading.time.to_i %>" data-level="<%= heading.level %>">
       <div class="o-ld-sidebar-item__header--l<%= heading.level %>">
+        <%= 'Optional: ' if heading.optional && math %>
         <%= heading.title %>
         <% unless heading.priority.to_i.zero? %>
           <span class="o-ld-icon o-ld-icon--small o-ld-icon--priority<%= heading.priority %>"></span>
@@ -18,7 +19,7 @@
   <% if heading.children.any? %>
     <ul class="o-ld-sidebar__menu o-ld-sidebar__menu--nested nested">
       <% heading.children.each do |subheading| %>
-        <%= render 'nav_item', heading: subheading %>
+        <%= render 'nav_item', heading: subheading, math: math %>
       <% end %>
     </ul>
   <% end %>
