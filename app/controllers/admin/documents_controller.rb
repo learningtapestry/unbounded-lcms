@@ -48,7 +48,7 @@ module Admin
       @results = []
       @documents.each do |material|
         link = material.file_url
-        form = DocumentForm.new(Document, { link: link }, google_credentials)
+        form = DocumentForm.new({ link: link }, google_credentials)
         res = if form.save
                 OpenStruct.new(ok: true, link: link, document: form.document)
               else
