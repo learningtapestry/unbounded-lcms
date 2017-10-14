@@ -14,6 +14,7 @@
 //= require react_ujs
 //= require components
 //= require initializers/about_people
+//= require initializers/bundles
 //= require initializers/content_guides
 //= require initializers/google_analytics
 //= require initializers/heap_analytics
@@ -46,6 +47,7 @@ ready(function() {
   window.initializeResourceDetails();
   window.initializeTabs();
   window.initializeLessons();
+  window.initializeBundles();
 });
 
 $(document).on('page:before-unload', function(nodes) {

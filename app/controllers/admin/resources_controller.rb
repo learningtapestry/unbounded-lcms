@@ -34,6 +34,13 @@ module Admin
 
     def edit; end
 
+    def unit_bundle
+      return redirect_to :admin_resources, notice: t('.fail') unless @resource.unit?
+
+      DocumentBundle::CATEGORIES.each { |c| DocumentBundleGenerateJob.perform_later @resource, category: c }
+      redirect_to :admin_resources, notice: t('.success')
+    end
+
     def update
       return redirect_to :admin_resources, alert: t('admin.common.editing_disabled') unless Settings.editing_enabled?
 
