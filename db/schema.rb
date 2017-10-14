@@ -143,11 +143,13 @@ ActiveRecord::Schema.define(version: 20171018105336) do
   add_index "curriculums", ["parent_id"], name: "index_curriculums_on_parent_id", using: :btree
 
   create_table "document_bundles", force: :cascade do |t|
-    t.string   "category",    null: false
+    t.string   "category",                     null: false
     t.string   "file"
     t.integer  "resource_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "url"
+    t.string   "content_type", default: "pdf", null: false
   end
 
   add_index "document_bundles", ["resource_id"], name: "index_document_bundles_on_resource_id", using: :btree

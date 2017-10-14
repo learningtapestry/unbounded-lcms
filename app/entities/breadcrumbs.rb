@@ -69,7 +69,7 @@ class Breadcrumbs
     # -  listening and learning -> LL
     # -  literary criticism -> LC
     module_ = resource.curriculum_tags_for(:module).first
-    "M#{module_.match(/module (\d+)/i)[1]}" if module_
+    "M#{module_.match(/module (\w+)/i)&.[] 1}" if module_
   end
 
   def unit_abbrv(*)

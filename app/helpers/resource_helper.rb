@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ResourceHelper
   def show_resource_path(resource)
     if resource.slug.present?
@@ -8,7 +10,7 @@ module ResourceHelper
   end
 
   def type_name(resource)
-    resource.curriculum_type.capitalize
+    resource.curriculum_type&.capitalize
   end
 
   def back_to_resource_path(resource)
@@ -64,5 +66,15 @@ module ResourceHelper
     Standard
       .where(id: ids).pluck(:alt_names).flatten.uniq
       .map { |n| Standard.filter_ccss_standards(n, resource.subject) }.compact.sort
+  end
+
+  def bundle_heap_data(resource, bundle, cat, content_type)
+    {
+      resource_id: resource.id,
+      resource_title: resource.title,
+      url: bundle.file&.url.presence || bundle.url,
+      category: cat,
+      type: content_type
+    }.to_json
   end
 end

@@ -114,8 +114,9 @@ en:
         subjects: Subjects
         teaser: Teaser
         title: Title
-        url_slugs: URL slugs
         tree: Curriculum?
+        unit_bundle: Bundle
+        url_slugs: URL slugs
       new:
         page_title: New Resource
       search_form:
@@ -130,6 +131,9 @@ en:
         success: "Resource #%{resource_id} was created successfully."
       update:
         success: "Resource #%{resource_id} was updated successfully."
+      unit_bundle:
+        success: "Unit enqueued to update lessons bundle."
+        fail: "Invalid resource. Must be a Unit/Topic."
     pages:
       create:
         success: Page created successfully.

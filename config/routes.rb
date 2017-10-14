@@ -70,7 +70,11 @@ Rails.application.routes.draw do
     resources :reading_assignment_texts
     resource :resource_bulk_edits, only: %i(new create)
     get '/resource_picker' => 'resource_picker#index'
-    resources :resources, except: :show
+    resources :resources, except: :show do
+      member do
+        post :unit_bundle
+      end
+    end
     resources :download_categories, except: :show
     resources :pages, except: :show
     resources :settings, only: [] do
@@ -94,7 +98,6 @@ Rails.application.routes.draw do
       collection do
         delete :delete_selected, to: 'documents#destroy_selected'
         post :reimport_selected
-        post :unit_bundles
       end
     end
     resources :materials, except: %i(edit show update) do
