@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class ExploreCurriculumItem extends React.Component {
   curriculum() {
     return this.props.index[this.props.id];
@@ -17,7 +18,7 @@ class ExploreCurriculumItem extends React.Component {
 
     let onClickItem = shouldItemExpand ? props.onClickViewDetails.bind(this, props.parentage) : props.onClickExpand.bind(this, props.parentage);
     if (curriculum.resource.is_assessment) {
-      onClickItem = function() { location.href = curriculum.resource.path }
+      onClickItem = function() { location.href = curriculum.resource.path; };
     }
 
     const item =
@@ -34,11 +35,13 @@ class ExploreCurriculumItem extends React.Component {
       _.last(props.active) !== props.id;
 
     const cssClasses = classNames( 'c-ec-cards__children',
-                                 { 'c-ec-cards__children--lessons': curriculum.type === 'unit',
-                                   'c-ec-cards__children--expanded': shouldRenderChildren });
+      { 'c-ec-cards__children--lessons': curriculum.type === 'unit',
+        'c-ec-cards__children--expanded': shouldRenderChildren });
 
-    const children = shouldRenderChildren ?
-      curriculum.children.map(c => (
+    const children = _.filter(curriculum.children, x => !x.resource.is_opr);
+
+    const childrenElements = shouldRenderChildren ?
+      children.map(c => (
         c.type === 'lesson' ?
           <LessonCard key={c.resource.id} lesson={c.resource} with_breadcrumb={false} colorCode={colorCode} /> :
           <ExploreCurriculumItem
@@ -51,15 +54,19 @@ class ExploreCurriculumItem extends React.Component {
             active={props.active} />
       )) : [];
 
+    const shouldRenderOpr = shouldRenderChildren && curriculum.type === 'unit';
+    const opr = shouldRenderOpr ? <ExploreCurriculumOpr colorCode={colorCode} curriculum={curriculum}/> : [];
+
     return (
       <div>
         {item}
+        {opr}
         {/*TODO: add React.addons.CSSTransitionGroup for animation*/}
         <div className={cssClasses}>
-            {children}
+          {childrenElements}
         </div>
         <DownloadModal resource={curriculum.resource} colorCode={colorCode} />
       </div>
-      );
-   }
+    );
+  }
 }
