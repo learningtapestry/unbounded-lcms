@@ -45,7 +45,7 @@ module DocTemplate
             color: @section[:use_color]
           },
           section: section,
-          section_icon: section_icon(section)
+          section_icons: section_icons(section)
         }
       end
 
@@ -57,9 +57,9 @@ module DocTemplate
         parse_nested parsed_template, opts
       end
 
-      def section_icon(section)
-        return unless section.icon.present?
-        "#{ICON_PATH}/#{section.icon}.png"
+      def section_icons(section)
+        return [] if section.icons.nil?
+        section.icons.map { |icon| "#{ICON_PATH}/#{icon}.png" }
       end
     end
   end

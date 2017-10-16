@@ -3,6 +3,8 @@
 module DocTemplate
   module Tables
     class Base
+      SPLIT_REGEX = /[,;(\r?\n)]/
+
       def self.parse(fragment)
         new.parse(fragment)
       end
@@ -26,7 +28,7 @@ module DocTemplate
       def fetch_materials(data, key)
         return data if (materials = data[key.to_s]).blank?
         data['material_ids'] =
-          materials.split(/[,;(\r?\n)]/).compact.map do |identifier|
+          materials.split(SPLIT_REGEX).compact.map do |identifier|
             Material.find_by(identifier: identifier.strip.downcase)&.id
           end.compact
         data

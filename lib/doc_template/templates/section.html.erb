@@ -9,7 +9,7 @@
   <div id="<%= @tmpl[:section].anchor %>" class="o-ld-section c-ld-toc <%= 'o-ld-section--bg-color' if @tmpl[:section][:use_color] %>">
     <h3 class="o-ld-title c-ld-toc u-margin-top--large">
       <div class="o-ld-title__title o-ld-title__title--h3">
-        <% if (icon = @tmpl[:section].icon).present? %>
+        <% @tmpl[:section].icons.each do |icon| %>
           <span class="o-m-icon o-m-icon--<%= icon %>"></span>
         <% end %>
         <%= @tmpl[:section].title %>

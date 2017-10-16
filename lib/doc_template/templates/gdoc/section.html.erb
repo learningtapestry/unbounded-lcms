@@ -10,7 +10,7 @@
           <tr>
             <td class="o-ld-title__title">
               <h3 class="o-ld-title__title--h3">
-                <% if (icon = @tmpl[:section_icon]).present? %>
+                <% @tmpl[:section_icons].each do |icon| %>
                   <img src="<%= icon %>" class="o-ld-icon"/>
                 <% end %>
                 <%= @tmpl[:section].title %>
