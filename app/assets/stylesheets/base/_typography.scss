@@ -116,6 +116,8 @@ $ub-element-typography: (
   cg-faq-title: ('font-size': 24px, 'line-height': 26px, 'font-family': $ub-serif, 'font-weight': 600, color: #555),
   cg-faq-body: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),
   cg-faq-q: ('font-size': 44px, 'line-height': 107px, 'font-family': $ub-serif, 'font-weight': 600),
+  // explore curriculum
+  ec-opr-title: (color: $ub-primary, font-family: $ub-serif, font-size: 24px, font-weight: 800),
   // leaderhsip
   ls-subhead: ('font-size': 20px, 'line-height': 23px, 'font-family': $ub-serif, 'font-weight': 600, color: map-get($ub-leadership, base)),
   ls-post-title: ('font-size': 18px, 'line-height': 21px, 'font-family': $ub-serif, 'font-weight': 600, color: map-get($ub-leadership, base)),
