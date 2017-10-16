@@ -73,6 +73,23 @@ module DocTemplate
       @metadata.data.presence || {}
     end
 
+    def meta_options(context_type)
+      @meta_options ||=
+        if material?
+          {
+            metadata: Objects::MaterialMetadata.build_from(@metadata.data),
+            material: true
+          }
+        else
+          {
+            foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
+            metadata: Objects::BaseMetadata.build_from(@metadata.data),
+            parts: @target_table.try(:parts)
+          }
+        end
+      @meta_options.merge(context_type: context_type)
+    end
+
     def parse(source)
       doc = Nokogiri::HTML(source)
       # get css styles from head to keep classes for lists (preserve list-style-type)
@@ -130,23 +147,6 @@ module DocTemplate
     private
 
     attr_accessor :content
-
-    def meta_options(context_type)
-      @meta_options ||=
-        if material?
-          {
-            metadata: Objects::MaterialMetadata.build_from(@metadata.data),
-            material: true
-          }
-        else
-          {
-            foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
-            metadata: Objects::BaseMetadata.build_from(@metadata.data),
-            parts: @target_table.try(:parts)
-          }
-        end
-      @meta_options.merge(context_type: context_type)
-    end
 
     def parse_metadata
       if material?
