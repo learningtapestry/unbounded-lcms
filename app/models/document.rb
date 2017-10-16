@@ -71,8 +71,8 @@ class Document < ActiveRecord::Base
     {}.tap do |materials_with_anchors|
       toc.children.flat_map(&:children).each do |x|
         x.material_ids.each do |m|
-          materials_with_anchors[m] ||= []
-          materials_with_anchors[m] << x.anchor
+          materials_with_anchors[m] ||= { optional: [], anchors: [] }
+          materials_with_anchors[m][x.optional ? :optional : :anchors] << x.anchor
         end
       end
     end
