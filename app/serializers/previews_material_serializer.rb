@@ -2,7 +2,7 @@
 
 class PreviewsMaterialSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :activity, :content_type, :data, :lesson, :subject
+  attributes :activity, :color, :content_type, :data, :lesson, :subject
   attr_reader :document
   delegate :content_type, :subject, to: :document
 
@@ -16,6 +16,10 @@ class PreviewsMaterialSerializer < ActiveModel::Serializer
     {}.tap do |x|
       %w(title type).each { |m| x["activity_#{m}"] = @props['activity'].send(:[], m) }
     end
+  end
+
+  def color
+    @props['color']
   end
 
   def data
