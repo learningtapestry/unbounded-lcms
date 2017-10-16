@@ -85,42 +85,28 @@ module DocTemplate
 
       parse_metadata
 
-      default_opts = meta_options(CONTEXT_TYPES[0])
-
-      CONTEXT_TYPES.each_with_index do |context_type, idx|
-        options = idx.zero? ? default_opts : meta_options(context_type)
+      CONTEXT_TYPES.each do |context_type|
+        options = meta_options(context_type)
+        unless material?
+          # Rebuild meta options from scratch for each context
+          options[:activity] = Objects::ActivityMetadata.build_from(@activity_metadata)
+          options[:agenda] = Objects::AgendaMetadata.build_from(@agenda.data)
+          options[:sections] = Objects::SectionsMetadata.build_from(@section_metadata)
+        end
         @documents[context_type] = DocTemplate::Document.parse(@content.dup, options)
         @documents[context_type].parts << {
           content: render(options),
           context_type: context_type,
           materials: [],
+          optional: false,
           part_type: :layout,
           placeholder: nil
         }
+
+        @toc ||= DocumentTOC.parse(options) unless material?
       end
 
-      @toc = DocumentTOC.parse(default_opts) unless material?
       self
-    end
-
-    def meta_options(context_type)
-      if material?
-        {
-          context_type: context_type,
-          metadata: Objects::MaterialMetadata.build_from(@metadata.data),
-          material: true
-        }
-      else
-        {
-          activity: Objects::ActivityMetadata.build_from(@activity_metadata),
-          agenda: Objects::AgendaMetadata.build_from(@agenda.data),
-          context_type: context_type,
-          foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
-          metadata: Objects::BaseMetadata.build_from(@metadata.data),
-          parts: @target_table.try(:parts),
-          sections: Objects::SectionsMetadata.build_from(@section_metadata)
-        }
-      end
     end
 
     def parts
@@ -144,6 +130,23 @@ module DocTemplate
     private
 
     attr_accessor :content
+
+    def meta_options(context_type)
+      @meta_options ||=
+        if material?
+          {
+            metadata: Objects::MaterialMetadata.build_from(@metadata.data),
+            material: true
+          }
+        else
+          {
+            foundational_metadata: Objects::BaseMetadata.build_from(@foundational_metadata.data),
+            metadata: Objects::BaseMetadata.build_from(@metadata.data),
+            parts: @target_table.try(:parts)
+          }
+        end
+      @meta_options.merge(context_type: context_type)
+    end
 
     def parse_metadata
       if material?

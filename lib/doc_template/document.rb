@@ -59,9 +59,7 @@ module DocTemplate
       ERB.new(template).result(binding)
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/PerceivedComplexity
-    def ela_teacher_guidance_allowed?
+    def ela_teacher_guidance_allowed? # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       # only for G6 and G2
       # As stated on issue #240 and here https://github.com/learningtapestry/unbounded/pull/267#issuecomment-307870881
       g2 = @opts[:metadata]['grade'] == '2'
@@ -129,6 +127,7 @@ module DocTemplate
         content: sanitized_content.squish,
         context_type: @opts[:context_type],
         materials: parsed_tag.materials,
+        optional: (parsed_tag.try(:optional?) || false),
         placeholder: parsed_tag.placeholder,
         part_type: tag_name.underscore
       }

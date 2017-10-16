@@ -1,4 +1,5 @@
 $ub-ld-colorcodes: (
+  activity-optional: #fee59e,
   default-image-bg: transparentize(map-get($ub-colorcodes, default-base), .85),
   ela-expand-bg: transparentize(map-get($ub-colorcodes, ela-base), .85),
   ela-toggler-bg: transparentize(map-get($ub-colorcodes, ela-base), .7),

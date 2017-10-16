@@ -12,20 +12,35 @@ module DocTemplate
         attribute :children, Array[Heading], default: []
         attribute :level, Integer
         attribute :material_ids, Array[Integer], default: []
+        attribute :optional, Boolean, default: false
+        attribute :priority, Integer, default: 0
         attribute :standard, String, default: ''
         attribute :time, Integer, default: 0
         attribute :title, String
-        attribute :priority, Integer, default: 0
 
         def excluded?(excludes)
-          return false unless excludes.present?
-          excludes.include?(anchor) || (children.present? && children.all? { |c| c.excluded?(excludes) })
+          return excludes.exclude?(anchor) if optional
+          return true if excludes.include?(anchor)
+          children.any? && children.all? { |c| c.excluded?(excludes) }
         end
 
-        def time_with(excludes)
-          return 0 if excludes&.include?(anchor)
-          return time if children.blank? || excludes.blank?
-          children.sum { |c| c.time_with(excludes) }
+        def time_with(excludes) # rubocop:disable Metrics/PerceivedComplexity
+          # Optional and nothing to exclude explicitly
+          return excludes.include?(anchor) ? time : 0 if optional
+          # General and excluded explicitly
+          return 0 if excludes.include?(anchor)
+
+          # do not re-caclculate time if
+          # - there are no optional children
+          # - no excludes passed
+          # - there are no children at all
+          if children.any?(&:optional)
+            children.sum { |c| c.time_with(excludes) }
+          elsif children.blank? || excludes.blank?
+            time
+          else
+            children.sum { |c| c.time_with(excludes) }
+          end
         end
       end
 
@@ -54,8 +69,12 @@ module DocTemplate
       end
 
       def total_time_with(excludes)
-        return total_time unless excludes.present?
-        children.sum { |c| c.time_with(excludes) }
+        has_optionals = children.any? { |l1| l1.children.any?(&:optional) }
+        if has_optionals || excludes.any?
+          children.sum { |c| c.time_with(excludes) }
+        else
+          total_time
+        end
       end
 
       private

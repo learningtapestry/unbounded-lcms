@@ -26,6 +26,16 @@
     }
   }
 
+  @include e(optional) {
+    background-color: map-get($ub-ld-colorcodes, activity-optional);
+    margin: 2rem 0;
+    padding: 2rem;
+
+    p {
+      margin: 0 !important;
+    }
+  }
+
   @include e(source) {
     @include add-gutter(padding, bottom, 1);
     display: block;
@@ -58,6 +68,10 @@
 
     .o-ld-activity-foundational-skills & {
       border-top: 4px solid map-get($ub-ld-colorcodes, math-activity-foundational);
+    }
+
+    > div {
+      width: 100%;
     }
   }
 

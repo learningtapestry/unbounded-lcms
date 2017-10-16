@@ -145,6 +145,7 @@ class DocumentBuildService
         content: part[:content],
         context_type: part[:context_type],
         materials: part[:materials],
+        optional: part[:optional],
         part_type: part[:part_type],
         placeholder: part[:placeholder]
       )

@@ -22,10 +22,12 @@ module DocTemplate
         attribute :activity_metacognition, String
         attribute :activity_guidance, String
         attribute :activity_content_development_notes, String
+        attribute :alert, String
+        attribute :optional, Boolean, default: false
 
         # aliases to build toc
-        attribute :active, Boolean, default: false
-        attribute :anchor, String, default: ->(a, _) { "#{a.idx} #{a.activity_title}".parameterize }
+        attribute :anchor, String
+        attribute :handled, Boolean, default: false
         attribute :idx, Integer
         attribute :level, Integer, default: 2
         attribute :priority, Integer, default: ->(a, _) { a.activity_priority }
@@ -45,11 +47,14 @@ module DocTemplate
       attribute :task_counter, Hash[String => Integer], default: {}
 
       def self.build_from(data)
-        activity_data = data.map do |d|
-          d.transform_keys! { |k| k.to_s.underscore }
-          d['activity_time'] = d['activity_time'].to_s[/\d+/].to_i
-          d
-        end
+        copy = Marshal.load Marshal.dump(data)
+        activity_data =
+          copy.map do |d|
+            d.transform_keys! { |k| k.to_s.underscore }
+            d['activity_time'] = d['activity_time'].to_s[/\d+/].to_i
+            d['optional'] = d['optional']&.casecmp('optional')&.zero?
+            d
+          end
         new(set_index(children: activity_data))
       end
     end

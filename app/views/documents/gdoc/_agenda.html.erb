@@ -1,5 +1,5 @@
 <h2>Lesson Agenda</h2>
-<% excludes = options[:excludes] %>
+<% excludes = options[:excludes] || [] %>
 
 <table class="o-agenda o-native-table">
   <tr class="u-txt--agenda-header">
@@ -31,6 +31,7 @@
       <tr class="u-txt--agenda-l2  <%= 'u-text--strikethrough' if l2_excluded %>">
         <td class="u-txt--agenda-l2-title o-agenda__item">
           <p>
+            <%= 'Optional: ' if l2.optional && document.math? %>
             <%= l2.title %>
           </p>
         </td>
