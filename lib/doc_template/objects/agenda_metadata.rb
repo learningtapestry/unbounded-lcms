@@ -69,7 +69,8 @@ module DocTemplate
               s[:material_ids] = m['material_ids']
               s[:priority] = m['priority']
               m['time'] = m['time'].to_s[/\d+/].to_i || 0
-              s[:use_color] = m['color'].present? ? m['color'].casecmp('yes').zero? : false
+              # Use color unless `no` is stated explicitly
+              s[:use_color] = m['color'].present? ? !m['color'].casecmp('no').zero? : true
               s[:deselectable] = m['deselectable'].present? ? m['deselectable'].casecmp('yes').zero? : true
               s['optional'] = m['optional']&.casecmp('optional')&.zero?
             end
