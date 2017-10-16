@@ -37,5 +37,9 @@
         z-index: 9999;
       }
     }
+
+    :not(.o-material-wrapper--bg-color) & {
+      border: 1px solid map-get($ub-ld-colorcodes, material-thumbnail-border);
+    }
   }
 }
