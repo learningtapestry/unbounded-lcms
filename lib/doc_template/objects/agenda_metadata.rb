@@ -25,11 +25,11 @@ module DocTemplate
         attribute :materials, String
         attribute :metacognition, MetaCognition
         attribute :metadata, MetaData
+        attribute :optional, Boolean, default: false
         attribute :title, String
 
         # aliases to build toc
-        attribute :active, Boolean, default: false
-        attribute :anchor, String, default: ->(s, _) { "#{s.idx} #{s.title}".parameterize }
+        attribute :anchor, String, default: ->(s, _) { "#{s.idx}-#{s.title}".parameterize }
         attribute :deselectable, Boolean, default: true
         attribute :icon, String
         attribute :idx, Integer
@@ -50,8 +50,8 @@ module DocTemplate
         attribute :title, String
 
         # aliases to build toc
-        attribute :active, Boolean, default: false
-        attribute :anchor, String, default: ->(g, _) { "#{g.idx} #{g.title}".parameterize }
+        attribute :anchor, String, default: ->(g, _) { "#{g.idx}-#{g.title}".parameterize }
+        attribute :handled, Boolean, default: false
         attribute :idx, Integer
         attribute :level, Integer, default: 1
         attribute :time, Integer, default: ->(g, _) { g.metadata.time }
@@ -60,8 +60,9 @@ module DocTemplate
       attribute :children, Array[Group]
 
       def self.build_from(data)
+        copy = Marshal.load Marshal.dump(data)
         agenda_data =
-          data.map do |d|
+          copy.map do |d|
             d[:children].each do |s|
               m = s[:metadata]
               s[:icon] = m['icon']
@@ -70,6 +71,7 @@ module DocTemplate
               m['time'] = m['time'].to_s[/\d+/].to_i || 0
               s[:use_color] = m['color'].present? ? m['color'].casecmp('yes').zero? : false
               s[:deselectable] = m['deselectable'].present? ? m['deselectable'].casecmp('yes').zero? : true
+              s['optional'] = m['optional']&.casecmp('optional')&.zero?
             end
             d.deep_merge(metadata: { time: d[:children].sum { |s| s[:metadata]['time'] } })
           end
@@ -77,7 +79,7 @@ module DocTemplate
       end
 
       def add_break
-        idx = children.index { |c| !c.active } || -1
+        idx = children.index { |c| !c.handled } || -1
         group = Group.new title: '45 Minute Mark', anchor: 'optbreak', time: 0, children: []
         children.insert(idx, group)
       end

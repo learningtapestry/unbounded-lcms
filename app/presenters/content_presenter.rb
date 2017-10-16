@@ -60,21 +60,34 @@ class ContentPresenter < BasePresenter
     config[:padding].map { |k, v| "#{align_type}-#{k}:#{v};" }.join
   end
 
-  def render_content(context_type, excludes = [])
+  def render_content(context_type, options = {})
     content = HtmlSanitizer.clean_content(
-      render_part(layout_content(context_type), excludes),
+      render_part(layout_content(context_type), options),
       context_type
     )
     ReactMaterialsResolver.resolve(content, self)
   end
 
-  def render_part(part_content, excludes = [])
+  def render_part(part_content, options) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    excludes = options[:excludes] || []
     part_content.gsub(PART_RE) do |placeholder|
       next unless placeholder
       next unless (part = document_parts_index[placeholder])
-      next if excludes.include?(part[:anchor])
+
+      # If part is optional:
+      # - do not render it if optional have not been requested (not web-view)
+      # - do not render it if optional part was not turned ON (is not inside excludes list)
+      # If part is not optional:
+      # - just ignore it if it has been turned OFF
+
+      if part[:optional] && !options[:with_optional]
+        next unless excludes.include?(part[:anchor])
+      elsif excludes.include?(part[:anchor])
+        next
+      end
+
       next unless (subpart = part[:content])
-      render_part subpart.to_s, excludes
+      render_part subpart.to_s, options
     end
   end
 end

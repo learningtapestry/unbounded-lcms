@@ -72,8 +72,8 @@ class MaterialPresenter < ContentPresenter
     URI.escape "https://#{ENV['AWS_S3_BUCKET_NAME']}.s3.amazonaws.com/#{pdf_filename}.pdf"
   end
 
-  def render_content(context_type, excludes = [])
-    render_part(layout_content(context_type), excludes)
+  def render_content(context_type, options = {})
+    render_part(layout_content(context_type), options)
   end
 
   def student_material?

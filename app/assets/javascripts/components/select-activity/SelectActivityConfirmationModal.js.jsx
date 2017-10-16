@@ -56,10 +56,14 @@ class SelectActivityConfirmationModal extends React.Component {
 
     $body.on('closed.zf.reveal', this.closeModal.bind(this));
 
-    this.$modal = new Foundation.Reveal($body);
-    this.$modal.$element.on('click', '.js-confirm', this.clickRemove.bind(this));
-    this.$modal.$element.on('click', '.js-expand', this.expandText.bind(this));
-    this.$modal.$element.on('click', '.js-keep', this.clickKeep.bind(this));
+    if (this.props.item.isOptional) {
+      this.props.callback();
+    } else {
+      this.$modal = new Foundation.Reveal($body);
+      this.$modal.$element.on('click', '.js-confirm', this.clickRemove.bind(this));
+      this.$modal.$element.on('click', '.js-expand', this.expandText.bind(this));
+      this.$modal.$element.on('click', '.js-keep', this.clickKeep.bind(this));
+    }
   }
 
   expandText() {

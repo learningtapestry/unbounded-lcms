@@ -24,7 +24,11 @@ class SelectActivityToggle extends React.Component {
     const item = this.props.item;
     if (item.active && this.modalText) {
       heap.track('Click to Deselect Activity', { id: item.id });
-      $(document.getElementById(`confirm-${item.id}`)).foundation('open');
+      if (this.props.item.isOptional) {
+        this.props.callback();
+      } else {
+        $(document.getElementById(`confirm-${item.id}`)).foundation('open');
+      }
     } else {
       heap.track('Activity Selected', { id: item.id });
       this.props.callback();

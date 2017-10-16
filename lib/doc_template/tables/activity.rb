@@ -4,7 +4,7 @@ module DocTemplate
   module Tables
     class Activity < Base
       HEADER_LABEL = 'activity-metadata'
-      HTML_VALUE_FIELDS = %w(activity-metacognition activity-guidance).freeze
+      HTML_VALUE_FIELDS = %w(activity-metacognition activity-guidance alert).freeze
       MATERIALS_KEY = 'activity-materials'
 
       def parse(fragment)
@@ -18,7 +18,7 @@ module DocTemplate
             # Places activity type tags
             if data['activity-title'].present?
               idx += 1
-              # we define the tag value as an unique(-ish) anchor, so we can retrieve this activity 
+              # we define the tag value as an unique(-ish) anchor, so we can retrieve this activity
               # info later (check toc_helpers#find_by_anchor). Used for building the sections TOC
               value = "#{idx} #{data['activity-title']}".parameterize
               data['idx'] = idx
