@@ -14,12 +14,13 @@ module DocTemplate
         attribute :summary, String
         attribute :time, Integer, default: 0
         attribute :title, String
+        attribute :template_type, String, default: 'core'
 
         # aliases to build toc
         attribute :handled, Boolean, default: false
-        attribute :anchor, String, default: ->(a, _) { "#{a.idx} #{a.title}".parameterize }
         attribute :idx, Integer
         attribute :level, Integer, default: 1
+        attribute :anchor, String, default: ->(a, _) { DocTemplate::Objects::MetadataHelpers.build_anchor_from(a) }
 
         def add_activity(activity)
           self.time += activity.time.to_i
@@ -35,9 +36,10 @@ module DocTemplate
       attribute :children, Array[Section]
       attribute :idx, Integer
 
-      def self.build_from(data)
+      def self.build_from(data, template_type)
         copy = Marshal.load Marshal.dump(data)
         sections = copy.map do |metadata|
+          metadata[:template_type] = template_type
           metadata.transform_keys { |k| k.to_s.gsub('section-', '').underscore }
         end
         new(set_index(children: sections))

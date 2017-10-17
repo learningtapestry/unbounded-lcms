@@ -7,7 +7,7 @@ module DocTemplate
       HTML_VALUE_FIELDS = %w(activity-metacognition activity-guidance alert).freeze
       MATERIALS_KEY = 'activity-materials'
 
-      def parse(fragment)
+      def parse(fragment, template_type = 'core')
         path = ".//table/*/tr[1]/td//*[case_insensitive_equals(text(),'#{HEADER_LABEL}')]"
         idx = 0
         [].tap do |result|
@@ -20,7 +20,7 @@ module DocTemplate
               idx += 1
               # we define the tag value as an unique(-ish) anchor, so we can retrieve this activity
               # info later (check toc_helpers#find_by_anchor). Used for building the sections TOC
-              value = "#{idx} #{data['activity-title']}".parameterize
+              value = "#{idx}-#{template_type}-l2-#{data['activity-title']}".parameterize
               data['idx'] = idx
               data['anchor'] = value
               header = "<p><span>[#{::DocTemplate::Tags::ActivityMetadataTypeTag::TAG_NAME}: #{value}]</span></p>"

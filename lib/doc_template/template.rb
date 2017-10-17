@@ -108,7 +108,7 @@ module DocTemplate
           # Rebuild meta options from scratch for each context
           options[:activity] = Objects::ActivityMetadata.build_from(@activity_metadata)
           options[:agenda] = Objects::AgendaMetadata.build_from(@agenda.data)
-          options[:sections] = Objects::SectionsMetadata.build_from(@section_metadata)
+          options[:sections] = Objects::SectionsMetadata.build_from(@section_metadata, template_type)
         end
         @documents[context_type] = DocTemplate::Document.parse(@content.dup, options)
         @documents[context_type].parts << {
@@ -156,10 +156,10 @@ module DocTemplate
         @metadata = Tables::Metadata.parse content
         @agenda = Tables::Agenda.parse content
         @section_metadata = Tables::Section.parse content
-        @activity_metadata = Tables::Activity.parse content
+        @activity_metadata = Tables::Activity.parse content, template_type
         @target_table = Tables::Target.parse(content) if target_table?
 
-        @foundational_metadata = if metadata['type']&.casecmp('fs')&.zero?
+        @foundational_metadata = if foundational?
                                    @metadata
                                  else
                                    Tables::FoundationalMetadata.parse content
@@ -169,6 +169,10 @@ module DocTemplate
 
     def target_table?
       @metadata && @metadata.data['subject'].try(:downcase) == 'ela' && @metadata.data['grade'] == '6'
+    end
+
+    def template_type
+      foundational? ? 'fs' : 'core'
     end
   end
 end
