@@ -51,5 +51,9 @@
     <% end %>
   <% end %>
 
+  <%= @tmpl[:before_materials] %>
+
+  <%= materials_container @tmpl[:react_props] if @tmpl[:with_materials] %>
+
   <%= @tmpl[:content] %>
 </div>

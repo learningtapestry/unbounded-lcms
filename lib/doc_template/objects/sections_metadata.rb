@@ -21,6 +21,8 @@ module DocTemplate
         attribute :idx, Integer
         attribute :level, Integer, default: 1
 
+        attribute :material_ids, Array[Integer], default: []
+
         def add_activity(activity)
           self.time += activity.time.to_i
           activity.handled = true

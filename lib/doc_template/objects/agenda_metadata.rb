@@ -55,6 +55,8 @@ module DocTemplate
         attribute :idx, Integer
         attribute :level, Integer, default: 1
         attribute :time, Integer, default: ->(g, _) { g.metadata.time }
+
+        attribute :material_ids, Array[Integer], default: []
       end
 
       attribute :children, Array[Group]
@@ -72,8 +74,9 @@ module DocTemplate
               # Use color unless `no` is stated explicitly
               s[:use_color] = m['color'].present? ? !m['color'].casecmp('no').zero? : true
               s[:deselectable] = m['deselectable'].present? ? m['deselectable'].casecmp('yes').zero? : true
-              s['optional'] = m['optional']&.casecmp('optional')&.zero?
+              s[:optional] = m['optional']&.casecmp('optional')&.zero?
             end
+            d[:material_ids] = d[:metadata]['material_ids']
             d.deep_merge(metadata: { time: d[:children].sum { |s| s[:metadata]['time'] } })
           end
         new(set_index(children: agenda_data))

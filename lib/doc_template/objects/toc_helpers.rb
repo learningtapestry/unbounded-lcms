@@ -26,7 +26,7 @@ module DocTemplate
         l1
       end
 
-      # TODO: This will be needed for refactoring group/sections to lookup by abchors
+      # TODO: This will be needed for refactoring group/sections to lookup by anchors
       # def find_by_anchor(anchor)
       #   children.each do |s|
       #     result = s.children.detect { |c| c.anchor == anchor }
