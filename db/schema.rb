@@ -411,6 +411,7 @@ ActiveRecord::Schema.define(version: 20171003183602) do
     t.integer  "parent_id"
     t.integer  "level_position"
     t.boolean  "tree",                  default: false, null: false
+    t.string   "opr_description"
   end
 
   add_index "resources", ["curriculum_tree_id"], name: "index_resources_on_curriculum_tree_id", using: :btree

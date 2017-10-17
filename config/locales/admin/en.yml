@@ -100,6 +100,7 @@ en:
         create_resource_type: Create Resource Type
         create_subject: Create Subject
         create_topic: Create Topic
+        opr_description: Optional Prerequisite description line
       index:
         disable_editing: Disable Resource Editing
         enable_editing: Enable Resource Editing

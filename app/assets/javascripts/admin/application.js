@@ -26,4 +26,6 @@ ready(function() {
 
   // components/multi-select/select_all
   window.initializeSelectAll();
+  // components/multi-select/select_all
+  window.initializeResourcesForm();
 });
