@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This is a superset of ResourceSerializer, meant to be used were we need
 # associations and other info. Currently is used on ExploreCurriculums
 # (together with the CurriculumResourceSerializer)
@@ -7,7 +9,8 @@ class ResourceDetailsSerializer < ResourceSerializer
   self.root = false
 
   attributes :breadcrumb_title, :copyright, :downloads, :grade, :has_related, :id,
-             :path, :short_title, :subject, :teaser, :time_to_teach, :title, :type
+             :opr_description, :path, :short_title, :subject, :teaser, :time_to_teach,
+             :title, :type
 
   def downloads
     indent = object.pdf_downloads?
