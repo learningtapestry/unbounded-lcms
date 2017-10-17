@@ -3,39 +3,65 @@
 module DocTemplate
   module Tags
     class ActivityMetadataSectionTag < BaseTag
+      include DocTemplate::Tags::Helpers
+
       TAG_NAME = 'activity-metadata-section'
       TEMPLATES = { default: 'group-math.html.erb',
                     gdoc:    'gdoc/group-math.html.erb' }.freeze
 
       def parse(node, opts = {})
-        section = opts[:sections].level1_by_title(opts[:value])
-        @anchor = section.anchor
+        @opts = opts
+        @section = @opts[:sections].level1_by_title(@opts[:value])
+        @anchor = @section.anchor
 
-        if opts[:value] == 'foundational-skills'
-          # Extend object to store `lesson_objective` (#162)
-          section.class.attribute :lesson_objective, String
-          section.lesson_objective = strip_html_element(opts[:foundational_metadata].lesson_objective)
-          # Extend object to store `lesson_standard` (#386)
-          section.class.attribute :lesson_standard, String
-          section.lesson_standard = strip_html_element(opts[:foundational_metadata].lesson_standard)
-          opts[:sections].add_break
-          opts[:foundational_skills] = true
+        parse_foundational
+
+        before_materials = ''
+        if (with_materials = @section.material_ids.any?)
+          before_materials = content_until_materials node
+          before_materials = parse_nested before_materials.to_s, opts
         end
 
         content = content_until_break node
         content.scan(FULL_TAG).select { |t| t.first == ActivityMetadataTypeTag::TAG_NAME }.each do |(_, a)|
-          section.add_activity opts[:activity].find_by_anchor(a)
+          @section.add_activity opts[:activity].find_by_anchor(a)
         end
         content = parse_nested content.to_s, opts
         params = {
+          before_materials: before_materials,
           content: content,
           foundational_skills: opts[:foundational_skills],
           placeholder: placeholder_id,
-          section: section
+          react_props: {
+            activity: {
+              title: @section.title
+            },
+            group: true,
+            material_ids: @section.material_ids
+          },
+          section: @section,
+          with_materials: with_materials
         }
         @content = parse_template params, template_name(opts)
         replace_tag node
         self
+      end
+
+      private
+
+      attr_accessor :opts, :section
+
+      def parse_foundational
+        return unless opts[:value] == 'foundational-skills'
+
+        # Extend object to store `lesson_objective` (#162)
+        section.class.attribute :lesson_objective, String
+        section.lesson_objective = strip_html_element(opts[:foundational_metadata].lesson_objective)
+        # Extend object to store `lesson_standard` (#386)
+        section.class.attribute :lesson_standard, String
+        section.lesson_standard = strip_html_element(opts[:foundational_metadata].lesson_standard)
+        opts[:sections].add_break
+        opts[:foundational_skills] = true
       end
     end
   end

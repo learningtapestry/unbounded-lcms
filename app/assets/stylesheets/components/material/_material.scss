@@ -9,6 +9,10 @@
   @include m(bg-color) {
     background-color: map-get($ub-ld-colorcodes, ela6-section-bg);
   }
+
+  @include m(within-group) {
+    @include add-gutter(margin, top, 1.5);
+  }
 }
 
 .o-ld-activity-foundational-skills {
