@@ -5,15 +5,15 @@ module DocTemplate
     class Base
       SPLIT_REGEX = /[,;(\r?\n)]/
 
-      def self.parse(fragment)
-        new.parse(fragment)
+      def self.parse(fragment, template_type = 'core')
+        new.parse(fragment, template_type)
       end
 
       def data
         @data || {}
       end
 
-      def parse(fragment)
+      def parse(fragment, _template_type)
         # get the table
         table = fragment.at_xpath("table//*[contains(., '#{self.class::HEADER_LABEL}')]")
         return self unless table
