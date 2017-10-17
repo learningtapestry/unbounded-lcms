@@ -2,7 +2,7 @@
 
 class PreviewsMaterialSerializer < ActiveModel::Serializer
   self.root = false
-  attributes :activity, :color, :content_type, :data, :lesson, :subject
+  attributes :activity, :color, :content_type, :data, :for_group, :lesson, :subject
   attr_reader :document
   delegate :content_type, :subject, to: :document
 
@@ -31,6 +31,10 @@ class PreviewsMaterialSerializer < ActiveModel::Serializer
           MaterialPresenter.new material, lesson: @document
         ).as_json
       end
+  end
+
+  def for_group
+    @props['group']
   end
 
   def lesson
