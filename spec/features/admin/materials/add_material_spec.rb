@@ -24,16 +24,32 @@ feature 'Admin adds a material' do
     allow_any_instance_of(Admin::MaterialsController).to receive(:obtain_google_credentials)
   end
 
-  # TODO: Need full refactor after #558
-  xscenario 'admin adds sample materials', :js do
+  scenario 'admin adds sample materials', :js do
     samples.each_with_index do |data, idx|
       visit new_admin_material_path
       expect(page).to have_field :material_form_link
 
       # stub GDoc download
       file_content = File.read File.join(SAMPLE_PATH, data[:file_name])
-      allow_any_instance_of(DocumentDownloader::Gdoc).to receive(:file).and_return(downloaded_file.new(nil, nil, idx))
-      allow_any_instance_of(DocumentDownloader::Gdoc).to receive(:content).and_return(file_content)
+      allow_any_instance_of(DocumentDownloader::Gdoc).to receive(:file).and_return(downloaded_file.new(nil, nil, idx.to_s))
+      allow_any_instance_of(DocumentDownloader::Gdoc).to receive_message_chain(:download, :content).and_return(file_content)
+
+      fill_in :material_form_link, with: data[:url]
+      click_button 'Parse'
+
+      expect(Material.last.name).to eql(idx.to_s)
+    end
+  end
+
+  scenario 'admin adds sample pdf materials', :js do
+    samples.each_with_index do |data, idx|
+      visit new_admin_material_path(source_type: 'pdf')
+      expect(page).to have_field :material_form_link
+
+      # stub PDF download
+      file_content = File.read File.join(SAMPLE_PATH, data[:file_name])
+      allow_any_instance_of(DocumentDownloader::PDF).to receive(:file).and_return(downloaded_file.new(nil, nil, idx.to_s))
+      allow_any_instance_of(DocumentDownloader::PDF).to receive(:pdf_content).and_return(file_content)
 
       fill_in :material_form_link, with: data[:url]
       click_button 'Parse'

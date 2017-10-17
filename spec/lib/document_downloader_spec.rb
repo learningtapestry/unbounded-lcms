@@ -10,7 +10,10 @@ describe DocumentDownloader::Gdoc do
   let(:service) { double }
   # let(:target_class) { Document }
 
-  before { allow_any_instance_of(described_class).to receive(:service).and_return(service) }
+  before do
+    allow_any_instance_of(described_class).to receive(:service).and_return(service)
+    allow_any_instance_of(described_class).to receive(:handle_google_drawings).with(content).and_return(content)
+  end
 
   describe '#download' do
     let(:content) { 'content' }

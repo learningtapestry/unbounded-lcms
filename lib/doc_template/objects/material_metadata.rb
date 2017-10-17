@@ -10,9 +10,12 @@ module DocTemplate
       attribute :cc_attribution, String, default: ''
       attribute :identifier, String, default: ''
       attribute :name_date, String
+      attribute :orientation, String
+      attribute :pdf_url, String
       attribute :sheet_type, String, default: ''
       attribute :subject, String, default: ''
       attribute :title, String, default: ''
+      attribute :thumb_url, String
       attribute :type, String, default: 'default'
       attribute :vertical_text, String
 
@@ -24,6 +27,10 @@ module DocTemplate
             materials_data[k] = materials_data[k].to_s.downcase if materials_data.key?(k)
           end
           new(materials_data)
+        end
+
+        def build_from_pdf(identifier:, title:)
+          new(identifier: identifier, sheet_type: 'pdf', title: title, type: 'pdf')
         end
 
         def dump(data)
