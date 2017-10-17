@@ -8,5 +8,9 @@
     </div>
   </h2>
 
+  <%= @tmpl[:before_materials] %>
+
+  <%= materials_container @tmpl[:react_props] if @tmpl[:with_materials] %>
+
   <%= @tmpl[:content] %>
 </div>

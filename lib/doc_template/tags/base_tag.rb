@@ -37,6 +37,16 @@ module DocTemplate
         end.join
       end
 
+      def content_until_materials(node)
+        [].tap do |result|
+          while (sibling = node.next_sibling)
+            break if include_break_for?(sibling, 'stop_materials_tags')
+            result << sibling.to_html
+            sibling.remove
+          end
+        end.join
+      end
+
       def ela2?(metadata)
         metadata.resource_subject == 'ela' && metadata.grade == '2'
       end
@@ -50,8 +60,12 @@ module DocTemplate
       end
 
       def include_break?(node)
+        include_break_for? node, 'stop_tags'
+      end
+
+      def include_break_for?(node, key)
         tags =
-          self.class.config[self.class::TAG_NAME.downcase]['stop_tags'].map do |stop_tag|
+          self.class.config[self.class::TAG_NAME.downcase][key].map do |stop_tag|
             Tags.const_get(stop_tag)::TAG_NAME
           end.join('|')
         node.content =~ /\[\s*(#{tags})/i

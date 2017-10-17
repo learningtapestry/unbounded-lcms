@@ -20,7 +20,6 @@ module DocTemplate
         @opts = opts
         @section = opts[:agenda].level2_by_title(opts[:value].parameterize)
         @anchor = @section.anchor
-        @materials = @section.material_ids
 
         @content = parse_content node, template_name(opts)
 

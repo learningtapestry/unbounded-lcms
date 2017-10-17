@@ -1,4 +1,7 @@
 activity-metadata-section:
+  stop_materials_tags:
+    - ActivityMetadataSectionTag
+    - ActivityMetadataTypeTag
   stop_tags:
     - ActivityMetadataSectionTag
 activity-metadata-type:
@@ -36,6 +39,9 @@ et:
     - ShTag
     - ThTag
 group:
+  stop_materials_tags:
+    - GroupTag
+    - SectionTag
   stop_tags:
     - GroupTag
 js:
