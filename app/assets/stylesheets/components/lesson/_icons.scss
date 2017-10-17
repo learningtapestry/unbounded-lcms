@@ -25,7 +25,8 @@
   }
 }
 
-$icons: (tens);
+$icons-png: (tens);
+$icons-svg: (wp);
 
 .o-m-icon {
   background-size: contain;
@@ -34,10 +35,18 @@ $icons: (tens);
   width: 20px;
 }
 
-@each $icon in $icons {
+@each $icon in $icons-png {
   .o-m-icon {
     @include m($icon) {
       background-image: asset-data-url("lessons/#{$icon}.png");
+    }
+  }
+}
+
+@each $icon in $icons-svg {
+  .o-m-icon {
+    @include m($icon) {
+      background-image: asset-url("lessons/#{$icon}.svg");
     }
   }
 }
