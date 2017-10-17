@@ -15,16 +15,16 @@ feature 'Admin adds a material' do
       }
     ]
   end
+
   given(:user) { create :admin }
 
   background do
     sign_in user
-
     # stub Google Auth
-    allow_any_instance_of(Admin::MaterialsController).to receive(:obtain_google_credentials)
+    allow_any_instance_of(Admin::MaterialsController).to receive(:google_authorization)
   end
 
-  scenario 'admin adds sample materials', :js do
+  scenario 'admin adds sample materials' do
     samples.each_with_index do |data, idx|
       visit new_admin_material_path
       expect(page).to have_field :material_form_link
@@ -41,7 +41,7 @@ feature 'Admin adds a material' do
     end
   end
 
-  scenario 'admin adds sample pdf materials', :js do
+  scenario 'admin adds sample pdf materials' do
     samples.each_with_index do |data, idx|
       visit new_admin_material_path(source_type: 'pdf')
       expect(page).to have_field :material_form_link
