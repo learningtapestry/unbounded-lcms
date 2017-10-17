@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class DocumentBuildService
-  GOOGLE_DRAWING_RE = %r{https?://docs\.google\.com/?[^"]*/drawings/[^"]*}i
-
   def initialize(credentials)
     @credentials = credentials
   end
@@ -196,20 +194,7 @@ class DocumentBuildService
     Resource.find_by_curriculum(curriculum)&.document
   end
 
-  def handle_google_drawings
-    return content unless (match = content.scan(GOOGLE_DRAWING_RE))
-
-    headers = { 'Authorization' => "Bearer #{credentials.access_token}" }
-
-    match.to_a.uniq.each do |url|
-      response = HTTParty.get CGI.unescapeHTML(url), headers: headers
-      new_src = "data:#{response.content_type};base64, #{Base64.encode64(response)}\" drawing_url=\"#{url}"
-      @content = content.gsub(url, new_src)
-    end
-  end
-
   def parse_template
-    handle_google_drawings
     @template = DocTemplate::Template.parse(content)
   end
 end

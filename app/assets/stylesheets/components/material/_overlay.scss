@@ -18,6 +18,7 @@
     height: 40px;
     width: 100%;
 
+    > ul { margin: 0 !important; }
     > ul > li > a { padding: 0 .5rem; }
   }
 

@@ -10,7 +10,7 @@ class MaterialGenerateJob < ActiveJob::Base
       material.material_parts.default.each { |p| p.update!(content: EmbedEquations.call(p.content)) }
     end
 
-    MaterialGeneratePDFJob.perform_later material, document
-    MaterialGenerateGdocJob.perform_later material, document
+    MaterialGeneratePDFJob.perform_later(material, document)
+    MaterialGenerateGdocJob.perform_later(material, document) unless material.pdf?
   end
 end

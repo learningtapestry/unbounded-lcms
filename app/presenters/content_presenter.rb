@@ -5,6 +5,8 @@ class ContentPresenter < BasePresenter
   DEFAULT_CONFIG = :default
   MATERIALS_CONFIG_PATH = Rails.root.join('config', 'materials_rules.yml')
   PART_RE = /{{[^}]+}}/
+  PDF_EXT = '.pdf'
+  THUMB_EXT = '.jpg'
 
   def self.base_config
     @base_config ||= YAML.load_file(CONFIG_PATH).deep_symbolize_keys
