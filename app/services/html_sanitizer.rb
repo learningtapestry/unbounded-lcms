@@ -4,6 +4,7 @@ class HtmlSanitizer
   LIST_STYLE_RE = /\.lst-(\S+)[^\{\}]+>\s*(?:li:before)\s*{\s*content[^\{\}]+counter\(lst-ctn-\1\,([^\)]+)\)/
   CLEAN_ELEMENTS = %w(a div h1 h2 h3 h4 h5 h6 p table).join(',')
   GDOC_REMOVE_EMPTY_SELECTOR = '.o-ld-activity'
+  LINK_UNDERLINE_REGEX = /text\-decoration\s*:\s*underline/i
   SKIP_P_CHECK = %w(ul ol table).freeze
   STRIP_ELEMENTS = %w(a div h1 h2 h3 h4 h5 h6 p span table).freeze
 
@@ -140,6 +141,14 @@ class HtmlSanitizer
       end
     end
 
+    def fix_external_target(node)
+      return unless node['href'] =~ /\Awww|http/i
+      node['target'] = '_blank'
+      return unless (span = node.parent)&.name == 'span'
+      # remove excessive text-decoration
+      span['style'] = (span['style'] || '').sub(LINK_UNDERLINE_REGEX, '')
+    end
+
     def fix_inline_img(node)
       # TODO: test if it's working fine with all inline images
       node['src'] = node['src'].gsub!(/%(20|0A)/, '') if node['src'].to_s.start_with?('data:')
@@ -209,6 +218,9 @@ class HtmlSanitizer
 
       # fix inlined images
       nodes.css('img[src]').each { |node| fix_inline_img node }
+
+      # add target blank to external links
+      nodes.css('a:not([target="_blank"])').each { |node| fix_external_target node}
     end
 
     def post_processing_drawings(nodes)
