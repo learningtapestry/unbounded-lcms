@@ -4,6 +4,7 @@ module DocTemplate
   module Tables
     class Agenda < Base
       HEADER_LABEL = '[agenda]'
+      ICONS_KEY = 'icon'
       MATERIALS_KEY = 'materials'
       METADATA_HEADER_LABEL = 'metadata'
       GENERAL_TAG = 'general'
@@ -56,6 +57,12 @@ module DocTemplate
 
       private
 
+      def fetch_icons(data)
+        return data if (icons = data[ICONS_KEY]).blank?
+        data['icons'] = icons.split(Base::SPLIT_REGEX).reject(&:blank?).map { |i| i.strip.downcase }
+        data
+      end
+
       def parse_metadata(fragment)
         xpath = "table[.//*[case_insensitive_contains(text(), '#{METADATA_HEADER_LABEL}')]]"
         table = fragment.at_xpath(xpath, XpathFunctions.new)
@@ -68,7 +75,7 @@ module DocTemplate
           [key, value]
         end.compact
 
-        fetch_materials(data.to_h, MATERIALS_KEY)
+        fetch_materials(fetch_icons(data.to_h), MATERIALS_KEY)
           .transform_keys { |k| k.to_s.underscore }
       end
 

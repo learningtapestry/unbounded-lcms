@@ -22,6 +22,7 @@ module DocTemplate
       class Section
         include Virtus.model
 
+        attribute :icons, Array[String], default: []
         attribute :materials, String
         attribute :metacognition, MetaCognition
         attribute :metadata, MetaData
@@ -31,7 +32,6 @@ module DocTemplate
         # aliases to build toc
         attribute :anchor, String, default: ->(s, _) { "#{s.idx}-#{s.title}".parameterize }
         attribute :deselectable, Boolean, default: true
-        attribute :icon, String
         attribute :idx, Integer
         attribute :level, Integer, default: 2
         attribute :priority, Integer, default: 0
@@ -65,7 +65,7 @@ module DocTemplate
           copy.map do |d|
             d[:children].each do |s|
               m = s[:metadata]
-              s[:icon] = m['icon']
+              s[:icons] = m['icons']
               s[:material_ids] = m['material_ids']
               s[:priority] = m['priority']
               m['time'] = m['time'].to_s[/\d+/].to_i || 0
