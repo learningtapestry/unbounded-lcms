@@ -6,6 +6,7 @@ class ExploreCurriculumOpr extends React.Component {
       .filter(this.props.curriculum.children, x => x.resource.is_opr)
       .sort((a, b) => parseInt(a.resource.short_title.split(' ')[1]) - parseInt(b.resource.short_title.split(' ')[1]));
     this.state = { renderChildren: false };
+    this.oprDescription = this.props.curriculum.resource.opr_description;
 
     // Amount of OPR lessons to show in the expanded version of the block
     this.numLessonsToTake = 5;
@@ -32,9 +33,16 @@ class ExploreCurriculumOpr extends React.Component {
 
       const lessonClasses = 'c-ec-cards__children--lessons';
 
+      const oprDescElement = (this.oprDescription && this.oprDescription.length) ?
+        <div className="c-ec-cards__children c-ec-cards-opr">{this.props.curriculum.resource.opr_description}</div>
+        : null;
+
       return (
-        <div className={lessonClasses}>
-          {childrenElements}
+        <div>
+          {oprDescElement}
+          <div className={lessonClasses}>
+            {childrenElements}
+          </div>
         </div>
       );
     };

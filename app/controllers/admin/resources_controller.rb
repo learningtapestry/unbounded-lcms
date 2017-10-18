@@ -83,6 +83,7 @@ module Admin
           :time_to_teach,
           :ell_appropriate,
           :image_file,
+          :opr_description,
           additional_resource_ids: [],
           common_core_standard_ids: [],
           resource_downloads_attributes: [
