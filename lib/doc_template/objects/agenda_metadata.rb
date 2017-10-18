@@ -10,6 +10,7 @@ module DocTemplate
         include Virtus.model
 
         attribute :content, String
+        attribute :original_content, String
       end
 
       class MetaData

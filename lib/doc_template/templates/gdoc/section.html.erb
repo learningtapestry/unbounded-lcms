@@ -3,6 +3,14 @@
     <hr>
   </div>
 
+  <% if @tmpl[:metacog].present? %>
+    <table class="o-ld-section__optional text-center o-simple-table">
+      <tr>
+        <td><%= @tmpl[:metacog] %></td>
+      </tr>
+    </table>
+  <% end %>
+
   <table id="<%= @tmpl[:section].anchor %>" class="o-simple-table <%= 'o-ld-section--bg-color' if @tmpl[:section][:use_color] %>">
     <tr>
       <td class="u-table-wrap--l2 cs-border-top--ela">

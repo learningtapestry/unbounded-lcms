@@ -6,6 +6,7 @@ $ub-ld-colorcodes: (
   ela6-section-bg: transparentize(map-get($ub-colorcodes, ela-base), .85),
   ela-image-bg: transparentize(map-get($ub-colorcodes, ela-base), .85),
   gls-bg: #fff6cc,
+  material-overlay: #423872,
   material-thumbnail-border: #ccc,
   math-activity-bg: transparentize(map-get($ub-colorcodes, math-base), .85),
   math-activity-foundational: #4bb0db,
@@ -20,6 +21,6 @@ $ub-ld-colorcodes: (
   math-image-bg: transparentize(map-get($ub-colorcodes, math-base), .85),
   pd-bg: #e8e7ed,
   pd-bg-dark: #8e89a9,
-  material-overlay: #423872,
+  section-optional: #fee59e,
   tooltip-bg: #fff8e5,
 );
