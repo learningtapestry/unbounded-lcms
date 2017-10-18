@@ -18,7 +18,9 @@ module DocTemplate
         attribute :time, Integer, default: 0
         attribute :title, String
 
-        def excluded?(excludes)
+        def excluded?(excludes, ela = false)
+          # Do not exclude parent if all children are optional and deselected
+          return false if ela && children.all?(&:optional)
           return excludes.exclude?(anchor) if optional
           return true if excludes.include?(anchor)
           children.any? && children.all? { |c| c.excluded?(excludes) }
