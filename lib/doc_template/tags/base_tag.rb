@@ -139,11 +139,6 @@ module DocTemplate
         node.replace Nokogiri::HTML.fragment(placeholder)
       end
 
-      def strip_html_element(element)
-        return '' if Sanitize.fragment(element, elements: []).strip.empty?
-        element
-      end
-
       def template_name(opts)
         self.class::TEMPLATES[opts.fetch(:context_type, :default).to_sym]
       end
