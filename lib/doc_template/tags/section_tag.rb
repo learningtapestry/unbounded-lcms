@@ -7,13 +7,14 @@ module DocTemplate
 
       STUDENT_RE = /^\s*student\s*resources\s*$/i
       TAG_NAME = 'section'
+      SECTION_REMOVE_RE = /\[#{TAG_NAME}:[^\]]*\]/i
       TEMPLATES = {
         default: 'section.html.erb',
         gdoc: 'gdoc/section.html.erb'
       }.freeze
 
       def optional?
-        @section.optional
+        section.optional
       end
 
       def parse(node, opts = {})
@@ -49,9 +50,8 @@ module DocTemplate
       end
 
       def parse_content(node, template)
-        params = general_params.merge(
-          content: content_until_break(node)
-        )
+        params = general_params.merge(content: content_until_break(node))
+        params[:metacog] = section.metacognition.original_content.sub(SECTION_REMOVE_RE, '') if optional?
         parsed_template = parse_template(params, template)
         parse_nested parsed_template, opts
       end

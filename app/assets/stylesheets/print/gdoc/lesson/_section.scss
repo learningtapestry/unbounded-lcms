@@ -16,5 +16,18 @@
         }
       }
     }
+
+    &.o-ld-section__optional {
+      td {
+        background-color: map-get($ub-ld-colorcodes, activity-optional);
+        padding: 20pt;
+        width: 100%;
+      }
+
+      p {
+        padding: 0 !important;
+        text-align: center !important;
+      }
+    }
   }
 }
