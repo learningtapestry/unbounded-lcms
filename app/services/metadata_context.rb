@@ -125,13 +125,17 @@ class MetadataContext
   def module
     @module ||= begin
       mod = ela? ? ctx[:module] : ctx[:unit]
-      number?(mod) && !mod.include?('strand') ? "module #{mod}" : mod
+      alnum?(mod) && !mod.include?('strand') ? "module #{mod.downcase}" : mod
     end
   end
   alias :mod :module # rubocop:disable Style/Alias
 
   def number?(str)
     str =~ /^\d+$/
+  end
+
+  def alnum?(str)
+    str =~ /^\w+$/
   end
 
   # `Optional prerequisite` - https://github.com/learningtapestry/unbounded/issues/557
