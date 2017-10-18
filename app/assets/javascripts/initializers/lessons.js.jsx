@@ -58,9 +58,6 @@ $(function () {
     const menu = document.getElementById('ld-sidebar-menu');
     if (!menu) return;
 
-    // TODO remove when heap analytics will be available
-    top.heap || (top.heap = { track: function(a, b) { console.log('heap track: ', a, b); } });
-
     let lastParentIdx = null;
     const items = [].map.call(menu.querySelectorAll('[href][data-duration][data-level]'), (x, i) => {
       let level = parseInt(x.dataset.level);
@@ -142,12 +139,21 @@ $(function () {
     const itemIsActive = item => item.isOptional ? !item.active : item.active;
 
     const updateGroup = parentId => {
-      let parent = items[parentId];
-      let children = items.filter(x => x.parent === parentId);
-      let parentEnabled = children.some(itemIsActive);
+      const parent = items[parentId];
+      const children = items.filter(x => x.parent === parentId);
+
       let parentDuration = children.filter(itemIsActive).reduce((a, x) => a + x.duration, 0);
       parentDuration = parentDuration > 0 ? durationString(parentDuration) : '';
-      let totalTime = durationString(items.filter(x => x.parent !== null && itemIsActive(x))
+
+      // for ELA do not disable parent if all children are Optional Activities
+      let parentEnabled;
+      if (isEla && children.every(x  => x.isOptional)) {
+        parentEnabled = true;
+      } else {
+        parentEnabled = children.some(itemIsActive);
+      }
+
+      const totalTime = durationString(items.filter(x => x.parent !== null && itemIsActive(x))
         .reduce((a, x) => a + x.duration, 0));
 
       eachNode(`[href="#${parent.id}"]`, parentNode => {
@@ -162,7 +168,7 @@ $(function () {
       eachNode('.o-ld-sidebar-item__time--summary', x => { x.textContent = totalTime; });
     };
 
-    const isEla = document.querySelector('[data-ela]');
+    const isEla = !!document.querySelector('[data-ela]');
 
     eachNode('a[data-contenttype]', link => {
       link.dataset.excludes = '';
