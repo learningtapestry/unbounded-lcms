@@ -3,6 +3,10 @@
     @extend %u-pdf-nobreak;
     @include txt-gdoc-element(pullquote);
   }
+
+  @include m(bg-color) {
+    background-color: map-get($ub-ld-colorcodes, ela6-section-bg);
+  }
 }
 
 .o-ld-section-wrapper {

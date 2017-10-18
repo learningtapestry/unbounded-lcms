@@ -13,7 +13,7 @@
 
   <table id="<%= @tmpl[:section].anchor %>" class="o-simple-table <%= 'o-ld-section--bg-color' if @tmpl[:section][:use_color] %>">
     <tr>
-      <td class="u-table-wrap--l2 cs-border-top--ela">
+      <td class="u-table-wrap--l2 <%= 'cs-border-top--ela' if @tmpl[:section][:use_color] %>">
         <table class="o-simple-table">
           <tr>
             <td class="o-ld-title__title">
