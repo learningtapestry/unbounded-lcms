@@ -52,6 +52,7 @@ module DocTemplate
 
     def ela_teacher_guidance(metadata, context_type)
       @data = metadata
+      @data.preparation = HtmlSanitizer.strip_html_element(@data.preparation)
       template = "ela-#{@opts[:metadata]['grade']}-teacher-guidance.html.erb"
       subfolder = 'gdoc' if context_type.casecmp('gdoc').zero?
       template_name = Rails.root.join 'lib', 'doc_template', 'templates', subfolder.to_s, template
@@ -84,16 +85,16 @@ module DocTemplate
 
       # G2 Unit 4 apart from for Lessons: 8,13,14,15
       g2_u4 = g2 && @opts[:metadata]['unit'] == '4'
-      return false if g2_u4 && %w(8 13 14 15).include?(@opts[:metadata]['lesson'])    
-      
+      return false if g2_u4 && %w(8 13 14 15).include?(@opts[:metadata]['lesson'])
+
       # G2 Unit 5 apart from for Lessons: 5,10,11,12
       g2_u5 = g2 && @opts[:metadata]['unit'] == '5'
       return false if g2_u5 && %w(5 10 11 12).include?(@opts[:metadata]['lesson'])
-      
+
       # G2 Unit 6 apart from for Lessons: 6,11,12,13
       g2_u6 = g2 && @opts[:metadata]['unit'] == '6'
       return false if g2_u6 && %w(6 11 12 13).include?(@opts[:metadata]['lesson'])
-      
+
       # G2 Unit 7 apart from for Lessons: 6,11,12,13
       g2_u7 = g2 && @opts[:metadata]['unit'] == '7'
       return false if g2_u7 && %w(6 11 12 13).include?(@opts[:metadata]['lesson'])

@@ -13,7 +13,7 @@
     data-v-offset="12"
     id="<%= id %>">
       <b><%= @standard_shortcut %></b><br />
-      <%= @description %>
+      <%= h @description %>
     </span>
   <% end %>
   <% if @data[:append] %>
