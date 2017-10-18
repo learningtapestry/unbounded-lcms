@@ -33,7 +33,7 @@ module DocTemplate
       end
     end
 
-    attr_reader :activity_metadata, :toc, :css_styles
+    attr_reader :activity_metadata, :css_styles, :section_metadata, :toc
 
     def self.parse(source, type: :document)
       new(type).parse(source)

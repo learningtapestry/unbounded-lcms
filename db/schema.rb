@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171003183602) do
+ActiveRecord::Schema.define(version: 20171018105336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(version: 20171003183602) do
     t.string   "foundational_file_id"
     t.text     "foundational_content"
     t.string   "fs_name"
+    t.jsonb    "sections_metadata"
   end
 
   add_index "documents", ["file_id"], name: "index_documents_on_file_id", using: :btree
