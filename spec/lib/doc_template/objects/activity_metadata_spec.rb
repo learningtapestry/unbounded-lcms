@@ -6,7 +6,7 @@ require 'doc_template/objects/activity_metadata'
 describe DocTemplate::Objects::ActivityMetadata do
   describe '.build_from' do
     subject { DocTemplate::Objects::ActivityMetadata.build_from(activity_table) }
-    let(:sections) { DocTemplate::Objects::SectionsMetadata.build_from(sections_table) }
+    let(:sections) { DocTemplate::Objects::SectionsMetadata.build_from(sections_table, 'core') }
 
     describe 'empty data' do
       let(:activity_table) { [] }
