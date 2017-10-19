@@ -6,7 +6,7 @@ module DocTemplate
       HEADER_LABEL = 'document-metadata'
       HTML_VALUE_FIELDS = %w(description materials preparation lesson-objective relationship-to-eny1).freeze
 
-      def parse(fragment)
+      def parse(fragment, _template_type)
         super
         @data['subject'] = @data['subject'].to_s.downcase if @data.present?
         self

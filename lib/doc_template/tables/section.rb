@@ -7,7 +7,7 @@ module DocTemplate
       HTML_VALUE_FIELDS = ['section-summary'].freeze
       MATERIALS_KEY = 'section-materials'
 
-      def parse(fragment)
+      def parse(fragment, _template_type)
         path = ".//table/*/tr[1]/td//*[case_insensitive_equals(text(),'#{HEADER_LABEL}')]"
         [].tap do |result|
           fragment.xpath(path, XpathFunctions.new).each do |el|
