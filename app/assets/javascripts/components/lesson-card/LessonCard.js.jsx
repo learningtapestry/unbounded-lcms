@@ -4,6 +4,7 @@ function LessonCard(props) {
   const is_prereq = props.lesson.is_prerequisite;
   const is_foundational = props.lesson.is_foundational;
   const is_opr = props.lesson.is_opr;
+  const opr_standards = props.lesson.opr_standards;
 
   let title;
   if (is_opr) {
@@ -31,7 +32,12 @@ function LessonCard(props) {
           </div>
         </div>
         <div className="o-lesson-card__content o-lesson-card__content--hover">
-          <div className="o-lesson-card__dsc o-lesson-card__dsc--full">{props.lesson.teaser}</div>
+          <div className="o-lesson-card__dsc o-lesson-card__dsc--full">
+            { opr_standards &&
+              <span className="u-txt--lesson-hover-standard u-text--uppercase">{opr_standards}<br/><br/></span>  
+            }
+            {props.lesson.teaser}
+          </div>
         </div>
       </div>
     </a>

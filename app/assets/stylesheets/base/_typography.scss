@@ -66,6 +66,7 @@ $ub-element-typography: (
   filter-input: ('font-size': 20px, 'line-height': 20px, 'font-family': $ub-sanserif),
   filter-title: ('font-size': 26px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: $ub-white),
   lesson-hover: ('font-size': 15px, 'line-height': 18px, 'font-family': $ub-sanserif),
+  lesson-hover-standard: ('font-size': 14px, 'line-height': 14px, 'font-family': $ub-serif, 'font-weight': 600),
   lesson-title: (
     small: ('font-size': 26px, 'line-height': 26px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
     ipad: ('font-size': 24px, 'line-height': 27px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
