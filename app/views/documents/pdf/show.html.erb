@@ -9,7 +9,7 @@
   <div class="c-ld__body o-page--pdf-ld c-ld__body--pdf c-ld__body--<%= "#{document.subject}-#{document.content_type}"%>" style="<%= document.padding_styles %>">
     <%= raw document.content_for(:default, options) %>
     <div class="o-ld-license u-margin-top--xlarge">
-      <%= document.ld_metadata.cc_attribution %>
+      <%= document.cc_attribution %>
     </div>
   </div>
 </div>
