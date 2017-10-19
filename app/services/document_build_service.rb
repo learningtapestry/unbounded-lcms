@@ -68,10 +68,20 @@ class DocumentBuildService
   end
 
   def collect_materials
-    activity_ids = template
-                     .activity_metadata
-                     .flat_map { |a| a['material_ids'] }
-                     .compact
+    ids = template
+            .section_metadata
+            .flat_map { |s| s['material_ids'] }
+            .compact
+
+    ids.concat template
+                 .activity_metadata
+                 .flat_map { |a| a['material_ids'] }
+                 .compact
+
+    ids.concat template
+                 .agenda
+                 .flat_map { |a| a[:metadata]['material_ids'] }
+                 .compact
 
     meta_ids = [].tap do |res|
       template.agenda.each do |x|
@@ -79,7 +89,7 @@ class DocumentBuildService
       end
     end.compact.flatten
 
-    activity_ids.concat(meta_ids).uniq
+    ids.concat(meta_ids).uniq
   end
 
   def combine_activity_metadata
@@ -162,6 +172,7 @@ class DocumentBuildService
       last_author_name: downloader.file.last_modifying_user.try(:display_name),
       material_ids: collect_materials,
       metadata: template.metadata,
+      sections_metadata: template.section_metadata,
       version: downloader.file.version
     }
   end
