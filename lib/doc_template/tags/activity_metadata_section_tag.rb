@@ -4,6 +4,7 @@ module DocTemplate
   module Tags
     class ActivityMetadataSectionTag < BaseTag
       include DocTemplate::Tags::Helpers
+      include ERB::Util
 
       TAG_NAME = 'activity-metadata-section'
       TEMPLATES = { default: 'group-math.html.erb',
@@ -56,10 +57,10 @@ module DocTemplate
 
         # Extend object to store `lesson_objective` (#162)
         section.class.attribute :lesson_objective, String
-        section.lesson_objective = strip_html_element(opts[:foundational_metadata].lesson_objective)
+        section.lesson_objective = HtmlSanitizer.strip_html_element(opts[:foundational_metadata].lesson_objective)
         # Extend object to store `lesson_standard` (#386)
         section.class.attribute :lesson_standard, String
-        section.lesson_standard = strip_html_element(opts[:foundational_metadata].lesson_standard)
+        section.lesson_standard = HtmlSanitizer.strip_html_element(opts[:foundational_metadata].lesson_standard)
         opts[:sections].add_break
         opts[:foundational_skills] = true
       end
