@@ -7,7 +7,13 @@ class DocumentPresenter < ContentPresenter
   TOC_RESOURCES = [I18n.t('document.toc.tm'), I18n.t('document.toc.sm'), I18n.t('document.toc.credits')].freeze
   TOPIC_FULL    = { 'ela' => 'Unit', 'math' => 'Topic' }.freeze
   TOPIC_SHORT   = { 'ela' => 'U', 'math' => 'T' }.freeze
-  delegate :cc_attribution, to: :ld_metadata
+
+  def cc_attribution
+    core_cc = ld_metadata.cc_attribution
+    return core_cc if (fs_cc = fs_metadata.cc_attribution).blank?
+    return core_cc if core_cc.casecmp(fs_cc).zero?
+    "#{core_cc} #{fs_cc}"
+  end
 
   def color_code
     "#{subject}-base"
@@ -39,6 +45,10 @@ class DocumentPresenter < ContentPresenter
 
   def ela6?
     ela? && grade.to_s == '6'
+  end
+
+  def fs_metadata
+    @fs_metadata ||= DocTemplate::Objects::BaseMetadata.build_from(foundational_metadata)
   end
 
   def full_breadcrumb(unit_level: false)
