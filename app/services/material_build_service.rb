@@ -13,7 +13,7 @@ class MaterialBuildService
     title = downloader.file.name.sub(PDF_EXT_RE, '')
     identifier = "#{title.downcase}#{ContentPresenter::PDF_EXT}"
 
-    @material.update(
+    @material.update!(
       material_params.merge(
         identifier: identifier,
         metadata: DocTemplate::Objects::MaterialMetadata.build_from_pdf(identifier: identifier, title: title)
@@ -42,7 +42,7 @@ class MaterialBuildService
     content = downloader.download.content
     parsed_document = DocTemplate::Template.parse(content, type: :material)
 
-    @material.update(
+    @material.update!(
       material_params.merge(
         identifier: parsed_document.metadata['identifier'].downcase,
         metadata: parsed_document.meta_options(:default)[:metadata],
@@ -69,7 +69,7 @@ class MaterialBuildService
   attr_reader :downloader
 
   def create_material
-    @material = Material.find_or_create_by(file_id: downloader.file_id)
+    @material = Material.find_or_initialize_by(file_id: downloader.file_id)
   end
 
   def material_params
