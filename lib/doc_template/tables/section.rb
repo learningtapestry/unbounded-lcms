@@ -4,7 +4,7 @@ module DocTemplate
   module Tables
     class Section < Base
       HEADER_LABEL = 'section-metadata'
-      HTML_VALUE_FIELDS = [].freeze
+      HTML_VALUE_FIELDS = ['section-summary'].freeze
       MATERIALS_KEY = 'section-materials'
 
       def parse(fragment)
