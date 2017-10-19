@@ -239,18 +239,15 @@ class HtmlSanitizer
         .xpath('//table//img/..')
         .add_class('u-ld-not-image-wrap')
       nodes.css(':not(.u-ld-not-image-wrap) > img:not([src*=googleapis]):not(.o-ld-icon)').each do |img|
-        img = img.parent if img.parent.name == 'span'
-        img = img.parent if img.parent.name == 'p'
+        img = img.parent.replace(img) if img.parent.name == 'span' || img.parent.name == 'p'
         img.replace(%(
           <table class='o-simple-table o-ld-image-wrap--math'>
             <tr>
-              <td class="o-ld-image-wrap__s"> </td>
               <td class="o-ld-image-wrap__img u-gdoc-margin-vertical--small u-gdoc-padding-vertical--small">
                 <div class="u-text--centered">
                   #{img}
                 </div>
               </td>
-              <td class="o-ld-image-wrap__s"> </td>
             </tr>
           </table>
           <p class="do-not-strip"></p>
