@@ -9,7 +9,7 @@ class ResourceDetailsSerializer < ResourceSerializer
   self.root = false
 
   attributes :breadcrumb_title, :copyright, :downloads, :grade, :has_related, :id,
-             :opr_description, :path, :short_title, :subject, :teaser, :time_to_teach,
+             :opr_description, :opr_standards, :path, :short_title, :subject, :teaser, :time_to_teach,
              :title, :type
 
   def downloads
@@ -36,6 +36,11 @@ class ResourceDetailsSerializer < ResourceSerializer
     object.unbounded_standards.any? do |standard|
       standard.content_guides.exists? || standard.resources.media.exists?
     end
+  end
+
+  def opr_standards
+    return unless object.opr? && object.document.present?
+    DocumentPresenter.new(object.document).standards
   end
 
   private
