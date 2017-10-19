@@ -34,9 +34,13 @@ class ResourceTasks
 
   def self.generate_unit_bundles
     Resource.tree.units.each do |unit|
-      DocumentBundle::CATEGORIES.each do |category|
-        DocumentBundle.update_bundle(unit, category)
-        print '.'
+      begin
+        DocumentBundle::CATEGORIES.each do |category|
+          DocumentBundle.update_bundle(unit, category)
+          print '.'
+        end
+      rescue Exception => e # rubocop:disable Lint/RescueException
+        puts "Err on update_bundle for #{unit.slug} #{category} : #{e.message}"
       end
     end
     puts "\n"

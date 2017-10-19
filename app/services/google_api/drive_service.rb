@@ -20,6 +20,27 @@ module GoogleApi
       folder_id
     end
 
+    # make a pristine copy of `folder_id` files into `target_id`
+    def copy_files(folder_id, target_id)
+      new_files = list(folder_id)
+      current_files = list(target_id)
+
+      # delete old files not present on new version
+      current_files.each do |file|
+        next if new_files.detect { |f| f.name == file.name }
+        service.delete_file(file.id)
+      end
+
+      new_files.each do |file|
+        # skip if the file alredy exists
+        next if current_files.detect { |f| f.name == file.name }
+
+        # copy if it's a new file
+        new_file = Google::Apis::DriveV3::File.new(name: file.name, parents: [target_id])
+        service.copy_file(file.id, new_file)
+      end
+    end
+
     def create_folder(folder_name, parent_id = FOLDER_ID)
       if (files = folder_query(folder_name, parent_id).files).any?
         return files[0].id
@@ -34,10 +55,7 @@ module GoogleApi
     end
 
     def file_exists?(name, parent_id)
-      service.list_files(
-        q: "'#{parent_id}' in parents and name = '#{name}' and trashed = false",
-        fields: 'files(id)'
-      ).files&.first&.id
+      find_file(name, parent_id)&.id
     end
 
     def file_id
@@ -53,6 +71,20 @@ module GoogleApi
         end
         response.files[0].id
       end
+    end
+
+    def find_file(name, parent_id)
+      service.list_files(
+        q: "'#{parent_id}' in parents and name = '#{name}' and trashed = false",
+        fields: 'files(id)'
+      ).files&.first
+    end
+
+    def list(parent_id)
+      service.list_files(
+        q: "'#{parent_id}' in parents and mimeType = '#{MIME_FILE}' and trashed = false",
+        fields: 'files(id, name)'
+      ).files
     end
 
     def parent

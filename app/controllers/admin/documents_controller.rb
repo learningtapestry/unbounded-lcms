@@ -4,7 +4,7 @@ module Admin
   class DocumentsController < AdminController
     include GoogleAuth
 
-    before_action :google_authorization, only: %i(create new reimport_selected unit_bundles)
+    before_action :google_authorization, only: %i(create new reimport_selected)
     before_action :find_selected, only: %i(destroy_selected reimport_selected)
 
     def index
@@ -58,14 +58,6 @@ module Admin
       end
       msg = render_to_string(partial: 'admin/documents/import_results', layout: false, locals: { results: @results })
       redirect_to admin_documents_path(query: params[:query]), notice: msg
-    end
-
-    def unit_bundles
-      units = Resource.tree.units
-      units.each do |unit|
-        DocumentBundle::CATEGORIES.each { |c| DocumentBundleGenerateJob.perform_later unit, category: c }
-      end
-      redirect_to :admin_documents, notice: t('.success', num: units.count)
     end
 
     private

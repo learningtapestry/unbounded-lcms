@@ -1,8 +1,8 @@
 en:
   bundles:
-    full: Lessons
-    sm: Student Materials
-    tm: Teacher Materials
+    full: All Lessons Materials
+    sm: Student Materials Only
+    tm: Teacher Materials Only
   content_type:
     "application/zip": zip
     "application/pdf": pdf

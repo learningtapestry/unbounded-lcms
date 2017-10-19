@@ -52,12 +52,6 @@
           </div>
           <div class="o-resource-title__links">
             <div>
-              <a class="o-ub-btn o-ub-btn--yellow <%= 'o-ub-btn--disabled' if @resource.downloads.empty? %>" data-open="downloads-modal">
-                <%= t('resources.btn.download', title: type_name(@resource)) %>
-              </a>
-              <!-- <a class="o-ub-btn o-ub-btn--yellow" href="#resource-downloads-list"><%= t('resources.btn.download', title: type_name(@resource)) %></a> -->
-            </div>
-            <div>
               <%= link_to t('resources.btn.related'), '#related-instruction', class: 'o-ub-btn o-ub-btn--2bordered-gray' %>
             </div>
           </div>

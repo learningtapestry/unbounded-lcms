@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class LessonsBundler
+class LessonsPdfBundler
   attr_reader :unit
 
   PDF_LINKS_KEYS = {
