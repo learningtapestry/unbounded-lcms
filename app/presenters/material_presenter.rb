@@ -84,6 +84,10 @@ class MaterialPresenter < ContentPresenter
     render_part(layout_content(context_type), options)
   end
 
+  def show_title?
+    metadata.show_title.casecmp('yes').zero?
+  end
+
   def student_material?
     ::Material.where(id: id).gdoc.where_metadata_any_of(materials_config_for(:student)).exists?
   end
