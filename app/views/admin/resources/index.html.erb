@@ -33,14 +33,16 @@
         <td><%= check_box_tag 'ids[]', resource.id, false, class: 'resource-checkbox', id: check_box_id %>
         <td><%= label_tag check_box_id, resource.id, class: 'resource-id-label' %>
         <td><%= link_to resource.title, [:edit, :admin, resource] %>
-        <td class=resource-tag-col><%= resource.teaser %>
-        <td class=resource-tag-col><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
-        <td class=resource-tag-col><%= resource.resource_type %>
-        <td class=resource-tag-col><%= resource.subject %>
-        <td class=resource-tag-col><%= resource.slug %>
-        <td class=resource-tag-col><%= resource.tree? ? 'yes' : 'no' %>
+        <td class="resource-tag-col"><%= resource.teaser %>
+        <td class="resource-tag-col"><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
+        <td class="resource-tag-col"><%= resource.resource_type %>
+        <td class="resource-tag-col"><%= resource.subject %>
+        <td class="resource-tag-col"><%= resource.slug %>
+        <td class="resource-tag-col"><%= resource.tree? ? 'yes' : 'no' %>
         <td><%= resource_status(resource) %>
-        <td><%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>
+        <td class="resource-btns-col">
+          <%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>
+          <%= link_to t('.unit_bundle'), [:unit_bundle, :admin, resource], class: 'button small primary', method: :post if resource.unit? %>
       </tr>
     <% end %>
   </table>

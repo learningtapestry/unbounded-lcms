@@ -1,14 +1,33 @@
 <div class="o-unit-bundles">
+  <h4>Lessons Materials</h4>
+  <p>Access all lesson materials, teacher materials (e.g., answer keys) and student materials (e.g., handouts) as PDFs or Google Docs.</p>
   <% DocumentBundle::CATEGORIES.each do |cat| %>
-    <% if bundle = resource.document_bundles.detect { |b| b.category == cat } %>
-      <div class="o-unit-bundles__item">
-        <h4><%= t "bundles.#{cat}" %></h4>
-        <!-- <p>Summary</p> -->
-
+    <% if bundle = resource.document_bundles.detect { |b| b.content_type == 'pdf' && b.category == cat } %>
+      <li class="o-unit-bundles__item">
         <div class="o-unit-bundles__item--links">
-          <%= link_to 'Download PDFs', bundle.file&.url, class: 'o-ub-btn o-ub-btn--lead o-ub-btn--2bordered-lead', data: { no_turbolink: true } %>
+          <%= link_to bundle.file&.url, class: 'resource-attachment', data: { no_turbolink: true, heap_data: bundle_heap_data(resource, bundle, cat, 'pdf') } do %>
+            <i class="ub-icon fa-lg ub-file-zip"></i>
+          <% end %>
+          <% if gdoc_bundle =  resource.document_bundles.detect { |b| b.content_type == 'gdoc' } %>
+            <% if cat == 'full' %>
+              <%= link_to gdoc_bundle.url, class: 'resource-attachment', target: '_blank', data: { no_turbolink: true, heap_data: bundle_heap_data(resource, gdoc_bundle, :full, 'gdoc') } do %>
+                <i class="ub-icon fa-lg ub-file-gdoc"></i>
+              <% end %>
+            <% else %>
+              <span class="o-unit-bundles__item--placeholder"></span>
+            <% end %>
+          <% end %>
+          <span><%= t("bundles.#{cat}") %></span>
         </div>
-      </div>
+      </li>
     <% end %>
   <% end %>
+  <div class="o-unit-bundles__text">
+    <b>Customize your lessons with UnboundEd interactive guidance.</b>
+    <div>There are benefits to first reviewing the lessons online and then printing, exporting, or downloading them one by one:</div>
+    <ul>
+      <li><b>Interactive Guidance for Customizing Lessons.</b> In each lesson we provide interactive guidance that can help you determine which activities to select and how you may customize them.</li>
+      <li><b>Professional Development Resources.</b> While reviewing lessons, you can explore professional development resources that are aligned to lesson activities. The resources include videos, podcasts, blog posts, text sets/reading charts, UnboundEd Content Guides, and Quick Reference Guides. You can print, export, or download these resources only within the lesson.</li>
+    </ul>
+  </div>
 </div>
