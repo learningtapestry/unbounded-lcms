@@ -40,7 +40,7 @@ $ub-pdf-typography: (
   ld-header: ('font-size': 12pt, 'line-height': 1.2, 'font-family': $ub-serif, color: $ub-white),
   ld-optbreak: ('font-size': 14.5pt, 'line-height': 1.4, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, font-style: normal),
   ld-smp: ('font-size': 12pt, 'line-height': 1, 'font-family': $ub-serif, 'font-weight': 600, color: #fff),
-  ld-summary: ('font-size': 13.5pt, 'line-height': 1.3, 'font-family': $ub-sanserif),
+  ld-summary: ('font-size': 13.5pt, 'line-height': 1.3, 'font-family': $ub-sanserif, 'font-style': italic),
   // Materials
   m-footer-small: ('font-size': 6pt, 'line-height': 8pt, 'font-family': $ub-serif, color: #7f8184),
   m-footer-page: ('font-size': 11pt, 'line-height': 12pt, 'font-family': $ub-serif, color: #7f8184, font-style: italic),
