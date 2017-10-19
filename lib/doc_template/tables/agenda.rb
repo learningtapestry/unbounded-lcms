@@ -82,7 +82,7 @@ module DocTemplate
       def parse_metacognition(fragment)
         {
           content: fragment.content.gsub(DocTemplate::Tags::StandardTag::TAG_RE, '').strip,
-          original_content: fragment.inner_html
+          original_content: (fragment.inner_html unless fragment.content.blank?)
         }
       end
     end
