@@ -51,7 +51,7 @@ module DocTemplate
 
       def parse_content(node, template)
         params = general_params.merge(content: content_until_break(node))
-        params[:metacog] = section.metacognition.original_content.sub(SECTION_REMOVE_RE, '') if optional?
+        params[:metacog] = section.metacognition.original_content&.sub(SECTION_REMOVE_RE, '') if optional?
         parsed_template = parse_template(params, template)
         parse_nested parsed_template, opts
       end
