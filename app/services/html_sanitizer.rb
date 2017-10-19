@@ -33,6 +33,11 @@ class HtmlSanitizer
       end
     end
 
+    def strip_html_element(element)
+      return '' if element.empty? || Sanitize.fragment(element, elements: []).strip.empty?
+      element
+    end
+
     def post_processing(html, options)
       @options = options
       nodes = Nokogiri::HTML.fragment html

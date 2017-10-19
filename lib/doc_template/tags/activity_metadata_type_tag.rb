@@ -4,6 +4,7 @@ module DocTemplate
   module Tags
     class ActivityMetadataTypeTag < BaseTag
       include DocTemplate::Tags::Helpers
+      include ERB::Util
 
       TAG_NAME = 'activity-metadata-type'
       TASK_RE = /(\[task:\s(#)\])/i
@@ -19,7 +20,7 @@ module DocTemplate
       def parse(node, opts = {})
         @metadata = opts[:activity]
         @activity = @metadata.find_by_anchor(opts[:value])
-        @activity[:activity_guidance] = strip_html_element(@activity[:activity_guidance])
+        @activity[:activity_guidance] = HtmlSanitizer.strip_html_element(@activity[:activity_guidance])
         @anchor = @activity.anchor
 
         content = content_until_break node
