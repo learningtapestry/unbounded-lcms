@@ -14,6 +14,7 @@ module DocTemplate
         @opts = opts
         @section = @opts[:sections].level1_by_title(@opts[:value])
         @anchor = @section.anchor
+        @materials = @section.material_ids
 
         parse_foundational
 
