@@ -14,6 +14,7 @@ module DocTemplate
       def parse(node, opts = {})
         group = opts[:agenda].level1_by_title(opts[:value].parameterize)
         @anchor = group.anchor
+        @materials = group.material_ids
 
         before_materials = ''
         if (with_materials = group.material_ids.any?)
