@@ -34,7 +34,7 @@ class HtmlSanitizer
     end
 
     def strip_html_element(element)
-      return '' if element.empty? || Sanitize.fragment(element, elements: []).strip.empty?
+      return '' if element.blank? || Sanitize.fragment(element, elements: []).strip.empty?
       element
     end
 
