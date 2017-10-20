@@ -8,7 +8,12 @@ class MaterialGenerateGdocJob < ActiveJob::Base
   def perform(material, document)
     material = MaterialPresenter.new material, lesson: DocumentPresenter.new(document)
 
-    gdoc = DocumentExporter::Gdoc::Material.new(material).export
+    # Check if material is optional for current document
+    options = {}.tap do |x|
+      x[:prefix] = 'optional-' if material.optional_for?(document)
+    end
+
+    gdoc = DocumentExporter::Gdoc::Material.new(material, options).export
 
     new_links = {
       'materials' => {
