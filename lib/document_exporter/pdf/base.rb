@@ -38,7 +38,7 @@ module DocumentExporter
             line: false,
             spacing: 2
           },
-          javascript_delay: 5000,
+          javascript_delay: 500,
           outline: { outline_depth: 3 },
           page_size: 'Letter',
           print_media_type: false
