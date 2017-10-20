@@ -29,7 +29,8 @@ module DocumentExporter
       def export
         parent_folder = drive_service.file_id.blank? ? drive_service.parent : nil
 
-        file_params = { name: document.base_filename, mime_type: 'application/vnd.google-apps.document' }
+        file_name = "#{@options[:prefix]}#{document.base_filename}"
+        file_params = { name: file_name, mime_type: 'application/vnd.google-apps.document' }
         file_params[:parents] = [parent_folder] if parent_folder.present?
         metadata = Google::Apis::DriveV3::File.new(file_params)
 

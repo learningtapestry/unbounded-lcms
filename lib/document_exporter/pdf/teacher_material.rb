@@ -7,9 +7,7 @@ module DocumentExporter
         content = super
         pdf = CombinePDF.parse(content)
 
-        scope = @document.teacher_materials
-        scope = scope.where(id: included_materials) if @options[:excludes].present?
-
+        scope = @document.teacher_materials.where(id: included_materials)
         material_ids = ordered_materials scope.pluck(:id)
         pdf = combine_pdf_for pdf, material_ids
         pdf.to_pdf

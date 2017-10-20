@@ -20,19 +20,22 @@ module DocumentExporter
     # just the first occurence of exluded material is removed
     #
     def included_materials(context_type: :default)
-      return [] unless @options[:excludes].present?
       parts = context_type == :default ? @document.document_parts.default : @document.document_parts.gdoc
 
       @included_materials ||= [].tap do |result|
-        result.concat parts.pluck(:materials).flatten.compact
+        # Take non optional materials ONLY
+        result.concat parts.general.pluck(:materials).flatten.compact
 
-        excluded = @options[:excludes].map do |x|
-          parts.find_by(anchor: x)&.materials
-        end.flatten.compact
+        @options[:excludes]&.each do |x|
+          next unless (part = parts.find_by anchor: x)
 
-        excluded.each do |id|
-          result.delete_at result.index(id)
+          # if it's optional activity - add it
+          # otherwise - delete it from result
+          part.materials.compact.each do |id|
+            part.optional? ? result.push(id) : result.delete_at(result.index(id))
+          end
         end
+
         result
       end.map(&:to_i)
     end

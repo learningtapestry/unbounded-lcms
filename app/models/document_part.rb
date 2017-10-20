@@ -8,4 +8,6 @@ class DocumentPart < ActiveRecord::Base
   default_scope { active }
 
   scope :active, -> { where(active: true) }
+  scope :general, -> { where(optional: false) }
+  scope :optional, -> { where(optional: true) }
 end

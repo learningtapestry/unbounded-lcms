@@ -33,6 +33,14 @@ class Material < ActiveRecord::Base
     material_parts.where(part_type: :layout, context_type: DocumentPart.context_types[context_type.to_sym]).last
   end
 
+  # Material is optional if it's included in optional activity only
+  def optional_for?(document)
+    general_ids = document.document_parts.general.pluck(:materials).flatten
+    optional_ids = document.document_parts.optional.pluck(:materials).flatten
+
+    optional_ids.include?(id.to_s) && general_ids.exclude?(id.to_s)
+  end
+
   def pdf?
     metadata.type.casecmp('pdf').zero?
   end
