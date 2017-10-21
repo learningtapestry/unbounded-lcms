@@ -33,6 +33,13 @@ class HtmlSanitizer
       end
     end
 
+    def strip_html(html)
+      return '' if html.blank?
+      nodes = Nokogiri::HTML.fragment html
+      strip_content(nodes)
+      nodes.to_html || ''
+    end
+
     def strip_html_element(element)
       return '' if element.blank? || Sanitize.fragment(element, elements: []).strip.empty?
       element
