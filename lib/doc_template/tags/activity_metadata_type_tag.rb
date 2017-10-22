@@ -27,7 +27,7 @@ module DocTemplate
         content = parse_nested content.to_s, opts
         params = {
           activity: @activity,
-          content: content,
+          content: HtmlSanitizer.strip_html_element(content),
           foundational: opts[:foundational_skills],
           placeholder: placeholder_id,
           priority_description: priority_description(@activity),
