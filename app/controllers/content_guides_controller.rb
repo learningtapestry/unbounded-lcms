@@ -11,7 +11,8 @@ class ContentGuidesController < ApplicationController
     cg = interactor.content_guide
     ga_track_download(action: content_guide_path(cg.permalink_or_id, cg.slug), label: '')
 
-    cg.pdf_refresh!(url_for(nocache: ''))
+    # TODO Refactor and make it actually work
+    # cg.pdf_refresh!(url_for(nocache: ''))
     redirect_to cg.pdf_url
   end
 
