@@ -80,6 +80,10 @@ class MaterialPresenter < ContentPresenter
     material_url('url')
   end
 
+  def preserve_table_padding?
+    metadata.preserve_table_padding.casecmp('yes').zero?
+  end
+
   def render_content(context_type, options = {})
     render_part(layout_content(context_type), options)
   end

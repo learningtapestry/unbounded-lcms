@@ -12,6 +12,7 @@ module DocTemplate
       attribute :name_date, String
       attribute :orientation, String
       attribute :pdf_url, String
+      attribute :preserve_table_padding, String, default: 'no'
       attribute :sheet_type, String, default: ''
       attribute :show_title, String, default: 'yes'
       attribute :subject, String, default: ''
