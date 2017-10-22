@@ -286,10 +286,10 @@ class HtmlSanitizer
     # add style to table for consistent view
     # wrap for horizontal scrolling on small screens
     def post_processing_tables(nodes)
-      nodes
-        .css('table:not(.o-ld-columns-table)')
-        .add_class('c-ld-table')
-        .wrap('<div class="c-ld-table__wrap"></div>')
+      tables = nodes
+                 .css('table:not(.o-ld-columns-table)')
+                 .add_class('c-ld-table')
+      tables.wrap('<div class="c-ld-table__wrap"></div>') unless @options[:material]
     end
 
     def post_processing_tables_gdoc(nodes)
