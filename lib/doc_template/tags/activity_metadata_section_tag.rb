@@ -31,7 +31,9 @@ module DocTemplate
         content = parse_nested content.to_s, opts
         params = {
           before_materials: before_materials,
-          content: content,
+          # TODO: check maybe it's ok to move it somewhere else,
+          # fixed at #692 bc with new section we always have some garbage before activity
+          content:  HtmlSanitizer.strip_html(content),
           foundational_skills: opts[:foundational_skills],
           placeholder: placeholder_id,
           react_props: {
