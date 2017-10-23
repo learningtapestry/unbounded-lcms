@@ -14,7 +14,7 @@ module ResourceHelper
   end
 
   def back_to_resource_path(resource)
-    slug = resource.lesson? ? resource.parent.slug : resource.slug
+    slug = resource.lesson? && resource.parent ?  resource.parent.slug : resource.slug
     CGI.unescape(explore_curriculum_index_path(p: slug, e: 1))
   end
 
