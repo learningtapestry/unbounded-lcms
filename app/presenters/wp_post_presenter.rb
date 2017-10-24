@@ -27,7 +27,8 @@ class WPPostPresenter < SimpleDelegator
   end
 
   def excerpt
-    h.truncate_html(self['excerpt']['rendered'], length: EXCERPT_SIZE)
+    content = (self['excerpt']['rendered'] || '').gsub(/[[:space:]]/, ' ')
+    h.truncate_html(content, length: EXCERPT_SIZE)
   end
 
   def permalink
