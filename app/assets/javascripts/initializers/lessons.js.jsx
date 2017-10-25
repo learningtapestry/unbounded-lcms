@@ -3,6 +3,36 @@ $(function () {
 
   const eachNode = (selector, fn) => [].forEach.call(document.querySelectorAll(selector), fn);
 
+  const initHAEvents = () => {
+    [].forEach.call(document.querySelectorAll('.tm-ela2-unit-link'), (x) => {
+      x.addEventListener('click', (e) => {
+        heap.track('Resource section unit page opened', { link: e.target.href });
+      })
+    });
+
+    [].forEach.call(document.querySelectorAll('.o-ld-pd .o-ld-cg .o-ub-ld-btn'), (x) => {
+      x.addEventListener('click', (e) => {
+        console.log(e.target.href);
+        heap.track('PD link clicked', { link: e.target.href });
+      })
+    });
+  };
+
+  // Collects properties for PdTag needed by Heap Analytics
+  const heapPd = (el) => {
+    const haTitleEl = el.find('.o-ld-pd__title');
+    const haTitle = haTitleEl ? haTitleEl.text() : 'N/A';
+
+    let haType = 'N/A';
+    if (el.find('.o-ld-cg')) haType = 'Content Guide';
+    else if (el.find('.o-ld-pd-pdf')) haType = 'PDF';
+    else if (el.find('.o-ld-pd__audio')) haType = 'Audio';
+    else if (el.find('.o-ld-pd__video')) haType = 'Video';
+
+    const event = el.hasClass('o-ld-pd--collapsed') ? 'PD Expanded' : 'PD Collapsed';
+    heap.track(event, {title: haTitle, type: haType});
+  };
+
   const initPd = () => {
     const prefix = `${COMPONENT_PREFIX}-pd`;
     const togglerSelector = `${prefix}-toggler`;
@@ -13,6 +43,7 @@ $(function () {
 
     $(togglerSelector).click(function() {
       const el = $(this).closest(prefix);
+      heapPd(el);
       el.toggleClass('o-ld-pd--collapsed o-ld-pd--expanded')
         .find('.o-ld-pd__description')
         .toggleClass('o-ld-pd__description--hidden');
@@ -21,6 +52,8 @@ $(function () {
     });
 
     const embedPdf = (el) => {
+      if (!el) return;
+
       let url = el.dataset.url;
 
       if (!PDFObject.supportsPDFs) {
@@ -236,6 +269,7 @@ $(function () {
 
   window.initializeLessons = function() {
     if (!$('.o-page--ld').length) return;
+    initHAEvents();
     initPd();
     if (!document.querySelector('#c-ld-content[data-assessment]')) initSelects();
     initSidebar();
