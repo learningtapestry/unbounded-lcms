@@ -1,0 +1,29 @@
+{{ header }}
+
+<div class="o-page">
+	<!-- Search and page links for the page -->
+	{% if portal.current_tab %}
+		<section class="help-center">
+			<div class="hc-search">
+				<div class="hc-search-c">
+					<h2 class="heading hide-in-mobile u-fd-txt--title">{% translate header.help_center %}</h2>
+					<div class="u-hr-small hide-in-mobile"></div>
+					{% snippet search_form %}
+				</div>
+			</div>
+			<div class="hc-nav {% if portal.contact_info %} nav-with-contact {% endif %}">
+				{{ portal | helpcenter_navigation }}
+			</div>
+		</section>
+	{% endif %}
+
+	<!-- Notification Messages -->
+	{{ page_message }}
+
+	<div class="c-wrapper">
+		{{ content_for_layout }}
+	</div>
+
+	{{ footer }}
+
+</div>
