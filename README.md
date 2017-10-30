@@ -10,7 +10,7 @@ front-end.
 
 ## Requirements
 
-* `ruby v2.1.5`
+* `ruby v2.3.3`
 * `node v5.6.0`
 * `PostgreSQL 9.4`
 * `ElasticSearch >=2.2.0`
@@ -18,28 +18,42 @@ front-end.
 
 ## Project setup
 
+There are two branches in use for development; `master` is for `v1` and `digitization` is for `v2`. If you are just starting with the project you probably want to be developing against `digitization`. Be sure you're on that branch before taking the next steps as the environment variables are different.
+
 1. Set up `.env.test`, `.env.development` and `.env.integration`
 2. `bundle && bundle exec rake cloud66:after_bundle`
 
 You should also run the task `routes:generate_js` every time routes are updated.
 This task is run as part of `cloud66:after_bundle`.
 
-### Integration database
-
 For convenience, a copy of a reference unboundED database is available
 at `db/dump/content.dump.freeze`.
+
+```bash
+cp db/dump/content.dump.freeze db/dump/content.dump
+RAILS_ENV=development rake db:restore
+```
 
 Besides being useful for development, this copy is expected to
 feed the `integration` environment DB. Please set up a `.env.integration`
 file to use it.
 
-Currently, the `integration` environment is required for tests.
+You may need to add the `hstore` extension to Postgres if it is not there already. Note that this requires superuser privileges on the database, so pass a username with superuser credentials if your local postgres requires it:
 
 ```bash
-cp db/dump/content.dump.freeze db/dump/content.dump
-RAILS_ENV=development rake db:restore
+psql -d [DATABASE_NAME]
+CREATE EXTENSION hstore;
+```
+You will need to do this for the development and integration environments if you want to both submit code and also run tests locally.
+
+### Integration database
+
+Currently, the `integration` environment is required for tests. You should use the same content dump for the integration database that you used for development.
+
+```bash
 RAILS_ENV=integration rake db:restore
-rake test
+RAILS_ENV=integration rake db:migrate
+RAILS_ENV=integration rake spec
 ```
 
 ### ElasticSearch index
