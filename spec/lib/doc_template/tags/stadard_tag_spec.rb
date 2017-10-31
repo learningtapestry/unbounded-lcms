@@ -6,7 +6,7 @@ describe DocTemplate::Tags::StandardTag do
   let(:original_content) do
     <<-HTML
       <ul class="lst-kix_nxend745gryj-0 start">
-        <li><span>Use words and phrases acquired through conversations, reading and being read to, and responding to the text </span><span>[</span><span>#{standard_name}</span><span>].</span></li>
+        <li class='preserved-cls'><span>Use words and phrases acquired through conversations, reading and being read to, and responding to the text </span><span>[</span><span>#{standard_name}</span><span>].</span></li>
         <li><span>Prior to listening to </span><span>The Fisherman and His Wife</span><span>, orally predict which character has magical powers and then compare the actual outcome to the prediction</span><span>.</span></li>
       </ul>
     HTML
@@ -33,8 +33,8 @@ describe DocTemplate::Tags::StandardTag do
   context 'when node is a list' do
     subject { tag.parse(node, {}).render }
 
-    it 'preserves <li> markup' do
-      expect(subject).to include '<li>'
+    it 'preserves <li> markup with class' do
+      expect(subject).to include '<li class="preserved-cls">'
       expect(subject).to include '</li>'
     end
   end

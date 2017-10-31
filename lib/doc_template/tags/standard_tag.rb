@@ -21,7 +21,7 @@ module DocTemplate
 
         # preserve `li` element
         if node.name == 'li'
-          @result = node.replace "<li>#{placeholder}</li>"
+          @result = node.replace "<li class='#{node['class']}'>#{placeholder}</li>"
         else
           replace_tag node
         end
