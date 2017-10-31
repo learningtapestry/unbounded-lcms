@@ -41,22 +41,24 @@ en:
       tos: Terms of Service
   nav:
     about: About UnboundEd
-    curriculum: Explore Curriculum
-    lessons: Find Lessons
-    instructions: Enhance Instruction
-    news: News
-    professional_development: Professional Development
-    about_html: <span>About</span><span>UnboundEd</span>
-    curriculum_html: <span>Explore</span><span>Curriculum</span>
-    lessons_html: <span>Find</span><span>Lessons</span>
-    instructions_html: <span>Enhance</span><span>Instruction</span>
-    leadership_html: <span>Advance</span><span>Leadership</span>
     about_dropdown:
-      mission: Mission & Vision
-      institute: Standards Institute
-      people: People & Partners
       careers: Careers
       contact: Contact
+      institute: Standards Institute
+      mission: Mission & Vision
+      people: People & Partners
+    about_html: <span>About</span><span>UnboundEd</span>
+    curriculum: Explore Curriculum
+    curriculum_html: <span>Explore</span><span>Curriculum</span>
+    helpdesk: Support
+    instructions: Enhance Instruction
+    instructions_html: <span>Enhance</span><span>Instruction</span>
+    leadership_html: <span>Advance</span><span>Leadership</span>
+    lessons: Find Lessons
+    lessons_html: <span>Find</span><span>Lessons</span>
+    logout: Logout
+    news: News
+    professional_development: Professional Development
   instructions:
     btn:
       back: "Back to Instruction"
