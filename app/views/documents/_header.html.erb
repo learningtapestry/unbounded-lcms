@@ -4,8 +4,8 @@
       <% unless request[:action].index('export') %>
         <%= react_component('CurriculumMap', props.merge(mapType: 'o-ld-map'), prerender: true) %>
         <div class="u-margin-top--gutter">
-          <%= link_to back_to_resource_path(document.resource), class: 'o-ub-ld-btn o-ub-ld-btn--bordered' do %>
-            <%= t('resources.btn.back') %>
+          <%= link_to back_to_resource_path(document.resource), class: 'u-txt--button c-ld-header__curriculum-back' do %>
+            <i class="ub-angle-left u-text--middled u-text--bolded"></i> <%= t('resources.btn.back') %>
           <% end %>
         </div>
       <% end %>
@@ -20,16 +20,16 @@
       </div>
       <div class="u-padding-top--large">
         <% if document.standards.present? && !document.foundational? %>
-          <p class="u-txt--ld-header-standards"><strong>Standards: </strong><%= document.standards %></p>
+          <p class="u-txt--ld-header-standards u-text--uppercase"><strong>Standards: </strong><%= document.standards %></p>
         <% end %>
         <% if document.math_practice.present? %>
-          <p class="u-txt--ld-header-standards"><strong>Mathematical Practice Standards: </strong><%= document.math_practice %></p>
+          <p class="u-txt--ld-header-standards u-text--uppercase"><strong>Mathematical Practice Standards: </strong><%= document.math_practice %></p>
         <% end %>
       </div>
     </div>
     <div class="c-ld-header__links">
       <div>
-        <%= link_to t('ui.print'), '#resources', class: "o-ub-ld-btn o-ub-ld-btn--#{document.subject} u-text--uppercase", data: { no_turbolink: true } %>
+        <%= link_to t('ui.download'), '#resources', class: "o-ub-ld-btn o-ub-ld-btn--#{document.subject} u-text--uppercase", data: { no_turbolink: true } %>
       </div>
     </div>
   </div>
