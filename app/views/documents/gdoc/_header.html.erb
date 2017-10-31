@@ -12,10 +12,10 @@
   </p>
 <% end %>
 <% if document.standards.present? %>
-  <p><strong>Standards: </strong><%= document.standards %></p>
+  <p><strong>STANDARDS: </strong><%= document.standards&.upcase %></p>
 <% end %>
 <% if document.math_practice.present? %>
-  <p><strong>Mathematical Practice Standards: </strong><%= document.math_practice %></p>
+  <p><strong>MATHEMATICAL PRACTICE STANDARDS: </strong><%= document.math_practice&.upcase %></p>
 <% end %>
 <div class="o-ld-hr--l1">
   <hr>
