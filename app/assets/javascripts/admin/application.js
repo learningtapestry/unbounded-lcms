@@ -24,7 +24,7 @@ ready(function() {
     plugins: ['remove_button']
   });
 
-  // components/multi-select/select_all
   window.initializeSelectAll();
   window.initializeResourcesForm();
+  window.initializeResourcesList();
 });

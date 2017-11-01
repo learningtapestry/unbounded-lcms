@@ -96,7 +96,7 @@ module Admin
     end
 
     def materials(q)
-      qset = Material.order(:identifier)
+      qset = Material.all
       qset = qset.search_identifier(q.search_term) if q.search_term.present?
 
       if q[:source].present?
@@ -110,6 +110,9 @@ module Admin
       %i(grade module unit lesson).each do |key|
         qset = qset.joins(:documents).where('documents.metadata @> hstore(?, ?)', key, q[key]) if q[key].present?
       end
+
+      qset = qset.order(:identifier) if q.sort_by.blank? || q.sort_by == 'identifier'
+      qset = qset.order(updated_at: :desc) if q.sort_by == 'last_update'
 
       qset.paginate(page: params[:page])
     end
