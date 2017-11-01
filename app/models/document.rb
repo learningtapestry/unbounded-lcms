@@ -17,9 +17,10 @@ class Document < ActiveRecord::Base
 
   scope :where_metadata, ->(key, val) { where('metadata @> hstore(:key, :val)', key: key, val: val) }
 
-  scope :order_by_curriculum, lambda {
-    keys = %i(subject grade module unit topic lesson)
-    order(keys.map { |k| "documents.metadata -> '#{k}'" }.join(', '))
+  scope :order_by_curriculum, -> {
+    select('documents.*, resources.hierarchical_position')
+      .joins(:resource)
+      .order('resources.hierarchical_position ASC')
   }
 
   scope :filter_by_term, lambda { |search_term|
@@ -31,6 +32,14 @@ class Document < ActiveRecord::Base
   scope :filter_by_grade, ->(grade) { where_metadata(:grade, grade) }
   scope :filter_by_module, ->(modul) { where_metadata(:module, modul) }
   scope :filter_by_unit, ->(unit) { where_metadata(:unit, unit) }
+
+  scope :filter_by_unit, ->(u) { where("(metadata @> hstore('unit', :u) OR metadata @> hstore('topic', :u))", u: u) }
+
+  scope :with_broken_materials, lambda {
+    joins("LEFT JOIN jsonb_each(documents.links->'materials') AS ms ON TRUE")
+      .where("(ms.value -> 'gdoc' IS NULL) OR (ms.value -> 'url' IS NULL)")
+      .uniq
+  }
 
   def activate!
     self.class.transaction do
