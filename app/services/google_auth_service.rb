@@ -42,6 +42,10 @@ class GoogleAuthService
     end
   end
 
+  def user_id
+    @user_id ||= "#{context.current_user.try(:id)}@#{context.request.remote_ip}"
+  end
+
   private
 
   def redis
@@ -56,10 +60,6 @@ class GoogleAuthService
     return if expires_at.zero?
 
     redis.del(user_token) if expires_at <= Time.now.to_i
-  end
-
-  def user_id
-    @user_id ||= "#{context.current_user.try(:id)}@#{context.request.remote_ip}"
   end
 
   def user_token

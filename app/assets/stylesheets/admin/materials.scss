@@ -17,12 +17,38 @@
       background-color: lighten(#f00, 40%);
     }
 
+    @include m(waiting) {
+      background-color: lighten($ub-dark-bg, 20%);
+    }
+
+    @include m(running) {
+      background-color: map-get($ub-yellow, sixty);
+    }
+
     p { margin-bottom: 0; }
   }
 
   @include e(link) {
     display: block;
     font-weight: bold;
+  }
+
+  @include e(summary) {
+    @include m(aside) {
+      font-size: .9em;
+      text-align: center;
+    }
+
+    .summary-entry {
+      display: inline-block;
+      text-align: center;
+      width: 33%;
+    }
+  }
+
+  @include e(resource) {
+    border-radius: .5em;
+    margin-top: -.5em;
   }
 }
 
