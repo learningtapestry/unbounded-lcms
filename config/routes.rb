@@ -94,16 +94,18 @@ Rails.application.routes.draw do
       get '/:version/new', to: 'sketch_compilers#new', as: :new
       post '/:version/compile', to: 'sketch_compilers#compile', as: :compile
     end
-    resources :documents, only: %i(index create new destroy) do
+    resources :documents, except: %i(edit show update) do
       collection do
         delete :delete_selected, to: 'documents#destroy_selected'
         post :reimport_selected
+        get :import_status, to: 'documents#import_status'
       end
     end
     resources :materials, except: %i(edit show update) do
       collection do
         delete :delete_selected, to: 'materials#destroy_selected'
         post :reimport_selected
+        get :import_status, to: 'materials#import_status'
       end
     end
     resources :documents, only: %i(index create new destroy) do
@@ -114,6 +116,7 @@ Rails.application.routes.draw do
     resources :materials, only: %i(index create new destroy)
     resource :curriculum, only: %i(edit update)
     resources :access_codes
+    resource :batch_reimport, only: %i(new create)
   end
 
   get '/*slug' => 'resources#show', as: :show_with_slug

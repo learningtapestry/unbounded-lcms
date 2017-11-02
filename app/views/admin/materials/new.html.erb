@@ -6,6 +6,4 @@
     <%= f.input :link, label: t('ui.url') %>
     <%= f.button :submit, t('.submit') %>
   <% end %>
-
-  <%= render 'import_results', results: @results if @results&.any? %>
 </div>
