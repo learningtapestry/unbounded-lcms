@@ -162,9 +162,15 @@
       }
     }
 
+    @include m(semi-dark) {
+      @include breakpoint($topbar-unstack-breakpoint) {
+        background-color: rgba($ub-nav-secondary, .3);
+      }
+    }
+
     @include m(semi-light) {
       @include breakpoint($topbar-unstack-breakpoint) {
-        background-color: rgba($ub-primary, .4);
+        background-color: rgba($ub-nav-secondary, .75);
       }
     }
   }
