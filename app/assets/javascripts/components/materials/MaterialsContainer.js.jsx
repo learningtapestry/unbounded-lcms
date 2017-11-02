@@ -22,6 +22,7 @@ class MaterialsContainer extends React.Component {
   notifyHeap(event, idx) {
     let data = {
       material_id: this.props.data[idx].id,
+      material_pdf: this.props.data[idx].pdf,
       material_title: this.props.data[idx].title
     };
     data = _.extend(data, this.props.activity, this.props.lesson);

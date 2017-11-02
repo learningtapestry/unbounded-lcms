@@ -47,7 +47,7 @@ Rails.application.routes.draw do
   end
   resources :materials, only: :show
 
-  devise_for :users, class_name: 'User', controllers: { registrations: 'registrations' }
+  devise_for :users, class_name: 'User', controllers: { registrations: 'registrations', sessions: 'sessions' }
 
   authenticate :user do
     mount Resque::Server, at: '/queue'

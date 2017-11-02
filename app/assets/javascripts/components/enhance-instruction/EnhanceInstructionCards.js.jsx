@@ -1,6 +1,7 @@
+// eslint-disable-next-line no-unused-vars
 function EnhanceInstructionCards(props) {
-  items = props.items.map(item => (
-    item.instruction_type == 'generic' ?
+  const items = props.items.map(item => (
+    item.instruction_type === 'generic' ?
       <GenericResourceCard key={item.id} item={item} /> :
       <InstructionCard key={item.id} item={item} />
   ));

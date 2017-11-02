@@ -39,9 +39,6 @@ en:
         page_title: UnboundEd - Forgot Your Password?
       update:
         page_title: UnboundEd - Change Password
-    sessions:
-      new:
-        page_title: UnboundEd - Log In
   document:
     toc:
       credits: Credits
@@ -65,7 +62,7 @@ en:
     tm_ela2_html: >
       <strong>Please note:</strong>
       <ul>
-        <li>To print, export, or download the Flip Book or Image Cards, please go to the unit-level page here: <a href="%{unit_href}" target="_blank">%{unit_dsc}</a>.</li>
+        <li>To print, export, or download the Flip Book or Image Cards, please go to the unit-level page here: <a class="tm-ela2-unit-link" href="%{unit_href}" target="_blank">%{unit_dsc}</a>.</li>
         <li>To print, export, or download any professional development resource, please open the resource within the lesson.</li>
       </ul>
     sm_html: >
@@ -129,6 +126,9 @@ en:
       per_page: results per page
       search_for: Search for…
       show: Show
+  sessions:
+    new:
+      page_title: UnboundEd - Log In
   surveys:
     create:
       page_title: UnboundEd - Survey
