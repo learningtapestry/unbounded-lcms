@@ -65,6 +65,23 @@ module DocTemplate
         update_time
       end
 
+      def collect_children
+        children + children.flat_map(&:children)
+      end
+
+      def collect_material_ids
+        collect_children.flat_map(&:material_ids).compact.uniq
+      end
+
+      def ordered_material_ids
+        [].tap do |ids|
+          children.each do |x|
+            ids.concat x.material_ids
+            ids.concat x.children.flat_map(&:material_ids)
+          end
+        end.compact
+      end
+
       def prepend(toc)
         children.unshift(*toc.children)
         update_time
