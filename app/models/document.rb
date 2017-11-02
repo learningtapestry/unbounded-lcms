@@ -73,14 +73,7 @@ class Document < ActiveRecord::Base
 
   def materials_anchors
     {}.tap do |materials_with_anchors|
-      toc.children.each do |x|
-        x.material_ids.each do |m|
-          materials_with_anchors[m] ||= { optional: [], anchors: [] }
-          materials_with_anchors[m][x.optional ? :optional : :anchors] << x.anchor
-        end
-      end
-
-      toc.children.flat_map(&:children).each do |x|
+      toc.collect_children.each do |x|
         x.material_ids.each do |m|
           materials_with_anchors[m] ||= { optional: [], anchors: [] }
           materials_with_anchors[m][x.optional ? :optional : :anchors] << x.anchor
@@ -94,15 +87,7 @@ class Document < ActiveRecord::Base
   end
 
   def ordered_material_ids
-    if ela?
-      agenda_metadata&.flat_map do |x|
-        ids = x['metadata']['material_ids'] || []
-        ids.concat x['children']&.flat_map { |c| c['metadata']['material_ids'] }
-      end
-    else
-      ids = sections_metadata&.flat_map { |s| s['material_ids'] } || []
-      ids.concat activity_metadata&.flat_map { |x| x['material_ids'] }
-    end.compact
+    toc.ordered_material_ids
   end
 
   def tmp_link(key)
