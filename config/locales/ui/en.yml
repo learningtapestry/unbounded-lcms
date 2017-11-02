@@ -120,6 +120,7 @@ en:
     close: Close
     contents: Contents
     delete: Delete
+    download: Download
     edit: Edit
     export: Export
     export_custom_gdoc: Generate Materials (GDOC)
