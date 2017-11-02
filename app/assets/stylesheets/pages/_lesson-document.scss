@@ -82,14 +82,25 @@ $ld-header-column-gutter: (
       }
     }
   }
+
   @include e(content) {
     @include flex-grid-column;
     @include add-gutter(padding, left, 1);
     @include add-gutter(padding, right, 1);
 
     @include breakpoint(small only) {
-      margin-top: $ub-base-margin;
       @include flex-grid-column(12);
+      margin-top: $ub-base-margin;
+    }
+  }
+
+  @include e(curriculum-back) {
+    color: $ub-whitepure;
+    opacity: .3;
+
+    &:hover, &:focus {
+      color: $ub-whitepure;
+      opacity: 1;
     }
   }
 
@@ -109,7 +120,6 @@ $ld-header-column-gutter: (
     @include add-gutter($subtype: top, $x: 4/3);
     border-bottom: 1px solid #b2b2b2;
   }
-
 }
 
 .c-ld-page-header {
