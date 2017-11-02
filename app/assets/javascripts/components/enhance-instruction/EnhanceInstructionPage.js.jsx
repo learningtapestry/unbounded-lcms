@@ -1,10 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 class EnhanceInstructionPage extends React.Component {
   constructor(props) {
     super(props);
 
     let initTab = () => { return { current_page: 1, total_pages: 1,
-                                   num_items: 0, total_hits: 0,
-                                   items: []}; };
+      num_items: 0, total_hits: 0,
+      items: []}; };
     this.state = { tabs: _.times(3, initTab) };
     this.state = this.buildStateFromProps(props);
   }
@@ -43,8 +44,8 @@ class EnhanceInstructionPage extends React.Component {
       ...newState.filterbar
     });
     return $.getJSON(url).then(x => {
-      this.setState(this.buildStateFromProps(x))
-    })
+      this.setState(this.buildStateFromProps(x));
+    });
   }
 
   handlePageClick(data) {
@@ -71,7 +72,7 @@ class EnhanceInstructionPage extends React.Component {
   }
 
   handleTabChange(idxTab) {
-    if (idxTab != (this.state.activeTab + 1)) {
+    if (idxTab !== (this.state.activeTab + 1)) {
       const newState = _.assign({}, this.state, { activeTab: idxTab - 1, current_page: 1 });
       this.fetch(newState);
     }
@@ -81,7 +82,7 @@ class EnhanceInstructionPage extends React.Component {
     urlHistory.emptyState();
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(_nextProps, nextState) {
     urlHistory.updatePaginationParams(nextState);
   }
 
@@ -92,28 +93,27 @@ class EnhanceInstructionPage extends React.Component {
         <SearchResultsHeader
           onChangePerPage={this.handleChangePerPage.bind(this)}
           current_page={tabData.current_page}
-          per_page={this.state.per_page}
           num_items={tabData.items.length}
           total_hits={tabData.total_hits}
           per_page={this.state.per_page}
           order={this.state.order} />
         <EnhanceInstructionCards items={tabData.items} />
         <PaginationBoxView previousLabel={<i className="fa-2x ub-angle-left"></i>}
-                        nextLabel={<i className="fa-2x ub-angle-right"></i>}
-                        breakLabel={<li className="o-pagination__break">...</li>}
-                        pageNum={tabData.total_pages}
-                        initialSelected={tabData.current_page - 1}
-                        forceSelected={tabData.current_page - 1}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        clickCallback={this.handlePageClick.bind(this)}
-                        containerClassName={"o-pagination o-page__wrap--row-nest"}
-                        itemClassName={"o-pagination__item"}
-                        nextClassName={"o-pagination__item--next"}
-                        previousClassName={"o-pagination__item--prev"}
-                        pagesClassName={"o-pagination__item--middle"}
-                        subContainerClassName={"o-pagination__pages"}
-                        activeClassName={"o-pagination__page--active"} />
+          nextLabel={<i className="fa-2x ub-angle-right"></i>}
+          breakLabel={<li className="o-pagination__break">...</li>}
+          pageNum={tabData.total_pages}
+          initialSelected={tabData.current_page - 1}
+          forceSelected={tabData.current_page - 1}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          clickCallback={this.handlePageClick.bind(this)}
+          containerClassName={'o-pagination o-page__wrap--row-nest'}
+          itemClassName={'o-pagination__item'}
+          nextClassName={'o-pagination__item--next'}
+          previousClassName={'o-pagination__item--prev'}
+          pagesClassName={'o-pagination__item--middle'}
+          subContainerClassName={'o-pagination__pages'}
+          activeClassName={'o-pagination__page--active'} />
       </Tabs.Panel>);
   }
 
@@ -142,12 +142,12 @@ class EnhanceInstructionPage extends React.Component {
         </div>
         <div className="o-page o-page--margin-bottom">
           <Tabs tabActive={this.state.activeTab + 1} onBeforeChange={this.handleTabChange.bind(this)} className='c-eh-tab o-page__module'>
-             {tabGuides}
-             {tabResources}
-             {tabGeneric}
+            {tabGuides}
+            {tabResources}
+            {tabGeneric}
           </Tabs>
-       </div>
-     </div>
+        </div>
+      </div>
     );
   }
 }

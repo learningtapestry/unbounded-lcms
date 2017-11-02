@@ -4,14 +4,16 @@ module DocTemplate
   module Tags
     class PdTag < BaseTag
       include Rails.application.routes.url_helpers
-      
+
       CG_RE = %r{/content_guides/(\d+)/}i
       PDF_HTTP_RE = %r{^https?://}i
       PDF_HTTP_REPLACE_RE = /^http:/i
       PDF_RE = /\.pdf$/i
       TAG_NAME = 'pd'
-      TEMPLATES = { default: 'pd.html.erb',
-                    gdoc:    'gdoc/pd.html.erb' }.freeze
+      TEMPLATES = {
+        default: 'pd.html.erb',
+        gdoc: 'gdoc/pd.html.erb'
+      }.freeze
       TYPE_CG = 'cg'
       TYPE_PDF = 'pdf'
       TYPE_PODCAST = 'podcast'
@@ -88,10 +90,9 @@ module DocTemplate
       end
 
       def embeded_object_soundcloud
-        resource_url = media_path(resource.id) if resource.present?
         {
           content: MediaEmbed.soundcloud(url, subject),
-          resource_url: resource_url,
+          resource_url: (media_path(resource.id) if resource.present?),
           type: TYPE_PODCAST
         }
       end
@@ -101,10 +102,9 @@ module DocTemplate
           q[:start] = start if start.present?
           q[:end] = stop if stop.present?
         end.compact
-        resource_url = media_path(resource.id) if resource.present?
-        youtube_url  = "https://www.youtube.com/embed/#{MediaEmbed.video_id(url)}?#{query.to_query}"
+        youtube_url = "https://www.youtube.com/embed/#{MediaEmbed.video_id(url)}?#{query.to_query}"
         {
-          resource_url: resource_url,
+          resource_url: (media_path(resource.id) if resource.present?),
           type: TYPE_YOUTUBE,
           url: youtube_url
         }

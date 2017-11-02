@@ -13,7 +13,8 @@
       "PDFObject": true,
       "React": true,
       "ReactDOM": true,
-      "Routes": true
+      "Routes": true,
+      "urlHistory": true
     },
     "env": {
         "browser": true,
