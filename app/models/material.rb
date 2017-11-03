@@ -11,7 +11,7 @@ class Material < ActiveRecord::Base
 
   serialize :metadata, DocTemplate::Objects::MaterialMetadata
 
-  pg_search_scope :search_identifier, against: :identifier
+  pg_search_scope :search_identifier, against: :identifier, using: { tsearch: { prefix: true } }
 
   scope :gdoc, -> { where_metadata_not(type: 'pdf') }
   scope :pdf,  -> { where_metadata(type: 'pdf') }
