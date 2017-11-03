@@ -1,6 +1,10 @@
 # UnboundED CMS
 
-[ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=master)](https://codeship.com/projects/110252)
+| v1 (master) | v2 (digitization) |
+|-------------|-------------------|
+| [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=master)](https://codeship.com/projects/110252) | [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=digitization)](https://codeship.com/projects/110252) | 
+
+
 
 UnboundED CMS is a specialized content management system for high quality
 education materials.
@@ -124,3 +128,7 @@ methodology to standardize stylesheet development.
 - Enable Drive API on the Overview screen.
 - Go to the Credentials tab and create credentials for OAuth2 (application type should be Web application). The path of the Redirect URI should be /admin/google_oauth2_callback.
 - Use cliend ID and client secret values to create the GOOGLE_OAUTH2_CLIENT_ID and GOOGLE_OAUTH2_CLIENT_SECRET environment variables respectively.
+
+## Google Script for GDoc post-processing (v2 only)
+
+Instructions how to setup Google Dev account to use Google script to post-process generated GDoc files can be found in the []Wiki](https://github.com/learningtapestry/unbounded/wiki/Google-Cloud-Platform-for-UB-Materials)  
