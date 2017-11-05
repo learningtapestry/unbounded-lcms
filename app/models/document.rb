@@ -106,6 +106,10 @@ class Document < ActiveRecord::Base
     end.compact
   end
 
+  def prereq?
+    metadata['type'].to_s.casecmp('prereq').zero?
+  end
+
   def tmp_link(key)
     url = links[key]
     with_lock do
@@ -138,11 +142,23 @@ class Document < ActiveRecord::Base
 
     resource = MetadataContext.new(metadata).find_or_create_resource
 
+    # if resource changed to prerequisite, fix positioning
+    if !resource.prerequisite? && prereq?
+      next_lesson = resource.siblings.detect do |r|
+        break r unless r.prerequisite? # first non-prereq
+
+        # grab the first prereq lesson with a bigger lesson num
+        lesson_num = r.short_title.match(/(\d+)/)&.[](1).to_i
+        lesson_num > metadata['lesson'].to_i
+      end
+      next_lesson&.prepend_sibling(resource)
+    end
+
     # Update resource with document metadata
     resource.title = metadata['title'] if metadata['title'].present?
     resource.teaser = metadata['teaser'] if metadata['teaser'].present?
     resource.description = metadata['description'] if metadata['description'].present?
-    resource.tag_list << 'prereq' if metadata['type'].to_s.casecmp('prereq').zero?
+    resource.tag_list << 'prereq' if prereq?
     resource.tag_list << 'opr' if metadata['type'].to_s.casecmp('opr').zero?
     resource.save
 
