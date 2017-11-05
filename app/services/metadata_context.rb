@@ -35,8 +35,14 @@ class MetadataContext
         unit.append_sibling(resource)
 
       elsif last_item(index) && prerequisite?
-        first_non_prereq = parent.children.detect { |r| !r.prerequisite? }
-        first_non_prereq&.prepend_sibling(resource)
+        next_lesson = parent.children.detect do |r|
+          break r unless r.prerequisite? # first non-prereq
+
+          # first prereq lesson with a bigger lesson num
+          lesson_num = r.short_title.match(/(\d+)/)&.[](1).to_i
+          lesson_num > ctx[:lesson].to_i
+        end
+        next_lesson&.prepend_sibling(resource)
 
       elsif last_item(index) && opr?
         first_non_opr = parent.children.detect { |r| !r.opr? }
