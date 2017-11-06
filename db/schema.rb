@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(version: 20170821064651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
+  enable_extension "pg_trgm"
 
   create_table "content_guide_definitions", force: :cascade do |t|
     t.string   "keyword",     null: false
