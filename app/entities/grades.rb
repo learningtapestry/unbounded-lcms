@@ -14,7 +14,7 @@ class Grades
     @list ||= if model.is_a?(Resource)
                 model.curriculum_tags_for(:grade)
               elsif model.is_a?(Search::Document)
-                model.grade
+                Array.wrap(model.grade.presence)
               else
                 model.grade_list
               end.sort_by { |g| GRADES.index(g) }
