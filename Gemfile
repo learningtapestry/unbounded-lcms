@@ -166,6 +166,8 @@ group :development do
   gem 'safe_attributes', '~> 1.0.10'
   gem 'spring'
   gem 'web-console', '~> 2.0'
+
+  gem 'newrelic_rpm' # Used temporarily for debugging workers
 end
 
 group :test do

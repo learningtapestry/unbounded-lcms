@@ -464,6 +464,7 @@ GEM
     nenv (0.3.0)
     nested_form (0.3.2)
     netrc (0.11.0)
+    newrelic_rpm (4.5.0.337)
     nikkou (0.0.5)
       activesupport
       nokogiri
@@ -807,6 +808,7 @@ DEPENDENCIES
   minitest-rails-capybara
   minitest-vcr
   nested_form
+  newrelic_rpm
   nikkou (~> 0.0.5)
   nokogiri (~> 1.6.0)
   oj (~> 2.12.12)
