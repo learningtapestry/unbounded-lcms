@@ -164,7 +164,7 @@ class Resource < ActiveRecord::Base
     when :module
       # TODO: handle special case modules (when/if needed).
       #       Check Breadcrumbs#module_abbrv for more
-      curriculum_directory.select { |v| v.match(/module /i) }
+      curriculum_directory.select { |v| v.match(/module /i) || v.match(/strand/i) }
     when :unit
       curriculum_directory.select { |v| v.match(/unit|topic|assessment/i) }
     when :lesson

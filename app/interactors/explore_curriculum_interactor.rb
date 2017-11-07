@@ -34,7 +34,7 @@ class ExploreCurriculumInteractor < BaseInteractor
   end
 
   def expanded_props
-    target = Resource.find_by(slug: slug_param)
+    target = Resource.tree.find_by(slug: slug_param)
     raise "Unknown Resource slug value: '#{slug_param}'" unless target
 
     grade = target.parents.detect(&:grade?)
