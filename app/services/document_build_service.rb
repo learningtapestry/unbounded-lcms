@@ -35,10 +35,10 @@ class DocumentBuildService
     if expand_document
       combine_layout
       combine_activity_metadata
-      document.update! build_params.merge(toc: combine_toc)
+      document.update! build_params
     else
       document.document_parts.delete_all
-      document.update! document_params.merge(toc: template.toc)
+      document.update! document_params.merge(toc: template.toc, material_ids: template.toc.collect_material_ids)
     end
   end
 
@@ -57,39 +57,9 @@ class DocumentBuildService
         )
       end
 
-    params[:material_ids] =
-      if expand_document
-        # if document is being expanded - we have to concat materials
-        @document.material_ids.concat collect_materials
-      else
-        collect_materials
-      end
+    params[:toc] = combine_toc
+    params[:material_ids] = params[:toc].collect_material_ids
     params
-  end
-
-  def collect_materials
-    ids = template
-            .section_metadata
-            .flat_map { |s| s['material_ids'] }
-            .compact
-
-    ids.concat template
-                 .activity_metadata
-                 .flat_map { |a| a['material_ids'] }
-                 .compact
-
-    ids.concat template
-                 .agenda
-                 .flat_map { |a| a[:metadata]['material_ids'] }
-                 .compact
-
-    meta_ids = [].tap do |res|
-      template.agenda.each do |x|
-        x[:children].each { |a| res << a[:metadata]['material_ids'] }
-      end
-    end.compact.flatten
-
-    ids.concat(meta_ids).uniq
   end
 
   def combine_activity_metadata
@@ -170,7 +140,6 @@ class DocumentBuildService
       last_modified_at: downloader.file.modified_time,
       last_author_email: downloader.file.last_modifying_user.try(:email_address),
       last_author_name: downloader.file.last_modifying_user.try(:display_name),
-      material_ids: collect_materials,
       metadata: template.metadata,
       sections_metadata: template.section_metadata,
       version: downloader.file.version
