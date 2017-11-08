@@ -13,7 +13,7 @@
       <% unless @material.pdf? %>
         <div>
           <%= link_to @material.pdf_preview_title, preview_pdf_material_path(@material), class: 'button warning', target: '_blank' %>
-          <%#= link_to 'Preview Google Doc', preview_gdoc_material_path(@material), class: 'button warning', target: '_blank' %>
+          <%= link_to @material.gdoc_preview_title, preview_gdoc_material_path(@material), class: 'button warning', target: '_blank' %>
         </div>
       <% end %>
     </div>
