@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class MaterialPresenter < ContentPresenter
-  attr_reader :lesson, :parsed_document
+  attr_accessor :lesson
+  attr_reader :parsed_document
 
   delegate :css_styles, :short_url, :subject, to: :lesson
   delegate :sheet_type, to: :metadata
@@ -78,6 +79,10 @@ class MaterialPresenter < ContentPresenter
 
   def pdf_url
     material_url('url')
+  end
+
+  def pdf_preview_title
+    preview_links['pdf'].present? ? 'Preview PDF' : 'Generate PDF'
   end
 
   def preserve_table_padding?

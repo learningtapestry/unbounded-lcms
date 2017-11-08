@@ -62,7 +62,7 @@ module Admin
       @props = { jobs: jobs, type: :documents }
     end
 
-    def documents(q)
+    def documents(q) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Meterics/AbcSize
       scope = Document.all
       # filters
       scope = scope.actives unless q.inactive == '1'
@@ -75,8 +75,8 @@ module Admin
       # sort
       scope = scope.order_by_curriculum if q.sort_by.blank? || q.sort_by == 'curriculum'
       scope = scope.order(updated_at: :desc) if q.sort_by == 'last_update'
-      scope = scope.order(active: :desc).paginate(page: params[:page])
-      scope
+
+      scope.order(active: :desc).paginate(page: params[:page])
     end
 
     def find_selected
@@ -105,7 +105,7 @@ module Admin
       return unless doc
 
       doc.materials.each do |material|
-        MaterialForm.new({link: material.file_url}, google_credentials).save
+        MaterialForm.new({ link: material.file_url }, google_credentials).save
       end
     end
   end
