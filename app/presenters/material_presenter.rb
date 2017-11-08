@@ -14,12 +14,12 @@ class MaterialPresenter < ContentPresenter
     @anchors || []
   end
 
-  def base_filename
+  def base_filename(with_version: true)
     name = metadata.identifier
     unless name =~ /^(math|ela)/i || pdf?
       name = "#{lesson.short_breadcrumb(join_with: '_', with_short_lesson: true)}_#{name}"
     end
-    "#{name}_v#{version.presence || 1}"
+    with_version ? "#{name}_v#{version.presence || 1}" : name
   end
 
   def cc_attribution
@@ -40,6 +40,10 @@ class MaterialPresenter < ContentPresenter
 
   def gdoc_folder
     "#{lesson.id}_v#{lesson.version}"
+  end
+
+  def gdoc_preview_title
+    preview_links['gdoc'].present? ? 'Preview Google Document' : 'Generate Google Document'
   end
 
   def gdoc_url

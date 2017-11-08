@@ -50,6 +50,33 @@ module DocumentExporter
         self
       end
 
+      #
+      # @param folder_id String ID of folder export file to
+      # @param file_id String ID of existing file
+      #
+      def export_to(folder_id, file_id: nil)
+        metadata = Google::Apis::DriveV3::File.new(
+          name: document.base_filename(with_version: false),
+          mime_type: 'application/vnd.google-apps.document',
+          parents: [folder_id]
+        )
+
+        params = {
+          content_type: 'text/html',
+          upload_source: StringIO.new(content)
+        }
+
+        @id = if file_id.present?
+               drive_service.service.update_file(file_id, metadata, params)
+             else
+               drive_service.service.create_file(metadata, params)
+             end.id
+
+        post_processing
+
+        self
+      end
+
       def url
         self.class.url_for @id
       end
