@@ -21,7 +21,10 @@ class MaterialForm
     return false unless valid?
 
     persist!
-    errors.empty? && material&.valid?
+
+    result = errors.empty? && material&.valid?
+    material.update preview_links: {} if result
+    result
   end
 
   private

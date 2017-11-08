@@ -45,7 +45,12 @@ Rails.application.routes.draw do
       get 'export/status', to: 'documents#export_status'
     end
   end
-  resources :materials, only: :show
+  resources :materials, only: :show do
+    member do
+      get 'preview/pdf', to: 'materials#preview_pdf'
+      get 'preview/gdoc', to: 'materials#preview_gdoc'
+    end
+  end
 
   devise_for :users, class_name: 'User', controllers: { registrations: 'registrations', sessions: 'sessions' }
 
