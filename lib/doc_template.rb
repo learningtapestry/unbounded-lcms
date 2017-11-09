@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module DocTemplate
   FULL_TAG = /\[([^\]:\s]*)?\s*:?\s*([^\]]*?)?\]/mo
-  ROOT_XPATH = '*//'.freeze
-  START_TAG = '\[[^\]]*'.freeze
-  STARTTAG_XPATH = 'span[contains(., "[")]'.freeze
-  ENDTAG_XPATH = 'span[contains(., "]")]'.freeze
+  ROOT_XPATH = '*//'
+  START_TAG = '\[[^\]]*'
+  STARTTAG_XPATH = 'span[contains(., "[")]'
+  ENDTAG_XPATH = 'span[contains(., "]")]'
 end
 
 require_dependency 'doc_template/template'

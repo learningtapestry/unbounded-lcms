@@ -139,6 +139,7 @@ module DocTemplate
         anchor: parsed_tag.anchor.to_s,
         content: sanitized_content.squish,
         context_type: @opts[:context_type],
+        data: parsed_tag.tag_data,
         materials: parsed_tag.materials,
         optional: (parsed_tag.try(:optional?) || false),
         placeholder: parsed_tag.placeholder,

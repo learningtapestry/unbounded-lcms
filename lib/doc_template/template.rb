@@ -114,6 +114,7 @@ module DocTemplate
         @documents[context_type].parts << {
           content: render(options),
           context_type: context_type,
+          data: {},
           materials: [],
           optional: false,
           part_type: :layout,

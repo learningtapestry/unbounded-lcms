@@ -45,7 +45,7 @@ $ld-header-column-gutter: (
     h5 { @include txt-element(ld-h5); }
 
     p, ol, ul {
-      &, * {
+      &, *:not([class^="mjx-"]) {
         @include txt-element-strict(ld-base);
       }
     }

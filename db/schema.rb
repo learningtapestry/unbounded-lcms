@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171018105336) do
+ActiveRecord::Schema.define(version: 20171108042843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(version: 20171018105336) do
     t.integer  "context_type", default: 0
     t.string   "anchor"
     t.boolean  "optional",     default: false, null: false
+    t.jsonb    "data",         default: {},    null: false
   end
 
   add_index "document_parts", ["anchor"], name: "index_document_parts_on_anchor", using: :btree
@@ -253,9 +254,9 @@ ActiveRecord::Schema.define(version: 20171018105336) do
   add_index "material_parts", ["material_id"], name: "index_material_parts_on_material_id", using: :btree
 
   create_table "materials", force: :cascade do |t|
-    t.string   "file_id",                           null: false
+    t.string   "file_id",                        null: false
     t.string   "identifier"
-    t.jsonb    "metadata",             default: {}, null: false
+    t.jsonb    "metadata",          default: {}, null: false
     t.string   "name"
     t.datetime "last_modified_at"
     t.string   "last_author_email"
