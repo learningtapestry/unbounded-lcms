@@ -69,7 +69,7 @@ module Admin
       scope = scope.filter_by_term(q.search_term) if q.search_term.present?
       scope = scope.filter_by_subject(q.subject) if q.subject.present?
       scope = scope.filter_by_grade(q.grade) if q.grade.present?
-      scope = scope.where_metadata(:module, q.module) if q.module.present?
+      scope = scope.filter_by_module(q.module) if q.module.present?
       scope = scope.filter_by_unit(q.unit) if q.unit.present?
       scope = scope.with_broken_materials if q.broken_materials == '1'
       # sort
