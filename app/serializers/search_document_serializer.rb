@@ -7,6 +7,8 @@ class SearchDocumentSerializer < ActiveModel::Serializer
   def path
     if model_type == 'content_guide'
       content_guide_path(object.permalink || object.model_id, slug: object.slug)
+    elsif model_type == 'page'
+      object.permalink
     else
       return media_path(object.model_id) if media?
       return generic_path(object.model_id) if generic?
@@ -24,7 +26,7 @@ class SearchDocumentSerializer < ActiveModel::Serializer
   end
 
   def grade
-    object.grades.average
+    object.grades&.average
   end
 
   private
