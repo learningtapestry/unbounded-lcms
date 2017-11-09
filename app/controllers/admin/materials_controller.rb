@@ -95,26 +95,39 @@ module Admin
       obtain_google_credentials options
     end
 
-    def materials(q)
-      qset = Material.all
-      qset = qset.search_identifier(q.search_term) if q.search_term.present?
+    def materials(q) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
+      scope = Material.all
+      scope = scope.search_identifier(q.search_term) if q.search_term.present?
 
       if q[:source].present?
-        qset = q[:source] == 'pdf' ? qset.pdf : qset.gdoc
+        scope = q[:source] == 'pdf' ? scope.pdf : scope.gdoc
       end
 
       %i(type sheet_type breadcrumb_level subject).each do |key|
-        qset = qset.where_metadata_like(key, q[key]) if q[key].present?
+        scope = scope.where_metadata_like(key, q[key]) if q[key].present?
       end
 
-      %i(grade module unit lesson).each do |key|
-        qset = qset.joins(:documents).where('documents.metadata @> hstore(?, ?)', key, q[key]) if q[key].present?
+      %i(grade lesson).each do |key|
+        scope = scope.joins(:documents).where('documents.metadata @> hstore(?, ?)', key, q[key]) if q[key].present?
       end
 
-      qset = qset.order(:identifier) if q.sort_by.blank? || q.sort_by == 'identifier'
-      qset = qset.order(updated_at: :desc) if q.sort_by == 'last_update'
+      if q[:module].present?
+        sql = <<-SQL
+          (documents.metadata @> hstore('subject', 'math') AND documents.metadata @> hstore('unit', :mod))
+            OR (documents.metadata @> hstore('subject', 'ela') AND documents.metadata @> hstore('module', :mod))
+        SQL
+        scope = scope.joins(:documents).where(sql, mod: q[:module])
+      end
 
-      qset.paginate(page: params[:page])
+      if q[:unit].present?
+        sql = %((documents.metadata @> hstore('unit', :u) OR documents.metadata @> hstore('topic', :u)))
+        scope = scope.joins(:documents).where(sql, u: q[:unit])
+      end
+
+      scope = scope.order(:identifier) if q.sort_by.blank? || q.sort_by == 'identifier'
+      scope = scope.order(updated_at: :desc) if q.sort_by == 'last_update'
+
+      scope.paginate(page: params[:page])
     end
   end
 end

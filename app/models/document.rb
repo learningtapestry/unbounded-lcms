@@ -32,10 +32,11 @@ class Document < ActiveRecord::Base
   scope :filter_by_grade, ->(grade) { where_metadata(:grade, grade) }
   scope :filter_by_unit, ->(u) { where("(metadata @> hstore('unit', :u) OR metadata @> hstore('topic', :u))", u: u) }
   scope :filter_by_module, lambda { |mod|
-    where <<-SQL
-      (metadata @> hstore('subject', 'math') AND metadata @> hstore('unit', '#{mod}'))
-        OR (metadata @> hstore('subject', 'ela') AND metadata @> hstore('module', '#{mod}'))
+    sql = <<-SQL
+      (metadata @> hstore('subject', 'math') AND metadata @> hstore('unit', :mod))
+        OR (metadata @> hstore('subject', 'ela') AND metadata @> hstore('module', :mod))
     SQL
+    where(sql, mod: mod)
   }
 
   scope :with_broken_materials, lambda {
