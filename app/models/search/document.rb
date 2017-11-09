@@ -35,6 +35,9 @@ module Search
       elsif model.is_a?(ContentGuide)
         self.new **attrs_from_content_guide(model)
 
+      elsif model.is_a?(ExternalPage)
+        self.new **attrs_from_page(model)
+
       else
         raise "Unsupported Type for Search : #{model.class.name}"
       end
@@ -113,6 +116,21 @@ module Search
           tag_keywords: [],
           tag_standards: [],
           position: grade_position(model),
+        }
+      end
+
+      def self.attrs_from_page(model)
+        {
+          description: model.description,
+          doc_type: 'page',
+          grade: [],
+          id: "page_#{model.slug}",
+          model_type: :page,
+          permalink: model.permalink,
+          slug: model.slug,
+          tag_keywords: model.keywords,
+          teaser: model.teaser,
+          title: model.title
         }
       end
 

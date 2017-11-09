@@ -21,6 +21,13 @@ namespace :es do
     index_model 'Media    ', Resource.media
     index_model 'Generic  ', Resource.generic_resources
     index_model 'Guide    ', ContentGuide.where(nil)
+
+    fpath = Rails.root.join('db', 'seeds' , 'external_pages.json')
+    pages = JSON.parse File.read(fpath)
+    pages.each do |page_attrs|
+      page = ExternalPage.new(page_attrs.symbolize_keys)
+      repo.klass.build_from(page).index!
+    end
   end
 
   def repo
