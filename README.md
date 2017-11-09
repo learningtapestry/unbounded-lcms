@@ -1,6 +1,10 @@
 # UnboundED CMS
 
-[ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=master)](https://codeship.com/projects/110252)
+| v1 (master) | v2 (digitization) |
+|-------------|-------------------|
+| [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=master)](https://codeship.com/projects/110252) | [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=digitization)](https://codeship.com/projects/110252) | 
+
+
 
 UnboundED CMS is a specialized content management system for high quality
 education materials.
@@ -10,7 +14,7 @@ front-end.
 
 ## Requirements
 
-* `ruby v2.1.5`
+* `ruby v2.3.3`
 * `node v5.6.0`
 * `PostgreSQL 9.4`
 * `ElasticSearch >=2.2.0`
@@ -18,28 +22,42 @@ front-end.
 
 ## Project setup
 
+There are two branches in use for development; `master` is for `v1` and `digitization` is for `v2`. If you are just starting with the project you probably want to be developing against `digitization`. Be sure you're on that branch before taking the next steps as the environment variables are different.
+
 1. Set up `.env.test`, `.env.development` and `.env.integration`
 2. `bundle && bundle exec rake cloud66:after_bundle`
 
 You should also run the task `routes:generate_js` every time routes are updated.
 This task is run as part of `cloud66:after_bundle`.
 
-### Integration database
-
 For convenience, a copy of a reference unboundED database is available
 at `db/dump/content.dump.freeze`.
+
+```bash
+cp db/dump/content.dump.freeze db/dump/content.dump
+RAILS_ENV=development rake db:restore
+```
 
 Besides being useful for development, this copy is expected to
 feed the `integration` environment DB. Please set up a `.env.integration`
 file to use it.
 
-Currently, the `integration` environment is required for tests.
+You may need to add the `hstore` extension to Postgres if it is not there already. Note that this requires superuser privileges on the database, so pass a username with superuser credentials if your local postgres requires it:
 
 ```bash
-cp db/dump/content.dump.freeze db/dump/content.dump
-RAILS_ENV=development rake db:restore
+psql -d [DATABASE_NAME]
+CREATE EXTENSION hstore;
+```
+You will need to do this for the development and integration environments if you want to both submit code and also run tests locally.
+
+### Integration database
+
+Currently, the `integration` environment is required for tests. You should use the same content dump for the integration database that you used for development.
+
+```bash
 RAILS_ENV=integration rake db:restore
-rake test
+RAILS_ENV=integration rake db:migrate
+RAILS_ENV=integration rake spec
 ```
 
 ### ElasticSearch index
@@ -110,3 +128,7 @@ methodology to standardize stylesheet development.
 - Enable Drive API on the Overview screen.
 - Go to the Credentials tab and create credentials for OAuth2 (application type should be Web application). The path of the Redirect URI should be /admin/google_oauth2_callback.
 - Use cliend ID and client secret values to create the GOOGLE_OAUTH2_CLIENT_ID and GOOGLE_OAUTH2_CLIENT_SECRET environment variables respectively.
+
+## Google Script for GDoc post-processing (v2 only)
+
+Instructions how to setup Google Dev account to use Google script to post-process generated GDoc files can be found in the []Wiki](https://github.com/learningtapestry/unbounded/wiki/Google-Cloud-Platform-for-UB-Materials)  
