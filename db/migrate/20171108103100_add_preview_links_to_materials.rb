@@ -2,6 +2,6 @@
 
 class AddPreviewLinksToMaterials < ActiveRecord::Migration
   def change
-    add_column :materials, :preview_links, :hstore, default: {}
+    add_column :materials, :preview_links, :jsonb, default: {}
   end
 end

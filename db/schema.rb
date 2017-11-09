@@ -265,7 +265,7 @@ ActiveRecord::Schema.define(version: 20171108103100) do
     t.string   "version"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.hstore   "preview_links",     default: {}
+    t.jsonb    "preview_links",     default: {}
   end
 
   add_index "materials", ["file_id"], name: "index_materials_on_file_id", using: :btree

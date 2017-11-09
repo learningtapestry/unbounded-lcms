@@ -62,7 +62,7 @@ module Admin
       @props = { jobs: jobs, type: :documents }
     end
 
-    def documents(q) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Meterics/AbcSize
+    def documents(q) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
       scope = Document.all
       # filters
       scope = scope.actives unless q.inactive == '1'
