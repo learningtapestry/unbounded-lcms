@@ -24,6 +24,7 @@ module DocTemplate
       def fetch(table)
         data = {}.tap do |result|
           # Need to handle every `p` and `ul` elements
+          result[:long_term_title] = table.xpath('*//tr[1]/td').map(&:content).join(' ')
           result[:long_term] = table.xpath('*//tr[2]/td/p').map(&:content).join('; ')
           result[:long_term] += table.xpath('*//tr[3]/td/ul/li').map(&:content).join('; ')
 
