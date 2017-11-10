@@ -10,7 +10,7 @@
   <div class="o-page">
     <% if current_user&.admin? %>
       <div class="o-page__module u-margin-bottom--gutter">
-        <%= link_to [:admin, :documents], class: 'o-ub-ld-btn o-ub-ld-btn--bordered' do %>
+        <%= link_to admin_documents_path(request.query_parameters), class: 'o-ub-ld-btn o-ub-ld-btn--bordered' do %>
           Go to Lessons Admin
         <% end %>
         <%= link_to @document.file_url, class: 'o-ub-ld-btn o-ub-ld-btn--bordered', target: '_blank' do %>
