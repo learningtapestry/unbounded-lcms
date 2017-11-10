@@ -22,11 +22,12 @@ class MultiSelectedOperation extends React.Component {
     const method = (this.props.operation === 'delete') ? 'delete' : 'post';
     const csrf_token = $('meta[name=csrf-token]').attr('content');
     return (
-      <form ref={ ref => { this.formRef = ref; }} action={this.props.path} acceptCharset="UTF-8" method='post' onSubmit={this.onSubmit.bind(this)} >
+      <form ref={ ref => { this.formRef = ref; }} action={this.props.path} acceptCharset="UTF-8" method='post' className="c-reimport-doc-form" onSubmit={this.onSubmit.bind(this)} >
         <input name="utf8" value="✓" type="hidden" />
         <input name="_method" value={method} type="hidden" />
         <input name="authenticity_token" value={csrf_token} type="hidden" />
         <input name="selected_ids" type="hidden" />
+        <input name="with_materials" type="hidden" className="c-reimport-with-materials__field"/>
         <input value={this.props.text} className={btnClass} type="submit" />
       </form>
     );

@@ -13,7 +13,7 @@ module Admin
     end
 
     def create
-      reimport_lesson_materials if lesson_form_parameters[:with_materials] == 'true'
+      reimport_lesson_materials if lesson_form_parameters[:with_materials].present?
 
       @document = DocumentForm.new lesson_form_parameters.except(:with_materials), google_credentials
       if @document.save
@@ -46,18 +46,19 @@ module Admin
     end
 
     def reimport_selected
-      bulk_import @documents.map(&:file_url)
+      bulk_import
       render :import
     end
 
     private
 
-    def bulk_import(files)
+    def bulk_import
       jobs = {}
       google_auth_id = GoogleAuthService.new(self).user_id
-      files.each do |url|
-        job_id = DocumentParseJob.perform_later(url, google_auth_id).job_id
-        jobs[job_id] = { link: url, status: 'waiting' }
+      reimport_materials = params[:with_materials].present?
+      @documents.each do |doc|
+        job_id = DocumentParseJob.perform_later(doc, google_auth_id, reimport_materials: reimport_materials).job_id
+        jobs[job_id] = { link: doc.file_url, status: 'waiting' }
       end
       @props = { jobs: jobs, type: :documents }
     end
