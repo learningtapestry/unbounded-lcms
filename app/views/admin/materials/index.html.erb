@@ -47,7 +47,7 @@
         <tr id="material_<%= material.id %>">
           <td><%= check_box_tag 'selected_ids[]', material.id, selected_id?(material.id), class: 'c-selected-ids' %></td>
           <td><%= material.id %>
-          <td class="u-text--right"><%= link_to material.metadata.identifier, material, target: '_blank' %>
+          <td class="u-text--right"><%= link_to material.metadata.identifier, material_path(material, request.query_parameters), target: '_blank' %>
           <td><%= material.source_type.upcase %>
           <td><%= link_to material.name, material.file_url, target: '_blank' %>
           <td><%= material.metadata['type'] %>

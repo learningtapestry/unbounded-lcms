@@ -4,7 +4,7 @@
   <div class="c-ld-page-header">
     <div class="o-page o-materials-list">
       <div>
-        <%= link_to 'Go to Materials Admin', [:admin, :materials], class: 'button primary u-margin-right--base' %>
+        <%= link_to 'Go to Materials Admin', admin_materials_path(request.query_parameters), class: 'button primary u-margin-right--base' %>
         <%= link_to @material.file_url, class: 'button primary u-margin-right--base', target: '_blank' do %>
             <i class="ub-icon ub-file-gdoc"></i> Google Doc
         <% end %>
