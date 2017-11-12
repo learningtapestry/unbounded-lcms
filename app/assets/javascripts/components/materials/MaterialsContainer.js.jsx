@@ -54,7 +54,7 @@ class MaterialsContainer extends React.Component {
       );
     }
     const clsTitle = classNames(
-      'u-txt--m-tab-title',
+      'u-txt--m-tab-title u-padding-bottom--gutter',
       {'o-m-title--underlined': !this.state.bExpanded }
     );
 
