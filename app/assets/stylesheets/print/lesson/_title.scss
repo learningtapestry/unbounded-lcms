@@ -2,11 +2,11 @@
   @include e(title) {
     @include m(h2) {
       @include txt-pdf-element(ld-h2);
-      flex: 1 0 auto;
+      flex: 1 1 0px;
     }
     @include m(h3) {
       @include txt-pdf-element(ld-h3);
-      flex: 1 0 auto;
+      flex: 1 1 0px;
     }
   }
 
@@ -16,6 +16,7 @@
     @include m(h2) {
       @include txt-pdf-element(ld-activity-h2time);
       @include flex-grid-column(shrink, 0);
+      white-space: nowrap;
     }
     @include m(h3) {
       @include txt-pdf-element(ld-activity-h3time);
