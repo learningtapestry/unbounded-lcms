@@ -246,7 +246,7 @@ en:
       index:
         delete_selected: Delete selected
         new_lesson: Add new Lesson
-        reimport_selected: Re-import selected
+        reimport_selected: Reimport selected
         title: Lesson Manager
         unit_bundles: Generate Unit Bundles
       create:
@@ -274,7 +274,7 @@ en:
         delete_selected: Delete selected
         new_material: Add new Material
         new_material_pdf: Add PDF Material
-        reimport_selected: Re-import selected
+        reimport_selected: Reimport selected
         title: Material Manager
       new:
         page_title: Add a material

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class MaterialPresenter < ContentPresenter
-  attr_reader :lesson, :parsed_document
+  attr_accessor :lesson
+  attr_reader :parsed_document
 
   delegate :css_styles, :short_url, :subject, to: :lesson
   delegate :sheet_type, to: :metadata
@@ -13,12 +14,12 @@ class MaterialPresenter < ContentPresenter
     @anchors || []
   end
 
-  def base_filename
+  def base_filename(with_version: true)
     name = metadata.identifier
     unless name =~ /^(math|ela)/i || pdf?
       name = "#{lesson.short_breadcrumb(join_with: '_', with_short_lesson: true)}_#{name}"
     end
-    "#{name}_v#{version.presence || 1}"
+    with_version ? "#{name}_v#{version.presence || 1}" : name
   end
 
   def cc_attribution
@@ -39,6 +40,10 @@ class MaterialPresenter < ContentPresenter
 
   def gdoc_folder
     "#{lesson.id}_v#{lesson.version}"
+  end
+
+  def gdoc_preview_title
+    preview_links['gdoc'].present? ? 'Preview Google Document' : 'Generate Google Document'
   end
 
   def gdoc_url
@@ -78,6 +83,10 @@ class MaterialPresenter < ContentPresenter
 
   def pdf_url
     material_url('url')
+  end
+
+  def pdf_preview_title
+    preview_links['pdf'].present? ? 'Preview PDF' : 'Generate PDF'
   end
 
   def preserve_table_padding?

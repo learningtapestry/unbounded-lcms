@@ -13,7 +13,9 @@ module Admin
     end
 
     def create
-      @document = DocumentForm.new lesson_form_parameters, google_credentials
+      reimport_lesson_materials if lesson_form_parameters[:with_materials].present?
+
+      @document = DocumentForm.new lesson_form_parameters.except(:with_materials), google_credentials
       if @document.save
         redirect_to @document.document, notice: t('.success', name: @document.document.name)
       else
@@ -44,30 +46,38 @@ module Admin
     end
 
     def reimport_selected
-      bulk_import @documents.map(&:file_url)
+      bulk_import
       render :import
     end
 
     private
 
-    def bulk_import(files)
+    def bulk_import
       jobs = {}
       google_auth_id = GoogleAuthService.new(self).user_id
-      files.each do |url|
-        job_id = DocumentParseJob.perform_later(url, google_auth_id).job_id
-        jobs[job_id] = { link: url, status: 'waiting' }
+      reimport_materials = params[:with_materials].present?
+      @documents.each do |doc|
+        job_id = DocumentParseJob.perform_later(doc, google_auth_id, reimport_materials: reimport_materials).job_id
+        jobs[job_id] = { link: doc.file_url, status: 'waiting' }
       end
       @props = { jobs: jobs, type: :documents }
     end
 
-    def documents(query)
-      docs = Document.order_by_curriculum.order(active: :desc).paginate(page: params[:page])
+    def documents(q) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
+      scope = Document.all
+      # filters
+      scope = scope.actives unless q.inactive == '1'
+      scope = scope.filter_by_term(q.search_term) if q.search_term.present?
+      scope = scope.filter_by_subject(q.subject) if q.subject.present?
+      scope = scope.filter_by_grade(q.grade) if q.grade.present?
+      scope = scope.filter_by_module(q.module) if q.module.present?
+      scope = scope.filter_by_unit(q.unit) if q.unit.present?
+      scope = scope.with_broken_materials if q.broken_materials == '1'
+      # sort
+      scope = scope.order_by_curriculum if q.sort_by.blank? || q.sort_by == 'curriculum'
+      scope = scope.order(updated_at: :desc) if q.sort_by == 'last_update'
 
-      docs = docs.actives unless query.inactive == '1'
-      docs = docs.filter_by_term(query.search_term) if query.search_term.present?
-      docs = docs.filter_by_subject(query.subject) if query.subject.present?
-      docs = docs.filter_by_grade(query.grade) if query.grade.present?
-      docs
+      scope.order(active: :desc).paginate(page: params[:page])
     end
 
     def find_selected
@@ -87,7 +97,17 @@ module Admin
     end
 
     def lesson_form_parameters
-      params.require(:document_form).permit(:link, :link_fs, :reimport)
+      @lf_params ||= params.require(:document_form).permit(:link, :link_fs, :reimport, :with_materials)
+    end
+
+    def reimport_lesson_materials
+      file_id = DocumentDownloader::Gdoc.file_id_for lesson_form_parameters['link']
+      doc = Document.actives.find_by(file_id: file_id)
+      return unless doc
+
+      doc.materials.each do |material|
+        MaterialForm.new({ link: material.file_url }, google_credentials).save
+      end
     end
   end
 end
