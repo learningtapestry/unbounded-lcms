@@ -2,12 +2,20 @@
 
 <%if user_signed_in? && current_user.admin? %>
   <div class="c-ld-page-header">
-    <div class="o-page">
-      <%= link_to 'Go to Materials Admin', [:admin, :materials], class: 'button primary u-margin-right--base' %>
-      <%= link_to @material.file_url, class: 'button primary u-margin-right--base', target: '_blank' do %>
-        <i class="ub-icon ub-file-gdoc"></i> Google Doc
+    <div class="o-page o-materials-list">
+      <div>
+        <%= link_to 'Go to Materials Admin', admin_materials_path(request.query_parameters), class: 'button primary u-margin-right--base' %>
+        <%= link_to @material.file_url, class: 'button primary u-margin-right--base', target: '_blank' do %>
+            <i class="ub-icon ub-file-gdoc"></i> Google Doc
+        <% end %>
+        <%= render partial: 'admin/materials/reimport', locals: { material: @material, btn_size: 'default' } %>
+      </div>
+      <% unless @material.pdf? %>
+        <div>
+          <%= link_to @material.pdf_preview_title, preview_pdf_material_path(@material), class: 'button warning', target: '_blank' %>
+          <%= link_to @material.gdoc_preview_title, preview_gdoc_material_path(@material), class: 'button warning', target: '_blank' %>
+        </div>
       <% end %>
-      <%= render partial: 'admin/materials/reimport', locals: { material: @material, btn_size: 'default' } %>
     </div>
   </div>
 <% end %>

@@ -41,8 +41,16 @@
     </div>
 
     <%= f.input :module, placeholder: 'Module Number', required: false %>
-    <%= f.input :unit, placeholder: 'Unit Number', required: false %>
-    <%= f.input :lesson, placeholder: 'Lesson Number', required: false %>
+    <%= f.input :unit, label: 'Unit / Topic', placeholder: 'Number or Letter', required: false %>
+    <%= f.input :lesson, label: 'Lesson Number', placeholder: 'Number or Letter', required: false %>
+
+    <%= f.input :sort_by, label: false,
+                          required: false,
+                          as: :select,
+                          collection: %w(identifier last_update),
+                          include_blank: false,
+                          label_method: ->(s){ "Order by #{s.titleize}" },
+                          wrapper_html: { class: 'o-admin-sort-by' } %>
 
     <%= f.button :submit, t('ui.search'), class: 'o-admin-search-submit primary', name: nil %>
   </div>
