@@ -30,10 +30,7 @@ class Standard < ActiveRecord::Base
   scope :math, -> { where(subject: 'math') }
 
   def self.search_by_name(name)
-    select('DISTINCT ON (id) *')
-      .from(select('*', 'unnest(standards.alt_names) as alt_name'))
-      .where('alt_name ILIKE :q OR name ILIKE :q', q: "%#{name}%")
-      .order('id')
+    where('name ILIKE :q OR alt_names::text ILIKE :q', q: "%#{name}%").order(:id)
   end
 
   def self.filter_ccss_standards(name, subject)
