@@ -21,7 +21,7 @@ module Admin
     def create
       @query = OpenStruct.new(params[:query])
       entries = @query.type == 'materials' ? materials(@query) : documents(@query)
-      bulk_import entries.map(&:file_url), @query.type
+      bulk_import entries, @query.type
       render :import
     end
 
@@ -48,13 +48,13 @@ module Admin
       qset.uniq
     end
 
-    def bulk_import(files, type)
+    def bulk_import(docs, type)
       google_auth_id = GoogleAuthService.new(self).user_id
       jobs = {}
       job_class = job_for(type)
-      files.each do |url|
-        job_id = job_class.perform_later(url, google_auth_id).job_id
-        jobs[job_id] = { link: url, status: 'waiting' }
+      docs.each do |doc|
+        job_id = job_class.perform_later(doc, google_auth_id).job_id
+        jobs[job_id] = { link: doc.file_url, status: 'waiting' }
       end
       @props = { jobs: jobs, type: type }
     end
