@@ -5,7 +5,8 @@ class MaterialParseJob < ActiveJob::Base
 
   queue_as :default
 
-  def perform(link, auth_id)
+  def perform(entry, auth_id)
+    link = entry.is_a?(Material) ? entry.file_url : entry
     credentials = google_credentials(auth_id)
     form = MaterialForm.new({ link: link }, credentials)
     res = if form.save
