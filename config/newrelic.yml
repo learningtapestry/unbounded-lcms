@@ -43,5 +43,9 @@ staging:
   <<: *default_settings
   app_name: UnboundEd (Staging)
 
+qa:
+  <<: *default_settings
+  app_name: UnboundEd (QA)
+
 production:
   <<: *default_settings
