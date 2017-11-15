@@ -13,27 +13,27 @@ default:
 answer-lines:
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 icons:
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 family-letter:
   header: false
   subtitle:
-    student: Student Handouts
+    student: Student Handout
   title: Family Letter
 first-then:
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 recommended-books:
   header: false
   subtitle:
-    student: Student Handouts
+    student: Student Handout
   title: Recommended Books
 pdf:
   subtitle:
@@ -41,33 +41,33 @@ pdf:
 somebody-wanted-but-so-then:
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 story-map:
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 student-worksheet:
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 sw-template-l:
   orientation: landscape
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 sw-template-p:
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 venn-diagram:
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 vocabulary-chart:
   header: false
@@ -77,18 +77,18 @@ vocabulary-chart:
 writing-and-drawing:
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 ic-template-l:
   name_date: false
   orientation: landscape
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
 ic-template-p:
   name_date: false
   subtitle:
     classroom: Classroom Materials
-    student: Student Handouts
+    student: Student Handout
     teacher: Answer Key
