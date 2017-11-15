@@ -20,7 +20,7 @@ class MaterialsController < ApplicationController
   end
 
   def preview_gdoc
-    if (url = @material.preview_links['gdoc']).present? && url !~ MaterialPreviewGenerator::GDOC_ID_RE
+    if (url = @material.preview_links['gdoc']).present? && url !~ MaterialPreviewGenerator::GDOC_BROKEN_RE
       return redirect_to url
     end
 

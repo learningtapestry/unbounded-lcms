@@ -67,10 +67,10 @@ module DocumentExporter
         }
 
         @id = if file_id.present?
-               drive_service.service.update_file(file_id, metadata, params)
-             else
-               drive_service.service.create_file(metadata, params)
-             end.id
+                drive_service.service.update_file(file_id, metadata, params)
+              else
+                drive_service.service.create_file(metadata, params)
+              end.id
 
         post_processing
 
