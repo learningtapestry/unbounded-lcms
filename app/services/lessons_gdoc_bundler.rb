@@ -69,7 +69,7 @@ class LessonsGdocBundler
 
   def drive_id(url)
     return unless url
-    url.match(%r{drive\.google\.com/open\?id=(\w+)})&.[](1)
+    url.match(%r{drive\.google\.com/open\?id=([^/]+)})&.[](1)
   end
 
   def gdrive
