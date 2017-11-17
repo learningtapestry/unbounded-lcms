@@ -25,7 +25,7 @@ class Document < ActiveRecord::Base
 
   scope :filter_by_term, lambda { |search_term|
     term = "%#{search_term}%"
-    joins(:resource).where('resources.title ILIKE ? OR name ILIKE ?', term, term)
+    joins(:resource).where('resources.title ILIKE ? OR documents.name ILIKE ?', term, term)
   }
 
   scope :filter_by_subject, ->(subject) { where_metadata(:subject, subject) }
@@ -40,9 +40,15 @@ class Document < ActiveRecord::Base
   }
 
   scope :with_broken_materials, lambda {
-    joins("LEFT JOIN jsonb_each(documents.links->'materials') AS ms ON TRUE")
-      .where("(ms.value -> 'gdoc' IS NULL) OR (ms.value -> 'url' IS NULL)")
+    joins("LEFT JOIN jsonb_each(documents.links->'materials') AS links ON TRUE")
+      .joins('LEFT JOIN materials as m on m.id = links.key::integer')
+      .where('((links.value -> ?)::text IS NULL) OR ((links.value -> ?)::text IS NULL)', 'gdoc', 'url')
+      .where.not("m.metadata ->> 'type' = ?", 'pdf')
       .uniq
+  }
+
+  scope :with_updated_materials, lambda {
+    joins(:materials).where('materials.updated_at > documents.updated_at')
   }
 
   def activate!
