@@ -145,6 +145,10 @@ gem 'thor', '0.19.1'
 gem 'nikkou', '~> 0.0.5'
 gem 'nokogiri', '~> 1.6.0'
 
+# profiling
+gem 'newrelic_rpm' # Used temporarily for debugging workers
+
+
 group :development, :staging, :qa do
   gem 'mailcatcher', require: false
 end
@@ -166,8 +170,6 @@ group :development do
   gem 'safe_attributes', '~> 1.0.10'
   gem 'spring'
   gem 'web-console', '~> 2.0'
-
-  gem 'newrelic_rpm' # Used temporarily for debugging workers
 end
 
 group :test do
