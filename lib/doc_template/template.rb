@@ -131,6 +131,10 @@ module DocTemplate
       @documents.values.flat_map(&:parts)
     end
 
+    def prereq?
+      metadata['type'].to_s.casecmp('prereq').zero?
+    end
+
     def remove_part(type, context_type)
       result = nil
       @documents.keys.each do |k|
