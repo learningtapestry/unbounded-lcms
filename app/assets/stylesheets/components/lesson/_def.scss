@@ -17,7 +17,6 @@
   background: map-get($ub-ld-colorcodes, tooltip-bg);
   border: 0;
   box-shadow: 0 0 8px 0 rgba(0,0,0,0.25);
-  margin-top: $tooltip-pip-width;
   padding: 1rem;
 
   * {
@@ -27,7 +26,7 @@
   &::before {
     @include css-triangle($tooltip-pip-width, map-get($ub-ld-colorcodes, tooltip-bg), up);
     bottom: 100%;
-    left: 10%;
+    left: $ld-tooltip-offset;
     position: absolute;
     transform: translateX(-50%);
   }

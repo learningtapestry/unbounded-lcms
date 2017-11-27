@@ -140,6 +140,7 @@ $ub-element-typography: (
   // Lessons
   ld-activity-h2time: ('font-size': 22px, 'line-height': 1, 'font-family': $ub-sanserif, 'font-weight': bold, 'font-style': italic),
   ld-activity-h3time: ('font-size': 16px, 'line-height': 1, 'font-family': $ub-sanserif, 'font-weight': bold, 'font-style': italic),
+  ld-activity-kicker: ('font-size': 14px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 600, letter-spacing: .3px),
   ld-activity-teaser: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif, font-style: italic),
   ld-base: (font-size: 1rem, font-family: $ub-sanserif),
   ld-callout-header: ('font-size': 20px, 'line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, font-style: normal),
