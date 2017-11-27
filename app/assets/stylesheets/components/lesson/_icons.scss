@@ -18,6 +18,16 @@
     vertical-align: baseline;
   }
 
+  @include e(wrapper) {
+    $w-offset: $ld-tooltip-offset - 1.125rem / 2;
+    display: inline;
+    margin-left: -$w-offset;
+
+    .o-ld-icon {
+      margin-left: $w-offset;
+    }
+  }
+
   @for $i from 1 through 3 {
     @include m('priority#{$i}') {
       background-image: asset-url('ld_p#{$i}.svg');
