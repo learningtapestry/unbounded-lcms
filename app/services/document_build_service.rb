@@ -100,7 +100,7 @@ class DocumentBuildService
   # - fills in original or fs contents
   # - stores specific file_id for each type of a lesson
   def create_document
-    if template.metadata['subject'].casecmp('ela').zero?
+    if template.metadata['subject'].casecmp('ela').zero? || template.prereq?
       @document = Document.actives.find_or_initialize_by(file_id: downloader.file_id)
     elsif template.foundational?
       @document = find_core_document
