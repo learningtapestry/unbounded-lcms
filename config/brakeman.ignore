@@ -1,0 +1,320 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "05e0597d643abe19131e2ab86105a455a7f137621500ef417df1fb41445d4c3d",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/resources/generic.html.erb",
+      "line": 47,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "GenericPresenter.new(Resource.find(params[:id])).description",
+      "render_path": [{"type":"controller","class":"ResourcesController","method":"generic","line":36,"file":"app/controllers/resources_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "resources/generic"
+      },
+      "user_input": "Resource.find(params[:id])",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "0616b7dc79c40c4ad0a30c458bd3e928accadc2f64300026d772dccdccb4e6dd",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/pages/show.html.erb",
+      "line": 6,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Page.find(params[:id]).body",
+      "render_path": [{"type":"controller","class":"PagesController","method":"show","line":6,"file":"app/controllers/pages_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "pages/show"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "0a95a29f294538929eb43db0767c6a249c2f57d7c6385713a3886e260b53c9e5",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to Resource#find",
+      "file": "app/controllers/resources_controller.rb",
+      "line": 21,
+      "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Resource.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ResourcesController",
+        "method": "related_instruction"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "15a29969e2616d9fdd4ce55b54005e26b9ec48ea68a23acc2bbdd74435a355b1",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in link_to href",
+      "file": "app/views/admin/components/show.html.erb",
+      "line": 30,
+      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Component.find(params[:id]).original_file_url, Component.find(params[:id]).original_file_url)",
+      "render_path": [{"type":"controller","class":"Admin::ComponentsController","method":"show","line":10,"file":"app/controllers/admin/components_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "admin/components/show"
+      },
+      "user_input": "Component.find(params[:id]).original_file_url",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "1b6cd4ae77d57dffd309b852d2a8cabc67b083a7c57c848aeab507dc1cbd262b",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to Document#find",
+      "file": "app/controllers/documents_controller.rb",
+      "line": 80,
+      "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Document.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DocumentsController",
+        "method": "set_document"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "214fa147ae40182e9d48be82445b5c1382684deba4d95a113a6a6b303157bfeb",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to Document#find",
+      "file": "app/controllers/admin/documents_controller.rb",
+      "line": 30,
+      "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Document.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::DocumentsController",
+        "method": "destroy"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "2aff9ac7d0ab161936138823db162eee413f3aef9384a505ec2a0754e441490e",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/controllers/pages_controller.rb",
+      "line": 11,
+      "link": "http://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => params[:slug].to_s, {})",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "PagesController",
+        "method": "show_slug"
+      },
+      "user_input": "params[:slug].to_s",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "3afb55375e4ecbd9e500d9256c8a1a79bb81eb24cb110ef760d60b446cd88663",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/resources/media.html.erb",
+      "line": 40,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "MediaPresenter.new(Resource.find(params[:id])).description",
+      "render_path": [{"type":"controller","class":"ResourcesController","method":"media","line":30,"file":"app/controllers/resources_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "resources/media"
+      },
+      "user_input": "Resource.find(params[:id])",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "4b3d076bc2a7daced846ada95bd9c1c1b77161449319bf75c750112d0528baef",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to Resource#find",
+      "file": "app/controllers/admin/resources_controller.rb",
+      "line": 68,
+      "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Resource.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ResourcesController",
+        "method": "find_resource"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "4e1b3105ff773a5698e0f3700ae234de9dc1daf19fb6eb61dd91306f1d4d66df",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to ReadingAssignmentText#find",
+      "file": "app/controllers/admin/reading_assignment_texts_controller.rb",
+      "line": 50,
+      "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "ReadingAssignmentText.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ReadingAssignmentTextsController",
+        "method": "find_reading_assignment"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "60bcb9764ab10f8cbcceed78bd62078e2735b875f8c5445e664e9cce2b0c0a7f",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to Resource#find",
+      "file": "app/controllers/resources_controller.rb",
+      "line": 51,
+      "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Resource.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ResourcesController",
+        "method": "find_resource"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "6a09667a7763b16c62cc6ff3dfc92c1da6eb694db3ee52949b947c1e850a8fe3",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to ResourceDownload#find",
+      "file": "app/controllers/downloads_controller.rb",
+      "line": 39,
+      "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "ResourceDownload.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DownloadsController",
+        "method": "resource_download"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "7cdc29a4ec66995e9e8e65883be823059b618ca839ea9b29222a7b780951bd13",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to Resource#find",
+      "file": "app/controllers/resources_controller.rb",
+      "line": 33,
+      "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Resource.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ResourcesController",
+        "method": "generic"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "8a300d2617427c79aa63a995118973c2621f944ed6a9150cb03779ea75749f73",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to Resource#find",
+      "file": "app/controllers/resources_controller.rb",
+      "line": 27,
+      "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "Resource.find(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ResourcesController",
+        "method": "media"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "9722eede667cb69569995cf6a7dfd0eff671ac688302db4c67c67874923c0510",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/materials/show.html.erb",
+      "line": 31,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "MaterialPresenter.new(Material.find(params[:id])).content_for(:default)",
+      "render_path": [{"type":"controller","class":"MaterialsController","method":"show","line":39,"file":"app/controllers/materials_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "materials/show"
+      },
+      "user_input": "Material.find(params[:id])",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "bae6a549c89f17291be61243def1818001d449f68b664a52e989a5b31934ff3a",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/admin/components/show.html.erb",
+      "line": 34,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Component.find(params[:id]).raw_content",
+      "render_path": [{"type":"controller","class":"Admin::ComponentsController","method":"show","line":10,"file":"app/controllers/admin/components_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "admin/components/show"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    }
+  ],
+  "updated": "2017-12-14 10:12:32 +0200",
+  "brakeman_version": "4.0.1"
+}

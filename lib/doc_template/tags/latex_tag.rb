@@ -20,7 +20,7 @@ module DocTemplate
             else
               EmbedEquations.tex_to_svg @value
             end
-          rescue => e
+          rescue StandardError => e
             raise if Rails.env.test?
             msg = "Error converting Latex expression: #{@value}"
             Rails.logger.warn "#{e.message} => #{msg}"
@@ -49,7 +49,7 @@ module DocTemplate
 
         png = Tempfile.new %w(tex-eq .png)
         begin
-          `svgexport #{svg_path} #{png.path}`
+          system 'svgexport', svg_path, png.path
           yield File.read(png.path)
         ensure
           png.close true
