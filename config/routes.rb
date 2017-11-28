@@ -113,11 +113,7 @@ Rails.application.routes.draw do
         get :import_status, to: 'materials#import_status'
       end
     end
-    resources :documents, only: %i(index create new destroy) do
-      collection do
-
-      end
-    end
+    resources :documents, only: %i(index create new destroy)
     resources :materials, only: %i(index create new destroy)
     resource :curriculum, only: %i(edit update)
     resources :access_codes

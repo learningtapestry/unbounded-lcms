@@ -19,7 +19,10 @@ Metrics/AbcSize:
   Max: 39
 
 Metrics/BlockLength:
-  ExcludedMethods: ['context', 'describe', 'feature', 'guard', 'included']
+  Exclude:
+  - '**/*_spec.rb'
+  - 'config/routes.rb'
+  ExcludedMethods: ['guard', 'included']
 
 Metrics/ClassLength:
   Max: 200
