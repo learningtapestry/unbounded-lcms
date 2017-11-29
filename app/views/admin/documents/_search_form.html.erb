@@ -42,6 +42,8 @@
                             placeholder: 'Enter Search Terms',
                             wrapper_html: { class: 'o-admin-search-term' } %>
 
+    <%= f.input :only_failed, label: 'Only failed', required: false, as: :boolean, wrapper_html: { class: 'o-admin-option' } %>
+
     <%= f.input :reimport_required, label: 'Reimport required (materials have been updated)', required: false, as: :boolean, wrapper_html: { class: 'o-admin-option' } %>
 
     <%= f.button :submit, t('ui.search'), class: 'o-admin-search-submit primary', name: nil %>
