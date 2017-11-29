@@ -36,6 +36,22 @@ describe DocumentForm do
         subject
       end
 
+      it 'marks the document as reimported' do
+        document.update reimported: false
+        subject
+        expect(document.reload.reimported).to be_truthy
+      end
+
+      context 'when save operation failed' do
+        before { allow(DocumentGenerator).to receive(:generate_for).and_raise(StandardError) }
+
+        it 'marks the document as not reimported' do
+          expect(document.reload.reimported).to be_truthy
+          subject
+          expect(document.reload.reimported).to be_falsey
+        end
+      end
+
       context 'when that is re-import operation' do
         before { params.merge!(link_fs: 'ink_fs', reimport: '1') }
 

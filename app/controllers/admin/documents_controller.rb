@@ -70,6 +70,7 @@ module Admin
       scope = Document.all.distinct
       # filters
       scope = scope.actives unless q.inactive == '1'
+      scope = scope.failed if q.only_failed == '1'
       scope = scope.filter_by_term(q.search_term) if q.search_term.present?
       scope = scope.filter_by_subject(q.subject) if q.subject.present?
       scope = scope.filter_by_grade(q.grade) if q.grade.present?

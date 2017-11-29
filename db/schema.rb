@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(version: 20171130092914) do
     t.text     "foundational_content"
     t.string   "fs_name"
     t.jsonb    "sections_metadata"
+    t.boolean  "reimported",            default: true, null: false
   end
 
   add_index "documents", ["file_id"], name: "index_documents_on_file_id", using: :btree

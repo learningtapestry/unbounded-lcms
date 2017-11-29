@@ -25,8 +25,9 @@ class DocumentForm
 
     @document = build_document
     DocumentGenerator.generate_for(@document)
+    @document.update(reimported: true)
   rescue StandardError => e
-    raise if Rails.env.test?
+    @document&.update(reimported: false)
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)
     false
