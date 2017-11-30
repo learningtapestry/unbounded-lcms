@@ -3,6 +3,8 @@
 class DocumentGeneratePdfJob < ActiveJob::Base
   include ResqueJob
 
+  include RetrySimple
+
   queue_as :default
 
   PDF_EXPORTERS = {

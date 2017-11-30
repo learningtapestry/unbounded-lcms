@@ -54,10 +54,6 @@ module GoogleApi
       service.create_file(metadata).id
     end
 
-    def file_exists?(name, parent_id)
-      find_file(name, parent_id)&.id
-    end
-
     def file_id
       @file_id ||= begin
         file_name = document.base_filename
@@ -71,13 +67,6 @@ module GoogleApi
         end
         response.files[0].id
       end
-    end
-
-    def find_file(name, parent_id)
-      service.list_files(
-        q: "'#{parent_id}' in parents and name = '#{name}' and trashed = false",
-        fields: 'files(id)'
-      ).files&.first
     end
 
     def list(parent_id)

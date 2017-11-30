@@ -2,6 +2,7 @@
 
 class MaterialGenerateGdocJob < ActiveJob::Base
   include ResqueJob
+  include RetryDelayed
 
   queue_as :default
 
