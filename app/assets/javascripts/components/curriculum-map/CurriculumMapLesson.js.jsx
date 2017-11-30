@@ -11,6 +11,7 @@ function CurriculumMapLesson(props) {
   );
   return (
     <ResourceHover cssClasses={cssClasses}
+      blank={props.blank}
       resource={curriculum.resource}
       handlePopupState={props.handlePopupState}/>
   );

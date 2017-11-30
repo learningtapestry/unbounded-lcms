@@ -3,6 +3,9 @@
 class DocumentsController < ApplicationController
   include GoogleAuth
 
+  skip_before_action :verify_authenticity_token, only: :show_lti
+  skip_before_action :authenticate_user!, only: :show_lti
+
   before_action :set_document
   before_action :check_document_layout, only: :show
   before_action :check_params, only: :export
@@ -26,6 +29,15 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       format.html
     end
+  end
+
+  def show_lti
+    # To allow access from iFrame element
+    response.headers.delete 'X-Frame-Options'
+
+    @props = CurriculumMap.new(@document.resource).props.merge(links_new_tab: true)
+
+    render layout: 'lti'
   end
 
   private

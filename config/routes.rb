@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   root to: 'welcome#index'
 
@@ -43,6 +44,7 @@ Rails.application.routes.draw do
     member do
       post 'export', to: 'documents#export'
       get 'export/status', to: 'documents#export_status'
+      post 'lti', to: 'documents#show_lti'
     end
   end
   resources :materials, only: :show do
@@ -77,6 +79,7 @@ Rails.application.routes.draw do
     get '/resource_picker' => 'resource_picker#index'
     resources :resources, except: :show do
       member do
+        post :export_to_lti_cc, path: 'export-lti-cc'
         post :unit_bundle
       end
     end
