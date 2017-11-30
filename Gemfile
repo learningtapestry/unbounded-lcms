@@ -99,7 +99,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'staccato', '~> 0.4.7'
 
 # job runner
+gem 'activejob-retry', '~> 0.6.3'
 gem 'resque', '~> 1.27', require: 'resque/server'
+gem 'resque-scheduler', '~> 4.2'
 
 # NOTE: Need to remove after upgrade to Rails 5
 # backports
@@ -147,7 +149,6 @@ gem 'nokogiri', '~> 1.6.0'
 
 # profiling
 gem 'newrelic_rpm' # Used temporarily for debugging workers
-
 
 group :development, :staging, :qa do
   gem 'mailcatcher', require: false

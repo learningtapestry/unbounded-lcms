@@ -2,6 +2,7 @@
 
 class DocumentParseJob < ActiveJob::Base
   include ResqueJob
+  include RetryDelayed
 
   queue_as :default
 

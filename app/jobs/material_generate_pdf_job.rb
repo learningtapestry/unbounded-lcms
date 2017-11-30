@@ -3,6 +3,8 @@
 class MaterialGeneratePDFJob < ActiveJob::Base
   include ResqueJob
 
+  include RetrySimple
+
   queue_as :default
 
   def perform(material, document)

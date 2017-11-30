@@ -2,6 +2,7 @@
 
 class DocumentGenerateJob < ActiveJob::Base
   include ResqueJob
+  include RetryDelayed
 
   queue_as :default
 
@@ -14,10 +15,10 @@ class DocumentGenerateJob < ActiveJob::Base
     if check_queue
       # Exit if any material is still generating
       return if materials_generating?
-    else
-      create_gdoc_folders
+    elsif document.materials.any?
       # Queue all materials at the first time
-      return queue_materials unless document.materials.blank?
+      create_gdoc_folders
+      return queue_materials
     end
 
     # If came here:
@@ -95,7 +96,7 @@ class DocumentGenerateJob < ActiveJob::Base
   end
 
   def queued?
-    queued = Resque.peek(queue_name, 0, 0).map { |job| job['args'].first }.detect{ |job| same_self?(job) }
+    queued = Resque.peek(queue_name, 0, 0).map { |job| job['args'].first }.detect { |job| same_self?(job) }
 
     queued || Resque::Worker.working.map(&:job).detect do |job|
       next unless job.is_a?(Hash) && (args = job.dig 'payload', 'args').is_a?(Array)
