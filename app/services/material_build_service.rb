@@ -78,6 +78,7 @@ class MaterialBuildService
       last_modified_at: downloader.file.modified_time,
       last_author_email: downloader.file.last_modifying_user.try(:email_address),
       last_author_name: downloader.file.last_modifying_user.try(:display_name),
+      reimported_at: Time.current,
       version: downloader.file.version
     }
   end
