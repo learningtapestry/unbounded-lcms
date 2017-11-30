@@ -28,6 +28,7 @@ gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
 
 # authentication
 gem 'devise', '~> 3.5.2', require: %w(devise devise/orm/active_record)
+gem 'rubyzip', '~> 1.1.7'
 
 # search with elastic search
 gem 'elasticsearch-dsl', '~> 0.1.5'

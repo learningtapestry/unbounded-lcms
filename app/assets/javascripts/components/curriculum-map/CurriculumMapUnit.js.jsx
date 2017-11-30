@@ -10,6 +10,7 @@ function CurriculumMapUnit(props) {
   if (isAssessment) {
     lessons = [
       <CurriculumMapLesson key={curriculum.resource.id}
+        blank={props.blank}
         curriculum={curriculum}
         colorCode={props.colorCode}
         active={props.active}
@@ -23,6 +24,7 @@ function CurriculumMapUnit(props) {
     lessons = _.filter(curriculum.children, x => !x.resource.is_opr);
     lessons = lessons.map(
       lesson => <CurriculumMapLesson key={lesson.resource.id}
+        blank={props.blank}
         curriculum={lesson}
         colorCode={props.colorCode}
         active={props.active}
@@ -42,7 +44,8 @@ function CurriculumMapUnit(props) {
   }
   return (
     <div className='o-c-map__unit'>
-      <ResourceHover cssClasses={cssClasses}
+      <ResourceHover blank={props.blank}
+        cssClasses={cssClasses}
         resource={curriculum.resource}
         resourceHtml={resourceHtml}
         handlePopupState={props.handlePopupState}/>

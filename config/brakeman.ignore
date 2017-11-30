@@ -84,7 +84,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to Document#find",
       "file": "app/controllers/documents_controller.rb",
-      "line": 80,
+      "line": 92,
       "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Document.find(params[:id])",
       "render_path": null,
@@ -163,7 +163,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to Resource#find",
       "file": "app/controllers/admin/resources_controller.rb",
-      "line": 68,
+      "line": 79,
       "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Resource.find(params[:id])",
       "render_path": null,
@@ -203,7 +203,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to Resource#find",
       "file": "app/controllers/resources_controller.rb",
-      "line": 51,
+      "line": 52,
       "link": "http://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "Resource.find(params[:id])",
       "render_path": null,
@@ -313,8 +313,27 @@
       "user_input": null,
       "confidence": "High",
       "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "dd05f5e976cc9fdd7c6bc6e8cdcf25b33b68499e9ae6c2b25294c46e09173e67",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/documents/show_lti.html.erb",
+      "line": 2,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DocumentPresenter.new(Document.find(params[:id]), :content_type => params[:type]).css_styles",
+      "render_path": [{"type":"controller","class":"DocumentsController","method":"show_lti","line":40,"file":"app/controllers/documents_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "documents/show_lti"
+      },
+      "user_input": "Document.find(params[:id])",
+      "confidence": "Weak",
+      "note": ""
     }
   ],
-  "updated": "2017-12-15 14:55:25 +0200",
+  "updated": "2017-12-25 15:53:32 +0200",
   "brakeman_version": "4.0.1"
 }
