@@ -13,9 +13,12 @@ module Admin
     end
 
     def create
-      reimport_lesson_materials if lesson_form_parameters[:with_materials].present?
+      if gdoc_files.size > 1
+        bulk_import gdoc_files
+        return render :import
+      end
 
-      @document = DocumentForm.new lesson_form_parameters.except(:with_materials), google_credentials
+      @document = reimport_lesson
       if @document.save
         redirect_to @document.document, notice: t('.success', name: @document.document.name)
       else
@@ -46,19 +49,19 @@ module Admin
     end
 
     def reimport_selected
-      bulk_import
+      bulk_import @documents
       render :import
     end
 
     private
 
-    def bulk_import
-      jobs = {}
+    def bulk_import(docs)
       google_auth_id = GoogleAuthService.new(self).user_id
       reimport_materials = params[:with_materials].present?
-      @documents.each do |doc|
+      jobs = docs.each_with_object({}) do |doc, jobs_|
         job_id = DocumentParseJob.perform_later(doc, google_auth_id, reimport_materials: reimport_materials).job_id
-        jobs[job_id] = { link: doc.file_url, status: 'waiting' }
+        link = doc.is_a?(Document) ? doc.file_url : doc
+        jobs_[job_id] = { link: link, status: 'waiting' }
       end
       @props = { jobs: jobs, type: :documents }
     end
@@ -87,6 +90,17 @@ module Admin
       @documents = Document.where(id: ids)
     end
 
+    def gdoc_files
+      @gdoc_files ||= begin
+        link = form_params[:link]
+        if link =~ %r{/drive/(.*/)?folders/}
+          DocumentDownloader::Gdoc.list_files(link, google_credentials)
+        else
+          [link]
+        end
+      end
+    end
+
     def google_authorization
       options = {}
       if action_name == 'reimport_selected'
@@ -96,12 +110,18 @@ module Admin
       obtain_google_credentials options
     end
 
-    def lesson_form_parameters
+    def form_params
       @lf_params ||= params.require(:document_form).permit(:link, :link_fs, :reimport, :with_materials)
     end
 
+    def reimport_lesson
+      reimport_lesson_materials if form_params[:with_materials].present?
+
+      DocumentForm.new form_params.except(:with_materials), google_credentials
+    end
+
     def reimport_lesson_materials
-      file_id = DocumentDownloader::Gdoc.file_id_for lesson_form_parameters['link']
+      file_id = DocumentDownloader::Gdoc.file_id_for form_params['link']
       doc = Document.actives.find_by(file_id: file_id)
       return unless doc
 
