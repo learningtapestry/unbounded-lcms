@@ -6,13 +6,17 @@ class DocumentParseJob < ActiveJob::Base
 
   queue_as :default
 
-  def perform(document, auth_id, options = {})
+  def perform(entry, auth_id, options = {})
     @credentials = google_credentials(auth_id)
-    @document = document
 
-    reimport_materials if options[:reimport_materials].present?
+    link = if entry.is_a?(Document)
+             @document = entry
+             reimport_materials if options[:reimport_materials].present?
+             @document.file_url
+           else
+             entry
+           end
 
-    link = @document.file_url
     form = DocumentForm.new({ link: link }, credentials)
     res = if form.save
             { ok: true, link: link, model: form.document }
