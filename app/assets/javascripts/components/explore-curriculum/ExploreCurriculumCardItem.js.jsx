@@ -81,12 +81,15 @@ class ExploreCurriculumCardItem extends React.Component {
     const cssHeaderClasses = classNames(
       `cs-txt--${colorCode}`,
       {'o-title__type o-title__type--top-align': props.shouldItemExpand},
-      {'o-title__type--short': !props.shouldItemExpand }
+      {'o-title__type--short': !props.shouldItemExpand },
+      {'u-hidden': resource.is_assessment}
     );
 
     const cssTitleClasses = classNames(
-      {'u-txt--card-title-medium': props.shouldItemExpand },
-      {'u-txt--card-title-short': !props.shouldItemExpand }
+      {'u-txt--card-title-medium': props.shouldItemExpand && !resource.is_assessment },
+      {'u-txt--card-title-short': !props.shouldItemExpand && !resource.is_assessment },
+      {'u-txt--card-assesment-medium': props.shouldItemExpand && resource.is_assessment },
+      {'u-txt--card-assesment-short': !props.shouldItemExpand && resource.is_assessment }
     );
 
     const cssShow = classNames(

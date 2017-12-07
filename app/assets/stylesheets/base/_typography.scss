@@ -91,13 +91,15 @@ $ub-element-typography: (
     small: ('font-size': 16px, 'line-height': 18px, 'font-family': $ub-serif, 'font-weight': 600),
     ipad: ('font-size': 14px, 'line-height': 22px, 'font-family': $ub-serif, 'font-weight': 600, color: #31424c),
   ),
+  card-assesment-medium: (color: #4a4a4a, font-family: $ub-serif, font-size: 24px, font-weight: 500,	line-height: 27px),
+  card-assesment-short: (color: #4a4a4a, font-family: $ub-serif, font-size: 20px, font-weight: 500,	line-height: 24px),
   card-title-medium: (
     small: ('font-size': 26px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
     ipad: ('font-size': 32px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959),
   ),
   card-title-short: (
-    small: ('font-size': 26px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959, 'margin-top': -6px),
-    ipad: ('font-size': 24px, 'line-height': 27px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959, 'margin-top': -6px),
+    small: ('font-size': 26px, 'line-height': 32px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959, 'margin-top': $curriculum-card-short-top),
+    ipad: ('font-size': 24px, 'line-height': 27px, 'font-family': $ub-serif, 'font-weight': 500, color: #595959, 'margin-top': $curriculum-card-short-top),
   ),
   card-dsc: (
     small: ('font-size': 18px, 'line-height': 24px, 'font-family': $ub-sanserif),

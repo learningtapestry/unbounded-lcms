@@ -92,7 +92,7 @@ $ub-cur-card-margin: 2px;
 
     @include m(short) {
       @include breakpoint(ipad){
-        margin-top: -6px;
+        margin-top: $curriculum-card-short-top;
       }
     }
 
@@ -166,7 +166,7 @@ $ub-cur-card-margin: 2px;
     @include m(short) {
       .is-dropdown-submenu {
         right: 0% !important;
-        top: 54px;
+        top: 34px;
       }
 
       .submenu {
@@ -188,10 +188,13 @@ $ub-cur-card-margin: 2px;
   }
 
   @include e(ellipsis) {
-    padding: 0 !important;
-    padding-right: 10px !important;
     color: $ub-txt;
     cursor: pointer;
+    display: flex !important;
+    padding: 0 !important;
+    padding-right: 10px !important;
+
+    &, i { line-height: .5; }
 
     @include breakpoint(medium down) {
       margin-right: -7px;
@@ -223,7 +226,6 @@ $ub-cur-card-margin: 2px;
     @extend %map-transition;
     @include add-top-bottom-padding(.5);
     @include add-column-padding(.5);
-    //border-radius: 0;
 
     .o-cur-card--show-medium { display: none; }
     .o-cur-card--show-short { display: inherit; }
