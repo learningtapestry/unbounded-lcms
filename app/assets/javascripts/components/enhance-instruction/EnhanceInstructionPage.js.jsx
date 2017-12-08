@@ -142,7 +142,7 @@ class EnhanceInstructionPage extends React.Component {
               <FilterbarResponsive
                 onUpdate={this.handleFilterbarUpdate.bind(this)}
                 withSearch={false}
-                withLead={true}
+                withLead={false}
                 {...this.state.filterbar} />
             </div>
           </div>
