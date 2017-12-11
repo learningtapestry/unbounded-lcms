@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :cloud66 do
   desc 'Post-bundle hook tasks for Cloud66.'
   task after_bundle: %i(i18n:js:export routes:generate_js)
@@ -13,7 +15,7 @@ namespace :cloud66 do
       FileUtils.cp origin, target
     end
 
-    desc 'Add robots.txt to public'
+    desc 'Deletes robots.txt from public'
     task remove: :environment do
       path = Rails.root.join 'public', 'robots.txt'
       FileUtils.rm path
