@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class DocumentParseJob < ActiveJob::Base
+  include GoogleCredentials
   include ResqueJob
   include RetryDelayed
 
@@ -29,12 +30,6 @@ class DocumentParseJob < ActiveJob::Base
   private
 
   attr_reader :credentials, :document
-
-  def google_credentials(user_id)
-    service = GoogleAuthService.new(nil)
-    fake_request = OpenStruct.new(session: {})
-    service.authorizer.get_credentials(user_id, fake_request)
-  end
 
   def reimport_materials
     document.materials.each do |material|
