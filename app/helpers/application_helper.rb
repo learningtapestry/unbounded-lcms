@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ApplicationHelper
+module ApplicationHelper # rubocop:disable Metrics/ModuleLength
   def add_class_for_path(link_path, klass, klass_prefix = nil)
     [
       klass_prefix,
@@ -64,19 +64,19 @@ module ApplicationHelper
     end
   end
 
-  def set_page_title(title)
+  def set_page_title(title) # rubocop:disable Style/AccessorMethodName
     content_for :page_title do
       title
     end
   end
 
-  def set_page_description(dsc)
+  def set_page_description(dsc) # rubocop:disable Style/AccessorMethodName
     content_for :description do
       dsc
     end
   end
 
-  def set_canonical_url(value)
+  def set_canonical_url(value) # rubocop:disable Style/AccessorMethodName
     content_for(:canonical_url, value)
   end
 
@@ -117,7 +117,7 @@ module ApplicationHelper
     controller.controller_name == 'content_guides' && controller.action_name == 'show'
   end
 
-  def set_social_media_sharing(target)
+  def set_social_media_sharing(target) # rubocop:disable Style/AccessorMethodName
     @social_media_presenter = SocialMediaPresenter.new(target: target, view: self)
   end
 
