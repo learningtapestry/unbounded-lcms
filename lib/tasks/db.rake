@@ -1,10 +1,11 @@
-namespace :db do
+# frozen_string_literal: true
 
+namespace :db do # rubocop:disable Metric/BlockLength
   desc 'Dumps the database.'
   task dump: :environment do
     config = ActiveRecord::Base.connection_config
 
-    dump_cmd = <<-bash
+    dump_cmd = <<-BASH
       PGPASSWORD=#{config[:password]} \
       pg_dump \
         --port #{config[:port]} \
@@ -16,7 +17,7 @@ namespace :db do
         --format=c \
         -n public \
         #{config[:database]} > #{Rails.root}/db/dump/content.dump
-    bash
+    BASH
 
     puts "Dumping #{Rails.env} database."
 
@@ -27,7 +28,7 @@ namespace :db do
   task pg_restore: [:environment] do
     config = ActiveRecord::Base.connection_config
 
-    restore_cmd = <<-bash
+    restore_cmd = <<-BASH
       PGPASSWORD=#{config[:password]} \
       pg_restore \
         --port=#{config[:port]} \
@@ -37,7 +38,7 @@ namespace :db do
         --no-acl \
         -n public \
         --dbname=#{config[:database]} #{Rails.root}/db/dump/content.dump
-    bash
+    BASH
 
     puts "Restoring #{Rails.env} database."
 
@@ -51,7 +52,7 @@ namespace :db do
   task backup: [:environment] do
     config = ActiveRecord::Base.connection_config
 
-    backup_cmd = <<-bash
+    backup_cmd = <<-BASH
       BACKUP_FOLDER=$HOME/database_backups/`date +%Y_%m_%d`
       BACKUP_NAME=unbounded_`date +%s`.dump
       BACKUP_PATH=$BACKUP_FOLDER/$BACKUP_NAME
@@ -69,7 +70,7 @@ namespace :db do
           > $BACKUP_PATH
 
       echo "-> Backup created in $BACKUP_PATH."
-    bash
+    BASH
 
     puts "Backing up #{Rails.env} database."
 
