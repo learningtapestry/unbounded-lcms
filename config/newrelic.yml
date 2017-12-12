@@ -49,3 +49,7 @@ qa:
 
 production:
   <<: *default_settings
+
+production_swap:
+  <<: *default_settings
+  app_name: UnboundEd (Swap)
