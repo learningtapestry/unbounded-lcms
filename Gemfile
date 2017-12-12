@@ -69,7 +69,7 @@ gem 'sass-rails', '~> 5.0'
 # TODO: foundation or bootstrap??
 gem 'bootstrap-sass', '~> 3.3.5.1'
 gem 'foundation-rails', '~> 6.2.1'
-gem 'i18n-js', '~> 2.1.2'
+gem 'i18n-js', '~> 3.0.2'
 gem 'jquery-rails'
 gem 'js-routes', '~> 1.1.2'
 gem 'turbolinks'
