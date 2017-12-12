@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -36,5 +38,8 @@ module Content
     config.active_job.queue_adapter = :resque
 
     routes.default_url_options = { host: ENV['UNBOUNDED_DOMAIN'] }
+
+    # Used by i18n-js gem
+    config.middleware.use I18n::JS::Middleware
   end
 end
