@@ -4,7 +4,10 @@ p, ol, ul {
     orphans: 2;
     widows: 2;
   }
-  i.fa { font: normal normal normal 14px/1 FontAwesome; }
+
+  i {
+    .fa { font: normal normal normal 14px/1 FontAwesome; }
+  }
 }
 
 h1, h2, h3, h4, h5 {

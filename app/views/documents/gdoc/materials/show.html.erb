@@ -18,8 +18,3 @@
 <% else %>
   <%= raw document.content_for(:gdoc) %>
 <% end %>
-
-<% if options[:blank_page].present? %>
-  <div class="u-pdf-alwaysbreak u-pd-content">
-  </div>
-<% end %>
