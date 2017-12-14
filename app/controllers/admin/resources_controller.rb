@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ResourcesController < AdminController
     CREATE_TAG_KEYS = %i(new_topic_names new_tag_names new_content_source_names
@@ -73,45 +75,55 @@ module Admin
     end
 
     def form_params
-      @ps ||= begin
-        ps = params.require(:resource).permit(
-          :curriculum_type,
-          :curriculum_directory,
-          :parent_id,
-          :tree,
-          :description,
-          :hidden,
-          :resource_type,
-          :short_title,
-          :subtitle,
-          :title,
-          :teaser,
-          :url,
-          :time_to_teach,
-          :ell_appropriate,
-          :image_file,
-          :opr_description,
-          additional_resource_ids: [],
-          common_core_standard_ids: [],
-          resource_downloads_attributes: [
-            :_destroy,
-            :id,
-            :download_category_id, { download_attributes: %i(description file main filename_cache id title) }
-          ],
-          related_resource_ids: [],
-          unbounded_standard_ids: [],
-          new_unbounded_standard_names: [],
-          topic_ids: [],
-          tag_ids: [],
-          content_source_ids: [],
-          reading_assignment_text_ids: [],
-          new_topic_names: [],
-          new_tag_names: [],
-          new_content_source_names: []
-        )
-        ps[:curriculum_directory] = ps[:curriculum_directory].split(',')
-        ps
-      end
+      @ps ||=
+        begin
+          download_categories_settings =
+            DownloadCategory.select(:title).map do |category|
+              { category.title.parameterize => %i(show_long_description show_short_description) }
+            end
+          ps = params.require(:resource).permit(
+            :curriculum_type,
+            :curriculum_directory,
+            :parent_id,
+            :tree,
+            :description,
+            :hidden,
+            :resource_type,
+            :short_title,
+            :subtitle,
+            :title,
+            :teaser,
+            :url,
+            :time_to_teach,
+            :ell_appropriate,
+            :image_file,
+            :opr_description,
+            additional_resource_ids: [],
+            common_core_standard_ids: [],
+            download_categories_settings: download_categories_settings,
+            resource_downloads_attributes: [
+              :_destroy,
+              :description,
+              :id,
+              :download_category_id, { download_attributes: %i(description file main filename_cache id title) }
+            ],
+            related_resource_ids: [],
+            unbounded_standard_ids: [],
+            new_unbounded_standard_names: [],
+            topic_ids: [],
+            tag_ids: [],
+            content_source_ids: [],
+            reading_assignment_text_ids: [],
+            new_topic_names: [],
+            new_tag_names: [],
+            new_content_source_names: []
+          )
+          ps[:download_categories_settings].transform_values! do |settings|
+            settings.transform_values! { |x| x == '1' }
+          end
+          ps[:curriculum_directory] = ps[:curriculum_directory].split(',')
+          ps
+        end
     end
 
     def resource_params

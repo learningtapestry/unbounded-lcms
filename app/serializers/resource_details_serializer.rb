@@ -15,6 +15,7 @@ class ResourceDetailsSerializer < ResourceSerializer
   def downloads
     indent = object.pdf_downloads?
     serialize_download = lambda do |download|
+      next unless download.is_a?(Download)
       {
         id: download.id,
         icon: h.file_icon(download.download.attachment_content_type),

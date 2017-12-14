@@ -33,6 +33,13 @@ module ResourceHelper
     ResourceDownload::DOWNLOAD_PER_CATEGORY_LIMIT
   end
 
+  def download_heap_data(download, opts = {})
+    {
+      category: download.download_category&.title,
+      url: download.download.filename.url
+    }.merge(opts).to_json
+  end
+
   def resource_breadcrumbs_with_links(resource)
     return GenericPresenter.new(resource).generic_title if resource.generic?
 

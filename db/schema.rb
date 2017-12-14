@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171130092914) do
+ActiveRecord::Schema.define(version: 20171215152649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(version: 20171130092914) do
     t.text     "foundational_content"
     t.string   "fs_name"
     t.jsonb    "sections_metadata"
+    t.boolean  "reimported",            default: true, null: false
   end
 
   add_index "documents", ["file_id"], name: "index_documents_on_file_id", using: :btree
@@ -212,8 +213,10 @@ ActiveRecord::Schema.define(version: 20171130092914) do
   add_index "documents_materials", ["material_id"], name: "index_documents_materials_on_material_id", using: :btree
 
   create_table "download_categories", force: :cascade do |t|
-    t.string "name",        null: false
-    t.string "description"
+    t.string  "title",            null: false
+    t.text    "description"
+    t.integer "position"
+    t.text    "long_description"
   end
 
   create_table "downloads", force: :cascade do |t|
@@ -254,18 +257,18 @@ ActiveRecord::Schema.define(version: 20171130092914) do
   add_index "material_parts", ["material_id"], name: "index_material_parts_on_material_id", using: :btree
 
   create_table "materials", force: :cascade do |t|
-    t.string   "file_id",                           null: false
+    t.string   "file_id",                        null: false
     t.string   "identifier"
-    t.jsonb    "metadata",             default: {}, null: false
+    t.jsonb    "metadata",          default: {}, null: false
     t.string   "name"
     t.datetime "last_modified_at"
     t.string   "last_author_email"
     t.string   "last_author_name"
     t.text     "original_content"
     t.string   "version"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.jsonb    "preview_links",        default: {}
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.jsonb    "preview_links",     default: {}
     t.datetime "reimported_at"
   end
 
@@ -324,6 +327,7 @@ ActiveRecord::Schema.define(version: 20171130092914) do
     t.datetime "updated_at",           null: false
     t.boolean  "active"
     t.integer  "download_category_id"
+    t.text     "description"
   end
 
   add_index "resource_downloads", ["download_category_id"], name: "index_resource_downloads_on_download_category_id", using: :btree
@@ -394,7 +398,7 @@ ActiveRecord::Schema.define(version: 20171130092914) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "indexed_at"
-    t.boolean  "hidden",                default: false
+    t.boolean  "hidden",                       default: false
     t.string   "engageny_url"
     t.string   "engageny_title"
     t.string   "description"
@@ -404,20 +408,21 @@ ActiveRecord::Schema.define(version: 20171130092914) do
     t.string   "teaser"
     t.integer  "time_to_teach"
     t.string   "subject"
-    t.boolean  "ell_appropriate",       default: false, null: false
+    t.boolean  "ell_appropriate",              default: false, null: false
     t.datetime "deleted_at"
-    t.integer  "resource_type",         default: 1,     null: false
+    t.integer  "resource_type",                default: 1,     null: false
     t.string   "url"
     t.string   "image_file"
     t.string   "curriculum_type"
-    t.text     "curriculum_directory",  default: [],    null: false, array: true
+    t.text     "curriculum_directory",         default: [],    null: false, array: true
     t.integer  "curriculum_tree_id"
     t.string   "hierarchical_position"
     t.string   "slug"
     t.integer  "parent_id"
     t.integer  "level_position"
-    t.boolean  "tree",                  default: false, null: false
+    t.boolean  "tree",                         default: false, null: false
     t.string   "opr_description"
+    t.jsonb    "download_categories_settings", default: {},    null: false
   end
 
   add_index "resources", ["curriculum_tree_id"], name: "index_resources_on_curriculum_tree_id", using: :btree

@@ -1,21 +1,12 @@
 .o-unit-bundles {
+  padding-top: 20px;
+
   @include e(item) {
     @include m(links) {
     }
 
     @include m(placeholder) {
       margin-right: 30px;
-    }
-  }
-
-  @include e(text) {
-    color: $ub-txt;
-    margin-top: 1em;
-
-    ul {
-      list-style: disc;
-
-      li { color: $ub-txt; }
     }
   }
 

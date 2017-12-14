@@ -73,7 +73,11 @@ en:
       destroy:
         success: "Category deleted successfully."
       edit:
+        description: 'Display short description'
+        long_description: 'Display long description'
         page_title: "Edit download category '%{name}'"
+        position: 'Order'
+        title: 'Display Name'
       index:
         page_title: Downloadable Resource Categories
         new_category: New Category
@@ -101,6 +105,8 @@ en:
         create_subject: Create Subject
         create_topic: Create Topic
         opr_description: Optional Prerequisite description line
+      downloadable:
+        description: 'Short description'
       index:
         disable_editing: Disable Resource Editing
         enable_editing: Enable Resource Editing
