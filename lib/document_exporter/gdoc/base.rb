@@ -23,8 +23,7 @@ module DocumentExporter
         folders = [id]
         folders << drive_service.create_folder(DocumentExporter::Gdoc::TeacherMaterial::FOLDER_NAME, id)
         folders << drive_service.create_folder(DocumentExporter::Gdoc::StudentMaterial::FOLDER_NAME, id)
-        # TODO: Temporary disable that. As it eats a lot of API calls
-        # folders.each { |f| delete_previous_versions_from(f) }
+        folders.each { |f| delete_previous_versions_from(f) }
       end
 
       def export

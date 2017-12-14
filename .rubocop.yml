@@ -9,6 +9,9 @@ AllCops:
     - db/schema.rb
   TargetRubyVersion: 2.3
 
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 
@@ -38,9 +41,6 @@ Style/ClassAndModuleChildren:
 
 Style/Documentation:
   Enabled: false
-
-Style/MultilineMethodCallIndentation:
-  EnforcedStyle: indented_relative_to_receiver
 
 Style/NestedParenthesizedCalls:
   Enabled: false
