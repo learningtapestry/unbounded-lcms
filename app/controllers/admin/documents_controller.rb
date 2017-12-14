@@ -67,7 +67,7 @@ module Admin
     end
 
     def documents(q) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
-      scope = Document.all
+      scope = Document.all.distinct
       # filters
       scope = scope.actives unless q.inactive == '1'
       scope = scope.filter_by_term(q.search_term) if q.search_term.present?
@@ -76,6 +76,7 @@ module Admin
       scope = scope.filter_by_module(q.module) if q.module.present?
       scope = scope.filter_by_unit(q.unit) if q.unit.present?
       scope = scope.with_broken_materials if q.broken_materials == '1'
+      scope = scope.with_updated_materials if q.reimport_required == '1'
       # sort
       scope = scope.order_by_curriculum if q.sort_by.blank? || q.sort_by == 'curriculum'
       scope = scope.order(updated_at: :desc) if q.sort_by == 'last_update'
