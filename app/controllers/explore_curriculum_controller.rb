@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExploreCurriculumController < ApplicationController
   def index
     @props = interactor.index_props

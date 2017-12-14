@@ -82,7 +82,7 @@
             <% end %>
           </div>
         </div>
-        <% if !@resource.lesson? %>
+        <% unless @resource.lesson? %>
           <div class="o-resource-summary--2x u-pd-content--xlarge cs-tint-bg--<%= color_code(@resource) %> u-br-bottom--base">
             <div class="o-resource-summary__map o-resource-summary__map--2x"></div>
             <div class="o-resource-summary__content--2x">

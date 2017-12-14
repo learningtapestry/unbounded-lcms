@@ -55,7 +55,8 @@ gem 'ransack', '~> 1.7.0'
 # data seeding
 gem 'migration_data', '~> 0.2.1'
 gem 'seedbank', '~> 0.3'
-# tree data structure
+# tree and list data structure
+gem 'acts_as_list', '~> 0.9.10'
 gem 'closure_tree', '~> 6.6'
 gem 'rubytree', '~> 0.9.6'
 # tags

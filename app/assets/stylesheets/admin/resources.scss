@@ -24,8 +24,8 @@
 .resource-search-wrap {
   flex-basis: 0;
   flex-grow: 1;
-  vertical-align: top !important;
   padding-right: 1%;
+  vertical-align: top !important;
 
   &:last-child {
     padding: 0;
@@ -33,9 +33,17 @@
 }
 
 .o-adm-download {
-  padding: 10px;
+  background-color: $ub-white;
   margin: 10px 0;
-  background-color: #fff;
+  padding: 10px;
+
+  @include e(settings) {
+    @include flex;
+
+    input {
+      margin-left: 10px;
+    }
+  }
 }
 
 .resource-btns-col {

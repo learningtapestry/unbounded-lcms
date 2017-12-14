@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Resource < ActiveRecord::Base
+class Resource < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   enum resource_type: {
     resource: 1,
     podcast: 2,
@@ -114,7 +114,7 @@ class Resource < ActiveRecord::Base
     def ransackable_scopes(_auth_object = nil)
       %i(grades)
     end
-  end # class methods
+  end
 
   # Define predicate methods for subjects.
   # I,e: #ela?, #math?, ..
@@ -192,10 +192,20 @@ class Resource < ActiveRecord::Base
   end
 
   def download_categories
-    resource_downloads
-      .group_by { |d| d.download_category.try(:category_name) || '' }
-      .sort_by { |k, _| k }.to_h
-      .transform_values { |v| v.sort_by { |d| [d.download.main ? 0 : 1, d.download.title] } }
+    categories =
+      {}.tap do |data|
+        DownloadCategory.pluck(:description, :long_description, :title).each do |x|
+          next unless download_categories_settings[x[2].parameterize]&.values&.any?
+          data[x[2]] = [OpenStruct.new(long: x[1], short: x[0])]
+        end
+      end
+
+    downloads = resource_downloads
+                  .sort_by { |rd| rd.download_category&.position }
+                  .group_by { |d| d.download_category&.title.to_s }
+                  .transform_values { |v| v.sort_by { |d| [d.download.main ? 0 : 1, d.download.title] } }
+
+    categories.merge downloads
   end
 
   def pdf_downloads?

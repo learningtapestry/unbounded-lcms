@@ -9,7 +9,7 @@
   <table class=table>
     <% @categories.each do |category| %>
       <tr>
-        <td class=category-tag-col><%= category.name %></td>
+        <td class=category-tag-col><%= category.title %></td>
         <td class=category-tag-col><%= category.description %></td>
         <td><%= link_to t('ui.edit'), [:edit, :admin, category], class: 'button small' %></td>
         <td><%= button_to t('ui.delete'), admin_download_category_path(category), class: 'button small danger', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %></td>
