@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ResourceBackup < ActiveRecord::Base
   validates :comment, presence: true
 
@@ -7,16 +9,15 @@ class ResourceBackup < ActiveRecord::Base
   mount_uploader :dump, BackupUploader
 
   def restore!
-    command = <<-CMD
-      PGPASSWORD=#{config[:password]} \
-      psql \
-        --host=#{config[:host]} \
-        --port=#{config[:port]} \
-        --username=#{config[:username]} \
-        #{config[:database]} < #{dump.path}
-    CMD
+    env_vars = { PGPASSWORD: config[:password] }
+    params = <<-CMD_PARAMS
+      --host=#{config[:host]} \
+      --port=#{config[:port]} \
+      --username=#{config[:username]} \
+      #{config[:database]} < #{dump.path}
+    CMD_PARAMS
 
-    raise 'Failed to restore the dump' unless system(command)
+    raise 'Failed to restore the dump' unless system(env_vars, 'psql', params)
   end
 
   private
@@ -36,21 +37,20 @@ class ResourceBackup < ActiveRecord::Base
     tables << resources_table
     table_options = tables.map { |table| "--table=#{table}" }.join(' ')
 
-    command = <<-CMD
-      PGPASSWORD=#{config[:password]} \
-      pg_dump \
-        --clean \
-        --host=#{config[:host]} \
-        --no-acl \
-        --no-owner \
-        --port=#{config[:port]} \
-        --schema=public \
-        --username=#{config[:username]} \
-        #{table_options} \
-        #{config[:database]} > #{path}
-    CMD
+    env_vars = { PGPASSWORD: config[:password] }
+    params = <<-CMD_PARAMS
+      --clean \
+      --host=#{config[:host]} \
+      --no-acl \
+      --no-owner \
+      --port=#{config[:port]} \
+      --schema=public \
+      --username=#{config[:username]} \
+      #{table_options} \
+      #{config[:database]} > #{path}
+    CMD_PARAMS
 
-    raise 'Failed to dump resources' unless system(command)
+    raise 'Failed to dump resources' unless system(env_vars, 'pg_dump', params)
     @path_to_dump = path
   end
 
