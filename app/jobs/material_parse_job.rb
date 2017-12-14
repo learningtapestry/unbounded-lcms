@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class MaterialParseJob < ActiveJob::Base
+  include GoogleCredentials
   include ResqueJob
 
   queue_as :default
@@ -15,13 +16,5 @@ class MaterialParseJob < ActiveJob::Base
             { ok: false, link: link, errors: form.errors[:link] }
           end
     store_result res
-  end
-
-  private
-
-  def google_credentials(user_id)
-    service = GoogleAuthService.new(nil)
-    fake_request = OpenStruct.new(session: {})
-    service.authorizer.get_credentials(user_id, fake_request)
   end
 end
