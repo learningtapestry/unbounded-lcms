@@ -32,7 +32,7 @@ class MaterialForm
   def persist!
     service = MaterialBuildService.new(@credentials)
     @material = source_type == 'pdf' ? service.build_from_pdf(link) : service.build_from_gdoc(link)
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)
   end
