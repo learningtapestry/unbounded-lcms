@@ -64,6 +64,10 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
     end
   end
 
+  def redis
+    Rails.application.config.redis
+  end
+
   def set_page_title(title) # rubocop:disable Style/AccessorMethodName
     content_for :page_title do
       title
@@ -81,6 +85,11 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
   end
 
   def base64_encoded_asset(path)
+    key = "ub-b64-asset:#{path}"
+
+    b64_asset = redis.get key
+    return b64_asset if b64_asset.present?
+
     if Rails.env.development? || Rails.env.test?
       asset = Rails.application.assets.find_asset(path)
       content_type = asset.content_type
@@ -90,8 +99,10 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
       content_type = Mime::Type.lookup_by_extension(File.extname(path).split('.').last)
     end
     raise "Could not find asset '#{path}'" if asset.nil?
-    base64 = Base64.encode64(asset.to_s).gsub(/\s+/, '')
-    "data:#{content_type};base64,#{Rack::Utils.escape(base64)}"
+    encoded = Base64.encode64(asset.to_s).gsub(/\s+/, '')
+    b64_asset = "data:#{content_type};base64,#{Rack::Utils.escape(encoded)}"
+    redis.set key, b64_asset, ex: 1.day.to_i
+    b64_asset
   end
 
   def inlined_asset(path)
