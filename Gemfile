@@ -4,7 +4,7 @@ ruby '2.3.3'
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.7.1'
 
 # error handling
 gem 'airbrake', '~> 6.2'
@@ -62,7 +62,7 @@ gem 'rubytree', '~> 0.9.6'
 gem 'acts-as-taggable-on', '~> 3.5'
 
 # assets
-gem 'autoprefixer-rails', '~> 6.3.6'
+gem 'autoprefixer-rails', '~> 6.4.0'
 gem 'font-awesome-sass', '~> 4.4.0'
 gem 'react-rails', '~> 1.6'
 gem 'sass-rails', '~> 5.0'
@@ -155,6 +155,7 @@ group :development, :staging, :qa do
 end
 
 group :development, :test do
+  gem 'brakeman', '~> 4.0.1', require: false
   gem 'factory_girl_rails', '~> 4.0'
   gem 'faker'
   gem 'pry-byebug'
