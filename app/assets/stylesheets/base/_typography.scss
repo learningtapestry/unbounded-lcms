@@ -136,6 +136,9 @@ $ub-element-typography: (
   // generic card
   generic-card-title: ('font-size': 14px, 'line-height': 30px, 'font-family': $ub-serif, 'font-weight': 600),
   generic-card-teaser: ('font-size': 22px, 'line-height': 24px, 'font-family': $ub-serif, 'font-weight': 500),
+  // help desk
+  helpdesk-hover-title: (font-weight: 500),
+  helpdesk-title: (color: #423872, font-family: $ub-serif, font-size: 24px, font-weight: 600, line-height: 29px),
   // about people
   staff-name: ('font-size': 22px, 'line-height': 28px, 'font-family': $ub-sanserif-condensed, 'font-weight': 500, color: $ub-primary),
   staff-position: ('font-size': 18px, 'line-height': 22px, 'font-family': $ub-sanserif, 'font-weight': 300, 'font-style': italic, color: #666),
