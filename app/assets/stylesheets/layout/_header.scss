@@ -38,6 +38,7 @@
 
   @include e(left-menu) {
     @include menu-direction(vertical);
+    position: relative;
     > li > a { @include header-link-padding; }
 
     @include breakpoint($topbar-unstack-breakpoint) {
@@ -67,29 +68,51 @@
     }
   }
 
-  @include e(auth-submenu) {
+  @include e(left-submenu) {
     @include breakpoint($topbar-unstack-breakpoint) {
-      @include menu-direction(vertical);
-      @include add-column-padding(0);
-      background-color: $ub-white !important;
       left: initial !important;
-      margin-top: 1px;
       min-width: 250px;
       right: 0 !important;
       top: auto;
 
       &::before {
-        @include css-triangle($tooltip-pip-width, $ub-white, up);
         bottom: 100%;
         position: absolute;
         right: 5px;
         transform: translateX(-50%);
       }
     }
+  }
+
+  @include e(auth-submenu) {
+    @include breakpoint($topbar-unstack-breakpoint) {
+      @include menu-direction(vertical);
+      @include add-column-padding(0);
+      background-color: $ub-white !important;
+
+      &::before {
+        @include css-triangle($tooltip-pip-width, $ub-white, up);
+      }
+    }
 
     > li > a {
       padding-left: $ub-base-margin !important;
       padding-right: $ub-base-margin !important;
+    }
+  }
+
+  @include e(helpdesk-hover) {
+    @include breakpoint($topbar-unstack-breakpoint) {
+      $tooltip-color: map-get($ub-ld-colorcodes, tooltip-bg);
+      background-color: $tooltip-color !important;
+      border-radius: 3px;
+      box-shadow: 0 0 8px 0 rgba(0, 0, 0, .25);
+      margin-top: 1rem;
+      padding: 1rem;
+
+      &::before {
+        @include css-triangle($tooltip-pip-width, $tooltip-color, up);
+      }
     }
   }
 

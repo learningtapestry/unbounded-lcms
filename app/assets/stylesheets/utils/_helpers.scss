@@ -64,6 +64,10 @@ $border-radius-sides: (top, bottom);
   }
 }
 
+.u-br--2xbase {
+  border-radius: $global-radius * 2 !important;
+}
+
 $margins: (
   'zero': 0,
   'xs': $ub-small-margin * .7,

@@ -6,8 +6,12 @@ $ld-header-column-gutter: (
 );
 
 .c-ld {
-  @include add-gutter($type: padding, $subtype: top, $x: 2);
   color: $ub-heading-txt;
+  padding-top: 5rem;
+
+  @include breakpoint(large) {
+    @include add-gutter($type: padding, $subtype: top, $x: 2);
+  }
 
   @include e(sidebar) {
     display: none;
