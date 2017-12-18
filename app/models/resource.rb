@@ -193,11 +193,9 @@ class Resource < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def download_categories
     categories =
-      {}.tap do |data|
-        DownloadCategory.pluck(:description, :long_description, :title).each do |x|
-          next unless download_categories_settings[x[2].parameterize]&.values&.any?
-          data[x[2]] = [OpenStruct.new(long: x[1], short: x[0])]
-        end
+      DownloadCategory.pluck(:description, :long_description, :title).each_with_object({}) do |x, data|
+        next unless download_categories_settings[x[2].parameterize]&.values&.any?
+        data[x[2]] = [OpenStruct.new(long: x[1], short: x[0])]
       end
 
     downloads = resource_downloads

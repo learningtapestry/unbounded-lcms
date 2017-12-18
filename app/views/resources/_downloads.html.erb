@@ -12,10 +12,10 @@
         <% if (resource_download = downloads.first) %>
           <% settings = resource.download_categories_settings[category_title.parameterize] %>
           <% if settings.try(:[], 'show_short_description') %>
-            <p><%= resource_download.try(:short).presence || resource_download.download_category.description %></p>
+            <p><%= resource_download.try(:short).presence || resource_download.download_category&.description %></p>
           <% end %>
           <% if settings.try(:[], 'show_long_description') %>
-            <div><%= raw resource_download.try(:long).presence || resource_download.download_category.long_description %></div>
+            <div><%= raw resource_download.try(:long).presence || resource_download.download_category&.long_description %></div>
           <% end %>
           <% downloads.take(download_per_category_limit).each do |download| %>
             <%= render(partial: 'resources/download', locals: { download: download, resource: resource, indent: indent }) if download.is_a?(ResourceDownload) %>
