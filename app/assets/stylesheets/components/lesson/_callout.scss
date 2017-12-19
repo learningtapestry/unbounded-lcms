@@ -10,6 +10,11 @@
 
   @include e(content) {
     font-size: 17px;
+
+    a {
+      overflow-wrap: break-word;
+      word-break: break-all;
+    }
   }
 
   @include e(header) {
