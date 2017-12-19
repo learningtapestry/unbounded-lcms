@@ -46,7 +46,7 @@ namespace :db do # rubocop:disable Metric/BlockLength
   end
 
   desc 'Drops, creates and restores the database from a dump.'
-  task restore: [:environment, :drop, :create, :pg_restore]
+  task restore: %i(environment drop create pg_restore)
 
   desc 'Backs up the database.'
   task backup: [:environment] do
