@@ -10,30 +10,40 @@ class DocumentParseJob < ActiveJob::Base
   def perform(entry, auth_id, options = {})
     @credentials = google_credentials(auth_id)
 
-    link = if entry.is_a?(Document)
-             @document = entry
-             reimport_materials if options[:reimport_materials].present?
-             @document.file_url
-           else
-             entry
-           end
+    if entry.is_a?(Document)
+      @document = entry
+      reimport_materials if options[:reimport_materials].present?
+      reimport_document(@document.file_url) if result.nil?
+    else
+      reimport_document entry
+    end
 
-    form = DocumentForm.new({ link: link }, credentials)
-    res = if form.save
-            { ok: true, link: link, model: form.document }
-          else
-            { ok: false, link: link, errors: form.errors[:link] }
-          end
-    store_result res
+    store_result result
+
+    @document.update(reimported: false) unless result[:ok]
   end
 
   private
 
-  attr_reader :credentials, :document
+  attr_reader :credentials, :document, :result
+
+  def reimport_document(link)
+    form = DocumentForm.new({ link: link }, credentials)
+    @result = if form.save
+                { ok: true, link: link, model: form.document }
+              else
+                { ok: false, link: link, errors: form.errors[:link] }
+              end
+  end
 
   def reimport_materials
     document.materials.each do |material|
-      MaterialForm.new({ link: material.file_url }, credentials).save
+      link = material.file_url
+      form = MaterialForm.new({ link: link }, credentials)
+      next if form.save
+
+      @result = { ok: false, link: link, errors: [%(Material error (<a href="#{link}">source</a>): #{form.errors[:link]})] }
+      break
     end
   end
 end

@@ -15,6 +15,8 @@ class Document < ActiveRecord::Base
   scope :actives,   -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
 
+  scope :failed, -> { where(reimported: false) }
+
   scope :where_metadata, ->(key, val) { where('metadata @> hstore(:key, :val)', key: key, val: val) }
 
   scope :order_by_curriculum, lambda {

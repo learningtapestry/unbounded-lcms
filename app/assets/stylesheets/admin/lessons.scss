@@ -77,6 +77,13 @@
     }
   }
 
+  @include e(status) {
+    .failed {
+      color: red;
+      font-weight: bold;
+    }
+  }
+
   tr {
     th:nth-child(5), td:nth-child(5) {
       max-width: 250px;

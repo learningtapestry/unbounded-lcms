@@ -61,7 +61,13 @@
           </td>
           <td><%= render partial: 'admin/documents/materials_links', locals: { lesson: lesson } %></td>
           <td class="u-text--small"><%= lesson.updated_at.to_s %></td>
-          <td><%= lesson.active? ? 'active' : 'inactive' %></td>
+          <td class="lessons-table__status">
+            <%= lesson.active? ? 'active' : 'inactive' %>
+            <% unless lesson.reimported %>
+              <br/>
+              <span class="failed">failed</span>
+            <% end %>
+          </td>
           <td class="lessons-table__btns">
             <%= render partial: 'admin/documents/reimport', locals: {lesson: lesson} %>
             <%= button_to t('ui.delete'), admin_document_path(lesson), class: 'button small alert', data: { confirm: t('ui.are_you_sure') }, form_class: 'inline', method: :delete %>
