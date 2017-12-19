@@ -14,6 +14,7 @@ class HtmlSanitizer
       nodes = Nokogiri::HTML.fragment html
       clean_double_margin_elements(nodes)
       clean_empty_elements(nodes.elements)
+      clean_dropdowns(nodes)
       nodes.to_html.strip
     end
 
@@ -133,6 +134,10 @@ class HtmlSanitizer
       nodes.css('p:not(.do-not-strip):empty + div, p:not(.do-not-strip):empty + table').each do |node|
         node.previous_element.remove
       end
+    end
+
+    def clean_dropdowns(nodes)
+      nodes.css('.o-ld-dropdown').each(&:remove)
     end
 
     # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
