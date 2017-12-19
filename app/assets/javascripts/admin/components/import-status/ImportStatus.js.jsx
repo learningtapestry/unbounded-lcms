@@ -54,7 +54,7 @@ class ImportStatus extends React.Component {
             {job.status !== 'done' ? this.spinner() : null}
             {job.status === 'done' && job.ok ? this.resourceButton(job) : null}
           </a>
-          {job.errors ? (<p>{job.errors[0]}</p>) : null}
+          {job.errors ? (<p dangerouslySetInnerHTML={{__html: job.errors[0]}}></p>) : null}
         </li>
       );
     });
