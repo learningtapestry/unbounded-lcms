@@ -15,6 +15,11 @@ module DocTemplate
         content = ERB.new(template).result(binding).squish
         content = DocTemplate::Document.parse Nokogiri::HTML.fragment(content)
 
+        # remove next element if it's empty paragraph
+        # (quick fix before refactoring at https://github.com/learningtapestry/unbounded/issues/780)
+        el_next = table.next_element
+        el_next.remove if el_next&.name == 'p' && el_next.content.blank?
+
         table.replace content.render
         content
       end
