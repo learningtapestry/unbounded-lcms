@@ -9,7 +9,7 @@ class ResourcePresenter < SimpleDelegator
     "#{subject.try(:upcase)} #{grade_code.try(:upcase)}: #{title}"
   end
 
-  def downloads_indent
-    pdf_downloads? ? 'u-li-indent' : ''
+  def downloads_indent(opts = {})
+    pdf_downloads?(opts[:category]) ? 'u-li-indent' : ''
   end
 end

@@ -1,5 +1,3 @@
-<% indent = resource.downloads_indent %>
-
 <div class="o-download-modal" id="downloads-modal" data-reveal> <!-- modal content -->
   <div class="o-download-modal__title">
     <div class="u-margin-bottom--xs">Download <%= resource.resource_type.humanize %></div>
@@ -9,6 +7,7 @@
     <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= resource.subject %>-base">
       <% resource.download_categories.each do |k, downloads| %>
         <strong><%= k %></strong>
+        <% indent = resource.downloads_indent category: downloads.first&.download_category %>
         <% downloads.select { |d| d.is_a?(ResourceDownload) }.each do |download| %>
           <%= render partial: 'resources/download', locals: { download: download, resource: @resource, indent: indent } %>
         <% end %>
