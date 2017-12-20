@@ -1,6 +1,7 @@
 //= require turbolinks
 //= require jquery
 //= require jquery_ujs
+//= require i18n/translations
 //= require vendor/modernizr-custom
 //= require vendor/swiper.jquery
 //= require vendor/pdfobject.js
@@ -12,6 +13,7 @@
 //= require jquery/tabs
 //= require react
 //= require react_ujs
+//= require js-routes
 //= require components
 //= require initializers/about_people
 //= require initializers/bundles

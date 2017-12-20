@@ -64,3 +64,4 @@ coverage
 /pdfs
 .DS_store
 /config/google/
+/public/javascripts/i18n.js

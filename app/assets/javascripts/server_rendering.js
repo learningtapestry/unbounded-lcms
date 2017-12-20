@@ -1,6 +1,7 @@
 //= require react-server
+//= require js-routes
 //= require components
-//= require admin/components
+//= require_tree ./admin/components/
 
 /*
   Fixes server rendering in production.
