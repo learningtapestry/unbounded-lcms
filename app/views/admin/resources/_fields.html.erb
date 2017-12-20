@@ -56,7 +56,7 @@
   <%= render partial: 'download_categories', locals: { f: f } %>
   <%= f.label :resource_downloads %>
   <%= f.fields_for :resource_downloads do |resource_download_fields| %>
-    <div class=o-"adm-download">
+    <div class="o-adm-download">
       <%= resource_download_fields.simple_fields_for :download, resource_download_fields.object&.download || Download.new do |download_fields| %>
         <%= download_fields.input :title %>
         <% unless download_fields.object.new_record? %>

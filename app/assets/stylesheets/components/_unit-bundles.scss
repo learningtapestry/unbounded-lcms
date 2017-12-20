@@ -1,6 +1,4 @@
 .o-unit-bundles {
-  padding-top: 20px;
-
   @include e(item) {
     @include m(links) {
     }
@@ -11,9 +9,6 @@
   }
 
   h4 {
-    color: $ub-txt;
-    font-style: normal;
-    font-weight: 600;
     margin-bottom: .2em;
   }
 }
