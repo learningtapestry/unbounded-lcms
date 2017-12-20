@@ -22,7 +22,6 @@ function adjustTables(document, ratio) {
 function appendElementToDoc(document, element) {
   var tName = underscoreToCamelCase(element.getType() + '');
   try {
-    Logger.log(tName);
     document['append' + tName](element);
   }
   catch(err) {
