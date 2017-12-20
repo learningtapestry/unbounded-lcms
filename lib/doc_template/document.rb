@@ -10,6 +10,8 @@ module DocTemplate
       '#'
     ].freeze
 
+    ELA_TG_TEMPLATE = Rails.root.join 'lib', 'doc_template', 'templates', 'ela-teacher-guidance.html.erb'
+
     attr_accessor :parts
 
     def self.parse(nodes, opts = {})
@@ -53,10 +55,7 @@ module DocTemplate
     def ela_teacher_guidance(metadata, context_type)
       @data = metadata
       @data.preparation = HtmlSanitizer.strip_html_element(@data.preparation)
-      template = "ela-#{@opts[:metadata]['grade']}-teacher-guidance.html.erb"
-      subfolder = 'gdoc' if context_type.casecmp('gdoc').zero?
-      template_name = Rails.root.join 'lib', 'doc_template', 'templates', subfolder.to_s, template
-      template = File.read template_name
+      template = File.read ELA_TG_TEMPLATE
       ERB.new(template).result(binding)
     end
 
