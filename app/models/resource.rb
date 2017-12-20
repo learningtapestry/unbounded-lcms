@@ -206,8 +206,15 @@ class Resource < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
     categories.merge downloads
   end
 
-  def pdf_downloads?
-    downloads.any? { |d| d.attachment_content_type == 'pdf' }
+  def pdf_downloads?(category = nil)
+    if category.present?
+      resource_downloads.joins(:download)
+        .where(download_category: category)
+        .where(downloads: { content_type: 'application/pdf' })
+        .exists?
+    else
+      downloads.where(content_type: 'application/pdf').exists?
+    end
   end
 
   def bilingual_standards

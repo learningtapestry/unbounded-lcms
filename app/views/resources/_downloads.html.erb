@@ -1,5 +1,3 @@
-<% indent = resource.downloads_indent %>
-
 <div id="resource-downloads-list" class="o-resource__item">
   <h3>Downloads</h3>
   <% if resource.download_categories.any? %>
@@ -9,14 +7,16 @@
 
       <h4 class="<%= 'u-margin-top--xs' if category_title.present? %>"><%= category_title %></h4>
         <% if (resource_download = downloads.first) %>
+          <% category = resource_download.download_category %>
           <% settings = resource.download_categories_settings[category_title.parameterize] %>
           <% if settings.try(:[], 'show_short_description') %>
-            <p><%= resource_download.try(:short).presence || resource_download.download_category&.description %></p>
+            <p><%= resource_download.try(:short).presence || category&.description %></p>
           <% end %>
           <% if settings.try(:[], 'show_long_description') %>
-            <div><%= raw resource_download.try(:long).presence || resource_download.download_category&.long_description %></div>
+            <div><%= raw resource_download.try(:long).presence || category&.long_description %></div>
           <% end %>
           <%  %>
+          <% indent = resource.downloads_indent category: category %>
           <% if (downloads_ext = downloads.take(download_per_category_limit)).any? %>
             <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code(resource, base: true) %>">
               <% downloads_ext.each do |download| %>
