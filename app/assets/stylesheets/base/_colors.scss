@@ -27,6 +27,11 @@ $ub-hr: #959595;
 // gradient d9d9d9 to c4c3c4
 $ub-gray-gradient: linear-gradient(to bottom, #d9d9d9, #c4c3c4);
 
+$ub-helpblock: #fee49d;
+$ub-dropdown: #ededed;
+$ub-tabs: #858585;
+$ub-tooltip: #fff8e5;
+
 $ub-txt-colors: (
   base: $ub-txt,
   light: #b3b3b3,
@@ -88,10 +93,6 @@ $ub-leadership: (
   arrows1: #edecf1,
   arrows2: #e1d9e8
 );
-
-$ub-tabs: #858585;
-$ub-dropdown: #ededed;
-$ub-tooltip: #fff8e5;
 
 $ub-colorcodes: (
   // ela color scheme
@@ -164,6 +165,7 @@ $ub-colorcodes: (
   // additional
   base: $ub-panel-bg,
   base-txt: $ub-heading-txt,
+  black: #000,
   clear: #959595,
   dark-gold: #ffbf00,
   facet: #6e6e6e,

@@ -6,6 +6,7 @@
       </div>
     <% end %>
     <div id="c-ld-content" class="c-ld__body c-ld__body--general" <%= 'data-assessment' if document.assessment? %>>
+      <%= render 'helpdesk' if ENV['FRESHDESK_URL'].present? %>
       <% if document.description.present? && !document.foundational? %>
         <h2>Summary</h2>
         <p><%= raw document.description %></p>
@@ -15,4 +16,3 @@
     </div>
   </div>
 </div>
-

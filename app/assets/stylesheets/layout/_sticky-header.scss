@@ -81,7 +81,7 @@ $ub-sticky-logo-width: 260px;
 }
 
 .c-sticky-header-dropdown {
-  @include add-top-bottom-padding(2);
+  @include add-top-bottom-padding(1);
   @include add-column-padding;
   @include ld-content-dropdown;
   background-color: $ub-white;

@@ -5,7 +5,7 @@ $(function () {
   function initDropdown() {
     if ($elDropdown == null) {
       $elDropdown = $('.c-header__left-menu');
-      new Foundation.DropdownMenu($elDropdown);
+      new Foundation.DropdownMenu($elDropdown, { closingTime: 50 });
     }
   }
 

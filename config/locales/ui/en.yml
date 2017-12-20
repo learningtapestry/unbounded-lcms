@@ -33,6 +33,10 @@ en:
     rights_html: All rights reserved.
     search: Search
     terms: Terms of Use
+  helpdesk:
+    title: Need help getting started?
+    content: Check out Help Desk for demo videos or to submit a question.
+    cta: Visit the Help Desk
   layouts:
     admin:
       admin: Administration
@@ -51,6 +55,7 @@ en:
     curriculum: Explore Curriculum
     curriculum_html: <span>Explore</span><span>Curriculum</span>
     helpdesk: Support
+    helpdesk_hover_html: <span class='u-txt--helpdesk-hover-title'>UnboundEd Help Desk</span><br/>View demo videos or submit a question.
     instructions: Enhance Instruction
     instructions_html: <span>Enhance</span><span>Instruction</span>
     leadership_html: <span>Advance</span><span>Leadership</span>
