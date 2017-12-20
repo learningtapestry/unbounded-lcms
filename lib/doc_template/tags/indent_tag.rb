@@ -22,6 +22,9 @@ module DocTemplate
       attr_reader :node, :opts
 
       def parsed_content
+        # need to move br before content for proper indentation
+        prepend_html = '<br>' if (br_nodes = node.css('br')).present?
+        br_nodes.each(&:remove)
         content_without_tag = node.to_html.sub FULL_TAG, ''
         html = parse_nested content_without_tag, opts
 
@@ -33,7 +36,7 @@ module DocTemplate
           end
         end
 
-        html
+        "#{prepend_html}#{html}"
       end
     end
   end
