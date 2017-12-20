@@ -36,6 +36,7 @@
 
 <%= association_picker_field(f, resource.tags, path: :tags, name: :tag_ids, create_name: :new_tag_names, allow_create: true) %>
 
+<%# TODO: The line bellow causes multiple React errors in console %>
 <%= association_picker_field(f, resource.common_core_standards, path: :common_core_standards, name: :common_core_standard_ids) %>
 
 <%= association_picker_field(f, resource.unbounded_standards, path: :unbounded_standards, name: :unbounded_standard_ids, create_name: :new_unbounded_standard_names, allow_create: true) %>
@@ -52,10 +53,11 @@
 <%= f.input :image_file, as: :file %>
 
 <div class=form-group>
+  <%= render partial: 'download_categories', locals: { f: f } %>
   <%= f.label :resource_downloads %>
   <%= f.fields_for :resource_downloads do |resource_download_fields| %>
-    <div class=o-adm-download>
-      <%= resource_download_fields.simple_fields_for :download, resource_download_fields.object.try(:download) || Download.new do |download_fields| %>
+    <div class="o-adm-download">
+      <%= resource_download_fields.simple_fields_for :download, resource_download_fields.object&.download || Download.new do |download_fields| %>
         <%= download_fields.input :title %>
         <% unless download_fields.object.new_record? %>
           <%= f.label :current_file %>
@@ -65,7 +67,8 @@
         <%= download_fields.input_field :filename_cache, as: :hidden %>
         <%= download_fields.input :main %>
       <% end %>
-      <%= resource_download_fields.association :download_category, as: :select %>
+      <%= resource_download_fields.input :description, label: t('admin.resources.downloadable.description') %>
+      <%= resource_download_fields.association :download_category, as: :select, label: t('admin.download_categories.edit.title') %>
       <%= resource_download_fields.link_to_remove t('ui.remove'), class: 'small button' %>
     </div>
   <% end %>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ResourceDownload < ActiveRecord::Base
   DOWNLOAD_PER_CATEGORY_LIMIT = 5
 
