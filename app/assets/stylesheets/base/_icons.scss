@@ -28,46 +28,46 @@
   @include ub-icon;
 }
 
-$ub-angle-down: '\e921';
-$ub-angle-dropdown: '\e901';
-$ub-angle-dropup: '\e920';
-$ub-angle-left: '\e902';
-$ub-angle-right: '\e90e';
-$ub-arrow-left: '\e90f';
-$ub-arrow-right: '\e91e';
-$ub-arrow-share: '\e917';
-$ub-cc-by: '\e903';
-$ub-cc-nc: '\e904';
-$ub-cc-nd: '\e905';
-$ub-cc-pd: '\e906';
-$ub-cc-remix: '\e907';
-$ub-cc-sa: '\e908';
-$ub-cc-share: '\e909';
-$ub-cc-stamp: '\e90a';
-$ub-cc-zero: '\e90b';
-$ub-close: '\e90c';
-$ub-ellipsis: '\e915';
-$ub-eye: '\e91f';
-$ub-facebook: '\e90d';
-$ub-file-gdoc: '\e924';
-$ub-file-image: '\e910';
-$ub-file-media: '\e912';
-$ub-file-pdf: '\e913';
-$ub-file-ppt: '\e923';
-$ub-file-text: '\e919';
-$ub-file-zip: '\e91d';
-$ub-helpdesk: '\e900';
+$ub-angle-down: '\e922';
+$ub-angle-dropdown: '\e902';
+$ub-angle-dropup: '\e921';
+$ub-angle-left: '\e903';
+$ub-angle-right: '\e90f';
+$ub-arrow-left: '\e910';
+$ub-arrow-right: '\e91f';
+$ub-arrow-share: '\e918';
+$ub-cc-by: '\e904';
+$ub-cc-nc: '\e905';
+$ub-cc-nd: '\e906';
+$ub-cc-pd: '\e907';
+$ub-cc-remix: '\e908';
+$ub-cc-sa: '\e909';
+$ub-cc-share: '\e90a';
+$ub-cc-stamp: '\e90b';
+$ub-cc-zero: '\e90c';
+$ub-close: '\e90d';
+$ub-ellipsis: '\e916';
+$ub-eye: '\e920';
+$ub-facebook: '\e90e';
+$ub-file-gdoc: '\e925';
+$ub-file-image: '\e911';
+$ub-file-media: '\e913';
+$ub-file-pdf: '\e914';
+$ub-file-ppt: '\e900';
+$ub-file-text: '\e91a';
+$ub-file-zip: '\e91e';
+$ub-helpdesk: '\e901';
 $ub-menu: '\e120';
 $ub-microphone: '\e049';
-$ub-pinterest: '\e914';
-$ub-print: '\e922';
-$ub-search: '\e911';
-$ub-share: '\e916';
-$ub-spreadsheet: '\e918';
-$ub-twitter: '\e91a';
-$ub-user: '\e925';
-$ub-vimeo: '\e91b';
-$ub-youtube: '\e91c';
+$ub-pinterest: '\e915';
+$ub-print: '\e923';
+$ub-search: '\e912';
+$ub-share: '\e917';
+$ub-spreadsheet: '\e919';
+$ub-twitter: '\e91b';
+$ub-user: '\e926';
+$ub-vimeo: '\e91c';
+$ub-youtube: '\e91d';
 
 .ub-angle-down {
   &::before {
@@ -322,7 +322,7 @@ $ub-youtube: '\e91c';
 }
 
 .file-powerpoint::before {
-  content: $ub-file-image;
+  content: $ub-file-ppt;
 }
 
 .file-resource::before {

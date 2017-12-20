@@ -8,7 +8,6 @@
       <%= render partial: 'resources/unit_bundles', locals: { resource: resource } if idx == 1 %>
 
       <h4 class="<%= 'u-margin-top--xs' if category_title.present? %>"><%= category_title %></h4>
-      <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code(resource, base: true) %>">
         <% if (resource_download = downloads.first) %>
           <% settings = resource.download_categories_settings[category_title.parameterize] %>
           <% if settings.try(:[], 'show_short_description') %>
@@ -17,22 +16,28 @@
           <% if settings.try(:[], 'show_long_description') %>
             <div><%= raw resource_download.try(:long).presence || resource_download.download_category&.long_description %></div>
           <% end %>
-          <% downloads.take(download_per_category_limit).each do |download| %>
-            <%= render(partial: 'resources/download', locals: { download: download, resource: resource, indent: indent }) if download.is_a?(ResourceDownload) %>
+          <%  %>
+          <% if (downloads_ext = downloads.take(download_per_category_limit)).any? %>
+            <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code(resource, base: true) %>">
+              <% downloads_ext.each do |download| %>
+                <%= render(partial: 'resources/download', locals: { download: download, resource: resource, indent: indent }) if download.is_a?(ResourceDownload) %>
+              <% end %>
+            </ul>
           <% end %>
           <% if downloads.size > download_per_category_limit %>
             <div class="o-resource-downloads">
-              <li class="o-resource-downloads__btn o-resource-downloads__btn--more"><%= t('ui.show_more') %></li>
+              <div class="o-resource-downloads__btn o-resource-downloads__btn--more"><%= t('ui.show_more') %></div>
               <div class="o-resource-downloads__list">
-                <% downloads[download_per_category_limit..-1].each do |download| %>
-                  <%= render(partial: 'resources/download', locals: { download: download, resource: resource, indent: indent }) if download.is_a?(ResourceDownload) %>
-                <% end %>
+                <ul class="o-resource__list o-resource__list--icons o-resource__list--<%= color_code(resource, base: true) %>">
+                  <% downloads[download_per_category_limit..-1].each do |download| %>
+                    <%= render(partial: 'resources/download', locals: { download: download, resource: resource, indent: indent }) if download.is_a?(ResourceDownload) %>
+                  <% end %>
+                </ul>
               </div>
-              <li class="o-resource-downloads__btn o-resource-downloads__btn--less"><%= t('ui.show_less') %></li>
+              <div class="o-resource-downloads__btn o-resource-downloads__btn--less"><%= t('ui.show_less') %></div>
             </div>
           <% end %>
         <% end %>
-      </ul>
     <% end %>
   <% elsif resource.unit_bundles? %>
     <%= render partial: 'resources/unit_bundles', locals: { resource: resource } %>
