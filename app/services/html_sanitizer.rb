@@ -115,6 +115,7 @@ class HtmlSanitizer
           method(:remove_empty_paragraphs),
           # TODO: need to change parsing tags xpath before, it's relying on spans
           # method(:remove_spans_wo_attrs)
+          method(:remove_gdocs_pagebreaks),
           method(:remove_gdocs_suggestions),
           method(:replace_charts_urls),
           method(:keep_bullets_level),
@@ -352,6 +353,10 @@ class HtmlSanitizer
       return unless node.element?
       return unless node.attr('style').present?
       node['style'] = node['style'].gsub(/(?<!background-)(color:#000000;?)/, '')
+    end
+
+    def remove_gdocs_pagebreaks(env)
+      env[:node].css('hr[style*=page-break]').each(&:remove)
     end
 
     def remove_gdocs_suggestions(env)

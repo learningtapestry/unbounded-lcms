@@ -135,6 +135,12 @@
     float: left;
     margin-right: .4rem;
 
+    @include m(blank) {
+      cursor: none;
+      height: 1px;
+      width: map-get(map-get($ub-element-typography, ld-sidebar-icon), font-size);
+    }
+
     i { @include txt-element(ld-sidebar-icon); }
   }
 
