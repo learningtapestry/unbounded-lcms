@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class DownloadCategoriesController < AdminController
     before_action :find_download_category, except: %i(index new create)
@@ -42,7 +44,7 @@ module Admin
     end
 
     def download_category_params
-      params.require(:download_category).permit(:name, :description)
+      params.require(:download_category).permit(:description, :long_description, :position, :title)
     end
   end
 end

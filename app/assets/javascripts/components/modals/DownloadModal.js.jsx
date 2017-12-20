@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class DownloadModal extends React.Component {
 
   componentDidMount() {
@@ -13,14 +14,15 @@ class DownloadModal extends React.Component {
   }
 
   download(download) {
+    if (!download) return;
     const indent = download.indent ? 'u-li-indent' : '';
     const cls = `ub-icon fa-lg file-${download.icon} ${indent}`;
-    const preview = (download.icon == 'pdf') ?
-        `<span>
-          <a href=${download.preview_url} data-no-turbolink="true" target="_blank">
-            <i class="ub-icon ub-eye" aria-hidden="true"></i>
-          </a>
-        </span>` : '';
+    const preview = (download.icon === 'pdf') ?
+      `<span>
+        <a href=${download.preview_url} data-no-turbolink="true" target="_blank">
+          <i class="ub-icon ub-eye" aria-hidden="true"></i>
+        </a>
+      </span>` : '';
     return `<li>
               ${preview}
               <i class="${cls}"></i>
@@ -60,7 +62,7 @@ class DownloadModal extends React.Component {
     return (resource.downloads && resource.downloads.length > 0) ?
       (
         <div className="o-download-modal" ref={(ref) => this._modal = ref} id={modalId}
-             data-reveal dangerouslySetInnerHTML={ this.modalContent() }>
+          data-reveal dangerouslySetInnerHTML={ this.modalContent() }>
         </div>
       ) : <div className="hide"></div>;
   }

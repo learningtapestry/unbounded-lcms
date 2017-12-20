@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class DownloadCategory < ActiveRecord::Base
   has_many :resource_downloads
 
-  validates :name, uniqueness: true, presence: true
+  default_scope { order(:position) }
 
-  def category_name
-    description || name
-  end
+  acts_as_list
+
+  validates :title, uniqueness: true, presence: true
 end

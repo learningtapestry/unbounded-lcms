@@ -8,21 +8,7 @@
     }
   }
 
-  @include e(text) {
-    color: $ub-txt;
-    margin-top: 1em;
-
-    ul {
-      list-style: disc;
-
-      li { color: $ub-txt; }
-    }
-  }
-
   h4 {
-    color: $ub-txt;
-    font-style: normal;
-    font-weight: 600;
     margin-bottom: .2em;
   }
 }
