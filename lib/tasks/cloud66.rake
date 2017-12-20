@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 namespace :cloud66 do # rubocop:disable Metrics/BlockLength
-  desc 'Post-bundle hook tasks for Cloud66.'
-  task after_bundle: %i(i18n:js:export routes:generate_js)
-
   desc 'Post-symlink hook tasks for Cloud66.'
   task after_symlink: %i(environment db:migrate db:seed)
 
