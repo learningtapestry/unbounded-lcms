@@ -1,2 +1,4 @@
-DownloadCategory.find_or_create_by!(name: 'rubrics_and_tools')
-DownloadCategory.find_or_create_by!(name: 'texts')
+# frozen_string_literal: true
+
+DownloadCategory.find_or_create_by!(title: 'Rubrics and Tools')
+DownloadCategory.find_or_create_by!(title: 'Texts')
