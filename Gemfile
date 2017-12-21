@@ -20,6 +20,7 @@ gem 'edge', '~> 0.4.2', require: 'edge'
 gem 'carrierwave', '~> 0.10.0'
 
 # system
+gem 'addressable', '~> 2.5.1'
 gem 'daemons', '~> 1.2', '>= 1.2.3'
 gem 'dotenv-rails', '~> 2.2', '>= 2.2.1', groups: %i(development integration test)
 gem 'foreman', '~> 0.78.0'
