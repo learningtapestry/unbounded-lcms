@@ -1,6 +1,5 @@
 .o-ld-callout {
   @include txt-pdf-element(pullquote);
-  @extend %u-pdf-nobreak;
 
   @include e(header) {
     @include txt-pdf-element(ld-callout-header);
