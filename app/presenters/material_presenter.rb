@@ -78,7 +78,7 @@ class MaterialPresenter < ContentPresenter
   end
 
   def pdf_filename
-    "documents/#{lesson.id}/#{base_filename}"
+    "#{lesson.id}/#{base_filename}"
   end
 
   def pdf_url

@@ -3,6 +3,10 @@
 module DocumentExporter
   module PDF
     class Base < DocumentExporter::Base
+      def self.s3_folder
+        @folder ||= ENV.fetch('SWAP_DOCS', 'documents')
+      end
+
       def export
         content = render_template template_path('show'), layout: 'cg_pdf'
         WickedPdf.new.pdf_from_string(content, pdf_params)
