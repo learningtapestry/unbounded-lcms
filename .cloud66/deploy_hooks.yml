@@ -111,6 +111,11 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers
+    - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cache:reset_base64
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
 production_swap:
   <<: *production
 staging:
