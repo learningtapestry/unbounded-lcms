@@ -37,8 +37,9 @@ class ResourcesController < ApplicationController
 
   def pdf_proxy
     return head(:not_found) if (url = params[:url]).blank?
-    send_data open(CGI.escape url).read, disposition: :inline, file_name: url.split('/').last
-  rescue StandardError
+    send_data open(Addressable::URI.escape url).read, disposition: :inline, file_name: url.split('/').last
+  rescue StandardError => e
+    Rails.logger.warn "PDF-proxy failed! Url: #{url}, Error: #{e.message}"
     head :bad_request
   end
 
