@@ -17,7 +17,7 @@ class Document < ActiveRecord::Base
 
   scope :failed, -> { where(reimported: false) }
 
-  scope :where_metadata, ->(key, val) { where('metadata @> hstore(:key, :val)', key: key, val: val) }
+  scope :where_metadata, ->(key, val) { where('documents.metadata @> hstore(:key, :val)', key: key, val: val) }
 
   scope :order_by_curriculum, lambda {
     select('documents.*, resources.hierarchical_position')
@@ -32,11 +32,15 @@ class Document < ActiveRecord::Base
 
   scope :filter_by_subject, ->(subject) { where_metadata(:subject, subject) }
   scope :filter_by_grade, ->(grade) { where_metadata(:grade, grade) }
-  scope :filter_by_unit, ->(u) { where("(metadata @> hstore('unit', :u) OR metadata @> hstore('topic', :u))", u: u) }
+
+  scope :filter_by_unit, lambda { |u|
+    where("(documents.metadata @> hstore('unit', :u) OR documents.metadata @> hstore('topic', :u))", u: u)
+  }
+
   scope :filter_by_module, lambda { |mod|
     sql = <<-SQL
-      (metadata @> hstore('subject', 'math') AND metadata @> hstore('unit', :mod))
-        OR (metadata @> hstore('subject', 'ela') AND metadata @> hstore('module', :mod))
+      (documents.metadata @> hstore('subject', 'math') AND documents.metadata @> hstore('unit', :mod))
+        OR (documents.metadata @> hstore('subject', 'ela') AND documents.metadata @> hstore('module', :mod))
     SQL
     where(sql, mod: mod)
   }
@@ -143,22 +147,24 @@ class Document < ActiveRecord::Base
     metadata['lesson'] = lesson.match(/lesson (\w+)/i).try(:[], 1) || lesson if lesson.present?
   end
 
+  def fix_prereq_position(resource)
+    next_lesson = resource.siblings.detect do |r|
+      break r unless r.prerequisite? # first non-prereq
+
+      # grab the first prereq lesson with a bigger lesson num
+      lesson_num = r.short_title.match(/(\d+)/)&.[](1).to_i
+      lesson_num > metadata['lesson'].to_i
+    end
+    next_lesson&.prepend_sibling(resource)
+  end
+
   def set_resource_from_metadata
     return unless metadata.present?
 
     resource = MetadataContext.new(metadata).find_or_create_resource
 
     # if resource changed to prerequisite, fix positioning
-    if !resource.prerequisite? && prereq?
-      next_lesson = resource.siblings.detect do |r|
-        break r unless r.prerequisite? # first non-prereq
-
-        # grab the first prereq lesson with a bigger lesson num
-        lesson_num = r.short_title.match(/(\d+)/)&.[](1).to_i
-        lesson_num > metadata['lesson'].to_i
-      end
-      next_lesson&.prepend_sibling(resource)
-    end
+    fix_prereq_position(resource) if !resource.prerequisite? && prereq?
 
     # Update resource with document metadata
     resource.title = metadata['title'] if metadata['title'].present?
