@@ -28,7 +28,7 @@ class DocumentParseJob < ActiveJob::Base
   attr_reader :credentials, :document, :result
 
   def reimport_document(link)
-    form = DocumentForm.new({ link: link }, credentials)
+    form = DocumentForm.new({ link: link }, credentials, import_retry: true)
     @result = if form.save
                 { ok: true, link: link, model: form.document }
               else
@@ -39,10 +39,11 @@ class DocumentParseJob < ActiveJob::Base
   def reimport_materials
     document.materials.each do |material|
       link = material.file_url
-      form = MaterialForm.new({ link: link }, credentials)
+      form = MaterialForm.new({ link: link }, credentials, import_retry: true)
       next if form.save
 
-      @result = { ok: false, link: link, errors: [%(Material error (<a href="#{link}">source</a>): #{form.errors[:link]})] }
+      error_msg = %(Material error (<a href="#{link}">source</a>): #{form.errors[:link]})
+      @result = { ok: false, link: link, errors: [error_msg] }
       break
     end
   end

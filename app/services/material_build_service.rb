@@ -3,8 +3,9 @@
 class MaterialBuildService
   PDF_EXT_RE = /\.pdf$/
 
-  def initialize(credentials)
+  def initialize(credentials, opts = {})
     @credentials = credentials
+    @options = opts
   end
 
   def build_from_pdf(url)
@@ -37,7 +38,7 @@ class MaterialBuildService
   end
 
   def build_from_gdoc(url)
-    @downloader = DocumentDownloader::Gdoc.new(@credentials, url)
+    @downloader = DocumentDownloader::Gdoc.new(@credentials, url, options)
     create_material
     content = downloader.download.content
     parsed_document = DocTemplate::Template.parse(content, type: :material)
@@ -66,7 +67,7 @@ class MaterialBuildService
 
   private
 
-  attr_reader :downloader
+  attr_reader :downloader, :options
 
   def create_material
     @material = Material.find_or_initialize_by(file_id: downloader.file_id)
