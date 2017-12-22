@@ -28,13 +28,16 @@ Metrics/ClassLength:
   Max: 200
 
 Metrics/CyclomaticComplexity:
-  Max: 7
+  Max: 9
 
 Metrics/LineLength:
   Max: 120
 
 Metrics/MethodLength:
   Max: 50
+
+Metrics/PerceivedComplexity:
+  Max: 9
 
 Style/AndOr:
   Enabled: false
