@@ -22,7 +22,7 @@ describe DocumentForm do
       end
 
       it 'creates DocumentBuildService object' do
-        expect(DocumentBuildService).to receive(:new).with(credentials).and_return(service)
+        expect(DocumentBuildService).to receive(:new).with(credentials, import_retry: nil).and_return(service)
         subject
       end
 
