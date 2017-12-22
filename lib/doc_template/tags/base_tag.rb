@@ -5,6 +5,7 @@ module DocTemplate
     class BaseTag
       CONFIG_PATH = Rails.root.join('config', 'tags.yml')
       MAX_ITERATIONS = 100
+      SOFT_RETURN_RE = /([[:graph:]]+\[|\][[:graph:]]+)/
 
       attr_reader :content, :anchor
 
@@ -27,8 +28,15 @@ module DocTemplate
         node.before Nokogiri::HTML.fragment(placeholder)
       end
 
+      def check_tag_soft_return(node)
+        return unless node.content =~ SOFT_RETURN_RE
+        raise DocumentError,
+              "Soft return for #{self.class::TAG_NAME} detected: #{node.content}, use hard return instead"
+      end
+
       def content_until_break(node)
         [].tap do |result|
+          check_tag_soft_return(node)
           while (sibling = node.next_sibling)
             break if include_break?(sibling)
             result << sibling.to_html
@@ -39,6 +47,7 @@ module DocTemplate
 
       def content_until_materials(node)
         [].tap do |result|
+          check_tag_soft_return(node)
           while (sibling = node.next_sibling)
             break if include_break_for?(sibling, 'stop_materials_tags')
             result << sibling.to_html
@@ -68,7 +77,9 @@ module DocTemplate
           self.class.config[self.class::TAG_NAME.downcase][key].map do |stop_tag|
             Tags.const_get(stop_tag)::TAG_NAME
           end.join('|')
-        node.content =~ /\[\s*(#{tags})/i
+        result = node.content =~ /\[\s*(#{tags})/i
+        check_tag_soft_return(node) if result
+        result
       end
 
       def materials
