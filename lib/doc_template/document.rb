@@ -97,6 +97,26 @@ module DocTemplate
       # G2 Unit 7 apart from for Lessons: 6,11,12,13
       g2_u7 = g2 && @opts[:metadata]['unit'] == '7'
       return false if g2_u7 && %w(6 11 12 13).include?(@opts[:metadata]['lesson'])
+      
+       # G2 Unit 8 apart from for Lessons: 5,12,11,10
+      g2_u8 = g2 && @opts[:metadata]['unit'] == '8'
+      return false if g2_u8 && %w(5 12 11 10).include?(@opts[:metadata]['lesson'])
+       
+      # G2 Unit 9 apart from for Lessons: 15,14,13,6
+      g2_u9 = g2 && @opts[:metadata]['unit'] == '9'
+      return false if g2_u9 && %w(15 14 13 6).include?(@opts[:metadata]['lesson'])
+      
+      # G2 Unit 10 apart from for Lessons: 11,13,5,12
+      g2_u10 = g2 && @opts[:metadata]['unit'] == '10'
+      return false if g2_u10 && %w(11 13 5 12).include?(@opts[:metadata]['lesson'])
+      
+      # G2 Unit 11 apart from for Lessons: 14,12,7,13
+      g2_u11 = g2 && @opts[:metadata]['unit'] == '11'
+      return false if g2_u11 && %w(14 12 7 13).include?(@opts[:metadata]['lesson'])
+
+      # G2 Unit 12 apart from for Lessons: 12,13,6,11
+      g2_u12 = g2 && @opts[:metadata]['unit'] == '12'
+      return false if g2_u12 && %w(12 13 6 11).include?(@opts[:metadata]['lesson'])
 
       true
     end
