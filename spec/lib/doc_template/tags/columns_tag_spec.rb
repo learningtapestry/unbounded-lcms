@@ -14,9 +14,10 @@ describe DocTemplate::Tags::ColumnsTag do
       <p><span>[#{tag_name}: #{columns_count}]</span></p><p><span>10 tens =; 1 thousand; </span></p><p><span></span></p><p><span></span></p><p>
       <span>10 hundreds =; <p><span>[qrd: https://google.com]<span></p>1 ten;</span></p><p><span></span></p><p><span></span></p>
       <p><span>10 ones =; 1 hundred;</span></p><p><span>3 ones=;; </span></p>
-      <p><span>[#{tag_name}: #{end_value}]</span></p><p>NOT THIS!</p>
+      <p><span>[#{stop_tag}]</span></p><p>NOT THIS!</p>
     HTML
   end
+  let(:stop_tag) { "#{tag_name}: #{end_value}" }
   let(:tag) { described_class.new }
   let(:tag_name) { DocTemplate::Tags::ColumnsTag::TAG_NAME }
 
@@ -43,7 +44,7 @@ describe DocTemplate::Tags::ColumnsTag do
       <<-HTML
         <p><span>[#{tag_name}: #{columns_count}]</span></p><p><span>10 tens =; 1 thousand; </span></p><p><span></span></p><p><span></span></p><p>
         <span><img src="fake://src">10 hundreds =; 1 ten;</span></p><p><span></span></p><p><span></span></p><p><span>10 ones =; 1 hundred;</span>
-        </p><p><span>3 ones=;; </span></p><p><span>[#{tag_name}: #{end_value}]</span></p>
+        </p><p><span>3 ones=;; </span></p><p><span>[#{stop_tag}]</span></p>
       HTML
     end
 
@@ -51,4 +52,6 @@ describe DocTemplate::Tags::ColumnsTag do
       expect(subject).to include('<img')
     end
   end
+
+  it_behaves_like 'content_tag'
 end
