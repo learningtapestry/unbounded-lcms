@@ -127,7 +127,7 @@ module Admin
       scope = scope.order(:identifier) if q.sort_by.blank? || q.sort_by == 'identifier'
       scope = scope.order(updated_at: :desc) if q.sort_by == 'last_update'
 
-      scope.paginate(page: params[:page])
+      scope.to_a.uniq.paginate(page: params[:page])
     end
   end
 end
