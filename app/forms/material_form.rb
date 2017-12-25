@@ -7,7 +7,7 @@ class MaterialForm
   include ActiveModel::Model
 
   attribute :link, String
-  attribute :source_type, String, default: 'gdoc'
+  attribute :source_type, String
   validates :link, presence: true
 
   attr_accessor :material
@@ -34,8 +34,12 @@ class MaterialForm
 
   # TODO: Need to rename to `persist` as we do not raise error here
   def persist!
-    service = MaterialBuildService.new(@credentials, import_retry: options[:import_retry])
-    @material = source_type == 'pdf' ? service.build_from_pdf(link) : service.build_from_gdoc(link)
+    params = {
+      import_retry: options[:import_retry],
+      source_type: source_type.presence
+    }.compact
+    service = MaterialBuildService.new @credentials, params
+    @material = service.build link
   rescue StandardError => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
     errors.add(:link, e.message)

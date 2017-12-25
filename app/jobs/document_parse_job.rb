@@ -39,7 +39,7 @@ class DocumentParseJob < ActiveJob::Base
   def reimport_materials
     document.materials.each do |material|
       link = material.file_url
-      form = MaterialForm.new({ link: link }, credentials, import_retry: true)
+      form = MaterialForm.new({ link: link, source_type: material.source_type }, credentials, import_retry: true)
       next if form.save
 
       error_msg = %(Material error (<a href="#{link}">source</a>): #{form.errors[:link]})

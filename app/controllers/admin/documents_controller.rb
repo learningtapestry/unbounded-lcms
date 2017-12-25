@@ -128,7 +128,7 @@ module Admin
       return unless doc
 
       doc.materials.each do |material|
-        MaterialForm.new({ link: material.file_url }, google_credentials).save
+        MaterialForm.new({ link: material.file_url, source_type: material.source_type }, google_credentials).save
       end
     end
   end

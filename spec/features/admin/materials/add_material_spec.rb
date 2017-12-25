@@ -8,12 +8,16 @@ feature 'Admin adds a material' do
   given(:downloaded_file) { Struct.new :last_modifying_user, :modified_time, :name, :version }
 
   given(:samples) do
-    [
-      {
-        url: 'https://docs.google.com/document/d/1YTQxmi2rb405wx00xJY6NKD0VYQ5BhxLdSs4jR8o1a4/edit',
-        file_name: 'vocabulary-chart.html'
+    {
+      gdoc: {
+        file_name: 'vocabulary-chart.html',
+        url: 'https://docs.google.com/document/d/1YTQxmi2rb405wx00xJY6NKD0VYQ5BhxLdSs4jR8o1a4/edit'
+      },
+      pdf: {
+        file_name: 'vocabulary-chart.pdf',
+        url: 'https://docs.google.com/document/d/1YTQxmi2rb405wx00xJY6NKD0VYQ5BhxLdSs4jR8o1a4/edit'
       }
-    ]
+    }
   end
 
   given(:user) { create :admin }
@@ -24,37 +28,44 @@ feature 'Admin adds a material' do
     allow_any_instance_of(Admin::MaterialsController).to receive(:google_authorization)
   end
 
-  scenario 'admin adds sample materials' do
-    samples.each_with_index do |data, idx|
-      visit new_admin_material_path
-      expect(page).to have_field :material_form_link
+  scenario 'GDoc material' do
+    data = samples[:gdoc]
 
-      # stub GDoc download
-      file_content = File.read File.join(SAMPLE_PATH, data[:file_name])
-      allow_any_instance_of(DocumentDownloader::Gdoc).to receive(:file).and_return(downloaded_file.new(nil, nil, idx.to_s))
-      allow_any_instance_of(DocumentDownloader::Gdoc).to receive_message_chain(:download, :content).and_return(file_content)
+    visit new_admin_material_path
+    expect(page).to have_field :material_form_link
 
-      fill_in :material_form_link, with: data[:url]
-      click_button 'Parse'
+    # stub GDoc download
+    file_content = File.read File.join(SAMPLE_PATH, data[:file_name])
+    allow_any_instance_of(DocumentDownloader::Base).to receive(:file)
+                                                         .and_return(downloaded_file.new(nil, nil, data[:file_name]))
+    allow_any_instance_of(DocumentDownloader::Gdoc).to receive_message_chain(:download, :content)
+                                                         .and_return(file_content)
 
-      expect(Material.last.name).to eql(idx.to_s)
-    end
+    fill_in :material_form_link, with: data[:url]
+    click_button 'Parse'
+
+    expect(Material.last.name).to eql(data[:file_name])
   end
 
-  scenario 'admin adds sample pdf materials' do
-    samples.each_with_index do |data, idx|
-      visit new_admin_material_path(source_type: 'pdf')
-      expect(page).to have_field :material_form_link
+  scenario 'PDF material' do
+    data = samples[:pdf]
 
-      # stub PDF download
-      file_content = File.read File.join(SAMPLE_PATH, data[:file_name])
-      allow_any_instance_of(DocumentDownloader::PDF).to receive(:file).and_return(downloaded_file.new(nil, nil, idx.to_s))
-      allow_any_instance_of(DocumentDownloader::PDF).to receive(:pdf_content).and_return(file_content)
+    visit new_admin_material_path(source_type: 'pdf')
+    expect(page).to have_field :material_form_link
 
-      fill_in :material_form_link, with: data[:url]
-      click_button 'Parse'
+    # stub PDF download
+    allow_any_instance_of(DocumentDownloader::Base).to receive(:file)
+                                                         .and_return(downloaded_file.new(nil, nil, data[:file_name]))
 
-      expect(Material.last.name).to eql(idx.to_s)
-    end
+    file_content = File.read File.join(SAMPLE_PATH, data[:file_name])
+    allow_any_instance_of(DocumentDownloader::PDF).to receive(:pdf_content).and_return(file_content)
+    allow_any_instance_of(DocumentExporter::Thumbnail).to receive(:export)
+    allow_any_instance_of(DocumentExporter::Thumbnail).to receive(:orientation)
+    allow(S3Service).to receive(:upload)
+
+    fill_in :material_form_link, with: data[:url]
+    click_button 'Parse'
+
+    expect(Material.last.name).to eql(data[:file_name])
   end
 end
