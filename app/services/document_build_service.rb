@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class DocumentBuildService
-  def initialize(credentials)
+  def initialize(credentials, opts = {})
     @credentials = credentials
+    @options = opts
   end
 
   #
@@ -27,7 +28,7 @@ class DocumentBuildService
 
   private
 
-  attr_reader :credentials, :content, :document, :downloader, :expand_document, :template
+  attr_reader :credentials, :content, :document, :downloader, :expand_document, :options, :template
 
   # Building the document. Handles workflows:
   # Core-frist FS-second and FS-first Core-second.
@@ -148,7 +149,7 @@ class DocumentBuildService
   end
 
   def download(url)
-    @downloader = DocumentDownloader::Gdoc.new(credentials, url).download
+    @downloader = DocumentDownloader::Gdoc.new(credentials, url, options).download
     @downloader.content
   end
 

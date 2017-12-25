@@ -14,10 +14,11 @@ class DocumentForm
 
   attr_reader :document
 
-  def initialize(attributes = {}, google_credentials = nil)
+  def initialize(attributes = {}, google_credentials = nil, opts = {})
     @is_reimport = attributes.delete(:reimport).present? || false
     super(attributes)
     @credentials = google_credentials
+    @options = opts
   end
 
   def save
@@ -35,10 +36,10 @@ class DocumentForm
 
   private
 
-  attr_reader :credentials, :is_reimport
+  attr_reader :credentials, :is_reimport, :options
 
   def build_document
-    service = DocumentBuildService.new(credentials)
+    service = DocumentBuildService.new(credentials, import_retry: options[:import_retry])
 
     if is_reimport
       doc = service.build_for(link)

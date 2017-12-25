@@ -9,7 +9,7 @@ class MaterialParseJob < ActiveJob::Base
   def perform(entry, auth_id)
     link = entry.is_a?(Material) ? entry.file_url : entry
     credentials = google_credentials(auth_id)
-    form = MaterialForm.new({ link: link }, credentials)
+    form = MaterialForm.new({ link: link }, credentials, import_retry: true)
     res = if form.save
             { ok: true, link: link, model: form.material }
           else

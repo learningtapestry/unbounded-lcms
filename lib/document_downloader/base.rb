@@ -45,9 +45,10 @@ module DocumentDownloader
 
     attr_reader :content
 
-    def initialize(credentials, file_url)
+    def initialize(credentials, file_url, opts = {})
       @credentials = credentials
       @file_url = file_url
+      @options = opts
     end
 
     def file
@@ -61,6 +62,8 @@ module DocumentDownloader
     end
 
     private
+
+    attr_reader :options
 
     def service
       return @_service if @_service.present?

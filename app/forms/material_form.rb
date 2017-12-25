@@ -12,9 +12,10 @@ class MaterialForm
 
   attr_accessor :material
 
-  def initialize(attributes = {}, google_credentials = nil)
+  def initialize(attributes = {}, google_credentials = nil, opts = {})
     super(attributes)
     @credentials = google_credentials
+    @options = opts
   end
 
   def save
@@ -29,8 +30,11 @@ class MaterialForm
 
   private
 
+  attr_reader :options
+
+  # TODO: Need to rename to `persist` as we do not raise error here
   def persist!
-    service = MaterialBuildService.new(@credentials)
+    service = MaterialBuildService.new(@credentials, import_retry: options[:import_retry])
     @material = source_type == 'pdf' ? service.build_from_pdf(link) : service.build_from_gdoc(link)
   rescue StandardError => e
     Rails.logger.error e.message + "\n " + e.backtrace.join("\n ")
