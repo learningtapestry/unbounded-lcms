@@ -6,6 +6,7 @@ window.initializeResourceDetails = () => {
   });
 
   [].forEach.call(document.querySelectorAll('a.resource-attachment'), function(el) {
+    if (!el.dataset.heapData) return;
     const data = JSON.parse(el.dataset.heapData);
     if (data) {
       el.addEventListener('click', function() {
