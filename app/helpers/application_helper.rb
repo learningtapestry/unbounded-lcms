@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module ApplicationHelper # rubocop:disable Metrics/ModuleLength
+  ENABLE_BASE64_CACHING = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(
+    ENV.fetch('ENABLE_BASE64_CACHING', true)
+  )
+
   def add_class_for_path(link_path, klass, klass_prefix = nil)
     [
       klass_prefix,
@@ -84,11 +88,13 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
     content_for(:canonical_url, value)
   end
 
-  def base64_encoded_asset(path)
+  def base64_encoded_asset(path) # rubocop:disable Metrics/PerceivedComplexity
     key = "ub-b64-asset:#{path}"
 
-    b64_asset = redis.get key
-    return b64_asset if b64_asset.present?
+    if ENABLE_BASE64_CACHING
+      b64_asset = redis.get(key)
+      return b64_asset if b64_asset.present?
+    end
 
     if Rails.env.development? || Rails.env.test?
       asset = Rails.application.assets.find_asset(path)
@@ -99,9 +105,12 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
       content_type = Mime::Type.lookup_by_extension(File.extname(path).split('.').last)
     end
     raise "Could not find asset '#{path}'" if asset.nil?
+
     encoded = Base64.encode64(asset.to_s).gsub(/\s+/, '')
     b64_asset = "data:#{content_type};base64,#{Rack::Utils.escape(encoded)}"
-    redis.set key, b64_asset, ex: 1.day.to_i
+
+    redis.set key, b64_asset, ex: 1.day.to_i if ENABLE_BASE64_CACHING
+
     b64_asset
   end
 
