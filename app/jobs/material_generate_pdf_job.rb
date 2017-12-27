@@ -29,7 +29,7 @@ class MaterialGeneratePDFJob < ActiveJob::Base
   def links_from_upload(material, document)
     material = MaterialPresenter.new material, lesson: DocumentPresenter.new(document)
 
-    basename = material.pdf_filename
+    basename = "#{DocumentExporter::PDF::Base.s3_folder}/#{material.pdf_filename}"
     pdf_filename = "#{basename}#{ContentPresenter::PDF_EXT}"
     thumb_filename = "#{basename}#{ContentPresenter::THUMB_EXT}"
 
