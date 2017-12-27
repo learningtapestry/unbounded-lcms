@@ -11,6 +11,7 @@ module DocTemplate
       end
 
       def parse(node, opts = {})
+        @parent_node = opts[:parent_node]
         @value = opts[:value].gsub(SPACE_RE, '')
         expression =
           begin
@@ -22,7 +23,7 @@ module DocTemplate
                 %(<img class="o-ld-latex" src="#{url}">)
               end
             else
-              EmbedEquations.tex_to_svg @value
+              EmbedEquations.tex_to_svg @value, preserve_color: preserve_color?
             end
           rescue StandardError => e
             raise if Rails.env.test?
@@ -42,12 +43,18 @@ module DocTemplate
 
       private
 
-      attr_reader :value
+      attr_reader :parent_node, :value
+
+      def custom_color
+        return if parent_node.nil?
+        config = self.class.config[self.class::TAG_NAME.downcase]
+        config['color']
+      end
 
       def generate_image
         svg_path =
           Tempfile.open(%w(tex-eq .svg)) do |svg|
-            svg.write EmbedEquations.tex_to_svg(value)
+            svg.write EmbedEquations.tex_to_svg(value, custom_color: custom_color)
             svg.path
           end
 
@@ -58,6 +65,12 @@ module DocTemplate
         ensure
           png.close true
         end
+      end
+
+      def preserve_color?
+        return false if parent_node.nil?
+        html = Nokogiri::HTML.fragment parent_node
+        html.at_css('div')['class'].to_s.downcase.include? 'o-ld-callout'
       end
     end
   end

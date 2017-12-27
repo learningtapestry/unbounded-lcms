@@ -96,7 +96,7 @@ module DocTemplate
 
       def parse_nested(node, opts = {})
         if node == opts[:parent_node]
-          opts[:iteration] += 1
+          opts[:iteration] = opts[:iteration].to_i + 1
           raise DocumentError, "Loop detected for node:<br>#{node}" if opts[:iteration] > MAX_ITERATIONS
         end
         parsed = Document.parse(Nokogiri::HTML.fragment(node), opts.merge(level: 1))
