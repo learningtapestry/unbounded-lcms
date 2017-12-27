@@ -79,6 +79,8 @@ describe EmbedEquations do
   end
 
   describe '.tex_to_svg' do
+    let(:preserve_color) { false }
+
     before { allow(redis).to receive(:get).and_return(tex_to_svg) }
 
     subject { described_class.tex_to_svg tex }
@@ -105,7 +107,7 @@ describe EmbedEquations do
       end
 
       it 'stores generated SVG into the Redis' do
-        redis_key = "#{described_class::REDIS_KEY_SVG}#{tex}"
+        redis_key = "#{described_class::REDIS_KEY_SVG}#{tex}#{preserve_color}"
         expect(redis).to receive(:set).with(redis_key, tex_to_svg)
         subject
       end

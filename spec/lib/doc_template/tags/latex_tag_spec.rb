@@ -8,14 +8,14 @@ describe DocTemplate::Tags::LatexTag do
     html = Nokogiri::HTML original_content
     html.at_xpath('*//ol')
   end
-  let(:options) {{ value: value }}
+  let(:options) { { value: value, preserve_color: false } }
   let(:original_content) do
     <<-HTML
       <ol class="lst-kix_q3dubtijti3v-1" start="2" style="padding:0;margin:0">
         <li
-          <span style="font-size:8pt;font-family:&quot;Calibri&quot;;color:#231f20;font-weight:400">&nbsp;are 
-          [latex: \overleftrightarrow{CD}] intersecting lines. &nbsp;In a complete sentence, des cribe the angle 
-          relationship in the diagram. &nbsp;Write an equation for the angle relationship shown in the figure and 
+          <span style="font-size:8pt;font-family:&quot;Calibri&quot;;color:#231f20;font-weight:400">&nbsp;are
+          [latex: \overleftrightarrow{CD}] intersecting lines. &nbsp;In a complete sentence, des cribe the angle
+          relationship in the diagram. &nbsp;Write an equation for the angle relationship shown in the figure and
           solve for </span>
         </li>
       </ol>
@@ -23,11 +23,11 @@ describe DocTemplate::Tags::LatexTag do
   end
   let(:svg) { '<svg>Test</svg>' }
   let(:tag) { described_class.new }
-  let(:tag_data) {{ latex: value }}
+  let(:tag_data) { { latex: value } }
   let(:tag_name) { DocTemplate::Tags::LatexTag::TAG_NAME }
   let(:value) { '\overleftrightarrow{CD}' }
 
-  before { allow(EmbedEquations).to receive(:tex_to_svg).with(value).and_return(svg) }
+  before { allow(EmbedEquations).to receive(:tex_to_svg).with(value, preserve_color: false).and_return(svg) }
 
   subject { tag.parse(node, options).render }
 

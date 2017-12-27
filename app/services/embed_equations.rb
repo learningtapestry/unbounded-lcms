@@ -29,12 +29,23 @@ class EmbedEquations
       html
     end
 
-    def tex_to_svg(tex)
+    def tex_to_svg(tex, custom_color: nil, preserve_color: false)
       return if tex.blank?
 
-      if (svg = redis.get("#{REDIS_KEY_SVG}#{tex}")).blank?
+      key = "#{REDIS_KEY_SVG}#{tex}#{preserve_color}#{custom_color}"
+      if (svg = redis.get(key)).blank?
+        if custom_color.present?
+          tex = "\\require{color}\\definecolor{math}{RGB}{#{custom_color}}\\color{math}{#{tex}}"
+        end
         svg = `tex2svg -- '#{tex}'`
-        redis.set "#{REDIS_KEY_SVG}#{tex}", svg
+
+        #
+        # Should make that change only for Web view.
+        # Settings color to `initial` prevents it from customization
+        #
+        svg = fix_color(svg, preserve_color) unless custom_color.present?
+
+        redis.set key, svg
       end
 
       svg
@@ -47,6 +58,14 @@ class EmbedEquations
       params = Rack::Utils.parse_nested_query(uri.query)
       return unless params['cht'] == 'tx'
       params['chl']
+    end
+
+    def fix_color(svg, preserve)
+      value = preserve ? 'currentColor' : 'initial'
+      source = Nokogiri::XML.parse svg
+      source.css('g').attr('fill', value)
+      source.css('g').attr('stroke', value)
+      source.root.to_s
     end
 
     def redis
