@@ -8,7 +8,16 @@ class MaterialBuildService
     @options = opts
   end
 
-  def build_from_pdf(url)
+  def build(url)
+    @url = url
+    pdf? ? build_from_pdf : build_from_gdoc
+  end
+
+  private
+
+  attr_reader :credentials, :downloader, :options, :url
+
+  def build_from_pdf
     @downloader = DocumentDownloader::PDF.new(@credentials, url)
     create_material
     title = downloader.file.name.sub(PDF_EXT_RE, '')
@@ -37,7 +46,7 @@ class MaterialBuildService
     @material
   end
 
-  def build_from_gdoc(url)
+  def build_from_gdoc
     @downloader = DocumentDownloader::Gdoc.new(@credentials, url, options)
     create_material
     content = downloader.download.content
@@ -65,10 +74,6 @@ class MaterialBuildService
     @material
   end
 
-  private
-
-  attr_reader :downloader, :options
-
   def create_material
     @material = Material.find_or_initialize_by(file_id: downloader.file_id)
   end
@@ -82,5 +87,11 @@ class MaterialBuildService
       reimported_at: Time.current,
       version: downloader.file.version
     }
+  end
+
+  def pdf?
+    return options[:source_type].casecmp('pdf').zero? if options[:source_type].present?
+    downloader = DocumentDownloader::Base.new credentials, url
+    downloader.file.name.to_s =~ PDF_EXT_RE
   end
 end
