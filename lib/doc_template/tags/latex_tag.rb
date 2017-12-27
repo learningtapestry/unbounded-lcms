@@ -6,13 +6,17 @@ module DocTemplate
       SPACE_RE = /[[:space:]]/
       TAG_NAME = 'latex'
 
+      def self.s3_folder
+        @folder ||= ENV.fetch('SWAP_DOCS_LATEX', 'documents-latex-equations')
+      end
+
       def parse(node, opts = {})
         @value = opts[:value].gsub(SPACE_RE, '')
         expression =
           begin
             # TODO: Refactor to handle GDoc in the ActiveJob
             if opts[:context_type]&.to_sym == :gdoc
-              key = "documents-latex-equations/#{SecureRandom.hex(20)}.png"
+              key = "#{self.class.s3_folder}/#{SecureRandom.hex(20)}.png"
               generate_image do |png|
                 url = S3Service.upload key, png
                 %(<img class="o-ld-latex" src="#{url}">)
