@@ -42,7 +42,12 @@
         <td><%= resource_status(resource) %>
         <td class="resource-btns-col">
           <%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>
-          <%= link_to t('.unit_bundle'), [:unit_bundle, :admin, resource], class: 'button small primary', method: :post if resource.unit? %>
+          <% if resource.unit? %>
+            <%= link_to t('.unit_bundle'), [:unit_bundle, :admin, resource], class: 'button small primary', method: :post %>
+          <% end %>
+          <% if resource.module? %>
+            <%= link_to t('.export_lti_cartridge'), [:export_to_lti_cc, :admin, resource], class: 'button small primary', method: :post %>
+          <% end %>
       </tr>
     <% end %>
   </table>
