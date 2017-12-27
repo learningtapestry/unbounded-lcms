@@ -25,6 +25,9 @@ assess:
     - SectionTag
     - ShTag
     - ThTag
+latex:
+  # RGB representation of the `math-base` color
+  color: '0,166,153'
 et:
   stop_tags:
     - AssessTag
