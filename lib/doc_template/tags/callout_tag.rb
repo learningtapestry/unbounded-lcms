@@ -4,8 +4,10 @@ module DocTemplate
   module Tags
     class CalloutTag < TableTag
       TAG_NAME = 'callout'
-      TEMPLATES = { default: 'callout.html.erb',
-                    gdoc:    'gdoc/callout.html.erb' }.freeze
+      TEMPLATES = {
+        default: 'callout.html.erb',
+        gdoc: 'gdoc/callout.html.erb'
+      }.freeze
 
       def parse_table(table)
         header, content = fetch_content(table)
@@ -14,8 +16,10 @@ module DocTemplate
           header: header,
           subject: @opts[:metadata].resource_subject
         }
-        new_content = parse_template(params, template_name(@opts))
-        parsed_content = parse_nested(new_content, @opts)
+        new_content = parse_template params, template_name(@opts)
+
+        @opts[:parent_node] = new_content
+        parsed_content = parse_nested new_content, @opts
 
         # Place placeholder where it should be
         before_tag(previous_non_empty(table) || table)
