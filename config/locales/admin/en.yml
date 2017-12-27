@@ -110,6 +110,7 @@ en:
       index:
         disable_editing: Disable Resource Editing
         enable_editing: Enable Resource Editing
+        export_lti_cartridge: LTI Thin CC
         grade_levels: Grade Levels
         new_resource: Add Resource
         page_title: Content Administration

@@ -36,6 +36,15 @@ module Admin
 
     def edit; end
 
+    def export_to_lti_cc
+      # TODO: Later may need to extend this check to allow unit export as well
+      return redirect_to :back, notice: 'Unsupported resource type' unless @resource.module?
+
+      data = LtiExporter.perform @resource
+      filename = "#{@resource.slug.parameterize}.zip"
+      send_data data, filename: filename, type: 'application/zip', disposition: 'attachment'
+    end
+
     def unit_bundle
       return redirect_to :admin_resources, notice: t('.fail') unless @resource.unit?
 

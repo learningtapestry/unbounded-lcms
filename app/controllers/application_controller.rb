@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     render 'pages/not_found', status: :not_found
   end
 
-  # Raise tranlation missing errors in controllers too
+  # Raise translation missing errors in controllers too
   def t(key, options = {})
     options[:raise] = true
     translate(key, options)

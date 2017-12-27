@@ -865,6 +865,7 @@ DEPENDENCIES
   rspec-rails (~> 3.5)
   ruby-progressbar (~> 1.7, >= 1.7.5)
   rubytree (~> 0.9.6)
+  rubyzip (~> 1.1.7)
   safe_attributes (~> 1.0.10)
   sanitize (~> 4.2)
   sass-rails (~> 5.0)
