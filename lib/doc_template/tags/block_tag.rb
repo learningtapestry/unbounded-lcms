@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class BlockTag < BaseTag
-      END_VALUE = 'end'.freeze
+      END_VALUE = 'end'
 
       def no_end_tag_for(node)
         msg = "No tag with END value for: #{self.class::TAG_NAME.upcase}<br>" \
@@ -18,9 +20,11 @@ module DocTemplate
 
         # we have to collect all nodes until the we find the end tag
         nodes = [].tap do |result|
+          check_tag_soft_return(node)
           while (node = node.next_sibling)
-            if node.content.downcase =~ end_tag_re
+            if node.content =~ end_tag_re
               end_tag_found = true
+              check_tag_soft_return(node)
               node.remove
               break
             end
