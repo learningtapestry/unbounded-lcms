@@ -24,4 +24,10 @@ describe DocTemplate::Tags::PageBreakTag do
       expect(subject).to include '<p>--GDOC-PAGE-BREAK--</p>'
     end
   end
+
+  context 'with soft returns on tag' do
+    let(:original_content) { '<p><span>[page-break]</span>some content</p>' }
+
+    it { expect { subject }.to raise_error(DocumentError) }
+  end
 end
