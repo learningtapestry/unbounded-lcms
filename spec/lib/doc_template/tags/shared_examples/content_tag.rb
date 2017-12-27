@@ -1,3 +1,4 @@
+# encoding: utf-8
 # frozen_string_literal: true
 
 require 'rails_helper'
@@ -6,7 +7,7 @@ shared_examples 'content_tag' do
   context 'with soft return after start tag' do
     let(:original_content) do
       <<-HTML
-        <p><span>[</span>#{described_class::TAG_NAME}]some content</p>
+        <p><span>[</span>#{described_class::TAG_NAME}]юникод</p>
         <p>some content</p>
       HTML
     end
@@ -17,7 +18,7 @@ shared_examples 'content_tag' do
   context 'with soft return before start tag' do
     let(:original_content) do
       <<-HTML
-        <p><span>[</span>#{described_class::TAG_NAME}]some content</p>
+        <p>e234]<span>[</span>#{described_class::TAG_NAME}]</p>
         <p>some content</p>
       HTML
     end
