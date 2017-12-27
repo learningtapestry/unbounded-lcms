@@ -6,6 +6,7 @@ module DocTemplate
       CONFIG_PATH = Rails.root.join('config', 'tags.yml')
       MAX_ITERATIONS = 100
       SOFT_RETURN_RE = /([[:graph:]]+\[|\][[:graph:]]+)/
+      UNICODE_SPACES_RE = /(\u0020|\u00A0|\u1680|\u180E|[\u2000-\u200B]|\u202F|\u205F|\u3000|\uFEFF)/
 
       attr_reader :content, :anchor
 
@@ -29,7 +30,8 @@ module DocTemplate
       end
 
       def check_tag_soft_return(node)
-        return unless node.content =~ SOFT_RETURN_RE
+        # need to remove unicode spaces bc they're not handled by [[:graph:]]
+        return unless node.content.gsub(UNICODE_SPACES_RE, '') =~ SOFT_RETURN_RE
         raise DocumentError,
               "Soft return for #{self.class::TAG_NAME} detected: #{node.content}, use hard return instead"
       end
