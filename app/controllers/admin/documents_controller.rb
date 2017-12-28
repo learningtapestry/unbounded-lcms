@@ -57,7 +57,7 @@ module Admin
 
     def bulk_import(docs)
       google_auth_id = GoogleAuthService.new(self).user_id
-      reimport_materials = params[:with_materials].present?
+      reimport_materials = params[:with_materials].to_i.nonzero?
       jobs = docs.each_with_object({}) do |doc, jobs_|
         job_id = DocumentParseJob.perform_later(doc, google_auth_id, reimport_materials: reimport_materials).job_id
         link = doc.is_a?(Document) ? doc.file_url : doc
