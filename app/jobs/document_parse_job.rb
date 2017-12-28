@@ -14,13 +14,13 @@ class DocumentParseJob < ActiveJob::Base
       @document = entry
       reimport_materials if options[:reimport_materials].present?
       reimport_document(@document.file_url) if result.nil?
+
+      @document.update(reimported: false) unless result[:ok]
     else
       reimport_document entry
     end
 
     store_result result
-
-    @document.update(reimported: false) unless result[:ok]
   end
 
   private
