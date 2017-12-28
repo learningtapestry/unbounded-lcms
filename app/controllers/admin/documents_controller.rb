@@ -113,7 +113,12 @@ module Admin
     end
 
     def form_params
-      @lf_params ||= params.require(:document_form).permit(:link, :link_fs, :reimport, :with_materials)
+      @lf_params ||=
+        begin
+          data = params.require(:document_form).permit(:link, :link_fs, :reimport, :with_materials)
+          data.delete(:with_materials) if data[:with_materials].to_i.zero?
+          data
+        end
     end
 
     def reimport_lesson
