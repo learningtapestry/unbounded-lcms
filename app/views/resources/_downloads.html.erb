@@ -2,9 +2,6 @@
   <h3>Downloads</h3>
   <% if resource.download_categories.any? %>
     <% resource.download_categories.each_with_index do |(category_title, downloads), idx| %>
-      <%# Hard positioning bundles on the 2nd %>
-      <%= render partial: 'resources/unit_bundles', locals: { resource: resource } if idx == 1 %>
-
       <h4 class="<%= 'u-margin-top--xs' if category_title.present? %>"><%= category_title %></h4>
         <% if (resource_download = downloads.first) %>
           <% category = resource_download.download_category %>
@@ -38,7 +35,9 @@
             </div>
           <% end %>
         <% end %>
-    <% end %>
+      <%# Hard positioning bundles on the 2nd %>
+      <%= render partial: 'resources/unit_bundles', locals: { resource: resource } if idx == 0 %>
+<% end %>
   <% elsif resource.unit_bundles? %>
     <%= render partial: 'resources/unit_bundles', locals: { resource: resource } %>
   <% elsif resource.downloads.empty? %>
