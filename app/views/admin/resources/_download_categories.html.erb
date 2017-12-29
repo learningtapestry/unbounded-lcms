@@ -11,8 +11,8 @@
         show_long = f.object.download_categories_settings[title].try(:[], 'show_long_description')
       %>
       <%= f.simple_fields_for :download_categories_settings do |settings| %>
-        <%= settings.input :show_short_description, as: :boolean, input_html: { checked: show_short, name: "#{prefix}[show_short_description]"} %>
-        <%= settings.input :show_long_description, as: :boolean, input_html: { checked: show_long, name: "#{prefix}[show_long_description]"} %>
+        <%= settings.input "show_#{title}_short_description", as: :boolean, input_html: { checked: show_short, name: "#{prefix}[show_short_description]"} %>
+        <%= settings.input "show_#{title}_long_description", as: :boolean, input_html: { checked: show_long, name: "#{prefix}[show_long_description]"} %>
       <% end %>
     </div>
   <% end %>

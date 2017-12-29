@@ -9,6 +9,7 @@
   <table class=table>
     <% @categories.each do |category| %>
       <tr>
+        <td><%= category.position %></td>
         <td class=category-tag-col><%= category.title %></td>
         <td class=category-tag-col><%= category.description %></td>
         <td><%= link_to t('ui.edit'), [:edit, :admin, category], class: 'button small' %></td>
