@@ -192,18 +192,10 @@ class Resource < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def download_categories
-    downloads = resource_downloads
-                  .sort_by { |rd| rd.download_category&.position.to_i }
-                  .group_by { |d| d.download_category&.title.to_s }
-                  .transform_values { |v| v.sort_by { |d| [d.download.main ? 0 : 1, d.download.title] } }
-
-    categories =
-      DownloadCategory.pluck(:description, :long_description, :title).each_with_object({}) do |x, data|
-        next unless download_categories_settings[x[2].parameterize]&.values&.any?
-        data[x[2]] = [OpenStruct.new(long: x[1], short: x[0])]
-      end
-
-    downloads.merge categories
+    @download_categories ||= resource_downloads
+                               .sort_by { |rd| rd.download_category&.position.to_i }
+                               .group_by { |d| d.download_category&.title.to_s }
+                               .transform_values { |v| v.sort_by { |d| [d.download.main ? 0 : 1, d.download.title] } }
   end
 
   def pdf_downloads?(category = nil)
