@@ -44,7 +44,7 @@ module Admin
     end
 
     def download_category_params
-      params.require(:download_category).permit(:description, :long_description, :position, :title)
+      params.require(:download_category).permit(:description, :long_description, :position, :title, :bundle)
     end
   end
 end
