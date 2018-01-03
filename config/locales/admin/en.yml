@@ -73,6 +73,7 @@ en:
       destroy:
         success: "Category deleted successfully."
       edit:
+        bundle: 'Bundles Category? (must be unique)'
         description: 'Display short description'
         long_description: 'Display long description'
         page_title: "Edit download category '%{name}'"
