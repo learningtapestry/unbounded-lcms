@@ -2,7 +2,11 @@
   <h3>Downloads</h3>
   <% if resource.categorized_downloads_list.any? %>
     <% resource.categorized_downloads_list.each_with_index do |dl, idx| %>
-      <h4 class="<%= 'u-margin-top--xs' if dl.title.present? %>"><%= dl.title %></h4>
+      <% if dl.title =~ /lesson materials/i %>
+        <%= render partial: 'resources/unit_bundles', locals: { resource: resource } %>
+
+      <% else %>
+        <h4 class="<%= 'u-margin-top--xs' if dl.title.present? %>"><%= dl.title %></h4>
         <% if dl.settings['show_short_description'] %>
           <p><%= dl.category.description %></p>
         <% end %>
@@ -30,8 +34,7 @@
             <div class="o-resource-downloads__btn o-resource-downloads__btn--less"><%= t('ui.show_less') %></div>
           </div>
         <% end %>
-      <%# Hard positioning bundles on the 2nd %>
-      <%= render partial: 'resources/unit_bundles', locals: { resource: resource } if idx == 0 %>
+      <% end %>
     <% end %>
   <% elsif resource.unit_bundles? %>
     <%= render partial: 'resources/unit_bundles', locals: { resource: resource } %>
