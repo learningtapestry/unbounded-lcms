@@ -19,6 +19,7 @@ class ResourcePresenter < SimpleDelegator
     @categorized_downloads_list ||= begin
       downloads_list = DownloadCategory.all.map do |dc|
         downloads = Array.wrap(download_categories[dc.title])
+        downloads.concat(document_bundles) if dc.title =~ /lesson materials/i
         settings = download_categories_settings[dc.title.parameterize] || {}
 
         next unless settings.values.any? || downloads.any?
