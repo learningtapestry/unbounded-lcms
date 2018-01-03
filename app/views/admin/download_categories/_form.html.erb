@@ -10,6 +10,8 @@
 
   <%= f.input :position, label: t('admin.download_categories.edit.position') %>
 
+  <%= f.input :bundle, as: :boolean, label: t('admin.download_categories.edit.bundle') %>
+
   <%= f.button :submit, t('ui.save'), name: nil %>
 
 <% end %>
