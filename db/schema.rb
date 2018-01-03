@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215152649) do
+ActiveRecord::Schema.define(version: 20180103171030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -213,10 +213,11 @@ ActiveRecord::Schema.define(version: 20171215152649) do
   add_index "documents_materials", ["material_id"], name: "index_documents_materials_on_material_id", using: :btree
 
   create_table "download_categories", force: :cascade do |t|
-    t.string  "title",            null: false
+    t.string  "title",                            null: false
     t.text    "description"
     t.integer "position"
     t.text    "long_description"
+    t.boolean "bundle",           default: false, null: false
   end
 
   create_table "downloads", force: :cascade do |t|

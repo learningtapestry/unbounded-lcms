@@ -2,9 +2,8 @@
   <h3>Downloads</h3>
   <% if resource.categorized_downloads_list.any? %>
     <% resource.categorized_downloads_list.each_with_index do |dl, idx| %>
-      <% if dl.title =~ /lesson materials/i %>
+      <% if dl.category&.bundle? %>
         <%= render partial: 'resources/unit_bundles', locals: { resource: resource } %>
-
       <% else %>
         <h4 class="<%= 'u-margin-top--xs' if dl.title.present? %>"><%= dl.title %></h4>
         <% if dl.settings['show_short_description'] %>
