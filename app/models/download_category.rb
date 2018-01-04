@@ -18,6 +18,7 @@ class DownloadCategory < ActiveRecord::Base
   private
 
   def unique_bundle
-    self.class.where.not(id: id).where(bundle: true).update_all(bundle: false) if bundle_changed? && bundle?
+    # we need the try here, otherwise this will fail when migrating the first time.
+    self.class.where.not(id: id).where(bundle: true).update_all(bundle: false) if try(:bundle) && bundle_changed?
   end
 end
