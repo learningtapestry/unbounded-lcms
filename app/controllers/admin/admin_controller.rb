@@ -6,6 +6,10 @@ module Admin
 
     before_action :authenticate_admin!
 
+    def whoami
+      render text: "stack=#{ENV['CLOUD66_STACK_NAME']}<br/>env=#{ENV['CLOUD66_STACK_ENVIRONMENT']}"
+    end
+
     private
 
     def authenticate_admin!
