@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'elasticsearch/model'
 require "#{Rails.root}/lib/elasticsearch/persistence/repository/response/results"
 

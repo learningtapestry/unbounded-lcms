@@ -1,28 +1,5 @@
-<div class="o-page__section cs-bg--<%= color_code %> u-br-top-right--base">
+<div class="o-page__section cs-bg--<%= color_code(resource) %> u-br-top-right--base">
   <div class="o-content-title u-text--capitalized">
-    <% if curriculum.present? %>
-      <%
-        curriculum.self_and_ancestors.reverse.each_with_index do |ancestor, idx|
-          is_last = ancestor.id == curriculum.id
-          piece_full = titleize_ub_titles((is_last ?
-            curriculum.resource.short_title :
-            ancestor.resource.short_title).try(:humanize))
-          piece_short = is_last ?
-            curriculum.resource.short_title :
-            ancestor.breadcrumb_piece
-      %>
-        <% if idx == 0 %>
-          <%= piece_full %>
-        <% else %>
-          <%= link_to show_with_slug_path(ancestor.slug.value) do %>
-            <span class="show-for-ipad"><%= piece_full %></span>
-            <span class="hide-for-ipad"><%= piece_short %></span>
-          <% end %>
-        <% end %>
-        <%= ' / ' if !is_last %>
-      <% end %>
-    <% else %>
-      <%= resource.generic_title %>
-    <% end %>
+    <%= resource_breadcrumbs_with_links(resource) %>
   </div>
 </div>

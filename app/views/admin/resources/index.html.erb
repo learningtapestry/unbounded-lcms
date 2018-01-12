@@ -22,6 +22,7 @@
       <th><%= t('.resource_types') %>
       <th><%= t('.subjects') %>
       <th><%= t('.url_slugs') %>
+      <th><%= t('.tree') %>
       <th><%= t('.status') %>
       <th>
     </tr>
@@ -32,13 +33,21 @@
         <td><%= check_box_tag 'ids[]', resource.id, false, class: 'resource-checkbox', id: check_box_id %>
         <td><%= label_tag check_box_id, resource.id, class: 'resource-id-label' %>
         <td><%= link_to resource.title, [:edit, :admin, resource] %>
-        <td class=resource-tag-col><%= resource.teaser %>
-        <td class=resource-tag-col><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
-        <td class=resource-tag-col><%= resource.resource_type %>
-        <td class=resource-tag-col><%= resource.subject %>
-        <td class=resource-tag-col><%= resource.slugs.map(&:value).join(', ') %>
+        <td class="resource-tag-col"><%= resource.teaser %>
+        <td class="resource-tag-col"><%= resource.standards.map(&:name).select(&:present?).join(', ') %>
+        <td class="resource-tag-col"><%= resource.resource_type %>
+        <td class="resource-tag-col"><%= resource.subject %>
+        <td class="resource-tag-col"><%= resource.slug %>
+        <td class="resource-tag-col"><%= resource.tree? ? 'yes' : 'no' %>
         <td><%= resource_status(resource) %>
-        <td><%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>
+        <td class="resource-btns-col">
+          <%= link_to t('ui.edit'), [:edit, :admin, resource], class: 'button small' %>
+          <% if resource.unit? %>
+            <%= link_to t('.unit_bundle'), [:unit_bundle, :admin, resource], class: 'button small primary', method: :post %>
+          <% end %>
+          <% if resource.module? %>
+            <%= link_to t('.export_lti_cartridge'), [:export_to_lti_cc, :admin, resource], class: 'button small primary', method: :post %>
+          <% end %>
       </tr>
     <% end %>
   </table>

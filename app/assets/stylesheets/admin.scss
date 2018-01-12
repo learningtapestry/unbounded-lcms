@@ -1,9 +1,14 @@
 @import 'main';
+@import 'selectize';
+@import 'jstree';
+@import 'vendors/jquery.tagsinput';
 @import 'admin/resources';
-@import 'admin/curriculums.scss';
+@import 'admin/curriculums';
 @import 'admin/standards';
 @import 'admin/components';
-@import 'selectize';
+@import 'admin/lessons';
+@import 'admin/materials';
+@import 'admin/users';
 
 .button {
   white-space: nowrap;
@@ -27,10 +32,6 @@
       display: none;
     }
   }
-}
-
-.is-dropdown-submenu {
-  z-index: 2;
 }
 
 .c-admin .o-page {
@@ -66,6 +67,7 @@
 }
 
 .is-dropdown-submenu {
+  min-width: 250px;
   z-index: 2;
 }
 
@@ -92,3 +94,8 @@
     margin-bottom: 1rem;
   }
 }
+
+.flex-pull-right { margin-left: auto; }
+.inline-form-btn { display: inline; }
+
+.c-multi-selected-btn { display: inline-block; }

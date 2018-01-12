@@ -19,13 +19,24 @@ en:
   footer:
     address_html: >
       123 Main Street, 12th fl, New York NY 10003
-    copyright_html: Copyright © 2016
+    contact: Contact
+    copyright_html: © Copyright UnboundEd Learning. 2017.
+    credits: Credits
+    credits_full_html: >
+      Design by <a href="https://www.linkedin.com/in/ryan-reynolds-0a67411/" target="_blank">Philament</a> and
+      <a href="https://constructive.co/" target="_blank">Constructive</a>; technology by
+      <a href="https://www.learningtapestry.com/" target="_blank">Learning Tapestry</a>. All photos copyright
+      <a href="https://www.unbounded.org/" target="_blank">UnboundEd</a> &
+      <a href="https://www.vertamaloney.com/" target="_blank">Verta Maloney</a>.
     phone_html: (888)123-4567
+    privacy: Privacy
     rights_html: All rights reserved.
     search: Search
-    contact: Contact
-    privacy: Privacy
     terms: Terms of Use
+  helpdesk:
+    title: Need help getting started?
+    content: Check out Help Desk for demo videos or to submit a question.
+    cta: Visit the Help Desk
   layouts:
     admin:
       admin: Administration
@@ -34,24 +45,25 @@ en:
       tos: Terms of Service
   nav:
     about: About UnboundEd
-    curriculum: Explore Curriculum
-    lessons: Find Lessons
-    instructions: Enhance Instruction
-    news: News
-    professional_development: Professional Development
-    about_html: <span>About</span><span>UnboundEd</span>
-    curriculum_html: <span>Explore</span><span>Curriculum</span>
-    lessons_html: <span>Find</span><span>Lessons</span>
-    instructions_html: <span>Enhance</span><span>Instruction</span>
-    leadership_html: <span>Advance</span><span>Leadership</span>
-    read_the_blog_html: <span>Read</span><span>The Blog</span>
-    read_the_blog: Read The Blog
     about_dropdown:
-      mission: Mission & Vision
-      institute: Standards Institute
-      people: People & Partners
       careers: Careers
       contact: Contact
+      institute: Standards Institute
+      mission: Mission & Vision
+      people: People & Partners
+    about_html: <span>About</span><span>UnboundEd</span>
+    curriculum: Explore Curriculum
+    curriculum_html: <span>Explore</span><span>Curriculum</span>
+    helpdesk: Support
+    helpdesk_hover_html: <span class='u-txt--helpdesk-hover-title'>UnboundEd Help Desk</span><br/>View demo videos or submit a question.
+    instructions: Enhance Instruction
+    instructions_html: <span>Enhance</span><span>Instruction</span>
+    leadership_html: <span>Advance</span><span>Leadership</span>
+    lessons: Find Lessons
+    lessons_html: <span>Find</span><span>Lessons</span>
+    logout: Logout
+    news: News
+    professional_development: Professional Development
   instructions:
     btn:
       back: "Back to Instruction"
@@ -115,8 +127,13 @@ en:
     close: Close
     contents: Contents
     delete: Delete
+    download: Download
     edit: Edit
     export: Export
+    export_custom_gdoc: Generate Materials (GDOC)
+    export_custom_pdf: Generate Materials (PDF)
+    export_gdoc: View in Google Drive
+    export_pdf: Print / Open in PDF
     export_resources: Export Resources
     hide: Hide
     import: Import
@@ -135,6 +152,7 @@ en:
     open_math_lesson: Open this Lesson
     open_math_module: Open this Module
     open_math_unit: Open this Topic
+    print: Print
     show: Show
     show_less: Show Less ...
     show_more: Show More ...

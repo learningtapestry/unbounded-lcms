@@ -1,4 +1,4 @@
-<%= simple_form_for :q, url: :admin_components, html: { class: 'form-inline well o-admin-components-search', method: :get } do |f| %>
+<%= simple_form_for :form, url: :admin_components, html: { class: 'form-inline well o-admin-components-search', method: :get } do |f| %>
 
   <div class='row align-bottom align-justify'>
     <%= f.input :search_term, label: false, required: false,
@@ -24,7 +24,7 @@
                           required: false,
                           as: :select,
                           include_blank: true,
-                          collection: GradeListHelper::GRADES,
+                          collection: Grades::GRADES,
                           label_method: :humanize,
                           input_html: {multiple: true} %>
       <aside>Hold down the Ctrl (windows) / Cmd (Mac) button to select multiple options</aside>

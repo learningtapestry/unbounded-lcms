@@ -1,15 +1,9 @@
+# frozen_string_literal: true
+
 class RegistrationsController < Devise::RegistrationsController
+  private
 
-  before_action :redirect_to_root
-
-  protected
-
-  def redirect_to_root
-    if user_signed_in?
-      redirect_to root_path
-    else
-      redirect_to new_user_session_path
-    end  
+  def after_inactive_sign_up_path_for(_)
+    new_user_session_path
   end
-
 end

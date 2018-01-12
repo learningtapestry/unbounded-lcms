@@ -21,15 +21,14 @@
   }
 
   @include m(tiny) {
-    height: 1px !important;
     margin-left: 0;
     margin-right: 0;
+    min-height: 1px;
   }
 }
 
 .o-sidebar__wrap.is-stuck {
   .o-sidebar-xs--show {
-    @include add-top-bottom-padding;
     visibility: visible;
     > div { display: block;}
   }
@@ -44,20 +43,17 @@
   @extend %base-shadow;
   @include flex-grid-row;
   @include flex-align($x: justify, $y: middle);
+  @include add-top-bottom-padding;
   color: $ub-white;
-  //flex: 0 0 100%;
   min-height: 1px;
-  //min-width: 100%;
   visibility: hidden;
 
   @include e(header) {
     @include flex-grid-column;
-    display: none;
   }
 
   @include e(action) {
     @include flex-grid-column(shrink);
-    display: none;
     i { color: $ub-white; }
   }
 
@@ -84,12 +80,11 @@
   @include e(header) {
     @include txt-element(cg-sidebar-header);
     margin-bottom: 1rem;
-    span { padding: .4rem 0 .4rem 1rem; }
+    padding: .4rem 0 .4rem 1rem;
   }
 
   @include e(sep) {
     border-radius: .1875rem;
-    //display: inline-block;
     height: .375rem;
     margin: 0 1rem 1.5625rem;
     width: 3.5rem;
@@ -103,7 +98,9 @@
     margin-bottom: $ub-base-padding;
     padding-bottom: $ub-base-padding;
     padding-top: $ub-base-padding;
+  }
 
+  @include e(sticky-header) {
     &, * {
       @include txt-element(cg-sidebar-header);
     }

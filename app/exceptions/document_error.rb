@@ -1,0 +1,2 @@
+class DocumentError < StandardError
+end

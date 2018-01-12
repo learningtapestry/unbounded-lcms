@@ -2,7 +2,7 @@
 
 <% if resource.copyrights.present? %>
   <% cc_types.each do |cc_type| %>
-    <span data-tooltip data-template-classes="u-resource-tooltip cs-tint-bg--<%= resource.color_code %>" aria-haspopup="true" title="<%= cc_type[:title] %>">
+    <span data-tooltip data-template-classes="u-resource-tooltip cs-tint-bg--<%= color_code(resource, base: true) %>" aria-haspopup="true" title="<%= cc_type[:title] %>">
         <i class="fa-lg ub-<%= cc_type[:icon] %>"></i>
     </span>
   <% end %>

@@ -11,7 +11,13 @@ default: &default
 production: &production
   <<: *default
 
+production_swap: &production
+  <<: *default
+
 staging:
+  <<: *production
+
+qa:
   <<: *production
 
 development:

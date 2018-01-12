@@ -4,11 +4,11 @@ class StaffMember < ActiveRecord::Base
   enum staff_type: { staff: 1, board: 2 }
 
   scope :order_by_name, -> { order(:last_name) }
-  scope :order_by_name_with_precedence, -> { order(:order, :last_name)}
+  scope :order_by_name_with_precedence, -> { order(:order, :last_name) }
 
   def name
-    "#{self.first_name} #{self.last_name}"
+    "#{first_name} #{last_name}"
   end
 
-  #mount_uploader :image_file, StaffImageUploader
+  # mount_uploader :image_file, StaffImageUploader
 end

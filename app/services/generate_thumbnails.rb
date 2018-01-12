@@ -1,20 +1,19 @@
 class GenerateThumbnails
-  attr_reader :model, :resource
+  attr_reader :resource
 
-  def initialize(model)
-    @model = model
-    @resource = model.is_a?(Curriculum) ? model.resource : model
+  def initialize(resource)
+    @resource = resource
     FileUtils.mkdir_p tmp_dir
   end
 
   def medias
     # @@medias ||= [:all, :facebook, :pinterest, :twitter]
-    @@medias ||= [:facebook, :pinterest]
+    @@medias ||= %i(facebook pinterest)
   end
 
   def generate
     medias.each do |media|
-      file_path = tmp_dir.join("#{resource_type}_#{model.id}_#{media}.svg")
+      file_path = tmp_dir.join("#{resource_type}_#{resource.id}_#{media}.svg")
       # generate tmp svg file
       File.open(file_path, 'w') { |f| f.write(svg_content(media)) }
       # convert to png
@@ -26,7 +25,7 @@ class GenerateThumbnails
       thumb.save
     end
     # clean tmp image files
-    files = Dir.glob(tmp_dir.join "#{resource_type}_#{model.id}_*.*")
+    files = Dir.glob(tmp_dir.join "#{resource_type}_#{resource.id}_*.*")
     FileUtils.rm files
   end
 
@@ -39,7 +38,7 @@ class GenerateThumbnails
   end
 
   def svg_content(media)
-    SVGSocialThumbnail.new(model, media: media).render
+    SVGSocialThumbnail.new(resource, media: media).render
   end
 
   def convert_to_png(file_path)

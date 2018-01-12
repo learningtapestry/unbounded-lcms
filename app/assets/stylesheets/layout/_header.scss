@@ -12,8 +12,8 @@
   }
 
   @media screen and #{breakpoint(large)} and (max-width: 1110px) {
-    padding-left: .7rem;
-    padding-right: .7rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
   }
 }
 
@@ -38,6 +38,7 @@
 
   @include e(left-menu) {
     @include menu-direction(vertical);
+    position: relative;
     > li > a { @include header-link-padding; }
 
     @include breakpoint($topbar-unstack-breakpoint) {
@@ -67,6 +68,54 @@
     }
   }
 
+  @include e(left-submenu) {
+    @include breakpoint($topbar-unstack-breakpoint) {
+      left: initial !important;
+      min-width: 250px;
+      right: 0 !important;
+      top: auto;
+
+      &::before {
+        bottom: 100%;
+        position: absolute;
+        right: 5px;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  @include e(auth-submenu) {
+    @include breakpoint($topbar-unstack-breakpoint) {
+      @include menu-direction(vertical);
+      @include add-column-padding(0);
+      background-color: $ub-white !important;
+
+      &::before {
+        @include css-triangle($tooltip-pip-width, $ub-white, up);
+      }
+    }
+
+    > li > a {
+      padding-left: $ub-base-margin !important;
+      padding-right: $ub-base-margin !important;
+    }
+  }
+
+  @include e(helpdesk-hover) {
+    @include breakpoint($topbar-unstack-breakpoint) {
+      $tooltip-color: map-get($ub-ld-colorcodes, tooltip-bg);
+      background-color: $tooltip-color !important;
+      border-radius: 3px;
+      box-shadow: 0 0 8px 0 rgba(0, 0, 0, .25);
+      margin-top: 1rem;
+      padding: 1rem;
+
+      &::before {
+        @include css-triangle($tooltip-pip-width, $tooltip-color, up);
+      }
+    }
+  }
+
   @include e(submenu-link) {
     a i { margin-right: 0 !important; }
     a, &.active a, a:hover, a:focus {
@@ -78,7 +127,7 @@
       a {
         height: auto !important;
         justify-content: center !important;
-        margin: 0 !important;
+        margin: 0;
         padding: .7rem 0 !important;
       }
       a, &.active a { color: $ub-primary !important; }
@@ -108,7 +157,7 @@
       span:last-child:before { content: '\00a0'; }
       @include breakpoint($topbar-unstack-breakpoint) {
         @include txt-element(nav-span);
-        display: block !important;
+        display: block;
         padding-bottom: 1.5rem !important;
         padding-top: 1.5rem !important;
         span:first-child {
@@ -120,16 +169,42 @@
       }
     }
 
-    @include m(light) {
+    @include m(full) {
       @include breakpoint($topbar-unstack-breakpoint) {
-        background-color: rgba($ub-primary, .8);
         a {
           align-items: center !important;
-          display: flex !important;
+          display: flex;
           height: $ub-nav-height;
         }
       }
     }
+
+    @include m(light) {
+      @include breakpoint($topbar-unstack-breakpoint) {
+        background-color: rgba($ub-primary, .8);
+      }
+    }
+
+    @include m(semi-dark) {
+      @include breakpoint($topbar-unstack-breakpoint) {
+        background-color: rgba($ub-nav-secondary, .3);
+      }
+    }
+
+    @include m(semi-light) {
+      @include breakpoint($topbar-unstack-breakpoint) {
+        background-color: rgba($ub-nav-secondary, .75);
+      }
+    }
+  }
+
+  @include m(documents) {
+    background-color: rgba($ub-primary, .9);
+    min-height: $ub-nav-height;
+    opacity: .9;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
   }
 }
 
@@ -145,10 +220,6 @@
     @include add-column-padding;
     @include breakpoint($topbar-unstack-breakpoint) {
       img { margin-top: .4rem; }
-    }
-
-    @include breakpoint(large only) {
-      padding-right: 1rem;
     }
   }
 

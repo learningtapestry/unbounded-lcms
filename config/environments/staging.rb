@@ -78,7 +78,11 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: 'unbounded.org' }
+  config.action_mailer.default_url_options = {
+    host: ENV['UNBOUNDED_DOMAIN']
+  }
+
+  config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

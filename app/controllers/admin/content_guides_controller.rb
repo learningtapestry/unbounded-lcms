@@ -24,8 +24,6 @@ module Admin
     end
 
     def update
-      content_guide_params = params.require(:content_guide).permit(:date, :description, :slug, :subject, :teaser, :title, :update_metadata, common_core_standard_ids: [], grade_list: [], unbounded_standard_ids: [])
-
       if @content_guide.update(content_guide_params)
         redirect_to :admin_content_guides, notice: t('.success', name: @content_guide.name)
       else
@@ -45,9 +43,8 @@ module Admin
       redirect_to(:new_admin_content_guide, alert: 'Incorrect link!') and return if file_id.blank?
 
       @content_guide = ContentGuide.import(file_id, google_credentials)
-      if @content_guide.errors.empty?
-        redirect_to [:edit, :admin, @content_guide], notice: t('.success', name: @content_guide.name)
-      end
+      return unless @content_guide.errors.empty?
+      redirect_to [:edit, :admin, @content_guide], notice: t('.success', name: @content_guide.name)
     end
 
     # GET /content_guides/links_validation
@@ -59,6 +56,13 @@ module Admin
 
     def load_content_guide
       @content_guide = ContentGuide.find(params[:id])
+    end
+
+    def content_guide_params
+      params
+        .require(:content_guide)
+        .permit(:date, :description, :slug, :subject, :teaser, :title, :update_metadata,
+                common_core_standard_ids: [], grade_list: [], unbounded_standard_ids: [])
     end
   end
 end

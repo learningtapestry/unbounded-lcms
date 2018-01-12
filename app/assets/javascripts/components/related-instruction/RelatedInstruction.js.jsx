@@ -13,22 +13,20 @@ class RelatedInstruction extends React.Component {
   }
 
   fetch() {
-    let url = Routes.related_instruction_path(this.state.id, {expanded: !this.state.expanded});
-
-    fetch(url).then(r => r.json()).then(response => {
+    return $.getJSON(Routes.related_instruction_path(this.state.id, {expanded: !this.state.expanded})).then(response => {
       let sum = 0;
       let sliceIdx = _.findIndex(response.instructions,
-                                 item => { sum += item.instruction_type === 'instruction' ? 2 : 1;
-                                           return sum > 4; }
-                                );
+        item => { sum += item.instruction_type === 'instruction' ? 2 : 1;
+          return sum > 4; }
+      );
       if (sliceIdx == -1) sliceIdx = response.instructions.length;
       const newState = { instructions:  _.take(response.instructions, sliceIdx),
-                         expandedInstructions:  _.slice(response.instructions, sliceIdx),
-                         hasMore: false,
-                         expanded: true
-                       };
+        expandedInstructions:  _.slice(response.instructions, sliceIdx),
+        hasMore: false,
+        expanded: true
+      };
       this.setState(_.assign({}, this.state, newState));
-    });
+    })
   }
 
   handleBtnClick(evt) {

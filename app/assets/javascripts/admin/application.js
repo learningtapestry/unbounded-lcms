@@ -1,6 +1,7 @@
-//= require jquery2
+//= require jquery
 //= require jquery_ujs
 //= require jquery_nested_form
+//= require i18n/translations
 //= require jquery/foundation.initialize
 //= require ckeditor/init
 //= require foundation
@@ -10,12 +11,12 @@
 //= require react
 //= require react_ujs
 //= require vendor/html.sortable.min
+//= require vendor/jquery.tagsinput
+//= require jstree
+//= require js-routes
 //= require ../ready
 //= require ../components
-//= require ./components
-//= require_tree ./editor
-//= require_tree ./curriculums
-
+//= require_tree ./components
 
 ready(function() {
   $(document).initFoundation();
@@ -24,4 +25,8 @@ ready(function() {
     allowEmptyOption: true,
     plugins: ['remove_button']
   });
+
+  window.initializeSelectAll();
+  window.initializeResourcesForm();
+  window.initializeResourcesList();
 });

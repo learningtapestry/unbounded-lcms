@@ -1,6 +1,6 @@
 window.initializeSubscribePlaceholder = function() {
   function setPlaceholder() {
-    $('.o-subscribe #mce-EMAIL').attr('placeholder',
+    $('#mce-EMAIL').attr('placeholder',
       ($(window).width() < 640) ? 'Enter your email address' :
       'Enter your email address, and we will be in touch soon.');
   }

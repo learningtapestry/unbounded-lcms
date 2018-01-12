@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -19,17 +21,25 @@ module Content
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths += [
+      Rails.root.join('lib'),
+      Rails.root.join('app', 'jobs', 'concerns')
+    ]
+
+    config.action_mailer.delivery_method = :smtp
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.action_mailer.delivery_method = :aws_sdk
-
     config.active_record.raise_in_transactional_callbacks = true
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
 
     config.react.addons = true
 
-    config.middleware.insert_before ::ActionDispatch::Cookies, 'RemoveSession'
+    config.active_job.queue_adapter = :resque
+
+    routes.default_url_options = { host: ENV['UNBOUNDED_DOMAIN'] }
+
+    # Used by i18n-js gem
+    config.middleware.use I18n::JS::Middleware
   end
 end

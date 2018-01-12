@@ -1,10 +1,11 @@
-@charset 'utf-8';
+@charset "utf-8";
 
 @import
   'utils/variables',
   'utils/mixins',
   'base/colors',
-  'base/cg-colors';
+  'base/cg-colors',
+  'base/ld-colors';
 
 @import
   'themes/settings';
@@ -13,16 +14,23 @@
   'vendors/foundation_and_overrides-pdf';
 
 @import
-  'utils/colorcodes';
+  'utils/colorcodes',
+  'utils/helpers';
 
 @import
   //'print/b64-fonts',
   'print/typography';
 
 @import
-  'components/cg/colorscheme';
+  'components/cg/colorscheme',
+  'components/lesson/override';
 
 @import
   'print/base',
+  'print/cg-base',
   'print/cover',
-  'print/footer';
+  'print/colorscheme',
+  'print/footer',
+  'print/header',
+  'print/helpers',
+  'print/lesson-base';

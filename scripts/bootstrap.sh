@@ -89,7 +89,6 @@ echo 'POSTGRESQL_DATABASE=unbounded_test' > /home/vagrant/unbounded/.env.test
 cd /home/vagrant/unbounded
 bundle config --delete bin
 bundle
-bundle exec rake cloud66:after_bundle
 npm i && npm run build
 
 cp db/dump/content.dump.freeze db/dump/content.dump

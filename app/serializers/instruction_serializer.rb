@@ -3,7 +3,7 @@ class InstructionSerializer < ActiveModel::Serializer
   attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type, :grade_avg
 
   def title
-    ActionController::Base.helpers.simple_format(object.title)
+    h.simple_format(object.title)
   end
 
   def subject
@@ -11,11 +11,15 @@ class InstructionSerializer < ActiveModel::Serializer
   end
 
   def img
-    object.try(:small_photo).try(:url) || ActionController::Base.helpers.image_path('cg_placeholder.jpg')
+    object.try(:small_photo).try(:url) || placeholder
+  end
+
+  def placeholder
+    h.image_path('cg_placeholder.jpg')
   end
 
   def path
-    id = object.permalink.present? ? object.permalink : object.id
+    id = object.permalink.presence || object.id
     content_guide_path(id, object.slug)
   end
 
@@ -23,4 +27,13 @@ class InstructionSerializer < ActiveModel::Serializer
     :instruction
   end
 
+  def grade_avg
+    object.grades.average
+  end
+
+  private
+
+  def h
+    ActionController::Base.helpers
+  end
 end
