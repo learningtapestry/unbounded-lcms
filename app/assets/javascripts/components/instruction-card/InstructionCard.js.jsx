@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 function InstructionCard(props) {
   const item = props.item;
   const mainClass = `o-instruction-card--${item.instruction_type}`;
@@ -20,6 +21,8 @@ function InstructionCard(props) {
     bemClass('body')
   );
 
+  const onCardClick = () => heap.track('PD Resource Opened', { title: item.title, type: item.instruction_type });
+
   const isInstruction = (item.instruction_type === 'instruction');
   const instructionBody = isInstruction ?
     (
@@ -38,10 +41,10 @@ function InstructionCard(props) {
           <MediaTime duration={item.time_to_teach} />
         </div>
       </div>
-    )
+    );
 
   return (
-    <a className={cssInstruction} href={props.item.path}>
+    <a className={cssInstruction} href={props.item.path} onClick={onCardClick}>
       <div className={cssWrapper}>
         <div className={cssImage}>
           <img src={item.img}/>

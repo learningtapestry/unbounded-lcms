@@ -2,6 +2,7 @@
   @include top-bar-container;
   min-height: $ub-nav-height;
   width: 100%;
+  z-index: $reveal-zindex;
 
   @include e(item) {
     flex: 0 0 100%;

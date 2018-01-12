@@ -18,7 +18,7 @@
             <strong class="st-logo__standards">Standards</strong>
             <span class="st-logo__institute">Institute</span>
           </div>
-          <div class="u-txt--st-label"></div>
+          <div class="u-txt--st-label">Florida, June 26-30, 2017</div>
         </div>
         <div class="c-hp-register__text">
           An immersive, engaging five-day professional development experience tailored to leaders and teachers of ELA and math.
@@ -48,7 +48,7 @@
           <div class="c-hp-panel__body c-hp-panel__body--math">
             <h2 class="u-margin-bottom--base">Math Curriculum</h2>
             <div class="u-hr-small"></div>
-            <p>Browse our collection of free, standards-aligned PreK-Grade 12 resources in mathematics. These materials draw from the critically acclaimed EngageNY content and have been sequenced by experts in curriculum design and instructional implementation.</p>
+            <p>Our comprehensive collection of free, standards-aligned math resources for grades PreK-12 has been reviewed and sequenced by our math experts and is based on the critically acclaimed EngageNY content.</p>
             <div>
               <%= link_to 'Explore Math', explore_curriculum_index_path(subjects: 'math'), class: 'o-btn o-btn--bordered-yellow o-btn--xs-full u-margin-bottom--zero' %>
             </div>
@@ -56,7 +56,6 @@
         </div>
       </div>
     </div>
-    <%= render 'wp', post: @post %>
     <div class="c-hp-media o-page__module o-media u-bg--light">
       <div class="o-media__img o-media__img--left c-hp-img--fl">
       </div>
@@ -88,7 +87,5 @@
         <%= link_to 'Advance Leadership', leadership_path, class: 'o-btn o-btn--bordered-yellow o-btn--xs-full u-color--base u-margin-bottom--zero' %>
       </div>
     </div>
-    <%= render 'twitter', tweet: @tweet %>
-    <%= render 'bias' %>
   </div>
 </div>

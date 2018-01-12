@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Download < ActiveRecord::Base
   mount_uploader :filename, DownloadUploader
   alias_attribute :file, :filename
@@ -26,12 +28,18 @@ class Download < ActiveRecord::Base
 
   def attachment_content_type
     case content_type
-    when 'application/zip' then 'zip'
-    when 'application/pdf' then 'pdf'
-    when 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' then 'excel'
-    when 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' then 'powerpoint'
-    when 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' then 'doc'
-    else content_type
+    when 'application/zip'
+      'zip'
+    when 'application/pdf'
+      'pdf'
+    when 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      'excel'
+    when 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+      'powerpoint'
+    when 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      'doc'
+    else
+      content_type
     end
   end
 
@@ -40,12 +48,13 @@ class Download < ActiveRecord::Base
   end
 
   private
-    def update_metadata
-      if file.present?
-        self.content_type = file.file.content_type
-        self.filesize     = file.file.size
-      end
 
-      true
+  def update_metadata
+    if file.present?
+      self.content_type = file.file.content_type
+      self.filesize     = file.file.size
     end
+
+    true
+  end
 end

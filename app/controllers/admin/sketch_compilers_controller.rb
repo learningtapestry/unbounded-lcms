@@ -1,38 +1,36 @@
-class Admin::SketchCompilersController < Admin::AdminController
-  include GoogleAuth
+# frozen_string_literal: true
 
-  layout 'admin'
+module Admin
+  class SketchCompilersController < AdminController
+    include GoogleAuth
 
-  before_action :obtain_google_credentials, only: [:show]
-  before_action :validate_params, only: [:compile]
+    layout 'admin'
 
-  def compile
-    url = URI.join ENV.fetch('UB_COMPONENTS_API_URL'), 'compile'
-    post_params = {
-      body: {
-        uid: current_user.id,
-        core_url: params[:core_url],
-        foundational_url: params[:foundational_url]
-      },
-      headers: {'Authorization' => %Q(Token token="#{ENV.fetch 'UB_COMPONENTS_API_TOKEN'}")}
-    }
-    res = HTTParty.post url, post_params
+    before_action :obtain_google_credentials, only: [:new]
+    before_action :validate_params, only: [:compile]
 
-    if res.code == 200
-      url = "https://drive.google.com/open?id=#{ JSON.parse(res.body)['id'] }"
-      redirect_to admin_sketch_compiler_path, notice: t('.success', url: url)
-    else
-      redirect_to admin_sketch_compiler_path, alert: t('.compile_error')
+    def compile
+      response = SketchCompiler
+                   .new(current_user.id, request.remote_ip, params[:version])
+                   .compile(params[:url], params[:foundational_url])
+
+      if response.success?
+        url = DocumentExporter::Gdoc::Base.url_for JSON.parse(response.body)['id']
+        redirect_to :back, notice: t('.success', url: url)
+      else
+        redirect_to :back, alert: t('.compile_error')
+      end
     end
-  end
 
-  def show
-    head :bad_request unless @google_credentials.present?
-  end
+    def new
+      head :bad_request unless google_credentials.present?
+      @version = params[:version].presence || 'v1'
+    end
 
-  private
+    private
 
-  def validate_params
-    redirect_to admin_sketch_compiler_path, alert: t('.error') unless params[:core_url].present?
+    def validate_params
+      redirect_to new_admin_sketch_compiler_path, alert: t('.error') unless params[:url].present?
+    end
   end
 end

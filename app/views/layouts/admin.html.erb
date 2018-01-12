@@ -7,9 +7,7 @@
     <title><%= "#{t('ui.unbounded')} - #{page_title}" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : t('default_title') %>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%= render partial: "shared/favicon" %>
-    <%= javascript_include_tag 'generated/translations' %>
-    <%= javascript_include_tag 'generated/routes' %>
+    <%= render partial: 'shared/favicon' %>
     <script>document.querySelector('html').className = 'js';</script>
     <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track' => true %>
     <%= render partial: 'shared/google_analytics' %>
@@ -18,13 +16,13 @@
   <body>
     <%= render partial: 'shared/unsupported' %>
     <div class="u-page-wrap c-admin u-supported">
-      <%= render partial: "admin/shared/header" %>
+      <%= render partial: 'admin/shared/header' %>
       <div class=o-page>
         <%= render partial: 'shared/flash' %>
         <%= yield %>
       </div>
     </div>
-    <%= render partial: "shared/footer" %>
+    <%= render partial: 'shared/footer' %>
 
     <%= javascript_include_tag 'admin/application', 'data-turbolinks-track' => true %>
   </body>

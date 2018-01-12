@@ -14,10 +14,6 @@ $text-sizes: (
 
 .u-color--base { color: $ub-txt !important; }
 
-.u-color--bias { color: #423872 !important; }
-
-.u-margin--5rem { margin-bottom: .5rem !important; }
-
 .u-text--capitalized {
   text-transform: capitalize;
 }
@@ -30,11 +26,27 @@ $text-sizes: (
   text-align: center;
 }
 
+.u-text--right {
+  text-align: right;
+}
+
+.u-text--strikethrough {
+  text-decoration: line-through;
+}
+
 .u-text--middled {
   vertical-align: middle;
 }
 
+.u-text--bolded {
+  font-weight: bold !important;
+}
+
+.u-flex { display: flex; }
+
 .u-show { display: block !important; }
+
+.u-hidden { display: none !important; }
 
 .u-float-none { float: none !important;}
 
@@ -52,13 +64,18 @@ $border-radius-sides: (top, bottom);
   }
 }
 
+.u-br--2xbase {
+  border-radius: $global-radius * 2 !important;
+}
+
 $margins: (
   'zero': 0,
   'xs': $ub-small-margin * .7,
   'small': $ub-small-margin,
   'base': $ub-base-margin,
   'large': $ub-large-margin,
-  'xlarge': $ub-xlarge-margin
+  'xlarge': $ub-xlarge-margin,
+  'xxlarge': $ub-xxlarge-margin,
 );
 $margins-align: (top, bottom, right, left);
 
@@ -68,23 +85,39 @@ $margins-align: (top, bottom, right, left);
       margin-#{$align}: $margin-value !important;
     }
   }
+
+  .u-margin-horizontal--#{$margin-type} {
+    margin-left: $margin-value;
+    margin-right: $margin-value;
+  }
+
+  .u-margin-vertical--#{$margin-type} {
+    margin-bottom: $margin-value;
+    margin-top: $margin-value;
+  }
 }
 
 $paddings: (
   'zero': 0,
+  'tiny': 5px,
   'xs': $ub-small-margin * .7,
   'small': $ub-small-margin,
   'base': $ub-base-margin,
   'large': $ub-large-margin,
-  'xlarge': $ub-xlarge-margin
+  'xlarge': $ub-xlarge-margin,
 );
-$paddings-align: (top, bottom);
+$paddings-align: (top, bottom, left, right);
 
 @each $padding-type, $padding-value in $paddings {
   @each $align in $paddings-align {
     .u-padding-#{$align}--#{$padding-type} {
       padding-#{$align}: $padding-value !important;
     }
+  }
+
+  .u-padding-horizontal--#{$padding-type} {
+    padding-left: $padding-value;
+    padding-right: $padding-value;
   }
 }
 
@@ -96,9 +129,11 @@ $align-types: (padding, margin);
     .u-#{$align-type}-#{$align-dir}--gutter-half {
       @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir}, $x: .5);
     }
+
     .u-#{$align-type}-#{$align-dir}--gutter {
       @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir});
     }
+
     .u-#{$align-type}-#{$align-dir}--gutter2x {
       @include add-gutter($type: #{$align-type}, $subtype: #{$align-dir});
     }
@@ -163,4 +198,19 @@ $bg: (
 
 .u-hr-small--ls {
   border-color: map-get($ub-leadership, base);
+}
+
+.u-centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.u-container {
+  @include m(condensed) {
+    max-width: 30rem;
+  }
+}
+
+.u-inline {
+  display: inline;
 }

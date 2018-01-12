@@ -1,3 +1,5 @@
+<%= yield(:above_flash) if content_for?(:above_flash) %>
+
 <% flash.to_hash.slice('alert', 'notice').each do |name, message| %>
   <% if message.present? %>
     <% klass = name == 'alert' ? 'alert' : 'success' %>

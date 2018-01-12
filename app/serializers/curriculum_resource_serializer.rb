@@ -1,96 +1,67 @@
-class CurriculumResourceSerializer < ActiveModel::Serializer
-  include TruncateHtmlHelper
-  include ResourceHelper
+# frozen_string_literal: true
 
+class CurriculumResourceSerializer < ActiveModel::Serializer
   self.root = false
 
-  attributes :id,
-    :curriculum_id,
-    :title,
-    :short_title,
-    :teaser,
-    :time_to_teach,
-    :type,
-    :path,
-    :downloads,
-    :subject,
-    :grade,
-    :breadcrumb_title,
-    :copyright,
-    :has_related
+  attributes :children, :id, :lesson_count, :module_count, :module_sizes,
+             :resource,  :type, :unit_count, :unit_sizes
 
-  def id
-    object.resource.id
+  def initialize(object, options = {})
+    super(object, options)
+    @depth = options[:depth] || 0
+    @depth_branch = options[:depth_branch]
   end
 
-  def curriculum_id
-    object.id
-  end
-
-  def title
-    object.resource.title
-  end
-
-  def short_title
-    object.resource.short_title
-  end
-
-  def teaser
-    object.resource.teaser
-  end
-
-  def time_to_teach
-    object.resource.time_to_teach
+  def resource
+    ResourceDetailsSerializer.new(object).as_json
   end
 
   def type
     object.curriculum_type
   end
 
-  def subject
-    object.resource.subject
-  end
+  def children
+    return [] if !module? && @depth.zero?
+    return [] if !module? && @depth_branch && !@depth_branch.include?(object.id)
 
-  def grade
-    object.grade_color_code
-  end
-
-  def path
-    show_resource_path(object.resource, object)
-  end
-
-  def downloads
-    indent = object.resource.pdf_downloads?
-    serialize_download = lambda do |download|
-      {
-        id: download.id,
-        icon: h.file_icon(download.download.attachment_content_type),
-        title: download.download.title,
-        url: download_path(download, slug_id: object.try(:slug).try(:id)),
-        preview_url: preview_download_path(id: download,
-                                           slug_id: object.try(:slug).try(:id)),
-        indent: indent
-      }
-    end
-    object.resource.download_categories.map do |k, v|
-      [k, v.map(&serialize_download)]
+    object.children.ordered.map do |res|
+      CurriculumResourceSerializer.new(
+        res,
+        depth: @depth - 1,
+        depth_branch: @depth_branch
+      ).as_json
     end
   end
 
-  def copyright
-    copyrights_text(object)
+  def lesson_count
+    count = descendants.select(&:lesson?).count
+    object.assessment? ? count + 1 : count
   end
 
-  def has_related
-    # based on 'find_related_instructions' method from 'ResourcesController'
-    object.resource.unbounded_standards.any? do |standard|
-      standard.content_guides.exists? || standard.resources.media.exists?
+  def unit_count
+    descendants.select(&:unit?).count
+  end
+
+  def module?
+    type.casecmp('module').zero?
+  end
+
+  def module_count
+    descendants.select(&:module?).count
+  end
+
+  def module_sizes
+    descendants.select(&:module?).map { |r| r.self_and_descendants.lessons.count }
+  end
+
+  def unit_sizes
+    descendants.select(&:unit?).map do |r|
+      count = r.self_and_descendants.lessons.count
+      r.assessment? ? count + 1 : count
     end
   end
 
-  protected
-
-    def h
-      ApplicationController.helpers
-    end
+  def descendants
+    @descendants ||= object.self_and_descendants.ordered
+  end
 end

@@ -6,12 +6,13 @@ module TagsHelper
     ccss_domain:    'CCSS Domain',
     ccss_cluster:   'CCSS Cluster',
     texts:          'Texts',
-    authors:        'Authors',
+    authors:        'Authors'
   }.freeze
 
-  def render_tag_clouds(named_tags, color_code)
+  def render_tag_clouds(resource)
+    named_tags = resource.filtered_named_tags
     render partial: 'resources/tags',
-           locals: { tag_clouds: tag_clouds(named_tags), color_code: color_code }
+           locals: { tag_clouds: tag_clouds(named_tags), color_code: color_code(resource) }
   end
 
   def tag_clouds(named_tags)

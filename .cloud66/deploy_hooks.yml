@@ -1,10 +1,4 @@
 production: &production
-  after_bundle:
-    - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cloud66:after_bundle
-      target: rails
-      execute: true
-      run_on: all_servers
-      apply_during: all
   after_symlink:
     - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cloud66:after_symlink
       target: rails
@@ -40,7 +34,18 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers
+    - command: apt-get install pandoc -y
+      apply_during: build_only
+      execute: true
+      run_on: all_servers
+      sudo: true
+      target: rails
   after_rails:
+    - command: cd $STACK_PATH && mkdir -p app/assets/javascripts/generated && chown nginx:app_writers app/assets/javascripts/generated && chmod -R 775 app/assets/javascripts/generated
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: deploy_only
     - command: cd $STACK_PATH && chgrp -R app_writers tmp && chown -R nginx:app_writers tmp && chmod 775 tmp && chmod g+s tmp && chmod -R g+rw tmp
       target: rails
       execute: true
@@ -72,11 +77,59 @@ production: &production
       sudo: true
       apply_during: all
       run_on: all_servers
-
+    - source: /.cloud66/install_mathjax.sh
+      destination: /tmp/install_mathjax.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
+      run_on: all_servers
+    # Grant access to precompiled assets
+    - command: chown -R nginx:app_writers $STACK_PATH/tmp/cache/assets
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: deploy_only
+      sudo: true
+    - source: /.cloud66/setup_worker.sh
+      destination: /tmp/setup_worker.sh
+      target: rails
+      execute: true
+      apply_during: all
+      run_on: all_servers
+    - source: /.cloud66/setup-services.sh
+      destination: /tmp/setup-services.sh
+      target: rails
+      execute: true
+      apply_during: all
+      run_on: all_servers
+      sudo: true
+    - source: /.cloud66/setup-google-cloud-platform.sh
+      destination: /tmp/setup-google-cloud-platform.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
+      run_on: all_servers
+    - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cache:reset_base64
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
+production_swap:
+  <<: *production
 staging:
   <<: *production
   after_symlink:
     - command: sudo cp -R $STACK_PATH/.cloud66/public/staging/* $STACK_PATH/public
+      target: rails
+      execute: true
+      run_on: all_servers
+      apply_during: all
+qa:
+  <<: *production
+  after_symlink:
+    - command: sudo cp -R $STACK_PATH/.cloud66/public/qa/* $STACK_PATH/public
       target: rails
       execute: true
       run_on: all_servers

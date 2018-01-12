@@ -1,8 +1,10 @@
-<div id="admcur-edt">
-  <div class="o-page">
-    <h2 class="text-center">Edit curriculum</h2>
-    <h3 class="text-center"><%= @curriculum.resource.title %></h3>
-   <%= render partial: 'form', locals: { curriculum: @curriculum } %>
+<% set_page_title 'Curriculum Tree Manager' %>
+
+<div class="o-page">
+
+  <h1 class="text-center">Curriculum Tree</h1>
+
+  <div class="row">
+    <%= react_component('CurriculumEditor', @curriculum.editor_props.merge(form_token: form_authenticity_token), prerender: true) %>
   </div>
 </div>
-

@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 class WelcomeController < ApplicationController
   def index
-    @tweet = TweetPresenter.new(TwitterChannel.latest_tweet)
-    @post = WPPostPresenter.new(WPBlog.latest_post)
+    redirect_to action: 'index', controller: 'explore_curriculum'
   end
 end

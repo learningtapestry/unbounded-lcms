@@ -1,6 +1,6 @@
 module Admin
   class ContentGuideFaqsController < AdminController
-    before_action :load_resource, only: [:edit, :update, :destroy]
+    before_action :load_resource, only: %i(edit update destroy)
 
     def index
       @content_guide_faqs = ContentGuideFaq.all
@@ -20,8 +20,7 @@ module Admin
       end
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
       if @content_guide_faq.update_attributes(content_guide_faq_params)
@@ -43,8 +42,9 @@ module Admin
     end
 
     def content_guide_faq_params
-      params.require(:content_guide_faq)
-            .permit(:title, :subject, :active, :description, :heading, :subheading)
+      params
+        .require(:content_guide_faq)
+        .permit(:title, :subject, :active, :description, :heading, :subheading)
     end
   end
 end

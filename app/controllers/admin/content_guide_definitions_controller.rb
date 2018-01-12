@@ -8,8 +8,7 @@ module Admin
       @definitions = ContentGuideDefinition.order(:keyword)
     end
 
-    def new
-    end
+    def new; end
 
     def import
       file_id = ContentGuide.file_id_from_url(params[:content_guide_definition][:url])

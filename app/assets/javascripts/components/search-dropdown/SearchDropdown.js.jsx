@@ -126,16 +126,14 @@ class SearchDropdown extends React.Component {
   fetch(props = this.props) {
     this.setState({ ...this.state, isSearching: true });
 
-    let query = {
-      format: 'json',
+    const url = Routes.search_path({
       per_page: this.perPage,
       search_term: props.filterbar.search_term,
       grades: props.filterbar.grades,
       subjects: props.filterbar.subjects
-    }
-    let url = Routes.search_path(query);
+    });
 
-    fetch(url).then(r => r.json()).then(response => {
+    return $.getJSON(url).then(response => {
       if (window.ga) {
         ga('send', 'pageview', url);
       }

@@ -1,7 +1,8 @@
 class SearchDocumentSerializer < ActiveModel::Serializer
   self.root = false
 
-  attributes :id, :model_id, :model_type, :title, :path, :type_name, :teaser, :breadcrumbs, :subject, :grade
+  attributes :id, :model_id, :model_type, :title, :path, :type_name, :teaser,
+             :breadcrumbs, :subject, :grade
 
   def path
     if model_type == 'content_guide'
@@ -11,22 +12,21 @@ class SearchDocumentSerializer < ActiveModel::Serializer
     else
       return media_path(object.model_id) if media?
       return generic_path(object.model_id) if generic?
-      if (slug = object.slug)
-        show_with_slug_path(slug)
-      else
-        resource_path(object.model_id)
-      end
+
+      object.slug ? show_with_slug_path(object.slug) : resource_permalink
     end
   end
 
   def type_name
-    return object.doc_type.titleize unless generic? && object.grade.present?
-    presenter = GenericPresenter.new(object)
-    "#{presenter.grades_to_str} #{object.doc_type.titleize}"
+    if generic? && object.grade.present?
+      "#{object.grades.to_str} #{object.doc_type.titleize}"
+    else
+      object.doc_type.titleize
+    end
   end
 
   def grade
-    generic? || media? || content_guide? ? object.grade_avg : object.grade_color_code
+    object.grades&.average
   end
 
   private
@@ -41,5 +41,14 @@ class SearchDocumentSerializer < ActiveModel::Serializer
 
   def content_guide?
     object.doc_type == 'content_guide'
+  end
+
+  def document_permalink
+    document = Resource.find(object.model_id).document
+    document_path(document.id)
+  end
+
+  def resource_permalink
+    resource_path(object.model_id)
   end
 end

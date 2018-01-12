@@ -8,7 +8,8 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   updateUrl($active) {
-    if ( !$active && !/p=/.test(location.search) ) return;
+    if (!$active && !/p=/.test(location.search)) return;
+    if ($active && !$active.length) return;
 
     let query = {p: null, e: null};
     if ($active) {
@@ -129,16 +130,12 @@ class ExploreCurriculumPage extends React.Component {
   fetch(state) {
     const query = this.createQuery(state);
     const url = Routes.explore_curriculum_index_path(query);
-    return fetch(url).then(r => r.json());
+    return $.getJSON(url)
   }
 
   fetchOne(id) {
-    const url = Routes.explore_curriculum_path(id, { format: 'json' });
-    return fetch(url, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(r => r.json());
+    const url = Routes.explore_curriculum_path(id);
+    return $.getJSON(url)
   }
 
   getActive(parentage, cur) {
@@ -232,7 +229,7 @@ class ExploreCurriculumPage extends React.Component {
               <div className="o-filterbar-title">
                 <h2>Explore Curriculum</h2>
                 <div className="o-filterbar-title__subheader">
-                  Search our free collection, or filter by subject or grade. Download, adapt, share.
+                  Explore ELA and Math lessons for the grades below. Review, adapt, download, and share.
                 </div>
               </div>
               <FilterbarResponsive

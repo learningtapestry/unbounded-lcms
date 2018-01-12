@@ -35,8 +35,15 @@
       <div class="o-connect__dsc">
         Find answers to commonly asked questions and contact our team.
       </div>
-      <div class="o-connect__button">
-        <%= react_component('FreshdeskBtn', {text: t('ui.contact_us'), cls: 'o-ub-btn o-ub-btn o-ub-btn--connect o-btn--xs-full'}) %>
+      <div class="o-connect__buttons">
+        <div class="o-connect__button">
+          <%= react_component('FreshdeskBtn', {text: t('ui.contact_us'), cls: 'o-ub-btn o-ub-btn o-ub-btn--connect o-btn--xs-full'}) %>
+        </div>
+        <% if (url = ENV['UB_FAQ_URL']).present? %>
+          <div class="o-connect__button">
+            <a href="<%= url %>" class="o-ub-btn o-ub-btn--faq o-ub-btn--connect o-btn--xs-full" target="_blank">FAQ</a>
+          </div>
+        <% end %>
       </div>
     </div>
     <hr class="o-connect__hr" />

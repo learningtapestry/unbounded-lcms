@@ -11,12 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821064651) do
+ActiveRecord::Schema.define(version: 20180103171030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pg_trgm"
+
+  create_table "access_codes", force: :cascade do |t|
+    t.string   "code",                      null: false
+    t.boolean  "active",     default: true, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "access_codes", ["code"], name: "index_access_codes_on_code", unique: true, using: :btree
 
   create_table "content_guide_definitions", force: :cascade do |t|
     t.string   "keyword",     null: false
@@ -103,6 +111,14 @@ ActiveRecord::Schema.define(version: 20170821064651) do
   add_index "curriculum_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "curriculum_anc_desc_idx", unique: true, using: :btree
   add_index "curriculum_hierarchies", ["descendant_id"], name: "curriculum_desc_idx", using: :btree
 
+  create_table "curriculum_trees", force: :cascade do |t|
+    t.string   "name",                       null: false
+    t.jsonb    "tree",       default: {},    null: false
+    t.boolean  "default",    default: false, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "curriculum_types", force: :cascade do |t|
     t.string "name", null: false
   end
@@ -126,9 +142,82 @@ ActiveRecord::Schema.define(version: 20170821064651) do
   add_index "curriculums", ["item_type"], name: "index_curriculums_on_item_type", using: :btree
   add_index "curriculums", ["parent_id"], name: "index_curriculums_on_parent_id", using: :btree
 
+  create_table "document_bundles", force: :cascade do |t|
+    t.string   "category",                     null: false
+    t.string   "file"
+    t.integer  "resource_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "url"
+    t.string   "content_type", default: "pdf", null: false
+  end
+
+  add_index "document_bundles", ["resource_id"], name: "index_document_bundles_on_resource_id", using: :btree
+
+  create_table "document_parts", force: :cascade do |t|
+    t.integer  "document_id"
+    t.text     "content"
+    t.string   "part_type"
+    t.boolean  "active"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "placeholder"
+    t.text     "materials",    default: [],    null: false, array: true
+    t.integer  "context_type", default: 0
+    t.string   "anchor"
+    t.boolean  "optional",     default: false, null: false
+    t.jsonb    "data",         default: {},    null: false
+  end
+
+  add_index "document_parts", ["anchor"], name: "index_document_parts_on_anchor", using: :btree
+  add_index "document_parts", ["context_type"], name: "index_document_parts_on_context_type", using: :btree
+  add_index "document_parts", ["document_id"], name: "index_document_parts_on_document_id", using: :btree
+  add_index "document_parts", ["placeholder"], name: "index_document_parts_on_placeholder", using: :btree
+
+  create_table "documents", force: :cascade do |t|
+    t.string   "file_id"
+    t.string   "name"
+    t.datetime "last_modified_at"
+    t.string   "last_author_email"
+    t.string   "last_author_name"
+    t.text     "original_content"
+    t.string   "version"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.hstore   "metadata"
+    t.jsonb    "activity_metadata"
+    t.integer  "resource_id"
+    t.jsonb    "toc"
+    t.boolean  "active",                default: true, null: false
+    t.hstore   "foundational_metadata"
+    t.text     "css_styles"
+    t.jsonb    "links",                 default: {},   null: false
+    t.jsonb    "agenda_metadata"
+    t.string   "foundational_file_id"
+    t.text     "foundational_content"
+    t.string   "fs_name"
+    t.jsonb    "sections_metadata"
+    t.boolean  "reimported",            default: true, null: false
+  end
+
+  add_index "documents", ["file_id"], name: "index_documents_on_file_id", using: :btree
+  add_index "documents", ["metadata"], name: "index_documents_on_metadata", using: :gist
+  add_index "documents", ["resource_id"], name: "index_documents_on_resource_id", using: :btree
+
+  create_table "documents_materials", id: false, force: :cascade do |t|
+    t.integer "document_id"
+    t.integer "material_id"
+  end
+
+  add_index "documents_materials", ["document_id", "material_id"], name: "index_documents_materials_on_document_id_and_material_id", unique: true, using: :btree
+  add_index "documents_materials", ["material_id"], name: "index_documents_materials_on_material_id", using: :btree
+
   create_table "download_categories", force: :cascade do |t|
-    t.string "name",        null: false
-    t.string "description"
+    t.string  "title",                            null: false
+    t.text    "description"
+    t.integer "position"
+    t.text    "long_description"
+    t.boolean "bundle",           default: false, null: false
   end
 
   create_table "downloads", force: :cascade do |t|
@@ -155,6 +244,38 @@ ActiveRecord::Schema.define(version: 20170821064651) do
   end
 
   add_index "leadership_posts", ["order", "last_name"], name: "index_leadership_posts_on_order_and_last_name", using: :btree
+
+  create_table "material_parts", force: :cascade do |t|
+    t.integer  "material_id"
+    t.text     "content"
+    t.integer  "context_type", default: 0
+    t.string   "part_type"
+    t.boolean  "active"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "material_parts", ["material_id"], name: "index_material_parts_on_material_id", using: :btree
+
+  create_table "materials", force: :cascade do |t|
+    t.string   "file_id",                        null: false
+    t.string   "identifier"
+    t.jsonb    "metadata",          default: {}, null: false
+    t.string   "name"
+    t.datetime "last_modified_at"
+    t.string   "last_author_email"
+    t.string   "last_author_name"
+    t.text     "original_content"
+    t.string   "version"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.jsonb    "preview_links",     default: {}
+    t.datetime "reimported_at"
+  end
+
+  add_index "materials", ["file_id"], name: "index_materials_on_file_id", using: :btree
+  add_index "materials", ["identifier"], name: "index_materials_on_identifier", using: :btree
+  add_index "materials", ["metadata"], name: "index_materials_on_metadata", using: :gin
 
   create_table "pages", force: :cascade do |t|
     t.text     "body",       null: false
@@ -207,11 +328,21 @@ ActiveRecord::Schema.define(version: 20170821064651) do
     t.datetime "updated_at",           null: false
     t.boolean  "active"
     t.integer  "download_category_id"
+    t.text     "description"
   end
 
   add_index "resource_downloads", ["download_category_id"], name: "index_resource_downloads_on_download_category_id", using: :btree
   add_index "resource_downloads", ["download_id"], name: "index_resource_downloads_on_download_id", using: :btree
   add_index "resource_downloads", ["resource_id"], name: "index_resource_downloads_on_resource_id", using: :btree
+
+  create_table "resource_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id",   null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations",   null: false
+  end
+
+  add_index "resource_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "resource_anc_desc_idx", unique: true, using: :btree
+  add_index "resource_hierarchies", ["descendant_id"], name: "resource_desc_idx", using: :btree
 
   create_table "resource_reading_assignments", force: :cascade do |t|
     t.integer "resource_id",                null: false
@@ -268,7 +399,7 @@ ActiveRecord::Schema.define(version: 20170821064651) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "indexed_at"
-    t.boolean  "hidden",          default: false
+    t.boolean  "hidden",                       default: false
     t.string   "engageny_url"
     t.string   "engageny_title"
     t.string   "description"
@@ -278,13 +409,24 @@ ActiveRecord::Schema.define(version: 20170821064651) do
     t.string   "teaser"
     t.integer  "time_to_teach"
     t.string   "subject"
-    t.boolean  "ell_appropriate", default: false, null: false
+    t.boolean  "ell_appropriate",              default: false, null: false
     t.datetime "deleted_at"
-    t.integer  "resource_type",   default: 1,     null: false
+    t.integer  "resource_type",                default: 1,     null: false
     t.string   "url"
     t.string   "image_file"
+    t.string   "curriculum_type"
+    t.text     "curriculum_directory",         default: [],    null: false, array: true
+    t.integer  "curriculum_tree_id"
+    t.string   "hierarchical_position"
+    t.string   "slug"
+    t.integer  "parent_id"
+    t.integer  "level_position"
+    t.boolean  "tree",                         default: false, null: false
+    t.string   "opr_description"
+    t.jsonb    "download_categories_settings", default: {},    null: false
   end
 
+  add_index "resources", ["curriculum_tree_id"], name: "index_resources_on_curriculum_tree_id", using: :btree
   add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
   add_index "resources", ["resource_type"], name: "index_resources_on_resource_type", using: :btree
@@ -404,21 +546,28 @@ ActiveRecord::Schema.define(version: 20170821064651) do
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,    null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.boolean  "admin",                  default: true, null: false
+    t.integer  "role",                   default: 0,  null: false
+    t.string   "access_code"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.hstore   "survey"
   end
 
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
@@ -428,6 +577,11 @@ ActiveRecord::Schema.define(version: 20170821064651) do
   add_foreign_key "curriculums", "curriculum_types"
   add_foreign_key "curriculums", "curriculums", column: "parent_id"
   add_foreign_key "curriculums", "curriculums", column: "seed_id"
+  add_foreign_key "document_bundles", "resources"
+  add_foreign_key "document_parts", "documents"
+  add_foreign_key "documents_materials", "documents"
+  add_foreign_key "documents_materials", "materials"
+  add_foreign_key "material_parts", "materials"
   add_foreign_key "reading_assignment_texts", "reading_assignment_authors"
   add_foreign_key "resource_additional_resources", "resources"
   add_foreign_key "resource_additional_resources", "resources", column: "additional_resource_id"

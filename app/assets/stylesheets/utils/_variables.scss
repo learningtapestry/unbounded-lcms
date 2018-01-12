@@ -2,6 +2,7 @@
 $ub-sanserif: 'PF Centro Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $ub-serif: 'Caponi Slab Web', Georgia, "Times New Roman", Times, serif;
 $ub-sanserif-condensed: 'PF Centro Sans Condensed', $ub-sanserif;
+$ub-cursive: 'Sriracha', cursive;
 
 $panel-radius: 3px;
 
@@ -13,6 +14,7 @@ $ub-base-margin: 1rem;
 $ub-base-padding: 1rem;
 $ub-large-margin: $ub-base-margin * 1.5;
 $ub-xlarge-margin: $ub-base-margin * 2;
+$ub-xxlarge-margin: $ub-base-margin * 3;
 $ub-small-margin: $ub-base-margin * .75;
 $ub-tiny-margin: 1rem * .06;
 $ub-large-padding: $ub-base-padding * 1.5;
@@ -26,6 +28,7 @@ $curriculum-map-width: (
   base: 230px,
   medium: 180px
 );
+$curriculum-card-short-top: -6px;
 
 $filterbar-height: 58px;
 $filterbar-square: 58px;
@@ -45,6 +48,16 @@ $filterbar-rectangle-big: (
   small: $filterbar-xs - 1px,
   ipad: 157px
 );
-
+$ld-sticky-header-height: (
+  small: 75px,
+  large: $ub-nav-height
+);
+$ld-sticky-header-padding: (
+  small: 1rem,
+  large: .5rem
+);
+$ld-tooltip-offset: 1.5rem;
 
 $pdf-margin: 8px;
+$pdf-margin-ld: 29px; // It was 57px
+$pdf-fulltable-height: 1150px;

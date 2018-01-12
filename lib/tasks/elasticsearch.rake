@@ -14,15 +14,12 @@ namespace :es do
   task load: :environment do
     repo.create_index!
 
-    index_model 'Resources', Curriculum.trees
-                                       .with_resources
-                                       .where.not(curriculum_type: CurriculumType.map)
-                                       .includes(:resource_item)
+    index_model 'Resources', Resource.tree.where.not(curriculum_type: 'subject')
     index_model 'Media    ', Resource.media
     index_model 'Generic  ', Resource.generic_resources
     index_model 'Guide    ', ContentGuide.where(nil)
 
-    fpath = Rails.root.join('db', 'seeds' , 'external_pages.json')
+    fpath = Rails.root.join('db', 'seeds', 'external_pages.json')
     pages = JSON.parse File.read(fpath)
     pages.each do |page_attrs|
       page = ExternalPage.new(page_attrs.symbolize_keys)
@@ -34,12 +31,8 @@ namespace :es do
     @repo ||= Search::Repository.new
   end
 
-  def build_progressbar(name, qset)
-    ProgressBar.create title: "Indexing #{name}", total: qset.count()
-  end
-
   def index_model(name, qset)
-    pbar = build_progressbar name, qset
+    pbar = ProgressBar.create title: "Indexing #{name}", total: qset.count
 
     qset.find_in_batches do |group|
       group.each do |item|

@@ -5,5 +5,5 @@ function FreshdeskBtn(props) {
   };
 
   // return <a href="#" className={props.cls} onClick={onClick} >{props.text}</a>
-  return <a href="mailto:supportdesk@unbounded.org" className={props.cls}>{props.text}</a>
+  return <a href="mailto:pilot@unbounded.org" className={props.cls}>{props.text}</a>
 }
