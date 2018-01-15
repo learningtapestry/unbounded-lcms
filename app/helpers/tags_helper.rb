@@ -3,10 +3,10 @@
 module TagsHelper
   TAG_GROUPS = {
     ccss_standards: 'CCSS Standard',
-    ccss_domain:    'CCSS Domain',
-    ccss_cluster:   'CCSS Cluster',
-    texts:          'Texts',
-    authors:        'Authors'
+    ccss_domain: 'CCSS Domain',
+    ccss_cluster: 'CCSS Cluster',
+    texts: 'Texts',
+    authors: 'Authors'
   }.freeze
 
   def render_tag_clouds(resource)

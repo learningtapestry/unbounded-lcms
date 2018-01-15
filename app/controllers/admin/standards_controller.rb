@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class StandardsController < AdminController
     before_action :find_standard, except: [:index]

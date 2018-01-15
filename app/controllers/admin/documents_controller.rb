@@ -9,7 +9,7 @@ module Admin
 
     def index
       @query = OpenStruct.new(params[:query])
-      @documents = documents(@query)
+      @documents = AdminDocumentsQuery.call(@query, page: params[:page])
     end
 
     def create
@@ -38,9 +38,13 @@ module Admin
     end
 
     def import_status
-      jid = params[:jid]
-      data = { status: DocumentParseJob.status(jid) }
-      data[:result] = DocumentParseJob.fetch_result(jid) if data[:status] == :done
+      data = params.fetch(:jids, []).each_with_object({}) do |jid, obj|
+        status = DocumentParseJob.status(jid)
+        obj[jid] = {
+          status: status,
+          result: (status == :done ? DocumentParseJob.fetch_result(jid) : nil)
+        }.compact
+      end
       render json: data, status: :ok
     end
 
@@ -64,25 +68,6 @@ module Admin
         jobs_[job_id] = { link: link, status: 'waiting' }
       end
       @props = { jobs: jobs, type: :documents }
-    end
-
-    def documents(q) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
-      scope = Document.all.distinct
-      # filters
-      scope = scope.actives unless q.inactive == '1'
-      scope = scope.failed if q.only_failed == '1'
-      scope = scope.filter_by_term(q.search_term) if q.search_term.present?
-      scope = scope.filter_by_subject(q.subject) if q.subject.present?
-      scope = scope.filter_by_grade(q.grade) if q.grade.present?
-      scope = scope.filter_by_module(q.module) if q.module.present?
-      scope = scope.filter_by_unit(q.unit) if q.unit.present?
-      scope = scope.with_broken_materials if q.broken_materials == '1'
-      scope = scope.with_updated_materials if q.reimport_required == '1'
-      # sort
-      scope = scope.order_by_curriculum if q.sort_by.blank? || q.sort_by == 'curriculum'
-      scope = scope.order(updated_at: :desc) if q.sort_by == 'last_update'
-
-      scope.order(active: :desc).paginate(page: params[:page])
     end
 
     def find_selected

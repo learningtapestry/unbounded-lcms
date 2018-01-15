@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Simple presenter for Curriculum (resources tree)
 class CurriculumPresenter
   UNIT_LEVEL = Resource::HIERARCHY.index(:unit)

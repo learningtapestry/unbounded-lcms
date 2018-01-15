@@ -8,9 +8,4 @@ class CreateCurriculumTrees < ActiveRecord::Migration
       t.timestamps null: false
     end
   end
-
-  def data
-    require_relative '../data/curriculum_tree_migrator'
-    CurriculumTreeMigrator.new.migrate!
-  end
 end

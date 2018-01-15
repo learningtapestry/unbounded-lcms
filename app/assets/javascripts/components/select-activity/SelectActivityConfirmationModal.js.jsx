@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+// eslint-disable-next-line no-unused-vars
 class SelectActivityConfirmationModal extends React.Component {
   constructor(props) {
     super(props);
@@ -99,8 +99,9 @@ class SelectActivityConfirmationModal extends React.Component {
   }
 
   track(event, extras = {}) {
+    if (!this.props.heapEnabled) return;
     this.heapTracked = true;
     const data = _.extend(extras, { textLengthShort: this.textLengthShort, textLengthFull: this.props.text.length });
-    heap.track(`Activity ${event}`, { id: this.props.item.id, learnMore: this.expanded, ...data });
+    heapTrack(`Activity ${event}`, { id: this.props.item.id, learnMore: this.expanded, ...data });
   }
 }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LeadershipPost < ActiveRecord::Base
   validates :first_name, :last_name, presence: true
   validates :description, length: { maximum: 4096 }

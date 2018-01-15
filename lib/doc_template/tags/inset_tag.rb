@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class InsetTag < BlockTag
@@ -5,7 +7,7 @@ module DocTemplate
         bold: /font-weight:[6-9]00/i,
         italic: /font-style:italic/i
       }.freeze
-      TAG_NAME = 'inset'.freeze
+      TAG_NAME = 'inset'
 
       def parse(node, opts = {})
         nodes = block_nodes(node) { |n| preserve_styles n, opts }

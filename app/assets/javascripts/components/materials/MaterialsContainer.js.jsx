@@ -26,7 +26,7 @@ class MaterialsContainer extends React.Component {
       material_title: this.props.data[idx].title
     };
     data = _.extend(data, this.props.activity, this.props.lesson);
-    heap.track(event, data);
+    heapTrack(event, data);
   }
 
   renderTab(m, idx) {

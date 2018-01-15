@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class TaskTag < BaseTag
-      TAG_NAME = 'task'.freeze
+      TAG_NAME = 'task'
 
       def parse(node, opts = {})
         @content = "<h4>Task #{opts[:value]}</h4>"

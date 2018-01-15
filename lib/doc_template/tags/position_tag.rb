@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class PositionTag < TableTag
-      TAG_NAME = 'position'.freeze
-      TEMPLATE = 'position.html.erb'.freeze
+      TAG_NAME = 'position'
+      TEMPLATE = 'position.html.erb'
 
       def parse_table(table)
         table.remove && return unless @opts[:parent_tags].try(:include?, Tags::MaterialsTag::TAG_NAME)

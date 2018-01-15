@@ -137,7 +137,7 @@ module DocTemplate
 
     def remove_part(type, context_type)
       result = nil
-      @documents.keys.each do |k|
+      @documents.each_key do |k|
         result = @documents[k].parts.detect { |p| p[:part_type] == type && p[:context_type] == context_type }
         @documents[k].parts.delete(result) && break if result.present?
       end
@@ -173,7 +173,8 @@ module DocTemplate
     end
 
     def target_table?
-      @metadata && @metadata.data['subject'].try(:downcase) == 'ela' && @metadata.data['grade'] == '6'
+      return false unless @metadata.present?
+      @metadata.data['subject']&.downcase == 'ela' && @metadata.data['grade'] == '6'
     end
 
     def template_type

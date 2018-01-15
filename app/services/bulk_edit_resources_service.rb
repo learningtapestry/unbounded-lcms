@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BulkEditResourcesService
   def initialize(resources, params = nil)
     @resources = resources
@@ -32,7 +34,6 @@ class BulkEditResourcesService
         resource.resource_type_list = after.resource_type_list
 
         resource.save!
-        resource
       end
     end
   end

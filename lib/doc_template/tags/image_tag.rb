@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class ImageTag < TableTag
-      TAG_NAME = 'image'.freeze
+      TAG_NAME = 'image'
       TEMPLATES = { default: 'image.html.erb',
                     gdoc:    'gdoc/image.html.erb' }.freeze
 

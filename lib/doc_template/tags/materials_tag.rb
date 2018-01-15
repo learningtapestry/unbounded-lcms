@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class MaterialsTag < BaseTag
-      TAG_NAME = 'materials'.freeze
-      TEMPLATE = 'materials.html.erb'.freeze
+      TAG_NAME = 'materials'
+      TEMPLATE = 'materials.html.erb'
 
-      def parse(node, opts = {})
+      def parse(node, _opts = {})
         # we have to collect all the next siblings until next activity-metadata
         content_until_break(node)
         node.remove

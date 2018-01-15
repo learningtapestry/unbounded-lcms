@@ -8,8 +8,8 @@ module Admin
     before_action :find_selected, only: %i(destroy_selected reimport_selected)
 
     def index
-      @query = OpenStruct.new(params[:query])
-      @materials = materials(@query)
+      @query = OpenStruct.new params[:query]
+      @materials = AdminMaterialsQuery.call(@query, page: params[:page])
     end
 
     def create
@@ -36,9 +36,13 @@ module Admin
     end
 
     def import_status
-      jid = params[:jid]
-      data = { status: MaterialParseJob.status(jid) }
-      data[:result] = MaterialParseJob.fetch_result(jid) if data[:status] == :done
+      data = params.fetch(:jids, []).each_with_object({}) do |jid, obj|
+        status = MaterialParseJob.status(jid)
+        obj[jid] = {
+          status: status,
+          result: (status == :done ? MaterialParseJob.fetch_result(jid) : nil)
+        }.compact
+      end
       render json: data, status: :ok
     end
 
@@ -93,41 +97,6 @@ module Admin
         options[:redirect_to] = return_path
       end
       obtain_google_credentials options
-    end
-
-    def materials(q) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/AbcSize
-      scope = Material.all
-      scope = scope.search_identifier(q.search_term) if q.search_term.present?
-
-      if q[:source].present?
-        scope = q[:source] == 'pdf' ? scope.pdf : scope.gdoc
-      end
-
-      %i(type sheet_type breadcrumb_level subject).each do |key|
-        scope = scope.where_metadata_like(key, q[key]) if q[key].present?
-      end
-
-      %i(grade lesson).each do |key|
-        scope = scope.joins(:documents).where('documents.metadata @> hstore(?, ?)', key, q[key]) if q[key].present?
-      end
-
-      if q[:module].present?
-        sql = <<-SQL
-          (documents.metadata @> hstore('subject', 'math') AND documents.metadata @> hstore('unit', :mod))
-            OR (documents.metadata @> hstore('subject', 'ela') AND documents.metadata @> hstore('module', :mod))
-        SQL
-        scope = scope.joins(:documents).where(sql, mod: q[:module])
-      end
-
-      if q[:unit].present?
-        sql = %((documents.metadata @> hstore('unit', :u) OR documents.metadata @> hstore('topic', :u)))
-        scope = scope.joins(:documents).where(sql, u: q[:unit])
-      end
-
-      scope = scope.order(:identifier) if q.sort_by.blank? || q.sort_by == 'identifier'
-      scope = scope.order(updated_at: :desc) if q.sort_by == 'last_update'
-
-      scope.to_a.uniq.paginate(page: params[:page])
     end
   end
 end

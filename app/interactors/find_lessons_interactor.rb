@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FindLessonsInteractor < BaseInteractor
   attr_reader :props
 

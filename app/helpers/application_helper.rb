@@ -88,7 +88,7 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
     content_for(:canonical_url, value)
   end
 
-  def base64_encoded_asset(path) # rubocop:disable Metrics/PerceivedComplexity
+  def base64_encoded_asset(path)
     key = "ub-b64-asset:#{path}"
 
     if ENABLE_BASE64_CACHING
@@ -98,13 +98,13 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
 
     if Rails.env.development? || Rails.env.test?
       asset = Rails.application.assets.find_asset(path)
-      content_type = asset.content_type
-    else
-      filesystem_path = Rails.application.assets_manifest.assets[path]
+      content_type = asset&.content_type
+    elsif (filesystem_path = Rails.application.assets_manifest.assets[path])
       asset = File.read(Rails.root.join('public', 'assets', filesystem_path))
       content_type = Mime::Type.lookup_by_extension(File.extname(path).split('.').last)
     end
     raise "Could not find asset '#{path}'" if asset.nil?
+    raise "Unknown MimeType for asset '#{path}'" if content_type.nil?
 
     encoded = Base64.encode64(asset.to_s).gsub(/\s+/, '')
     b64_asset = "data:#{content_type};base64,#{Rack::Utils.escape(encoded)}"

@@ -26,6 +26,10 @@
   thead, tbody, tfoot { border: 0; }
 
   .indented { text-indent: $list-side-margin * 2; }
+
+  // TODO: Quick fix, cg&lesson styles separated at pr 622
+  // After merging with 622 should be checked, maybe we don't need this
+  sup, sub { font-size: 75% !important; }
 }
 
 .c-ld {

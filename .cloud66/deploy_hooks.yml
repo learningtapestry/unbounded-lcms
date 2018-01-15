@@ -91,6 +91,13 @@ production: &production
       run_on: all_servers
       apply_during: deploy_only
       sudo: true
+    - source: /.cloud66/setup-google-cloud-platform.sh
+      destination: /tmp/setup-google-cloud-platform.sh
+      target: rails
+      execute: true
+      sudo: true
+      apply_during: all
+      run_on: all_servers
     - source: /.cloud66/setup_worker.sh
       destination: /tmp/setup_worker.sh
       target: rails
@@ -104,13 +111,6 @@ production: &production
       apply_during: all
       run_on: all_servers
       sudo: true
-    - source: /.cloud66/setup-google-cloud-platform.sh
-      destination: /tmp/setup-google-cloud-platform.sh
-      target: rails
-      execute: true
-      sudo: true
-      apply_during: all
-      run_on: all_servers
     - command: cd $STACK_PATH && BUNDLE_GEMFILE=$STACK_PATH/Gemfile bundle exec rake cache:reset_base64
       target: rails
       execute: true

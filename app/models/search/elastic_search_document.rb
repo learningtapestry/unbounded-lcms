@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Search
   class ElasticSearchDocument
     # return the corresponding repository

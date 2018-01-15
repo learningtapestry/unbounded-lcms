@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MediaPresenter < ResourcePresenter
   def media_title
     [subject, resource_type].compact.join(' ').titleize
