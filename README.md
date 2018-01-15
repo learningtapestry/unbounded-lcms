@@ -1,8 +1,8 @@
 # UnboundED CMS
 
-| v1 (master) | v2 (digitization) |
+| v1 (v1) | v2 (master) |
 |-------------|-------------------|
-| [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=master)](https://codeship.com/projects/110252) | [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=digitization)](https://codeship.com/projects/110252) |
+| [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=v1)](https://codeship.com/projects/110252) | [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=master)](https://codeship.com/projects/110252) |
 
 
 
