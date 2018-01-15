@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Handle the form data from the CurriculumEditor admin component
 class CurriculumForm
   include Virtus.model
@@ -77,7 +79,16 @@ class CurriculumForm
     resource.level_position = change['position']
     resource.save
 
-    parent.children.where.not(id: resource.id).where('level_position >= ?', change['position']).each do |r|
+    # ensure we don't skip a position
+    resource.siblings.each_with_index do |r, index|
+      next if r.level_position == index
+
+      r.level_position = index
+      r.save
+    end
+
+    # increase position for next siblings
+    resource.siblings.where('level_position >= ?', change['position']).each do |r|
       r.level_position += 1
       r.save
     end

@@ -1,18 +1,17 @@
+# frozen_string_literal: true
+
 class GenerateThumbnails
   attr_reader :resource
+
+  MEDIAS = %i(facebook pinterest).freeze # %i(all facebook pinterest twitter)
 
   def initialize(resource)
     @resource = resource
     FileUtils.mkdir_p tmp_dir
   end
 
-  def medias
-    # @@medias ||= [:all, :facebook, :pinterest, :twitter]
-    @@medias ||= %i(facebook pinterest)
-  end
-
   def generate
-    medias.each do |media|
+    MEDIAS.each do |media|
       file_path = tmp_dir.join("#{resource_type}_#{resource.id}_#{media}.svg")
       # generate tmp svg file
       File.open(file_path, 'w') { |f| f.write(svg_content(media)) }

@@ -18,7 +18,7 @@ class MaterialPreviewGenerator
   def perform
     return false unless assign_document
     options[:type] == :pdf ? generate_pdf : generate_gdoc
-  rescue => e
+  rescue StandardError => e
     @error = e.message
     return false
   end

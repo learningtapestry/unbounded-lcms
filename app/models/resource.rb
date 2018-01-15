@@ -41,9 +41,6 @@ class Resource < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   has_many :downloads, through: :resource_downloads
   accepts_nested_attributes_for :resource_downloads, allow_destroy: true
 
-  # Curriculums.
-  has_many :curriculums, as: :item, dependent: :destroy
-
   # Reading assignments.
   has_many :resource_reading_assignments, dependent: :destroy
   alias_attribute :reading_assignments, :resource_reading_assignments
@@ -182,6 +179,10 @@ class Resource < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   def grades=(gds)
     curriculum_directory.concat Array.wrap(gds)
+  end
+
+  def lesson_number
+    @lesson_number ||= short_title.match(/(\d+)/)&.[](1).to_i
   end
 
   def related_resources

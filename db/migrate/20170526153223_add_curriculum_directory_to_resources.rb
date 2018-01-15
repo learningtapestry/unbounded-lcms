@@ -5,15 +5,4 @@ class AddCurriculumDirectoryToResources < ActiveRecord::Migration
 
     add_reference :resources, :curriculum_tree, index: true
   end
-
-  def data
-    # ensure we have the curriculum tree loaded
-    if CurriculumTree.where(default: true).empty?
-      require_relative '../data/curriculum_tree_migrator'
-      CurriculumTreeMigrator.new.migrate!
-    end
-
-    require_relative '../data/curriculum_directory_migrator'
-    CurriculumDirectoryMigrator.new.migrate!
-  end
 end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ContentGuidePdfPresenter < ContentGuidePresenter
-  FOOTNOTES_CLASS = 'contengGuide__footnotes'.freeze
+  FOOTNOTES_CLASS = 'contengGuide__footnotes'
 
   def initialize(content_guide, host, view_context, wrap_keywords = false)
     super(content_guide, host, view_context, wrap_keywords)
@@ -42,9 +44,9 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
       loop do
         break unless prev_node
 
-        unless prev_node.name =~ /h(1|2|3|4|5|6)/
+        if prev_node.name !~ /h(1|2|3|4|5|6)/
           break if prev_node.text.present?
-        else prev_node.text.present?
+        elsif prev_node.text.present?
           task[:class] = "#{task[:class]} nobreak"
           break
         end
@@ -60,9 +62,8 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def mark_footnotes
-    if (hr = doc.at_xpath('hr[following-sibling::div[.//a[starts-with(@id, "ftnt")]]]'))
-      hr[:class] = FOOTNOTES_CLASS
-    end
+    hr = doc.at_xpath('hr[following-sibling::div[.//a[starts-with(@id, "ftnt")]]]')
+    hr[:class] = FOOTNOTES_CLASS if hr.present?
   end
 
   def replace_image_sources

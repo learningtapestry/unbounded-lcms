@@ -70,7 +70,7 @@ class ContentPresenter < BasePresenter
     ReactMaterialsResolver.resolve(content, self)
   end
 
-  def render_part(part_content, options) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def render_part(part_content, options) # rubocop:disable Metrics/PerceivedComplexity
     excludes = options[:excludes] || []
     part_content.gsub(PART_RE) do |placeholder|
       next unless placeholder

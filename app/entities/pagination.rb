@@ -15,8 +15,8 @@ class Pagination
       pagination[:per_page] = pagination[:per_page].to_i
       pagination[:order] = pagination[:order].to_sym
 
-      raise StandardError unless pagination[:page] > 0
-      raise StandardError unless pagination[:per_page] > 0
+      raise StandardError unless pagination[:page].positive?
+      raise StandardError unless pagination[:per_page].positive?
       raise StandardError unless %i(asc desc).include? pagination[:order]
 
       pagination

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StaffMember < ActiveRecord::Base
   validates :first_name, :last_name, presence: true
   validates :bio, length: { maximum: 4096 }

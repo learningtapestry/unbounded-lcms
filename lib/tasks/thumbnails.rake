@@ -1,4 +1,6 @@
-namespace :thumbnails do
+# frozen_string_literal: true
+
+namespace :thumbnails do # rubocop:disable Metrics/BlockLength
   desc 'generate thumbnail images'
   namespace :generate do
     task resources: [:environment] do
@@ -30,6 +32,7 @@ namespace :thumbnails do
     end
   end
 
+  # rubocop:disable Style/DateTime
   task update: [:environment] do
     origin_time = '2017-01-23T16:25:00+00:00' # first time we have run the thumbnails
 
@@ -44,6 +47,7 @@ namespace :thumbnails do
 
     Settings.settings.update thumbnails_last_update: new_update_time
   end
+  # rubocop:enable Style/DateTime
 
   def update_thumbs(data)
     pbar = ProgressBar.create title: "Update thumbnails (#{data.count})", total: data.count

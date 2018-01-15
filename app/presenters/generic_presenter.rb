@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GenericPresenter < ResourcePresenter
   def generic_title
     "#{subject.try(:upcase)} #{grades.to_str}"

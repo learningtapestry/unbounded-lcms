@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'googleauth/stores/redis_token_store'
 require 'googleauth/web_user_authorizer'
 

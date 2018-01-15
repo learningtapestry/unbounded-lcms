@@ -34,7 +34,7 @@ class Document < ActiveRecord::Base
   scope :filter_by_grade, ->(grade) { where_metadata(:grade, grade) }
 
   scope :filter_by_unit, lambda { |u|
-    where("(documents.metadata @> hstore('unit', :u) OR documents.metadata @> hstore('topic', :u))", u: u)
+    where("(lower(documents.metadata -> 'unit') = :u OR lower(documents.metadata -> 'topic') = :u)", u: u.to_s.downcase)
   }
 
   scope :filter_by_module, lambda { |mod|
@@ -152,8 +152,7 @@ class Document < ActiveRecord::Base
       break r unless r.prerequisite? # first non-prereq
 
       # grab the first prereq lesson with a bigger lesson num
-      lesson_num = r.short_title.match(/(\d+)/)&.[](1).to_i
-      lesson_num > metadata['lesson'].to_i
+      r.lesson_number > metadata['lesson'].to_i
     end
     next_lesson&.prepend_sibling(resource)
   end

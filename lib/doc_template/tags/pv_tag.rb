@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class PvTag < BaseTag
-      TAG_NAME = 'pv'.freeze
-      TEMPLATE = 'pv.html.erb'.freeze
+      TAG_NAME = 'pv'
+      TEMPLATE = 'pv.html.erb'
 
       def parse(node, opts = {})
         config = self.class.config[TAG_NAME.downcase]

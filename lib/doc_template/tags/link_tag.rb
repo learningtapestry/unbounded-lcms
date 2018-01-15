@@ -1,17 +1,23 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class LinkTag < BaseTag
-      FORTHCOMING_PATH = '/forthcoming'.freeze
+      FORTHCOMING_PATH = '/forthcoming'
 
       def parse(node, opts = {})
         # preserve the node content and replace only the tag by the link
-        content = node.to_s.sub /\[[^\]]*#{self.class::TAG_NAME}:\s?[^\]]*\]/i, link(opts)
+        content = node.to_s.sub(self.class.link_tag_regex, link(opts))
 
         opts[:iteration] ||= 1
         opts[:parent_node] = content
         @content = parse_nested content, opts
         replace_tag node
         self
+      end
+
+      def self.link_tag_regex
+        @link_tag_regex ||= /\[[^\]]*#{self::TAG_NAME}:\s?[^\]]*\]/i
       end
 
       private
@@ -27,7 +33,7 @@ module DocTemplate
 
       def build_href(title, metadata)
         # if the first param is a url, then use it directly
-        return title if title =~ URI.regexp || title.strip == FORTHCOMING_PATH
+        return title if title =~ URI::DEFAULT_PARSER.make_regexp || title.strip == FORTHCOMING_PATH
 
         # if we don't have proper metadata info, just use a placeholder
         return '#' unless metadata
@@ -45,19 +51,19 @@ module DocTemplate
     end
 
     class QrdTag < LinkTag
-      TAG_NAME = 'qrd'.freeze
+      TAG_NAME = 'qrd'
     end
 
     class ImTag < LinkTag
-      TAG_NAME = 'im'.freeze
+      TAG_NAME = 'im'
     end
 
     class PosTag < LinkTag
-      TAG_NAME = 'pos'.freeze
+      TAG_NAME = 'pos'
     end
 
     class SgimTag < LinkTag
-      TAG_NAME = 'sgim'.freeze
+      TAG_NAME = 'sgim'
     end
   end
 

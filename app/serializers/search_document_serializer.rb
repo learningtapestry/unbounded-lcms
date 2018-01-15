@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SearchDocumentSerializer < ActiveModel::Serializer
   self.root = false
 

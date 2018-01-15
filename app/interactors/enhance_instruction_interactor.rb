@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EnhanceInstructionInteractor < BaseInteractor
   TAB_INDEX = %i(instructions videos generic).freeze
 

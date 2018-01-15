@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 require 'securerandom'
 
-class ContentGuidePresenter < BasePresenter
+class ContentGuidePresenter < BasePresenter # rubocop:disable Metrics/ClassLength
   include Rails.application.routes.url_helpers
 
-  ANNOTATION_COLOR = '#fff2cc'.freeze
+  ANNOTATION_COLOR = '#fff2cc'
 
   DanglingLink = Struct.new(:text, :url)
   Heading = Struct.new(:anchor, :children, :level, :text)
 
-  attr_reader :doc, :host, :view_context
+  attr_reader :host, :view_context
 
   def initialize(content_guide, host = nil, view_context = nil, wrap_keywords: false)
     super(content_guide)
@@ -17,6 +19,10 @@ class ContentGuidePresenter < BasePresenter
     @host = host
     @view_context = view_context
     @wrap_keywords = wrap_keywords
+  end
+
+  def self.ccss_standards
+    @ccss_standards ||= CommonCoreStandard.pluck(:alt_names, :name).flatten.uniq
   end
 
   def sticky_title
@@ -75,6 +81,9 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def faq_ref
+    # below we force headings to process and genearete ids, in case caching is enabled
+    # https://github.com/learningtapestry/unbounded/issues/822
+    headings unless @doc_processed
     doc.css('h1.c-cg-heading').last.try(:attr, 'id')
   end
 
@@ -95,11 +104,9 @@ class ContentGuidePresenter < BasePresenter
 
   def tasks_without_break
     @tasks_without_break ||= begin
-      find_custom_tags('task').map do |tag|
-        next_element_with_name(tag.parent, 'table')
-      end.compact.select do |table|
-        find_custom_tags('task break', table).empty? &&
-          find_custom_tags('no task break', table).empty?
+      tasks = find_custom_tags('task').map { |tag| next_element_with_name(tag.parent, 'table') }
+      tasks.compact.select do |table|
+        find_custom_tags('task break', table).empty? && find_custom_tags('no task break', table).empty?
       end
     end
   end
@@ -117,7 +124,7 @@ class ContentGuidePresenter < BasePresenter
     broken_links = []
     find_custom_tags('link-to') do |tag|
       link_data = tag.attr('data-value')
-      /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
+      /(?:doc:)(.+)(?:anchor:)(.+)(?:value:)(.+)/.match(link_data) do |m|
         tag_permalink = m[1].strip
         broken_links << tag_permalink unless ContentGuide.find_by_permalink(tag_permalink)
       end
@@ -174,7 +181,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def doc
-    @doc ||= Nokogiri::HTML.fragment(process_content.gsub(/\u00a0/, ' '))
+    @doc ||= Nokogiri::HTML.fragment(process_content.tr("\u00a0", ' '))
   end
 
   def embed_audios
@@ -209,7 +216,8 @@ class ContentGuidePresenter < BasePresenter
       src = "https://www.youtube.com/embed/#{video_id}#{query}"
 
       container = doc.document.create_element('div', class: 'o-media-video')
-      container << doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0, height: 315, src: src, width: 560)
+      container << doc.document.create_element('iframe', allowfullscreen: nil, frameborder: 0,
+                                                         height: 315, src: src, width: 560)
       media = create_media_node(resource, container, base_class: 'c-cg-video', with_description: true)
       media['id'] = ERB::Util.url_encode(a[:id].parameterize) if a[:id].present?
 
@@ -217,38 +225,40 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def find_custom_tags(tag_name, node = nil, &block)
     tag_regex = /<#{tag_name}(:?[^->]*)?>/i
+    bold_regex = /font-weight:\s*(bold|[5-9]00)/
     (node || doc).css('span').map do |span|
-      if (span[:style] || '') =~ /font-weight:\s*(bold|[5-9]00)/
-        content = span.content
+      next unless (span[:style] || '') =~ bold_regex
 
-        if content =~ tag_regex
-          tag_def = content[tag_regex]
-          before, after =
-            content.split(tag_def).map do |content|
-              next unless content.present?
-              new_span = doc.document.create_element('span', style: span[:style])
-              new_span.content = content
-              new_span
-            end
+      content = span.content
 
-          span.after(after) if after
-          span.before(before) if before
-          span.content = tag_def
+      next unless content =~ tag_regex
 
-          if tag_name == 'link-to' # not sure if that acceptable for other tags
-            _, *tag_value = tag_def.split(':')
-            tag_value = tag_value.join(':')
-          else
-            _, tag_value = tag_def.split(':')
-          end
-          span['data-value'] = tag_value.strip.gsub('>', '') rescue nil
-
-          yield span if block
-          span
+      tag_def = content[tag_regex]
+      before, after =
+        content.split(tag_def).map do |tag_content|
+          next unless tag_content.present?
+          new_span = doc.document.create_element('span', style: span[:style])
+          new_span.content = tag_content
+          new_span
         end
+
+      span.after(after) if after
+      span.before(before) if before
+      span.content = tag_def
+
+      if tag_name == 'link-to' # not sure if that acceptable for other tags
+        _, *tag_value = tag_def.split(':')
+        tag_value = tag_value.join(':')
+      else
+        _, tag_value = tag_def.split(':')
       end
+      span['data-value'] = tag_value.strip.delete('>') rescue nil
+
+      yield span if block
+      span
     end.compact
   end
 
@@ -262,7 +272,7 @@ class ContentGuidePresenter < BasePresenter
 
   def process_annotation_boxes
     find_custom_tags('annotation').map { |tag| tag.ancestors('table').first }.compact.uniq.each do |table|
-      next unless table && table.xpath('tbody/tr/td').size == 1
+      next unless table&.xpath('tbody/tr/td')&.size == 1
 
       annotation_dropdowns = process_annotations(table)
 
@@ -292,11 +302,12 @@ class ContentGuidePresenter < BasePresenter
   def process_annotations(table)
     background_color_regex = /background-color:\s*#{ANNOTATION_COLOR};?\s*/
 
-    find_custom_tags('annotation', table).map.with_index do |tag, index|
+    find_custom_tags('annotation', table).map.with_index do |tag, index| # rubocop:disable Metrics/BlockLength
       id = "annotation_#{SecureRandom.hex(4)}"
 
       annotation = doc.document.create_element('span', class: 'c-cg-annotation')
-      annotation << doc.document.create_element('span', (index + 1).to_s, class: 'c-cg-annotationBox__number', 'data-toggle' => id)
+      annotation << doc.document.create_element('span', (index + 1).to_s, class: 'c-cg-annotationBox__number',
+                                                                          'data-toggle' => id)
       prev_element = tag.previous
       loop do
         break unless prev_element && prev_element[:style] =~ background_color_regex
@@ -307,7 +318,9 @@ class ContentGuidePresenter < BasePresenter
         annotation << current_element
       end
 
-      dropdown = doc.document.create_element('span', class: 'c-cg-dropdown dropdown-pane', id: id, 'data-dropdown' => nil, 'data-hover' => true, 'data-hover-delay' => 0, 'data-hover-pane' => true)
+      dropdown = doc.document.create_element('span', class: 'c-cg-dropdown dropdown-pane', id: id,
+                                                     'data-dropdown' => nil, 'data-hover' => true,
+                                                     'data-hover-delay' => 0, 'data-hover-pane' => true)
       next_element = tag.next
       loop do
         break unless next_element && next_element[:style] =~ background_color_regex
@@ -328,7 +341,7 @@ class ContentGuidePresenter < BasePresenter
     find_custom_tags('blockquote') do |tag|
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
-      return unless table && table.css('td').size == 1
+      return unless table&.css('td')&.size == 1
 
       blockquote = doc.document.create_element('div', class: 'c-cg-blockquote')
       blockquote.inner_html = table.at_css('td').inner_html
@@ -349,7 +362,9 @@ class ContentGuidePresenter < BasePresenter
       a['data-toggle'] = id
       a['class'] = 'c-cg-sup'
       a.inner_html = a.inner_html[/\d+/] || a.inner_html
-      dropdown = doc.document.create_element('span', class: 'dropdown-pane c-cg-dropdown', 'data-dropdown' => true, 'data-hover' => true, 'data-hover-delay' => 0, 'data-hover-pane' => true, id: id)
+      dropdown = doc.document.create_element('span', class: 'dropdown-pane c-cg-dropdown', 'data-dropdown' => true,
+                                                     'data-hover' => true, 'data-hover-delay' => 0,
+                                                     'data-hover-pane' => true, id: id)
       dropdown.inner_html = footnote.at_css('p').inner_html
       dropdown.at_css(a[:href]).remove
       dropdown.css('[data-toggle]').each do |toggler|
@@ -392,7 +407,7 @@ class ContentGuidePresenter < BasePresenter
     find_custom_tags('pullquote') do |tag|
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
-      return unless table && table.css('td').size == 1
+      return unless table&.css('td')&.size == 1
 
       cell = table.at_css('td')
       pullquote = doc.document.create_element('div', class: 'c-cg-pullquote')
@@ -420,7 +435,7 @@ class ContentGuidePresenter < BasePresenter
     find_custom_tags('standards').each do |tag|
       table = next_element_with_name(tag.parent, 'table')
       tag.remove
-      return unless table
+      return unless table # rubocop:disable Lint/NonLocalExitFromIterator
 
       has_standards = force_border
       table.css('[data-toggle]').each do |dropdown|
@@ -432,7 +447,7 @@ class ContentGuidePresenter < BasePresenter
     end
   end
 
-  def process_task_body(table, with_break:)
+  def process_task_body(table, with_break:) # rubocop:disable Metrics/AbcSize
     body = doc.document.create_element('div', class: 'c-cg-task__body')
     body.inner_html = table.xpath('tbody/tr/td')[1].inner_html
 
@@ -444,7 +459,7 @@ class ContentGuidePresenter < BasePresenter
         if (next_node = tag.next)
           hidden = doc.document.create_element('div', class: 'c-cg-task__hidden')
           loop do
-            break unless next_node
+            break unless next_node # rubocop:disable Metrics/BlockNesting
             current_node = next_node
             next_node = current_node.next
             hidden << current_node.dup
@@ -469,7 +484,7 @@ class ContentGuidePresenter < BasePresenter
       tag.remove
     end
 
-    if (copyright_row = table.xpath('tbody/tr/td')[2]).content.strip.size > 0
+    if (copyright_row = table.xpath('tbody/tr/td')[2]).content.strip.size.positive?
       copyright = doc.document.create_element('p', class: 'c-cg-task__copyright')
       copyright.inner_html = copyright_row.inner_html
       body << copyright
@@ -505,7 +520,7 @@ class ContentGuidePresenter < BasePresenter
       /(?:doc\:)(.+)(?:anchor\:)(.+)(?:value\:)(.+)/.match(link_data) do |m|
         tag_permalink, tag_anchor, tag_description = m.to_a[1..3].map(&:strip)
         tag_anchor = ERB::Util.url_encode(tag_anchor.parameterize)
-        target = "_blank"
+        target = '_blank'
         if permalink == tag_permalink # Anchor is on the same page
           path = "##{tag_anchor}"
           target = nil
@@ -535,11 +550,11 @@ class ContentGuidePresenter < BasePresenter
   def process_internal_links
     internal_links.each do |tag|
       target = quoted_attribute(tag, 'name')
-      if target.present?
-        contents = quoted_attribute(tag, 'value') || target
-        anchor = doc.document.create_element('a', contents, href: "##{ERB::Util.url_encode(target.parameterize)}")
-        tag.replace(anchor)
-      end
+      next if target.blank?
+
+      contents = quoted_attribute(tag, 'value') || target
+      anchor = doc.document.create_element('a', contents, href: "##{ERB::Util.url_encode(target.parameterize)}")
+      tag.replace(anchor)
     end
   end
 
@@ -547,7 +562,7 @@ class ContentGuidePresenter < BasePresenter
     doc.css('[id^=cmnt]').each do |a|
       begin
         a.ancestors('sup').first.remove
-      rescue
+      rescue StandardError
         a.ancestors('div').first.remove
       end
     end
@@ -581,7 +596,7 @@ class ContentGuidePresenter < BasePresenter
           node_style = (node[:style] || '')
           node_style.scan(/border-\w+-width:\s*0\w+;?/).each do |m|
             border_type = m[/-\w+-/]
-            ['width', 'color', 'style'].each do |border_style|
+            %w(width color style').each do |border_style|
               node[:style] = node[:style].gsub(/border#{border_type}#{border_style}:\s*[\#\w]+;?\s*/i, '')
             end
           end
@@ -593,7 +608,7 @@ class ContentGuidePresenter < BasePresenter
       table.remove_attribute('style')
       # keep all styled for subelements except border styles (have them redifined at css)
       table.xpath('tbody/tr | tbody/tr/td').each do |node|
-        node[:style] = node[:style].gsub(/border[\w\-]+:\s*[\w\#]+;?\s*/i, '') if node[:style].present?
+        node[:style] = node[:style].gsub(/border[\w\-]+:\s*[\w#]+;?\s*/i, '') if node[:style].present?
       end
     end
   end
@@ -611,7 +626,7 @@ class ContentGuidePresenter < BasePresenter
       result.gsub!(/(>|\(|\s)#{keyword}(\.\W|[^.\w])/i) do |m|
         id = "cg-k_#{SecureRandom.hex(4)}"
 
-        dropdowns << %Q(
+        dropdowns << %(
           <span class='dropdown-pane c-cg-dropdown'
                 data-dropdown
                 data-hover=true
@@ -627,8 +642,10 @@ class ContentGuidePresenter < BasePresenter
       end
     end
 
-    result.gsub!(/[[:alnum:]]+([\.-][[:alnum:]]+)+/) do |m|
-      if is_a_standard?(m) && (standard = CommonCoreStandard.find_by_name_or_synonym(m)) && standard.description.present?
+    result.gsub!(/[[:alnum:]]+([.-][[:alnum:]]+)+/) do |m|
+      if standard?(m) && (standard = CommonCoreStandard.find_by_name_or_synonym(m)) &&
+         standard.description.present?
+
         id = "cg-k_#{SecureRandom.hex(4)}"
 
         # If the dropdown-pane doesn't have a toggler element, the plugin
@@ -662,7 +679,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def wrap_tables
-    margin_left_right_regex = /margin-\w+t:\s*[\w\.]+;?\s*/i
+    margin_left_right_regex = /margin-\w+t:\s*[\w.]+;?\s*/i
     doc.css('table').each do |table|
       next if table.ancestors('.c-cg-scroll-wrap').present?
       wrap_style = ''
@@ -697,12 +714,10 @@ class ContentGuidePresenter < BasePresenter
       # remove excessive spans
       if span[:class].blank? && (span[:style] =~ span_meaning_styles_regex).nil?
         span.replace(span.inner_html)
-      else
+      elsif span[:style].present?
         # change height to auto, critical for responsive, especially if subelement is image
-        if span[:style].present?
-          span[:style] = span[:style].gsub(/height:\s*[\w\.]+;?\s*/i, 'height:auto;')
-          span[:style] = span[:style].gsub(/width:\s*[\w\.]+;?\s*/i, 'width:auto;') if span.xpath('./img').present?
-        end
+        span[:style] = span[:style].gsub(/height:\s*[\w.]+;?\s*/i, 'height:auto;')
+        span[:style] = span[:style].gsub(/width:\s*[\w.]+;?\s*/i, 'width:auto;') if span.xpath('./img').present?
       end
     end
   end
@@ -761,7 +776,7 @@ class ContentGuidePresenter < BasePresenter
   end
 
   def process_doc
-    #return if @doc_processed
+    # return if @doc_processed
 
     embed_audios
     embed_videos
@@ -789,8 +804,7 @@ class ContentGuidePresenter < BasePresenter
     @doc_processed = true
   end
 
-  def is_a_standard?(str)
-    @@ccss_standards ||= CommonCoreStandard.pluck(:alt_names, :name).flatten.uniq
-    @@ccss_standards.include?(str.downcase)
+  def standard?(str)
+    self.class.ccss_standards.include?(str.downcase)
   end
 end

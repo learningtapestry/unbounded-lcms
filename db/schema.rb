@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103171030) do
+ActiveRecord::Schema.define(version: 20180122113704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,37 +110,6 @@ ActiveRecord::Schema.define(version: 20180103171030) do
 
   add_index "curriculum_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "curriculum_anc_desc_idx", unique: true, using: :btree
   add_index "curriculum_hierarchies", ["descendant_id"], name: "curriculum_desc_idx", using: :btree
-
-  create_table "curriculum_trees", force: :cascade do |t|
-    t.string   "name",                       null: false
-    t.jsonb    "tree",       default: {},    null: false
-    t.boolean  "default",    default: false, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
-  create_table "curriculum_types", force: :cascade do |t|
-    t.string "name", null: false
-  end
-
-  create_table "curriculums", force: :cascade do |t|
-    t.integer "curriculum_type_id",     null: false
-    t.integer "parent_id"
-    t.integer "position"
-    t.integer "item_id",                null: false
-    t.string  "item_type",              null: false
-    t.integer "seed_id"
-    t.string  "breadcrumb_title"
-    t.string  "breadcrumb_short_title"
-    t.string  "breadcrumb_piece"
-    t.string  "breadcrumb_short_piece"
-    t.string  "hierarchical_position"
-  end
-
-  add_index "curriculums", ["curriculum_type_id"], name: "index_curriculums_on_curriculum_type_id", using: :btree
-  add_index "curriculums", ["item_id"], name: "index_curriculums_on_item_id", using: :btree
-  add_index "curriculums", ["item_type"], name: "index_curriculums_on_item_type", using: :btree
-  add_index "curriculums", ["parent_id"], name: "index_curriculums_on_parent_id", using: :btree
 
   create_table "document_bundles", force: :cascade do |t|
     t.string   "category",                     null: false
@@ -372,19 +341,6 @@ ActiveRecord::Schema.define(version: 20180103171030) do
 
   add_index "resource_requirements", ["resource_id"], name: "index_resource_requirements_on_resource_id", using: :btree
 
-  create_table "resource_slugs", force: :cascade do |t|
-    t.integer "resource_id",                  null: false
-    t.integer "curriculum_id"
-    t.boolean "canonical",     default: true, null: false
-    t.string  "value",                        null: false
-  end
-
-  add_index "resource_slugs", ["canonical"], name: "index_resource_slugs_on_canonical", using: :btree
-  add_index "resource_slugs", ["curriculum_id"], name: "index_resource_slugs_on_curriculum_id", using: :btree
-  add_index "resource_slugs", ["resource_id", "curriculum_id"], name: "resource_slugs_cur_canonical_unique", unique: true, where: "canonical", using: :btree
-  add_index "resource_slugs", ["resource_id"], name: "index_resource_slugs_on_resource_id", using: :btree
-  add_index "resource_slugs", ["value"], name: "index_resource_slugs_on_value", unique: true, using: :btree
-
   create_table "resource_standards", force: :cascade do |t|
     t.integer  "resource_id"
     t.integer  "standard_id"
@@ -416,7 +372,6 @@ ActiveRecord::Schema.define(version: 20180103171030) do
     t.string   "image_file"
     t.string   "curriculum_type"
     t.text     "curriculum_directory",         default: [],    null: false, array: true
-    t.integer  "curriculum_tree_id"
     t.string   "hierarchical_position"
     t.string   "slug"
     t.integer  "parent_id"
@@ -426,7 +381,6 @@ ActiveRecord::Schema.define(version: 20180103171030) do
     t.jsonb    "download_categories_settings", default: {},    null: false
   end
 
-  add_index "resources", ["curriculum_tree_id"], name: "index_resources_on_curriculum_tree_id", using: :btree
   add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
   add_index "resources", ["resource_type"], name: "index_resources_on_resource_type", using: :btree
@@ -574,9 +528,6 @@ ActiveRecord::Schema.define(version: 20180103171030) do
   add_foreign_key "content_guide_standards", "content_guides", on_delete: :cascade
   add_foreign_key "content_guide_standards", "standards"
   add_foreign_key "copyright_attributions", "resources"
-  add_foreign_key "curriculums", "curriculum_types"
-  add_foreign_key "curriculums", "curriculums", column: "parent_id"
-  add_foreign_key "curriculums", "curriculums", column: "seed_id"
   add_foreign_key "document_bundles", "resources"
   add_foreign_key "document_parts", "documents"
   add_foreign_key "documents_materials", "documents"
@@ -592,8 +543,6 @@ ActiveRecord::Schema.define(version: 20180103171030) do
   add_foreign_key "resource_reading_assignments", "resources"
   add_foreign_key "resource_related_resources", "resources"
   add_foreign_key "resource_related_resources", "resources", column: "related_resource_id"
-  add_foreign_key "resource_slugs", "curriculums"
-  add_foreign_key "resource_slugs", "resources"
   add_foreign_key "resource_standards", "resources"
   add_foreign_key "resource_standards", "standards"
   add_foreign_key "standard_emphases", "standards"

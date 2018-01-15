@@ -12,23 +12,19 @@ gem 'airbrake', '~> 6.2'
 # session storage
 gem 'activerecord-session_store', '~> 1.0'
 
-# graphs
-gem 'axlsx', '~> 2.1.0.pre'
-gem 'edge', '~> 0.4.2', require: 'edge'
-
 # file uploading
 gem 'carrierwave', '~> 0.10.0'
 
-# system
+# misc and system
 gem 'addressable', '~> 2.5.1'
 gem 'daemons', '~> 1.2', '>= 1.2.3'
 gem 'dotenv-rails', '~> 2.2', '>= 2.2.1', groups: %i(development integration test)
 gem 'foreman', '~> 0.78.0'
 gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
+gem 'rubyzip', '~> 1.2.1'
 
 # authentication
-gem 'devise', '~> 3.5.2', require: %w(devise devise/orm/active_record)
-gem 'rubyzip', '~> 1.1.7'
+gem 'devise', '~> 3.5.4', require: %w(devise devise/orm/active_record)
 
 # search with elastic search
 gem 'elasticsearch-dsl', '~> 0.1.5'
@@ -60,7 +56,6 @@ gem 'seedbank', '~> 0.3'
 # tree and list data structure
 gem 'acts_as_list', '~> 0.9.10'
 gem 'closure_tree', '~> 6.6'
-gem 'rubytree', '~> 0.9.6'
 # tags
 gem 'acts-as-taggable-on', '~> 3.5'
 
@@ -88,9 +83,6 @@ gem 'jbuilder', '~> 2.0'
 # TODO: remove one!
 gem 'httparty', '~> 0.14.0'
 gem 'rest-client', '~> 1.8'
-
-# spreadsheet
-gem 'roo', '~> 2.2'
 
 # markup converters
 gem 'pandoc-ruby', '~> 2.0.1'
@@ -148,7 +140,7 @@ gem 'thor', '0.19.1'
 
 # HTML/XML parsing
 gem 'nikkou', '~> 0.0.5'
-gem 'nokogiri', '~> 1.6.0'
+gem 'nokogiri', '~> 1.8.2'
 
 # profiling
 gem 'newrelic_rpm' # Used temporarily for debugging workers
@@ -166,12 +158,14 @@ group :development, :test do
 end
 
 group :development do
+  gem 'bundler-audit', '~> 0.6.0'
   gem 'guard-livereload', '~> 2.5', '>= 2.5.2'
   gem 'pry-rails', '~> 0.3.5'
   gem 'puma', '~> 3.4'
   gem 'quiet_assets', '~> 1.1'
   gem 'rack-livereload', '~> 0.3.16'
-  gem 'rack-mini-profiler', '~> 0.9.9.2', require: false
+  gem 'rack-mini-profiler', '~> 0.10.1', require: false
+  gem 'rubocop', '~> 0.52.1'
   gem 'safe_attributes', '~> 1.0.10'
   gem 'spring'
   gem 'web-console', '~> 2.0'

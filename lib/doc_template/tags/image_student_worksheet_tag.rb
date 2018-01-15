@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class ImageStudentWorksheetTag < BaseTag
       include ERB::Util
 
       HEIGHT_MOD = 0.85
-      TAG_NAME = 'image-student-worksheet'.freeze
-      TEMPLATE = 'image-student-worksheet.html.erb'.freeze
+      TAG_NAME = 'image-student-worksheet'
+      TEMPLATE = 'image-student-worksheet.html.erb'
 
       def parse(node, _ = {})
         if (image = find_image node)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class PagesController < AdminController
     before_action :find_resource, except: %i(index new create)

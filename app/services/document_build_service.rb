@@ -77,7 +77,7 @@ class DocumentBuildService
   end
 
   def combine_layout
-    DocumentPart.context_types.keys.each do |context_type|
+    DocumentPart.context_types.each_key do |context_type|
       existing_layout = document.layout(context_type)
       new_layout = template.remove_part :layout, context_type
       new_layout_content =

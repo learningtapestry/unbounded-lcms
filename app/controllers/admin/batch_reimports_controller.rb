@@ -6,61 +6,39 @@ module Admin
 
     before_action :obtain_google_credentials, only: %i(new create)
 
-    def import_status
-      jid = params[:jid]
-      job_class = job_for params[:type]
-      data = { status: job_class.status(jid) }
-      data[:result] = job_class.fetch_result(jid) if data[:status] == :done
-      render json: data, status: :ok
-    end
-
     def new
       @query = OpenStruct.new(params[:query])
     end
 
     def create
-      @query = OpenStruct.new(params[:query])
-      entries = @query.type == 'materials' ? materials(@query) : documents(@query)
-      bulk_import entries, @query.type
+      @query = OpenStruct.new params[:query].except(:type)
+      entries = if materials?
+                  AdminMaterialsQuery.call(@query)
+                else
+                  AdminDocumentsQuery.call(@query)
+                end
+      bulk_import entries
       render :import
     end
 
     private
 
-    def documents(q)
-      qset = Document.actives
-
-      qset = qset.filter_by_subject(q.subject) if q.subject.present?
-      qset = qset.filter_by_grade(q.grade) if q.grade.present?
-      qset = qset.filter_by_module(q.module) if q.module.present?
-      qset = qset.filter_by_unit(q.unit) if q.unit.present?
-      qset
-    end
-
-    def materials(q)
-      qset = Material.all
-
-      qset = qset.where_metadata_like(:subject, q.subject) if q.subject.present?
-      %i(grade module unit).each do |key|
-        qset = qset.joins(:documents).where('documents.metadata @> hstore(?, ?)', key, q[key]) if q[key].present?
-      end
-
-      qset.uniq
-    end
-
-    def bulk_import(docs, type)
+    def bulk_import(docs)
       google_auth_id = GoogleAuthService.new(self).user_id
       jobs = {}
-      job_class = job_for(type)
       docs.each do |doc|
         job_id = job_class.perform_later(doc, google_auth_id).job_id
         jobs[job_id] = { link: doc.file_url, status: 'waiting' }
       end
-      @props = { jobs: jobs, type: type }
+      @props = { jobs: jobs, type: params.dig(:query, :type) }
     end
 
-    def job_for(type)
-      type == 'materials' ? MaterialParseJob : DocumentParseJob
+    def job_class
+      materials? ? MaterialParseJob : DocumentParseJob
+    end
+
+    def materials?
+      params.dig(:query, :type) == 'materials'
     end
   end
 end

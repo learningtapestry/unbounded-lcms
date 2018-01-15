@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module ResourceHelper
     def attachment_content_type(download)
@@ -13,7 +15,7 @@ module Admin
     end
 
     def language_collection_options
-      Language.order(:name).map { |lang| [lang.name, lang.id ] }
+      Language.order(:name).map { |lang| [lang.name, lang.id] }
     end
 
     def resource_status(resource)
