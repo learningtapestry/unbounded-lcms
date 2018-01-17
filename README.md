@@ -9,6 +9,11 @@ education materials. It incorporates two primary web-based components; an end-us
 Developer requirements and setup instructions can be found in the [project wiki](https://github.com/learningtapestry/unbounded-lcms/wiki/Setup-Instructions).
 
 ## Contributing
+When contributing to this repository, please first discuss the change you wish to make via issue,
+email, or any other method with the owners of this repository before proposing a change.
+
+### Pull Request Process
+Before submitting a pull request please verify that all tests pass. Be sure to describe the intent of your change and reference the related github issue in your description.
 
 ## License
 UnboundEd LCMS is released as open source under the [Apache 2 license](LICENSE.md).
