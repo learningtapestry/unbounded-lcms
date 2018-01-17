@@ -1,5 +1,7 @@
 # UnboundEd Learning Content Management System (LCMS)
 
+[ ![Codeship Status for learningtapestry/unbounded-lcms](https://app.codeship.com/projects/87ed3f00-ddc7-0135-b08f-3e0bdd3c602e/status?branch=master)](https://app.codeship.com/projects/266015)
+
 [![Join the chat at https://gitter.im/learningtapestry/unbounded-lcms](https://badges.gitter.im/learningtapestry/unbounded-lcms.svg)](https://gitter.im/learningtapestry/unbounded-lcms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 The UnboundEd LCMS is a specialized content management system for high quality
