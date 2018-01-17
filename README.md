@@ -1,14 +1,12 @@
-# UnboundED CMS
+# UnboundEd Learning Content Management System (LCMS)
 
-| v1 (v1) | v2 (master) |
-|-------------|-------------------|
-| [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=v1)](https://codeship.com/projects/110252) | [ ![Codeship Status for learningtapestry/unbounded](https://codeship.com/projects/bae631f0-5a22-0133-cd42-72256058fde0/status?branch=master)](https://codeship.com/projects/110252) |
-
-
-
-UnboundED CMS is a specialized content management system for high quality
+The UnboundEd LCMS is a specialized content management system for high quality
 education materials. It incorporates two primary web-based components; an end-user interface to allow educators and other consumers to browse, search, and export educational materials available through the site, and an administrative interface that allows users with permissions to import content into the site from a variety of sources and manage the existing content library.
 
-Developer requirements and setup instructions can be found in the [project wiki](https://github.com/learningtapestry/unbounded/wiki/v2-Deployment-notes).
+## Setup
+Developer requirements and setup instructions can be found in the [project wiki](https://github.com/learningtapestry/unbounded-lcms/wiki/Setup-Instructions).
 
-UnboundED CMS is released as open source under the [Apache 2 license](LICENSE.md).
+## Contributing
+
+## License
+UnboundEd LCMS is released as open source under the [Apache 2 license](LICENSE.md).
