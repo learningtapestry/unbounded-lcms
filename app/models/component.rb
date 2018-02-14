@@ -1,5 +1,6 @@
-# Component is a simple abstraction for acessing the
-# unbounded-component-search API
+# frozen_string_literal: true
+
+# Component is a simple abstraction for acessing the unbounded-component-search API
 class Component < OpenStruct
   class << self
     def search(params = {})

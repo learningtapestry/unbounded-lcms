@@ -10,7 +10,7 @@ window.initializeResourceDetails = () => {
     const data = JSON.parse(el.dataset.heapData);
     if (data) {
       el.addEventListener('click', function() {
-        heap.track('Resource download', data);
+        heapTrack('Resource download', data);
       });
     }
   });

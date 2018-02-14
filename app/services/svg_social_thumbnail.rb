@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SVGSocialThumbnail
   include ERB::Util
 

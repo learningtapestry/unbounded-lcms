@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class TablePreserveAlignmentTag < BaseTag
       STYLE_RE = /text-align:(left|center|right)/i
-      TAG_NAME = 'table-preserve-alignment'.freeze
+      TAG_NAME = 'table-preserve-alignment'
 
       def parse(node, _ = {})
         if (table = find_table node)

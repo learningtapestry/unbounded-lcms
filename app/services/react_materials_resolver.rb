@@ -12,8 +12,6 @@ class ReactMaterialsResolver
 
     private
 
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/PerceivedComplexity
     def replace_react(node, document)
       node.remove && return if (data = node.attr('data-react-props')).blank?
       raw_props = if data =~ /^\d+(?:,\s*\d+)*$/

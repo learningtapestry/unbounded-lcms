@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
-class HtmlSanitizer
+class HtmlSanitizer # rubocop:disable Metrics/ClassLength
   LIST_STYLE_RE = /\.lst-(\S+)[^\{\}]+>\s*(?:li:before)\s*{\s*content[^\{\}]+counter\(lst-ctn-\1\,([^\)]+)\)/
   CLEAN_ELEMENTS = %w(a div h1 h2 h3 h4 h5 h6 p table).join(',')
   GDOC_REMOVE_EMPTY_SELECTOR = '.o-ld-activity'
   LINK_UNDERLINE_REGEX = /text\-decoration\s*:\s*underline/i
   SKIP_P_CHECK = %w(ul ol table).freeze
   STRIP_ELEMENTS = %w(a div h1 h2 h3 h4 h5 h6 p span table).freeze
+  SUB_SUP_RE = [
+    { el: 'sub', re: ".//span[case_regular(@style, 'vertical-align:\\s*sub;?')]" },
+    { el: 'sup', re: ".//span[case_regular(@style, 'vertical-align:\\s*super;?')]" }
+  ].freeze
+  SUB_SUP_STYLE_RE = /vertical-align:\s*(sub|super);?/i
 
   class << self
     def clean_content(html, context_type)
@@ -98,6 +103,8 @@ class HtmlSanitizer
           'li'   => %w(class),
           'p'    => %w(class style),
           'span' => %w(style),
+          'sub'  => %w(style),
+          'sup'  => %w(style),
           'td'   => %w(colspan rowspan style),
           'th'   => %w(colspan rowspan),
           'tr'   => %w(style)
@@ -118,6 +125,7 @@ class HtmlSanitizer
           method(:remove_gdocs_pagebreaks),
           method(:remove_gdocs_suggestions),
           method(:replace_charts_urls),
+          method(:replace_supsub),
           method(:keep_bullets_level),
           method(:replace_table_border_styles)
         ]
@@ -141,7 +149,6 @@ class HtmlSanitizer
       nodes.css('.o-ld-dropdown').each(&:remove)
     end
 
-    # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def clean_empty_elements(nodes)
       return unless nodes.present?
       prev_skip = false
@@ -221,7 +228,7 @@ class HtmlSanitizer
 
     def post_processing_base(nodes)
       # removes all style attributes allowed earlier
-      %w(p span).each do |tag|
+      %w(p span sub sup).each do |tag|
         nodes.xpath(".//#{tag}").each do |node|
           next if node.ancestors('td').present?
           # do not sanitize Mathjax elements
@@ -241,7 +248,7 @@ class HtmlSanitizer
       nodes.css('img[src]').each { |node| fix_inline_img node }
 
       # add target blank to external links
-      nodes.css('a:not([target="_blank"])').each { |node| fix_external_target node}
+      nodes.css('a:not([target="_blank"])').each { |node| fix_external_target node }
     end
 
     def post_processing_drawings(nodes)
@@ -364,7 +371,7 @@ class HtmlSanitizer
       node.css('[id^=cmnt]').each do |a|
         begin
           a.ancestors('sup').first.remove
-        rescue
+        rescue StandardError
           a.ancestors('div').first.remove
         end
       end
@@ -374,6 +381,16 @@ class HtmlSanitizer
       node = env[:node]
       node.css('img[src^="https://www.google.com/chart"]').each do |img|
         img[:src] = img[:src].gsub('www.google', 'chart.googleapis')
+      end
+    end
+
+    def replace_supsub(env)
+      node = env[:node]
+      SUB_SUP_RE.each do |rule|
+        node.xpath(rule[:re], DocTemplate::XpathFunctions.new).each do |el|
+          el[:style] = el[:style].sub(SUB_SUP_STYLE_RE, '')
+          el.replace el.to_s.gsub('<span', "<#{rule[:el]}").gsub('span>', "#{rule[:el]}>")
+        end
       end
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SearchController < ApplicationController
   def index
     @props = SearchInteractor.call(self).props

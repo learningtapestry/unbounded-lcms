@@ -5,7 +5,7 @@ $(function () {
     $('.o-unit-bundles a').click(function() {
       const el = $(this);
       const data = el.data('heap-data');
-      if (data) heap.track('Download Unit Bundle', data);
+      if (data) heapTrack('Download Unit Bundle', data);
     });
   };
 });

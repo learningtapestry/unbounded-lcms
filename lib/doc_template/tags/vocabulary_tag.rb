@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class VocabularyTag < TableTag
-      TAG_NAME = 'vocabulary'.freeze
-      TEMPLATE = 'vocabulary.html.erb'.freeze
+      TAG_NAME = 'vocabulary'
+      TEMPLATE = 'vocabulary.html.erb'
 
       def parse_table(table)
         params = { sections: fetch_content(table) }

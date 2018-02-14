@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GenerateHierarchicalPositions
   def initialize(queryset = nil)
     @queryset = queryset || Resource.all

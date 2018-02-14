@@ -1,4 +1,6 @@
-namespace :es do
+# frozen_string_literal: true
+
+namespace :es do # rubocop:disable Metrics/BlockLength
   desc 'Reset Index'
   task reset: :environment do
     if repo.index_exists?

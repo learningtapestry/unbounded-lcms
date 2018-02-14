@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReadingAssignmentText < ActiveRecord::Base
   has_many :resource_reading_assignments
   has_many :resources, through: :resource_reading_assignments

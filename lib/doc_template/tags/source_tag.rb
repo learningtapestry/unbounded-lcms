@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class SourceTag < BaseTag
-      TAG_NAME = 'source'.freeze
-      TEMPLATE = 'source.html.erb'.freeze
+      TAG_NAME = 'source'
+      TEMPLATE = 'source.html.erb'
 
       def parse(node, opts = {})
         # we have to collect all the next siblings until next activity-metadata

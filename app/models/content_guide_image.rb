@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ContentGuideImage < ActiveRecord::Base
   mount_uploader :file, ContentGuideImageUploader
 

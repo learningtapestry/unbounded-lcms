@@ -43,7 +43,7 @@
           <li class="t-bullet show-for-medium"></li>
           <li class="c-footer__link show-for-medium">
             <span class="u-txt--footer-links">
-              <%= t('footer.copyright_html') %>
+              <%= t('footer.copyright_html', year: Date.current.year) %>
             </span>
           </li>
         </ul>
@@ -51,7 +51,7 @@
           <%= t('footer.credits_full_html') %>
         </div>
         <div class="c-footer__credits--mobile show-for-small-only u-txt--footer-links">
-          <%= t('footer.copyright_html') %>
+          <%= t('footer.copyright_html', year: Date.current.year) %>
         </div>
       </div>
     </div>

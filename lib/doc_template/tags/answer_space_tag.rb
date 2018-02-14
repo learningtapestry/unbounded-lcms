@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class AnswerSpaceTag < BaseTag
@@ -6,7 +8,7 @@ module DocTemplate
         m: 10, # medium = 10 lines
         l: 20, # large = 20 lines
       }.freeze
-      TAG_NAME = 'answer-space'.freeze
+      TAG_NAME = 'answer-space'
 
       def parse(node, opts = {})
         num_of_lines = SPACE_SIZE[opts[:value].try(:to_sym)]

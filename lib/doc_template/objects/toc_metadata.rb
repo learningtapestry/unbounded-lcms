@@ -26,7 +26,7 @@ module DocTemplate
           children.any? && children.all? { |c| c.excluded?(excludes) }
         end
 
-        def time_with(excludes) # rubocop:disable Metrics/PerceivedComplexity
+        def time_with(excludes)
           # Optional and nothing to exclude explicitly
           return excludes.include?(anchor) ? time : 0 if optional
           # General and excluded explicitly

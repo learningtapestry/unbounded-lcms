@@ -14,12 +14,12 @@
 //= require react
 //= require react_ujs
 //= require js-routes
+//= require initializers/heap_analytics
 //= require components
 //= require initializers/about_people
 //= require initializers/bundles
 //= require initializers/content_guides
 //= require initializers/google_analytics
-//= require initializers/heap_analytics
 //= require initializers/header_dropdown
 //= require initializers/leadership
 //= require initializers/lessons

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class DefaultTag < BaseTag
-      TAG_NAME = 'default'.freeze
+      TAG_NAME = 'default'
     end
   end
 

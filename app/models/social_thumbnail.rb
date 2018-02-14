@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SocialThumbnail < ActiveRecord::Base
   mount_uploader :image, SocialThumbnailUploader
 

@@ -10,7 +10,6 @@ class MetadataContext
     @ctx = ctx.with_indifferent_access
   end
 
-  # rubocop:disable Metrics/PerceivedComplexity
   def curriculum
     @curriculum ||= [subject, grade, mod, unit, lesson].select(&:present?)
   end
@@ -30,26 +29,23 @@ class MetadataContext
       end
 
       resource = build_new_resource(parent, name, index)
-      if last_item(index) && mid_assessment?
-        unit = parent.children.detect { |r| r.short_title =~ /topic #{ctx['after-topic']}/i }
-        unit.append_sibling(resource)
+      unless last_item?(index)
+        resource.save!
+        parent = resource
+        next
+      end
 
-      elsif last_item(index) && prerequisite?
-        next_lesson = parent.children.detect do |r|
-          break r unless r.prerequisite? # first non-prereq
+      if mid_assessment?
+        set_mid_assessment_position(parent, resource)
 
-          # first prereq lesson with a bigger lesson num
-          lesson_num = r.short_title.match(/(\d+)/)&.[](1).to_i
-          lesson_num > ctx[:lesson].to_i
-        end
-        next_lesson&.prepend_sibling(resource)
+      elsif prerequisite?
+        set_prerequisite_position(parent, resource)
 
-      elsif last_item(index) && opr?
-        first_non_opr = parent.children.detect { |r| !r.opr? }
-        first_non_opr&.prepend_sibling(resource)
+      elsif opr?
+        set_opr_position(parent, resource)
 
       else
-        resource.save!
+        set_lesson_position(parent, resource)
       end
 
       parent = resource
@@ -74,7 +70,7 @@ class MetadataContext
       short_title: name,
       tree: true
     )
-    if last_item(index)
+    if last_item?(index)
       resource.tag_list = tag_list if resource.lesson?
       resource.teaser = teaser
       resource.title = title
@@ -107,7 +103,7 @@ class MetadataContext
     end
   end
 
-  def last_item(index)
+  def last_item?(index)
     index == curriculum.size - 1
   end
 
@@ -184,5 +180,32 @@ class MetadataContext
         ela? ? "unit #{ctx[:unit]}" : "topic #{ctx[:topic]}"
       end
     end
+  end
+
+  def set_mid_assessment_position(parent, resource)
+    unit = parent.children.detect { |r| r.short_title =~ /topic #{ctx['after-topic']}/i }
+    unit.append_sibling(resource)
+  end
+
+  def set_prerequisite_position(parent, resource)
+    next_lesson = parent.children.detect do |r|
+      break r unless r.prerequisite? # first non-prereq
+      # first prereq lesson with a bigger lesson num
+      r.lesson_number > ctx[:lesson].to_i
+    end
+    next_lesson&.prepend_sibling(resource)
+  end
+
+  def set_opr_position(parent, resource)
+    first_non_opr = parent.children.detect { |r| !r.opr? }
+    first_non_opr&.prepend_sibling(resource)
+  end
+
+  def set_lesson_position(parent, resource)
+    next_lesson = parent.children.detect do |r|
+      # first lesson with a bigger lesson num
+      r.lesson_number > ctx[:lesson].to_i
+    end
+    next_lesson ? next_lesson.prepend_sibling(resource) : resource.save!
   end
 end

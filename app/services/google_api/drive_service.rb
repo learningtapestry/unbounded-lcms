@@ -99,8 +99,9 @@ module GoogleApi
 
     def subfolder(folder_name, parent_id = FOLDER_ID)
       response = folder_query folder_name, parent_id
-      return create_folder(folder_name, parent_id) if response.files.empty?
-      Rails.logger.warn "Multiple folders: more than 1 folder with same name: #{folder_name}" unless response.files.size == 1
+      files = response.files
+      return create_folder(folder_name, parent_id) if files.empty?
+      Rails.logger.warn "Multiple folders: more than 1 folder with same name: #{folder_name}" if files.size > 1
       response.files[0].id
     end
   end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class RemoveSession
-  SET_COOKIE = 'Set-Cookie'.freeze
+  SET_COOKIE = 'Set-Cookie'
 
   def initialize(app)
     @app = app

@@ -1,14 +1,12 @@
+# frozen_string_literal: true
+
 module Admin
   module ComponentsHelper
-    def resource_picker_field(form, collection, allow_multiple: true, path:, name:, preserve_name: false)
+    def resource_picker_field(form, collection, allow_multiple: true, path:, name:)
       path = path.to_s
 
-      computed_name = if preserve_name
-                        name
-                      else
-                        base_name = form.hidden_field(name).scan(/\b(?<=name=\")[^"]+(?=\")/)[0]
-                        "#{base_name}[]"
-                      end
+      base_name = form.hidden_field(name).scan(/\b(?<=name=\")[^"]+(?=\")/)[0]
+      computed_name = "#{base_name}[]"
 
       component = react_component(
         'ResourcePicker',
@@ -24,7 +22,9 @@ module Admin
       end
     end
 
-    def association_picker_field(form, collection, path:, name:, allow_create: false, create_name: nil, allow_multiple: true)
+    # rubocop:disable Metrics/ParameterLists
+    def association_picker_field(form, collection, path:, name:, allow_create: false,
+                                 create_name: nil, allow_multiple: true)
       path = path.to_s
       collection = collection ? Array.wrap(collection) : []
 
@@ -50,6 +50,7 @@ module Admin
         ]
       end
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def curriculum_picker_props(resource)
       {

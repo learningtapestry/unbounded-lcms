@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tables
     class Target < Base
-      HEADER_LABEL_PIECE = 'Long-Term Targets Addressed'.freeze
-      TEMPLATE = 'target-table.html.erb'.freeze
+      HEADER_LABEL_PIECE = 'Long-Term Targets Addressed'
+      TEMPLATE = 'target-table.html.erb'
 
       def parse(fragment, _template_type)
         path = ".//table/*/tr[1]/td[1][case_insensitive_contains(.//*/text(), '#{HEADER_LABEL_PIECE}')]"
@@ -41,7 +43,7 @@ module DocTemplate
         end
 
         # Wraps all tags into spans to keep consistence with the parser
-        data.keys.each { |key| data[key] = data[key].gsub('[', '<span>[').gsub(']', ']</span>') }
+        data.each_key { |key| data[key] = data[key].gsub('[', '<span>[').gsub(']', ']</span>') }
         data
       end
     end

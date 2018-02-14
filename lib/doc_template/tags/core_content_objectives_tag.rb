@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class CoreContentObjectivesTag < BlockTag
-      TAG_NAME = 'core content objectives'.freeze
-      TEMPLATE = 'core_content_objectives.html.erb'.freeze
+      TAG_NAME = 'core content objectives'
+      TEMPLATE = 'core_content_objectives.html.erb'
 
       def parse(node, opts = {})
         nodes = block_nodes node

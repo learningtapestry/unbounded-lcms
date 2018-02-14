@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HierarchicalPosition
   RESOURCE_TYPE_ORDER = %w(resource media quick_reference_guide text_set).freeze
 

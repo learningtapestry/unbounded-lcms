@@ -16,6 +16,9 @@
 
     &.is-stuck {
       @include add-top-bottom-padding;
+    }
+
+    &.is-stuck:not(.stick-wo-margin) {
       margin-top: $ub-nav-height !important;
     }
   }

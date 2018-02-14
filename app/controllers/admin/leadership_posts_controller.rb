@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class LeadershipPostsController < AdminController
     before_action :load_resource, only: %i(edit update destroy)

@@ -11,7 +11,7 @@ describe Resource do
       3.times { create(:resource, tree: false) }
     end
 
-    it 'selects only resources from the default curriculum_tree' do
+    it 'selects only resources from the default curriculum tree' do
       expect(Resource.tree.count).to eq 2
     end
   end

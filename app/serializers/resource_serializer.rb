@@ -36,7 +36,7 @@ class ResourceSerializer < ActiveModel::Serializer
   end
 
   def path
-    return document_path(object.document) if object.document?
+    return document_path(object.document) if object.document? && !object.assessment?
     show_resource_path(object)
   end
 

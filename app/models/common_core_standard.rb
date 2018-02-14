@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CommonCoreStandard < Standard
   belongs_to :standard_strand
   belongs_to :cluster, class_name: 'CommonCoreStandard'
@@ -16,7 +18,7 @@ class CommonCoreStandard < Standard
     where('? = ANY(alt_names)', alt_name)
   end
 
-  def self.import
+  def self.import # rubocop:disable Metrics/AbcSize
     api_url = "#{ENV['COMMON_STANDARDS_PROJECT_API_URL']}/api/v1"
     auth_header = { 'Api-Key' => ENV['COMMON_STANDARDS_PROJECT_API_KEY'] }
 

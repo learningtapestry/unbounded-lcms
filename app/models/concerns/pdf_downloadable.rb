@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # TODO: Need to refactor - now it's using only in ContentGuide
 module PDFDownloadable
   extend ActiveSupport::Concern
