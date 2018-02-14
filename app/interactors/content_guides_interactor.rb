@@ -69,7 +69,7 @@ class ContentGuidesInteractor < BaseInteractor
 
   def cover_image_url
     path = content_guide.big_photo.url
-    if path && path.start_with?('http')
+    if path&.start_with?('http')
       "url(#{path})"
     elsif path.present?
       req = context.request

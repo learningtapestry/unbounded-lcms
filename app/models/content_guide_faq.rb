@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ContentGuideFaq < ActiveRecord::Base
   validates :title, :description, :subject, :heading, :subheading, presence: true
   validates :subject, uniqueness: { scope: :active }

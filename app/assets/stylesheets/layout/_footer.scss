@@ -1,5 +1,10 @@
 $logo-width: 143px;
+// NOTE: for regular logo it's 8px
+$logo-padding: 0;
 $footer-padding: 5px;
+// NOTE: for full site it's xlarge
+$footer-breakpoint: large;
+$footer-breakpoint-down: ipad;
 
 .c-footer {
   background-color: $ub-footer-bg;
@@ -10,7 +15,7 @@ $footer-padding: 5px;
     @include txt-element-strict(ld-tooltip);
     background: map-get($ub-ld-colorcodes, tooltip-bg);
     border: 0;
-    box-shadow: 0 0 8px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .25);
     margin-top: $tooltip-pip-width;
     padding: 1rem;
 
@@ -51,8 +56,7 @@ $footer-padding: 5px;
     line-height: 1.2rem;
 
     @include m(mobile) {
-      //padding: .5rem .5rem 0;
-      padding: 5px 5px 0;
+      padding: 5px 5px 0 0;
 
       a {
         color: $ub-nav-link;
@@ -70,7 +74,7 @@ $footer-padding: 5px;
     padding-bottom: $ub-large-padding;
     padding-top: $ub-large-padding;
 
-    @include breakpoint(large) {
+    @include breakpoint($footer-breakpoint) {
       padding-bottom: $ub-large-padding;
       padding-top: $ub-xlarge-padding * 1.118;
     }
@@ -84,8 +88,8 @@ $footer-padding: 5px;
   @include e(logo) {
     @include flex-grid-column(shrink, 0);
 
-    @include breakpoint(ipad) {
-      padding-bottom: 4px;
+    @include breakpoint($footer-breakpoint) {
+      padding-bottom: $logo-padding;
     }
 
     img { width: $logo-width; }
@@ -94,14 +98,12 @@ $footer-padding: 5px;
   @include e(item) {
     @include flex-grid-column(12, 0);
     color: darken($ub-nav-link, 20%);
+    margin-top: $ub-small-margin;
     text-align: left;
 
-    @include breakpoint(medium down) {
-      margin-top: $ub-small-margin;
-    }
-
-    @include breakpoint(large) {
+    @include breakpoint($footer-breakpoint) {
       @include flex-grid-column(shrink);
+      margin-top: 0;
 
       @include m(full) {
         @include flex-grid-column(null, 0);
@@ -109,47 +111,33 @@ $footer-padding: 5px;
         text-align: right;
       }
     }
-
-    @include breakpoint(ipad only) {
-      @include flex-grid-column(null);
-
-      @include m(full) {
-        @include flex-grid-column(12);
-        text-align: left;
-
-        div {
-          margin-left: $logo-width + $footer-padding;
-        }
-      }
-    }
   }
 
   @include e(list) {
     @include menu-base;
     @include menu-direction(horizontal);
-
     color: $ub-whitesmoke;
 
-    @include breakpoint(medium down) {
+    li {
+      a, span { padding: 0 $footer-padding; }
+    }
+
+    @include breakpoint($footer-breakpoint-down down) {
       display: inline-flex;
       flex-wrap: wrap;
 
       li {
         flex: 0 0 auto;
 
-        a {
+        a, span {
           line-height: 1.5;
-          padding: .1rem 0;
+          padding: 0;
         }
 
-        .t-bullet {
-          padding: .1rem $footer-padding;
+        &.t-bullet {
+          padding: 0 $footer-padding;
         }
       }
-    }
-
-    li {
-      a, span { padding: 0 $footer-padding; }
     }
   }
 }

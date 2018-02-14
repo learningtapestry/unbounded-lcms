@@ -1,4 +1,12 @@
 (function() {
+  const heapEnabled = (typeof heap !== 'undefined') && (typeof heap.track === 'function');
+
+  window.heapTrack = function(event, data) {
+    if (heapEnabled) heap.track(event, data);
+  };
+
+  if (!heapEnabled) return;
+
   const catchHovers = function() {
     let hovered = {}, node, text;
     return function(e) {
@@ -38,21 +46,19 @@
   };
 
   document.addEventListener('DOMContentLoaded', function() {
-    if (top.heap && typeof heap.track === 'function') {
-      document.addEventListener('page:before-change', function() {
-        heap.track('Page Before Change');
-      });
+    document.addEventListener('page:before-change', function() {
+      heap.track('Page Before Change');
+    });
 
-      document.addEventListener('page:load', initScrollCatching);
-      initScrollCatching();
+    document.addEventListener('page:load', initScrollCatching);
+    initScrollCatching();
 
-      document.addEventListener('selectionchange', catchSelection());
+    document.addEventListener('selectionchange', catchSelection());
 
-      $(document).on('show.zf.dropdown', catchHovers());
+    $(document).on('show.zf.dropdown', catchHovers());
 
-      window.addEventListener('beforeunload', function() {
-        heap.track('Page Unload');
-      });
-    }
+    window.addEventListener('beforeunload', function() {
+      heap.track('Page Unload');
+    });
   });
 })();

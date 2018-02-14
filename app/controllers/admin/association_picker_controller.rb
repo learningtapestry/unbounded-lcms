@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class AssociationPickerController < AdminController
     VALID_ASSOCIATIONS = %w(
@@ -34,7 +36,7 @@ module Admin
       end
     end
 
-    def association_items # rubocop:disable Metrics/CyclomaticComplexity
+    def association_items
       case index_params[:association]
       when :content_sources then tag_scope('content_sources')
       when :grades then tag_scope('grades')

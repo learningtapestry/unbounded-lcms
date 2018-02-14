@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RelatedInstructionsService
   attr_reader :resource, :expanded, :has_more, :instructions
 

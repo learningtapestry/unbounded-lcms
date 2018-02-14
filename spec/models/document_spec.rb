@@ -31,7 +31,7 @@ describe Document do
 
     let!(:documents) do
       build_resources_chain(['math', 'grade 1', 'module 1', 'topic A'])
-      3.times.map { |i| create :document, metadata: metadata.merge('lesson' => (i + 1).to_s) }
+      Array.new(3) { |i| create :document, metadata: metadata.merge('lesson' => (i + 1).to_s) }
     end
 
     let(:document) { documents.last }

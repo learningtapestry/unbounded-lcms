@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class OptBreakTag < BaseTag
-      TAG_NAME = 'optbreak'.freeze
+      TAG_NAME = 'optbreak'
       TEMPLATES = { default: 'opt_break.html.erb',
                     gdoc:    'gdoc/opt_break.html.erb' }.freeze
 

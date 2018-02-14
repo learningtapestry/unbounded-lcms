@@ -6,15 +6,15 @@ $(function () {
   const initHAEvents = () => {
     [].forEach.call(document.querySelectorAll('.tm-ela2-unit-link'), (x) => {
       x.addEventListener('click', (e) => {
-        heap.track('Resource section unit page opened', { link: e.target.href });
-      })
+        heapTrack('Resource section unit page opened', { link: e.target.href });
+      });
     });
 
     [].forEach.call(document.querySelectorAll('.o-ld-pd .o-ld-cg .o-ub-ld-btn'), (x) => {
       x.addEventListener('click', (e) => {
         console.log(e.target.href);
-        heap.track('PD link clicked', { link: e.target.href });
-      })
+        heapTrack('PD link clicked', { link: e.target.href });
+      });
     });
   };
 
@@ -30,7 +30,7 @@ $(function () {
     else if (el.find('.o-ld-pd__video')) haType = 'Video';
 
     const event = el.hasClass('o-ld-pd--collapsed') ? 'PD Expanded' : 'PD Collapsed';
-    heap.track(event, {title: haTitle, type: haType});
+    heapTrack(event, {title: haTitle, type: haType});
   };
 
   const initPd = () => {
@@ -71,11 +71,12 @@ $(function () {
 
   function initSidebar() {
     const observers = [
-      new top.SidebarDocMenu(),
-      new top.TopScroll(),
-      new top.SidebarSticky(),
+      new SidebarDocMenu(), // eslint-disable-line no-undef
+      new TopScroll(), // eslint-disable-line no-undef
+      new SidebarSticky(), // eslint-disable-line no-undef
     ];
-    new top.SideBar(observers, { clsPrefix: 'ld', breakPoint: 'large', bHandleMobile: false });
+    // eslint-disable-next-line no-undef
+    new SideBar(observers, { breakPoint: 'large', bHandleMobile: false, clsPrefix: 'ld', toTop: true });
   }
 
   function initToggler(component) {
@@ -152,6 +153,7 @@ $(function () {
       updateDownloads();
       updateGroup(item.parent);
 
+      // eslint-disable-next-line no-undef
       excludesStore.updateMaterialsList(tagsExcluded);
 
       setTimeout(() => {
@@ -257,7 +259,8 @@ $(function () {
         let container = document.createElement('div');
         content.appendChild(container);
 
-        let component = React.createElement(top.SelectActivityToggle, {
+        // eslint-disable-next-line no-undef
+        let component = React.createElement(SelectActivityToggle, {
           callback: toggleHandler.bind(null, content, item),
           item,
           preface: content.querySelector('.o-ld-title .dropdown-pane'),

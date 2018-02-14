@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BasePresenter < SimpleDelegator
   def t(key, options = {})
     class_name = self.class.to_s.underscore

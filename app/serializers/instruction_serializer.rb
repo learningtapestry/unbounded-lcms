@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InstructionSerializer < ActiveModel::Serializer
   self.root = false
   attributes :id, :title, :subject, :teaser, :img, :path, :instruction_type, :grade_avg

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FindLessonsController < ApplicationController
   def index
     @props = FindLessonsInteractor.call(self).props

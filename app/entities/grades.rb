@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Value object for abstracting Grades info from the Resource Model
 class Grades
   GRADES = ['prekindergarten', 'kindergarten', 'grade 1', 'grade 2', 'grade 3',

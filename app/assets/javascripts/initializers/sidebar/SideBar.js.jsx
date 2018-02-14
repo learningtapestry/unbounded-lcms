@@ -9,6 +9,7 @@ const EVENTS = {
 
 const SCROLLING_THRESHOLD = 15;
 
+// eslint-disable-next-line no-unused-vars
 class SideBar {
   constructor(observers, opts) {
     _.assign(this, opts);
@@ -38,12 +39,12 @@ class SideBar {
     let sidebar = document.getElementById(`${this.clsPrefix}-sidebar`);
     if (sidebar === null) return;
     new Foundation.Sticky($(sidebar),
-                          {
-                            checkEvery: 0,
-                            stickyOn: 'small',
-                            anchor: `c-${this.clsPrefix}-content`,
-                            marginTop: 0
-                          });
+      {
+        checkEvery: 0,
+        stickyOn: 'small',
+        anchor: `c-${this.clsPrefix}-content`,
+        marginTop: 0
+      });
     $(window).trigger('load.zf.sticky');
     $(window).off('sticky.zf.unstuckfrom:top').on('sticky.zf.unstuckfrom:top', () => {
       this.update(EVENTS.MOBILE_HIDE);

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class HeadingTag < BaseTag
-      TEMPLATE = 'heading.html.erb'.freeze
+      TEMPLATE = 'heading.html.erb'
 
       def parse(node, opts = {})
         # we have to collect all the next siblings until next stop-tag
@@ -28,32 +30,32 @@ module DocTemplate
     end
 
     class RubricTag < HeadingTag
-      TAG_NAME = 'rubric'.freeze
-      TITLE_PREFIX = 'Rubric'.freeze
+      TAG_NAME = 'rubric'
+      TITLE_PREFIX = 'Rubric'
     end
 
     class JsTag < HeadingTag
-      TAG_NAME = 'js'.freeze
-      TITLE_PREFIX = 'Juicy Sentences'.freeze
+      TAG_NAME = 'js'
+      TITLE_PREFIX = 'Juicy Sentences'
     end
 
     class EtTag < HeadingTag
-      TAG_NAME = 'et'.freeze
-      TITLE_PREFIX = 'Exit Ticket'.freeze
+      TAG_NAME = 'et'
+      TITLE_PREFIX = 'Exit Ticket'
     end
 
     class PhotoTag < HeadingTag
-      TAG_NAME = 'photo'.freeze
-      TITLE_PREFIX = 'Photograph'.freeze
+      TAG_NAME = 'photo'
+      TITLE_PREFIX = 'Photograph'
     end
 
     class AssessTag < HeadingTag
-      TAG_NAME = 'assess'.freeze
-      TITLE_PREFIX = 'Assessment'.freeze
+      TAG_NAME = 'assess'
+      TITLE_PREFIX = 'Assessment'
     end
 
     class ShTag < HeadingTag
-      TAG_NAME = 'sh'.freeze
+      TAG_NAME = 'sh'
 
       def heading(value)
         value
@@ -61,7 +63,7 @@ module DocTemplate
     end
 
     class KeyTag < HeadingTag
-      TAG_NAME = 'key'.freeze
+      TAG_NAME = 'key'
 
       def heading(value)
         "#{value}<br/>(For Teacher Reference)"
@@ -69,7 +71,7 @@ module DocTemplate
     end
 
     class ThTag < HeadingTag
-      TAG_NAME = 'th'.freeze
+      TAG_NAME = 'th'
 
       def heading(value)
         "#{value}<br/>(For Teacher Reference)"

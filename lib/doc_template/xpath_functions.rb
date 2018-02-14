@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocTemplate
   class XpathFunctions
     def case_insensitive_equals(node_set, str_to_match)
@@ -9,7 +11,7 @@ module DocTemplate
     end
 
     def case_regular(node_set, re_to_match)
-      node_set if node_set.to_s =~ Regexp.new(re_to_match, true)
+      node_set.to_s =~ Regexp.new(re_to_match, true) ? node_set : []
     end
   end
 end

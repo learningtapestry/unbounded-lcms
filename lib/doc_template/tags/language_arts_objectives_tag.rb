@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class LanguageArtsObjectivesTag < BlockTag
-      TAG_NAME = 'language arts objectives'.freeze
-      TEMPLATE = 'language_arts_objectives.html.erb'.freeze
+      TAG_NAME = 'language arts objectives'
+      TEMPLATE = 'language_arts_objectives.html.erb'
 
       def parse(node, opts = {})
         nodes = block_nodes node

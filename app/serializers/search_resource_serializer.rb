@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SearchResourceSerializer < ResourceSerializer
   def initialize(obj, opts = {})
     super

@@ -59,7 +59,8 @@ module DocTemplate
       ERB.new(template).result(binding)
     end
 
-    def ela_teacher_guidance_allowed? # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
+    def ela_teacher_guidance_allowed?
       # only for G6 and G2
       # As stated on issue #240 and here https://github.com/learningtapestry/unbounded/pull/267#issuecomment-307870881
       g2 = @opts[:metadata]['grade'] == '2'
@@ -97,19 +98,19 @@ module DocTemplate
       # G2 Unit 7 apart from for Lessons: 6,11,12,13
       g2_u7 = g2 && @opts[:metadata]['unit'] == '7'
       return false if g2_u7 && %w(6 11 12 13).include?(@opts[:metadata]['lesson'])
-      
-       # G2 Unit 8 apart from for Lessons: 5,12,11,10
+
+      # G2 Unit 8 apart from for Lessons: 5,12,11,10
       g2_u8 = g2 && @opts[:metadata]['unit'] == '8'
       return false if g2_u8 && %w(5 12 11 10).include?(@opts[:metadata]['lesson'])
-       
+
       # G2 Unit 9 apart from for Lessons: 15,14,13,6
       g2_u9 = g2 && @opts[:metadata]['unit'] == '9'
       return false if g2_u9 && %w(15 14 13 6).include?(@opts[:metadata]['lesson'])
-      
+
       # G2 Unit 10 apart from for Lessons: 11,13,5,12
       g2_u10 = g2 && @opts[:metadata]['unit'] == '10'
       return false if g2_u10 && %w(11 13 5 12).include?(@opts[:metadata]['lesson'])
-      
+
       # G2 Unit 11 apart from for Lessons: 14,12,7,13
       g2_u11 = g2 && @opts[:metadata]['unit'] == '11'
       return false if g2_u11 && %w(14 12 7 13).include?(@opts[:metadata]['lesson'])

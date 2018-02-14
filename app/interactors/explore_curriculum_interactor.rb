@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExploreCurriculumInteractor < BaseInteractor
   attr_reader :props
 

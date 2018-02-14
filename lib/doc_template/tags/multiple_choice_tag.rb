@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module DocTemplate
   module Tags
     class MultipleChoiceTag < BlockTag
-      TAG_NAME = 'multiple-choice'.freeze
+      TAG_NAME = 'multiple-choice'
 
       def parse(node, opts = {})
         nodes = block_nodes node

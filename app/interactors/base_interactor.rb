@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Base interactor to be used on the controllers
 # Usage:
 #

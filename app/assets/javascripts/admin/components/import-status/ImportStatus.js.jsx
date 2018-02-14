@@ -3,25 +3,34 @@ class ImportStatus extends React.Component {
   constructor(props) {
     super(props);
     this.state = { jobs: props.jobs };
-    this.pollingInterval = 2500;
+    this.pollingInterval = 5000;
+    this.chunkSize = 50;
   }
 
   componentDidMount() {
-    _.each(this.state.jobs, (_job, jid) => {
-      setTimeout(this.poll.bind(this, jid), this.pollingInterval);
-    });
+    this.intervalFn = setInterval(this.poll.bind(this), this.pollingInterval);
   }
 
-  poll(jid) {
+  poll() {
+    const pendingJobs = _.compact(_.map(this.state.jobs, (job, jid) => job.status !== 'done' ? jid : null));
+    if (pendingJobs.length > 0) {
+      _.each(_.chunk(pendingJobs, this.chunkSize), jids => this.updateChunkStatus(jids));
+    } else {
+      clearInterval(this.intervalFn);
+    }
+  }
+
+  updateChunkStatus(jids) {
     $.getJSON(`/admin/${this.props.type}/import_status`, {
-      jid: jid,
+      jids: jids,
       type: this.props.type,
       _: Date.now() // prevent cached response
     }).done(res => {
-      const job = { [jid]: _.extend(this.state.jobs[jid], {status: res.status}, res.result) };
-      this.setState({ jobs: _.extend(this.state.jobs, job) });
-
-      if (res.status !== 'done') setTimeout(this.poll.bind(this, jid), this.pollingInterval);
+      let updatedJobs = {};
+      _.each(res, (val, jid) => {
+        updatedJobs[jid] = _.extend(this.state.jobs[jid], { status: val.status }, val.result);
+      });
+      this.setState({ jobs: _.extend(this.state.jobs, updatedJobs) });
     }).fail(res => {
       console.warn('check content export status', res);
     });

@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+// eslint-disable-next-line no-unused-vars
 class SelectActivityToggle extends React.Component {
   constructor(props) {
     super(props);
@@ -24,15 +24,15 @@ class SelectActivityToggle extends React.Component {
     const item = this.props.item;
     if (item.active && this.modalText) {
       if (item.isOptional) {
-        heap.track('Optional Activity Enabled', { id: item.id});
+        heapTrack('Optional Activity Enabled', { id: item.id});
         this.props.callback();
       } else {
-        heap.track('Click to Deselect Activity', { id: item.id });
+        heapTrack('Click to Deselect Activity', { id: item.id });
         $(document.getElementById(`confirm-${item.id}`)).foundation('open');
       }
     } else {
       const event = item.isOptional ? 'Optional Activity Disabled' : 'Activity Selected';
-      heap.track(event, { id: item.id });
+      heapTrack(event, { id: item.id });
       this.props.callback();
     }
   }

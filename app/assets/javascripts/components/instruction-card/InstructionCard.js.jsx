@@ -21,7 +21,7 @@ function InstructionCard(props) {
     bemClass('body')
   );
 
-  const onCardClick = () => heap.track('PD Resource Opened', { title: item.title, type: item.instruction_type });
+  const onCardClick = () => heapTrack('PD Resource Opened', { title: item.title, type: item.instruction_type });
 
   const isInstruction = (item.instruction_type === 'instruction');
   const instructionBody = isInstruction ?

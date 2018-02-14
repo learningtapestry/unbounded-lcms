@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Slug
   attr_reader :resource
 
