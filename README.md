@@ -1,6 +1,8 @@
 # UnboundEd Learning Content Management System (LCMS)
 
 [ ![Codeship Status for learningtapestry/unbounded-lcms](https://app.codeship.com/projects/87ed3f00-ddc7-0135-b08f-3e0bdd3c602e/status?branch=master)](https://app.codeship.com/projects/266015)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9c9dce0cf0aa36698a9c/maintainability)](https://codeclimate.com/github/learningtapestry/unbounded-lcms/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/9c9dce0cf0aa36698a9c/test_coverage)](https://codeclimate.com/github/learningtapestry/unbounded-lcms/test_coverage)
 
 [![Join the chat at https://gitter.im/learningtapestry/unbounded-lcms](https://badges.gitter.im/learningtapestry/unbounded-lcms.svg)](https://gitter.im/learningtapestry/unbounded-lcms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
