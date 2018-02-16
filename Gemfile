@@ -18,7 +18,7 @@ gem 'carrierwave', '~> 0.10.0'
 # misc and system
 gem 'addressable', '~> 2.5.1'
 gem 'daemons', '~> 1.2', '>= 1.2.3'
-gem 'dotenv-rails', '~> 2.2', '>= 2.2.1', groups: %i(development integration test)
+gem 'dotenv-rails', '~> 2.2', '>= 2.2.1', groups: %i(development test)
 gem 'foreman', '~> 0.78.0'
 gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
 gem 'rubyzip', '~> 1.2.1'
@@ -145,7 +145,7 @@ gem 'nokogiri', '~> 1.8.2'
 # profiling
 gem 'newrelic_rpm' # Used temporarily for debugging workers
 
-group :development, :staging, :qa do
+group :development do
   gem 'mailcatcher', require: false
 end
 
@@ -177,10 +177,6 @@ group :test do
   gem 'database_cleaner', '~> 1.4'
   gem 'email_spec', '~> 2.1'
   gem 'guard'
-  gem 'guard-minitest'
-  gem 'minitest-focus'
-  gem 'minitest-rails-capybara'
-  gem 'minitest-vcr'
   gem 'poltergeist'
   # TODO: Remove after we get rid of MiniTest
   gem 'shoulda-context'

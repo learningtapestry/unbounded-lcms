@@ -379,9 +379,6 @@ GEM
       guard (~> 2.8)
       guard-compat (~> 1.0)
       multi_json (~> 1.8)
-    guard-minitest (2.4.4)
-      guard-compat (~> 1.2)
-      minitest (>= 3.0)
     hashdiff (0.3.2)
     hashie (3.5.5)
     heap (1.0.2)
@@ -445,29 +442,7 @@ GEM
     mime-types (2.99.3)
     mini_magick (4.8.0)
     mini_portile2 (2.3.0)
-    minispec-metadata (2.0.0)
-      minitest
     minitest (5.11.1)
-    minitest-capybara (0.7.2)
-      capybara (~> 2.2)
-      minitest (~> 5.0)
-      rake
-    minitest-focus (1.1.2)
-      minitest (>= 4, < 6)
-    minitest-metadata (0.5.3)
-      minitest (>= 4.7, < 6.0)
-    minitest-rails (2.2.0)
-      minitest (~> 5.7)
-      railties (~> 4.1)
-    minitest-rails-capybara (2.1.1)
-      capybara (~> 2.0)
-      minitest-capybara (~> 0.7.0)
-      minitest-metadata (~> 0.5.0)
-      minitest-rails (~> 2.1)
-    minitest-vcr (1.4.0)
-      minispec-metadata (~> 2.0)
-      minitest (>= 4.7.5)
-      vcr (>= 2.9)
     mono_logger (1.1.0)
     multi_json (1.12.1)
     multi_xml (0.6.0)
@@ -747,7 +722,6 @@ GEM
     validate_url (1.0.2)
       activemodel (>= 3.0.0)
       addressable
-    vcr (3.0.3)
     vegas (0.1.11)
       rack (>= 1.0.0)
     virtus (1.0.5)
@@ -823,7 +797,6 @@ DEPENDENCIES
   googleauth (~> 0.4)
   guard
   guard-livereload (~> 2.5, >= 2.5.2)
-  guard-minitest
   heap (~> 1.0)
   hiredis
   httparty (~> 0.14.0)
@@ -834,9 +807,6 @@ DEPENDENCIES
   mailcatcher
   migration_data (~> 0.2.1)
   mini_magick (~> 4.8.0)
-  minitest-focus
-  minitest-rails-capybara
-  minitest-vcr
   nested_form
   newrelic_rpm
   nikkou (~> 0.0.5)

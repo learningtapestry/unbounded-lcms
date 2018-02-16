@@ -20,15 +20,17 @@ bundler audit check --update
 brakeman -zqA --summary --no-pager
 
 # Setup environment
-echo -e 'UNBOUNDED_DOMAIN=unbounded.org' > .env
+echo -e 'APPLICATION_DOMAIN=example.org' > .env
 cp .codeship/database.yml config/database.yml
 
-# Changing port to use PostgreSQL 9.6
-sed -i "s|5434|5436|" "config/database.yml"
 
-# Restore integration database
+# Restore pre-filled database
 cp db/dump/content.dump.freeze db/dump/content.dump
-RAILS_ENV="integration" bundle exec rake db:restore
+
+# Pg 9.6 is running on that port
+psql -p 5436 -d template1 -c 'CREATE EXTENSION IF NOT EXISTS hstore;'
+
+RAILS_ENV="test" bundle exec rake db:restore
 RAILS_ENV="test" bundle exec rake db:migrate
 
 # Generate translations file

@@ -7,12 +7,8 @@ development: &development
   template: template1
   password: <%= ENV['PG_PASSWORD'] %>
   database: development<%= ENV['TEST_ENV_NUMBER'] %>
-  port: 5434
+  port: 5436
   sslmode: disable
-
-integration:
-  <<: *development
-  database: integration
 
 test:
   adapter: postgresql
@@ -23,5 +19,5 @@ test:
   template: template1
   password: <%= ENV['PG_PASSWORD'] %>
   database: test<%= ENV['TEST_ENV_NUMBER'] %>
-  port: 5434
+  port: 5436
   sslmode: disable

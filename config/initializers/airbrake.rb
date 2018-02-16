@@ -15,7 +15,7 @@ if AIRBRAKE_ENABLED
     c.environment = Rails.env
     c.blacklist_keys = Rails.application.config.filter_parameters
 
-    c.ignore_environments = %w(integration test)
+    c.ignore_environments = %w(test)
   end
 
   ignore_errors = %w(
