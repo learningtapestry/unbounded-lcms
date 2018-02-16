@@ -11,24 +11,8 @@ default: &default
 production: &production
   <<: *default
 
-production_swap: &production
-  <<: *default
-
-staging:
-  <<: *production
-
-qa:
-  <<: *production
-
 development:
   <<: *default
 
-engageny:
-  <<: *default
-  database: <%= ENV['ENGAGENY_DATABASE'] %>
-
 test:
-  <<: *default
-
-integration:
   <<: *default

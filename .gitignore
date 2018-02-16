@@ -28,9 +28,6 @@
 
 # Ignore environment-specific configuration
 .env.development
-.env.engageny
-.env.integration
-.env.staging
 .env.test
 .env
 

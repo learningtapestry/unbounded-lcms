@@ -7,7 +7,8 @@ feature 'Admin users' do
 
   given(:access_code) { create(:access_code).code }
   given(:admin) { create :admin }
-  given!(:user) { create :user, email: 'unbounded@unbounded.org' }
+  given(:domain) { ENV['APPLICATION_DOMAIN'] }
+  given!(:user) { create :user, email: "unbounded@#{domain}" }
   given(:name) { Faker::Lorem.name }
   given(:email) { Faker::Internet.email }
   given(:reset_msg) { 'You will receive an email with instructions on how to reset your password in a few minutes. ×' }
@@ -45,21 +46,21 @@ feature 'Admin users' do
     user.reload
     expect(current_path).to eq "/admin/users/#{user.id}"
     expect(page.find('.input.error .error').text).to eq "can't be blank"
-    expect(user.email).to eq 'unbounded@unbounded.org'
+    expect(user.email).to eq "unbounded@#{domain}"
   end
 
   scenario 'edit user' do
     navigate_to_edit_user
 
-    fill_in 'Email', with: 'joe@unbounded.org'
+    fill_in 'Email', with: "joe@#{domain}"
     fill_in 'Name', with: 'Joe Jonah'
     click_button 'Save'
 
     user.reload
     expect(current_path).to eq "/admin/users/#{user.id}/edit"
     expect(page.find('.callout.success').text).to include('saved successfully')
-    expect(user.email).to eq 'unbounded@unbounded.org'
-    expect(user.unconfirmed_email).to eq 'joe@unbounded.org'
+    expect(user.email).to eq "unbounded@#{domain}"
+    expect(user.unconfirmed_email).to eq "joe@#{domain}"
     expect(user.name).to eq 'Joe Jonah'
   end
 
@@ -129,7 +130,7 @@ feature 'Admin users' do
 
   def expect_reset_password_email_for(user)
     email = last_email_sent
-    expect(email.from).to eq ['no-reply@unbounded.org']
+    expect(email.from).to eq ["no-reply@#{domain}"]
     expect(email.subject).to eq 'Reset password instructions'
     expect(email.to).to eq [user.email]
   end
