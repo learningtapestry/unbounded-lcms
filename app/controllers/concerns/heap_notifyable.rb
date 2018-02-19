@@ -4,6 +4,7 @@ module HeapNotifyable
   extend ActiveSupport::Concern
 
   def heap_notify(event)
+    return if Heap.app_id.blank?
     return if current_user.nil?
 
     props = {
