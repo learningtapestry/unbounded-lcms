@@ -24,13 +24,16 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
     return [] if !module? && @depth.zero?
     return [] if !module? && @depth_branch && !@depth_branch.include?(object.id)
 
-    object.children.ordered.map do |res|
-      CurriculumResourceSerializer.new(
-        res,
-        depth: @depth - 1,
-        depth_branch: @depth_branch
-      ).as_json
-    end
+    object.children
+      .includes(:copyright_attributions)
+      .eager_load(:unbounded_standards)
+      .ordered.map do |res|
+        CurriculumResourceSerializer.new(
+          res,
+          depth: @depth - 1,
+          depth_branch: @depth_branch
+        ).as_json
+      end
   end
 
   def lesson_count

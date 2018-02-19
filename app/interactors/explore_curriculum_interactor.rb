@@ -22,6 +22,8 @@ class ExploreCurriculumInteractor < BaseInteractor
 
   def grades
     @grades ||= Resource.tree.grades
+                  .includes(:copyright_attributions, :resource_downloads)
+                  .eager_load(:unbounded_standards)
                   .where_subject(filterbar.subjects)
                   .where_grade(filterbar.grades)
                   .ordered

@@ -49,7 +49,7 @@ class ResourcesController < ApplicationController
     res = if params[:slug].present?
             Resource.find_by! slug: params[:slug]
           else
-            Resource.find(params[:id])
+            Resource.find params[:id]
           end
     ResourcePresenter.new(res)
   end

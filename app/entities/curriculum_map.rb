@@ -33,8 +33,13 @@ class CurriculumMap
   end
 
   def curriculum
+    grade = resource.ancestors
+              .includes(:copyright_attributions)
+              .eager_load(:unbounded_standards)
+              .where(curriculum_type: :grade)
+              .take
     CurriculumResourceSerializer.new(
-      resource.parents.detect(&:grade?),
+      grade,
       depth: full_depth? ? Resource::HIERARCHY.size : 1,
       depth_branch: active_branch + target_branch
     ).as_json

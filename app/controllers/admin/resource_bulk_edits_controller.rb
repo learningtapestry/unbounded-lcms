@@ -21,7 +21,7 @@ module Admin
     private
 
     def load_resources
-      @resources = Resource.where(id: params[:ids]).includes(:standards, :taggings)
+      @resources = Resource.where(id: params[:ids]).includes(:standards)
     end
 
     def resource_params
