@@ -193,7 +193,7 @@ class Resource < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   end
 
   def download_categories
-    @download_categories ||= resource_downloads
+    @download_categories ||= resource_downloads.includes(:download_category).includes(:download)
                                .sort_by { |rd| rd.download_category&.position.to_i }
                                .group_by { |d| d.download_category&.title.to_s }
                                .transform_values { |v| v.sort_by { |d| [d.download.main ? 0 : 1, d.download.title] } }
