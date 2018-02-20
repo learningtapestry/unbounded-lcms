@@ -66,4 +66,13 @@ Rails.application.configure do
   else
     config.cache_store = :null_store
   end
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.console = true
+    Bullet.rails_logger = true
+    Bullet.stacktrace_includes = %w(your_gem your_middleware)
+    Bullet.stacktrace_excludes = %w(their_gem their_middleware)
+  end
 end

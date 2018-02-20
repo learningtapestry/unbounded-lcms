@@ -17,7 +17,7 @@ class AdminDocumentsQuery
 
   # Returns: ActiveRecord relation
   def call
-    @scope = Document.all # initial scope
+    @scope = Document.includes(:materials, :resource).all # initial scope
     apply_filters
 
     if @pagination.present?
