@@ -1,17 +1,14 @@
 #!/usr/bin/env bash
 
-# Disable "Shellcheck" checks until workaround will be found
-# https://github.com/koalaman/shellcheck/issues/1119
-
 # checking shell scripts
 # shellcheck disable=SC2044
-#for file in $(find . -name "*.sh"); do
-#  if [[ "${file}" != *node_modules* ]]; then
-#    if ! shellcheck "${file}"; then
-#      exit 1
-#    fi
-#  fi
-#done
+for file in $(find . -name "*.sh"); do
+  if [[ "${file}" != *node_modules* ]]; then
+    if ! "${HOME}/bin/shellcheck" "${file}"; then
+      exit 1
+    fi
+  fi
+done
 
 # Checking gems for vulnerabilities
 bundler audit check --update

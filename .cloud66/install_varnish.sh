@@ -57,7 +57,7 @@ detect_os ()
         fi
       fi
 
-    elif [[ $(which lsb_release 2>/dev/null) ]]; then
+    elif [[ $(command -v lsb_release 2>/dev/null) ]]; then
       dist=$(lsb_release -c | cut -f2)
       os=$(lsb_release -i | cut -f2 | awk '{ print tolower($1) }')
 
