@@ -16,7 +16,7 @@ class AdminMaterialsQuery
 
   # Returns: ActiveRecord relation
   def call
-    @scope = Material.all # initial scope
+    @scope = Material.includes(documents: :resource).all # initial scope
 
     search_by_identifier
     filter_by_source

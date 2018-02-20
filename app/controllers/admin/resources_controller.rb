@@ -14,7 +14,7 @@ module Admin
 
     def index
       @query = Resource.ransack(params[:q].try(:except, :grades))
-      resources = @query.result.includes(:standards, :taggings)
+      resources = @query.result.includes(:standards)
       resources = resources.where_curriculum(grade_params) if grade_params.present?
       @resources = resources.order(id: :desc).paginate(page: params[:page], per_page: 15)
     end
