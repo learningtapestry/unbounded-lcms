@@ -20,4 +20,4 @@ email, or any other method with the owners of this repository before proposing a
 Before submitting a pull request please verify that all tests pass. Be sure to describe the intent of your change and reference the related github issue in your description.
 
 ## License
-UnboundEd LCMS is released as open source under the [Apache 2 license](LICENSE.md).
+UnboundEd LCMS is released as open source under the [Apache 2 license](http://www.apache.org/licenses/LICENSE-2.0.html).
