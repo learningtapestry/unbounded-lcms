@@ -57,8 +57,6 @@ namespace :db do # rubocop:disable Metric/BlockLength
   task pg_restore: [:environment] do
     config = ActiveRecord::Base.connection_config
 
-    raise unless system('psql', config[:database], '-c', 'CREATE EXTENSION hstore;')
-
     restore_cmd = <<-BASH
       PGPASSWORD=#{config[:password]} \
       pg_restore \
