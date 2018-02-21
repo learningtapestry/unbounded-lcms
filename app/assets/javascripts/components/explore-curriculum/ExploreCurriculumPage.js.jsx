@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class ExploreCurriculumPage extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +15,7 @@ class ExploreCurriculumPage extends React.Component {
     let query = {p: null, e: null};
     if ($active) {
       query['p'] = $active[0].getAttribute('name');
-      if ( this.state.active[this.state.active.length - 2] == $active[0].id ) {
+      if ( this.state.active[this.state.active.length - 2] === $active[0].id ) {
         query['e'] = '1';
       }
     }
@@ -25,12 +26,12 @@ class ExploreCurriculumPage extends React.Component {
   componentDidMount() {
     this._curriculumList = $('#curriculumList');
     new Foundation.MaggelanHash(this._curriculumList,
-                                { deepLinking: true,
-                                  updateUrl: this.updateUrl.bind(this),
-                                  threshold: 20,
-                                  animationDuration: this.ANIMATION_DURATION,
-                                  onScrollFinished: this.onScrollFinished.bind(this)
-                                });
+      { deepLinking: true,
+        updateUrl: this.updateUrl.bind(this),
+        threshold: 20,
+        animationDuration: this.ANIMATION_DURATION,
+        onScrollFinished: this.onScrollFinished.bind(this)
+      });
     let elm;
     if (this.scrollImmediately === 'item') {
       elm = document.getElementById(this.state.active[this.state.active.length-1]);
@@ -50,25 +51,25 @@ class ExploreCurriculumPage extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(_nextProps, _nextState) {
     this._curriculumList.foundation('mutexScrollLock');
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_prevProps, _prevState) {
     this._curriculumList.foundation('mutexScrollUnlock');
   }
 
   onScrollFinished(el) {
     _.delay(() => { if (el && $(el).length) {
-                      const yOffset = $(el).offset().top;
-                      // fix animation sync, will get inside in very rare cases
-                      if (Math.abs($(document).scrollTop() - yOffset) > 25) {
-                        $('html, body').scrollTop(yOffset);
-                      }
-                    }
-                    this._curriculumList.foundation('mutexScrollUnlock');
-                    this._curriculumList.foundation('reflow');
-                  }, this.ANIMATION_DURATION / 4);
+      const yOffset = $(el).offset().top;
+      // fix animation sync, will get inside in very rare cases
+      if (Math.abs($(document).scrollTop() - yOffset) > 25) {
+        $('html, body').scrollTop(yOffset);
+      }
+    }
+    this._curriculumList.foundation('mutexScrollUnlock');
+    this._curriculumList.foundation('reflow');
+    }, this.ANIMATION_DURATION / 4);
   }
 
   scrollToActive(el) {
@@ -130,18 +131,18 @@ class ExploreCurriculumPage extends React.Component {
   fetch(state) {
     const query = this.createQuery(state);
     const url = Routes.explore_curriculum_index_path(query);
-    return $.getJSON(url)
+    return $.getJSON(url);
   }
 
   fetchOne(id) {
     const url = Routes.explore_curriculum_path(id);
-    return $.getJSON(url)
+    return $.getJSON(url);
   }
 
   getActive(parentage, cur) {
     return cur.children.length > 0 ?
-        [...parentage, cur.children[0].id] :
-        [...parentage];
+      [...parentage, cur.children[0].id] :
+      [...parentage];
   }
 
   setActive(parentage, cur, el) {
@@ -152,7 +153,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleClickExpand(parentage, e) {
-    if (e.target.nodeName === "A") return;
+    if (e.target.nodeName === 'A') return;
     e.preventDefault();
     const currentTarget = `#${e.currentTarget.id}`;
     if (parentage[parentage.length-1] === this.state.active[parentage.length-1]) {
@@ -166,7 +167,7 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   handleClickViewDetails(parentage, e) {
-    if ((e.target.nodeName === "A") || (e.target.nodeName === "I"))  return;
+    if ((e.target.nodeName === 'A') || (e.target.nodeName === 'I'))  return;
     e.preventDefault();
     const currentTarget = `#${e.currentTarget.id}`;
     const id = _.last(parentage);
@@ -204,7 +205,7 @@ class ExploreCurriculumPage extends React.Component {
     } else {
       this.fetch(newState).then(response => {
         this.setState(this.buildStateFromProps(response),
-                      this.reflow.bind(this));
+          this.reflow.bind(this));
       });
     }
   }

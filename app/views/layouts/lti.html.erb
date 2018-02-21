@@ -8,10 +8,10 @@
     <script>
       window._PDFJSworkerSrc = '<%= asset_url('vendor/pdf.worker.js') %>'
     </script>
-    <%= stylesheet_link_tag 'main', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'main', media: 'all', 'data-turbolinks-track' => 'reload' %>
     <%= javascript_include_tag '//s7.addthis.com/js/300/addthis_widget.js#async=1' %>
-    <%= javascript_include_tag 'application_lti', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'pdf_js_preview', 'data-turbolinks-track' => true if generic_page? %>
+    <%= javascript_include_tag 'application_lti', 'data-turbolinks-track' => 'reload' %>
+    <%= javascript_include_tag 'pdf_js_preview', 'data-turbolinks-track' => 'reload' if generic_page? %>
     <%= csrf_meta_tags %>
     <% if content_for?(:canonical_url) %>
       <link rel=canonical href='<%= yield(:canonical_url) %>'>

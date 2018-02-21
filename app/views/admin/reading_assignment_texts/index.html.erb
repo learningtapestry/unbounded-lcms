@@ -1,7 +1,7 @@
 <div class=o-page>
   <h2 class=text-center><%= t('.page_title') %></h2>
 
-  <p><%= link_to t('.new_reading_assignment_text'), :new_admin_reading_assignment_text, class: 'button primary', 'data-no-turbolink' => '' %></p>
+  <p><%= link_to t('.new_reading_assignment_text'), :new_admin_reading_assignment_text, class: 'button primary', 'data-turbolinks' => false %></p>
 
   <p class=text-right><%= page_entries_info @reading_assignment_texts %>
 

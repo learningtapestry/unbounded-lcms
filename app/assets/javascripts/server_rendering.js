@@ -1,3 +1,4 @@
+//= require prerender_polyfill
 //= require react-server
 //= require js-routes
 //= require components

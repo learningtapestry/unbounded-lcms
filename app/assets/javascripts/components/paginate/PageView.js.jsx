@@ -1,9 +1,10 @@
 // from https://github.com/AdeleD/react-paginate (converted)
 'use strict';
 
+// eslint-disable-next-line no-unused-vars
 class PageView extends React.Component {
   render() {
-    let linkClassName = this.props.pageLinkClassName;
+    const linkClassName = this.props.pageLinkClassName;
     let cssClassName = this.props.pageClassName;
 
     if (this.props.selected) {
@@ -15,11 +16,11 @@ class PageView extends React.Component {
     }
 
     return (
-        <li className={cssClassName}>
-            <a {...this.props} href="" className={linkClassName}>
-              {this.props.page}
-            </a>
-        </li>
+      <li className={cssClassName}>
+        <a onClick={this.props.onClick} className={linkClassName}>
+          {this.props.page}
+        </a>
+      </li>
     );
   }
-};
+}

@@ -141,7 +141,7 @@ class EnhanceInstructionPage extends React.Component {
           </div>
         </div>
         <div className="o-page o-page--margin-bottom">
-          <Tabs tabActive={this.state.activeTab + 1} onBeforeChange={this.handleTabChange.bind(this)} className='c-eh-tab o-page__module'>
+          <Tabs tabActive={this.state.activeTab + 1} onBeforeChange={this.handleTabChange.bind(this)} className="c-eh-tab o-page__module">
             {tabGuides}
             {tabResources}
             {tabGeneric}

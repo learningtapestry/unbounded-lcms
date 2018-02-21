@@ -1,4 +1,4 @@
-urlHistory = (function() {
+window.urlHistory = (function() {
 
   let state = {};
 
@@ -75,12 +75,12 @@ urlHistory = (function() {
   };
 
   let querystringToJSON = function () {
-    var pairs = location.search.slice(1).split('&');
+    const pairs = location.search.slice(1).split('&');
 
-    var result = {};
+    let result = {};
     pairs.forEach(function(pair) {
       pair = pair.split('=');
-      var val = decodeURIComponent(pair[1] || '');
+      let val = decodeURIComponent(pair[1] || '');
       if (val.indexOf(',') > -1 ) val = val.split(',');
       result[pair[0]] = val;
     });
@@ -89,14 +89,14 @@ urlHistory = (function() {
   };
 
   const updatePaginationParams = function(newState) {
-    var params = {};
+    let params = {};
 
-    params.page = (newState.current_page == 1) ? null : newState.current_page;
-    params.per_page = (newState.per_page == 20) ? null : newState.per_page;
+    params.page = (newState.current_page === 1) ? null : newState.current_page;
+    params.per_page = (newState.per_page === 20) ? null : newState.per_page;
     params.tab = newState.activeTab;
 
     update(params);
-  }
+  };
 
   const emptyState = function () {
     state = {};

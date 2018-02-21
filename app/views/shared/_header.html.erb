@@ -44,7 +44,7 @@
                   <%= link_to ENV['FRESHDESK_URL'], target: '_blank', class: 'u-flex' do %>
                     <i class="ub-helpdesk u-margin-right--zero"></i>
                   <% end %>
-                  <ul class="c-header__left-submenu c-header__helpdesk-hover menu" data-no-turbolink>
+                  <ul class="c-header__left-submenu c-header__helpdesk-hover menu" data-turbolinks="false">
                     <li class="u-txt--ld-tooltip">
                       <%= t('nav.helpdesk_hover_html') %>
                     </li>
@@ -54,8 +54,8 @@
             <% end %>
             <% if user_signed_in? %>
               <li class="c-header__link c-header__link--full c-header__link--semi-light show-for-large">
-                <a class="u-flex" data-no-turbolink="true"><i class="ub-user u-margin-right--zero"></i></a>
-                <ul class="c-header__left-submenu c-header__auth-submenu menu" data-no-turbolink>
+                <a class="u-flex" data-turbolinks="false"><i class="ub-user u-margin-right--zero"></i></a>
+                <ul class="c-header__left-submenu c-header__auth-submenu menu" data-turbolinks="false">
                   <li class="c-header__submenu-link">
                     <div class="cs-txt-link--base-txt u-margin-horizontal--base u-margin-vertical--small"><%= current_user.name.presence || current_user.email %></div>
                   </li>
@@ -67,7 +67,7 @@
             <% end %>
             <%# if current_user&.ready_to_go? >
               <li class="c-header__link c-header__link--full c-header__link--light">
-                <a class="u-flex show-for-large" data-no-turbolink="true"><i class="ub-share"></i></a>
+                <a class="u-flex show-for-large" data-turbolinks="false"><i class="ub-share"></i></a>
                 <%= render partial: 'shared/social_sharing_menu', locals: { cls: 'c-header' } >
               </li>
             <% end %>

@@ -1,10 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 class FilterbarSearch extends React.Component {
 
   componentWillMount() {
-    this.setState({value: this.props.searchTerm});
+    this.setState({value: this.props.searchTerm || ''});
 
-    this.props.searchBus.on('clearSearch', e => {
-      this.setState({value: null})
+    this.props.searchBus.on('clearSearch', _e => {
+      this.setState({value: ''});
     });
 
     const debounceTimeout = 500; // 500 msec
@@ -16,7 +17,7 @@ class FilterbarSearch extends React.Component {
   }
 
   handleChange (event) {
-    this.setState({value: event.target.value});
+    this.setState({value: event.target.value || ''});
     this.debouncedUpdate(event.target.value);
   }
 

@@ -43,20 +43,18 @@ class PaginationBoxView extends React.Component {
   }
 
   callCallback(selectedItem) {
-    if (typeof(this.props.clickCallback) !== "undefined" &&
-        typeof(this.props.clickCallback) === "function") {
+    if (typeof(this.props.clickCallback) !== 'undefined' &&
+        typeof(this.props.clickCallback) === 'function') {
       this.props.clickCallback({selected: selectedItem});
     }
   }
 
   render() {
-    let disabled = this.props.disabledClassName;
-
     const previousClasses = classNames(this.props.itemClassName, this.props.previousClassName,
-                                       {[`${this.props.itemClassName}--disabled`]: this.state.selected === 0});
+      {[`${this.props.itemClassName}--disabled`]: this.state.selected === 0});
 
     const nextClasses = classNames(this.props.itemClassName, this.props.nextClassName,
-                                   {[`${this.props.itemClassName}--disabled`]: this.state.selected === this.props.pageNum - 1});
+      {[`${this.props.itemClassName}--disabled`]: this.state.selected === this.props.pageNum - 1});
 
     return (
       <ul className={this.props.containerClassName}>
@@ -91,7 +89,7 @@ class PaginationBoxView extends React.Component {
       this.setState({ selected: nextProps.forceSelected });
     }
   }
-};
+}
 
 PaginationBoxView.propTypes = {
   pageNum               : React.PropTypes.number.isRequired,
@@ -121,11 +119,11 @@ PaginationBoxView.defaultProps = {
   pageNum              : 10,
   pageRangeDisplayed   : 2,
   marginPagesDisplayed : 3,
-  activeClassName      : "selected",
-  previousClassName    : "previous",
-  nextClassName        : "next",
-  previousLabel        : "Previous",
-  nextLabel            : "Next",
-  breakLabel           : "...",
-  disabledClassName    : "disabled"
+  activeClassName      : 'selected',
+  previousClassName    : 'previous',
+  nextClassName        : 'next',
+  previousLabel        : 'Previous',
+  nextLabel            : 'Next',
+  breakLabel           : '...',
+  disabledClassName    : 'disabled'
 };

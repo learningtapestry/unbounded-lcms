@@ -2,7 +2,7 @@
 
 <h2 class="text-center"><%= t('.page_title') %></h2>
   <p><%= link_to t('.new_category'), :new_admin_download_category, class: 'button
-  primary', 'data-no-turbolink' => '' %></p>
+  primary', 'data-turbolinks' => false %></p>
   <table class=table>
     <% @categories.each do |category| %>
       <tr>

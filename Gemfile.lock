@@ -129,11 +129,11 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.10.0)
+    coffee-script-source (1.12.2)
     combine_pdf (1.0.5)
       ruby-rc4 (>= 0.1.5)
     concurrent-ruby (1.0.5)
-    connection_pool (2.2.0)
+    connection_pool (2.2.1)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.3)
@@ -306,7 +306,7 @@ GEM
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
-    loofah (2.1.1)
+    loofah (2.2.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.9)
@@ -455,12 +455,11 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.2.2)
       json (~> 1.4)
-    react-rails (1.6.0)
+    react-rails (1.11.0)
       babel-transpiler (>= 0.7.0)
-      coffee-script-source (~> 1.8)
       connection_pool
       execjs
-      rails (>= 3.2)
+      railties (>= 3.2)
       tilt
     readthis (1.2.0)
       connection_pool (~> 2.1)
@@ -586,8 +585,9 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.8)
     truncate_html (0.9.3)
-    turbolinks (2.5.3)
-      coffee-rails
+    turbolinks (5.1.0)
+      turbolinks-source (~> 5.1)
+    turbolinks-source (5.1.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uber (0.1.0)
@@ -655,6 +655,7 @@ DEPENDENCIES
   carrierwave (~> 1.0)
   ckeditor
   closure_tree (~> 6.6)
+  coffee-rails (~> 4.1.1)
   combine_pdf (~> 1.0.5)
   daemons (~> 1.2, >= 1.2.3)
   database_cleaner (~> 1.4)
@@ -713,7 +714,7 @@ DEPENDENCIES
   rails-assets-lodash (~> 3.9.3)!
   rails-assets-selectize (~> 0.12.1)!
   ransack (~> 1.7.0)
-  react-rails (~> 1.6)
+  react-rails (~> 1.11.0)
   readthis
   resque (~> 1.27)
   resque-scheduler (~> 4.2)
@@ -735,7 +736,7 @@ DEPENDENCIES
   staccato (~> 0.4.7)
   thor (= 0.19.1)
   truncate_html (~> 0.9.3)
-  turbolinks
+  turbolinks (~> 5.1.0)
   uglifier (~> 3.0, >= 3.0.4)
   validate_url (~> 1.0)
   virtus (~> 1.0.5)
