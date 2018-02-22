@@ -13,7 +13,7 @@ gem 'airbrake', '~> 6.2'
 gem 'activerecord-session_store', '~> 1.0'
 
 # file uploading
-gem 'carrierwave', '~> 0.10.0'
+gem 'carrierwave', '~> 1.0'
 
 # misc and system
 gem 'addressable', '~> 2.5.1'
@@ -34,7 +34,7 @@ gem 'elasticsearch-rails', '~> 5.0', '>= 5.0.1'
 
 # cloud interaction
 gem 'aws-sdk-rails', '~> 1.0'
-gem 'fog', '~> 1.38'
+gem 'fog-aws', '~> 2.0'
 
 # google drive and documents (import/export)
 gem 'google-api-client', '~> 0.9'
