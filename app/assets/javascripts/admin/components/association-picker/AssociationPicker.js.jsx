@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class AssociationPicker extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +21,7 @@ class AssociationPicker extends React.Component {
   }
 
   onClickSelect() {
+    // eslint-disable-next-line no-undef
     const picker = React.createElement(AssociationPickerWindow, {
       onSelectItem: this.selectItem.bind(this),
       association: this.props.association,
@@ -36,7 +38,7 @@ class AssociationPicker extends React.Component {
     if (!this.props.allow_multiple) {
       this.closeModal();
     }
-    operation == 'added' ? this.addItem(item) : this.removeItem(item);
+    operation === 'added' ? this.addItem(item) : this.removeItem(item);
   }
 
   closeModal() {
@@ -62,13 +64,13 @@ class AssociationPicker extends React.Component {
   }
 
   render() {
-    const items = this.state.items.map((item, i) => {
+    const items = this.state.items.map((item) => {
       return <AssociationPickerItem
         key={item.id}
         name={this.props.name}
-        create_name={this.props.create_name}
+        createName={this.props.create_name}
         association={this.props.association}
-        allow_multiple={this.props.allow_multiple}
+        allowMultiple={this.props.allow_multiple}
         item={item}
         onClickClose={() => this.removeItem(item)}
       />;
