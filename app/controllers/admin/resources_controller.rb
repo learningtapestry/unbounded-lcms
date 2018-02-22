@@ -76,7 +76,7 @@ module Admin
     private
 
     def find_resource
-      @resource = Resource.find(params[:id])
+      @resource = Resource.includes(resource_downloads: :download).find(params[:id])
     end
 
     def grade_params
