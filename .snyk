@@ -16,4 +16,12 @@ ignore:
     - pngquant-bin > bin-wrapper > download > caw > tunnel-agent:
         reason: None given
         expires: '2018-03-21T12:39:57.579Z'
+  SNYK-RUBY-ERUBIS-20482:
+    - '* > ransack@1.7.0':
+        reason: None given
+        expires: '2018-03-24T07:53:11.120Z'
+  SNYK-RUBY-NOKOGIRI-20299:
+    - '* > nokogiri@1.8.2':
+        reason: None given
+        expires: '2018-03-24T07:53:11.120Z'
 patch: {}
