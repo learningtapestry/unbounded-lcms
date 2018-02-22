@@ -17,11 +17,27 @@ ignore:
         reason: None given
         expires: '2018-03-21T12:39:57.579Z'
   SNYK-RUBY-ERUBIS-20482:
-    - '* > ransack@1.7.0':
-        reason: None given
+    - '* > actionview@4.2.7.1':
+        reason: Sticked to Rails 4.2.7.1
         expires: '2018-03-24T07:53:11.120Z'
   SNYK-RUBY-NOKOGIRI-20299:
     - '* > nokogiri@1.8.2':
         reason: None given
         expires: '2018-03-24T07:53:11.120Z'
+  SNYK-RUBY-SINATRA-20470:
+    - '* > sinatra@1.4.8':
+        reason: Introduced gems don't have new versions
+        expires: '2018-03-24T07:53:11.120Z'
+  SNYK-RUBY-RAILTIES-20454:
+    - '* > railties@4.2.7.1':
+        reason: Sticked to Rails 4.2.7.1
+        expires: '2018-03-24T07:53:11.120Z'
+  SNYK-RUBY-RACKPROTECTION-20394:
+    - '* > rack-protection@1.5.3':
+        reason: Sticked to sinatra@1.4.8 which can't be updated
+        expires: '2018-03-24T07:53:11.120Z'
+  SNYK-RUBY-RACKPROTECTION-20395:
+      - '* > rack-protection@1.5.3':
+          reason: Sticked to sinatra@1.4.8 which can't be updated
+          expires: '2018-03-24T07:53:11.120Z'
 patch: {}
