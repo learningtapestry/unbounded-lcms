@@ -2,10 +2,12 @@
 
 module Admin
   module ComponentsHelper
+    HIDDEN_FIELD_RE = /\b(?<=name=")[^"]+(?=")/
+
     def resource_picker_field(form, collection, allow_multiple: true, path:, name:)
       path = path.to_s
 
-      base_name = form.hidden_field(name).scan(/\b(?<=name=\")[^"]+(?=\")/)[0]
+      base_name = form.hidden_field(name).scan(HIDDEN_FIELD_RE)[0]
       computed_name = "#{base_name}[]"
 
       component = react_component(
@@ -23,16 +25,14 @@ module Admin
     end
 
     # rubocop:disable Metrics/ParameterLists
-    def association_picker_field(form, collection, path:, name:, allow_create: false,
-                                 create_name: nil, allow_multiple: true)
+    def association_picker_field(form, collection, path:, name:, allow_create: false, create_name: nil,
+                                 allow_multiple: true)
       path = path.to_s
       collection = collection ? Array.wrap(collection) : []
 
-      scoped_name = form.hidden_field(name).scan(/\b(?<=name=\")[^"]+(?=\")/)[0]
+      scoped_name = form.hidden_field(name).scan(HIDDEN_FIELD_RE)[0]
 
-      if create_name
-        scoped_create_name = scoped_name.gsub(name.to_s, create_name.to_s)
-      end
+      scoped_create_name = scoped_name.gsub(name.to_s, create_name.to_s) if create_name
 
       component = react_component(
         'AssociationPicker',

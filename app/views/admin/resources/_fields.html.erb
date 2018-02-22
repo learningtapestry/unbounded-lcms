@@ -36,8 +36,7 @@
 
 <%= association_picker_field(f, resource.tags, path: :tags, name: :tag_ids, create_name: :new_tag_names, allow_create: true) %>
 
-<%# TODO: The line bellow causes multiple React errors in console %>
-<%= association_picker_field(f, resource.common_core_standards, path: :common_core_standards, name: :common_core_standard_ids) %>
+<%= association_picker_field(f, resource.common_core_standards.distinct, path: :common_core_standards, name: :common_core_standard_ids) %>
 
 <%= association_picker_field(f, resource.unbounded_standards, path: :unbounded_standards, name: :unbounded_standard_ids, create_name: :new_unbounded_standard_names, allow_create: true) %>
 
