@@ -18,6 +18,7 @@
 //= require ../components
 //= require_tree ./components
 
+// eslint-disable-next-line no-undef
 ready(function() {
   $(document).initFoundation();
 

@@ -1,54 +1,16 @@
+//= require ./searchPageWrapper.js
+
 class SearchPage extends React.Component {
-  constructor(props) {
-    super(props);
+  render() {
+    const searchResults = (this.props.data.length === 0) ?
+      <SearchResultsEmpty searchTerm={this.props.filterbar.search_term} /> :
 
-    this.state = this.buildStateFromProps(props);
-  }
+      <SearchResults
+        resources={this.props.data}
+        current_page={this.props.current_page}
+        per_page={this.props.per_page}
+        total_hits={this.props.total_hits} />;
 
-  buildStateFromProps(props) {
-    return {
-      resources: props.results,
-      per_page: props.pagination.per_page,
-      order: props.pagination.order,
-      current_page: props.pagination.current_page,
-      total_pages: props.pagination.total_pages,
-      num_items: props.pagination.num_items,
-      total_hits: props.pagination.total_hits,
-      filterbar: props.filterbar,
-    };
-  }
-
-  fetch(newState) {
-    const url = Routes.search_path({
-      per_page: newState.per_page,
-      order: newState.order,
-      page: newState.current_page,
-      ...newState.filterbar,
-    });
-    return $.getJSON(url).then(response => {
-      if (window.ga) {
-        ga('send', 'pageview', url);
-      }
-      this.setState(this.buildStateFromProps(response));
-    });
-  }
-
-  handlePageClick(data) {
-    let selected = data.selected;
-    const newState = _.assign({}, this.state, { current_page: selected + 1 });
-    this.fetch(newState);
-  }
-
-  handleFilterbarUpdate(filterbar) {
-    const newState = _.assign({}, this.state, { filterbar: filterbar, current_page: 1  });
-    this.fetch(newState);
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    urlHistory.updatePaginationParams(nextState);
-  }
-
-  render () {
     return (
       <div>
         <div className="u-bg--base-gradient">
@@ -61,45 +23,24 @@ class SearchPage extends React.Component {
                 </div>
               </div>
               <FilterbarResponsive
-                onUpdate={this.handleFilterbarUpdate.bind(this)}
+                onUpdate={this.props.handleFilterBar}
                 searchLabel='Search the site'
                 withFacets={true}
                 withSearch={true}
-                {...this.state.filterbar} />
+                {...this.props.filterbar} />
             </div>
           </div>
         </div>
         <div className="o-page o-page--margin-bottom">
           <div className="o-page__module">
-          { ( this.state.resources.length == 0 ) ?
-              <SearchResultsEmpty searchTerm={this.state.filterbar.search_term} /> :
-
-              <SearchResults
-                resources={this.state.resources}
-                current_page={this.state.current_page}
-                per_page={this.state.per_page}
-                total_hits={this.state.total_hits} />
-          }
-
-          <PaginationBoxView previousLabel={<i className="fa-2x ub-angle-left"></i>}
-                          nextLabel={<i className="fa-2x ub-angle-right"></i>}
-                          breakLabel={<li className="o-pagination__break">...</li>}
-                          pageNum={this.state.total_pages}
-                          initialSelected={this.state.current_page - 1}
-                          forceSelected={this.state.current_page - 1}
-                          marginPagesDisplayed={2}
-                          pageRangeDisplayed={5}
-                          clickCallback={this.handlePageClick.bind(this)}
-                          containerClassName={"o-pagination o-page__wrap--row-nest"}
-                          itemClassName={"o-pagination__item"}
-                          nextClassName={"o-pagination__item--next"}
-                          previousClassName={"o-pagination__item--prev"}
-                          pagesClassName={"o-pagination__item--middle"}
-                          subContainerClassName={"o-pagination__pages"}
-                          activeClassName={"o-pagination__page--active"} />
+            {searchResults}
+            {this.props.pagination}
+          </div>
         </div>
       </div>
-    </div>
-     );
-   }
+    );
+  }
 }
+
+// eslint-disable-next-line no-unused-vars,no-undef
+const SearchPageComponent = searchPageWrapper(SearchPage);

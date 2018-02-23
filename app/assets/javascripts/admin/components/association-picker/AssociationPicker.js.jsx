@@ -13,21 +13,19 @@ class AssociationPicker extends React.Component {
   }
 
   componentDidMount() {
-    new Foundation.Reveal(this.jqmodal);
-    this.jqmodal.on('open.zf.reveal', () => this.jqmodal.css({top: '15px'}));
-    this.jqmodal.on('closed.zf.reveal', () => {
-      ReactDOM.unmountComponentAtNode(this.modal);
-    });
+    // eslint-disable-next-line no-undef
+    pickerModal.call(this);
   }
 
   onClickSelect() {
     // eslint-disable-next-line no-undef
-    const picker = React.createElement(AssociationPickerWindow, {
-      onSelectItem: this.selectItem.bind(this),
+    const pickerComponent = pickerWindowWrapper(AssociationPickerWindow, 'admin_association_picker_path');
+    const picker = React.createElement(pickerComponent, {
       association: this.props.association,
       allowCreate: this.props.allow_create,
       allowMultiple: this.props.allow_multiple,
       onClickDone: this.closeModal.bind(this),
+      onSelectItem: this.selectItem.bind(this),
       selectedItems: this.state.items
     }, null);
     ReactDOM.render(picker, this.modal);
@@ -81,20 +79,12 @@ class AssociationPicker extends React.Component {
       <span className="hide" />;
 
     return (
-      <div className="o-assocpicker-container">
-        <button
-          type="button"
-          className="o-assocpicker-add button"
-          onClick={e => this.onClickSelect(e)}>Select</button>
-        <div className="o-assocpicker-selections">
-          {blankInput}
-          {items}
-        </div>
-        <div
-          className="o-assocpicker-modal reveal"
-          ref={m => this.modal = m}>
-        </div>
-      </div>
+      <PickerButton
+        content={items}
+        hiddenInputs={blankInput}
+        onClick={this.onClickSelect.bind(this)}
+        onRef={m => this.modal = m}
+      />
     );
   }
 }

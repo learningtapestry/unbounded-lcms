@@ -3,9 +3,7 @@ class EnhanceInstructionPage extends React.Component {
   constructor(props) {
     super(props);
 
-    let initTab = () => { return { current_page: 1, total_pages: 1,
-      num_items: 0, total_hits: 0,
-      items: []}; };
+    let initTab = () => { return { current_page: 1, total_pages: 1, num_items: 0, total_hits: 0, items: [] }; };
     this.state = { tabs: _.times(3, initTab) };
     this.state = this.buildStateFromProps(props);
   }
@@ -57,12 +55,6 @@ class EnhanceInstructionPage extends React.Component {
   handleChangePerPage(event) {
     const newPerPage = event.target.value;
     const newState = _.assign({}, this.state, { per_page: newPerPage, current_page: 1 });
-    this.fetch(newState);
-  }
-
-  handleChangeOrder(event) {
-    const newOrder = event.target.value;
-    const newState = _.assign({}, this.state, { order: newOrder, current_page: 1 });
     this.fetch(newState);
   }
 

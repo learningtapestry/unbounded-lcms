@@ -3,23 +3,30 @@
 
 // eslint-disable-next-line no-unused-vars
 class PaginationListView extends React.Component {
+  lessPageRangeItems() {
+    let result = {};
+    for (let index = 0; index < this.props.pageNum; index++) {
+      result['key' + index] = this.pageViewElement(index);
+    }
+    return result;
+  }
+
+  pageViewElement(index) {
+    return (<PageView
+      onClick={this.props.onPageSelected.bind(null, index)}
+      selected={this.props.selected === index}
+      pageClassName={this.props.pageClassName}
+      pageLinkClassName={this.props.pageLinkClassName}
+      activeClassName={this.props.activeClassName}
+      page={index + 1} />);
+  }
+
   render() {
     let items = {};
 
     if (this.props.pageNum <= this.props.pageRangeDisplayed) {
-
-      for (let index = 0; index < this.props.pageNum; index++) {
-        items['key' + index] = <PageView
-          onClick={this.props.onPageSelected.bind(null, index)}
-          selected={this.props.selected === index}
-          pageClassName={this.props.pageClassName}
-          pageLinkClassName={this.props.pageLinkClassName}
-          activeClassName={this.props.activeClassName}
-          page={index + 1} />;
-      }
-
+      items = this.lessPageRangeItems();
     } else {
-
       let leftSide  = (this.props.pageRangeDisplayed / 2);
       let rightSide = (this.props.pageRangeDisplayed - leftSide);
 
@@ -36,18 +43,8 @@ class PaginationListView extends React.Component {
       let page;
 
       for (index = 0; index < this.props.pageNum; index++) {
-
         page = index + 1;
-
-        let pageView = (
-          <PageView
-            onClick={this.props.onPageSelected.bind(null, index)}
-            selected={this.props.selected === index}
-            pageClassName={this.props.pageClassName}
-            pageLinkClassName={this.props.pageLinkClassName}
-            activeClassName={this.props.activeClassName}
-            page={index + 1} />
-        );
+        const pageView = this.pageViewElement(index);
 
         if (page <= this.props.marginPagesDisplayed) {
           items['key' + index] = pageView;

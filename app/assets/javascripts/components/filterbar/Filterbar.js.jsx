@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class Filterbar extends React.Component {
   constructor(props) {
     super(props);
@@ -33,7 +34,7 @@ class Filterbar extends React.Component {
         { displayName: 'Multimedia', name: 'multimedia', selected: false },
         { displayName: 'Other Resources', name: 'other', selected: false },
       ],
-      search_term: null
+      search_term: ''
     };
 
     this.FACET_GROUP_IDX = 4;
@@ -49,33 +50,43 @@ class Filterbar extends React.Component {
     this.initSelectedFilters(initialState, 'facets');
 
     this.state = initialState;
+    // eslint-disable-next-line no-undef
     this.searchBus = new EventEmitter();
   }
 
   initSelectedFilters(initialState, prop) {
     if (prop in this.props) {
       _.chain(initialState[prop])
-       .filter(s => _.includes(this.props[prop], s.name))
-       .forEach(s => { s.selected = true; })
-       .value();
+        .filter(s => _.includes(this.props[prop], s.name))
+        .forEach(s => { s.selected = true; })
+        .value();
     }
   }
 
   getSelected(state, prop) {
     return _.chain(state[prop])
-            .filter((obj) => obj.selected)
-            .map(obj => obj.name)
-            .value();
+      .filter((obj) => obj.selected)
+      .map(obj => obj.name)
+      .value();
   }
 
   createQuery(state) {
-    const query = {
+    return {
       subjects: this.getSelected(state, 'subjects'),
       grades: this.getSelected(state, 'grades'),
       facets: this.getSelected(state, 'facets'),
       search_term: state.search_term
     };
-    return query;
+  }
+
+  onCLickBase(data, incoming, key) {
+    const newState = {};
+    newState[key] = data.map(val => {
+      if (incoming.name !== val.name) return val;
+      return _.merge({}, val, { selected: !val.selected });
+    });
+
+    this.setState({ ...this.state, ...newState });
   }
 
   onClickClear() {
@@ -84,13 +95,7 @@ class Filterbar extends React.Component {
   }
 
   onClickGrade(incoming) {
-    this.setState({
-      ...this.state,
-      grades: this.state.grades.map(grade => {
-        if (incoming.name !== grade.name) return grade;
-        return _.merge({}, grade, { selected: !grade.selected })
-      })
-    });
+    this.onCLickBase(this.state.grades, incoming, 'grades');
   }
 
   onClickSubject(incoming) {
@@ -105,19 +110,13 @@ class Filterbar extends React.Component {
             return subject;
           }
         }
-        return _.merge({}, subject, { selected: !subject.selected })
+        return _.merge({}, subject, { selected: !subject.selected });
       })
     });
   }
 
   onClickFacet(incoming) {
-    this.setState({
-      ...this.state,
-      facets: this.state.facets.map(facet => {
-        if (incoming.name !== facet.name) return facet;
-        return _.merge({}, facet, { selected: !facet.selected })
-      })
-    });
+    this.onCLickBase(this.state.facets, incoming, 'facets');
   }
 
   onUpdateSearch(value) {
@@ -133,7 +132,7 @@ class Filterbar extends React.Component {
     this.updateUrl( filterbar );
   }
 
-  onClickRefine(value) {
+  onClickRefine(_value) {
     if ('onRefine' in this.props) {
       this.update(this.state);
       this.props.onRefine();
@@ -149,9 +148,9 @@ class Filterbar extends React.Component {
   }
 
   updateUrl(query) {
-    urlHistory.update( query, { skipKey: (key, val) => {
-      return this.props.withDropdown && key === 'search_term'
-    }});
+    urlHistory.update( query, { skipKey: (key, _val) => {
+      return this.props.withDropdown && key === 'search_term';
+    } });
   }
 
   render() {
@@ -166,7 +165,7 @@ class Filterbar extends React.Component {
     const gradeSelected = _.find(state.grades, 'selected');
     const facetSelected = _.find(state.facets, 'selected');
     let facetGroups = [ { data: _.take(state.facets, this.FACET_GROUP_IDX), selected: facetSelected },
-                        { data: _.slice(state.facets, this.FACET_GROUP_IDX), selected: facetSelected } ];
+      { data: _.slice(state.facets, this.FACET_GROUP_IDX), selected: facetSelected } ];
 
     const conciseState = this.createQuery(this.state);
 
@@ -194,19 +193,19 @@ class Filterbar extends React.Component {
       filterbarFacets = (
         <div className='o-filterbar'>
           { facetGroups.map( (group, idx) => {
-              return (
-                <div key={idx} className='o-filterbar__list'>
-                  { group.data.map(facet => {
-                      return <FilterbarFacet
-                        key={facet.name}
-                        onClick={this.onClickFacet.bind(this, facet)}
-                        displayName={facet.displayName}
-                        selected={facet.selected || !group.selected } />;
-                    }) }
-                </div>);
-            })
-         }
-       </div>);
+            return (
+              <div key={idx} className='o-filterbar__list'>
+                { group.data.map(facet => {
+                  return <FilterbarFacet
+                    key={facet.name}
+                    onClick={this.onClickFacet.bind(this, facet)}
+                    displayName={facet.displayName}
+                    selected={facet.selected || !group.selected } />;
+                }) }
+              </div>);
+          })
+          }
+        </div>);
     }
 
     const mobileTitle = this.props.withSearch ? 'Filter and Search' : 'Filter';
@@ -244,9 +243,9 @@ class Filterbar extends React.Component {
             </div>
           </div>
           <div className='o-filterbar__list show-for-ipad'>
-             <div className='o-filterbar__item o-filterbar__item--clear o-filterbar__item--square' onClick={this.onClickClear.bind(this)}>
-               <span><i className="ub-close fa-2x"></i></span>
-             </div>
+            <div className='o-filterbar__item o-filterbar__item--clear o-filterbar__item--square' onClick={this.onClickClear.bind(this)}>
+              <span><i className="ub-close fa-2x"></i></span>
+            </div>
           </div>
         </div>
         {filterbarFacets}
@@ -257,4 +256,4 @@ class Filterbar extends React.Component {
       </div>
     );
   }
-};
+}

@@ -1,13 +1,14 @@
+// eslint-disable-next-line no-unused-vars
 function AssociationPickerResults(props) {
   let items;
 
   const shouldAllowCreate = _.isString(props.value) && props.value.length > 0
-    && props.allowCreate && props.items.length == 0;
+    && props.allowCreate && props.items.length === 0;
 
   const selectedIds = _.map(props.selectedItems, 'id');
   const isSelected = (item) => {
     return _.includes(selectedIds, item.id);
-  }
+  };
 
   if (shouldAllowCreate) {
     let newItem = { id: props.value, name: props.value, _create: true };

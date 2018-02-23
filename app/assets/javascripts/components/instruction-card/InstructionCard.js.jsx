@@ -21,20 +21,22 @@ function InstructionCard(props) {
     bemClass('body')
   );
 
+  // eslint-disable-next-line no-undef
   const onCardClick = () => heapTrack('PD Resource Opened', { title: item.title, type: item.instruction_type });
 
+  const titleElement = <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>;
   const isInstruction = (item.instruction_type === 'instruction');
   const instructionBody = isInstruction ?
     (
       <div className={cssBody}>
         <div className="o-instruction-card__teaser">{item.teaser}</div>
-        <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>
+        {titleElement}
       </div>
     ) :
     (
       <div className={cssBody}>
         <div className={bemClass('title-wrap')}>
-          <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>
+          {titleElement}
           <i className={bemClass('icon')}></i>
         </div>
         <div className={bemClass('duration')}>

@@ -1,60 +1,77 @@
 {
-    "globals": {
-      "_": true,
-      "$": true,
-      "classNames": true,
-      "colorCodeCss": true,
-      "console": true,
-      "convertToBEM": true,
-      "Foundation": true,
-      "ga": true,
-      "heap": true,
-      "Modernizr": true,
-      "PDFObject": true,
-      "React": true,
-      "ReactDOM": true,
-      "Routes": true,
-      "urlHistory": true
-    },
-    "env": {
-        "browser": true,
-        "es6": true
-    },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true,
-            "jsx": true
-        }
-    },
-    "plugins": [
-        "react"
-    ],
-    "rules": {
-        "indent": [
-            "error",
-            2
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "no-console": 0,
-        "no-unused-vars": [
-          "error", {
-            "vars": "all",
-            "args": "after-used",
-            "ignoreRestSiblings": false,
-            "argsIgnorePattern": "^_"
-          }
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
+  "globals": {
+    "_": true,
+    "$": true,
+    "classNames": true,
+    "colorCodeCss": true,
+    "console": true,
+    "convertToBEM": true,
+    "Foundation": true,
+    "ga": true,
+    "heap": true,
+    "Modernizr": true,
+    "PDFObject": true,
+    "React": true,
+    "ReactDOM": true,
+    "Routes": true,
+    "urlHistory": true
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
     }
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "complexity": [
+      "error",
+      10
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "no-console": 0,
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxBOF": 1,
+        "maxEOF": 1
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false,
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
 }
