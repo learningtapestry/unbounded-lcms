@@ -19,7 +19,7 @@ class DownloadModal extends React.Component {
     const cls = `ub-icon fa-lg file-${download.icon} ${indent}`;
     const preview = (download.icon === 'pdf') ?
       `<span>
-        <a href=${download.preview_url} data-no-turbolink="true" target="_blank">
+        <a href=${download.preview_url} data-turbolinks="false" target="_blank">
           <i class="ub-icon ub-eye" aria-hidden="true"></i>
         </a>
       </span>` : '';
@@ -27,7 +27,7 @@ class DownloadModal extends React.Component {
               ${preview}
               <i class="${cls}"></i>
               <span>
-                <a href=${download.url} data-no-turbolink="true" class="resource-attachment">${download.title}</a>
+                <a href=${download.url} data-turbolinks="false" class="resource-attachment">${download.title}</a>
               </span>
             </li>`;
   }
@@ -62,7 +62,7 @@ class DownloadModal extends React.Component {
     return (resource.downloads && resource.downloads.length > 0) ?
       (
         <div className="o-download-modal" ref={(ref) => this._modal = ref} id={modalId}
-          data-reveal dangerouslySetInnerHTML={ this.modalContent() }>
+          dangerouslySetInnerHTML={ this.modalContent() }>
         </div>
       ) : <div className="hide"></div>;
   }

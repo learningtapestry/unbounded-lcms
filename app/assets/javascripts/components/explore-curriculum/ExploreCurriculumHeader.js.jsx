@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 function ExploreCurriculumHeader(props) {
   return (
     <div className="o-s-header o-page__wrap--row-nest">

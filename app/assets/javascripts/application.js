@@ -11,6 +11,7 @@
 //= require jquery/foundation.magellanex
 //= require jquery/foundation.initialize
 //= require jquery/tabs
+//= require prerender_polyfill
 //= require react
 //= require react_ujs
 //= require js-routes

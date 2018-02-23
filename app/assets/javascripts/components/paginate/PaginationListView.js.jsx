@@ -1,6 +1,7 @@
 // from https://github.com/AdeleD/react-paginate (converted)
 'use strict';
 
+// eslint-disable-next-line no-unused-vars
 class PaginationListView extends React.Component {
   render() {
     let items = {};
@@ -14,7 +15,7 @@ class PaginationListView extends React.Component {
           pageClassName={this.props.pageClassName}
           pageLinkClassName={this.props.pageLinkClassName}
           activeClassName={this.props.activeClassName}
-          page={index + 1} />
+          page={index + 1} />;
       }
 
     } else {
@@ -79,4 +80,4 @@ class PaginationListView extends React.Component {
       </ul>
     );
   }
-};
+}

@@ -137,7 +137,7 @@ class ExploreCurriculumCardItem extends React.Component {
           </div>
           <ul className={cssActionDropdownClasses} ref={(ref) => this._dropdown = ref}>
             <li>
-              <a href="" data-no-turbolink="true" className="o-cur-card__ellipsis"><i className="ub-ellipsis fa-3x"></i></a>
+              <a href="" data-turbolinks="false" className="o-cur-card__ellipsis"><i className="ub-ellipsis fa-3x"></i></a>
               <ul className="menu">
                 <li><a href={resource.path}>View Details</a></li>
                 <li><a className={cssDownloadLinkClasses} data-open={downloadModalId}>{downloadBtnLabel}</a></li>

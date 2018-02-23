@@ -40,13 +40,13 @@
    */
   function fixMediaQuery() {
     // queries, need to be changed if brekpoints will be changed
-    const extractedStyles = "\"small=0em&medium=40em&ipad=48em&large=64em&xlarge=76.875em&xxlarge=90em\"";
+    const extractedStyles = '"small=0em&medium=40em&ipad=48em&large=64em&xlarge=76.875em&xxlarge=90em"';
     let fQuery = Foundation.MediaQuery;
     // was initialized successfully
     if (fQuery.queries.length > 5) return;
     // add queries
-    namedQueries = parseStyleToObject(extractedStyles);
-    for (var key in namedQueries) {
+    const namedQueries = parseStyleToObject(extractedStyles);
+    for (let key in namedQueries) {
       fQuery.queries.push({
         name: key,
         value: `only screen and (min-width: ${namedQueries[key]})`
@@ -64,7 +64,7 @@
   // Copy-paste from Foundation.MediaQuery
   // Thank you: https://github.com/sindresorhus/query-string
   function parseStyleToObject(str) {
-    var styleObject = {};
+    let styleObject = {};
 
     if (typeof str !== 'string') {
       return styleObject;
@@ -77,9 +77,9 @@
     }
 
     styleObject = str.split('&').reduce(function(ret, param) {
-      var parts = param.replace(/\+/g, ' ').split('=');
-      var key = parts[0];
-      var val = parts[1];
+      let parts = param.replace(/\+/g, ' ').split('=');
+      let key = parts[0];
+      let val = parts[1];
       key = decodeURIComponent(key);
 
       // missing `=` should be `null`:
