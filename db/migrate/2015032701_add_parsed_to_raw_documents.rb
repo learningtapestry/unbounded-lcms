@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddParsedToRawDocuments < ActiveRecord::Migration
   def change
     change_table :raw_documents do |t|

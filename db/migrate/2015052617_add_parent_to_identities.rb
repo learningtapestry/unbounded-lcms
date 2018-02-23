@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddParentToIdentities < ActiveRecord::Migration
   def change
     change_table :identities do |t|

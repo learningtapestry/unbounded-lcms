@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddLobjectSourceRefs < ActiveRecord::Migration
   def change
     add_reference :lobject_age_ranges, :document

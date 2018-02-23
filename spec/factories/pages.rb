@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :page do
     body { Faker::Lorem.sentence(100) }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeLeadershipPostsColumns < ActiveRecord::Migration
   def change
     change_table :leadership_posts do |t|

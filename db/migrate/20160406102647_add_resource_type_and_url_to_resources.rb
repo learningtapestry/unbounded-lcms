@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddResourceTypeAndUrlToResources < ActiveRecord::Migration
   def change
     add_column :resources, :resource_type, :integer, default: 1, null: false

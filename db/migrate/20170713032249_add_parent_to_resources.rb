@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddParentToResources < ActiveRecord::Migration
   def change
     add_column :resources, :parent_id, :integer

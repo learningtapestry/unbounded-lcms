@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddUrlAndTypeToDocumentBundles < ActiveRecord::Migration
   def change
     add_column :document_bundles, :url, :string

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateMaterialParts < ActiveRecord::Migration
   def change
     create_table :material_parts do |t|

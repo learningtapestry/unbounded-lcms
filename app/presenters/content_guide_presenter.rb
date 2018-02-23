@@ -261,6 +261,7 @@ class ContentGuidePresenter < BasePresenter # rubocop:disable Metrics/ClassLengt
       span
     end.compact
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def next_element_with_name(tag, name)
     next_node = tag.next

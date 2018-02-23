@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddEmphasisToStandards < ActiveRecord::Migration
   def change
     add_column :standards, :emphasis, :string

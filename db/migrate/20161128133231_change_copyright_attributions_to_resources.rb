@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeCopyrightAttributionsToResources < ActiveRecord::Migration
   def change
     add_reference :copyright_attributions, :resource, foreign_key: true

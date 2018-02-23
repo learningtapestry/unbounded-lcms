@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AlterRawDocumentsForTransform < ActiveRecord::Migration
   def change
     change_table :raw_documents do |t|
@@ -13,4 +15,3 @@ class AlterRawDocumentsForTransform < ActiveRecord::Migration
     end
   end
 end
-

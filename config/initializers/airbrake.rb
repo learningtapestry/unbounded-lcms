@@ -25,9 +25,7 @@ if AIRBRAKE_ENABLED
   )
 
   Airbrake.add_filter do |notice|
-    if notice[:errors].any? { |error| ignore_errors.include?(error[:type]) }
-      notice.ignore!
-    end
+    notice.ignore! if notice[:errors].any? { |error| ignore_errors.include?(error[:type]) }
   end
 end
 

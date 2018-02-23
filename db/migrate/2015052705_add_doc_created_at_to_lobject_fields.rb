@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDocCreatedAtToLobjectFields < ActiveRecord::Migration
   def change
     add_column :lobject_titles, :doc_created_at, :timestamp

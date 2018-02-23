@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 guard :livereload do
   extensions = {
     css: :css,

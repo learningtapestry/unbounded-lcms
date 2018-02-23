@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeLearningObjectsResourceLocator < ActiveRecord::Migration
   def change
     change_table :learning_objects do |t|

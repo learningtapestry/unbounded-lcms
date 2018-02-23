@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 class DocumentPresenter < ContentPresenter
-  PART_RE = /{{[^}]+}}/
   PDF_SUBTITLES = { full: '', sm: '_student_materials', tm: '_teacher_materials' }.freeze
-  SUBJECT_FULL  = { 'ela' => 'ELA', 'math' => 'Math' }.freeze
+  SUBJECT_FULL  = { ela: 'ELA', math: 'Math' }.freeze
   TOC_RESOURCES = [I18n.t('document.toc.tm'), I18n.t('document.toc.sm'), I18n.t('document.toc.credits')].freeze
-  TOPIC_FULL    = { 'ela' => 'Unit', 'math' => 'Topic' }.freeze
-  TOPIC_SHORT   = { 'ela' => 'U', 'math' => 'T' }.freeze
+  TOPIC_FULL    = { ela: 'Unit', math: 'Topic' }.freeze
+  TOPIC_SHORT   = { ela: 'U', math: 'T' }.freeze
 
   def cc_attribution
     core_cc = ld_metadata.cc_attribution
@@ -122,8 +121,7 @@ class DocumentPresenter < ContentPresenter
     html.to_html
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def short_breadcrumb(join_with: ' / ', with_short_lesson: false, with_subject: true, unit_level: false)
     unless unit_level
       lesson_abbr =
@@ -141,6 +139,7 @@ class DocumentPresenter < ContentPresenter
       lesson_abbr
     ].compact.join(join_with)
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def short_title
     assessment? ? doc_type : "Lesson #{lesson}"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveCurriculumFromCopyrightAttributions < ActiveRecord::Migration
   def change
     remove_reference :copyright_attributions, :curriculum, index: true, foreign_key: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddUserCategoryRefToSubjects < ActiveRecord::Migration
   def change
     add_column :document_subjects, :user_category_id, :integer

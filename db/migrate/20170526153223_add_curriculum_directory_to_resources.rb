@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCurriculumDirectoryToResources < ActiveRecord::Migration
   def change
     add_column :resources, :curriculum_type, :string, index: true

@@ -29,9 +29,7 @@ class DocumentGenerateJob < ActiveJob::Base
     # And return in such case
     return if queued?
 
-    if document.math?
-      document.document_parts.default.each { |p| p.update!(content: EmbedEquations.call(p.content)) }
-    end
+    document.document_parts.default.each { |p| p.update!(content: EmbedEquations.call(p.content)) } if document.math?
 
     queue_documents
   end

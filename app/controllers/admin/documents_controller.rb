@@ -3,6 +3,7 @@
 module Admin
   class DocumentsController < AdminController
     include GoogleAuth
+    include Reimportable
 
     before_action :google_authorization, only: %i(create new reimport_selected)
     before_action :find_selected, only: %i(destroy_selected reimport_selected)
@@ -38,13 +39,7 @@ module Admin
     end
 
     def import_status
-      data = params.fetch(:jids, []).each_with_object({}) do |jid, obj|
-        status = DocumentParseJob.status(jid)
-        obj[jid] = {
-          status: status,
-          result: (status == :done ? DocumentParseJob.fetch_result(jid) : nil)
-        }.compact
-      end
+      data = import_status_for DocumentParseJob
       render json: data, status: :ok
     end
 

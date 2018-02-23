@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLobjectChildren < ActiveRecord::Migration
   def change
     create_table :lobject_children do |t|

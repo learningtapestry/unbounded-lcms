@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCurriculumTypes < ActiveRecord::Migration
   def change
     create_table :curriculum_types do |t|

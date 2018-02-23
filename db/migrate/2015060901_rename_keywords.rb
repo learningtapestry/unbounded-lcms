@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameKeywords < ActiveRecord::Migration
   def change
     rename_column :document_keywords, :keyword_id, :subject_id

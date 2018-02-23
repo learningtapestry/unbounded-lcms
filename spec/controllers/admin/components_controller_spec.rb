@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Admin::ComponentsController do
   let(:user) { create :admin }
-  let(:api_resp) { double(:'success?' => true, body: { results: [], total: 0, page: 1, per_page: 10 }.to_json) }
+  let(:api_resp) { double('success?': true, body: { results: [], total: 0, page: 1, per_page: 10 }.to_json) }
 
   before do
     sign_in user

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLobjectAdditionalLobjects < ActiveRecord::Migration
   def change
     create_table :lobject_additional_lobjects do |t|
@@ -6,7 +8,7 @@ class CreateLobjectAdditionalLobjects < ActiveRecord::Migration
       t.integer :position
       t.timestamps null: false
 
-      t.index [:lobject_id, :additional_lobject_id], name: 'index_lobject_additional_lobjects', unique: true
+      t.index %i(lobject_id additional_lobject_id), name: 'index_lobject_additional_lobjects', unique: true
 
       t.foreign_key :lobjects, column: :additional_lobject_id
     end

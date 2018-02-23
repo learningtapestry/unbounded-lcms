@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameLearningObjectColumns < ActiveRecord::Migration
   def change
     rename_column :lobject_age_ranges, :learning_object_id, :lobject_id

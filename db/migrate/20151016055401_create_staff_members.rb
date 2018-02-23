@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateStaffMembers < ActiveRecord::Migration
   def change
     create_table :staff_members do |t|

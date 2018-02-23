@@ -27,23 +27,11 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
   end
 
   def page_title
-    if content_for?(:page_title)
-      page_title = content_for(:page_title)
-    else
-      controller = controller_path.tr('/', '.')
-      page_title = t("#{controller}.#{action_name}.page_title", default: t('default_title'))
-    end
-    strip_tags_and_squish(page_title)
+    page_content_for :page_title
   end
 
   def page_description
-    if content_for?(:description)
-      page_description = content_for(:description)
-    else
-      controller = controller_path.tr('/', '.')
-      page_description = t("#{controller}.#{action_name}.page_description", default: t('default_description'))
-    end
-    strip_tags_and_squish(page_description)
+    page_content_for :description
   end
 
   def page_og_image
@@ -68,60 +56,28 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
     end
   end
 
-  def redis
-    Rails.application.config.redis
-  end
-
-  def set_page_title(title) # rubocop:disable Style/AccessorMethodName
+  def set_page_title(title) # rubocop:disable Naming/AccessorMethodName
     content_for :page_title do
       title
     end
   end
 
-  def set_page_description(dsc) # rubocop:disable Style/AccessorMethodName
+  def set_page_description(dsc) # rubocop:disable Naming/AccessorMethodName
     content_for :description do
       dsc
     end
   end
 
-  def set_canonical_url(value) # rubocop:disable Style/AccessorMethodName
+  def set_canonical_url(value) # rubocop:disable Naming/AccessorMethodName
     content_for(:canonical_url, value)
   end
 
   def base64_encoded_asset(path)
-    key = "ub-b64-asset:#{path}"
-
-    if ENABLE_BASE64_CACHING
-      b64_asset = redis.get(key)
-      return b64_asset if b64_asset.present?
-    end
-
-    if Rails.env.development? || Rails.env.test?
-      asset = Rails.application.assets.find_asset(path)
-      content_type = asset&.content_type
-    elsif (filesystem_path = Rails.application.assets_manifest.assets[path])
-      asset = File.read(Rails.root.join('public', 'assets', filesystem_path))
-      content_type = Mime::Type.lookup_by_extension(File.extname(path).split('.').last)
-    end
-    raise "Could not find asset '#{path}'" if asset.nil?
-    raise "Unknown MimeType for asset '#{path}'" if content_type.nil?
-
-    encoded = Base64.encode64(asset.to_s).gsub(/\s+/, '')
-    b64_asset = "data:#{content_type};base64,#{Rack::Utils.escape(encoded)}"
-
-    redis.set key, b64_asset, ex: 1.day.to_i if ENABLE_BASE64_CACHING
-
-    b64_asset
+    AssetHelper.base64_encoded path, cache: ENABLE_BASE64_CACHING
   end
 
   def inlined_asset(path)
-    if Rails.env.development? || Rails.env.test?
-      asset = Rails.application.assets.find_asset(path)
-    else
-      filesystem_path = Rails.application.assets_manifest.assets[path]
-      asset = File.read(Rails.root.join('public', 'assets', filesystem_path))
-    end
-    asset
+    AssetHelper.inlined path
   end
 
   def strip_tags_and_squish(str)
@@ -137,7 +93,7 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
     controller.controller_name == 'content_guides' && controller.action_name == 'show'
   end
 
-  def set_social_media_sharing(target) # rubocop:disable Style/AccessorMethodName
+  def set_social_media_sharing(target) # rubocop:disable Naming/AccessorMethodName
     @social_media_presenter = SocialMediaPresenter.new(target: target, view: self)
   end
 
@@ -159,5 +115,18 @@ module ApplicationHelper # rubocop:disable Metrics/ModuleLength
     when Array then selected_ids.include?(id.to_s)
     else selected_ids.split(',').include?(id.to_s)
     end
+  end
+
+  private
+
+  def page_content_for(type)
+    if content_for?(type)
+      content = content_for(type)
+    else
+      controller = controller_path.tr('/', '.')
+      type = type.to_s.gsub(/^page_/, '')
+      content = t("#{controller}.#{action_name}.page_#{type}", default: t("default_#{type}"))
+    end
+    strip_tags_and_squish(content)
   end
 end

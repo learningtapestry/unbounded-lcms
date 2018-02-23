@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeRawDocumentsJsonb < ActiveRecord::Migration
   def up
     execute 'alter table raw_documents alter column identity set data type jsonb using identity::jsonb;'
@@ -13,4 +15,3 @@ class ChangeRawDocumentsJsonb < ActiveRecord::Migration
     raise ActiveRecord::IrreversibleMigration
   end
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameLearningObjects < ActiveRecord::Migration
   def change
     rename_table :learning_objects, :lobjects

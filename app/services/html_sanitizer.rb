@@ -232,9 +232,7 @@ class HtmlSanitizer # rubocop:disable Metrics/ClassLength
         nodes.xpath(".//#{tag}").each do |node|
           next if node.ancestors('td').present?
           # do not sanitize Mathjax elements
-          if node['class']&.index('mjx').nil?
-            node['style'] = Sanitize::CSS.properties(node['style'], css_inline_config)
-          end
+          node['style'] = Sanitize::CSS.properties(node['style'], css_inline_config) if node['class']&.index('mjx').nil?
           node.delete('style') if node['style'].blank?
         end
       end

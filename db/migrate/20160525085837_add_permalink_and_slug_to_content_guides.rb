@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPermalinkAndSlugToContentGuides < ActiveRecord::Migration
   def change
     add_column :content_guides, :permalink, :string

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeDocumentAgeRanges < ActiveRecord::Migration
   def change
     change_table :document_age_ranges do |t|

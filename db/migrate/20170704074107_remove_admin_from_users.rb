@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveAdminFromUsers < ActiveRecord::Migration
   def change
     remove_column :users, :admin, :boolean, default: true, null: false

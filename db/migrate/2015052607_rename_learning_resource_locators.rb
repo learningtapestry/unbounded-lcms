@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameLearningResourceLocators < ActiveRecord::Migration
   def change
     rename_table :learning_resource_locators, :urls

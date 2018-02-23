@@ -1,5 +1,6 @@
-class AddFkToDownloadCategories < ActiveRecord::Migration
+# frozen_string_literal: true
 
+class AddFkToDownloadCategories < ActiveRecord::Migration
   def up
     remove_foreign_key :resource_downloads, :download_categories
     add_foreign_key :resource_downloads, :download_categories, on_delete: :nullify
@@ -8,5 +9,4 @@ class AddFkToDownloadCategories < ActiveRecord::Migration
   def down
     remove_foreign_key :resource_downloads, :download_categories
   end
-
 end

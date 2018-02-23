@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveUserCategories < ActiveRecord::Migration
   def change
     remove_column :document_subjects, :user_category_id

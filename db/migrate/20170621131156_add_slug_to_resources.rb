@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSlugToResources < ActiveRecord::Migration
   def change
     add_column :resources, :slug, :string, index: true

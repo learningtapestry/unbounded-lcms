@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveParentIdColumns < ActiveRecord::Migration
   def change
     remove_column :alignments, :parent_id

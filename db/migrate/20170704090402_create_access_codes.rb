@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAccessCodes < ActiveRecord::Migration
   def change
     create_table :access_codes do |t|

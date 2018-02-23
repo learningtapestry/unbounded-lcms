@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeDocumentsSourceRef < ActiveRecord::Migration
   def up
     add_column :documents, :source_document_id, :integer, index: true

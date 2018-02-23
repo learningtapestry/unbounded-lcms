@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLessonDocuments < ActiveRecord::Migration
   def change
     create_table :lesson_documents do |t|

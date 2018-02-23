@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDownloadCategories < ActiveRecord::Migration
   def change
     create_table :download_categories do |t|

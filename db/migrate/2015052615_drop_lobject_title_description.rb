@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropLobjectTitleDescription < ActiveRecord::Migration
   def change
     change_table :lobjects do |t|

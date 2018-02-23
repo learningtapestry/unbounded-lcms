@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDomainToStandards < ActiveRecord::Migration
   def change
     add_column :standards, :domain, :string, index: true

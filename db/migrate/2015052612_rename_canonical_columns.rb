@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameCanonicalColumns < ActiveRecord::Migration
   def change
     rename_column :keywords, :canonical_id, :parent_id

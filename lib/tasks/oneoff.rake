@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-namespace :oneoff do # rubocop:disable Meterics/BlockLength
+namespace :oneoff do # rubocop:disable Metrics/BlockLength
   task fix_math_docs_module_metadata: :environment do
     puts '====> Fix Math Documents Module Metadata'
     Document.filter_by_subject('math').each do |d|

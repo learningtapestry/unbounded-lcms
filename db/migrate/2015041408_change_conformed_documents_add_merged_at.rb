@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeConformedDocumentsAddMergedAt < ActiveRecord::Migration
   def change
     change_table :conformed_documents do |t|

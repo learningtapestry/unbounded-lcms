@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddFieldsToStaffMembers < ActiveRecord::Migration
   def change
     change_table :staff_members do |t|

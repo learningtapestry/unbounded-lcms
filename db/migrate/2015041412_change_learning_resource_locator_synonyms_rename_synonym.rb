@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeLearningResourceLocatorSynonymsRenameSynonym < ActiveRecord::Migration
   def change
     change_table :learning_resource_locator_synonyms do |t|

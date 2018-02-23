@@ -6,6 +6,7 @@ AllCops:
     - config.ru
     - lib/**/*.rake
   Exclude:
+    - bin/*
     - db/schema.rb
   TargetRubyVersion: 2.3
 
@@ -25,7 +26,7 @@ Metrics/BlockLength:
   ExcludedMethods: ['guard', 'included']
 
 Metrics/ClassLength:
-  Max: 200
+  Max: 250
 
 Metrics/CyclomaticComplexity:
   Max: 9
@@ -46,6 +47,9 @@ Style/ClassAndModuleChildren:
   EnforcedStyle: nested
 
 Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
   Enabled: false
 
 Style/NestedParenthesizedCalls:

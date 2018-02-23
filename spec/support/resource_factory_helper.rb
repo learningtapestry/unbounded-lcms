@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ResourceFactoryHelper
   def resources_sample_collection
     # ELA G2 => 2 lessons

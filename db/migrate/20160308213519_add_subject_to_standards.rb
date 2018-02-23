@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSubjectToStandards < ActiveRecord::Migration
   def change
     add_column :standards, :subject, :string

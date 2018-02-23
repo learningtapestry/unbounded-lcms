@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIndecesToLrDocuments < ActiveRecord::Migration
   def change
     add_index :lr_documents, :conformed_at

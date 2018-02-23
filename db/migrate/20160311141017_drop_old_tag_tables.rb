@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropOldTagTables < ActiveRecord::Migration
   def change
     drop_table :resource_grades

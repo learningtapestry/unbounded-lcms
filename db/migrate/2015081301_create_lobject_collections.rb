@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLobjectCollections < ActiveRecord::Migration
   def change
     create_table :lobject_collections do |t|

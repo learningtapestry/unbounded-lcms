@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-namespace :db do # rubocop:disable Metric/BlockLength
+namespace :db do # rubocop:disable Metrics/BlockLength
   desc 'Backs up the database.'
   task backup: [:environment] do
     config = ActiveRecord::Base.connection_config

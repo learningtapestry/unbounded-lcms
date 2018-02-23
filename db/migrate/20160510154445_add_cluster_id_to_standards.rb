@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddClusterIdToStandards < ActiveRecord::Migration
   def change
     add_column :standards, :cluster_id, :integer

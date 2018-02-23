@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeLinksInDocuments < ActiveRecord::Migration
   def change
     change_column_default :documents, :links, nil

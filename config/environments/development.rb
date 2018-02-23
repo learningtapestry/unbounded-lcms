@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 ENABLE_CACHING = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(
   ENV.fetch('ENABLE_CACHING', true)
 )
 
-Rails.application.configure do
+Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -52,9 +54,7 @@ Rails.application.configure do
 
   config.web_console.whitelisted_ips = %w(127.0.0.1/32 172.0.0.0/8)
 
-  if ENV['ENABLE_LIVERELOAD']
-    config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
-  end
+  config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload if ENV['ENABLE_LIVERELOAD']
 
   if ENABLE_CACHING
     redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379')

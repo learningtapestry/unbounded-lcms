@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 ENABLE_CACHING = ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include?(
   ENV.fetch('ENABLE_CACHING', true)
 )
 
-Rails.application.configure do
+Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
