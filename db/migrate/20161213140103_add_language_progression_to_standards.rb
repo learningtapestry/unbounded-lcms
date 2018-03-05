@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddLanguageProgressionToStandards < ActiveRecord::Migration
   def change
     add_column :standards, :language_progression_file, :string

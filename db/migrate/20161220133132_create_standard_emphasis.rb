@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateStandardEmphasis < ActiveRecord::Migration
   def change
     create_table :standard_emphases do |t|

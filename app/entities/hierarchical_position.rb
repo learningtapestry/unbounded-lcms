@@ -51,19 +51,18 @@ class HierarchicalPosition
   end
 
   def module_position
-    val = if !resource.persisted? && resource.module?
-            resource.level_position
-          else
-            resource.self_and_ancestors.detect(&:module?).try(:level_position)
-          end
-    val ? val + 1 : 0
+    position_for :module?
   end
 
   def unit_position
-    val = if !resource.persisted? && resource.unit?
+    position_for :unit?
+  end
+
+  def position_for(type)
+    val = if !resource.persisted? && resource.send(type)
             resource.level_position
           else
-            resource.self_and_ancestors.detect(&:unit?).try(:level_position)
+            resource.self_and_ancestors.detect { |x| x.send type }&.level_position
           end
     val ? val + 1 : 0
   end

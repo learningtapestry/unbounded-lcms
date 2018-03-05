@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSourceDocuments < ActiveRecord::Migration
   def up
     create_table :source_documents do |t|

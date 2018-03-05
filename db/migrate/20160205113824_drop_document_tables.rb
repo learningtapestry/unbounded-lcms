@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropDocumentTables < ActiveRecord::Migration
   def change
     remove_column :lobject_age_ranges, :document_id

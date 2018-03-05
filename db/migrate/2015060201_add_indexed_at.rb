@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIndexedAt < ActiveRecord::Migration
   def change
     add_column :alignments, :indexed_at, :datetime

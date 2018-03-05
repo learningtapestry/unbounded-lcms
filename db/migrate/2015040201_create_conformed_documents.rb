@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateConformedDocuments < ActiveRecord::Migration
   def change
     create_table :conformed_documents do |t|
@@ -11,7 +13,7 @@ class CreateConformedDocuments < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :conformed_documents, :doc_id, :unique => true
+    add_index :conformed_documents, :doc_id, unique: true
     add_index :conformed_documents, :resource_locator
   end
 end

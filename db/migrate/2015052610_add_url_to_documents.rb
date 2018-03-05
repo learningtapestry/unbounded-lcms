@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddUrlToDocuments < ActiveRecord::Migration
   def change
     change_table :documents do |t|

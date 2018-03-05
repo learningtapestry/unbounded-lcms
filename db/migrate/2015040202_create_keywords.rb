@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateKeywords < ActiveRecord::Migration
   def change
     create_table :keywords do |t|
@@ -6,7 +8,7 @@ class CreateKeywords < ActiveRecord::Migration
 
       t.timestamps
     end
-    
+
     add_index :keywords, :name
   end
 end

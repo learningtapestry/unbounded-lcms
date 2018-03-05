@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :resource do
     curriculum_directory ['ela', 'grade 2', 'module 1', 'unit 1', 'lesson 1']

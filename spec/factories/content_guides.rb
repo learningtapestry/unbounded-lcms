@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   file = File.read(Rails.root.join 'spec', 'support', 'fixtures', 'content_guide.json')
   fixture = JSON.parse(file)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLearningObjectConformedDocuments < ActiveRecord::Migration
   def change
     create_table :learning_object_conformed_documents do |t|

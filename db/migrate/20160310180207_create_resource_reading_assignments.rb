@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateResourceReadingAssignments < ActiveRecord::Migration
   def change
     create_table :resource_reading_assignments do |t|

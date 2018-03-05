@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameDocumentJoinTables < ActiveRecord::Migration
   def change
     rename_table :documents_alignments, :document_alignments

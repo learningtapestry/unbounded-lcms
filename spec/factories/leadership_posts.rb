@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory(:leadership_post) do
     first_name { Faker::Name.first_name }

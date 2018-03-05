@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropCollectionTables < ActiveRecord::Migration
   def change
     drop_table :resource_children

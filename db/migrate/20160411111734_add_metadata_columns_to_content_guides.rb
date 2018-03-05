@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMetadataColumnsToContentGuides < ActiveRecord::Migration
   def change
     add_column :content_guides, :big_photo, :string

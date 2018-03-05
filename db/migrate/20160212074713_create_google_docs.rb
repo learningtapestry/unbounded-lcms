@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateGoogleDocs < ActiveRecord::Migration
   def change
     create_table :google_docs do |t|

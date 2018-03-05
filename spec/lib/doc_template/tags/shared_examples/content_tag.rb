@@ -1,9 +1,8 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 require 'rails_helper'
 
-shared_examples 'content_tag' do
+shared_examples 'content_tag' do # rubocop:disable Metrics/BlockLength
   context 'with soft return after start tag' do
     let(:original_content) do
       <<-HTML

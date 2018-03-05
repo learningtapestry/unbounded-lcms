@@ -8,7 +8,7 @@ class ContentGuide < ActiveRecord::Base
 
   ICON_VALUES = %w(complexity instruction volume).freeze
 
-  attr_accessor :update_metadata, :faq
+  attr_accessor :update_metadata
 
   acts_as_taggable_on :grades
 
@@ -54,8 +54,10 @@ class ContentGuide < ActiveRecord::Base
   delegate :broken_ext_links, :tasks_without_break, to: :presenter
 
   class << self
+    FILE_ID_RE = %r{/d/([^/]+)/?}
+
     def file_id_from_url(url)
-      url.scan(/\/d\/([^\/]+)\/?/).first.first rescue nil
+      url.scan(FILE_ID_RE).first.first rescue nil
     end
 
     def import(file_id, credentials)

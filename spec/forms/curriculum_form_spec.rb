@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe CurriculumForm do
@@ -5,7 +7,7 @@ describe CurriculumForm do
   let(:form) { described_class.new params }
 
   describe '#save' do
-    # TODO fix me after the resource tree refactor
+    # TODO: fix me after the resource tree refactor
     # context 'handles the change_log' do
     #   let(:dir) { ['ela', 'grade 2', 'module 1', 'unit 1'] }
     #   let(:new_dir) { ['ela', 'grade 2', 'module 1', 'unit a'] }

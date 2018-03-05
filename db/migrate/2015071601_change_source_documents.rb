@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeSourceDocuments < ActiveRecord::Migration
   def change
     change_table :engageny_documents do |t|
@@ -13,7 +15,7 @@ class ChangeSourceDocuments < ActiveRecord::Migration
       t.remove :source_type
       t.integer :source_type
     end
-    
+
     add_index :source_documents, :source_type
   end
 end

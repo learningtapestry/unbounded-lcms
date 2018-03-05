@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddContextTypeToDocumentPart < ActiveRecord::Migration
   def change
     add_column :document_parts, :context_type, :integer, default: 0

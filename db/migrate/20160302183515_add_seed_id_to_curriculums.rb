@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSeedIdToCurriculums < ActiveRecord::Migration
   def change
     add_column :curriculums, :seed_id, :integer, index: true

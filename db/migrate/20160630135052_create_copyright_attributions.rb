@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCopyrightAttributions < ActiveRecord::Migration
   def change
     create_table :copyright_attributions do |t|

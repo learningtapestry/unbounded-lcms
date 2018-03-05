@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameAlignmentsToStandards < ActiveRecord::Migration
   def change
     rename_column :resource_alignments, :alignment_id, :standard_id

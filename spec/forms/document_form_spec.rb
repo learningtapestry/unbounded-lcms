@@ -7,7 +7,7 @@ describe DocumentForm do
   let(:form) { described_class.new params, credentials }
 
   describe '#save' do
-    let(:document) { create :document}
+    let(:document) { create :document }
     let(:service) { instance_double('DocumentBuildService', build_for: document) }
 
     subject { form.save }

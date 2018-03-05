@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeLearningObjectIdentitiesAddCanonical < ActiveRecord::Migration
   def change
     change_table :learning_object_identities do |t|

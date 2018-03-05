@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTreeToResources < ActiveRecord::Migration
   def change
     add_column :resources, :tree, :boolean, default: false, null: false, index: true

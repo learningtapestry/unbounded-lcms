@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateResourceSlugs < ActiveRecord::Migration
   def up
     ActiveRecord::Base.connection.execute('drop table if exists resource_slugs;')

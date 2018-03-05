@@ -9,14 +9,7 @@ class MaterialsController < ApplicationController
       return redirect_to url
     end
 
-    service = MaterialPreviewGenerator.new @material, type: :pdf
-    if service.perform
-      links = @material.preview_links
-      @material.update preview_links: links.merge(pdf: service.url)
-      redirect_to service.url
-    else
-      redirect_to material_path(@material), notice: service.error
-    end
+    preview_for :pdf
   end
 
   def preview_gdoc
@@ -24,15 +17,7 @@ class MaterialsController < ApplicationController
       return redirect_to url
     end
 
-    preview_params = { folder_id: ENV.fetch('GOOGLE_APPLICATION_PREVIEW_FOLDER_ID'), type: :gdoc }
-    service = MaterialPreviewGenerator.new @material, preview_params
-    if service.perform
-      links = @material.preview_links
-      @material.update preview_links: links.merge(gdoc: service.url)
-      redirect_to service.url
-    else
-      redirect_to material_path(@material), notice: service.error
-    end
+    preview_for :gdoc, folder_id: ENV.fetch('GOOGLE_APPLICATION_PREVIEW_FOLDER_ID')
   end
 
   def show; end
@@ -41,6 +26,17 @@ class MaterialsController < ApplicationController
 
   def check_material
     head(:bad_request) if @material.pdf?
+  end
+
+  def preview_for(preview_type, options = {})
+    service = MaterialPreviewGenerator.new @material, options.merge(type: preview_type)
+    if service.perform
+      links = @material.preview_links
+      @material.update preview_links: links.merge(preview_type => service.url)
+      redirect_to service.url
+    else
+      redirect_to material_path(@material), notice: service.error
+    end
   end
 
   def set_material

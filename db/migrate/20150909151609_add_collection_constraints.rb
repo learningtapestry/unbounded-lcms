@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCollectionConstraints < ActiveRecord::Migration
   def up
     change_column :lobject_collections, :lobject_id, :integer, null: false
@@ -7,7 +9,7 @@ class AddCollectionConstraints < ActiveRecord::Migration
     change_column :lobject_children, :parent_id, :integer, null: false
     change_column :lobject_children, :position, :integer, null: false
 
-    add_index :lobject_children, [:lobject_collection_id, :child_id], unique: true
+    add_index :lobject_children, %i(lobject_collection_id child_id), unique: true
 
     remove_index :lobject_children, :lobject_collection_id
   end
@@ -20,7 +22,7 @@ class AddCollectionConstraints < ActiveRecord::Migration
     change_column :lobject_children, :parent_id, :integer, null: true
     change_column :lobject_children, :position, :integer, null: true
 
-    remove_index :lobject_children, [:lobject_collection_id, :child_id]
+    remove_index :lobject_children, %i(lobject_collection_id child_id)
 
     add_index :lobject_children, :lobject_collection_id
   end

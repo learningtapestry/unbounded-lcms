@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class CreateIndeces < ActiveRecord::Migration
-  def change
+  def change # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     add_index :alignments, :parent_id
     add_foreign_key :alignments, :alignments, column: :parent_id
 
@@ -115,6 +117,5 @@ class CreateIndeces < ActiveRecord::Migration
     add_index :urls, :url
     add_index :urls, :checked_at
     add_foreign_key :urls, :urls, column: :parent_id
-
   end
 end

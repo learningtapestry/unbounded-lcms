@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeKeywordsAddCanonical < ActiveRecord::Migration
   def change
     change_table :keywords do |t|

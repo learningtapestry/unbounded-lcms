@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateContentGuideFaqs < ActiveRecord::Migration
   def change
     create_table :content_guide_faqs do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSocialThumbnails < ActiveRecord::Migration
   def change
     create_table :social_thumbnails do |t|

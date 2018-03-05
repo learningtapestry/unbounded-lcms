@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeStandards < ActiveRecord::Migration
   def change
     change_column :standards, :name, :string, null: true

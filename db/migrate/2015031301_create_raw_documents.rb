@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRawDocuments < ActiveRecord::Migration
   def change
     create_table :raw_documents do |t|
@@ -13,12 +15,12 @@ class CreateRawDocuments < ActiveRecord::Migration
       t.xml     :resource_data_xml
       t.text    :resource_data_string
       t.string  :resource_data_type
-      t.string  :resource_locator 
+      t.string  :resource_locator
       t.text    :raw_data
 
       t.timestamps
     end
 
-    add_index :raw_documents, :doc_id, :unique => true
+    add_index :raw_documents, :doc_id, unique: true
   end
 end

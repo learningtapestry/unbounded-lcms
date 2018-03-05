@@ -52,7 +52,7 @@ module DocTemplate
       @nodes.prepend_child ela_teacher_guidance(@opts[:metadata], @opts[:context_type])
     end
 
-    def ela_teacher_guidance(metadata, context_type)
+    def ela_teacher_guidance(metadata, _context_type)
       @data = metadata
       @data.preparation = HtmlSanitizer.strip_html_element(@data.preparation)
       template = File.read ELA_TG_TEMPLATE
@@ -121,6 +121,7 @@ module DocTemplate
 
       true
     end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
 
     def find_tag(name, value = '')
       key = registered_tags.keys.detect do |k|

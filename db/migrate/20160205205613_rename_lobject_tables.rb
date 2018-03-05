@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 class RenameLobjectTables < ActiveRecord::Migration
   def change
     rename_column :lobject_additional_lobjects, :lobject_id, :resource_id
     rename_column :lobject_additional_lobjects, :additional_lobject_id, :additional_resource_id
-    rename_index :lobject_additional_lobjects, 'index_lobject_additional_lobjects', 'index_resource_additional_resources'
+    rename_index :lobject_additional_lobjects, 'index_lobject_additional_lobjects',
+                 'index_resource_additional_resources'
     rename_table :lobject_additional_lobjects, :resource_additional_resources
 
     rename_column :lobject_alignments, :lobject_id, :resource_id

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddActiveFieldsEngageny < ActiveRecord::Migration
   def change
     change_table :engageny_documents do |t|

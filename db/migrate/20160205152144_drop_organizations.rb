@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropOrganizations < ActiveRecord::Migration
   def change
     remove_column :lobjects, :organization_id

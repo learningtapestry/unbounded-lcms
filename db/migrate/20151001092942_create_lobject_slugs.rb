@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLobjectSlugs < ActiveRecord::Migration
   def change
     create_table :lobject_slugs do |t|
@@ -6,7 +8,7 @@ class CreateLobjectSlugs < ActiveRecord::Migration
       t.string :value, null: false
       t.timestamps null: false
 
-      t.index [:lobject_id, :lobject_collection_id], unique: true
+      t.index %i(lobject_id lobject_collection_id), unique: true
       t.index :value, unique: true
     end
   end

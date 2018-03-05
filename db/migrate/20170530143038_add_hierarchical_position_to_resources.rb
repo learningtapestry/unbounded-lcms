@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddHierarchicalPositionToResources < ActiveRecord::Migration
   def change
     add_column :resources, :hierarchical_position, :string, index: true

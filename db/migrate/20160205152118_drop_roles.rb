@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropRoles < ActiveRecord::Migration
   def change
     drop_table :user_roles

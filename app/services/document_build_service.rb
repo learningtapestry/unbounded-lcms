@@ -103,16 +103,14 @@ class DocumentBuildService
   def create_document
     if template.metadata['subject'].casecmp('ela').zero? || template.prereq?
       @document = Document.actives.find_or_initialize_by(file_id: downloader.file_id)
-    elsif template.foundational?
-      @document = find_core_document
-      @expand_document ||= @document.present?
-      @document.foundational_file_id = downloader.file_id if @document.present?
-      @document ||= Document.actives.find_or_initialize_by(foundational_file_id: downloader.file_id)
     else
-      @document = find_fs_document
+      @document = template.foundational? ? find_core_document : find_fs_document
+      id_field = template.foundational? ? :foundational_file_id : :file_id
+
       @expand_document ||= @document.present?
-      @document.file_id = downloader.file_id if @document.present?
-      @document ||= Document.actives.find_or_initialize_by(file_id: downloader.file_id)
+
+      @document[id_field] = downloader.file_id if @document.present?
+      @document ||= Document.actives.find_or_initialize_by(id_field => downloader.file_id)
     end
   end
 

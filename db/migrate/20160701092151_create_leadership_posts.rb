@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLeadershipPosts < ActiveRecord::Migration
   def change
     create_table :leadership_posts do |t|
@@ -10,6 +12,6 @@ class CreateLeadershipPosts < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :leadership_posts, [:order, :last_name]
+    add_index :leadership_posts, %i(order last_name)
   end
 end

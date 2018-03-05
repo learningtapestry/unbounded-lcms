@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/LineLength
 staff_member_defs = [
   {
     bio: 'Aleksey Kasavin has led large-scale product and program development in both the private and public sectors. As the director of product for digital curriculum, Alex leads the development of a suite of tools that support teacher learning and classroom pedagogy. In collaboration with the director of product for digital learning, Alex oversees the Standards Institute’s digital presence. Previously, he was the fellow for technology partnerships at the Regents Research Fund, where he led UX development and district outreach for the next generation of EngageNY.org. Alex also managed reseller partnerships and training programs at Google and developed immersive e-learning simulations at Enspire Learning.',
@@ -200,9 +203,10 @@ staff_member_defs = [
     image_file: 'https://s3.amazonaws.com/unboundedwebimages/vertaheadshot2016.jpg'
   }
 ]
+# rubocop:enable Metrics/LineLength
 
 StaffMember.where(first_name: nil, last_name: nil).destroy_all
-staff_member_defs.each do |staff_member_def|
-  staff_member = StaffMember.find_or_initialize_by(first_name: staff_member_def[:first_name], last_name: staff_member_def[:last_name])
-  staff_member.update_attributes(staff_member_def)
+staff_member_defs.each do |member|
+  staff_member = StaffMember.find_or_initialize_by(first_name: member[:first_name], last_name: member[:last_name])
+  staff_member.update_attributes(member)
 end

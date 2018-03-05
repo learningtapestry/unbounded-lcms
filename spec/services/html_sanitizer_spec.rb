@@ -13,7 +13,9 @@ describe HtmlSanitizer do
           <tr>
             <td colspan=\"2\" rowspan=\"1\">
               <p>
-                <span>d</span><sup><a href=\"#cmnt1\" id=\"cmnt_ref1\">[a]</a></sup><sup><a href=\"#cmnt2\" id=\"cmnt_ref2\">[b]</a></sup><span>ocument-metadata</span><sup><a href=\"#cmnt3\" id=\"cmnt_ref3\">[c]</a></sup>
+                <span>d</span><sup><a href=\"#cmnt1\" id=\"cmnt_ref1\">[a]</a></sup><sup><a href=\"#cmnt2\"
+                id=\"cmnt_ref2\">[b]</a></sup><span>ocument-metadata</span><sup><a href=\"#cmnt3\" id=\"cmnt_ref3\">
+                [c]</a></sup>
               </p>
             </td>
           </tr>
@@ -153,7 +155,8 @@ describe HtmlSanitizer do
         end
 
         it 'keeps do-not-strip element' do
-          expect(subject.gsub(/\s+/, ' ')).to eq('<table> <td>NOT EMPTY</td> </table> <p class="do-not-strip u-gdoc-empty-p"></p>')
+          table = '<table> <td>NOT EMPTY</td> </table> <p class="do-not-strip u-gdoc-empty-p"></p>'
+          expect(subject.gsub(/\s+/, ' ')).to eq table
         end
       end
 

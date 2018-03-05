@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddParentToAlignments < ActiveRecord::Migration
   def change
     change_table :alignments do |t|

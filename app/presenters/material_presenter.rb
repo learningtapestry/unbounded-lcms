@@ -94,7 +94,8 @@ class MaterialPresenter < ContentPresenter
   end
 
   def render_content(context_type, options = {})
-    render_part(layout_content(context_type), options)
+    options[:parts_index] = document_parts_index
+    DocumentRenderer::Part.call(layout_content(context_type), options)
   end
 
   def show_title?

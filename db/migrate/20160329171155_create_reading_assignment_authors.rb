@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateReadingAssignmentAuthors < ActiveRecord::Migration
   def change
     create_table :reading_assignment_authors do |t|

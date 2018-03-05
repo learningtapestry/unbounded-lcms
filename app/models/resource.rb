@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Resource < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
+class Resource < ActiveRecord::Base
   enum resource_type: {
     resource: 1,
     podcast: 2,

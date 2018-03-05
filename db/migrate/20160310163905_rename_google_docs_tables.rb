@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameGoogleDocsTables < ActiveRecord::Migration
   def change
     rename_table :google_doc_definitions, :content_guide_definitions

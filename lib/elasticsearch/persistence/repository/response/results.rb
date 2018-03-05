@@ -16,7 +16,7 @@ module Elasticsearch
             @options = options
           end
 
-          def method_missing(method_name, *arguments, &block)
+          def method_missing(method_name, *arguments, &block) # rubocop:disable Style/MethodMissing
             results.respond_to?(method_name) ? results.__send__(method_name, *arguments, &block) : super
           end
 

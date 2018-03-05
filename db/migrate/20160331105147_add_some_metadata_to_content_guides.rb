@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSomeMetadataToContentGuides < ActiveRecord::Migration
   def change
     add_column :content_guides, :last_modified_at, :datetime

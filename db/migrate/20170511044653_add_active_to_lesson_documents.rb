@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddActiveToLessonDocuments < ActiveRecord::Migration
   def change
     add_column :lesson_documents, :active, :boolean, default: true, null: false

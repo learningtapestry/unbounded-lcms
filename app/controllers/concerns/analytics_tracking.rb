@@ -13,9 +13,7 @@ module AnalyticsTracking
 
     def ga_client_id
       # Last two char sequences, separated by a dot char ".":
-      @ga_client_id ||= if cookies['_ga'].present?
-                          cookies['_ga'].split('.').last(2).join('.')
-                        end
+      @ga_client_id ||= cookies['_ga'].split('.').last(2).join('.') if cookies['_ga'].present?
     end
 
     def ga_id

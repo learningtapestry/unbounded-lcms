@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateContentGuideStandards < ActiveRecord::Migration
   def change
     create_table :content_guide_standards do |t|
@@ -6,7 +8,7 @@ class CreateContentGuideStandards < ActiveRecord::Migration
 
       t.timestamps null: false
 
-      t.index [:content_guide_id, :standard_id], name: 'index_content_guide_standards', unique: true
+      t.index %i(content_guide_id standard_id), name: 'index_content_guide_standards', unique: true
 
       t.foreign_key :content_guides, on_delete: :cascade
       t.foreign_key :standards, on_deleted: :cascade

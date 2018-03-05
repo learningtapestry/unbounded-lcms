@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateResourceRequirements < ActiveRecord::Migration
   def change
     create_table :resource_requirements do |t|

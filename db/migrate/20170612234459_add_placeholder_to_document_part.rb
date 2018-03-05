@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPlaceholderToDocumentPart < ActiveRecord::Migration
   def change
     add_column :document_parts, :placeholder, :string

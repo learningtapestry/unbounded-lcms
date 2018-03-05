@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 function ExploreCurriculumGradeMap(props) {
   const mapClass = classNames({
     'o-cur-card__map': true,
@@ -17,8 +18,9 @@ function ExploreCurriculumGradeMap(props) {
     </div> : '';
 
   const min = Math.min(...props.curriculum.module_sizes),
-        max = Math.max(...props.curriculum.module_sizes);
+    max = Math.max(...props.curriculum.module_sizes);
 
+  // eslint-disable-next-line no-undef
   const scale = _.curry(scaleNumber)(70, 100, min, max);
   const bemClass = _.partial(convertToBEM, mainClass);
 

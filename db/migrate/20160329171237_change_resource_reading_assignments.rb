@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeResourceReadingAssignments < ActiveRecord::Migration
   def change
     change_table :resource_reading_assignments do |t|
@@ -5,9 +7,9 @@ class ChangeResourceReadingAssignments < ActiveRecord::Migration
       t.remove :text_type
       t.remove :author
       t.references :reading_assignment_text,
-        index: { name: 'idx_res_rea_asg_rea_asg_txt' },
-        foreign_key: { name: 'fk_res_rea_asg_rea_asg_txt' },
-        null: false
+                   index: { name: 'idx_res_rea_asg_rea_asg_txt' },
+                   foreign_key: { name: 'fk_res_rea_asg_rea_asg_txt' },
+                   null: false
     end
   end
 end

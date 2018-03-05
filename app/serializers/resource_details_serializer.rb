@@ -32,7 +32,7 @@ class ResourceDetailsSerializer < ResourceSerializer
     copyrights_text(object)
   end
 
-  def has_related # rubocop:disable Style/PredicateName
+  def has_related # rubocop:disable Naming/PredicateName
     # based on 'find_related_instructions' method from 'ResourcesController'
     object.unbounded_standards.any? do |standard|
       standard.content_guides.exists? || standard.resources.media.exists?

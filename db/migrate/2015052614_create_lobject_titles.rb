@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLobjectTitles < ActiveRecord::Migration
   def change
     create_table :lobject_titles do |t|

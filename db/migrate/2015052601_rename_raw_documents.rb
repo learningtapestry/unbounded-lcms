@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameRawDocuments < ActiveRecord::Migration
   def change
     rename_table :raw_documents, :lr_documents

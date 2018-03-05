@@ -19,19 +19,19 @@ class ResourceSerializer < ActiveModel::Serializer
     object.grades.average
   end
 
-  def is_assessment # rubocop:disable Style/PredicateName
+  def is_assessment # rubocop:disable Naming/PredicateName
     short_title&.index('assessment').present?
   end
 
-  def is_foundational # rubocop:disable Style/PredicateName
+  def is_foundational # rubocop:disable Naming/PredicateName
     object.document&.foundational?
   end
 
-  def is_opr # rubocop:disable Style/PredicateName
+  def is_opr # rubocop:disable Naming/PredicateName
     object.opr?
   end
 
-  def is_prerequisite # rubocop:disable Style/PredicateName
+  def is_prerequisite # rubocop:disable Naming/PredicateName
     object.prerequisite?
   end
 

@@ -82,8 +82,7 @@ class Filterbar
     return [] if ps.blank?
     return ps if ps.is_a?(Array)
 
-    ps.gsub!(/\s+/, '')
-    ps.split(',')
+    ps.gsub(/\s+/, '').split(',')
   end
 
   def pagination

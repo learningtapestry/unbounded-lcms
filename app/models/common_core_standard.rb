@@ -9,52 +9,60 @@ class CommonCoreStandard < Standard
   scope :domains, -> { where(label: 'domain') }
   scope :standards, -> { where(label: 'standard') }
 
-  def self.find_by_name_or_synonym(name)
-    name = name.downcase
-    find_by_name(name) || where_alt_name(name).first
-  end
+  class << self
+    def find_by_name_or_synonym(name)
+      name = name.downcase
+      find_by_name(name) || where_alt_name(name).first
+    end
 
-  def self.where_alt_name(alt_name)
-    where('? = ANY(alt_names)', alt_name)
-  end
+    def import
+      api_url = "#{ENV['COMMON_STANDARDS_PROJECT_API_URL']}/api/v1"
+      auth_header = { 'Api-Key' => ENV['COMMON_STANDARDS_PROJECT_API_KEY'] }
 
-  def self.import # rubocop:disable Metrics/AbcSize
-    api_url = "#{ENV['COMMON_STANDARDS_PROJECT_API_URL']}/api/v1"
-    auth_header = { 'Api-Key' => ENV['COMMON_STANDARDS_PROJECT_API_KEY'] }
+      jurisdiction_id = ENV['COMMON_STANDARDS_PROJECT_JURISDICTION_ID']
+      jurisdiction = JSON(RestClient.get("#{api_url}/jurisdictions/#{jurisdiction_id}", auth_header))
 
-    jurisdiction_id = ENV['COMMON_STANDARDS_PROJECT_JURISDICTION_ID']
-    jurisdiction = JSON(RestClient.get("#{api_url}/jurisdictions/#{jurisdiction_id}", auth_header))
-
-    Standard.transaction do
-      jurisdiction['data']['standardSets'].map do |standard_set|
-        standard_set_id = standard_set['id']
-        standard_set_data = JSON(RestClient.get("#{api_url}/standard_sets/#{standard_set_id}", auth_header))['data']
-
-        grade = standard_set_data['title'].downcase
-        subject = standard_set_data['subject'] == 'Common Core English/Language Arts' ? 'ela' : 'math'
-
-        standard_set_data['standards'].select do |_, data|
-          asn_identifier = data['asnIdentifier'].downcase
-          name = data['statementNotation'].try(:downcase)
-
-          std_params = name.present? ? { name: name } : { asn_identifier: asn_identifier }
-          standard = find_or_initialize_by(**std_params)
-
-          standard.generate_alt_names
-
-          if (alt_name = data['altStatementNotation'].try(:downcase))
-            standard.alt_names << alt_name unless standard.alt_names.include?(alt_name)
-          end
-
-          standard.asn_identifier = asn_identifier
-          standard.description = data['description']
-          standard.grades << grade unless standard.grades.include?(grade)
-          standard.label = data['statementLabel'].try(:downcase)
-          standard.name = name if name.present?
-          standard.subject = subject
-
-          standard.save!
+      Standard.transaction do
+        jurisdiction['data']['standardSets'].each do |standard_set|
+          create_based_on standard_set
         end
+      end
+    end
+
+    def where_alt_name(alt_name)
+      where('? = ANY(alt_names)', alt_name)
+    end
+
+    private
+
+    def create_based_on(standard_set)
+      standard_set_id = standard_set['id']
+      standard_set_data = JSON(RestClient.get("#{api_url}/standard_sets/#{standard_set_id}", auth_header))['data']
+
+      grade = standard_set_data['title'].downcase
+      subject = standard_set_data['subject'] == 'Common Core English/Language Arts' ? 'ela' : 'math'
+
+      standard_set_data['standards'].each do |data|
+        asn_identifier = data['asnIdentifier'].downcase
+        name = data['statementNotation'].try(:downcase)
+
+        std_params = name.present? ? { name: name } : { asn_identifier: asn_identifier }
+        standard = find_or_initialize_by(**std_params)
+
+        standard.generate_alt_names
+
+        if (alt_name = data['altStatementNotation']&.downcase)
+          standard.alt_names << alt_name unless standard.alt_names.include?(alt_name)
+        end
+
+        standard.asn_identifier = asn_identifier
+        standard.description = data['description']
+        standard.grades << grade unless standard.grades.include?(grade)
+        standard.label = data['statementLabel']&.downcase
+        standard.name = name if name.present?
+        standard.subject = subject
+
+        standard.save!
       end
     end
   end
@@ -72,10 +80,8 @@ class CommonCoreStandard < Standard
 
     base_names = Set.new([short_name, short_name.gsub('ccra', 'ra')])
 
-    if short_name.starts_with?('hs')
-      # hsn-rn.b.3 -> n-rn.b.3
-      base_names << short_name.gsub('hs', '')
-    end
+    # hsn-rn.b.3 -> n-rn.b.3
+    base_names << short_name.gsub('hs', '') if short_name.starts_with?('hs')
 
     base_names.each do |base_name|
       # 6.rp.a.3a -> 6.rp.a.3.a

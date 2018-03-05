@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEngagenyDocuments < ActiveRecord::Migration
   def change
     create_table :engageny_documents do |t|
