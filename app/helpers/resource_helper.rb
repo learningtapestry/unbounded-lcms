@@ -67,7 +67,7 @@ module ResourceHelper
 
   def prerequisites_standards(resource)
     ids = StandardLink
-            .where(standard_end_id: resource.common_core_standards.pluck(:id))
+            .where(standard_end_id: resource.standards.pluck(:id))
             .where.not(link_type: 'c')
             .pluck(:standard_begin_id)
     Standard

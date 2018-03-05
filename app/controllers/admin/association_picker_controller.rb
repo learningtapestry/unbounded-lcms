@@ -5,7 +5,7 @@ module Admin
     VALID_ASSOCIATIONS = %w(
       content_sources grades topics tags
       reading_assignment_authors reading_assignment_texts
-      common_core_standards unbounded_standards
+      standards
     ).freeze
 
     def index
@@ -44,8 +44,7 @@ module Admin
       when :tags then tag_scope('tags')
       when :reading_assignment_authors then ReadingAssignmentAuthor
       when :reading_assignment_texts then ReadingAssignmentText
-      when :common_core_standards then CommonCoreStandard
-      when :unbounded_standards then UnboundedStandard
+      when :standards then Standard
       end
     end
 

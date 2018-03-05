@@ -3,7 +3,7 @@
 module Admin
   class ResourcesController < AdminController
     CREATE_TAG_KEYS = %i(new_topic_names new_tag_names new_content_source_names
-                         new_unbounded_standard_names).freeze
+                         new_standard_names).freeze
     CREATE_TAG_METHODS = {
       new_topic_names: 'topic',
       new_tag_names: 'tag',
@@ -53,12 +53,12 @@ module Admin
     end
 
     def update
-      return redirect_to :admin_resources, alert: t('admin.common.editing_disabled') unless Settings.editing_enabled?
+      return redirect_to :admin_resources, alert: t('admin.common.editing_disabled') unless Settings[:editing_enabled]
 
       create_tags
-      Array.wrap(create_params[:new_unbounded_standard_names]).each do |std_name|
-        std = UnboundedStandard.create_with(subject: @resource.subject).find_or_create_by!(name: std_name)
-        resource_params[:unbounded_standard_ids] << std.id
+      Array.wrap(create_params[:new_standard_names]).each do |std_name|
+        std = Standard.create_with(subject: @resource.subject).find_or_create_by!(name: std_name)
+        resource_params[:standard_ids] << std.id
       end
 
       if @resource.update_attributes(resource_params)
@@ -117,8 +117,8 @@ module Admin
               :download_category_id, { download_attributes: %i(description file main filename_cache id title) }
             ],
             related_resource_ids: [],
-            unbounded_standard_ids: [],
-            new_unbounded_standard_names: [],
+            standard_ids: [],
+            new_standard_names: [],
             topic_ids: [],
             tag_ids: [],
             content_source_ids: [],

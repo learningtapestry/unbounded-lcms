@@ -1,30 +1,23 @@
 # frozen_string_literal: true
 
-# Component is a simple abstraction for acessing the unbounded-component-search API
+# Component is a simple abstraction for accessing the unbounded-component-search API
 class Component < OpenStruct
   class << self
+    def component_types
+      @component_types ||= api_request('/types')
+    end
+
+    def find(id)
+      resp = api_request "/#{id}"
+      new resp
+    end
+
     def search(params = {})
       resp = api_request '/', params
       paginated_results(resp)
     end
 
-    def find(id)
-      resp = api_request "/#{id}"
-      new(resp)
-    end
-
-    def component_types
-      @component_types ||= api_request('/types')
-    end
-
-    def api_url(path)
-      @base ||= ENV.fetch('UB_COMPONENTS_API_URL')
-      @base + path
-    end
-
-    def api_token
-      @api_token ||= ENV.fetch('UB_COMPONENTS_API_TOKEN')
-    end
+    private
 
     def api_request(path, params = {})
       res = HTTParty.get api_url(path),
@@ -36,13 +29,13 @@ class Component < OpenStruct
       raise ComponentsAPIError, e.message
     end
 
-    def parse_response(response)
-      if response.success?
-        JSON.parse(response.body)
-      else
-        msg = "API error: status=#{response.code} message=#{response.message}"
-        raise ComponentsAPIError, msg
-      end
+    def api_token
+      @api_token ||= ENV.fetch('UB_COMPONENTS_API_TOKEN')
+    end
+
+    def api_url(path)
+      @base ||= ENV.fetch('UB_COMPONENTS_API_URL')
+      @base + path
     end
 
     # We must build an ES response so we can reuse the pagination engine we
@@ -63,6 +56,15 @@ class Component < OpenStruct
           hits:      resp[:results]
         }
       ).paginate(resp.slice(:page, :per_page))
+    end
+
+    def parse_response(response)
+      if response.success?
+        JSON.parse(response.body)
+      else
+        msg = "API error: status=#{response.code} message=#{response.message}"
+        raise ComponentsAPIError, msg
+      end
     end
 
     # The ES response requires a persistence-repository so we

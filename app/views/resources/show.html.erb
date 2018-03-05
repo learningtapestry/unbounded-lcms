@@ -72,7 +72,6 @@
             </div>
             <%= render partial: 'resources/downloads', locals: { resource: @resource } %>
             <%= render partial: 'resources/prerequisites_standards', locals: { resource: @resource } %>
-            <%= render partial: 'resources/bilingual_standards', locals: { resource: @resource, standards: @resource.bilingual_standards, color_code: color_code(@resource, base: true) } %>
             <%= render_tag_clouds(@resource) %>
             <% if @resource.engageny_url %>
             <div class="o-resource__item  o-resource__item--credits">

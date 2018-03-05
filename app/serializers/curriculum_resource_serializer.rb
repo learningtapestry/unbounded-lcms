@@ -26,7 +26,7 @@ class CurriculumResourceSerializer < ActiveModel::Serializer
 
     object.children
       .includes(:copyright_attributions)
-      .eager_load(:unbounded_standards)
+      .eager_load(:standards)
       .ordered.map do |res|
         CurriculumResourceSerializer.new(
           res,

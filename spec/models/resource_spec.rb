@@ -4,7 +4,15 @@ require 'rails_helper'
 
 describe Resource do
   it 'has valid factory' do
-    expect(create(:resource)).to be_valid
+    expect(build :resource).to be_valid
+  end
+
+  it_behaves_like 'navigable' do
+    let(:factory) { :resource }
+  end
+
+  it_behaves_like 'searchable' do
+    let(:factory) { :resource }
   end
 
   describe '.tree' do

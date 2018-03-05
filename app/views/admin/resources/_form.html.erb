@@ -4,7 +4,7 @@
   <div class="large-10 columns">
     <%= render partial: 'fields', locals: { f: f, resource: @resource } %>
 
-    <% if Settings.editing_enabled? %>
+    <% if Settings[:editing_enabled] %>
       <%= f.button :submit, t('ui.save'), name: nil %>
 
       <% if @resource.persisted? %>

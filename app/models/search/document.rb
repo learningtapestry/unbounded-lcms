@@ -25,142 +25,146 @@ module Search
     attribute :teaser, String
     attribute :title, String
 
-    def self.attrs_from_content_guide(model)
-      {
-        breadcrumbs: nil,
-        description: model.description,
-        doc_type: 'content_guide',
-        document_metadata: nil,
-        grade: model.grades.list,
-        id: "content_guide_#{model.id}",
-        model_type: :content_guide,
-        model_id: model.id,
-        permalink: model.permalink,
-        position: grade_position(model),
-        slug: model.slug,
-        subject: model.subject,
-        tag_authors: [],
-        tag_keywords: [],
-        tag_standards: [],
-        tag_texts: [],
-        teaser: model.teaser,
-        title: model.title
-      }
-    end
+    class << self
+      def build_from(model)
+        if model.is_a?(Resource)
+          new(**attrs_from_resource(model))
 
-    def self.attrs_from_page(model)
-      {
-        description: model.description,
-        doc_type: 'page',
-        grade: [],
-        id: "page_#{model.slug}",
-        model_type: :page,
-        permalink: model.permalink,
-        slug: model.slug,
-        tag_keywords: model.keywords,
-        teaser: model.teaser,
-        title: model.title
-      }
-    end
+        elsif model.is_a?(ContentGuide)
+          new(**attrs_from_content_guide(model))
 
-    def self.attrs_from_resource(model)
-      tags = model.named_tags
+        elsif model.is_a?(ExternalPage)
+          new(**attrs_from_page(model))
 
-      {
-        breadcrumbs: Breadcrumbs.new(model).title,
-        description: model.description,
-        doc_type: doc_type(model),
-        document_metadata: document_metadata(model),
-        grade: model.grades.list,
-        id: "resource_#{model.id}",
-        model_id: model.id,
-        model_type: 'resource',
-        position: resource_position(model),
-        slug: model.slug,
-        subject: model.subject,
-        tag_authors: tags[:authors] || [],
-        tag_keywords: tags[:keywords] || [],
-        tag_standards: tags[:ccss_standards] || [],
-        tag_texts: tags[:texts] || [],
-        teaser: model.teaser,
-        title: model.title
-      }
-    end
-
-    def self.build_from(model)
-      if model.is_a?(Resource)
-        new(**attrs_from_resource(model))
-
-      elsif model.is_a?(ContentGuide)
-        new(**attrs_from_content_guide(model))
-
-      elsif model.is_a?(ExternalPage)
-        new(**attrs_from_page(model))
-
-      else
-        raise "Unsupported Type for Search : #{model.class.name}"
+        else
+          raise "Unsupported Type for Search : #{model.class.name}"
+        end
       end
-    end
 
-    def self.doc_type(model)
-      model.resource_type == 'resource' ? model.curriculum_type : model.resource_type
-    end
-
-    def self.document_metadata(model)
-      return unless model.document?
-
-      METADATA_FIELDS.map do |k|
-        value = model.document.metadata[k]
-        Nokogiri::HTML.fragment(value).text.presence
-      end.compact.join(' ')
-    end
-
-    # Position mask:
-    # - Since lessons uses 4 blocks of 2 numbers for (grade, mod, unit, lesson),
-    #   we use 5 blocks to place them after lessons.
-    # - the first position is realted to the resource type (always starting
-    #   with 9 to be placed after the lessons).
-    # - The second most significant is related to the grade
-    # - The last position is the number of different grades covered, i.e:
-    #   a resource with 3 different grades show after one with 2, (more specific
-    #   at the top, more generic at the bottom)
-    def self.grade_position(model)
-      if model.is_a?(Resource) && model.generic?
-        rtype = model[:resource_type] || 0
-        # for generic resource use the min grade, instead the avg
-        grade_pos = model.grades.list.map { |g| Grades::GRADES.index(g) }.compact.min || 0
-        last_pos = model.grades.list.size
-      else
-        rtype = 0
-        grade_pos = model.grades.average_number
-        last_pos = 0
+      def doc_type(model)
+        model.resource_type == 'resource' ? model.curriculum_type : model.resource_type
       end
-      first_pos = 90 + rtype
 
-      [first_pos, grade_pos, 0, 0, last_pos].map { |n| n.to_s.rjust(2, '0') }.join(' ')
-    end
+      def document_metadata(model)
+        return unless model.document?
 
-    def self.resource_position(model)
-      if model.media? || model.generic?
-        grade_position(model)
-      else
-        model.hierarchical_position
+        METADATA_FIELDS.map do |k|
+          value = model.document.metadata[k]
+          Nokogiri::HTML.fragment(value).text.presence
+        end.compact.join(' ')
       end
-    end
 
-    # Overrides ElasticSearchDocument.search to include standards search
-    def self.search(term, options = {})
-      return repository.empty_response unless repository.index_exists?
-      return repository.search(repository.all_query(options)) unless term.present?
+      # Position mask:
+      # - Since lessons uses 4 blocks of 2 numbers for (grade, mod, unit, lesson),
+      #   we use 5 blocks to place them after lessons.
+      # - the first position is realted to the resource type (always starting
+      #   with 9 to be placed after the lessons).
+      # - The second most significant is related to the grade
+      # - The last position is the number of different grades covered, i.e:
+      #   a resource with 3 different grades show after one with 2, (more specific
+      #   at the top, more generic at the bottom)
+      def grade_position(model)
+        if model.is_a?(Resource) && model.generic?
+          rtype = model[:resource_type] || 0
+          # for generic resource use the min grade, instead the avg
+          grade_pos = model.grades.list.map { |g| Grades::GRADES.index(g) }.compact.min || 0
+          last_pos = model.grades.list.size
+        else
+          rtype = 0
+          grade_pos = model.grades.average_number
+          last_pos = 0
+        end
+        first_pos = 90 + rtype
 
-      repository.multisearch(
-        [
-          repository.standards_query(term, options),
-          repository.tags_query(term, [:tag_keywords], options),
-          repository.tags_query(term, %i(tag_authors tag_texts), options),
-          repository.fts_query(term, options)
-        ]
-      ).max_by(&:total)
+        [first_pos, grade_pos, 0, 0, last_pos].map { |n| n.to_s.rjust(2, '0') }.join(' ')
+      end
+
+      def resource_position(model)
+        if model.media? || model.generic?
+          grade_position(model)
+        else
+          model.hierarchical_position
+        end
+      end
+
+      # Overrides ElasticSearchDocument.search to include standards search
+      def search(term, options = {})
+        return repository.empty_response unless repository.index_exists?
+        return repository.search(repository.all_query(options)) unless term.present?
+
+        repository.multisearch(
+          [
+            repository.standards_query(term, options),
+            repository.tags_query(term, [:tag_keywords], options),
+            repository.tags_query(term, %i(tag_authors tag_texts), options),
+            repository.fts_query(term, options)
+          ]
+        ).max_by(&:total)
+      end
+
+      private
+
+      def attrs_from_content_guide(model)
+        {
+          breadcrumbs: nil,
+          description: model.description,
+          doc_type: 'content_guide',
+          document_metadata: nil,
+          grade: model.grades.list,
+          id: "content_guide_#{model.id}",
+          model_type: :content_guide,
+          model_id: model.id,
+          permalink: model.permalink,
+          position: grade_position(model),
+          slug: model.slug,
+          subject: model.subject,
+          tag_authors: [],
+          tag_keywords: [],
+          tag_standards: [],
+          tag_texts: [],
+          teaser: model.teaser,
+          title: model.title
+        }
+      end
+
+      def attrs_from_page(model)
+        {
+          description: model.description,
+          doc_type: 'page',
+          grade: [],
+          id: "page_#{model.slug}",
+          model_type: :page,
+          permalink: model.permalink,
+          slug: model.slug,
+          tag_keywords: model.keywords,
+          teaser: model.teaser,
+          title: model.title
+        }
+      end
+
+      def attrs_from_resource(model)
+        tags = model.named_tags
+
+        {
+          breadcrumbs: Breadcrumbs.new(model).title,
+          description: model.description,
+          doc_type: doc_type(model),
+          document_metadata: document_metadata(model),
+          grade: model.grades.list,
+          id: "resource_#{model.id}",
+          model_id: model.id,
+          model_type: 'resource',
+          position: resource_position(model),
+          slug: model.slug,
+          subject: model.subject,
+          tag_authors: tags[:authors] || [],
+          tag_keywords: tags[:keywords] || [],
+          tag_standards: tags[:ccss_standards] || [],
+          tag_texts: tags[:texts] || [],
+          teaser: model.teaser,
+          title: model.title
+        }
+      end
     end
 
     def grades

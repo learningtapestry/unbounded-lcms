@@ -28,12 +28,6 @@ describe Admin::StandardsController do
 
       subject { get :index, query: params }
 
-      context 'bilingual' do
-        let(:params) { { is_language_progression_standard: 1 } }
-
-        it { expect(Standard).to receive(:bilingual).and_call_original }
-      end
-
       context 'name' do
         let(:name) { 'standard-name' }
         let(:params) { { name: name } }
@@ -69,26 +63,6 @@ describe Admin::StandardsController do
       it 'passes notice' do
         subject
         expect(flash[:notice]).to be_present
-      end
-
-      context 'with language_progression_file' do
-        before { params.merge! language_progression_file: '1' }
-
-        it 'set is_language_progression_standard to true' do
-          new_params = params.merge is_language_progression_standard: true
-          expect_any_instance_of(Standard).to receive(:update).with(new_params).and_call_original
-          subject
-        end
-      end
-
-      context 'with remove_language_progression_file' do
-        before { params.merge! remove_language_progression_file: '1' }
-
-        it 'set is_language_progression_standard to false' do
-          new_params = params.merge is_language_progression_standard: false
-          expect_any_instance_of(Standard).to receive(:update).with(new_params).and_call_original
-          subject
-        end
       end
     end
 

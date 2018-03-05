@@ -34,7 +34,7 @@ class ResourceDetailsSerializer < ResourceSerializer
 
   def has_related # rubocop:disable Naming/PredicateName
     # based on 'find_related_instructions' method from 'ResourcesController'
-    object.unbounded_standards.any? do |standard|
+    object.standards.any? do |standard|
       standard.content_guides.exists? || standard.resources.media.exists?
     end
   end
