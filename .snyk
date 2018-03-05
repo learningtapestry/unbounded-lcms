@@ -33,11 +33,11 @@ ignore:
         reason: Sticked to Rails 4.2.7.1
         expires: '2018-03-24T07:53:11.120Z'
   SNYK-RUBY-RACKPROTECTION-20394:
-    - '* > rack-protection@1.5.3':
+    - '* > rack-protection@1.5.4':
         reason: Sticked to sinatra@1.4.8 which can't be updated
         expires: '2018-03-24T07:53:11.120Z'
   SNYK-RUBY-RACKPROTECTION-20395:
-      - '* > rack-protection@1.5.3':
+      - '* > rack-protection@1.5.4':
           reason: Sticked to sinatra@1.4.8 which can't be updated
           expires: '2018-03-24T07:53:11.120Z'
 patch: {}
