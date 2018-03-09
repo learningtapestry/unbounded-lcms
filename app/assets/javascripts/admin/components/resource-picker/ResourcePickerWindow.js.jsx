@@ -1,5 +1,5 @@
+// eslint-disable-next-line no-unused-vars
 class ResourcePickerWindow extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -44,30 +44,20 @@ class ResourcePickerWindow extends React.Component {
       q: null
     };
 
-    this.state = { ...initialState, ...this.buildStateFromProps(props) };
+    this.state = { ...initialState, ...props };
   }
 
-  buildStateFromProps(props) {
-    return { ...props };
-  }
-
-  componentDidMount() {
-    this.debouncedFetchAndUpdate = _.debounce(this.fetchAndUpdate, 300);
-    this.fetchAndUpdate();
-  }
-
-  fetch(state = this.state) {
-    return $.getJSON(Routes.admin_resource_picker_path({
-      page: state.pagination.current_page,
-      type: state.type,
-      subject: state.subject,
-      grade: state.grade,
-      q: state.q
-    }));
-  }
-
-  fetchAndUpdate(state = this.state) {
-    this.fetch().then(s => this.setState(this.buildStateFromProps(s)));
+  filterElement(title, value, type, data) {
+    return (
+      <label className="medium-3 columns">{ title }
+        <select value={value || ''} onChange={ this.props.onFilterChange.bind(this, type) }>
+          <option />
+          {data.map(([value, title]) => (
+            <option key={value} value={value}>{title}</option>
+          ))}
+        </select>
+      </label>
+    );
   }
 
   selectResource(resource) {
@@ -76,33 +66,8 @@ class ResourcePickerWindow extends React.Component {
     }
   }
 
-  handleUpdateQ(event) {
-    var value = event.target.value;
-    this.setState({ ...this.state, q: value}, this.debouncedFetchAndUpdate);
-  }
-
-  handleUpdateField(field, event) {
-    const val = event.target.value;
-    this.setState({ ...this.state, [field]: val }, this.fetchAndUpdate);
-  }
-
-  handlePageClick(data) {
-    const selected = data.selected;
-    this.setState({
-      ...this.state,
-      pagination: {
-        ...this.state.pagination,
-        current_page: selected+1
-      }
-    }, this.fetchAndUpdate);
-  }
-
   render() {
-    const updatePage = this.handleUpdateField.bind(this, 'page');
-    const updateType = this.handleUpdateField.bind(this, 'type');
-    const updateSubject = this.handleUpdateField.bind(this, 'subject');
-    const updateGrade = this.handleUpdateField.bind(this, 'grade');
-    const updateQ = this.handleUpdateField.bind(this, 'q');
+    const { grade, q, subject, type } = this.props;
 
     return (
       <div className="o-assocpicker">
@@ -110,35 +75,12 @@ class ResourcePickerWindow extends React.Component {
           <div className="o-page__module">
             <h4 className="text-center">Select resource</h4>
             <div className="row">
-              <label className="medium-3 columns">Curriculum Type
-                <select value={this.state.type} onChange={updateType}>
-                  <option />
-                  {this.typeOptions.map(([value, title]) => (
-                    <option key={value} value={value}>{title}</option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="medium-3 columns">Subject
-                <select value={this.state.subject} onChange={updateSubject}>
-                  <option />
-                  {this.subjectOptions.map(([value, title]) => (
-                    <option key={value} value={value}>{title}</option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="medium-3 columns">Grade
-                <select value={this.state.grade} onChange={updateGrade}>
-                  <option />
-                  {this.gradeOptions.map(([value, title]) => (
-                    <option key={value} value={value}>{title}</option>
-                  ))}
-                </select>
-              </label>
+              { this.filterElement('Curriculum Type', type, 'type', this.typeOptions) }
+              { this.filterElement('Subject', subject, 'subject', this.subjectOptions) }
+              { this.filterElement('Grade', grade, 'grade', this.gradeOptions) }
 
               <label className="medium-3 columns">Title
-                <input type="text" value={this.state.q} onChange={this.handleUpdateQ.bind(this)} />
+              <input type="text" value={q || ''} onChange={ this.props.onFilterChange.bind(this, 'q') } />
               </label>
             </div>
           </div>
@@ -153,29 +95,15 @@ class ResourcePickerWindow extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.results.map(resource => (
+                {this.props.results.map(resource => (
                   <tr key={resource.id}>
                     <td onClick={this.selectResource.bind(this, resource)}>{resource.title}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <PaginationBoxView previousLabel={"< Previous"}
-                            nextLabel={"Next >"}
-                            breakLabel={<li className="break"><a href="">...</a></li>}
-                            pageNum={this.state.pagination.total_pages}
-                            initialSelected={this.state.pagination.current_page - 1}
-                            forceSelected={this.state.pagination.current_page - 1}
-                            marginPagesDisplayed={2}
-                            pageRangeDisplayed={5}
-                            clickCallback={this.handlePageClick.bind(this)}
-                            containerClassName={"o-pagination o-page__wrap--row-nest"}
-                            itemClassName={"o-pagination__item"}
-                            nextClassName={"o-pagination__item--next"}
-                            previousClassName={"o-pagination__item--prev"}
-                            pagesClassName={"o-pagination__item--middle"}
-                            subContainerClassName={"o-pagination__pages"}
-                            activeClassName={"o-pagination__page--active"} />
+
+            { this.props.pagination() }
           </div>
         </div>
       </div>

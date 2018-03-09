@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class ResourcePicker extends React.Component {
   constructor(props) {
     super(props);
@@ -21,15 +22,14 @@ class ResourcePicker extends React.Component {
   }
 
   componentDidMount() {
-    new Foundation.Reveal(this.jqmodal);
-    this.jqmodal.on('open.zf.reveal', () => this.jqmodal.css({top: '15px'}));
-    this.jqmodal.on('closed.zf.reveal', () => {
-      ReactDOM.unmountComponentAtNode(this.modal);
-    });
+    // eslint-disable-next-line no-undef
+    pickerModal.call(this);
   }
 
   onClickSelect() {
-    const picker = React.createElement(ResourcePickerWindow, {
+    // eslint-disable-next-line no-undef
+    const pickerComponent = pickerWindowWrapper(ResourcePickerWindow, 'admin_resource_picker_path');
+    const picker = React.createElement(pickerComponent, {
       onSelectResource: this.selectResource.bind(this),
     }, null);
     ReactDOM.render(picker, this.modal);
@@ -40,8 +40,8 @@ class ResourcePicker extends React.Component {
     this.jqmodal.foundation('close');
 
     const newResources = this.allowMultiple ?
-                           [...this.state.resources, resource] :
-                           [resource];
+      [...this.state.resources, resource] :
+      [resource];
 
     this.setState({
       ...this.state,
@@ -66,21 +66,15 @@ class ResourcePicker extends React.Component {
       />;
     });
 
+    const input = <input type="hidden" name={this.props.name} value="" />;
+
     return (
-      <div className="o-assocpicker-container">
-        <button
-          type="button"
-          className="o-assocpicker-add button"
-          onClick={e => this.onClickSelect(e)}>Select</button>
-        <div className="o-assocpicker-selections">
-          <input type="hidden" name={this.props.name} value="" />
-          {resources}
-        </div>
-        <div
-          className="o-assocpicker-modal reveal"
-          ref={m => this.modal = m}>
-        </div>
-      </div>
+      <PickerButton
+        content={resources}
+        hiddenInputs={input}
+        onClick={this.onClickSelect.bind(this)}
+        onRef={m => this.modal = m}
+      />
     );
   }
 }

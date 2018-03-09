@@ -8,6 +8,7 @@ function GenericResourceCard(props) {
     `cs-link-bg--${colorCodeCss(item.subject, item.grade_avg)}`
   );
 
+  // eslint-disable-next-line no-undef
   const onCardClick = () => heapTrack('PD Resource Opened', { title: item.title, type: item.instruction_type });
 
   return (

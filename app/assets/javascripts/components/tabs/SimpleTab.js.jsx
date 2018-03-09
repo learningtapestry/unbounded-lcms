@@ -35,7 +35,7 @@ const Tabs = React.createClass({
   },
   componentWillReceiveProps: function(newProps){
     if(newProps.tabActive && newProps.tabActive !== this.props.tabActive){
-      this.setState({tabActive: newProps.tabActive});
+      this.setState({ tabActive: newProps.tabActive });
     }
   },
   render () {
@@ -83,7 +83,7 @@ const Tabs = React.createClass({
         const title = $panel.props.title;
         const classes = classNames(
           'o-tab-menu__item',
-          {'o-tab-menu__item--active': this.state.tabActive === (index + 1)}
+          { 'o-tab-menu__item--active': this.state.tabActive === (index + 1) }
         );
 
         return (
