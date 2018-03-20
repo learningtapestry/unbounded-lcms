@@ -12,7 +12,7 @@ class ExploreCurriculumPage extends React.Component {
     if (!$active && !/p=/.test(location.search)) return;
     if ($active && !$active.length) return;
 
-    let query = {p: null, e: null};
+    let query = { p: null, e: null };
     if ($active) {
       query['p'] = $active[0].getAttribute('name');
       if ( this.state.active[this.state.active.length - 2] === $active[0].id ) {
@@ -20,7 +20,7 @@ class ExploreCurriculumPage extends React.Component {
       }
     }
 
-    urlHistory.update(query, {replace: true});
+    urlHistory.update(query, { replace: true });
   }
 
   componentDidMount() {
@@ -52,11 +52,15 @@ class ExploreCurriculumPage extends React.Component {
   }
 
   componentWillUpdate(_nextProps, _nextState) {
-    this._curriculumList.foundation('mutexScrollLock');
+    if (this._curriculumList) {
+      this._curriculumList.foundation('mutexScrollLock');
+    }
   }
 
   componentDidUpdate(_prevProps, _prevState) {
-    this._curriculumList.foundation('mutexScrollUnlock');
+    if (this._curriculumList) {
+      this._curriculumList.foundation('mutexScrollUnlock');
+    }
   }
 
   onScrollFinished(el) {

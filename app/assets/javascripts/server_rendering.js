@@ -1,10 +1,11 @@
-//= require prerender_polyfill
 //= require react-server
+//= require react_ujs
+//= require prerender_polyfill
 //= require js-routes
+//= require initializers/heap_analytics.js.jsx
 //= require components
 //= require_tree ./admin/components/
 
-/*
-  Fixes server rendering in production.
-  Ref. https://github.com/reactjs/react-rails/issues/443#issuecomment-180544359
-*/
+//
+// By default, this file is loaded for server-side rendering.
+// It should require your components and any dependencies.

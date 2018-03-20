@@ -11,6 +11,7 @@
     "heap": true,
     "Modernizr": true,
     "PDFObject": true,
+    "PropTypes": true,
     "React": true,
     "ReactDOM": true,
     "Routes": true,

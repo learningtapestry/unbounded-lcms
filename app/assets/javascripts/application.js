@@ -5,7 +5,6 @@
 //= require vendor/modernizr-custom
 //= require vendor/swiper.jquery
 //= require vendor/pdfobject.js
-//= require ready
 //= require jquery/smoothscrolling
 //= require foundation
 //= require jquery/foundation.magellanex
@@ -33,7 +32,7 @@
 //= require initializers/survey
 //= require_tree ./initializers/sidebar
 
-ready(function() {
+document.addEventListener('turbolinks:load', function() {
   $(document).initFoundation();
   $('.o-page--resource').smoothscrolling();
   window.initializeHeaderDropdown();
@@ -53,6 +52,4 @@ ready(function() {
   window.initializeBundles();
 });
 
-$(document).on('page:before-unload', function(nodes) {
-  urlHistory.emptyState();
-});
+//= require initializers/events

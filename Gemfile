@@ -62,7 +62,7 @@ gem 'acts-as-taggable-on', '~> 3.5'
 # assets
 gem 'autoprefixer-rails', '~> 6.4.0'
 gem 'font-awesome-sass', '~> 4.4.0'
-gem 'react-rails', '~> 1.11.0'
+gem 'react-rails', '~> 2.3.1'
 gem 'sass-rails', '~> 5.0'
 # TODO: foundation or bootstrap??
 gem 'bootstrap-sass', '~> 3.3.5.1'

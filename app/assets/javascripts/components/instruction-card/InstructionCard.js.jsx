@@ -21,9 +21,6 @@ function InstructionCard(props) {
     bemClass('body')
   );
 
-  // eslint-disable-next-line no-undef
-  const onCardClick = () => heapTrack('PD Resource Opened', { title: item.title, type: item.instruction_type });
-
   const titleElement = <h3 className={bemClass('title')} dangerouslySetInnerHTML={{ __html: item.title }}></h3>;
   const isInstruction = (item.instruction_type === 'instruction');
   const instructionBody = isInstruction ?
@@ -46,7 +43,8 @@ function InstructionCard(props) {
     );
 
   return (
-    <a className={cssInstruction} href={props.item.path} onClick={onCardClick}>
+    // eslint-disable-next-line no-undef
+    <a className={cssInstruction} href={props.item.path} onClick={heapTrackPd.bind(null, item)}>
       <div className={cssWrapper}>
         <div className={cssImage}>
           <img src={item.img}/>

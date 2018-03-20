@@ -1,8 +1,9 @@
+// eslint-disable-next-line no-unused-vars
 function SearchDropdownResults(props) {
   const resultCls = 'o-search-dropdown-result';
   const resultMoreCls = 'o-search-dropdown-result o-search-dropdown-result--more';
 
-  if (props.resources.length == 0) {
+  if (props.resources.length === 0) {
     if (props.isSearching) {
       return <div className={resultCls}>Searching...</div>;
     } else if (props.search_term && props.search_term.length > 0) {
@@ -12,7 +13,7 @@ function SearchDropdownResults(props) {
   }
 
   const results = props.resources.map((resource, idx) => {
-    key = `${resource.curriculum_id}_${resource.id}`;
+    const key = `${resource.curriculum_id}_${resource.id}`;
     return <SearchDropdownResult
       key={key}
       resource={resource}

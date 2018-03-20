@@ -6,13 +6,14 @@ $(function () {
   const initHAEvents = () => {
     [].forEach.call(document.querySelectorAll('.tm-ela2-unit-link'), (x) => {
       x.addEventListener('click', (e) => {
+        // eslint-disable-next-line no-undef
         heapTrack('Resource section unit page opened', { link: e.target.href });
       });
     });
 
     [].forEach.call(document.querySelectorAll('.o-ld-pd .o-ld-cg .o-ub-ld-btn'), (x) => {
       x.addEventListener('click', (e) => {
-        console.log(e.target.href);
+        // eslint-disable-next-line no-undef
         heapTrack('PD link clicked', { link: e.target.href });
       });
     });
@@ -30,7 +31,8 @@ $(function () {
     else if (el.find('.o-ld-pd__video')) haType = 'Video';
 
     const event = el.hasClass('o-ld-pd--collapsed') ? 'PD Expanded' : 'PD Collapsed';
-    heapTrack(event, {title: haTitle, type: haType});
+    // eslint-disable-next-line no-undef
+    heapTrack(event, { title: haTitle, type: haType });
   };
 
   const initPd = () => {

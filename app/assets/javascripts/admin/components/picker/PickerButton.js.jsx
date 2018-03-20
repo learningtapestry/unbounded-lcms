@@ -5,14 +5,14 @@ function PickerButton(props) {
       <button
         type="button"
         className="o-assocpicker-add button"
-        onClick={e => props.onClick(e)}>Select</button>
+        onClick={props.onClick}>Select</button>
       <div className="o-assocpicker-selections">
         {props.hiddenInputs}
         {props.content}
       </div>
       <div
         className="o-assocpicker-modal reveal"
-        ref={m => props.onRef(m)}>
+        ref={props.onRef}>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 class DownloadModal extends React.Component {
-
   componentDidMount() {
     if (this._modal) {
       new Foundation.Reveal($(this._modal));
@@ -9,8 +8,8 @@ class DownloadModal extends React.Component {
 
   downloadsByCategories(downloads) {
     if (downloads.length < 2) return null;
-    return `<strong>${downloads[0]}</strong>
-            ${ _.map(downloads[1], item => this.download(item)).join('\n') }`;
+    return `<li><strong>${downloads[0]}</strong>
+            ${ _.map(downloads[1], item => this.download(item)).join('\n') }</li>`;
   }
 
   download(download) {
