@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.10.1
+version: v1.10.2
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:content-type-parser:20170905':
@@ -41,7 +41,30 @@ ignore:
         reason: Sticked to sinatra@1.4.8 which can't be updated
         expires: '2018-04-24T07:53:11.120Z'
   SNYK-RUBY-RACKPROTECTION-20395:
-      - '* > rack-protection@1.5.5':
-          reason: Sticked to sinatra@1.4.8 which can't be updated
-          expires: '2018-04-24T07:53:11.120Z'
+    - '* > rack-protection@1.5.5':
+        reason: Sticked to sinatra@1.4.8 which can't be updated
+        expires: '2018-04-24T07:53:11.120Z'
+  'npm:braces:20180219':
+    - pngquant-bin > bin-build > decompress > vinyl-fs > glob-stream > micromatch > braces:
+        reason: None given
+        expires: '2018-04-18T08:30:23.017Z'
+    - pngquant-bin > bin-build > download > vinyl-fs > glob-stream > micromatch > braces:
+        reason: None given
+        expires: '2018-04-18T08:30:23.017Z'
+    - pngquant-bin > bin-build > download > gulp-decompress > decompress > vinyl-fs > glob-stream > micromatch > braces:
+        reason: None given
+        expires: '2018-04-18T08:30:23.017Z'
+    - pngquant-bin > bin-wrapper > download > vinyl-fs > glob-stream > micromatch > braces:
+        reason: None given
+        expires: '2018-04-18T08:30:23.017Z'
+    - pngquant-bin > bin-wrapper > download > gulp-decompress > decompress > vinyl-fs > glob-stream > micromatch > braces:
+        reason: None given
+        expires: '2018-04-18T08:30:23.017Z'
+  'npm:nwmatcher:20180305':
+    - mathjax-node > jsdom > nwmatcher:
+        reason: None given
+        expires: '2018-04-18T08:30:23.017Z'
+    - mathjax-node-cli > mathjax-node-sre > mathjax-node > jsdom > nwmatcher:
+        reason: None given
+        expires: '2018-04-18T08:30:23.017Z'
 patch: {}
