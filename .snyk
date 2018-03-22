@@ -5,17 +5,17 @@ ignore:
   'npm:content-type-parser:20170905':
     - mathjax-node > jsdom > content-type-parser:
         reason: None given
-        expires: '2018-04-21T12:39:57.578Z'
+        expires: '2018-04-21T06:45:16.727Z'
     - mathjax-node-cli > mathjax-node-sre > mathjax-node > jsdom > content-type-parser:
         reason: None given
-        expires: '2018-04-21T12:39:57.579Z'
+        expires: '2018-04-21T06:45:16.727Z'
   'npm:tunnel-agent:20170305':
     - pngquant-bin > bin-build > download > caw > tunnel-agent:
         reason: None given
-        expires: '2018-04-21T12:39:57.579Z'
+        expires: '2018-04-21T06:45:16.726Z'
     - pngquant-bin > bin-wrapper > download > caw > tunnel-agent:
         reason: None given
-        expires: '2018-04-21T12:39:57.579Z'
+        expires: '2018-04-21T06:45:16.727Z'
   SNYK-RUBY-ERUBIS-20482:
     - '* > actionview@4.2.7.1':
         reason: Sticked to Rails 4.2.7.1
@@ -47,24 +47,37 @@ ignore:
   'npm:braces:20180219':
     - pngquant-bin > bin-build > decompress > vinyl-fs > glob-stream > micromatch > braces:
         reason: None given
-        expires: '2018-04-18T08:30:23.017Z'
+        expires: '2018-04-21T06:45:16.726Z'
     - pngquant-bin > bin-build > download > vinyl-fs > glob-stream > micromatch > braces:
         reason: None given
-        expires: '2018-04-18T08:30:23.017Z'
+        expires: '2018-04-21T06:45:16.726Z'
     - pngquant-bin > bin-build > download > gulp-decompress > decompress > vinyl-fs > glob-stream > micromatch > braces:
         reason: None given
-        expires: '2018-04-18T08:30:23.017Z'
+        expires: '2018-04-21T06:45:16.726Z'
     - pngquant-bin > bin-wrapper > download > vinyl-fs > glob-stream > micromatch > braces:
         reason: None given
-        expires: '2018-04-18T08:30:23.017Z'
+        expires: '2018-04-21T06:45:16.726Z'
     - pngquant-bin > bin-wrapper > download > gulp-decompress > decompress > vinyl-fs > glob-stream > micromatch > braces:
         reason: None given
-        expires: '2018-04-18T08:30:23.017Z'
+        expires: '2018-04-21T06:45:16.726Z'
   'npm:nwmatcher:20180305':
     - mathjax-node > jsdom > nwmatcher:
         reason: None given
-        expires: '2018-04-18T08:30:23.017Z'
+        expires: '2018-04-21T06:45:16.727Z'
     - mathjax-node-cli > mathjax-node-sre > mathjax-node > jsdom > nwmatcher:
         reason: None given
-        expires: '2018-04-18T08:30:23.017Z'
+        expires: '2018-04-21T06:45:16.727Z'
+  'npm:lodash:20180130':
+    - mathjax-node-cli > mathjax-node-sre > mathjax-node > jsdom > request-promise-native > request-promise-core > lodash:
+        reason: None given
+        expires: '2018-04-21T06:45:16.726Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        reason: None given
+        expires: '2018-04-21T06:45:16.726Z'
+    - snyk > inquirer > lodash:
+        reason: None given
+        expires: '2018-04-21T06:45:16.726Z'
+    - snyk > snyk-resolve-deps > lodash:
+        reason: None given
+        expires: '2018-04-21T06:45:16.726Z'
 patch: {}
