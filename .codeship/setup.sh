@@ -11,15 +11,18 @@ for file in $(find . -name "*.sh"); do
 done
 
 # Checking gems for vulnerabilities
-bundler audit check --update
+if ! bundler audit check --update; then
+  exit 1
+fi
 
 # Checking Security with Brakeman
-brakeman -zqA --summary --no-pager
+if ! brakeman -zqA --summary --no-pager; then
+  exit 1
+fi
 
 # Setup environment
 echo -e 'APPLICATION_DOMAIN=example.org' > .env
 cp .codeship/database.yml config/database.yml
-
 
 # Restore pre-filled database
 cp db/dump/content.dump.freeze db/dump/content.dump
