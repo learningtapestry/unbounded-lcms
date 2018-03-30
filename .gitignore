@@ -61,3 +61,5 @@ coverage
 .DS_store
 /config/google/
 /public/javascripts/i18n.js
+/.generators
+/.rakeTasks
