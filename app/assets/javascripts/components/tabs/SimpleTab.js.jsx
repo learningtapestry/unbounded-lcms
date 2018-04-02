@@ -1,19 +1,20 @@
 // copy with just changes css classes from https://github.com/pedronauck/react-simpletabs
-const Tabs = React.createClass({
+// eslint-disable-next-line no-undef
+const Tabs = createReactClass({
   displayName: 'Tabs',
   propTypes: {
-    className: React.PropTypes.oneOfType([
-      React.PropTypes.array,
-      React.PropTypes.string,
-      React.PropTypes.object
+    className: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.string,
+      PropTypes.object
     ]),
-    tabActive: React.PropTypes.number,
-    onMount: React.PropTypes.func,
-    onBeforeChange: React.PropTypes.func,
-    onAfterChange: React.PropTypes.func,
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.array,
-      React.PropTypes.element
+    tabActive: PropTypes.number,
+    onMount: PropTypes.func,
+    onBeforeChange: PropTypes.func,
+    onAfterChange: PropTypes.func,
+    children: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.element
     ]).isRequired
   },
   getDefaultProps () {
@@ -113,13 +114,14 @@ const Tabs = React.createClass({
   }
 });
 
-Tabs.Panel = React.createClass({
+// eslint-disable-next-line no-undef
+Tabs.Panel = createReactClass({
   displayName: 'Panel',
   propTypes: {
-    title: React.PropTypes.string.isRequired,
-    children: React.PropTypes.oneOfType([
-      React.PropTypes.array,
-      React.PropTypes.element
+    title: PropTypes.string.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.element
     ]).isRequired
   },
   render () {

@@ -41,11 +41,6 @@ function searchPageWrapper(WrappedComponent) {
       this.fetch(newState);
     }
 
-    handleFilterbarUpdate(filterbar) {
-      const newState = _.assign({}, this.state, { filterbar: filterbar, current_page: 1  });
-      this.fetch(newState);
-    }
-
     componentWillUpdate(nextProps, nextState) {
       urlHistory.updatePaginationParams(nextState);
     }
@@ -72,7 +67,8 @@ function searchPageWrapper(WrappedComponent) {
     render() {
       return(
         <WrappedComponent { ...this.state }
-          handleFilterBar={ this.handleFilterbarUpdate.bind(this) }
+          // eslint-disable-next-line no-undef
+          handleFilterBar={ handleFilterbarUpdate.bind(this) }
           pagination={ this.pagination() }
         />
       );

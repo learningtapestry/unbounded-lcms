@@ -40,7 +40,7 @@ function replacePDF(height) {
   });
 }
 
-ready(function() {
+document.addEventListener('turbolinks:load', function() {
   PDFJS.workerSrc = window._PDFJSworkerSrc;
 
   if (!$('.o-generic-preview').length) return;

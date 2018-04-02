@@ -19,17 +19,16 @@ function pickerWindowWrapper(WrappedComponent, path) {
     }
 
     fetch() {
-      const page = this.state.pagination.current_page;
-      delete this.state.results;
-      delete this.state.pagination;
-      const url = Routes[path].call(this, { page, ...this.state, ...this.props });
+      const data = {
+        page: this.state.pagination.current_page,
+        q: this.state.q
+      };
+      const url = Routes[path].call(this, { ...data, ...this.props });
       $.getJSON(url).then(x => this.setState({ ...x }));
     }
 
     onFilterChange(field, event) {
-      const newState  = {};
-      newState[field] = event.target.value;
-      this.setState({ ...newState }, this.fetch);
+      this.setState({ [field]: event.target.value }, this.fetch);
     }
 
     pageClick(data) {
@@ -44,10 +43,11 @@ function pickerWindowWrapper(WrappedComponent, path) {
     }
 
     pagination() {
+      const breakLabel = <li className="break"><a href="javascript:">...</a></li>;
       return (
         <PaginationBoxView previousLabel={'< Previous'}
           nextLabel={ 'Next >' }
-          breakLabel={ <li className="break"><a href="javascript:">...</a></li> }
+          breakLabel={ breakLabel }
           pageNum={ this.state.pagination.total_pages }
           initialSelected={ this.state.pagination.current_page - 1 }
           forceSelected={ this.state.pagination.current_page - 1 }

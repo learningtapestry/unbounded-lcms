@@ -36,7 +36,7 @@ class PaginationBoxView extends React.Component {
 
     if (this.state.selected === selected) return;
 
-    this.setState({selected: selected});
+    this.setState({ selected: selected });
 
     // Call the callback with the new selected item:
     this.callCallback(selected);
@@ -45,16 +45,16 @@ class PaginationBoxView extends React.Component {
   callCallback(selectedItem) {
     if (typeof(this.props.clickCallback) !== 'undefined' &&
         typeof(this.props.clickCallback) === 'function') {
-      this.props.clickCallback({selected: selectedItem});
+      this.props.clickCallback({ selected: selectedItem });
     }
   }
 
   render() {
     const previousClasses = classNames(this.props.itemClassName, this.props.previousClassName,
-      {[`${this.props.itemClassName}--disabled`]: this.state.selected === 0});
+      { [`${this.props.itemClassName}--disabled`]: this.state.selected === 0 });
 
     const nextClasses = classNames(this.props.itemClassName, this.props.nextClassName,
-      {[`${this.props.itemClassName}--disabled`]: this.state.selected === this.props.pageNum - 1});
+      { [`${this.props.itemClassName}--disabled`]: this.state.selected === this.props.pageNum - 1 });
 
     return (
       <ul className={this.props.containerClassName}>
@@ -92,27 +92,27 @@ class PaginationBoxView extends React.Component {
 }
 
 PaginationBoxView.propTypes = {
-  pageNum               : React.PropTypes.number.isRequired,
-  pageRangeDisplayed    : React.PropTypes.number.isRequired,
-  marginPagesDisplayed  : React.PropTypes.number.isRequired,
-  previousLabel         : React.PropTypes.node,
-  nextLabel             : React.PropTypes.node,
-  breakLabel            : React.PropTypes.node,
-  clickCallback         : React.PropTypes.func,
-  initialSelected       : React.PropTypes.number,
-  forceSelected         : React.PropTypes.number,
-  containerClassName    : React.PropTypes.string,
-  subContainerClassName : React.PropTypes.string,
-  pagesClassName        : React.PropTypes.string,
-  pageClassName         : React.PropTypes.string,
-  pageLinkClassName     : React.PropTypes.string,
-  activeClassName       : React.PropTypes.string,
-  previousClassName     : React.PropTypes.string,
-  nextClassName         : React.PropTypes.string,
-  itemClassName         : React.PropTypes.string,
-  previousLinkClassName : React.PropTypes.string,
-  nextLinkClassName     : React.PropTypes.string,
-  disabledClassName     : React.PropTypes.string
+  pageNum               : PropTypes.number.isRequired,
+  pageRangeDisplayed    : PropTypes.number.isRequired,
+  marginPagesDisplayed  : PropTypes.number.isRequired,
+  previousLabel         : PropTypes.node,
+  nextLabel             : PropTypes.node,
+  breakLabel            : PropTypes.node,
+  clickCallback         : PropTypes.func,
+  initialSelected       : PropTypes.number,
+  forceSelected         : PropTypes.number,
+  containerClassName    : PropTypes.string,
+  subContainerClassName : PropTypes.string,
+  pagesClassName        : PropTypes.string,
+  pageClassName         : PropTypes.string,
+  pageLinkClassName     : PropTypes.string,
+  activeClassName       : PropTypes.string,
+  previousClassName     : PropTypes.string,
+  nextClassName         : PropTypes.string,
+  itemClassName         : PropTypes.string,
+  previousLinkClassName : PropTypes.string,
+  nextLinkClassName     : PropTypes.string,
+  disabledClassName     : PropTypes.string
 };
 
 PaginationBoxView.defaultProps = {

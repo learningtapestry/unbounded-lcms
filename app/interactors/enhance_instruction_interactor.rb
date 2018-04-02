@@ -51,11 +51,17 @@ class EnhanceInstructionInteractor < BaseInteractor
   end
 
   def resources(type)
-    Resource
-      .send(type)
-      .where_subject(filterbar.subjects)
-      .where_grade(filterbar.grades)
-      .ordered
-      .paginate(pagination.params(strict: true))
+    scope = Resource
+              .send(type)
+              .where_subject(filterbar.subjects)
+              .where_grade(filterbar.grades)
+
+    scope = if type == :media
+              scope.order(created_at: :desc)
+            else
+              scope.ordered
+            end
+
+    scope.paginate(pagination.params(strict: true))
   end
 end

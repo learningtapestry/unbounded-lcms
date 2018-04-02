@@ -4,6 +4,12 @@ class ExploreCurriculumItem extends React.Component {
     return this.props.index[this.props.id];
   }
 
+  downloadModal() {
+    const resource = this.curriculum().resource;
+    return (resource.downloads && resource.downloads.length > 0) ?
+      <DownloadModal resource={resource} /> : '';
+  }
+
   render() {
     const props = this.props;
     const curriculum = this.curriculum();
@@ -65,7 +71,7 @@ class ExploreCurriculumItem extends React.Component {
         <div className={cssClasses}>
           {childrenElements}
         </div>
-        <DownloadModal resource={curriculum.resource} />
+        {this.downloadModal()}
       </div>
     );
   }

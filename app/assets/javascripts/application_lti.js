@@ -5,7 +5,6 @@
 //= require vendor/modernizr-custom
 //= require vendor/swiper.jquery
 //= require vendor/pdfobject.js
-//= require ready
 //= require jquery/smoothscrolling
 //= require foundation
 //= require jquery/foundation.magellanex
@@ -22,8 +21,7 @@
 //= require initializers/soundcloud
 //= require_tree ./initializers/sidebar
 
-// eslint-disable-next-line no-undef
-ready(function() {
+document.addEventListener('turbolinks:load', function() {
   $(document).initFoundation();
   $('.o-page--resource').smoothscrolling();
   window.initializeSoundCloud();
@@ -32,6 +30,4 @@ ready(function() {
   window.initializeLessons();
 });
 
-$(document).on('page:before-unload', function() {
-  urlHistory.emptyState();
-});
+//= require initializers/events

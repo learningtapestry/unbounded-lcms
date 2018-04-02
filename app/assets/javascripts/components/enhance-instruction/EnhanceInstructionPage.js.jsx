@@ -58,11 +58,6 @@ class EnhanceInstructionPage extends React.Component {
     this.fetch(newState);
   }
 
-  handleFilterbarUpdate(filterbar) {
-    const newState = _.assign({}, this.state, { filterbar: filterbar, current_page: 1 });
-    this.fetch(newState);
-  }
-
   handleTabChange(idxTab) {
     if (idxTab !== (this.state.activeTab + 1)) {
       const newState = _.assign({}, this.state, { activeTab: idxTab - 1, current_page: 1 });
@@ -125,7 +120,8 @@ class EnhanceInstructionPage extends React.Component {
                 </div>
               </div>
               <FilterbarResponsive
-                onUpdate={this.handleFilterbarUpdate.bind(this)}
+                // eslint-disable-next-line no-undef
+                onUpdate={handleFilterbarUpdate.bind(this)}
                 withSearch={false}
                 withLead={false}
                 {...this.state.filterbar} />

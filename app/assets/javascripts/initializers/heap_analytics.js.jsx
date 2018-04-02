@@ -46,11 +46,11 @@
   };
 
   document.addEventListener('DOMContentLoaded', function() {
-    document.addEventListener('page:before-change', function() {
+    document.addEventListener('turbolinks:click', function() {
       heap.track('Page Before Change');
     });
 
-    document.addEventListener('page:load', initScrollCatching);
+    document.addEventListener('turbolinks:load', initScrollCatching);
     initScrollCatching();
 
     document.addEventListener('selectionchange', catchSelection());
