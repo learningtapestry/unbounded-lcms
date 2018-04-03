@@ -151,7 +151,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'brakeman', '~> 4.0.1', require: false
+  gem 'brakeman', '~> 4.2.1', require: false
   gem 'bullet', '~> 5.7.3'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'faker'
