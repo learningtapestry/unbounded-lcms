@@ -33,8 +33,11 @@ en:
     active: Active
     hidden: Hidden
   resource_types:
+    podcast: Podcast
     video: Video
-    resource: Resource
+    quick_reference_guide: Quick Reference Guide
+    text_set: Text Set
+    resource_other: Resource
   subjects:
     ela: ELA
     math: Math

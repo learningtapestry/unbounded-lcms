@@ -6,10 +6,12 @@ class Resource < ActiveRecord::Base
     podcast: 2,
     video: 3,
     quick_reference_guide: 4,
-    text_set: 5
+    text_set: 5,
+    resource_other: 6
   }
+
   MEDIA_TYPES = %i(video podcast).map { |t| resource_types[t] }.freeze
-  GENERIC_TYPES = %i(text_set quick_reference_guide).map { |t| resource_types[t] }.freeze
+  GENERIC_TYPES = %i(text_set quick_reference_guide resource_other).map { |t| resource_types[t] }.freeze
 
   SUBJECTS = %w(ela math lead).freeze
   HIERARCHY = %i(subject grade module unit lesson).freeze
@@ -134,7 +136,7 @@ class Resource < ActiveRecord::Base
   end
 
   def generic?
-    %w(text_set quick_reference_guide).include?(resource_type)
+    %w(text_set quick_reference_guide resource_other).include?(resource_type)
   end
 
   # `Optional prerequisite` - https://github.com/learningtapestry/unbounded/issues/557

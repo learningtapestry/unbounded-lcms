@@ -10,7 +10,7 @@ class ResourceInstructionSerializer < ActiveModel::Serializer
   def title
     return object.title if media?
 
-    type_name = object.resource_type.humanize.titleize
+    type_name = I18n.t("resource_types.#{object.resource_type}")
     object.grades.present? ? "#{object.grades.to_str} #{type_name}" : type_name
   end
 

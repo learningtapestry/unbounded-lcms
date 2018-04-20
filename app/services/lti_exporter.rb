@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'zip'
+
 class LtiExporter
   class << self
     include Rails.application.routes.url_helpers

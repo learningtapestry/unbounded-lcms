@@ -123,5 +123,7 @@ Rails.application.routes.draw do
     resource :batch_reimport, only: %i(new create)
   end
 
+  get '/ExcludeMeGA' => 'analytics_exclusion#exclude'
+
   get '/*slug' => 'resources#show', as: :show_with_slug
 end
