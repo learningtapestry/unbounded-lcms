@@ -6,7 +6,7 @@ class GenericPresenter < ResourcePresenter
   end
 
   def type_name
-    resource_type.humanize.titleize
+    I18n.t("resource_types.#{resource_type}")
   end
 
   def preview?
