@@ -41,6 +41,8 @@ class HierarchicalPosition
   end
 
   def subject_position
+    return 99 if resource.generic?
+
     val = Resource::SUBJECTS.index(resource.subject)
     val ? val + 1 : 99
   end
