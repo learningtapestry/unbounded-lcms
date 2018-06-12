@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: This will create the code pipeline that will build test and deploy Unbounded-LCMS
+        via ElasticBeanstalk
+Parameters:
+        GitHubUser:
+                Type: String
+                Description: Your username on GitHub.
+        GitHubRepo:
+                Type: String
+                Default: ecs-demo-php-simple-app
+                Description: The repo name of the sample service.
+        GitHubBranch:
+                Type: String
+                Default: master
+                Description: The branch of the repo to continuously deploy.
+        GitHubToken:
+                Type: String
+                NoEcho: true
+                Description: Token for the user specified above. (https://github.com/settings/token)
+Metadata:
+        AWS::CloudFormation::Interface:
+                ParameterLabels:
+                        GitHubUser:
+                                default: User
+                        GitHubRepo:
+                                default: Repo
+                        GitHubBranch:
+                                default: Branch
+                        GitHubToken:
+                                default: Personal Access Token
+                                ParameterGroups:
+                                -       Label:
+                                                default: GitHub Configuration
+                                        Parameters:
+                                        - GitHubRepo
+                                        - GitHubBranch
+                                        - GitHubUser
+                                        - GitHubToken
+Resources:
+        UnboundedECRRepository:
+                Type: AWS::ECR::Repository
+                DeletionPolicy: Retain
+        
