@@ -1,0 +1,55 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "php-app",
+      "image": "php:fpm",
+      "environment": [
+        {
+          "name": "Container",
+          "value": "PHP"
+        }
+      ],
+      "essential": true,
+      "memory": 128
+    },
+    {
+      "name": "postgres",
+      "image": "postgres:9.6-alpine",
+      "essential": true,
+      "memory": 128,
+      "environment": [
+        {
+          "name": "POSTGRES_PASSWORD",
+          "value": "unbouncded_lcms"
+        },
+        {
+          "name": "POSTGRES_USER",
+          "value": "unbounded_lcms"
+        },
+        {
+          "name": "POSTGRES_DB",
+          "value": "unbounded_lcms"
+        }
+      ]
+    },
+    {
+      "name": "elasticsearch",
+      "image": "docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4",
+      "essential": true,
+      "memory": 640,
+      "environment": [
+        {
+          "name": "ES_JAVA_OPTS",
+          "value": "-Xms512m -Xmx512m"
+        }
+      ]
+    },
+    {
+      "name": "redis",
+      "image": "redis:alpine",
+      "essential": true,
+      "memory" : 256
+    }
+  ]
+}

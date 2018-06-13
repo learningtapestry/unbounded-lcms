@@ -1,5 +1,4 @@
 FROM ruby:2.3-jessie
-SHELL ["/bin/bash", "-c"]
 MAINTAINER Marc Byfield<marc@learningtapestry.com>
 
 RUN apt-get update && apt-get install apt-transport-https
@@ -16,3 +15,5 @@ ADD . .
 RUN cp -R app/assets/fonts/* /usr/local/share/fonts && fc-cache -f -v
 RUN . $HOME/.nvm/nvm.sh && yarn
 RUN bundle install
+RUN chmod +x ./docker-entrypoint.sh
+CMD ["./docker-entrypoint.sh"]
