@@ -7,7 +7,7 @@ namespace :db do # rubocop:disable Metrics/BlockLength
 
     backup_cmd = <<-BASH
       BACKUP_FOLDER=$HOME/database_backups/`date +%Y_%m_%d`
-      BACKUP_NAME=unbounded_`date +%s`.dump
+      BACKUP_NAME=lcms_`date +%s`.dump
       BACKUP_PATH=$BACKUP_FOLDER/$BACKUP_NAME
 
       mkdir -p $BACKUP_FOLDER

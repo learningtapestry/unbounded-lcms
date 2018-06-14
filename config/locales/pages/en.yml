@@ -27,18 +27,18 @@ en:
   devise:
     confirmations:
       create:
-        page_title: UnboundEd - Confirmation Instructions
+        page_title: LCMS - Confirmation Instructions
       new:
-        page_title: UnboundEd - Confirmation Instructions
+        page_title: LCMS - Confirmation Instructions
     passwords:
       create:
-        page_title: UnboundEd - Forgot Your Password?
+        page_title: LCMS - Forgot Your Password?
       edit:
-        page_title: UnboundEd - Change Password
+        page_title: LCMS - Change Password
       new:
-        page_title: UnboundEd - Forgot Your Password?
+        page_title: LCMS - Forgot Your Password?
       update:
-        page_title: UnboundEd - Change Password
+        page_title: LCMS - Change Password
   document:
     toc:
       credits: Credits
@@ -70,15 +70,15 @@ en:
 
   enhance_instruction:
     index:
-      page_title: UnboundEd - Enhance Instruction
+      page_title: LCMS - Enhance Instruction
       page_description: Search our free professional learning resources for teaching guides, videos and podcasts that focus on the application of content related to the standards in the classroom. Download, adapt, share.
   explore_curriculum:
     index:
-      page_title: UnboundEd - Explore Curriculum
+      page_title: LCMS - Explore Curriculum
       page_description: Search our free collection of high-quality PreK - 12 ELA and Math materials. Filter by subject or grade. Download, adapt, share.
   find_lessons:
     index:
-      page_title: UnboundEd - Find Lessons
+      page_title: LCMS - Find Lessons
       page_description: Search our free collection of high-quality PreK - 12 ELA and Math materials, for specific lessons or topics within a grade. Download, adapt, share.
   home_page:
     curriculum_html: >
@@ -101,18 +101,18 @@ en:
     about:
       staff_members: Staff Members
     leadership:
-      page_title: UnboundEd - Advance Leadership
+      page_title: LCMS - Advance Leadership
       page_description: Empower and inspire your school community to ensure higher standards for all students with our free, aligned curricular and professional learning resources.
     not_found:
       page_header: Page Not Found
-      page_title: UnboundEd - Page Not Found
+      page_title: LCMS - Page Not Found
   preview:
     back: View Details
   registrations:
     create:
-      page_title: UnboundEd - Create Account
+      page_title: LCMS - Create Account
     new:
-      page_title: UnboundEd - Create Account
+      page_title: LCMS - Create Account
   resources:
     media:
       related_guides_subtitle: Guides that feature this %{type} will appear in this section.
@@ -121,20 +121,20 @@ en:
       standard_title: "English Language Acquisition Scaffolds for %{std}"
   search:
     index:
-      page_title: UnboundEd - Search
+      page_title: LCMS - Search
       page_description: Search our free collection of high-quality PreK - 12 ELA and Math materials, teaching guides, videos, and podcasts. Filter by subject or grade, or search to reveal assets.
       per_page: results per page
       search_for: Search for…
       show: Show
   sessions:
     new:
-      page_title: UnboundEd - Log In
+      page_title: LCMS - Log In
   surveys:
     create:
-      page_title: UnboundEd - Survey
+      page_title: LCMS - Survey
     show:
-      page_title: UnboundEd - Survey
+      page_title: LCMS - Survey
   welcome:
     index:
-      page_title: UnboundEd
+      page_title: LCMS
       page_description: We provide free, standards-aligned resources and immersive training for teachers and school leaders.

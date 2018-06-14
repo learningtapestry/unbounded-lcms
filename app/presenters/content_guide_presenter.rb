@@ -26,7 +26,7 @@ class ContentGuidePresenter < BasePresenter # rubocop:disable Metrics/ClassLengt
   end
 
   def sticky_title
-    "#{t('ui.unbounded')} #{subject} #{t('ui.guide')} #{grades.range}"
+    "LCMS #{subject} #{t('ui.guide')} #{grades.range}"
   end
 
   def broken_images
