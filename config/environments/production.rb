@@ -30,7 +30,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
     redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
     config.cache_store = :readthis_store, {
       expires_in: 29.days.to_i,
-      namespace: 'unbounded',
+      namespace: 'lcms',
       redis: { url: redis_url, driver: :hiredis }
     }
   else
