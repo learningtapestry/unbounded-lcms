@@ -21,7 +21,7 @@
       "environment": [
         {
           "name": "POSTGRES_PASSWORD",
-          "value": "unbouncded_lcms"
+          "value": "unbounded_lcms"
         },
         {
           "name": "POSTGRES_USER",
