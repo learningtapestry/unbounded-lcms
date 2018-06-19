@@ -28,8 +28,7 @@ class BulkEditResourcesService
           resource.resource_standards.find_or_create_by!(standard_id: standard_id)
         end
 
-        dir = resource.curriculum_directory - resource.grades.list + after.grades.list
-        resource.curriculum_directory = dir
+        resource.metadata['grade'] = after.metadata['grade']
         resource.tag_list = after.tag_list
         resource.resource_type_list = after.resource_type_list
 

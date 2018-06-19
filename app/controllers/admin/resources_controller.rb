@@ -15,7 +15,7 @@ module Admin
     def index
       @query = Resource.ransack(params[:q].try(:except, :grades))
       resources = @query.result.includes(:standards)
-      resources = resources.where_curriculum(grade_params) if grade_params.present?
+      resources = resources.where_grade(grade_params) if grade_params.present?
       @resources = resources.order(id: :desc).paginate(page: params[:page], per_page: 15)
     end
 
@@ -92,7 +92,7 @@ module Admin
             end
           ps = params.require(:resource).permit(
             :curriculum_type,
-            :curriculum_directory,
+            :directory,
             :parent_id,
             :tree,
             :description,
@@ -130,7 +130,8 @@ module Admin
           ps[:download_categories_settings].transform_values! do |settings|
             settings.transform_values! { |x| x == '1' }
           end
-          ps[:curriculum_directory] = ps[:curriculum_directory].split(',')
+          dir = ps.delete(:directory)&.split(',')
+          ps[:metadata] = Resource.metadata_from_dir(dir)
           ps
         end
     end

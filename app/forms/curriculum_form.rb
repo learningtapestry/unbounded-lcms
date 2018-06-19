@@ -31,7 +31,7 @@ class CurriculumForm
   end
 
   def find_resource_by(id, curr)
-    Resource.tree.find_by(id: id) || Resource.tree.find_by_curriculum(curr)
+    Resource.tree.find_by(id: id) || Resource.tree.find_by_directory(curr)
   end
 
   # Reflect curriculum changes on corresponding resources
@@ -51,19 +51,19 @@ class CurriculumForm
     return unless name
 
     curr_dir = change['curriculum'].push(name)
-    return if Resource.tree.find_by_curriculum(curr_dir)
+    return if Resource.tree.find_by_directory(curr_dir)
 
     parent = find_resource_by(change['parent'], change['curriculum'])
     return unless parent
 
     res = Resource.new(
-      curriculum_directory: curr_dir,
       curriculum_type: parent.next_hierarchy_level,
       level_position: parent.children.size,
+      metadata: Resource.metadata_from_dir(curr_dir),
       parent_id: parent.id,
       resource_type: :resource,
       short_title: name,
-      tree: true
+      curriculum_id: Curriculum.default.id
     )
     res.title = Breadcrumbs.new(res).title.split(' / ')[0...-1].push(name.titleize).join(' ')
     res.save!
@@ -98,8 +98,8 @@ class CurriculumForm
     resource = find_resource_by(change['id'], change['curriculum'])
     return unless resource
 
-    resource.update parent: nil, tree: false
-    resource.descendants.update_all tree: false
+    resource.update parent: nil, curriculum_id: nil
+    resource.descendants.update_all curriculum_id: nil
   end
 
   def handle_rename(change)
@@ -108,15 +108,14 @@ class CurriculumForm
     return unless resource && change['to'].present?
 
     # change the short_title and directory tags on the resource itself
+    curr_type = resource.curriculum_type
     resource.short_title = change['to']
-    dir = resource.curriculum_directory - [change['from']] + [change['to']]
-    resource.curriculum_directory = dir
+    resource.metadata[curr_type] = change['to']
     resource.save!
 
     # fix directory tags for the descendants
     resource.descendants.each do |res|
-      dir = res.curriculum_directory - [change['from']] + [change['to']]
-      res.update curriculum_directory: dir
+      res.update metadata: res.metadata.merge(curr_type => change['to'])
     end
   end
 

@@ -1,34 +1,13 @@
 # frozen_string_literal: true
 
 class ResourceTasks
-  def self.fix_formatting
-    ActiveRecord::Base.transaction do
-      Resource.find_each do |res|
-        desc = res.description.try(:strip)
-
-        should_fix_newlines = desc.present? && (desc =~ %r{</}).nil? && (desc =~ /\r?\n/)
-
-        if should_fix_newlines
-          res.description = desc.gsub(/\r?\n/, '<br>')
-          puts "Transformed newlines for resource #{res.id} - #{res.title}"
-        end
-
-        res.save!
+  def self.fix_metadata
+    Resource.tree.find_each do |res|
+      curr_meta = res.self_and_ancestors.each_with_object({}) do |r, obj|
+        obj[r.curriculum_type] = r.short_title
       end
-    end
-  end
-
-  def self.fix_lessons_metadata
-    Resource.lessons.each do |res|
-      next unless res.document?
-
-      md = res.document.metadata
-      attrs = {
-        title:  md['title'].presence,
-        teaser:  md['teaser'].presence,
-        description:  md['description'].presence
-      }.compact
-      res.update(**attrs) if attrs.present?
+      res.metadata.merge! curr_meta
+      res.save
     end
   end
 

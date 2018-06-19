@@ -33,6 +33,7 @@ en:
     active: Active
     hidden: Hidden
   resource_types:
+    resource: Resource
     podcast: Podcast
     video: Video
     quick_reference_guide: Quick Reference Guide

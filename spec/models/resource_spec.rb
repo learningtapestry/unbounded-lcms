@@ -9,26 +9,23 @@ describe Resource do
 
   describe '.tree' do
     before do
+      pub = create(:curriculum, name: 'Test', slug: 'test', default: false)
       2.times { create(:resource) }
-      3.times { create(:resource, tree: false) }
+      3.times { create(:resource, curriculum: pub) }
+      2.times { create(:resource, curriculum: nil) }
     end
 
-    it 'selects only resources from the default curriculum tree' do
+    it 'selects only resources with a default curriculum assoc' do
+      expect(Resource.count).to eq 7
       expect(Resource.tree.count).to eq 2
     end
-  end
 
-  describe '.where_curriculum' do
-    before { resources_sample_collection }
-
-    it 'selects based on the tags passed' do
-      expect(Resource.where_curriculum(:ela).count).to eq 8
-      expect(Resource.where_curriculum('grade 2').count).to eq 2
-      expect(Resource.where_curriculum('math', 'grade 7').count).to eq 7
+    it 'selects resources by curriculum name' do
+      expect(Resource.tree('Test').count).to eq 3
     end
 
-    it 'also accepts arrays as param' do
-      expect(Resource.where_curriculum(['ela', 'grade 6']).count).to eq 6
+    it 'selects resources by curriculum slug' do
+      expect(Resource.tree('engageny').count).to eq 2
     end
   end
 
@@ -38,7 +35,6 @@ describe Resource do
     it 'select by subject' do
       expect(Resource.where_subject('ela').count).to eq 8
     end
-
     it 'accepts multiple entries' do
       expect(Resource.where_subject(%w(ela math)).count).to eq 19
     end
@@ -56,46 +52,59 @@ describe Resource do
     end
   end
 
-  describe '#curriculum_tags_for' do
-    def resource_for(dir)
-      create(:resource, curriculum_directory: dir)
+  describe 'add author to grades and its descendants' do
+    let(:author) { create(:author) }
+    let(:dir) { ['math', 'grade 2', 'module 1', 'topic a', 'lesson 1'] }
+
+    before { build_resources_chain(dir) }
+
+    it 'set authorship on grades' do
+      grade = Resource.find_by_directory dir[0..2]
+      lesson = Resource.find_by_directory dir
+
+      expect(grade.author).to be_nil
+      expect(lesson.author).to be_nil
+
+      grade.add_grade_author(author)
+
+      expect(grade.reload.author_id).to eq author.id
+      expect(lesson.reload.author_id).to eq author.id
     end
 
-    it 'get tags for subject' do
-      res = resource_for ['ela', 'grade 1', 'module 2']
-      expect(res.curriculum_tags_for(:subject)).to eq ['ela']
+    it 'set authorship on descendants' do
+      grade = Resource.find_by_directory dir[0..2]
+      lesson = Resource.find_by_directory dir
 
-      res = resource_for ['math', 'prekindergarten', 'module 3']
-      expect(res.curriculum_tags_for(:subject)).to eq ['math']
+      expect(grade.author).to be_nil
+      expect(lesson.author).to be_nil
+
+      lesson.add_grade_author(author)
+
+      expect(grade.reload.author_id).to eq author.id
+      expect(lesson.reload.author_id).to eq author.id
     end
+  end
 
-    it 'get tags for grade' do
-      res = resource_for ['grade 2', 'bla', 'module 2']
-      expect(res.curriculum_tags_for(:grade)).to eq ['grade 2']
+  describe 'update metadata on save' do
+    let(:dir) { ['math', 'grade 2', 'module 1', 'topic a'] }
 
-      res = resource_for ['grade 2', 'grade 3', 'prekindergarten']
-      expect(res.curriculum_tags_for(:grade)).to eq ['grade 2', 'grade 3', 'prekindergarten']
-    end
+    before { build_resources_chain dir }
 
-    it 'get tags for module' do
-      res = resource_for ['grade 2', 'ela', 'module 2']
-      expect(res.curriculum_tags_for(:module)).to eq ['module 2']
-    end
+    it 'populate metadata on creation' do
+      parent = Resource.find_by_directory dir
 
-    it 'get tags for unit' do
-      res = resource_for ['grade 2', 'ela', 'module 2', 'unit 5']
-      expect(res.curriculum_tags_for(:unit)).to eq ['unit 5']
-
-      res = resource_for ['grade 2', 'math', 'module 2', 'topic c']
-      expect(res.curriculum_tags_for(:unit)).to eq ['topic c']
-    end
-
-    it 'get tags for lesson' do
-      res = resource_for ['grade 2', 'ela', 'module 2', 'unit 5', 'lesson 1']
-      expect(res.curriculum_tags_for(:lesson)).to eq ['lesson 1']
-
-      res = resource_for ['grade 2', 'math', 'module 2', 'topic c', 'part 2']
-      expect(res.curriculum_tags_for(:lesson)).to eq ['part 2']
+      res = Resource.create! parent: parent,
+                             title: 'Math-G2-M1-TA-Lesson 1',
+                             short_title: 'lesson 1',
+                             curriculum: Curriculum.default,
+                             curriculum_type: 'lesson'
+      meta = { 'subject' => 'math',
+               'grade' => 'grade 2',
+               'module' => 'module 1',
+               'unit' => 'topic a',
+               'lesson' => 'lesson 1' }
+      expect(res.metadata).to_not be_empty
+      expect(res.metadata).to eq meta
     end
   end
 end

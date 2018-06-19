@@ -27,7 +27,7 @@ class CurriculumPresenter
       id: node.id,
       text: node.short_title,
       state: { opened: level(node) < UNIT_LEVEL },
-      children: node.children.tree.ordered.map { |res| parse_jstree_node(res) },
+      children: node.children.map { |res| parse_jstree_node(res) },
       li_attr: { title: node.title }
     }
   end

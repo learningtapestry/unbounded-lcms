@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 namespace :resources do
-  desc 'Fixes formatting for resources'
-  task fix_formatting: [:environment] { ResourceTasks.fix_formatting }
-
-  desc 'Fix lessons metadata'
-  task fix_lessons_metadata: [:environment] { ResourceTasks.fix_lessons_metadata }
+  desc 'Fix curriculum metadata'
+  task fix_metadata: [:environment] { ResourceTasks.fix_metadata }
 
   desc 'Generate Unit Document Bundles'
   task generate_bundles: [:environment] { ResourceTasks.generate_unit_bundles }
@@ -21,4 +18,14 @@ namespace :resources do
 
   desc 'Sync reading assignment'
   task sync_reading_assignments: [:environment] { ResourceTasks.sync_reading_assignments }
+
+  desc 'Clear detached/orphan resources'
+  task clear_detached: :environment do
+    rtype = Resource.resource_types[:resource]
+    detached = Resource
+                 .where('tree = ? OR curriculum_id IS NULL', false)
+                 .where(resource_type: rtype)
+    puts "===> Removing #{detached.count} detached resources"
+    detached.destroy_all
+  end
 end
