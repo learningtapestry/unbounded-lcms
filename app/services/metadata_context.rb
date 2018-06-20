@@ -10,19 +10,30 @@ class MetadataContext
     @ctx = ctx.with_indifferent_access
   end
 
-  def curriculum
-    @curriculum ||= [subject, grade, mod, unit, lesson].select(&:present?)
+  def directory
+    @directory ||= [subject, grade, mod, unit, lesson].select(&:present?)
+  end
+
+  def metadata
+    @metadata ||= {
+      'subject' => subject,
+      'grade' => grade,
+      'module' => mod,
+      'unit' => unit,
+      'lesson' => lesson,
+      'assessment' => (type if assessment?)
+    }.compact.stringify_keys
   end
 
   def find_or_create_resource
     # if the resource exists, return it
-    resource = Resource.find_by_curriculum(curriculum)
+    resource = Resource.find_by_directory(directory)
     return resource if resource
 
     # else, build missing parents until we build the resource itself.
     parent = nil
-    curriculum.each_with_index do |name, index|
-      resource = Resource.tree.find_by_curriculum(curriculum[0..index])
+    directory.each_with_index do |name, index|
+      resource = Resource.tree.find_by_directory(directory[0..index])
       if resource
         parent = resource
         next
@@ -60,15 +71,15 @@ class MetadataContext
   end
 
   def build_new_resource(parent, name, index)
-    dir = curriculum[0..index]
+    dir = directory[0..index]
     resource = Resource.new(
-      curriculum_directory: dir,
       curriculum_type: parent.next_hierarchy_level,
       level_position: parent.children.size,
+      metadata: metadata,
       parent_id: parent.id,
       resource_type: :resource,
       short_title: name,
-      tree: true
+      curriculum_id: Curriculum.default.id
     )
     if last_item?(index)
       resource.tag_list = tag_list if resource.lesson?
@@ -85,8 +96,8 @@ class MetadataContext
       mid_assessment? ? 'Mid-Unit Assessment' : 'End-Unit Assessment'
     else
       # ELA G1 M1 U2 Lesson 1
-      curr ||= curriculum
-      res = Resource.new(curriculum_directory: curr)
+      curr ||= directory
+      res = Resource.new(metadata: metadata)
       Breadcrumbs.new(res).title.split(' / ')[0...-1].push(curr.last.titleize).join(' ')
     end
   end
@@ -104,7 +115,7 @@ class MetadataContext
   end
 
   def last_item?(index)
-    index == curriculum.size - 1
+    index == directory.size - 1
   end
 
   def lesson

@@ -9,29 +9,6 @@ namespace :oneoff do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  # related to https://github.com/learningtapestry/unbounded/pull/669
-  # should be run once for fixing the modules curriculum (if needed)
-  task fix_alphanum_modules: :environment do
-    Resource.tree.modules
-      .select { |r| r.curriculum_directory.none? { |s| s =~ /module/ } && r.short_title =~ /^\w+$/ }
-      .each do |r|
-        r.curriculum_directory.delete(r.short_title)
-        mod = "module #{r.short_title.downcase}"
-        r.short_title = mod
-        r.curriculum_directory << mod
-        r.save
-
-        r.children.each do |u|
-          u.curriculum_directory << mod
-          u.save
-          u.children.each do |l|
-            l.curriculum_directory << mod
-            l.save
-          end
-        end
-      end
-  end
-
   task fix_level_positions: :environment do
     def consecutive?(l)
       l.zip(0..l.size).all? { |num, index| num == index }

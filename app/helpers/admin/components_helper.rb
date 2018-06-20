@@ -52,11 +52,11 @@ module Admin
     end
     # rubocop:enable Metrics/ParameterLists
 
-    def curriculum_picker_props(resource)
+    def directory_picker_props(resource)
       {
-        directory: resource.curriculum_directory,
+        directory: resource.directory,
         parent: {
-          curriculum: resource.parent.try(:curriculum) || [],
+          directory: resource.parent.try(:directory) || [],
           id: resource.parent_id,
           title: resource.parent.try(:title)
         },

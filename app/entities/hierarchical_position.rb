@@ -73,7 +73,7 @@ class HierarchicalPosition
     val =  resource.lesson? ? resource.level_position : nil
     return val if val
 
-    lesson = resource.curriculum_tags_for(:lesson).first
+    lesson = resource.metadata['lesson']
     lesson =~ lesson.try(:match, /(\d+)/).try(:[], 1).to_i
   end
 end

@@ -6,6 +6,8 @@ class Grades
             'grade 4', 'grade 5', 'grade 6', 'grade 7', 'grade 8', 'grade 9',
             'grade 10', 'grade 11', 'grade 12'].freeze
 
+  GRADES_ABBR = %w(pk k 1 2 3 4 5 6 7 8 9 10 11 12).freeze
+
   attr_reader :model
 
   def initialize(model)
@@ -14,9 +16,9 @@ class Grades
 
   def list
     @list ||= if model.is_a?(Resource)
-                model.curriculum_tags_for(:grade)
+                Array.wrap model.metadata['grade']
               elsif model.is_a?(Search::Document)
-                Array.wrap(model.grade.presence)
+                Array.wrap model.grade.presence
               else
                 model.grade_list
               end.sort_by { |g| GRADES.index(g) }

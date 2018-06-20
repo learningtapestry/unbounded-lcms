@@ -36,9 +36,9 @@ class LtiExporter
             identifier: SecureRandom.hex(17),
             title: resource.title
           }],
-          title: resource.curriculum.second
+          title: resource.metadata['grade']
         }],
-        title: resource.curriculum.first
+        title: resource.metadata['subject']
       }
 
       Lti::ThinCommonCartridge.new parent

@@ -4,7 +4,8 @@ require 'rails_helper'
 
 describe Breadcrumbs do
   let(:breadcrumbs) { described_class.new(resource) }
-  let(:resource) { create :resource, curriculum_type: type, curriculum_directory: dir }
+  let(:metadata) { Resource.metadata_from_dir(dir) }
+  let(:resource) { create :resource, curriculum_type: type, metadata: metadata }
 
   context 'map' do
     let(:type) { 'map' }

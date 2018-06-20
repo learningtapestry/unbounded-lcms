@@ -14,7 +14,7 @@
 
 <%= f.input :opr_description, label: t('admin.resources.form.opr_description'), wrapper_html: {class: (resource.unit? ? '': 'c-hidden')} %>
 
-<%= react_component('CurriculumPicker', curriculum_picker_props(resource), prerender: true) %>
+<%= react_component('DirectoryPicker', directory_picker_props(resource), prerender: true) %>
 
 <%= f.input :time_to_teach %>
 

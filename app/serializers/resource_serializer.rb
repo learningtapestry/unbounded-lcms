@@ -20,7 +20,7 @@ class ResourceSerializer < ActiveModel::Serializer
   end
 
   def is_assessment # rubocop:disable Naming/PredicateName
-    short_title&.index('assessment').present?
+    object&.assessment? || short_title&.index('assessment').present?
   end
 
   def is_foundational # rubocop:disable Naming/PredicateName

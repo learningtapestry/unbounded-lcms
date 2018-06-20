@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180122113704) do
+ActiveRecord::Schema.define(version: 20180531182323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20180122113704) do
   end
 
   add_index "access_codes", ["code"], name: "index_access_codes_on_code", unique: true, using: :btree
+
+  create_table "authors", force: :cascade do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "content_guide_definitions", force: :cascade do |t|
     t.string   "keyword",     null: false
@@ -102,14 +109,13 @@ ActiveRecord::Schema.define(version: 20180122113704) do
     t.integer  "resource_id", null: false
   end
 
-  create_table "curriculum_hierarchies", id: false, force: :cascade do |t|
-    t.integer "ancestor_id",   null: false
-    t.integer "descendant_id", null: false
-    t.integer "generations",   null: false
+  create_table "curriculums", force: :cascade do |t|
+    t.string   "name",                       null: false
+    t.string   "slug",                       null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "default",    default: false, null: false
   end
-
-  add_index "curriculum_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "curriculum_anc_desc_idx", unique: true, using: :btree
-  add_index "curriculum_hierarchies", ["descendant_id"], name: "curriculum_desc_idx", using: :btree
 
   create_table "document_bundles", force: :cascade do |t|
     t.string   "category",                     null: false
@@ -364,14 +370,12 @@ ActiveRecord::Schema.define(version: 20180122113704) do
     t.string   "subtitle"
     t.string   "teaser"
     t.integer  "time_to_teach"
-    t.string   "subject"
     t.boolean  "ell_appropriate",              default: false, null: false
     t.datetime "deleted_at"
     t.integer  "resource_type",                default: 1,     null: false
     t.string   "url"
     t.string   "image_file"
     t.string   "curriculum_type"
-    t.text     "curriculum_directory",         default: [],    null: false, array: true
     t.string   "hierarchical_position"
     t.string   "slug"
     t.integer  "parent_id"
@@ -379,10 +383,16 @@ ActiveRecord::Schema.define(version: 20180122113704) do
     t.boolean  "tree",                         default: false, null: false
     t.string   "opr_description"
     t.jsonb    "download_categories_settings", default: {},    null: false
+    t.jsonb    "metadata",                     default: {},    null: false
+    t.integer  "author_id"
+    t.integer  "curriculum_id"
   end
 
+  add_index "resources", ["author_id"], name: "index_resources_on_author_id", using: :btree
+  add_index "resources", ["curriculum_id"], name: "index_resources_on_curriculum_id", using: :btree
   add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
+  add_index "resources", ["metadata"], name: "index_resources_on_metadata", using: :gin
   add_index "resources", ["resource_type"], name: "index_resources_on_resource_type", using: :btree
 
   create_table "sessions", force: :cascade do |t|
