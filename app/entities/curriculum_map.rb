@@ -35,7 +35,7 @@ class CurriculumMap
   def curriculum
     grade = resource.ancestors
               .includes(:copyright_attributions)
-              .eager_load(:unbounded_standards)
+              .eager_load(:standards)
               .where(curriculum_type: :grade)
               .take
     CurriculumResourceSerializer.new(

@@ -43,6 +43,7 @@ module Search
 
     # this is necessary for the ActiveModel::ArraySerializer#as_json method to work
     # (used on the Pagination#serialize_with_pagination)
+    # NOTE: https://github.com/rails-api/active_model_serializers/issues/891
     def read_attribute_for_serialization(key)
       if key.try(:to_sym) == :id
         attributes.fetch(key) { id }

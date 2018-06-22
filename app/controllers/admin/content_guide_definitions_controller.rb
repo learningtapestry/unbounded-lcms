@@ -16,7 +16,7 @@ module Admin
       file_id = ContentGuide.file_id_from_url(params[:content_guide_definition][:url])
       redirect_to :new_admin_content_guide_definition if file_id.blank?
 
-      ContentGuideDefinition.import(file_id, google_credentials)
+      ContentGuideDefinitionImporter.call google_credentials, file_id
 
       redirect_to :admin_content_guide_definitions, notice: t('.success')
     end

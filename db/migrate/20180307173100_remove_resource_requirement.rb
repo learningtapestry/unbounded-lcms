@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
-class CreateResourceRequirements < ActiveRecord::Migration
+class RemoveResourceRequirement < ActiveRecord::Migration
   def change
-    create_table :resource_requirements do |t|
+    drop_table :resource_requirements do |t|
       t.integer :resource_id, null: false, index: true
       t.integer :requirement_id, null: false
 

@@ -33,13 +33,8 @@ class Resource < ActiveRecord::Base
   has_many :resource_additional_resources, dependent: :destroy
   has_many :additional_resources, through: :resource_additional_resources
 
-  # Standards.
   has_many :resource_standards, dependent: :destroy
   has_many :standards, through: :resource_standards
-  has_many :common_core_standards, -> { where(type: 'CommonCoreStandard') },
-           source: :standard, through: :resource_standards
-  has_many :unbounded_standards, -> { where(type: 'UnboundedStandard') },
-           source: :standard, through: :resource_standards
 
   # Downloads.
   has_many :resource_downloads, dependent: :destroy
@@ -58,10 +53,6 @@ class Resource < ActiveRecord::Base
            class_name: 'ResourceRelatedResource',
            foreign_key: 'related_resource_id',
            dependent: :destroy
-
-  # Requirements
-  has_many :resource_requirements, dependent: :destroy
-  has_many :requirements, through: :resource_requirements
 
   has_many :content_guides, through: :unbounded_standards
   has_many :copyright_attributions, dependent: :destroy
@@ -224,10 +215,6 @@ class Resource < ActiveRecord::Base
     end
   end
 
-  def bilingual_standards
-    standards.bilingual.distinct.order(:name)
-  end
-
   alias do_not_skip_indexing? should_index?
   def should_index?
     do_not_skip_indexing? && (tree? || media? || generic?)
@@ -253,7 +240,7 @@ class Resource < ActiveRecord::Base
   end
 
   def tag_standards
-    common_core_standards.map(&:alt_names).flatten.uniq
+    standards.map(&:alt_names).flatten.uniq
   end
 
   def copyrights

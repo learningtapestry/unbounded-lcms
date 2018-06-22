@@ -34,10 +34,11 @@ namespace :thumbnails do # rubocop:disable Metrics/BlockLength
 
   # rubocop:disable Style/DateTime
   task update: [:environment] do
-    origin_time = '2017-01-23T16:25:00+00:00' # first time we have run the thumbnails
+    # first time we have run the thumbnails
+    origin_time = Settings[:thumbnails_last_update].presence || '2017-01-23T16:25:00+00:00'
 
-    last_update = Settings.thumbnails_last_update || DateTime.parse(origin_time)
-    new_update_time = DateTime.now
+    last_update = DateTime.parse origin_time
+    new_update_time = DateTime.current
 
     update_thumbs Resource.tree.where('updated_at > ?', last_update)
 
@@ -45,7 +46,7 @@ namespace :thumbnails do # rubocop:disable Metrics/BlockLength
     update_thumbs Resource.generic_resources.where('updated_at > ?', last_update)
     update_thumbs ContentGuide.where('updated_at > ?', last_update)
 
-    Settings.settings.update thumbnails_last_update: new_update_time
+    Settings[:thumbnails_last_update] = new_update_time
   end
   # rubocop:enable Style/DateTime
 

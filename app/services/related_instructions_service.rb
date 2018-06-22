@@ -52,7 +52,7 @@ class RelatedInstructionsService
   end
 
   def find_related_through_standards(limit:, &_block)
-    related = resource.unbounded_standards.flat_map do |standard|
+    related = resource.standards.flat_map do |standard|
       qset = yield standard
       qset = qset.limit(limit) unless expanded # limit each part
       qset

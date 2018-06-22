@@ -19,12 +19,16 @@ namespace :resources do
   desc 'Sync reading assignment'
   task sync_reading_assignments: [:environment] { ResourceTasks.sync_reading_assignments }
 
+  desc 'Import V1 json files'
+  task :json_import, %i(slug) => :environment do |_t, args|
+    raise "Slug param required, e.g: json_import['math/grade 6']" unless args[:slug]
+    ResourcesJsonImporter.new(args[:slug]).run
+  end
+
   desc 'Clear detached/orphan resources'
   task clear_detached: :environment do
     rtype = Resource.resource_types[:resource]
-    detached = Resource
-                 .where('tree = ? OR curriculum_id IS NULL', false)
-                 .where(resource_type: rtype)
+    detached = Resource.where(tree: false, resource_type: rtype)
     puts "===> Removing #{detached.count} detached resources"
     detached.destroy_all
   end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Document < ActiveRecord::Base
+  GOOGLE_URL_PREFIX = 'https://docs.google.com/document/d'
+
   belongs_to :resource
   has_many :document_parts, dependent: :delete_all
   has_and_belongs_to_many :materials
@@ -76,12 +78,12 @@ class Document < ActiveRecord::Base
 
   def file_url
     return unless file_id.present?
-    "https://docs.google.com/document/d/#{file_id}"
+    "#{GOOGLE_URL_PREFIX}/#{file_id}"
   end
 
   def file_fs_url
     return unless foundational_file_id.present?
-    "https://docs.google.com/document/d/#{foundational_file_id}"
+    "#{GOOGLE_URL_PREFIX}/#{foundational_file_id}"
   end
 
   def foundational?

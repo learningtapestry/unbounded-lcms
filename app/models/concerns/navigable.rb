@@ -25,7 +25,7 @@ module Navigable
 
     def next
       @next ||= begin
-        return nil unless level_position
+        return unless level_position
 
         if level_position < siblings.size
           siblings.where(level_position: level_position + 1).first
