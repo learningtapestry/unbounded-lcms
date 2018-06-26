@@ -63,3 +63,8 @@ coverage
 /public/javascripts/i18n.js
 /.generators
 /.rakeTasks
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

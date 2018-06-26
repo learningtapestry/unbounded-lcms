@@ -5,7 +5,7 @@
       "name": "unbounded-lcms",
       "image": "264441468378.dkr.ecr.us-east-1.amazonaws.com/unbounded:lcms-latest",
       "essential": true,
-      "memory": 128,
+      "memory": 750,
       "links": [
 	      "postgres",
 	      "elasticsearch",
@@ -42,7 +42,7 @@
       "name": "elasticsearch",
       "image": "elasticsearch:2-alpine",
       "essential": true,
-      "memory": 640,
+      "memory": 512,
       "environment": [
         {
           "name": "ES_JAVA_OPTS",

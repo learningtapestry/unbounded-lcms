@@ -1,12 +1,11 @@
 branch-defaults:
   devops:
     environment: development
-    group_suffix: null
 global:
   application_name: unbounded-lcms
   branch: null
-  default_ec2_keyname: aws-eb
-  default_platform: multi-container-docker-17.12.1-ce-(generic)
+  default_ec2_keyname: Main-key
+  default_platform: Multi-container Docker 18.03.1-ce (Generic)
   default_region: us-east-1
   include_git_submodules: true
   instance_profile: null
