@@ -85,20 +85,8 @@ class ContentGuidePdfPresenter < ContentGuidePresenter
   end
 
   def wrap_keywords(content)
-    result = content.dup
-    result.gsub!(/[[:alnum:]]+(\.[[:alnum:]]+)+/) do |m|
-      if (standard = CommonCoreStandard.find_by_name_or_synonym(m))
-        toggler = '<span class=c-cg-keyword>'
-        if (emphasis = standard.emphasis(grades.list.first))
-          toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
-        end
-        toggler += "#{m}</span>"
-        toggler
-      else
-        m
-      end
-    end
-    result
+    # NOTE: #954 Refactoring. Here was a bit of code
+    content.dup
   end
 
   def remove_media_tag(tag)

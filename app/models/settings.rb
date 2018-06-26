@@ -2,16 +2,18 @@
 
 class Settings < ActiveRecord::Base
   class << self
-    def editing_enabled?
-      settings.editing_enabled?
+    def [](key)
+      settings.data[key.to_s]
     end
 
-    def thumbnails_last_update
-      settings.thumbnails_last_update
+    def []=(key, value)
+      settings.update data: settings.data.merge(key.to_s => value)
     end
+
+    private
 
     def settings
-      last || Settings.create!
+      last || create!(data: { editing_enabled: true })
     end
   end
 end

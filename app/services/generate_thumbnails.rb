@@ -3,7 +3,7 @@
 class GenerateThumbnails
   attr_reader :resource
 
-  MEDIAS = %i(facebook pinterest).freeze # %i(all facebook pinterest twitter)
+  MEDIAS = SocialThumbnail::MEDIAS.slice(1, 2) # to keep only (facebook pinterest)
 
   def initialize(resource)
     @resource = resource
@@ -19,7 +19,7 @@ class GenerateThumbnails
       png_path = convert_to_png(file_path)
 
       # save thumbnail to s3
-      thumb = SocialThumbnail.find_or_initialize_by(media: media, target: resource)
+      thumb = SocialThumbnail.find_or_initialize_by(media: media.to_sym, target: resource)
       thumb.image = File.open(png_path)
       thumb.save
     end

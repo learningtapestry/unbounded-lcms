@@ -8,7 +8,7 @@ class Slug
   end
 
   def value
-    self.class.build_from(resource.curriculum)
+    self.class.build_from(resource.directory)
   end
 
   def self.build_from(chain)

@@ -64,7 +64,7 @@ module Admin
       params
         .require(:content_guide)
         .permit(:date, :description, :slug, :subject, :teaser, :title, :update_metadata,
-                common_core_standard_ids: [], grade_list: [], unbounded_standard_ids: [])
+                standard_ids: [], grade_list: [])
     end
   end
 end

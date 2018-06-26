@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 class Download < ActiveRecord::Base
+  CONTENT_TYPES = {
+    zip: 'application/zip',
+    pdf: 'application/pdf',
+    excel: %w(application/vnd.ms-excel application/vnd.openxmlformats-officedocument.spreadsheetml.sheet),
+    powerpoint: %w(application/vnd.ms-powerpoint application/vnd.openxmlformats-officedocument.presentationml.presentation), # rubocop:disable Metrics/LineLength
+    doc: %w(application/msword application/vnd.openxmlformats-officedocument.wordprocessingml.document)
+  }.freeze
+  S3_URL = 'http://k12-content.s3-website-us-east-1.amazonaws.com/'
+  URL_PUBLIC_PREFIX = 'public://'
+
   mount_uploader :filename, DownloadUploader
   alias_attribute :file, :filename
 
@@ -10,13 +20,9 @@ class Download < ActiveRecord::Base
 
   before_save :update_metadata
 
-  def update_filename(filename)
-    write_attribute(:filename, filename)
-  end
-
   def attachment_url
     if url.present?
-      url.sub('public://', 'http://k12-content.s3-website-us-east-1.amazonaws.com/')
+      url.sub(URL_PUBLIC_PREFIX, S3_URL)
     else
       file.url
     end
@@ -27,24 +33,14 @@ class Download < ActiveRecord::Base
   end
 
   def attachment_content_type
-    case content_type
-    when 'application/zip'
-      'zip'
-    when 'application/pdf'
-      'pdf'
-    when 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      'excel'
-    when 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-      'powerpoint'
-    when 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      'doc'
-    else
-      content_type
+    type = content_type
+    CONTENT_TYPES.each do |key, types|
+      if Array.wrap(types).include?(content_type)
+        type = key
+        break
+      end
     end
-  end
-
-  def proxy_url
-    "/pdf_proxy/#{URI.parse(attachment_url).path}"
+    type
   end
 
   private
@@ -52,7 +48,7 @@ class Download < ActiveRecord::Base
   def update_metadata
     if file.present?
       self.content_type = file.file.content_type
-      self.filesize     = file.file.size
+      self.filesize = file.file.size
     end
 
     true

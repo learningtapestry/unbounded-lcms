@@ -28,11 +28,7 @@ class DownloadsController < ApplicationController
   private
 
   def attachment_url
-    if params[:type] == 'standard'
-      Standard.find(params[:id]).attachment_url
-    else
-      download.attachment_url
-    end
+    @attachment_url ||= download.attachment_url
   end
 
   def resource_download

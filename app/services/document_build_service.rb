@@ -170,8 +170,8 @@ class DocumentBuildService
   end
 
   def find_resource
-    curriculum = MetadataContext.new(template.metadata.with_indifferent_access).curriculum
-    Resource.find_by_curriculum(curriculum)&.document
+    dir = MetadataContext.new(template.metadata.with_indifferent_access).directory
+    Resource.find_by_directory(dir)&.document
   end
 
   def parse_template

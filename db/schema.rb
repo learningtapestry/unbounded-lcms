@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180122113704) do
+ActiveRecord::Schema.define(version: 20180604074211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20180122113704) do
   end
 
   add_index "access_codes", ["code"], name: "index_access_codes_on_code", unique: true, using: :btree
+
+  create_table "authors", force: :cascade do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "content_guide_definitions", force: :cascade do |t|
     t.string   "keyword",     null: false
@@ -102,14 +109,13 @@ ActiveRecord::Schema.define(version: 20180122113704) do
     t.integer  "resource_id", null: false
   end
 
-  create_table "curriculum_hierarchies", id: false, force: :cascade do |t|
-    t.integer "ancestor_id",   null: false
-    t.integer "descendant_id", null: false
-    t.integer "generations",   null: false
+  create_table "curriculums", force: :cascade do |t|
+    t.string   "name",                       null: false
+    t.string   "slug",                       null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "default",    default: false, null: false
   end
-
-  add_index "curriculum_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "curriculum_anc_desc_idx", unique: true, using: :btree
-  add_index "curriculum_hierarchies", ["descendant_id"], name: "curriculum_desc_idx", using: :btree
 
   create_table "document_bundles", force: :cascade do |t|
     t.string   "category",                     null: false
@@ -283,13 +289,6 @@ ActiveRecord::Schema.define(version: 20180122113704) do
   add_index "resource_additional_resources", ["additional_resource_id"], name: "index_resource_additional_resources_on_additional_resource_id", using: :btree
   add_index "resource_additional_resources", ["resource_id", "additional_resource_id"], name: "index_resource_additional_resources", unique: true, using: :btree
 
-  create_table "resource_backups", force: :cascade do |t|
-    t.string   "comment",    null: false
-    t.string   "dump"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "resource_downloads", force: :cascade do |t|
     t.integer  "resource_id"
     t.integer  "download_id"
@@ -332,15 +331,6 @@ ActiveRecord::Schema.define(version: 20180122113704) do
   add_index "resource_related_resources", ["related_resource_id"], name: "index_resource_related_resources_on_related_resource_id", using: :btree
   add_index "resource_related_resources", ["resource_id"], name: "index_resource_related_resources_on_resource_id", using: :btree
 
-  create_table "resource_requirements", force: :cascade do |t|
-    t.integer  "resource_id",    null: false
-    t.integer  "requirement_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "resource_requirements", ["resource_id"], name: "index_resource_requirements_on_resource_id", using: :btree
-
   create_table "resource_standards", force: :cascade do |t|
     t.integer  "resource_id"
     t.integer  "standard_id"
@@ -364,14 +354,12 @@ ActiveRecord::Schema.define(version: 20180122113704) do
     t.string   "subtitle"
     t.string   "teaser"
     t.integer  "time_to_teach"
-    t.string   "subject"
     t.boolean  "ell_appropriate",              default: false, null: false
     t.datetime "deleted_at"
     t.integer  "resource_type",                default: 1,     null: false
     t.string   "url"
     t.string   "image_file"
     t.string   "curriculum_type"
-    t.text     "curriculum_directory",         default: [],    null: false, array: true
     t.string   "hierarchical_position"
     t.string   "slug"
     t.integer  "parent_id"
@@ -379,10 +367,16 @@ ActiveRecord::Schema.define(version: 20180122113704) do
     t.boolean  "tree",                         default: false, null: false
     t.string   "opr_description"
     t.jsonb    "download_categories_settings", default: {},    null: false
+    t.jsonb    "metadata",                     default: {},    null: false
+    t.integer  "author_id"
+    t.integer  "curriculum_id"
   end
 
+  add_index "resources", ["author_id"], name: "index_resources_on_author_id", using: :btree
+  add_index "resources", ["curriculum_id"], name: "index_resources_on_curriculum_id", using: :btree
   add_index "resources", ["deleted_at"], name: "index_resources_on_deleted_at", using: :btree
   add_index "resources", ["indexed_at"], name: "index_resources_on_indexed_at", using: :btree
+  add_index "resources", ["metadata"], name: "index_resources_on_metadata", using: :gin
   add_index "resources", ["resource_type"], name: "index_resources_on_resource_type", using: :btree
 
   create_table "sessions", force: :cascade do |t|
@@ -396,10 +390,7 @@ ActiveRecord::Schema.define(version: 20180122113704) do
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
   create_table "settings", force: :cascade do |t|
-    t.boolean  "editing_enabled",        default: true, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.datetime "thumbnails_last_update"
+    t.jsonb "data", default: {}, null: false
   end
 
   create_table "social_thumbnails", force: :cascade do |t|
@@ -426,14 +417,6 @@ ActiveRecord::Schema.define(version: 20180122113704) do
 
   add_index "staff_members", ["first_name", "last_name"], name: "index_staff_members_on_first_name_and_last_name", using: :btree
 
-  create_table "standard_emphases", force: :cascade do |t|
-    t.integer "standard_id", null: false
-    t.string  "emphasis",    null: false
-    t.string  "grade"
-  end
-
-  add_index "standard_emphases", ["standard_id"], name: "index_standard_emphases_on_standard_id", using: :btree
-
   create_table "standard_links", force: :cascade do |t|
     t.integer "standard_begin_id", null: false
     t.integer "standard_end_id",   null: false
@@ -445,38 +428,24 @@ ActiveRecord::Schema.define(version: 20180122113704) do
   add_index "standard_links", ["standard_begin_id"], name: "index_standard_links_on_standard_begin_id", using: :btree
   add_index "standard_links", ["standard_end_id"], name: "index_standard_links_on_standard_end_id", using: :btree
 
-  create_table "standard_strands", force: :cascade do |t|
-    t.string "name",    null: false
-    t.string "heading"
-  end
-
   create_table "standards", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",                     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subject",                                          null: false
-    t.integer  "standard_strand_id"
-    t.string   "asn_identifier"
+    t.string   "subject"
     t.string   "description"
-    t.text     "grades",                           default: [],    null: false, array: true
+    t.text     "grades",      default: [], null: false, array: true
     t.string   "label"
-    t.text     "alt_names",                        default: [],    null: false, array: true
-    t.string   "type"
-    t.integer  "cluster_id"
-    t.integer  "domain_id"
-    t.string   "language_progression_file"
-    t.string   "language_progression_note"
-    t.boolean  "is_language_progression_standard", default: false, null: false
+    t.text     "alt_names",   default: [], null: false, array: true
+    t.string   "course"
+    t.string   "domain"
+    t.string   "emphasis"
+    t.string   "strand"
+    t.text     "synonyms",    default: [],              array: true
   end
 
-  add_index "standards", ["asn_identifier"], name: "index_standards_on_asn_identifier", unique: true, using: :btree
-  add_index "standards", ["cluster_id"], name: "index_standards_on_cluster_id", using: :btree
-  add_index "standards", ["domain_id"], name: "index_standards_on_domain_id", using: :btree
-  add_index "standards", ["is_language_progression_standard"], name: "index_standards_on_is_language_progression_standard", using: :btree
   add_index "standards", ["name"], name: "index_standards_on_name", using: :btree
-  add_index "standards", ["standard_strand_id"], name: "index_standards_on_standard_strand_id", using: :btree
   add_index "standards", ["subject"], name: "index_standards_on_subject", using: :btree
-  add_index "standards", ["type"], name: "index_standards_on_type", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
@@ -545,10 +514,6 @@ ActiveRecord::Schema.define(version: 20180122113704) do
   add_foreign_key "resource_related_resources", "resources", column: "related_resource_id"
   add_foreign_key "resource_standards", "resources"
   add_foreign_key "resource_standards", "standards"
-  add_foreign_key "standard_emphases", "standards"
   add_foreign_key "standard_links", "standards", column: "standard_begin_id"
   add_foreign_key "standard_links", "standards", column: "standard_end_id"
-  add_foreign_key "standards", "standard_strands"
-  add_foreign_key "standards", "standards", column: "cluster_id"
-  add_foreign_key "standards", "standards", column: "domain_id"
 end

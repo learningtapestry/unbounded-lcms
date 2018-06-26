@@ -41,6 +41,8 @@ class HierarchicalPosition
   end
 
   def subject_position
+    return 99 if resource.generic?
+
     val = Resource::SUBJECTS.index(resource.subject)
     val ? val + 1 : 99
   end
@@ -71,7 +73,7 @@ class HierarchicalPosition
     val =  resource.lesson? ? resource.level_position : nil
     return val if val
 
-    lesson = resource.curriculum_tags_for(:lesson).first
+    lesson = resource.metadata['lesson']
     lesson =~ lesson.try(:match, /(\d+)/).try(:[], 1).to_i
   end
 end

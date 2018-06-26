@@ -9,7 +9,7 @@ class Breadcrumbs
 
   def full_title
     hierarchy.map do |key|
-      val = resource.curriculum_tags_for(key).first
+      val = resource.metadata[key.to_s]
       key == :subject ? val&.upcase : val&.humanize
     end.compact.join(' / ')
   end
@@ -17,7 +17,7 @@ class Breadcrumbs
   def pieces
     hierarchy.map do |key|
       if resource.curriculum_type&.to_sym == key
-        value = resource.curriculum_tags_for(key).first
+        value = resource.metadata[key.to_s]
         value =~ /topic/i ? value.upcase.sub('TOPIC', 'topic') : value
       else
         send(:"#{key}_abbrv")
@@ -53,7 +53,10 @@ class Breadcrumbs
   end
 
   def grade_abbrv(*)
-    case grade = resource.curriculum_tags_for(:grade).first
+    abbrv = resource.metadata['grade_abbrv']
+    return abbrv if abbrv.present?
+
+    case grade = resource.metadata['grade']
     when 'prekindergarten' then 'PK'
     when 'kindergarten' then 'K'
     when /grade/i then "G#{grade.match(/grade (\d+)/i)[1]}"
@@ -68,12 +71,12 @@ class Breadcrumbs
     # -  skills -> Skills
     # -  listening and learning -> LL
     # -  literary criticism -> LC
-    module_ = resource.curriculum_tags_for(:module).first
+    module_ = resource.metadata['module']
     "M#{module_.match(/module (\w+)/i)&.[] 1}" if module_
   end
 
   def unit_abbrv(*)
-    unit = resource.curriculum_tags_for(:unit).first
+    unit = resource.metadata['unit']
     return unless unit
 
     prefix = case unit
@@ -85,7 +88,7 @@ class Breadcrumbs
   end
 
   def lesson_abbrv(*)
-    lesson = resource.curriculum_tags_for(:lesson).first
+    lesson = resource.metadata['lesson']
     return unless lesson
 
     prefix = lesson =~ /part/i ? 'P' : 'L'

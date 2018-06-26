@@ -13,12 +13,7 @@ class ContentGuide < ActiveRecord::Base
   acts_as_taggable_on :grades
 
   has_many :content_guide_standards
-  has_many :common_core_standards, -> { where(type: 'CommonCoreStandard') },
-           source: :standard, through: :content_guide_standards
-  has_many :resources, through: :unbounded_standards
   has_many :standards, through: :content_guide_standards
-  has_many :unbounded_standards, -> { where(type: 'UnboundedStandard') },
-           source: :standard, through: :content_guide_standards
 
   has_many :social_thumbnails, as: :target
 
@@ -159,13 +154,6 @@ class ContentGuide < ActiveRecord::Base
 
   private
 
-  def assign_common_core_standards(value)
-    names = split_list(value)
-    name_node = Standard.where(name: names).where_values.reduce(:and)
-    alt_names_node = Standard.where.overlap(alt_names: names).where_values.reduce(:and)
-    self.common_core_standards = CommonCoreStandard.where(name_node.or(alt_names_node))
-  end
-
   def assign_grades(value)
     grades = split_list(value)
     grades.map! do |grade|
@@ -181,19 +169,6 @@ class ContentGuide < ActiveRecord::Base
   def assign_subject(value)
     subject = value.strip.downcase
     self.subject = subject if %w(ela math).include?(subject)
-  end
-
-  def assign_unbounded_standards(value)
-    names = split_list(value)
-
-    unbounded_standards.where.not(name: names).each do |standard|
-      content_guide_standards.find_by_standard_id(standard.id).delete
-    end
-
-    names.each do |name|
-      standard = UnboundedStandard.create_with(subject: '').find_or_create_by(name: name)
-      unbounded_standards << standard if standard && !unbounded_standards.include?(standard)
-    end
   end
 
   def downcase(str)
@@ -272,8 +247,6 @@ class ContentGuide < ActiveRecord::Base
     table.css('tr').each do |tr|
       key, value = tr.css('td').map(&:content).map(&:strip)
       case key
-      when 'ccss' then assign_common_core_standards(value)
-      when 'related_instruction_tags' then assign_unbounded_standards(value)
       when 'big_photo', 'small_photo' then send("remote_#{key}_url=", value)
       when 'grade', 'grades' then assign_grades(value)
       when 'subject' then assign_subject(value)

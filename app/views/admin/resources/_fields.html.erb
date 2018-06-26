@@ -14,7 +14,7 @@
 
 <%= f.input :opr_description, label: t('admin.resources.form.opr_description'), wrapper_html: {class: (resource.unit? ? '': 'c-hidden')} %>
 
-<%= react_component('CurriculumPicker', curriculum_picker_props(resource), prerender: true) %>
+<%= react_component('DirectoryPicker', directory_picker_props(resource), prerender: true) %>
 
 <%= f.input :time_to_teach %>
 
@@ -36,9 +36,7 @@
 
 <%= association_picker_field(f, resource.tags, path: :tags, name: :tag_ids, create_name: :new_tag_names, allow_create: true) %>
 
-<%= association_picker_field(f, resource.common_core_standards.distinct, path: :common_core_standards, name: :common_core_standard_ids) %>
-
-<%= association_picker_field(f, resource.unbounded_standards, path: :unbounded_standards, name: :unbounded_standard_ids, create_name: :new_unbounded_standard_names, allow_create: true) %>
+<%= association_picker_field(f, resource.standards.distinct, path: :standards, name: :standard_ids) %>
 
 <%= resource_picker_field(f, resource.related_resources, path: :related_resources, name: :related_resource_ids) %>
 

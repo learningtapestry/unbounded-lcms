@@ -22,7 +22,7 @@ class ContentGuidePresenter < BasePresenter # rubocop:disable Metrics/ClassLengt
   end
 
   def self.ccss_standards
-    @ccss_standards ||= CommonCoreStandard.pluck(:alt_names, :name).flatten.uniq
+    @ccss_standards ||= Standard.pluck(:alt_names, :name).flatten.uniq
   end
 
   def sticky_title
@@ -643,38 +643,7 @@ class ContentGuidePresenter < BasePresenter # rubocop:disable Metrics/ClassLengt
       end
     end
 
-    result.gsub!(/[[:alnum:]]+([.-][[:alnum:]]+)+/) do |m|
-      if standard?(m) && (standard = CommonCoreStandard.find_by_name_or_synonym(m)) &&
-         standard.description.present?
-
-        id = "cg-k_#{SecureRandom.hex(4)}"
-
-        # If the dropdown-pane doesn't have a toggler element, the plugin
-        # will throw an exception during initialization.
-        # For some standard references we're removing the dropdown behavior
-        # because that's undesirable, thus prompting this exception.
-        # Add a hidden toggle button that is always present, so this doesn't happen.
-        dropdowns << %(
-          <span class=hide data-toggle=#{id}></span>
-          <span class='dropdown-pane c-cg-dropdown'
-                data-dropdown
-                data-hover=true
-                data-hover-delay=0
-                data-hover-pane=true
-                id=#{id}>
-            #{standard.description}
-          </span>
-        )
-        toggler = "<span class=c-cg-keyword data-toggle=#{id}>"
-        if (emphasis = standard.emphasis(grades.list.first))
-          toggler += "<span class='c-cg-standard c-cg-standard--#{emphasis}' />"
-        end
-        toggler += "#{m}</span>"
-        toggler
-      else
-        m
-      end
-    end
+    # NOTE: #954 Refactoring. Here was a bit of code
 
     result + dropdowns.join
   end

@@ -5,8 +5,11 @@ require 'rails_helper'
 describe Grades do
   subject { described_class.new(resource) }
 
+  let(:dir) { [] }
+  let(:resource) { create :resource, metadata: { grade: dir.uniq } }
+
   describe 'list' do
-    let(:resource) { create :resource, curriculum_directory: ['grade 2'] }
+    let(:dir) { ['grade 2'] }
     let(:content_guide) { create :content_guide, grade_list: ['grade 3'] }
     let(:search_doc) { Search::Document.new(grade: ['kindergarten']) }
 
@@ -27,8 +30,6 @@ describe Grades do
   end
 
   describe 'average' do
-    let(:resource) { create :resource, curriculum_directory: dir }
-
     context 'multiple grades' do
       let(:dir) { ['grade 1', 'grade 2', 'grade 3', 'grade 4', 'grade 5'] }
       it { expect(subject.average).to eq '3' }
@@ -41,8 +42,6 @@ describe Grades do
   end
 
   describe 'average_number' do
-    let(:resource) { create :resource, curriculum_directory: dir }
-
     context 'multiple grades' do
       let(:dir) { ['grade 1', 'grade 2', 'grade 3', 'grade 4', 'grade 5'] }
       it { expect(subject.average_number).to eq 4 } # GRADES.index('grade 3') => 4
@@ -55,22 +54,18 @@ describe Grades do
   end
 
   describe 'grade_abbr' do
-    let(:resource) { create :resource, curriculum_directory: [] }
     it { expect(subject.grade_abbr 'prekindergarten').to eq 'pk' }
     it { expect(subject.grade_abbr 'kindergarten').to eq 'k' }
     it { expect(subject.grade_abbr 'grade 7').to eq '7' }
   end
 
   describe 'range' do
-    let(:resource) { create :resource, curriculum_directory: dir }
     let(:dir) { ['kindergarten', 'grade 1', 'grade 2', 'grade 2'] }
 
     it { expect(subject.range).to eq 'K-2' }
   end
 
   describe 'to_str' do
-    let(:resource) { create :resource, curriculum_directory: dir }
-
     context 'multiple grades' do
       let(:dir) do
         ['prekindergarten', 'kindergarten', 'grade 2', 'grade 4', 'grade 8',

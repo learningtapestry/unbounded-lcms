@@ -26,17 +26,15 @@ class Resource < ActiveRecord::Base
 
   belongs_to :parent, class_name: 'Resource', foreign_key: 'parent_id'
 
+  belongs_to :author
+  belongs_to :curriculum
+
   # Additional resources
   has_many :resource_additional_resources, dependent: :destroy
   has_many :additional_resources, through: :resource_additional_resources
 
-  # Standards.
   has_many :resource_standards, dependent: :destroy
   has_many :standards, through: :resource_standards
-  has_many :common_core_standards, -> { where(type: 'CommonCoreStandard') },
-           source: :standard, through: :resource_standards
-  has_many :unbounded_standards, -> { where(type: 'UnboundedStandard') },
-           source: :standard, through: :resource_standards
 
   # Downloads.
   has_many :resource_downloads, dependent: :destroy
@@ -56,10 +54,6 @@ class Resource < ActiveRecord::Base
            foreign_key: 'related_resource_id',
            dependent: :destroy
 
-  # Requirements
-  has_many :resource_requirements, dependent: :destroy
-  has_many :requirements, through: :resource_requirements
-
   has_many :content_guides, through: :unbounded_standards
   has_many :copyright_attributions, dependent: :destroy
   has_many :social_thumbnails, as: :target
@@ -70,21 +64,17 @@ class Resource < ActiveRecord::Base
   validates :title, presence: true
   validates :url, presence: true, url: true, if: %i(video? podcast?)
 
-  scope :tree, -> { where(tree: true) }
-  scope :where_curriculum, ->(*dir) { where('curriculum_directory @> ?', "{#{dir.join(',')}}") }
-  scope :where_curriculum_in, lambda { |arr, constraints = nil|
-    arr = Array.wrap(arr)
-    arr &= constraints if constraints
-    arr.empty? ? where(nil) : where('curriculum_directory && ?', "{#{arr.join(',')}}")
-  }
-  scope :where_grade, ->(grades) { where_curriculum_in(grades, Grades::GRADES) }
-  scope :where_subject, ->(subjects) { where_curriculum_in(subjects, SUBJECTS) }
+  scope :where_grade, ->(grades) { where_metadata_in :grade, grades }
+  scope :where_subject, ->(subjects) { where_metadata_in :subject, subjects }
   scope :media, -> { where(resource_type: MEDIA_TYPES) }
   scope :generic_resources, -> { where(resource_type: GENERIC_TYPES) }
-  scope :ordered, -> { order(:hierarchical_position, :title) }
+  scope :ordered, -> { order(:hierarchical_position, :slug) }
 
-  before_save :update_curriculum_tags, :update_slug, :update_position
-  after_save :update_descendants_tags, :update_descendants_position, :update_descendants_tree
+  before_save :update_metadata, :update_slug, :update_position
+
+  after_save :update_descendants_meta, :update_descendants_position,
+             :update_descendants_tree, :update_descendants_author
+
   before_destroy :destroy_additional_resources
 
   class << self
@@ -94,10 +84,18 @@ class Resource < ActiveRecord::Base
       define_method(:"#{level.pluralize}") { where(curriculum_type: level) }
     end
 
-    def find_by_curriculum(curr)
-      curr = curr.select(&:present?)
-      type = HIERARCHY[curr.size - 1]
-      tree.where_curriculum(curr).where(curriculum_type: type).first
+    def metadata_from_dir(dir)
+      pairs = HIERARCHY[0...dir.size].zip(dir)
+      Hash[pairs].compact.stringify_keys
+    end
+
+    def find_by_directory(*dir)
+      dir = dir&.flatten&.select(&:present?)
+      return unless dir.present?
+
+      type = HIERARCHY[dir.size - 1]
+      meta = metadata_from_dir(dir).to_json
+      where('metadata @> ?', meta).where(curriculum_type: type).first
     end
 
     def find_podcast_by_url(url)
@@ -113,6 +111,24 @@ class Resource < ActiveRecord::Base
     def ransackable_scopes(_auth_object = nil)
       %i(grades)
     end
+
+    # return resources tree by a curriculum name
+    # if no argument is provided, then it's any curriculum tree.
+    def tree(name = nil)
+      if name.present?
+        joins(:curriculum).where('curriculums.name = ? OR curriculums.slug = ?', name, name)
+      elsif (default = Curriculum.default)
+        where(curriculum_id: default.id)
+      else
+        where(nil)
+      end
+    end
+
+    def where_metadata_in(key, arr)
+      arr = Array.wrap arr
+      clauses = Array.new(arr.count) { "metadata->>'#{key}' = ?" }.join(' OR ')
+      where(clauses, *arr)
+    end
   end
 
   # Define predicate methods for subjects.
@@ -127,8 +143,12 @@ class Resource < ActiveRecord::Base
     define_method(:"#{level}?") { curriculum_type.present? && curriculum_type.casecmp(level.to_s).zero? }
   end
 
+  def tree?
+    curriculum_id.present?
+  end
+
   def assessment?
-    curriculum.grep(/assessment/).any?
+    metadata['assessment'].present?
   end
 
   def media?
@@ -148,31 +168,14 @@ class Resource < ActiveRecord::Base
     tag_list.include?('prereq')
   end
 
-  def curriculum
-    @curriculum ||= HIERARCHY.map do |key|
-      key == :grade ? grades.average(abbr: false) : curriculum_tags_for(key).first
+  def directory
+    @directory ||= HIERARCHY.map do |key|
+      key == :grade ? grades.average(abbr: false) : metadata[key.to_s]
     end.compact
   end
 
-  def curriculum_tags_for(type)
-    case type.to_sym
-    when :subject
-      curriculum_directory & SUBJECTS
-    when :grade
-      curriculum_directory & Grades::GRADES
-    when :module
-      # TODO: handle special case modules (when/if needed).
-      #       Check Breadcrumbs#module_abbrv for more
-      curriculum_directory.select { |v| v.match(/module /i) || v.match(/strand/i) }
-    when :unit
-      curriculum_directory.select { |v| v.match(/unit|topic|assessment/i) }
-    when :lesson
-      curriculum_directory.select { |v| v.match(/lesson|part/i) }
-    end.uniq.compact
-  end
-
   def subject
-    curriculum_tags_for(:subject).first
+    metadata['subject']
   end
 
   def grades
@@ -180,7 +183,7 @@ class Resource < ActiveRecord::Base
   end
 
   def grades=(gds)
-    curriculum_directory.concat Array.wrap(gds)
+    metadata.merge! 'grade' => gds
   end
 
   def lesson_number
@@ -212,10 +215,6 @@ class Resource < ActiveRecord::Base
     end
   end
 
-  def bilingual_standards
-    standards.bilingual.distinct.order(:name)
-  end
-
   alias do_not_skip_indexing? should_index?
   def should_index?
     do_not_skip_indexing? && (tree? || media? || generic?)
@@ -241,7 +240,7 @@ class Resource < ActiveRecord::Base
   end
 
   def tag_standards
-    common_core_standards.map(&:alt_names).flatten.uniq
+    standards.map(&:alt_names).flatten.uniq
   end
 
   def copyrights
@@ -265,16 +264,24 @@ class Resource < ActiveRecord::Base
     unit? && document_bundles.any?
   end
 
-  def update_curriculum_tags
-    new_dir = curriculum_directory
+  def add_grade_author(author)
+    grade = grade? ? self : ancestors.detect(&:grade?)
+    raise 'Grade not found for this resource' unless grade
 
-    # add all parents short_title to the curriculum
-    new_dir += parents_tags(parent).compact.reverse if parent_id
+    grade.author_id = author.is_a?(Integer) ? author : author.id
+    grade.save
+  end
 
-    # change self tag if short_title has changed
-    new_dir = new_dir - [short_title_was] + [short_title] if short_title_changed?
+  def update_metadata
+    # during create we can't call self_and_ancestors directly on the resource
+    # because this query uses the associations on resources_hierarchies
+    # which are only created after the resource is persisted
+    chain = [self] + parent&.self_and_ancestors.to_a
 
-    self.curriculum_directory = new_dir.select(&:present?).uniq
+    meta = chain.each_with_object({}) do |r, obj|
+      obj[r.curriculum_type] = r.short_title
+    end.compact
+    metadata.merge! meta if meta.present?
   end
 
   def update_position
@@ -287,17 +294,19 @@ class Resource < ActiveRecord::Base
     ResourceAdditionalResource.where(additional_resource_id: id).destroy_all
   end
 
-  def parents_tags(node)
-    node ? [node.short_title, *parents_tags(node.parent)] : []
+  def update_descendants_author
+    # update only if a grade author has changed
+    return unless grade? && author_id_changed?
+
+    descendants.update_all author_id: author_id
   end
 
-  def update_descendants_tags
+  def update_descendants_meta
     # update only if is not a lesson (no descendants) and short_title has changed
     return unless !lesson? && short_title_changed?
 
     descendants.each do |r|
-      new_dir = r.curriculum_directory - [short_title_was] + [short_title]
-      r.curriculum_directory = new_dir.uniq.compact
+      r.metadata[curriculum_type] = short_title
       r.save
     end
   end
@@ -311,9 +320,9 @@ class Resource < ActiveRecord::Base
 
   def update_descendants_tree
     # update only if is not a lesson (no descendants) and `tree` has changed to false
-    return unless !lesson? && tree_changed? && !tree?
+    return unless !lesson? && curriculum_id_changed? && !tree?
 
-    descendants.each { |r| (r.tree = false) && r.save }
+    descendants.each { |r| r.update curriculum_id: nil }
   end
 
   def update_slug
