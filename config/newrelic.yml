@@ -16,7 +16,7 @@ common: &default_settings
 
   # Your application name. Renaming here affects where data displays in New
   # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
-  app_name: UnboundEd
+  app_name: LCMS
 
   # To disable the agent regardless of other settings, uncomment the following:
   # agent_enabled: false
@@ -32,7 +32,7 @@ common: &default_settings
 # If your application has other named environments, configure them here.
 development:
   <<: *default_settings
-  app_name: UnboundEd (Development)
+  app_name: LCMS (Development)
 
 test:
   <<: *default_settings
@@ -41,15 +41,15 @@ test:
 
 staging:
   <<: *default_settings
-  app_name: UnboundEd (Staging)
+  app_name: LCMS (Staging)
 
 qa:
   <<: *default_settings
-  app_name: UnboundEd (QA)
+  app_name: LCMS (QA)
 
 production:
   <<: *default_settings
 
 production_swap:
   <<: *default_settings
-  app_name: UnboundEd (Swap)
+  app_name: LCMS (Swap)

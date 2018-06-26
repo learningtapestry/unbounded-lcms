@@ -25,7 +25,7 @@ feature 'Page Not Found' do
   def assert_not_found(path)
     visit path
     expect(page.status_code).to eq 404
-    expect(page.title).to eq 'UnboundEd - Page Not Found'
+    expect(page.title).to eq 'LCMS - Page Not Found'
     expect(page.has_link?('Search page', href: '/search')).to be_truthy
   end
 end

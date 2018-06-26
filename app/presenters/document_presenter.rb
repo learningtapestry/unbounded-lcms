@@ -96,7 +96,7 @@ class DocumentPresenter < ContentPresenter
   end
 
   def pdf_header
-    "UnboundEd / #{full_breadcrumb}"
+    "LCMS / #{full_breadcrumb}"
   end
 
   def pdf_filename

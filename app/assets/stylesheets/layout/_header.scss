@@ -198,6 +198,13 @@
     }
   }
 
+  @include e(brand) {
+    color: $ub-white;
+    font-size: 2em;
+    font-style: $ub-serif;
+    font-weight: bolder;
+  }
+
   @include m(documents) {
     background-color: rgba($ub-primary, .9);
     min-height: $ub-nav-height;

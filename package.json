@@ -20,13 +20,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/learningtapestry/unbounded.git"
+    "url": "git+https://github.com/learningtapestry/unbounded-lcms.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/learningtapestry/unbounded/issues"
+    "url": "https://github.com/learningtapestry/unbounded-lcms/issues"
   },
-  "homepage": "https://github.com/learningtapestry/unbounded#readme",
+  "homepage": "https://github.com/learningtapestry/unbounded-lcms#readme",
   "snyk": true
 }

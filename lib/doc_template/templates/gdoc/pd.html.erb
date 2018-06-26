@@ -8,7 +8,7 @@
         <% end %>
         <hr />
         <% if @tmpl[:type] == DocTemplate::Tags::PdTag::TYPE_CG %>
-          <p class="u-txt--ld-pd-cg-header">UnboundEd <%= @tmpl[:content_guide].subject == 'math' ? 'Math' : 'ELA' %> Guide / <%= @tmpl[:title] %></p>
+          <p class="u-txt--ld-pd-cg-header">LCMS <%= @tmpl[:content_guide].subject == 'math' ? 'Math' : 'ELA' %> Guide / <%= @tmpl[:title] %></p>
         <% end %>
         <% if @tmpl[:description].present? %>
           <h5>Description</h5>
