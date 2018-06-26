@@ -2,7 +2,9 @@ FROM ruby:2.3-jessie
 MAINTAINER Marc Byfield<marc@learningtapestry.com>
 
 EXPOSE 3000
-RUN apt-get update -yqq && apt-get install -y apt-transport-https postgresql-client
+RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' >> /etc/apt/sources.list.d/pgdg.list 
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN apt-get update -yqq && apt-get install -y apt-transport-https postgresql-client-10
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 	&& echo "deb https://dl.yarnpkg.com/debian/ stable main" |  tee /etc/apt/sources.list.d/yarn.list
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
