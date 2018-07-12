@@ -15,7 +15,7 @@ class SearchDocumentSerializer < ActiveModel::Serializer
       return media_path(object.model_id) if media?
       return generic_path(object.model_id) if generic?
 
-      object.slug ? show_with_slug_path(object.slug) : resource_permalink
+      object.slug.present? ? show_with_slug_path(object.slug) : resource_permalink
     end
   end
 

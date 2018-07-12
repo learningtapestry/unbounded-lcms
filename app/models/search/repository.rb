@@ -44,7 +44,7 @@ module Search
 
     client Elasticsearch::Client.new(host: ENV['ELASTICSEARCH_ADDRESS'])
 
-    index :"unbounded_documents_#{Rails.env}"
+    index :"lcms_documents_#{Rails.env}"
 
     type :documents
 
