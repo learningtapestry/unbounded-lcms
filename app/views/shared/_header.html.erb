@@ -4,7 +4,7 @@
     <div class="o-top-bar">
       <div class="o-top-bar__item c-header-title">
         <%= link_to root_path, class: 'c-header-title__logo c-header__link' do %>
-          <%= image_tag('logo-beta.svg') %>
+          <span class='c-header__brand'>LCMS</span>
         <% end %>
         <% if current_user&.ready_to_go? %>
           <span class="c-header-title__h-menu" data-responsive-toggle="navbar" data-hide-for="large">

@@ -41,7 +41,7 @@ document.addEventListener('turbolinks:load', function() {
   window.initializeSocialSharing();
   window.initializeLeadership();
   //window.initializeFreshdesk();
-  window.initializeGoogleAnalytics();
+  if (window.initializeGoogleAnalytics) { window.initializeGoogleAnalytics(); }
   window.initializeSoundCloud();
   window.initializeSubscribePlaceholder();
   window.initializeSurvey();

@@ -19,7 +19,7 @@ feature 'Page Titles' do
 
     scenario 'home page' do
       visit '/'
-      expect(page.title).to include('UnboundEd')
+      expect(page.title).to include('LCMS')
     end
 
     xscenario 'about page' do
@@ -91,7 +91,7 @@ feature 'Page Titles' do
       expect(page.title).to include('New Staff Member')
 
       visit "/admin/staff_members/#{member.id}/edit"
-      expect(page.title).to include("UnboundEd - #{member.name}")
+      expect(page.title).to include("LCMS - #{member.name}")
     end
   end
 end

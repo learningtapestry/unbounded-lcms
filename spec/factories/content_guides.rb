@@ -7,7 +7,7 @@ FactoryGirl.define do
   factory :content_guide do
     name 'Test ContentGuide'
     title 'Test ContentGuide'
-    teaser 'UnboundEd Mathematics Guide'
+    teaser 'LCMS Mathematics Guide'
     description 'This guide gives an illustrated “tour” of new state standards in mathematics, including a range of ideas for lessons and classroom activities.' # rubocop:disable Metrics/LineLength
     permalink '1'
     version 307_400

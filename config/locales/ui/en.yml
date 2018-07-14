@@ -20,7 +20,7 @@ en:
     address_html: >
       123 Main Street, 12th fl, New York NY 10003
     contact: Contact
-    copyright_html: © Copyright UnboundEd Learning. %{year}.
+    copyright_html: © Copyright LearningTapestry. %{year}.
     credits: Credits
     credits_full_html: >
       Design by <a href="https://www.linkedin.com/in/ryan-reynolds-0a67411/" target="_blank">Philament</a> and
@@ -44,18 +44,18 @@ en:
       admin: Administration
       tos: Terms of Service
   nav:
-    about: About UnboundEd
+    about: About LCMS
     about_dropdown:
       careers: Careers
       contact: Contact
       institute: Standards Institute
       mission: Mission & Vision
       people: People & Partners
-    about_html: <span>About</span><span>UnboundEd</span>
+    about_html: <span>About</span><span>LCMS</span>
     curriculum: Explore Curriculum
     curriculum_html: <span>Explore</span><span>Curriculum</span>
     helpdesk: Support
-    helpdesk_hover_html: <span class='u-txt--helpdesk-hover-title'>UnboundEd Help Desk</span><br/>View demo videos or submit a question.
+    helpdesk_hover_html: <span class='u-txt--helpdesk-hover-title'>LCMS Help Desk</span><br/>View demo videos or submit a question.
     instructions: Enhance Instruction
     instructions_html: <span>Enhance</span><span>Instruction</span>
     leadership_html: <span>Advance</span><span>Leadership</span>
@@ -95,7 +95,7 @@ en:
     sidebar_down_nav:
       down_link: "Next %{title}"
   title:
-    logo: UnboundEd Logo
+    logo: LCMS Logo
     subscribe: Get updates and stay connected
     active: Document status
     age_range: Age range
