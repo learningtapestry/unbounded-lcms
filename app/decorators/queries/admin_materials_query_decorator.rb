@@ -1,19 +1,6 @@
 # frozen_string_literal: true
 
-# Usage:
-#   @materials = AdminMaterialsQuery.call(query_params, page: params[:page])
-class AdminMaterialsQuery
-  def self.call(query, pagination = nil)
-    new(query, pagination).call
-  end
-
-  # query : query params (Hash or OpenStruct)
-  # pagination : pagination params, if pagination is nil whe return all results
-  def initialize(query, pagination = nil)
-    @q = OpenStruct.new(query)
-    @pagination = pagination
-  end
-
+AdminMaterialsQuery.class_eval do
   # Returns: ActiveRecord relation
   def call
     @scope = Material.includes(documents: :resource).all # initial scope
@@ -32,18 +19,12 @@ class AdminMaterialsQuery
     end
   end
 
-  private
-
-  attr_reader :q
+  def metadata_keys
+    %i(type sheet_type breadcrumb_level subject)
+  end
 
   def filter_by_source
     @scope = (q[:source] == 'pdf' ? @scope.pdf : @scope.gdoc) if q[:source].present?
-  end
-
-  def filter_by_metadata
-    %i(type sheet_type breadcrumb_level subject).each do |key|
-      @scope = @scope.where_metadata_like(key, q[key]) if q[key].present?
-    end
   end
 
   def filter_by_grade_and_lesson
@@ -67,17 +48,5 @@ class AdminMaterialsQuery
 
     sql = %((documents.metadata @> hstore('unit', :u) OR documents.metadata @> hstore('topic', :u)))
     @scope = @scope.joins(:documents).where(sql, u: q[:unit])
-  end
-
-  def search_by_identifier
-    # we need the `with_pg_search_rank` scope for this to work with DISTINCT
-    # See more on: https://github.com/Casecommons/pg_search/issues/238
-    @scope = @scope.search_identifier(q.search_term).with_pg_search_rank if q.search_term.present?
-  end
-
-  def sorted_scope
-    @scope = @scope.order(:identifier) if q.sort_by.blank? || q.sort_by == 'identifier'
-    @scope = @scope.order(updated_at: :desc) if q.sort_by == 'last_update'
-    @scope.uniq
   end
 end
