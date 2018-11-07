@@ -3,8 +3,7 @@
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
 
-OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
-
+Rake::Task['google:setup_auth'].clear
 namespace :google do
   desc 'set up google credentials'
   task setup_auth: :environment do
