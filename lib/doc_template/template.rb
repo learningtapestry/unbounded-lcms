@@ -1,73 +1,12 @@
 # frozen_string_literal: true
 
 module DocTemplate
-  CONTEXT_TYPES = %w(default gdoc).freeze
-
   class Template
-    # a registry for available tags and respective classes
-    class TagRegistry
-      include Enumerable
+    include Concerns::DocTemplate::Template
 
-      def initialize
-        @tags = {}
-      end
-
-      # returns the default tag if the tag is unknown
-      def [](tag_name)
-        tag_to_load = @tags.key?(tag_name) ? tag_name : 'default'
-        @tags[tag_to_load]
-      end
-
-      def []=(tag_name, klass)
-        @tags[tag_name] = klass
-      end
-
-      def keys
-        @tags.keys
-      end
-
-      private
-
-      def load_class(klass_name)
-        Object.const_get(klass_name)
-      end
-    end
+    CONTEXT_TYPES = %w(default gdoc).freeze
 
     attr_reader :activity_metadata, :css_styles, :section_metadata, :toc
-
-    def self.parse(source, type: :document)
-      new(type).parse(source)
-    end
-
-    def self.register_tag(name, klass)
-      key = name.is_a?(Regexp) ? name : name.to_s
-      tags[key] = klass
-    end
-
-    def self.tags
-      @tags ||= TagRegistry.new
-    end
-
-    def initialize(type = :document)
-      @type = type
-      @documents = {}
-    end
-
-    def agenda
-      @agenda.data.presence || []
-    end
-
-    def foundational?
-      metadata['type'].to_s.casecmp('fs').zero?
-    end
-
-    def foundational_metadata
-      @foundational_metadata.data.presence || {}
-    end
-
-    def material?
-      @type.to_sym == :material
-    end
 
     def metadata
       @metadata.data.presence || {}
@@ -127,31 +66,12 @@ module DocTemplate
       self
     end
 
-    def parts
-      @documents.values.flat_map(&:parts)
-    end
-
-    def prereq?
-      metadata['type'].to_s.casecmp('prereq').zero?
-    end
-
-    def remove_part(type, context_type)
-      result = nil
-      @documents.each_key do |k|
-        result = @documents[k].parts.detect { |p| p[:part_type] == type && p[:context_type] == context_type }
-        @documents[k].parts.delete(result) && break if result.present?
-      end
-      result
-    end
-
     def render(options = {})
       type = options.fetch(:context_type, CONTEXT_TYPES.first)
       HtmlSanitizer.post_processing(@documents[type]&.render.presence || '', options)
     end
 
     private
-
-    attr_accessor :content
 
     def parse_metadata
       if material?
@@ -160,7 +80,7 @@ module DocTemplate
       else
         @metadata = Tables::Metadata.parse content
         @agenda = Tables::Agenda.parse content
-        @section_metadata = Tables::Section.parse content
+        @section_metadata = Tables::Section.parse content, 'core', force_inject_section?
         @activity_metadata = Tables::Activity.parse content, template_type
         @target_table = Tables::Target.parse(content) if target_table?
 
@@ -174,6 +94,7 @@ module DocTemplate
 
     def target_table?
       return false unless @metadata.present?
+
       @metadata.data['subject']&.downcase == 'ela' && @metadata.data['grade'] == '6'
     end
 
