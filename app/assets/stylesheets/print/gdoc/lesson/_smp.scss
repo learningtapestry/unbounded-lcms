@@ -1,9 +1,0 @@
-.o-ld-smp {
-  @include e(bracket) {
-    border-bottom: 2pt solid map-get($ub-colorcodes, math-base) !important;
-    border-right: 2pt solid map-get($ub-colorcodes, math-base) !important;
-    border-top: 2pt solid map-get($ub-colorcodes, math-base) !important;
-    vertical-align: middle;
-    width: 8%;
-  }
-}
