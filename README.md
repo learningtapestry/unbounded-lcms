@@ -1,3 +1,7 @@
+## ⚠️ :warning: PLEASE NOTE, THIS PROJECT IS NO LONGER BEING MAINTAINED ⚠️ :warning:
+
+You can find the current LCMS Engine alternative [here](https://github.com/learningtapestry/lcms-engine)
+---
 # UnboundEd Learning Content Management System (LCMS)
 
 [ ![Codeship Status for learningtapestry/unbounded-lcms](https://app.codeship.com/projects/87ed3f00-ddc7-0135-b08f-3e0bdd3c602e/status?branch=master)](https://app.codeship.com/projects/266015)
