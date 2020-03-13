@@ -141,7 +141,7 @@ gem 'thor', '0.19.1'
 
 # HTML/XML parsing
 gem 'nikkou', '~> 0.0.5'
-gem 'nokogiri', '~> 1.8.2'
+gem 'nokogiri', '~> 1.10.8'
 
 # profiling
 gem 'newrelic_rpm' # Used temporarily for debugging workers
