@@ -391,7 +391,7 @@ GEM
     pry-rails (0.3.5)
       pry (>= 0.9.10)
     public_suffix (2.0.5)
-    puma (3.4.0)
+    puma (3.12.4)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.10)
@@ -700,7 +700,7 @@ DEPENDENCIES
   postgres_ext (~> 3.0)
   pry-byebug
   pry-rails (~> 0.3.5)
-  puma (~> 3.4)
+  puma (~> 3.12)
   quiet_assets (~> 1.1)
   rack-livereload (~> 0.3.16)
   rack-mini-profiler (~> 0.10.1)
