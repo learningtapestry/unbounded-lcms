@@ -192,7 +192,7 @@ GEM
     et-orbi (1.0.8)
       tzinfo
     eventmachine (1.0.9.1)
-    excon (0.60.0)
+    excon (0.72.0)
     execjs (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
