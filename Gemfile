@@ -21,7 +21,7 @@ gem 'daemons', '~> 1.2', '>= 1.2.3'
 gem 'dotenv-rails', '~> 2.2', '>= 2.2.1', groups: %i(development test)
 gem 'foreman', '~> 0.78.0'
 gem 'ruby-progressbar', '~> 1.7', '>= 1.7.5'
-gem 'rubyzip', '~> 1.2.1'
+gem 'rubyzip', '~> 1.3.0'
 
 # authentication
 gem 'devise', '~> 3.5.4', require: %w(devise devise/orm/active_record)
